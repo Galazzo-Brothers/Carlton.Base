@@ -1,6 +1,0 @@
-C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Client.Base\obj\Debug\netstandard2.0\Carlton.Client.Base.csprojAssemblyReference.cache
-C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Client.Base\obj\Debug\netstandard2.0\staticwebassets\Carlton.Client.Base.StaticWebAssets.Manifest.cache
-C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Client.Base\obj\Debug\netstandard2.0\staticwebassets\Carlton.Client.Base.StaticWebAssets.xml
-C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Client.Base\obj\Debug\netstandard2.0\Carlton.Client.Base.RazorComponent.input.cache
-C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Client.Base\obj\Debug\netstandard2.0\RazorDeclaration\Components\DataWrapper.razor.g.cs
-C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Client.Base\obj\Debug\netstandard2.0\RazorDeclaration\_Imports.razor.g.cs
