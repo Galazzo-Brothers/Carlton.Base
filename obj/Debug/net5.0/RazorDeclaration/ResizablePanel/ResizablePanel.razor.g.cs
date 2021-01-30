@@ -13,14 +13,14 @@ namespace Carlton.Base.Client.Components
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\_imports.razor"
+#line 1 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\_imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\ResizablePanel\ResizablePanel.razor"
+#line 2 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\ResizablePanel\ResizablePanel.razor"
 using Microsoft.JSInterop;
 
 #line default
@@ -34,7 +34,7 @@ using Microsoft.JSInterop;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 20 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\ResizablePanel\ResizablePanel.razor"
+#line 20 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\ResizablePanel\ResizablePanel.razor"
        
     [Parameter]
     public RenderFragment TopContent { get; set; }

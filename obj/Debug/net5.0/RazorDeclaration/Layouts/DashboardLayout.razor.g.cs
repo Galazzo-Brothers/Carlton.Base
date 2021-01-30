@@ -13,7 +13,7 @@ namespace Carlton.Base.Client.Components
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\_imports.razor"
+#line 1 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\_imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Components.Web;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 41 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\Layouts\DashboardLayout.razor"
+#line 41 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\Layouts\DashboardLayout.razor"
       
     [Parameter]
     public RenderFragment HeaderContent { get; set; }

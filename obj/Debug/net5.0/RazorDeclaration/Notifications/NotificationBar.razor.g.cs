@@ -12,14 +12,14 @@ namespace Carlton.Base.Client.Components
     using System.Linq;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\_imports.razor"
+#line 1 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\_imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\Notifications\NotificationBar.razor"
+#line 2 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\Notifications\NotificationBar.razor"
 using System.Threading.Tasks;
 
 #line default
@@ -33,7 +33,7 @@ using System.Threading.Tasks;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 25 "C:\Users\nicho\Documents\code\Project Carlton\libs\Carlton.Base.Client.Components\Notifications\NotificationBar.razor"
+#line 25 "C:\Users\nicho\Documents\code\Project Carlton\Carlton.Base.Client.Componnents\Notifications\NotificationBar.razor"
       
     [Parameter]
     public CarltonNotificationType NotificationType { get; set; }
