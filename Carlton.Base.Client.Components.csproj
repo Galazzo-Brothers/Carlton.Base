@@ -5,8 +5,8 @@
     <Authors>Nicholas Galazzo</Authors>
     <Product>Project Carlton</Product>
     <Company>Project Carlton</Company>
-    <Description>Contains the interfaces and base classes needed to make use of the carlton client state framework.</Description>
-    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.State.Abstractions.git</RepositoryUrl>
+    <Description>Contains blazor front end components used throughout the project.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
   </PropertyGroup>
  
   <ItemGroup>
