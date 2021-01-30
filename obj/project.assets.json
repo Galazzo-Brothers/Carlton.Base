@@ -407,11 +407,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nicho\\Documents\\code\\Project Carlton\\libs\\Carlton.Base.Client.Components\\Carlton.Base.Client.Components.csproj",
+      "projectUniqueName": "C:\\Users\\nicho\\Documents\\code\\Project Carlton\\Carlton.Base.Client.Componnents\\Carlton.Base.Client.Components.csproj",
       "projectName": "Carlton.Base.Client.Components",
-      "projectPath": "C:\\Users\\nicho\\Documents\\code\\Project Carlton\\libs\\Carlton.Base.Client.Components\\Carlton.Base.Client.Components.csproj",
+      "projectPath": "C:\\Users\\nicho\\Documents\\code\\Project Carlton\\Carlton.Base.Client.Componnents\\Carlton.Base.Client.Components.csproj",
       "packagesPath": "C:\\Users\\nicho\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nicho\\Documents\\code\\Project Carlton\\libs\\Carlton.Base.Client.Components\\obj\\",
+      "outputPath": "C:\\Users\\nicho\\Documents\\code\\Project Carlton\\Carlton.Base.Client.Componnents\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
