@@ -20,4 +20,4 @@ jobs:
       - name: Package
         run: dotnet pack --configuration Release
       - name: Publish
-        run: dotnet nuget push bin/Release/${{github.repository}}.*.nupkg 
+        run: dotnet nuget push bin/Release/${{ github.event.repository.name }}.*.nupkg 
