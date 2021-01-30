@@ -1,0 +1,86 @@
+﻿@import "../Styles/themes/theme_defenitions.scss";
+
+.container-fluid {
+    height: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    overflow-x: hidden;
+
+    > .row {
+        @include themify($themes) {
+            background-color: themed('backgroundColor');
+        }
+    }
+
+    nav {
+        left: 0px;
+        overflow-x: hidden;
+        padding-left: 0px;
+        padding-right: 0px;
+        z-index: 9999;
+        background-color: #263238;
+
+        &.sidebar {
+            height: 100%;
+            position: fixed;
+            overflow-y: auto;
+            z-index: 9999;
+
+            @media (max-width: 767.98px) {
+                max-width: 250px;
+            }
+        }
+    }
+
+    main {
+        height: 100%;
+        overflow: hidden;
+
+        @include themify($themes) {
+            background-color: themed('backgroundColor');
+        }
+    }
+
+    &.collapsed {
+        nav {
+            max-width: 50px;
+            width: 50px;
+            transition: width .75s ease;
+        }
+
+        main {
+            width: 100%;
+            margin-left: 50px;
+        }
+    }
+
+    &:not(.collapsed) {
+        main {
+            article {
+                width: 100%;
+                overflow: hidden;
+                margin-bottom: 50px;
+
+                @media (max-width: 767.98px) {
+                    display: none;
+                }
+            }
+
+            @media (max-width: 767.98px) {
+                background-color: darkgray;
+            }
+        }
+    }
+
+    footer {
+        width: 100%;
+        height: 50px;
+        position: fixed;
+        bottom: 0;
+        padding: 0;
+        z-index: 9990;
+    }
+}
+

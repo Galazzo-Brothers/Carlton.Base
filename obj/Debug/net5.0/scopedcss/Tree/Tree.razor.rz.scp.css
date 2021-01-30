@@ -1,0 +1,18 @@
+.tree[b-gjo1a3b2vr] {
+  background-color: #263238;
+  color: white; }
+  .tree .selected-tree-node[b-gjo1a3b2vr] {
+    color: #009688;
+    font-weight: bold; }
+  .tree .tree[b-gjo1a3b2vr] {
+    margin-left: 1.25rem; }
+  .tree .title[b-gjo1a3b2vr] {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0px !important; }
+  .tree .curosr-pointer[b-gjo1a3b2vr] {
+    cursor: pointer; }
+  .tree .row[b-gjo1a3b2vr] {
+    margin-left: 5px; }
+  .collapsed .tree .tree[b-gjo1a3b2vr], .collapsed .tree .row[b-gjo1a3b2vr] {
+    display: none; }

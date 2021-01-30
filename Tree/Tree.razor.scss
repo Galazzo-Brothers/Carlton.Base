@@ -1,0 +1,32 @@
+﻿
+.tree {
+    background-color: #263238;
+    color: white;
+
+    .selected-tree-node {
+        color: #009688;
+        font-weight: bold;
+    }
+
+    .tree {
+        margin-left: 1.25rem;
+    }
+
+    .title {
+        margin-top: auto;
+        margin-bottom: auto;
+        padding: 0px !important;
+    }
+
+    .curosr-pointer {
+        cursor: pointer;
+    }
+
+    .row {
+        margin-left: 5px;
+    }
+
+    .collapsed & .tree, .collapsed & .row {
+        display: none;
+    }
+}

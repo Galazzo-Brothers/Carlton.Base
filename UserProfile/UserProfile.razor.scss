@@ -1,0 +1,15 @@
+﻿$color: white;
+$font-size: 12pt;
+
+.user-profile {
+    span {
+        color: $color;
+        font-size: $font-size;
+    }
+
+    @media (max-width: 768px) {
+        span {
+            display: none;
+        }
+    }
+}

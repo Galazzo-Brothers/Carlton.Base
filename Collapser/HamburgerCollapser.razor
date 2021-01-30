@@ -1,0 +1,12 @@
+﻿@namespace Carlton.Base.Client.Components
+
+<div class="collapser">
+    <a href="#" @onclick="() => SetCollapsedStatus()">
+        <span class="mdi mdi-24px mdi-menu" />
+    </a>
+</div>
+
+
+@code {
+    [CascadingParameter] Action SetCollapsedStatus { get; set; }
+}

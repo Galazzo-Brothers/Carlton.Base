@@ -1,0 +1,40 @@
+﻿@namespace Carlton.Base.Client.Components
+
+<div class="header">
+
+    <MediaQueryWrapper>
+        <MobileContent>
+            <MobileHeader LogoContent="@LogoContent"
+                          MenuContent="@MenuContent"
+                          ActionContent="@ActionContent" />
+        </MobileContent>
+
+        <DesktopContent>
+            @if(IsCollapsed)
+            {
+                <DesktopCollapsedHeader LogoContent="LogoContent"
+                                 MenuContent="MenuContent"
+                                 ActionContent="ActionContent" />
+            }
+            else
+            {
+                <DesktopExpandedHeader LogoContent="@LogoContent"
+                                       MenuContent="@MenuContent"
+                                       ActionContent="@ActionContent" />
+            }
+        </DesktopContent>
+    </MediaQueryWrapper>
+</div>
+
+
+
+@code{
+    [Parameter]
+    public RenderFragment LogoContent { get; set; }
+    [Parameter]
+    public RenderFragment MenuContent { get; set; }
+    [Parameter]
+    public RenderFragment ActionContent { get; set; }
+    [CascadingParameter]
+    private bool IsCollapsed { get; set; }
+}
