@@ -20,14 +20,47 @@ public static class CardTestStates
         };
     }
 
-    public static Dictionary<string, object> DefaultCountCardState()
+    public static Dictionary<string, object> CountCard1State()
     {
         return new Dictionary<string, object>
         {
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
-            { "Icon", "md-clean" },
+            { "Icon", "mdi-camera" },
             { "AccentColorClass", "accent-color-1" }
+        };
+    }
+
+    public static Dictionary<string, object> CountCard2State()
+    {
+        return new Dictionary<string, object>
+        {
+            { "Count", 7 },
+            { "MessageTemplate", "This is a test" },
+            { "Icon", "mdi-camera" },
+            { "AccentColorClass", "accent-color-2" }
+        };
+    }
+
+    public static Dictionary<string, object> CountCard3State()
+    {
+        return new Dictionary<string, object>
+        {
+            { "Count", 7 },
+            { "MessageTemplate", "This is a test" },
+            { "Icon", "mdi-camera" },
+            { "AccentColorClass", "accent-color-3" }
+        };
+    }
+
+    public static Dictionary<string, object> CountCard4State()
+    {
+        return new Dictionary<string, object>
+        {
+            { "Count", 7 },
+            { "MessageTemplate", "This is a test" },
+            { "Icon", "mdi-camera" },
+            { "AccentColorClass", "accent-color-4" }
         };
     }
 

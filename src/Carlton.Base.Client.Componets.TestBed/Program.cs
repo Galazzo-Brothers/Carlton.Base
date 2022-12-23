@@ -12,15 +12,15 @@ public static class Program
             //Base Components
             builder.AddComponent<Card>($"Cards/Card", CardTestStates.DefaultState());
             builder.AddComponent<ListCard<string>>($"Cards/ListCard", CardTestStates.DefaultListState());
-            builder.AddComponent<CountCard>($"Cards/CountCard", CardTestStates.DefaultCountCardState());
-            builder.AddComponent<Header>($"Header");
+            builder.AddComponent<CountCard>($"Cards/CountCardAccent1", CardTestStates.CountCard1State());
+            builder.AddComponent<CountCard>($"Cards/CountCardAccent2", CardTestStates.CountCard2State());
+            builder.AddComponent<CountCard>($"Cards/CountCardAccent3", CardTestStates.CountCard3State());
+            builder.AddComponent<CountCard>($"Cards/CountCardAccent4", CardTestStates.CountCard4State());
             builder.AddComponent<Logo>($"Logo");
             builder.AddComponent<HamburgerCollapser>($"HamburgerCollapser");
             builder.AddComponent<UserProfile>($"UserProfile");
             builder.AddComponent<Checkbox>($"checkbox/Checked", CheckboxTestStates.CheckedState());
             builder.AddComponent<Checkbox>($"checkbox/Unchecked", CheckboxTestStates.UncheckedState());
-            builder.AddComponent<Select>($"Select/Default", SelectTestStates.Default());
-            builder.AddComponent<ResizablePanel>($"ResizablePanel/Default");
             builder.AddComponent<Select>($"Select/Default", SelectTestStates.Default());
         },
         sourceBasePath,

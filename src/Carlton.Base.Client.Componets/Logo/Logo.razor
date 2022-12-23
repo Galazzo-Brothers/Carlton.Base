@@ -1,12 +1,10 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="logo @(IsCollapsed ? "collapsed" : string.Empty)">
-    <span>
-        <img src="https://paradisebound.org/wp-content/uploads/2016/09/paradise-bound-ministries-mission-teams-homes-built-and-dedicated-house-icon.png" height="50" width="50" alt="Image result for house icon" />
-        <span class="title">Carlton Test Bed</span>
-    </span>
+<div class="logo @(IsCollapsed ? "collapsed" : string.Empty)" data-theme="light">
+    <span class="icon mdi mdi-48px mdi-home"></span>
+    <span class="title">Carlton Test Bed</span>
 </div>
 
-@code{
+@code {
     [CascadingParameter] bool IsCollapsed { get; set; }
 }

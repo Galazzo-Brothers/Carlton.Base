@@ -1,7 +1,7 @@
 ﻿.header {
     width: 100%;
     max-height: 60px;
-    background-color: #263238;
+    background-color: var(--some-color);
     line-height: 60px;
 }
 

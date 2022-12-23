@@ -1,20 +1,28 @@
-﻿:root {
-    --background-color: #00897b;
-    --header-height: 60px;
-}
-
-.logo {
-    background-color: var(--background-color);
-    height: var(--header-height);
-    line-height: var(--header-height);
+﻿.logo {
+    display: flex;
+    background-color: var(--logo-color);
+    height: 60px;
+    line-height: 60px;
     margin-bottom: 0px;
 }
 
-    .logo span {
+    .logo .icon {
+        flex-basis: 25%;
         color: white;
+    }
+
+    .logo .title {
+        flex-basis: 65%;
         font-size: 12pt;
+        color: white;
         vertical-align: middle;
     }
+
+
+    .logo.collapsed span.title {
+        display: none;
+    }
+
 
 @media (max-width: 767.98px) {
     .logo span.title {
@@ -32,8 +40,4 @@
     .logo span.title {
         font-size: 16pt;
     }
-}
-
-.logo.collapsed span.title {
-    display: none;
 }
