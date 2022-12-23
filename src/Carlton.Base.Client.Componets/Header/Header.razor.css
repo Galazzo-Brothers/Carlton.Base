@@ -5,6 +5,11 @@
     line-height: 60px;
 }
 
+    .header .header-bar {
+        height: 55px;
+        display: flex;
+    }
+
     .header .logo {
         background-color: #009688;
     }

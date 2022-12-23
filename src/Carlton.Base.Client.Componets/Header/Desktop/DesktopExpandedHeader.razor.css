@@ -1,0 +1,16 @@
+﻿.header-bar{
+    display: flex;
+}
+
+.header-bar .title{
+    flex-basis:25%;
+}
+
+.header-bar .menu{
+    flex-basis: 5%;
+    text-align: center;
+}
+
+.header-bar .action{
+    flex-basis: 70%;
+}

@@ -1,0 +1,16 @@
+﻿.collapsed-header-bar {
+    display: flex;
+}
+
+    .collapsed-header-bar .title {
+        flex-basis: 5%;
+    }
+
+    .collapsed-header-bar .menu {
+        flex-basis: 5%;
+        text-align: center;
+    }
+
+    .collapsed-header-bar .action {
+        flex-basis: 90%;
+    }
