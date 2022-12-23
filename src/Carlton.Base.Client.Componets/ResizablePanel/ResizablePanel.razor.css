@@ -1,0 +1,43 @@
+﻿/* vertical panel */
+.resizable-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.panel-top {
+    flex: 0 0 auto;
+    /* only manually resize */
+    padding: 10px;
+    height: 150px;
+    width: 100%;
+    overflow-y: scroll;
+    max-height: calc(100vh - 125px);
+    box-sizing: border-box;
+}
+
+.splitter-horizontal {
+    flex: 0 0 auto;
+    height: 20px;
+    background: #535353;
+    cursor: row-resize;
+    z-index: 9990;
+}
+
+.panel-bottom {
+    flex: 1 1 auto;
+    /* resizable */
+    padding: 10px;
+    min-height: 200px;
+    z-index: 9990;
+}
+
+.theme-light .panel-bottom {
+    background-color: #e9edf1;
+}
+
+.theme-dark .panel-bottom {
+    background-color: #383f48;
+}

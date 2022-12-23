@@ -1,0 +1,45 @@
+﻿@namespace Carlton.Base.Components
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+
+<div class="resizable-panel">
+    <div class="panel-top">
+        @TopContent
+    </div>
+
+    <div class="splitter-horizontal"></div>
+
+    <div class="panel-bottom">
+        @BottomContent
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public RenderFragment TopContent { get; set; }
+
+    [Parameter]
+    public RenderFragment BottomContent { get; set; }
+
+    private IJSObjectReference _module;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        var projectName = "Carlton.Base.Components";
+
+        if(firstRender)
+        {
+            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{projectName}/ResizablePanel/ResizablePanel.razor.js");
+            await _module.InvokeAsync<Task>("initResizablePanel");
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _module.DisposeAsync();
+    }
+}

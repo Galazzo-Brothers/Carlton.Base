@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Authors>Nicholas Galazzo</Authors>
+    <Product>Project Carlton</Product>
+    <Company>Project Carlton</Company>
+    <Description>Contains the Carlton TestBed framework for blazor applications.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.TestBed.git</RepositoryUrl>
+    <PackageVersion>1.0.1</PackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\SourceViewer\SourceViewer.razor.js" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Carlton.Base.Client.State" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carlton.Base.Client.Componets\Carlton.Base.Components.csproj" />
+  </ItemGroup>
+
+</Project>

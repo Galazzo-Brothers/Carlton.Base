@@ -1,0 +1,29 @@
+﻿@namespace Carlton.Base.Components
+@inherits TabBarBase
+
+<div class="tabs">
+    @foreach(Tab tab in _tabs)
+    {
+        <a class="carlton-tab @(tab==this.ActiveTab ? "active" : "")" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>
+    }
+    <span class="tab-selected-bar"></span>
+</div>
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+<style>
+        .carlton-tab.active ~ span.tab-selected-bar {
+            left: @($"{CalculateTabBarOffset()}" + "px");
+            width: 175px;
+        }
+</style>
+
+
+@code {
+    private int CalculateTabBarOffset()
+    {
+        return _activeTabIndex * 175;
+    }
+}
