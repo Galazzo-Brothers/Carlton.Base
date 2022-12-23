@@ -1,14 +1,14 @@
 ﻿@namespace Carlton.Base.Components
 @typeparam TNode
 
-<div class="tree @(Visible ? "" : "d-none")">
+<div class="tree @(Visible ? "" : "collapsed")">
     @foreach(var node in Nodes ?? Enumerable.Empty<TreeItem<TNode>>())
     {
         var nodeExpanded = ExpandedNodes.Contains(node);
         var nodeSelected = node.Equals(SelectedNode);
         var hasChildren = node.Children.Any();
 
-        <div class="row">
+        <div>
             <span  @onclick="@(e => OnToggleNode(node, !nodeExpanded))">
                 <i class="icon @(hasChildren ? "": "invisible") @(nodeExpanded ? Style.CollapseNodeIconClass : Style.ExpandNodeIconClass)"></i>
             </span>

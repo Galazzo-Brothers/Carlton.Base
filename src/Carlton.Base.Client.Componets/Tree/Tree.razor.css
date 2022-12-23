@@ -3,6 +3,14 @@
     color: white;
 }
 
+    .tree.collapsed {
+        display: none;
+    }
+
+    .tree i.invisible{
+        visibility: hidden;
+    }
+
     .tree .selected-tree-node {
         color: #009688;
         font-weight: bold;
@@ -22,10 +30,3 @@
         cursor: pointer;
     }
 
-    .tree .row {
-        margin-left: 5px;
-    }
-
-.collapsed .tree .tree, .collapsed .tree .row {
-    display: none;
-}
