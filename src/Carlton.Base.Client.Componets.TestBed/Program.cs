@@ -12,6 +12,7 @@ public static class Program
             //Base Components
             builder.AddComponent<Card>($"Cards/Card", CardTestStates.DefaultState());
             builder.AddComponent<ListCard<string>>($"Cards/ListCard", CardTestStates.DefaultListState());
+            builder.AddComponent<CountCard>($"Cards/CountCard", CardTestStates.DefaultCountCardState());
             builder.AddComponent<Header>($"Header");
             builder.AddComponent<Logo>($"Logo");
             builder.AddComponent<HamburgerCollapser>($"HamburgerCollapser");

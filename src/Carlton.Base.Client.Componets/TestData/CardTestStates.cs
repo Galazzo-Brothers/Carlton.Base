@@ -20,6 +20,17 @@ public static class CardTestStates
         };
     }
 
+    public static Dictionary<string, object> DefaultCountCardState()
+    {
+        return new Dictionary<string, object>
+        {
+            { "Count", 7 },
+            { "MessageTemplate", "This is a test" },
+            { "Icon", "md-clean" },
+            { "AccentColorClass", "accent-color-1" }
+        };
+    }
+
     private static readonly RenderFragment<string> listFragment = (str) => itemFragment;
 
     private static readonly RenderFragment itemFragment = builder =>

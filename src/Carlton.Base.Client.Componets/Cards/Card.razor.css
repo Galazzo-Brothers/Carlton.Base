@@ -1,6 +1,26 @@
 ﻿.card {
     width: 325px;
+    min-height: 100px;
 }
+
+    .card .title-content {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+
+        .card .title-content .card-title {
+            grid-column: 1;
+            padding: 10px;
+        }
+
+        .card .title-content .status-icon {
+            grid-column: 2;
+        }
+
+        .card .primary-content {
+            margin-left: 10px;
+        }
+
 
 .theme-light .card {
     background-color: #fff;
@@ -27,11 +47,7 @@
 }
 
 .card .status-icon {
-    height: 30px;
     text-align: right;
-    padding-right: 0px;
-    padding-left: 40px;
-    margin-top: -15px;
 }
 
 .card .sub-title {
