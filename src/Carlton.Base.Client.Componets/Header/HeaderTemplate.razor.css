@@ -19,8 +19,8 @@
     }
 
     .header-bar .action {
-        flex-basis: 70%;
         margin-top: auto;
         margin-bottom: auto;
+        margin-left: auto;
     }
 

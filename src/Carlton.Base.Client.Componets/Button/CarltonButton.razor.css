@@ -1,0 +1,14 @@
+﻿
+
+button {
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border-color: transparent;
+    color: white;
+    background-color: #00897b;
+}
+
+    button:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(58 176 195 / 50%);
+    }

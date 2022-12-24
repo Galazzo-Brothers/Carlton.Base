@@ -1,0 +1,10 @@
+﻿@namespace Carlton.Base.Components
+
+<button type="button" @onclick="() => OnClick.InvokeAsync()">@BtnText</button>
+
+@code {
+    [Parameter]
+    public string BtnText { get; set; }
+    [Parameter]
+    public EventCallback OnClick {get;set;}
+}

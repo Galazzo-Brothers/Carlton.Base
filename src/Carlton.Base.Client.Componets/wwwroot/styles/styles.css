@@ -1,10 +1,9 @@
-﻿@import "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css";
+﻿/*@import "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css";*/
 @import "https://cdn.materialdesignicons.com/4.7.95/css/materialdesignicons.min.css";
 
 html, body {
-    overflow: hidden;
-    min-height: 100%;
-    max-height: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 
@@ -39,7 +38,8 @@ html, body {
 [data-theme="light"] {
     --background-color: #e9edf1;
     --logo-color: #009688;
-    --title-color: #000;
+    --sub-title-color: lightslategray;
+    --text-color: darkslategray;
     --card-background-color: #fff;
     --card-menu-color: #757575;
     --card-menu-cross-color: #fff;

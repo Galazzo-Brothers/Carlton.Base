@@ -14,8 +14,9 @@ public static class CardTestStates
     {
         return new Dictionary<string, object>
         {
-            { "CardTitle", "Test"},
-            { "Items", new List<string> {"Item 1", "Item 2", "Item 3"} },
+            { "CardTitle", "Shopping List"},
+            { "SubTitle", "Low Items" },
+            { "Items", new List<string> {"Eggs", "Milk", "Carrots"} },
             { "ItemTemplate", listFragment }
         };
     }
@@ -64,12 +65,11 @@ public static class CardTestStates
         };
     }
 
-    private static readonly RenderFragment<string> listFragment = (str) => itemFragment;
-
-    private static readonly RenderFragment itemFragment = builder =>
+    private static readonly RenderFragment<string> listFragment = (str) =>
+        (builder) =>
     {
         builder.OpenElement(1, "div");
-        builder.AddContent(2, "Some Content");
+        builder.AddContent(2, str);
         builder.CloseElement();
     };
 }

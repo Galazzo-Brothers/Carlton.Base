@@ -1,10 +1,11 @@
 ﻿.card {
-    width: 325px;
-    min-height: 100px;
-    background-color: var(--card-background-color);
     display: flex;
     flex-direction: column;
+    width: 325px;
+    min-height: 100px;
     min-width: 0;
+    padding-left: 15px;
+    background-color: var(--card-background-color);
     word-wrap: break-word;
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
@@ -13,25 +14,22 @@
 
     .card .title-content {
         display: flex;
-        flex-direction: row;
+        margin-top: 10px;
     }
 
         .card .title-content .card-title {
-            flex-basis: 50%;
-            padding: 10px;
-            color: var(--title-color);
+            flex-basis: 75%;
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: left;
+            font-weight: bold;
+            color: darkslategrey;
+            /* color: var(--title-color);*/
         }
 
         .card .title-content .status-icon {
-            flex-basis: 50%;
+            flex-basis: 25%;
+            padding-right: 15px;
             text-align: right;
         }
 
-    .card .primary-content {
-        margin-left: 10px;
-    }
-
-    .card .sub-title {
-        font-size: 10pt;
-        margin-top: 20px;
-    }

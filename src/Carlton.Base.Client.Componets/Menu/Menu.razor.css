@@ -3,8 +3,6 @@
     position: relative;
     display: inline-block;
     box-sizing: border-box;
-    padding: 0 16px;
-    top: 12px;
 }
 
 .dropdown {

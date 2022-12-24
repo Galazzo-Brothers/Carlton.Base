@@ -1,0 +1,26 @@
+﻿
+.profile-avatar{
+    display: flex;
+    gap: 10px;
+}
+
+
+.avatar-img {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+}
+
+
+.username {
+    color: white;
+    font-size: 12pt;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+@media (max-width: 768px) {
+    .username span {
+        display: none;
+    }
+}
