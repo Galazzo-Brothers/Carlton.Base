@@ -1,35 +1,26 @@
-﻿.header {
-    width: 100%;
-    max-height: 60px;
-    background-color: var(--some-color);
-    line-height: 60px;
+﻿.header-bar {
+    display: flex;
+    background-color: #263238;
 }
 
-    .header .header-bar {
-        height: 55px;
-        display: flex;
+    .header-bar .title {
+        flex-basis: 25%;
     }
 
-    .header .logo {
-        background-color: #009688;
+    .header-bar.collapsed .title {
+        flex-basis: 5%;
     }
 
-    .header ::deep .row {
-        max-height: 60px;
-        margin-left: 0px;
-        margin-right: 0px;
+    .header-bar .menu {
+        flex-basis: 5%;
+        text-align: center;
+        margin-top: auto;
+        margin-bottom: auto;
     }
 
-        .header ::deep .row.header-bar {
-            max-height: 60px;
-        }
-
-        .header ::deep .row .title {
-            max-height: 60px;
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-    .header ::deep .collapsed-header span {
-        display: inline-block;
+    .header-bar .action {
+        flex-basis: 70%;
+        margin-top: auto;
+        margin-bottom: auto;
     }
+
