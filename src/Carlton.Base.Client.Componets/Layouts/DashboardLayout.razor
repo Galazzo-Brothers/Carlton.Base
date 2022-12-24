@@ -2,29 +2,35 @@
 @inherits LayoutComponentBase
 
 <div class="dashboard-container @(IsCollapsed ? "collapsed" : string.Empty)">
-    <header class="header">
-        <CascadingValue Value="@IsCollapsed">
-            <CascadingValue TValue="Action" Value="@SetCollapsedStatus">
+    <CascadingValue Value="@IsCollapsed">
+        <CascadingValue TValue="Action" Value="@SetCollapsedStatus">
+            <header class="header">
                 @HeaderContent
-            </CascadingValue>
+            </header>
+            <nav class="nav-sidebar">
+                @if(!IsCollapsed)
+                {
+                    @NavContent
+                }
+            </nav>
+            <main>
+                <ResizablePanel>
+                    <TopContent>
+                        @Body
+                    </TopContent>
+                    <BottomContent>
+                        @PanelContent
+                    </BottomContent>
+                </ResizablePanel>
+            </main>
+            @if (FooterContent != null)
+            {
+                <footer class="footer">
+                    @FooterContent
+                </footer>
+            }
         </CascadingValue>
-    </header>
-    <nav class="nav-sidebar">
-        @NavContent
-    </nav>
-    <main>
-        <ResizablePanel>
-            <TopContent>
-                @Body
-            </TopContent>
-            <BottomContent>
-                @PanelContent
-            </BottomContent>
-        </ResizablePanel>
-    </main>
-    <footer class="footer @(IsCollapsed ? string.Empty : "collpased")">
-        @FooterContent
-    </footer>
+    </CascadingValue>
 </div>
 
 

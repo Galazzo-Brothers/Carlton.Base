@@ -16,6 +16,7 @@
 
     .dashboard-container nav {
         grid-area: navsidebar;
+        background-color: #263238;
     }
 
 

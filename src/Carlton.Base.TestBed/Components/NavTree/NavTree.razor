@@ -1,6 +1,7 @@
 ﻿@namespace Carlton.Base.TestBedFramework
 @inherits CarltonComponentBase<NavTreeViewModel>
 
+
 <Tree TNode="NavTreeItemModel"
       Nodes="ViewModel?.TreeItems"
       SelectedNode="@ViewModel?.SelectedNode"
@@ -8,4 +9,3 @@
       Style="TreeStyle.DefaultTreeStyle">
     <TitleTemplate>@context.DisplayName</TitleTemplate>
 </Tree>
-

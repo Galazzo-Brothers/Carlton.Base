@@ -30,7 +30,7 @@
     flex: 1 1 auto;
     /* resizable */
     padding: 10px;
-    min-height: 200px;
+    min-height: 500px;
     z-index: 9990;
 }
 
