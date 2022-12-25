@@ -14,9 +14,9 @@ public static class MenuTestStates
     {
         return new List<MenuItem>
               {
-                      new MenuItem("Option 1", () => Task.CompletedTask),
-                      new MenuItem("Option 2", () => Task.CompletedTask),
-                      new MenuItem("Option 3", () => Task.CompletedTask)
+                      //new MenuItem("Option 1", () => Task.CompletedTask),
+                      //new MenuItem("Option 2", () => Task.CompletedTask),
+                      //new MenuItem("Option 3", () => Task.CompletedTask)
               };
     }
 }

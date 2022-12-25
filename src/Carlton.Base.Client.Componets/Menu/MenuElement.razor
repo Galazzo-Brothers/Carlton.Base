@@ -1,9 +1,9 @@
 ﻿@namespace Carlton.Base.Components
 
+<span class="mdi mdi-@(MenuItem.MenuIcon)"></span>
+<a href="#" @onclick:preventDefault="true" @onclick="MenuItem.MenuItemEvent">@MenuItem.MenuItemName</a>
 
-<a href="#" @onclick:preventDefault ="true" @onclick="MenuItem.MenuItemEvent">@MenuItem.MenuItemName</a>
-
-@code{
+@code {
     [Parameter]
     public MenuItem MenuItem { get; set; }
 }

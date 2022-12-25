@@ -1,0 +1,37 @@
+﻿@namespace Carlton.Base.Components
+
+
+<Menu MenuItems="MenuItems">
+    <MenuTemplate Context="isActive">
+        <div class="profile-avatar">
+            <img class="avatar-img text-center" src="@AvatarImgUrl" />
+            <span class="username">@Username</span>
+            <span class="icon mdi mdi-24px mdi-chevron-down"></span>
+        </div>
+    </MenuTemplate>
+    <MenuItemTemplate Context="item">
+        <MenuElement MenuItem="item" />
+    </MenuItemTemplate>
+</Menu>
+
+@code {
+    [Parameter]
+    public string AvatarImgUrl { get; set; }
+    [Parameter]
+    public string Username { get; set; }
+    [Parameter]
+    public MenuItems MenuItems { get; set; }
+
+    protected override void OnInitialized()
+    {
+        MenuItems = new MenuItems
+        (
+            new List<MenuItem>
+                {
+                    new MenuItem("Logout", "logout", () => { return Task.CompletedTask; }),
+                    new MenuItem("Theme", "format-paint", () => { return Task.CompletedTask; })
+                }
+        );
+        base.OnInitialized();
+    }
+}

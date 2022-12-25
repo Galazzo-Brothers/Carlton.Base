@@ -7,58 +7,51 @@
 
 .dropdown {
     position: absolute;
-    right: 0;
-    top: 3em;
-    transition: all 0.25s ease-out;
-    transform: scale(0);
-    transform-origin: 100% 0;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
-}
-
-.theme-light .dropdown {
-    background-color: #fff;
-}
-
-.theme-dark .dropdown {
-    background-color: #272c33;
-}
-
-.dropdown li {
-    display: block;
     width: 100%;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    border-radius: 5px;
+    z-index: 1;
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
 }
 
-    .dropdown li ::deep a {
-        width: 100%;
-        padding-top: 1em;
-        padding-right: 18px;
-        padding-bottom: 1em;
-        padding-left: 9px;
-        display: inline-block;
-        white-space: pre;
-        box-sizing: border-box;
-        text-align: left;
-        font-weight: bold;
+    .dropdown.active {
+        background-color: #263238;
+        opacity: 1;
+        visibility: visible;
     }
 
-.theme-light .dropdown li ::deep a {
-    color: #757575;
-}
+    .dropdown li {
+        display: flex;
+        color: white;
+        width: 100%;
+    }
 
-.theme-dark .dropdown li ::deep a {
-    color: #c2c2c2;
-}
+        .dropdown li ::deep span{
+            flex-basis: 50%;
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: right;
+        }
 
-.dropdown li ::deep a:hover {
-    background: #ebebeb;
-}
+        .dropdown li ::deep a {
+            width: 100%;
+            padding-right: 18px;
+            padding-bottom: 1em;
+            padding-left: 9px;
+            display: inline-block;
+            white-space: pre;
+            box-sizing: border-box;
+            color: white;
+            text-decoration: none;
+        }
 
-.dropdown:hover ul {
-    transform: scale(1);
-}
-
-.dropdown.active {
-    transform: scale(1);
-    transition: all 0.25s cubic-bezier(0.5, 1.8, 0.9, 0.8);
-    z-index: 9999;
-}
+            .dropdown li:hover ::deep {
+                background: darkslategray;
+                color: seagreen;
+                border-radius: 5px;
+            }

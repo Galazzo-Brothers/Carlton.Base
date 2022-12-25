@@ -1,0 +1,13 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="actions">
+    <HamburgerCollapser />
+    <span class="icon mdi mdi-24px mdi-settings"></span>
+    <span class="icon mdi mdi-24px mdi-format-paint"></span>
+</div>
+
+
+@code {
+    [CascadingParameter]
+    Action SetCollapsedStatus { get; set; }
+}
