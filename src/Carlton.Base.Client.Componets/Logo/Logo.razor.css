@@ -1,15 +1,11 @@
 ﻿.logo {
     display: flex;
-    background-color: var(--logo-color);
-    height: 60px;
+    background-color: #263238;
     line-height: 60px;
     margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-    .logo .icon {
-        flex-basis: 20%;
-        color: white;
-    }
 
     .logo .title {
         flex-basis: 70%;
@@ -23,21 +19,28 @@
         display: none;
     }
 
+    .logo img {
+        height: 50px;
+        width: 50px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+.spacer::after {
+    display: block;
+    content: "";
+    position: relative;
+    height: 1px;
+    width: 75%;
+    z-index: 2;
+    background-color: #fff;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: .5;
+}
 
 @media (max-width: 767.98px) {
     .logo span.title {
         display: none;
-    }
-}
-
-@media (min-width: 1024px) {
-    .logo span.title {
-        font-size: 18pt;
-    }
-}
-
-@media (min-width: 1366px) {
-    .logo span.title {
-        font-size: 16pt;
     }
 }
