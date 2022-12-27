@@ -3,12 +3,14 @@
     background-color: #263238;
     line-height: 60px;
     margin-bottom: 0px;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
 }
 
+    .logo .content{
+        flex-basis: 85%;
+    }
+
     .logo .title {
-        flex-basis: 70%;
         font-size: 12pt;
         color: white;
         vertical-align: middle;
@@ -24,6 +26,7 @@
         width: 50px;
         margin-top: auto;
         margin-bottom: auto;
+        vertical-align: middle;
     }
 
 .spacer::after {
@@ -31,7 +34,7 @@
     content: "";
     position: relative;
     height: 1px;
-    width: 75%;
+    width: 85%;
     z-index: 2;
     background-color: #fff;
     margin-left: auto;

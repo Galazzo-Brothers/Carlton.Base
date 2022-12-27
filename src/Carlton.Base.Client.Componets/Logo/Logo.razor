@@ -1,10 +1,15 @@
 ﻿@namespace Carlton.Base.Components
 
+
 <div class="logo @(IsCollapsed ? "collapsed" : string.Empty)" data-theme="light">
-    <img src="_content/Carlton.Base.Components/images/CarltonLogo.png" />
-    <span class="title">Carlton Test Bed</span>
+    <div class="content">
+        <img src="_content/Carlton.Base.Components/images/CarltonLogo.png" />
+        <span class="title">Carlton Test Bed</span>
+    </div>
 </div>
 <span class="spacer"></span>
+
+
 @code {
     [CascadingParameter]
     bool IsCollapsed { get; set; }
