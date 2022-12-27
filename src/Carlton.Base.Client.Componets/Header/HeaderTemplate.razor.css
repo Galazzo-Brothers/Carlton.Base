@@ -3,10 +3,6 @@
     background-color: #263238;
 }
 
-    .header-bar .title {
-        flex-basis: 25%;
-    }
-
     .header-bar.collapsed .title {
         flex-basis: 5%;
     }

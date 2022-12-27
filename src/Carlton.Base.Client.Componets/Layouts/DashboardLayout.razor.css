@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 25% 1fr 1fr;
     grid-template-areas:
-        "header header header"
+        "navsidebar header header"
         "navsidebar main main"
         "navsidebar footer footer";
 }

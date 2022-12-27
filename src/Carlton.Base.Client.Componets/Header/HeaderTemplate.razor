@@ -1,9 +1,6 @@
 ﻿@namespace Carlton.Base.Components
 
 <div class="header-bar @(IsCollapsed ? "collapsed" : string.Empty)" data-theme="light">
-    <div class="title">
-        @LogoContent
-    </div>
     <div class="menu">
         @MenuContent
     </div>
@@ -16,8 +13,6 @@
 @code {
     [CascadingParameter]
     public bool IsCollapsed { get; set; }
-    [Parameter]
-    public RenderFragment LogoContent { get; set; }
     [Parameter]
     public RenderFragment MenuContent { get; set; }
     [Parameter]
