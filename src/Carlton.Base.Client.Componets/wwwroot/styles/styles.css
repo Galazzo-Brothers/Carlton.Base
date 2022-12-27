@@ -36,7 +36,7 @@ html, body {
 }
 
 [data-theme="light"] {
-    --background-color: #e9edf1;
+    --background-color: #1d2126;
     --logo-color: #009688;
     --sub-title-color: lightslategray;
     --text-color: darkslategray;
