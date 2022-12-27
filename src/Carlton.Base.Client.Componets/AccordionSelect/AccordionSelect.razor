@@ -1,0 +1,48 @@
+﻿@namespace Carlton.Base.Components
+@typeparam TItem
+
+<div class="accordion-select">
+    <div class="heading @(Selectedkey == -1 ? string.Empty : "selected")" @onclick="() => IsExpanded = !IsExpanded">
+        <span class="mdi mdi-icon mdi-24px mdi-plus-box-outline"></span>
+        <span class="item-name align-middle">
+            @Title
+        </span>
+        <span class="icon">
+            <i class="icon mdi mdi-24px @(IsExpanded ? "mdi-chevron-up" : "mdi-chevron-down")"></i>
+        </span>
+    </div>
+    <div class="item-container  @(!IsExpanded ? "collapsed" : string.Empty)">
+        @foreach(var item in Items)
+        {
+            <div class="item @(Selectedkey == item.Key ? "selected" : string.Empty)" @onclick="() => OnItemSelected(item.Key)">
+                <span class="icon mdi mdi-icon mdi-12px mdi-bookmark"></span>
+                <span class="item-name align-middle">
+                    @item.Value.ToString()
+                </span>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public IDictionary<int, TItem> Items { get; set; } = new Dictionary<int, TItem>();
+
+    [Parameter]
+    public int Selectedkey { get; set; } = -1;
+
+    [Parameter]
+    public bool IsExpanded { get; set; }
+
+    [Parameter]
+    public EventCallback<int> SelectedItemChanged { get; set; }
+
+    private async Task OnItemSelected(int key)
+    {
+        Selectedkey = key;
+        await SelectedItemChanged.InvokeAsync(key);
+    }
+}

@@ -1,0 +1,40 @@
+﻿@namespace Carlton.Base.Components
+@using System.Linq
+@typeparam TItem
+@using System.Collections.Generic
+
+<div class="accordion-select-group">
+    @*   @for(var i = 0; i < ItemGroups.Count(); i++)*@
+    @{
+  
+    }
+    @foreach(var (value, i) in ItemGroups.WithIndex())
+    {
+        <AccordionSelect TItem="TItem"
+                     Title="@ItemGroups.ElementAt(i).GroupName"
+                     Items="ItemGroups.ElementAt(i).GroupItems"
+                     Selectedkey="GetSelectedItemKey(i)"
+                     SelectedItemChanged="(key) => SelectedItemChanged(i, key)" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<AccordionSelectGroupModel<TItem>> ItemGroups { get; set; }
+
+    [Parameter]
+    public (int GroupIndex, int ItemKey) SelectedItem { get; set; }
+
+    private int GetSelectedItemKey(int groupIndex)
+    {
+        if(SelectedItem.GroupIndex != groupIndex)
+            return -1;
+
+        return SelectedItem.ItemKey;
+    }
+
+    private void SelectedItemChanged(int groupIndex, int itemIndex)
+    {
+        SelectedItem = (groupIndex, itemIndex);
+    }
+}
