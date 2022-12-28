@@ -1,7 +1,10 @@
-﻿.actions{
+﻿.carlton-actions {
     display: flex;
+    gap: 10px;
 }
 
-.actions span{
+.carlton-actions .icon{
+    margin-top: auto;
+    margin-block: auto;
     color: white;
 }

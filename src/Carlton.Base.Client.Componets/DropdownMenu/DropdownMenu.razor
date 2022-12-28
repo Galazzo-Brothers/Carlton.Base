@@ -1,0 +1,34 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
+    @MenuTemplate(IsActive)
+    <div class="dropdown @(IsActive ? " active" : string.Empty)">
+        <ul>
+            @HeaderTemplate
+            @foreach(var (item, index) in MenuItems.Items.WithIndex())
+            {
+                <li>
+                    @MenuItemTemplate(item)
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+@code {
+    private bool IsActive { get; set; }
+
+    [Parameter]
+    public DropdownMenuItems MenuItems { get; set; }
+    [Parameter]
+    public RenderFragment HeaderTemplate { get; set; }
+    [Parameter]
+    public RenderFragment<bool> MenuTemplate { get; set; }
+    [Parameter]
+    public RenderFragment<DropdownMenuItem> MenuItemTemplate { get; set; }
+}
+
+
+
+

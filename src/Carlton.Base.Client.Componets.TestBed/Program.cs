@@ -16,9 +16,12 @@ public static class Program
             builder.AddComponent<CountCard>($"Cards/CountCardAccent2", CardTestStates.CountCard2State());
             builder.AddComponent<CountCard>($"Cards/CountCardAccent3", CardTestStates.CountCard3State());
             builder.AddComponent<CountCard>($"Cards/CountCardAccent4", CardTestStates.CountCard4State());
-            builder.AddComponent<Logo>($"Logo");
-            builder.AddComponent<CarltonButton>("Button", ButtonTestStates.DefaultState());
-            builder.AddComponent<ProfileAvatar>($"ProfileAvatar", ProfileAvatarTestStates.DefaultState());
+            builder.AddComponent<Logo>($"Logo/Default");
+            builder.AddComponent<Logo>($"Logo/D1");
+            builder.AddComponent<Logo>($"Logo/D2");
+            builder.AddComponent<Logo>($"Logo/D3");
+            builder.AddComponent<CarltonButton>("Button/Default", ButtonTestStates.DefaultState());
+            builder.AddComponent<ProfileAvatar>($"ProfileAvatar/Default", ProfileAvatarTestStates.DefaultState());
             builder.AddComponent<Checkbox>($"checkbox/Checked", CheckboxTestStates.CheckedState());
             builder.AddComponent<Checkbox>($"checkbox/Unchecked", CheckboxTestStates.UncheckedState());
             builder.AddComponent<Select>($"Select/Default", SelectTestStates.Default());

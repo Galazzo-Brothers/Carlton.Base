@@ -1,6 +1,6 @@
 ﻿@namespace Carlton.Base.Components
 
-<Menu MenuItems="MenuItems">
+<DropdownMenu MenuItems="MenuItems">
     <MenuTemplate Context="isActive">
         <figure></figure>
         <figure class="middle @(isActive ? "active" : string.Empty)"></figure>
@@ -8,11 +8,11 @@
         <p class="cross @(isActive ? "active" : string.Empty)">x</p>
     </MenuTemplate>
     <MenuItemTemplate Context="item">
-        <MenuElement MenuItem="item" />
+        <DropdownMenuElement MenuItem="item" />
     </MenuItemTemplate>
-</Menu>
+</DropdownMenu>
 
 @code{
     [Parameter]
-    public MenuItems MenuItems { get; set; } = new MenuItems(new List<MenuItem>());
+    public DropdownMenuItems MenuItems { get; set; } = new DropdownMenuItems(new List<DropdownMenuItem>());
 }

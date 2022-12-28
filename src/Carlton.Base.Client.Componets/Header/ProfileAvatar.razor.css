@@ -1,4 +1,25 @@
-﻿
+﻿.header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    color: white;
+}
+
+    .header .spacer{
+        width: 100%;
+    }
+
+    .header .user {
+        margin-left: 10px;
+        font-size: 15pt;
+    }
+
+    .header .email {
+        margin-left: 10px;
+        color: #7c848a;
+    }
+
 .profile-avatar{
     display: flex;
     gap: 5px;

@@ -1,7 +1,14 @@
 ﻿@namespace Carlton.Base.Components
 
 
-<Menu MenuItems="MenuItems">
+<DropdownMenu MenuItems="DropdownMenuItems">
+    <HeaderTemplate>
+        <div class="header">
+            <span class="user">Stephen Galazzo</span>
+            <span class="email">Admin User</span>
+            <Spacer SpacerDirection="SpacerDirection.horizontal" spacerMagnitude="SpacerMagnitude.full" />
+        </div>
+    </HeaderTemplate>
     <MenuTemplate Context="isActive">
         <div class="profile-avatar">
             <img class="avatar-img text-center" src="@AvatarImgUrl" />
@@ -10,9 +17,9 @@
         </div>
     </MenuTemplate>
     <MenuItemTemplate Context="item">
-        <MenuElement MenuItem="item" />
+        <DropdownMenuElement MenuItem="item" />
     </MenuItemTemplate>
-</Menu>
+</DropdownMenu>
 
 @code {
     [Parameter]
@@ -20,17 +27,18 @@
     [Parameter]
     public string Username { get; set; }
     [Parameter]
-    public MenuItems MenuItems { get; set; }
+    public DropdownMenuItems DropdownMenuItems { get; set; }
 
     protected override void OnInitialized()
     {
-        MenuItems = new MenuItems
+        DropdownMenuItems = new DropdownMenuItems
         (
-            new List<MenuItem>
-                {
-                    new MenuItem("Logout", "logout", () => { return Task.CompletedTask; }),
-                    new MenuItem("Theme", "format-paint", () => { return Task.CompletedTask; })
-                }
+            new List<DropdownMenuItem>
+                    {
+                        new DropdownMenuItem("Profile", "account", 1, () => { return Task.CompletedTask; }),
+                        new DropdownMenuItem("Theme", "theme-light-dark", 2, () => { return Task.CompletedTask; }),
+                        new DropdownMenuItem("Logout", "logout", 3, () => { return Task.CompletedTask; })
+                    }
         );
         base.OnInitialized();
     }

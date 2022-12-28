@@ -2,6 +2,14 @@
 @inherits CarltonComponentBase<NavTreeViewModel>
 
 
+<AccordionSelectGroup
+    TItem="string"
+    ItemGroups="ViewModel.TreeItems.Select(_ => new AccordionSelectGroupModel<string>(_.DisplayName, 
+            _.Children.ToDictionary(__ => __.LeafId, __ => __.DisplayName)))"
+    />
+
+
+@*
 <Tree TNode="NavTreeItemModel"
       Nodes="ViewModel?.TreeItems"
       SelectedNode="@ViewModel?.SelectedNode"
@@ -9,3 +17,4 @@
       Style="TreeStyle.DefaultTreeStyle">
     <TitleTemplate>@context.DisplayName</TitleTemplate>
 </Tree>
+*@

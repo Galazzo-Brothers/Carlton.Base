@@ -1,13 +1,8 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="actions">
-    <HamburgerCollapser />
-    <span class="icon mdi mdi-24px mdi-settings"></span>
-    <span class="icon mdi mdi-24px mdi-format-paint"></span>
+<div class="carlton-actions">
+    <span class="icon mdi mdi-24px mdi-settings-outline"></span>
+    <span class="icon mdi mdi-24px mdi-bell-outline"></span>
+    <Spacer SpacerDirection="SpacerDirection.vertical" spacerMagnitude="SpacerMagnitude.full" />
+    <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Base.Components/images/avatar.jpg" />
 </div>
-
-
-@code {
-    [CascadingParameter]
-    Action SetCollapsedStatus { get; set; }
-}

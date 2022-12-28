@@ -1,4 +1,4 @@
-﻿.menu {
+﻿.dropdown-menu {
     cursor: pointer;
     position: relative;
     display: inline-block;
@@ -7,17 +7,25 @@
 
 .dropdown {
     position: absolute;
-    width: 100%;
-    left: 0;
+    width: 200px;
+    left: -56px;
+    top: 57px;
     opacity: 0;
     visibility: hidden;
-    border-radius: 5px;
-    z-index: 1;
+    z-index: 3;
     -webkit-transition: all .25s ease;
     -moz-transition: all .25s ease;
     -o-transition: all .25s ease;
     transition: all .25s ease;
 }
+
+    .dropdown ::deep .header .horizontal-spacer::after {
+        width: 100%;
+    }
+
+    .dropdown ul {
+        margin: 0;
+    }
 
     .dropdown.active {
         background-color: #263238;
@@ -31,8 +39,8 @@
         width: 100%;
     }
 
-        .dropdown li ::deep span{
-            flex-basis: 50%;
+        .dropdown li ::deep span {
+            margin-left: 10px;
             margin-top: auto;
             margin-bottom: auto;
             text-align: right;
@@ -50,8 +58,8 @@
             text-decoration: none;
         }
 
-            .dropdown li:hover ::deep {
-                background: darkslategray;
-                color: seagreen;
-                border-radius: 5px;
-            }
+        .dropdown li:hover ::deep {
+            background: darkslategray;
+            color: seagreen;
+            border-radius: 5px;
+        }

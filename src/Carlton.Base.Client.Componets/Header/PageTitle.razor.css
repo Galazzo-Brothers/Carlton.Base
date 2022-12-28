@@ -1,0 +1,14 @@
+﻿.content {
+    display: flex;
+    flex-direction: column;
+}
+
+    .content .title {
+        font-size: 15pt;
+        color: white;
+    }
+
+    .content .bread-crumbs {
+        font-size: 12pt;
+        color: #7c848a;
+    }

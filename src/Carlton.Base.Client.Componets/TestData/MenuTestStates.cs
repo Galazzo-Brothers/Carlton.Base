@@ -10,9 +10,9 @@ public static class MenuTestStates
         };
     }
 
-    private static IEnumerable<MenuItem> DefaultMenuItems()
+    private static IEnumerable<DropdownMenuItem> DefaultMenuItems()
     {
-        return new List<MenuItem>
+        return new List<DropdownMenuItem>
               {
                       //new MenuItem("Option 1", () => Task.CompletedTask),
                       //new MenuItem("Option 2", () => Task.CompletedTask),

@@ -17,12 +17,12 @@
     [CascadingParameter]
     private Action<string> UpdateTheme { get; set; }
 
-    private MenuItems MenuItems { get; set; }
+    private DropdownMenuItems MenuItems { get; set; }
 
     protected override void OnInitialized()
     {
-        MenuItems = new MenuItems(
-            new List<MenuItem>
+        MenuItems = new DropdownMenuItems(
+            new List<DropdownMenuItem>
             {
                 //new MenuItem("Light", () => {UpdateTheme("light"); return Task.CompletedTask; }),
                 //new MenuItem("Dark", () => {UpdateTheme("dark"); return Task.CompletedTask; })

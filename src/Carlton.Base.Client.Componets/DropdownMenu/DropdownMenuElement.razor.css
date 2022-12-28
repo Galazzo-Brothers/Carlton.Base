@@ -1,0 +1,24 @@
+﻿a {
+    width: 100%;
+    padding: 1em 18px;
+    display: inline-block;
+    white-space: pre;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.accent-color-1 {
+    color: #1e88e5;
+}
+
+.accent-color-2 {
+    color: #00897b;
+}
+
+.accent-color-3 {
+    color: #e46a76;
+}
+
+.accent-color-4 {
+    color: #ab8ce4;
+}

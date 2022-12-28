@@ -4,6 +4,9 @@
     <div class="menu">
         @MenuContent
     </div>
+    <div class="title">
+        @TitleContent
+    </div>
     <div class="action">
         @ActionContent
     </div>
@@ -15,6 +18,8 @@
     public bool IsCollapsed { get; set; }
     [Parameter]
     public RenderFragment MenuContent { get; set; }
+    [Parameter]
+    public RenderFragment TitleContent { get; set; }
     [Parameter]
     public RenderFragment ActionContent { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿.dashboard-container {
     display: grid;
-    grid-template-columns: 25% 1fr 1fr;
+    grid-template-columns: 20% 1fr 1fr;
     grid-template-areas:
         "navsidebar header header"
         "navsidebar main main"
@@ -29,6 +29,7 @@
 
     .dashboard-container main {
         grid-area: main;
+        overflow: hidden;
     }
 
     .dashboard-container footer {

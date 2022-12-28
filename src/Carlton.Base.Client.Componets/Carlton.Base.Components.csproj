@@ -9,8 +9,8 @@
     <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
   </PropertyGroup>
 
-
   <ItemGroup>
+    <Content Include="Header\CarltonHeaderActions.razor.css" />
     <Content Include="Notifications\notification.scss" />
     <Content Include="ResizablePanel\ResizablePanel.razor.js" />
     <Content Include="Styles\animations\fade_out_animation.scss" />

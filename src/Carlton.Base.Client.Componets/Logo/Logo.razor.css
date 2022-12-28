@@ -1,46 +1,33 @@
 ﻿.logo {
     display: flex;
     background-color: #263238;
-    line-height: 60px;
+    height: 75px;
+    line-height: 75px;
     margin-bottom: 0px;
     justify-content: center;
 }
 
-    .logo .content{
+    .logo .content {
         flex-basis: 85%;
     }
 
-    .logo .title {
-        font-size: 12pt;
-        color: white;
-        vertical-align: middle;
-    }
+        .logo .content .title {
+            font-size: 12pt;
+            color: white;
+            vertical-align: middle;
+        }
 
+        .logo .content img {
+            height: 50px;
+            width: 50px;
+            margin-top: auto;
+            margin-bottom: auto;
+            vertical-align: middle;
+        }
 
     .logo.collapsed span.title {
         display: none;
     }
-
-    .logo img {
-        height: 50px;
-        width: 50px;
-        margin-top: auto;
-        margin-bottom: auto;
-        vertical-align: middle;
-    }
-
-.spacer::after {
-    display: block;
-    content: "";
-    position: relative;
-    height: 1px;
-    width: 85%;
-    z-index: 2;
-    background-color: #fff;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: .5;
-}
 
 @media (max-width: 767.98px) {
     .logo span.title {
