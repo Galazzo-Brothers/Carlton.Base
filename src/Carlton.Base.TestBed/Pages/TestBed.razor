@@ -1,23 +1,20 @@
 ﻿@namespace Carlton.Base.TestBedFramework
 @inherits LayoutComponentBase
 
-<DashboardLayout>
+<CarltonDashboardLayout ShowTabPanel="true">
     <HeaderContent>
         <CarltonHeader />
     </HeaderContent>
-    <Body>
-        <CarltonDataComponent TViewModel="ComponentViewerViewModel" />
-    </Body>
-    <PanelContent>
-        <Panel />
-    </PanelContent>
     <NavContent>
         <CarltonDataComponent TViewModel="NavTreeViewModel" />
     </NavContent>
-    <FooterContent>
-        <TestBedFooter />
-    </FooterContent>
-</DashboardLayout>
+    <Body>
+        <CarltonDataComponent TViewModel="ComponentViewerViewModel" />
+    </Body>
+    <Tabs>
+        <TestBedTabs />
+    </Tabs>
+</CarltonDashboardLayout>
 
 
 

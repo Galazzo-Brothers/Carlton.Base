@@ -1,0 +1,23 @@
+﻿@namespace Carlton.Base.Components
+
+<a href="#" class="theme-menu" @onclick="SwapTheme">
+    <i class="mdi mdi-24px mdi-@(LayoutThemeState.Theme == Themes.light ? "weather-sunny" : "moon-waxing-crescent")"></i>
+</a>
+
+
+@code {
+    [CascadingParameter]
+    private LayoutThemeState LayoutThemeState { get; set; }
+
+    private void SwapTheme()
+    {
+        if(LayoutThemeState.Theme == Themes.light)
+        {
+            LayoutThemeState.SetTheme(Themes.dark);
+        }
+        else
+        {
+            LayoutThemeState.SetTheme(Themes.light);
+        }
+    }
+}

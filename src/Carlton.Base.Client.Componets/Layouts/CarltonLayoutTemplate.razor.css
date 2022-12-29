@@ -1,4 +1,4 @@
-﻿.dashboard-container {
+﻿.layout-container {
     display: grid;
     grid-template-columns: 20% 1fr 1fr;
     grid-template-areas:
@@ -6,32 +6,32 @@
         "navsidebar main main"
         "navsidebar footer footer";
 }
-    .dashboard-container.collapsed {
+
+    .layout-container.collapsed {
         grid-template-columns: 5% 1fr 1fr;
     }
 
-    .dashboard-container header {
+    .layout-container header {
         grid-area: header;
     }
 
-    .dashboard-container nav {
+    .layout-container nav {
         grid-area: navsidebar;
         background-color: #263238;
+        height: 100vh;
     }
 
-
-        .dashboard-container nav.collapsed {
+        .layout-container nav.collapsed {
             max-width: 500px;
             width: 50px;
             transition: width .75s ease;
         }
 
-
-    .dashboard-container main {
+    .layout-container main {
         grid-area: main;
-        overflow: hidden;
+/*        overflow: hidden;*/
     }
 
-    .dashboard-container footer {
+    .layout-container footer {
         grid-area: footer;
     }

@@ -1,0 +1,15 @@
+﻿@namespace Carlton.Base.Components
+
+@MainContent
+<MobileTabBar>
+    <ChildContent>
+        @Tabs
+    </ChildContent>
+</MobileTabBar>
+
+@code {
+    [Parameter]
+    public RenderFragment MainContent { get; set; }
+    [Parameter]
+    public RenderFragment Tabs { get; set; }
+}

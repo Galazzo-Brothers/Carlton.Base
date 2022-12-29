@@ -1,0 +1,18 @@
+﻿@namespace Carlton.Base.Components
+
+
+<div class="logo @(LayoutCollapsedState.IsCollapsed ? "collapsed" : string.Empty)">
+    <div class="content">
+        <img src="_content/Carlton.Base.Components/images/CarltonLogo.png" />
+        <span class="title">@Title</span>
+    </div>
+</div>
+
+
+
+@code {
+    [CascadingParameter]
+    public LayoutCollapsedState LayoutCollapsedState { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+}

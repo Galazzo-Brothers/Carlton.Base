@@ -1,0 +1,17 @@
+﻿@namespace Carlton.Base.Components
+
+<Logo Title="Carlton Test Bed" />
+@if(!LayoutCollapsedState.IsCollapsed)
+{
+    <Spacer SpacerDirection="SpacerDirection.horizontal" />
+    @NavContent
+}
+
+@code{
+    [CascadingParameter]
+    public LayoutCollapsedState LayoutCollapsedState { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public RenderFragment NavContent { get; set; }
+}

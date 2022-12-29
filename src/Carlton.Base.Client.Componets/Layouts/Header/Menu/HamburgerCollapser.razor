@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Base.Components
 
 <div class="collapser">
-    <a href="#" @onclick="() => SetCollapsedStatus()">
+    <a href="#" @onclick="LayoutCollapsedState.ToggleCollapsedStatus">
         <span class="mdi mdi-24px mdi-menu" />
     </a>
 </div>
@@ -9,5 +9,5 @@
 
 @code {
     [CascadingParameter]
-    Action SetCollapsedStatus { get; set; }
+    public LayoutCollapsedState LayoutCollapsedState { get; set; }
 }

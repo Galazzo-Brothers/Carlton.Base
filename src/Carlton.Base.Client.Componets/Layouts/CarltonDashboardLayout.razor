@@ -1,0 +1,50 @@
+﻿@namespace Carlton.Base.Components
+
+<CarltonLayoutTemplate>
+    <HeaderContent>
+        <CarltonHeader />
+    </HeaderContent>
+    <NavContent>
+        <CarltonNavTemplate Title="@Title">
+            <NavContent>
+                @NavContent
+            </NavContent>
+        </CarltonNavTemplate>
+    </NavContent>
+    <Body>
+        <CarltonBodyContent ShowTabPanel="ShowTabPanel">
+            <Body>
+                @Body
+            </Body>
+            <Tabs>
+                @Tabs
+            </Tabs>
+        </CarltonBodyContent>
+    </Body>
+    <FooterContent>
+        <div>
+            <img src="_content/Carlton.Base.Components/images/github-mark.png" />
+            <div>Designed and Coded by the Galazzo Brothers.</div>
+        </div>
+    </FooterContent>
+</CarltonLayoutTemplate>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public bool ShowTabPanel { get; set; }
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; }
+    [Parameter]
+    public RenderFragment NavContent { get; set; }
+    [Parameter]
+    public RenderFragment Body { get; set; }
+    [Parameter]
+    public RenderFragment? Tabs { get; set; }
+    [Parameter]
+    public RenderFragment FooterContent { get; set; }
+}
+
+
+

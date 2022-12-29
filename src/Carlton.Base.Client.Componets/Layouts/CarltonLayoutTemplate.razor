@@ -1,0 +1,39 @@
+﻿@namespace Carlton.Base.Components
+
+<CascadingValue TValue="LayoutCollapsedState" Value="LayoutCollapsedState">
+    <CascadingValue TValue="LayoutThemeState" Value="LayoutThemeState">
+        <div class="layout-container
+            @(LayoutCollapsedState.IsCollapsed ? "collapsed" : string.Empty)"
+             data-theme="@LayoutThemeState.Theme.ToString()">
+            <header>
+                @HeaderContent
+            </header>
+            <nav>
+                @NavContent
+            </nav>
+            <main>
+                @Body
+            </main>
+            <footer>
+                @FooterContent
+            </footer>
+        </div>
+    </CascadingValue>
+</CascadingValue>
+
+
+
+@code {
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; }
+    [Parameter]
+    public RenderFragment NavContent { get; set; }
+    [Parameter]
+    public RenderFragment Body { get; set; }
+    [Parameter]
+    public RenderFragment FooterContent { get; set; }
+    [Parameter]
+    public LayoutCollapsedState LayoutCollapsedState { get; set; } = new LayoutCollapsedState();
+    [Parameter]
+    public LayoutThemeState LayoutThemeState { get; set; } = new LayoutThemeState(Themes.light);
+}
