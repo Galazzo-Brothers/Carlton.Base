@@ -1,40 +1,42 @@
 ﻿@namespace Carlton.Base.Components
-@using System.Linq
-@typeparam TItem
-@using System.Collections.Generic
+@typeparam TValue
+
 
 <div class="accordion-select-group">
-    @*   @for(var i = 0; i < ItemGroups.Count(); i++)*@
-    @{
-  
-    }
-    @foreach(var (value, i) in ItemGroups.WithIndex())
+    @foreach(var (group, index) in ItemGroups.WithIndex())
     {
-        <AccordionSelect TItem="TItem"
-                     Title="@ItemGroups.ElementAt(i).GroupName"
-                     Items="ItemGroups.ElementAt(i).GroupItems"
-                     Selectedkey="GetSelectedItemKey(i)"
-                     SelectedItemChanged="(key) => SelectedItemChanged(i, key)" />
+        <AccordionSelect TValue="TValue"
+                     Title="@group.Key"
+                     Items="@group.Value"
+                     SelectedValue="GetSelectedValue(index)"
+                     SelectedItemChanged="(value) => ChangeSelectedItem(index, value)" />
     }
 </div>
 
 @code {
     [Parameter]
-    public IEnumerable<AccordionSelectGroupModel<TItem>> ItemGroups { get; set; }
+    public Dictionary<string, Dictionary<string, TValue>> ItemGroups { get; set; }
 
     [Parameter]
-    public (int GroupIndex, int ItemKey) SelectedItem { get; set; }
+    public TValue SelectedItem { get; set; }
 
-    private int GetSelectedItemKey(int groupIndex)
+    [Parameter]
+    public EventCallback<TValue> OnSelectedItemChanged { get; set; }
+
+    private int _selectedGroupIndex;
+
+    private TValue GetSelectedValue(int groupIndex)
     {
-        if(SelectedItem.GroupIndex != groupIndex)
-            return -1;
+        if(groupIndex != _selectedGroupIndex)
+            return default(TValue);
 
-        return SelectedItem.ItemKey;
+        return SelectedItem;
     }
 
-    private void SelectedItemChanged(int groupIndex, int itemIndex)
+    private async Task ChangeSelectedItem(int groupIndex, TValue value)
     {
-        SelectedItem = (groupIndex, itemIndex);
+        _selectedGroupIndex = groupIndex;
+        SelectedItem = value;
+        await OnSelectedItemChanged.InvokeAsync();
     }
 }

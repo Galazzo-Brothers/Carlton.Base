@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Authors>Nicholas Galazzo</Authors>
-    <Product>Project Carlton</Product>
+    <Product>Base Components Carlton</Product>
     <Company>Project Carlton</Company>
     <Description>Contains blazor front end components used throughout the project.</Description>
     <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
+    <nullable>disable</nullable>
   </PropertyGroup>
 
   <ItemGroup>

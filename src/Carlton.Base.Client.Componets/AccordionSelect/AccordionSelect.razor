@@ -1,8 +1,8 @@
 ﻿@namespace Carlton.Base.Components
-@typeparam TItem
+@typeparam TValue
 
 <div class="accordion-select">
-    <div class="heading @(Selectedkey == -1 ? string.Empty : "selected")" @onclick="() => IsExpanded = !IsExpanded">
+    <div class="heading @(ValueExists(SelectedValue) ? "selected" : string.Empty)" @onclick="() => IsExpanded = !IsExpanded">
         <span class="mdi mdi-icon mdi-24px mdi-plus-box-outline"></span>
         <span class="item-name align-middle">
             @Title
@@ -11,13 +11,13 @@
             <i class="icon mdi mdi-24px @(IsExpanded ? "mdi-chevron-up" : "mdi-chevron-down")"></i>
         </span>
     </div>
-    <div class="item-container  @(!IsExpanded ? "collapsed" : string.Empty)">
+    <div class="item-container  @(!IsExpanded ? "collapsed" : string.Empty)">        
         @foreach(var item in Items)
         {
-            <div class="item @(Selectedkey == item.Key ? "selected" : string.Empty)" @onclick="() => OnItemSelected(item.Key)">
+            <div class="item @(item.Value.Equals(SelectedValue) ? "selected" : string.Empty)" @onclick="() => OnItemSelected(item.Value)">
                 <span class="icon mdi mdi-icon mdi-12px mdi-bookmark"></span>
                 <span class="item-name align-middle">
-                    @item.Value.ToString()
+                    @item.Key
                 </span>
             </div>
         }
@@ -29,20 +29,25 @@
     public string Title { get; set; }
 
     [Parameter]
-    public IDictionary<int, TItem> Items { get; set; } = new Dictionary<int, TItem>();
+    public Dictionary<string, TValue> Items { get; set; } = new Dictionary<string, TValue>();
 
     [Parameter]
-    public int Selectedkey { get; set; } = -1;
+    public TValue SelectedValue { get; set; }
 
     [Parameter]
     public bool IsExpanded { get; set; }
 
     [Parameter]
-    public EventCallback<int> SelectedItemChanged { get; set; }
+    public EventCallback<TValue> SelectedItemChanged { get; set; }
 
-    private async Task OnItemSelected(int key)
+    private bool ValueExists(TValue value)
     {
-        Selectedkey = key;
-        await SelectedItemChanged.InvokeAsync(key);
+        return Items.Values.Contains(value);
+    }
+
+    private async Task OnItemSelected(TValue value)
+    {
+        SelectedValue = value;
+        await SelectedItemChanged.InvokeAsync(value);
     }
 }
