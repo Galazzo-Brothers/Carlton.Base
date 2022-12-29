@@ -9,6 +9,7 @@ public class NavTreeViewModelRequestHandler : TestBedRequestHandlerViewModelBase
 
     public override Task<NavTreeViewModel> Handle(NavTreeViewModelRequest request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(new NavTreeViewModel(State.TreeItems, State.SelectedItem, null));
+        return Task.FromResult(new NavTreeViewModel(State.TreeItems, State.SelectedItem,
+            (IEnumerable<TreeItem<NavTreeItemModel>>)(NavTreeViewModel) null));
     }
 }

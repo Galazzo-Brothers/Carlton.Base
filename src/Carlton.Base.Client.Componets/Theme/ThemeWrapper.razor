@@ -1,29 +1,23 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="@ThemeClass">
-    <CascadingValue Value="@Theme">
-        <CascadingValue TValue="Action<string>" Value="@ChangeTheme">
+
+<CascadingValue Value="@Theme">
+    <CascadingValue TValue="Action<Themes>" Value="@ChangeTheme">
+        <div class="theme-wrapper" data-theme="@Theme.ToString().ToLower()">
             @Content
-        </CascadingValue>
+        </div>
     </CascadingValue>
-</div>
+</CascadingValue>
+
 
 @code {
     [Parameter]
     public RenderFragment Content { get; set; }
 
     [Parameter]
-    public string Theme { get; set; }
+    public Themes Theme { get; set; }
 
-    private string ThemeClass
-    {
-        get
-        {
-            return $"theme-{Theme}";
-        }
-    }
-
-    private void ChangeTheme(string theme)
+    private void ChangeTheme(Themes theme)
     {
         Theme = theme;
         StateHasChanged();

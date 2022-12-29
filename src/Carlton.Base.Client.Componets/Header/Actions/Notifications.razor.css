@@ -1,0 +1,29 @@
+﻿
+.notifications {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.notifications i {
+    color: white;
+}
+
+.notifications .notify {
+    position: relative;
+    top: -15px;
+    right: -8px;
+}
+
+    .notifications .notify .point {
+        position: absolute;
+        right: 6px;
+        top: -14px;
+        padding: 7px 5px;
+        line-height: 1px;
+        border-radius: 30px;
+        background-color: #fc4b6c;
+        color: #fff;
+        font-size: 10px;
+    }
+
+

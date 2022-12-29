@@ -1,12 +1,14 @@
 ﻿@namespace Carlton.Base.TestBedFramework
 @inherits CarltonComponentBase<NavTreeViewModel>
 
+@using System.Linq;
 
 <AccordionSelectGroup
-    TItem="string"
-    ItemGroups="ViewModel.TreeItems.Select(_ => new AccordionSelectGroupModel<string>(_.DisplayName, 
-            _.Children.ToDictionary(__ => __.LeafId, __ => __.DisplayName)))"
-    />
+    TValue="string"
+    ItemGroups="ViewModel.TreeItems
+                         .ToDictionary(_ => _.DisplayName, _ => 
+               _.Children.ToDictionary(__ => __.DisplayName, __ => __.DisplayName))" 
+/>
 
 
 @*
