@@ -34,4 +34,6 @@
 
     .layout-container footer {
         grid-area: footer;
+        background: #272727;
+        color: white;
     }

@@ -5,27 +5,13 @@
         <CarltonHeader />
     </HeaderContent>
     <NavContent>
-        <CarltonNavTemplate Title="@Title">
-            <NavContent>
-                @NavContent
-            </NavContent>
-        </CarltonNavTemplate>
+        <CarltonNavTemplate Title="@Title" NavContent="NavContent" />
     </NavContent>
     <Body>
-        <CarltonBodyContent ShowTabPanel="ShowTabPanel">
-            <Body>
-                @Body
-            </Body>
-            <Tabs>
-                @Tabs
-            </Tabs>
-        </CarltonBodyContent>
+        <CarltonBodyContent ShowTabPanel="ShowTabPanel" Body="Body" Tabs="Tabs" />
     </Body>
     <FooterContent>
-        <div>
-            <img src="_content/Carlton.Base.Components/images/github-mark.png" />
-            <div>Designed and Coded by the Galazzo Brothers.</div>
-        </div>
+        <CarltonFooter />
     </FooterContent>
 </CarltonLayoutTemplate>
 
