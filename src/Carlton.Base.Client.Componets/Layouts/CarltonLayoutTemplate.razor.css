@@ -1,5 +1,6 @@
 ﻿.layout-container {
     display: grid;
+    grid-template-rows: auto 1fr auto;
     grid-template-columns: 20% 1fr 1fr;
     grid-template-areas:
         "navsidebar header header"
@@ -37,3 +38,17 @@
         background: #272727;
         color: white;
     }
+
+    .layout-container footer.fixed {
+        width: 80%;
+        position: absolute;
+        bottom: 0;
+        margin-left: 20%;
+        z-index: 10;
+    }
+
+        .layout-container.collapsed footer.fixed {
+            width: 95%;
+            margin-left: 5%;
+        }
+

@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Base.Components
 
 <Logo Title="Carlton Test Bed" />
-@if(!LayoutCollapsedState.IsCollapsed)
+@if(!LayoutState.IsCollapsed)
 {
     <Spacer SpacerDirection="SpacerDirection.horizontal" />
     @NavContent
@@ -9,7 +9,7 @@
 
 @code{
     [CascadingParameter]
-    public LayoutCollapsedState LayoutCollapsedState { get; set; }
+    public LayoutState LayoutState { get; set; }
     [Parameter]
     public string Title { get; set; }
     [Parameter]

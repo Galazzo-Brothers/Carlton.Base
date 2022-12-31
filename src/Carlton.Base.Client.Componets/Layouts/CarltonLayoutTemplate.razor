@@ -1,29 +1,71 @@
 ﻿@namespace Carlton.Base.Components
 
-<CascadingValue TValue="LayoutCollapsedState" Value="LayoutCollapsedState">
-    <CascadingValue TValue="LayoutThemeState" Value="LayoutThemeState">
-        <div class="layout-container
-            @(LayoutCollapsedState.IsCollapsed ? "collapsed" : string.Empty)"
-             data-theme="@LayoutThemeState.Theme.ToString()">
-            <header>
-                @HeaderContent
-            </header>
-            <nav>
-                @NavContent
-            </nav>
-            <main>
-                @Body
-            </main>
-            <footer>
-                @FooterContent
-            </footer>
-        </div>
-    </CascadingValue>
+<CascadingValue Value="_layoutState">
+    <div class="layout-container
+            @(_layoutState.IsCollapsed ? "collapsed" : string.Empty)"
+         data-theme="@_layoutState.Theme.ToString()">
+        <header>
+            @HeaderContent
+        </header>
+        <nav>
+            @NavContent
+        </nav>
+        <main>
+            @Body
+        </main>
+        <footer class="@(_layoutState.IsFooterFixed ? "fixed" : string.Empty)">
+            @FooterContent
+        </footer>
+    </div>
 </CascadingValue>
 
 
 
 @code {
+    private LayoutState _layoutState;
+
+    [Parameter]
+    public bool? IsCollapsed
+    {
+        get
+        {
+            return _layoutState.IsCollapsed;
+        }
+        set
+        {
+            //Can only be set from child elements
+            return;
+        }
+    }
+
+    [Parameter]
+    public Themes? Theme
+    {
+        get
+        {
+            return _layoutState.Theme;
+        }
+        set
+        {
+            //Can only be set from child elements
+            return;
+        }
+    }
+
+    [Parameter]
+    public bool IsFixedFooter 
+    { 
+        get
+        {
+            return _layoutState.IsFooterFixed;
+        }
+        set
+        {
+            //Can only be set from child elements
+            return;
+        }
+    }
+
     [Parameter]
     public RenderFragment HeaderContent { get; set; }
     [Parameter]
@@ -32,8 +74,23 @@
     public RenderFragment Body { get; set; }
     [Parameter]
     public RenderFragment FooterContent { get; set; }
-    [Parameter]
-    public LayoutCollapsedState LayoutCollapsedState { get; set; } = new LayoutCollapsedState();
-    [Parameter]
-    public LayoutThemeState LayoutThemeState { get; set; } = new LayoutThemeState(Themes.light);
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        if(_layoutState is null)
+        {
+            var themeSuccess = parameters.TryGetValue<Themes>(nameof(Theme), out var inputTheme);
+            var collasedStateSuccess = parameters.TryGetValue<bool>(nameof(IsCollapsed), out var inputCollasedState);
+            var isFixedFooterSuccess = parameters.TryGetValue<bool>(nameof(IsFixedFooter), out var inputIsFixedFooter);
+
+            inputCollasedState = (collasedStateSuccess) ? inputCollasedState : false;
+            inputTheme = (themeSuccess) ? inputTheme : Themes.light;
+            inputIsFixedFooter = (isFixedFooterSuccess) ? inputIsFixedFooter : false;
+
+            _layoutState = new LayoutState(inputCollasedState, inputTheme, inputIsFixedFooter, StateHasChanged);
+        }
+
+
+        await base.SetParametersAsync(parameters);
+    }
 }
