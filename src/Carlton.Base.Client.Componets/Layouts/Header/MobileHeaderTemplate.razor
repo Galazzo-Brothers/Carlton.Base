@@ -1,0 +1,23 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="header-bar" data-theme="light">
+    <div class="nav">
+        @NavContent
+    </div>
+    <div class="logo">
+        @LogoCotentent
+    </div>
+    <div class="action">
+        @ActionContent
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public RenderFragment NavContent { get; set; }
+    [Parameter]
+    public RenderFragment LogoCotentent { get; set; }
+    [Parameter]
+    public RenderFragment ActionContent { get; set; }
+}

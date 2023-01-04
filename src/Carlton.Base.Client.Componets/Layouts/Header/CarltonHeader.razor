@@ -1,13 +1,35 @@
 ﻿@namespace Carlton.Base.Components
 
-<HeaderTemplate>
-    <MenuContent>
-        <HamburgerCollapser />
-    </MenuContent>
-    <TitleContent>
-        <PageTitle Title="Cound Card" BreadCrumbs="Cards > CountCard" />
-    </TitleContent>
-    <ActionContent>
-        <CarltonHeaderActions />
-    </ActionContent>
-</HeaderTemplate>
+<MediaQueryWrapper>
+    <DesktopContent>
+        <DesktopHeaderTemplate>
+            <MenuContent>
+                <HamburgerCollapser />
+            </MenuContent>
+            <TitleContent>
+                <PageTitle Title="Cound Card" BreadCrumbs="Cards > CountCard" />
+            </TitleContent>
+            <ActionContent>
+                <CarltonHeaderActions />
+            </ActionContent>
+        </DesktopHeaderTemplate>
+    </DesktopContent>
+
+
+    <MobileContent>
+        <MobileHeaderTemplate>
+            <NavContent>
+                <HamburgerCollapser />
+            </NavContent>
+            <LogoCotentent>
+                <Logo Title="Carlton Test Bed" />
+            </LogoCotentent>
+            <ActionContent>
+                <CarltonHeaderActions />
+            </ActionContent>
+        </MobileHeaderTemplate>
+    </MobileContent>
+
+</MediaQueryWrapper>
+
+

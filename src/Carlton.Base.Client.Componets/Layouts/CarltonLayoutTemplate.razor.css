@@ -52,3 +52,16 @@
             margin-left: 5%;
         }
 
+
+
+@media (max-width: 767.98px) {
+    .layout-container {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: 100%;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+    }
+}

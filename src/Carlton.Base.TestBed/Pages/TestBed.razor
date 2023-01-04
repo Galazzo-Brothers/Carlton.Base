@@ -9,7 +9,17 @@
         <CarltonDataComponent TViewModel="NavTreeViewModel" />
     </NavContent>
     <Body>
-        <CarltonDataComponent TViewModel="ComponentViewerViewModel" />
+        <MediaQueryWrapper>
+            <DesktopContent>
+                <CarltonDataComponent TViewModel="ComponentViewerViewModel" />
+            </DesktopContent>
+            <MobileContent>
+                <div class="page-title">
+                    <PageTitle Title="Cound Card" BreadCrumbs="Cards > CountCard" />
+                </div>
+                <CarltonDataComponent TViewModel="ComponentViewerViewModel" />
+            </MobileContent>
+        </MediaQueryWrapper>
     </Body>
     <Tabs>
         <TestBedTabs />

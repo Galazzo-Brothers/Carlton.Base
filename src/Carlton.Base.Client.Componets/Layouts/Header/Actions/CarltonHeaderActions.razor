@@ -1,9 +1,21 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="carlton-actions">
-    <span class="icon mdi mdi-24px mdi-settings-outline"></span>
-    <ThemeMenu />
-    <Notifications />
-    <Spacer SpacerDirection="SpacerDirection.vertical" />
-    <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Base.Components/images/avatar.jpg" />
-</div>
+
+<MediaQueryWrapper>
+    <DesktopContent>
+        <div class="carlton-actions">
+            <span class="icon mdi mdi-24px mdi-settings-outline"></span>
+            <ThemeMenu />
+            <Notifications />
+            <Spacer SpacerDirection="SpacerDirection.vertical" />
+            <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Base.Components/images/avatar.jpg" />
+        </div>
+    </DesktopContent>
+    <MobileContent>
+        <div class="carlton-actions">
+            <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Base.Components/images/avatar.jpg" />
+        </div>
+    </MobileContent>
+</MediaQueryWrapper>
+
+
