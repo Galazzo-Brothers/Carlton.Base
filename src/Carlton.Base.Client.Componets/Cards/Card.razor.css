@@ -14,7 +14,7 @@
 
     .card .title-content {
         display: flex;
-        margin-top: 10px;
+        margin-top: 5px;
     }
 
         .card .title-content .card-title {
@@ -29,7 +29,6 @@
 
         .card .title-content .status-icon {
             flex-basis: 25%;
-            padding-right: 15px;
             text-align: right;
         }
 

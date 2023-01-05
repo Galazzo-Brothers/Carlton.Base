@@ -1,0 +1,11 @@
+﻿.menu-content-container{
+   display: none;
+}
+
+    .menu-content-container.active {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        margin-top: 75px;
+    }

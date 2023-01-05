@@ -2,10 +2,8 @@
 
 <DropdownMenu MenuItems="MenuItems">
     <MenuTemplate Context="isActive">
-        <figure></figure>
-        <figure class="middle @(isActive ? "active" : string.Empty)"></figure>
-        <figure></figure>
-        <p class="cross @(isActive ? "active" : string.Empty)">x</p>
+        <i class="hamburger mdi mdi-24px mdi-dots-vertical @(isActive ? "active" : string.Empty)"></i>
+        <i class="close mdi mdi-24px mdi-close-circle @(isActive ? "active" : string.Empty)"></i>
     </MenuTemplate>
     <MenuItemTemplate Context="item">
         <DropdownMenuElement MenuItem="item" />

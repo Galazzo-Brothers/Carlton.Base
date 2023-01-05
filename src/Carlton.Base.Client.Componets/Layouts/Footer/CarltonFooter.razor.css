@@ -11,13 +11,6 @@
         margin-bottom: auto;
     }
 
-    .content .msg {
-        flex-basis: 50%;
-        font-size: 10pt;
-        margin-top: auto;
-        margin-bottom: auto;
-    }
-
     .content .contacts {
         flex-basis: 50%;
         gap: 10px;
@@ -29,6 +22,17 @@
         text-align: right;
         color: #7c848a;
     }
+
+        .content .contacts .msg {
+            font-size: 10pt;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .content .contacts i {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
 
     .content .external-urls a {
         color: #7c848a;

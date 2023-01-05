@@ -1,0 +1,19 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="slide-out-nav @(MenuVisible ? "menu" : string.Empty)">
+    <a href="#" @onclick="() => MenuVisible=!MenuVisible">
+        <span class="mdi mdi-24px mdi-menu" />
+    </a>
+</div>
+
+<div class="menu-content-container @(MenuVisible ? "active" : string.Empty)">
+    @NavMenuContent
+</div>
+
+
+@code{
+    private bool MenuVisible { get; set; } 
+
+    [Parameter]
+    public RenderFragment NavMenuContent { get; set; }
+}

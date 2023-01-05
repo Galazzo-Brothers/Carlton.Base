@@ -1,4 +1,5 @@
 ﻿@namespace Carlton.Base.Components
+@using System.Diagnostics.CodeAnalysis;
 
 <MediaQueryWrapper>
     <DesktopContent>
@@ -19,7 +20,7 @@
     <MobileContent>
         <MobileHeaderTemplate>
             <NavContent>
-                <HamburgerCollapser />
+                <SlideOutNav NavMenuContent="NavMenuContent"/>
             </NavContent>
             <LogoCotentent>
                 <Logo Title="Carlton Test Bed" />
@@ -32,4 +33,7 @@
 
 </MediaQueryWrapper>
 
-
+@code {
+    [Parameter, AllowNull]
+    public RenderFragment NavMenuContent { get; set; }
+}
