@@ -19,10 +19,6 @@
     transition: all .25s ease;
 }
 
-    .dropdown ::deep .header .horizontal-spacer::after {
-        width: 100%;
-    }
-
     .dropdown ul {
         margin: 0;
     }
@@ -39,27 +35,4 @@
         width: 100%;
     }
 
-        .dropdown li ::deep span {
-            margin-left: 10px;
-            margin-top: auto;
-            margin-bottom: auto;
-            text-align: right;
-        }
-
-        .dropdown li ::deep a {
-            width: 100%;
-            padding-right: 18px;
-            padding-bottom: 1em;
-            padding-left: 9px;
-            display: inline-block;
-            white-space: pre;
-            box-sizing: border-box;
-            color: white;
-            text-decoration: none;
-        }
-
-        .dropdown li:hover ::deep {
-            background: darkslategray;
-            color: seagreen;
-            border-radius: 5px;
-        }
+     

@@ -6,7 +6,7 @@
     color: white;
 }
 
-    .header .spacer{
+    .header ::deep .horizontal-spacer::after {
         width: 100%;
     }
 
@@ -20,32 +20,65 @@
         color: #7c848a;
     }
 
-.profile-avatar{
+.profile-avatar {
     display: flex;
     gap: 5px;
 }
 
-.avatar-img {
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
-}
+    .profile-avatar .avatar-img {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+    }
 
-.username {
-    color: white;
-    font-size: 12pt;
+    .profile-avatar .username {
+        color: white;
+        font-size: 12pt;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .profile-avatar .icon {
+        margin-top: auto;
+        margin-bottom: auto;
+        color: white;
+    }
+
+/*Deep Style Overrides*/
+::deep li span {
+    margin-left: 10px;
     margin-top: auto;
     margin-bottom: auto;
+    text-align: right;
 }
 
-.icon{
-    margin-top: auto;
-    margin-bottom: auto;
+::deep li a {
+    width: 100%;
+    padding-right: 18px;
+    padding-bottom: 1em;
+    padding-left: 9px;
+    display: inline-block;
+    white-space: pre;
+    box-sizing: border-box;
     color: white;
+    text-decoration: none;
 }
 
+::deep li:hover {
+    background: darkslategray;
+    color: seagreen;
+    border-radius: 5px;
+}
+
+/*Media Queries*/
 @media (max-width: 768px) {
-    .username span {
+    .profile-avatar .username span {
         display: none;
+    }
+
+    ::deep .dropdown.active{
+        position: fixed;
+        left: 0;
+        width: 100vh;
     }
 }

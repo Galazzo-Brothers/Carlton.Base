@@ -1,5 +1,11 @@
-﻿.menu-content-container{
-   display: none;
+﻿.slide-out-nav span{
+    color: white;
+}
+
+.menu-content-container {
+    display: none;
+    height: 100vh;
+    z-index: 11;
 }
 
     .menu-content-container.active {

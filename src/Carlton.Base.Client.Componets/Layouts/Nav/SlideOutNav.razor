@@ -2,7 +2,7 @@
 
 <div class="slide-out-nav @(MenuVisible ? "menu" : string.Empty)">
     <a href="#" @onclick="() => MenuVisible=!MenuVisible">
-        <span class="mdi mdi-24px mdi-menu" />
+        <span class="mdi mdi-24px mdi-@(MenuVisible ? "close" : "menu")" />
     </a>
 </div>
 

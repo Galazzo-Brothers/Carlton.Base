@@ -1,41 +1,35 @@
 ﻿@namespace Carlton.Base.Components
 
-
-<DropdownMenu MenuItems="DropdownMenuItems">
-    <MenuTemplate Context="isActive">
-
-
-        <MediaQueryWrapper>
-            <DesktopContent>
-                <div class="profile-avatar">
-                    <img class="avatar-img text-center" src="@AvatarImgUrl" />
-                    <span class="username">@Username</span>
-                    <span class="icon mdi mdi-24px mdi-chevron-down"></span>
-                </div>
-            </DesktopContent>
-
-            <MobileContent>
-                <div class="profile-avatar">
-                    <img class="avatar-img text-center" src="@AvatarImgUrl" />
-                </div>
-            </MobileContent>
-
-        </MediaQueryWrapper>
-
-
-    </MenuTemplate>
-    <HeaderTemplate>
-        <div class="header">
-            <span class="user">Stephen Galazzo</span>
-            <span class="email">Admin User</span>
-            <Spacer SpacerDirection="SpacerDirection.horizontal" />
-        </div>
-    </HeaderTemplate>
-
-    <MenuItemTemplate Context="item">
-        <DropdownMenuElement MenuItem="item" />
-    </MenuItemTemplate>
-</DropdownMenu>
+<div class="profile-avatar-container">
+    <DropdownMenu MenuItems="DropdownMenuItems">
+        <MenuTemplate Context="isActive">
+            <MediaQueryWrapper>
+                <DesktopContent>
+                    <div class="profile-avatar">
+                        <img class="avatar-img text-center" src="@AvatarImgUrl" />
+                        <span class="username">@Username</span>
+                        <span class="icon mdi mdi-24px mdi-chevron-down"></span>
+                    </div>
+                </DesktopContent>
+                <MobileContent>
+                    <div class="profile-avatar">
+                        <img class="avatar-img text-center" src="@AvatarImgUrl" />
+                    </div>
+                </MobileContent>
+            </MediaQueryWrapper>
+        </MenuTemplate>
+        <HeaderTemplate>
+            <div class="header">
+                <span class="user">Stephen Galazzo</span>
+                <span class="email">Admin User</span>
+                <Spacer SpacerDirection="SpacerDirection.horizontal" />
+            </div>
+        </HeaderTemplate>
+        <MenuItemTemplate Context="item">
+            <DropdownMenuElement MenuItem="item" />
+        </MenuItemTemplate>
+    </DropdownMenu>
+</div>
 
 @code {
     [Parameter]
@@ -50,11 +44,11 @@
         DropdownMenuItems = new DropdownMenuItems
         (
             new List<DropdownMenuItem>
-                                            {
+                                                {
                         new DropdownMenuItem("Profile", "account", 1, () => { return Task.CompletedTask; }),
                         new DropdownMenuItem("Theme", "theme-light-dark", 2, () => { return Task.CompletedTask; }),
                         new DropdownMenuItem("Logout", "logout", 3, () => { return Task.CompletedTask; })
-                                            }
+                                                }
         );
         base.OnInitialized();
     }
