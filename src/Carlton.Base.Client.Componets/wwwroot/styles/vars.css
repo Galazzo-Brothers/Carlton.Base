@@ -1,0 +1,82 @@
+﻿
+[data-theme="light"] {
+    --background-color: #1d2126;
+    --text-color: #5e5e5e;
+    --sub-text-color: #9a9a9a;
+    /**/
+    --layout-main-background-color: #f4f3ef;
+    --layout-nav-background-color: #000;
+    --accordion-select-group-background-color: #000;
+    --accordion-select-group-padding-horizontal: 15px;
+    --accordion-select-background-color: #000;
+    --accordion-select-color: #fff;
+    --accordion-select-selected-background-color: #21c1d6;
+    --accordion-select-selected-text-color: #21c1d6;
+    --logo-background-color: #000;
+    --logo-color: #fff;
+    --logo-font-size: 12pt;
+    --header-background-color: #f4f3ef;
+    --header-height: 75px;
+    --page-title-color: #5e5e5e;
+    --page-title-font-size: 15pt;
+    --page-title-bread-crumb-font-size: 12pt;
+    --page-title-bread-crumb-color: #9a9a9a;
+    --hamburger-collapser-color: #5e5e5e;
+    --carlton-header-actions-color: #5e5e5e;
+    --theme-menu-color: #5e5e5e;
+    --notifications-menu-color: #5e5e5e;
+    --profile-text-color: #5e5e5e;
+    /**/
+    --sub-title-color: lightslategray;
+    --card-background-color: #fff;
+    --card-menu-color: #757575;
+    --card-menu-cross-color: #fff;
+    --card-menu-cross-active-color: #fff;
+    --completed-color: #009688;
+    --pending-color: #fec00a;
+    --icon-color: #47a8f4;
+    --high-color: #7ac29a;
+    --medium-color: #fec00a;
+    --low-color: #ff7946;
+    --count-bg-color1: #fff;
+    --count-bg-color2: #fff;
+    --count-bg-color3: #fff;
+    --count-bg-color4: #fff;
+    --count-icon-bg-color1: #1e88e5;
+    --count-icon-bg-color2: #00897b;
+    --count-icon-bg-color3: #e46a76;
+    --count-icon-bg-color4: #ab8ce4;
+    --count-icon-color1: #fff;
+    --count-icon-color2: #fff;
+    --count-icon-color3: #fff;
+    --count-icon-color4: #fff;
+}
+
+[data-theme="dark"] {
+    --background-color: #383f48;
+    --logo-color: #009688;
+    --text-color: #c2c2c2;
+    --title-color: #f2f2f3;
+    --card-background-color: #272c33;
+    --card-menu-color: #fff;
+    --card-menu-cross-color: #fff;
+    --card-menu-cross-acctive-acolor: #535353;
+    --completed-color: #00c689;
+    --pending-color: #ffab00;
+    --icon-color: #0090e7;
+    --high-color: #00897b;
+    --medium-color: #ed9c28;
+    --low-color: #fe4c4f;
+    --count-bg-color1: #1e88e5;
+    --count-bg-color2: #00897b;
+    --count-bg-color3: #e46a76;
+    --count-bg-color4: #ab8ce4;
+    --count-icon-bg-color1: #fff;
+    --count-icon-bg-color2: #fff;
+    --count-icon-bg-color3: #fff;
+    --count-icon-bg-color4: #fff;
+    --count-icon-color1: #1e88e5;
+    --count-icon-color2: #00897b;
+    --count-icon-color3: #e46a76;
+    --count-icon-color4: #ab8ce4;
+}

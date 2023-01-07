@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 5px;
     padding: 10px;
-    color: white;
+    color: var(--profile-text-color);
 }
 
     .header ::deep .horizontal-spacer::after {
@@ -17,7 +17,7 @@
 
     .header .email {
         margin-left: 10px;
-        color: #7c848a;
+        color: var(--profile-text-color);
     }
 
 .profile-avatar {
@@ -32,16 +32,16 @@
     }
 
     .profile-avatar .username {
-        color: white;
         font-size: 12pt;
         margin-top: auto;
         margin-bottom: auto;
+        color: var(--profile-text-color);
     }
 
     .profile-avatar .icon {
         margin-top: auto;
         margin-bottom: auto;
-        color: white;
+        color: var(--profile-text-color);
     }
 
 /*Deep Style Overrides*/

@@ -14,12 +14,13 @@
 
     .layout-container nav {
         grid-area: navsidebar;
-        background-color: #263238;
+        background-color: var(--layout-nav-background-color);
         height: 100vh;
     }
 
     .layout-container main {
         grid-area: main;
+        background-color: var(--layout-main-background-color);
     }
 
     .layout-container footer {

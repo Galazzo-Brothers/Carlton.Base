@@ -4,11 +4,13 @@
 }
 
     .content .title {
-        font-size: 15pt;
-        color: white;
+        font-size: var(--page-title-font-size);
+        color: var(--page-title-color);
     }
 
     .content .bread-crumbs {
-        font-size: 12pt;
-        color: #7c848a;
+        font-size: var(--page-title-bread-crumb-font-size);
+        color: var(--page-title-bread-crumb-color);
     }
+
+

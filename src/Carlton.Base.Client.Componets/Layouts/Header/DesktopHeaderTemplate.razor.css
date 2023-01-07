@@ -1,7 +1,7 @@
 ﻿.header-bar {
     display: flex;
-    height: 75px;
-    background-color: #263238;
+    height: var(--header-height);
+    background-color: var(--header-background-color);
 }
 
     .header-bar .menu {
@@ -24,3 +24,9 @@
         margin-right: 10px;
     }
 
+/*Overrides*/
+.desktop-header-template-container ::deep .horizontal-spacer::after {
+    width: 100%;
+    background-color: var(--text-color);
+    opacity: .5;
+}

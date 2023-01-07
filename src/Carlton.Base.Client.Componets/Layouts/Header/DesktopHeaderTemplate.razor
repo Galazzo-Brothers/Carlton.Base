@@ -1,17 +1,19 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="header-bar @(IsCollapsed ? "collapsed" : string.Empty)" data-theme="light">
-    <div class="menu">
-        @MenuContent
+<div class="desktop-header-template-container">
+    <div class="header-bar @(IsCollapsed ? "collapsed" : string.Empty)" data-theme="light">
+        <div class="menu">
+            @MenuContent
+        </div>
+        <div class="title">
+            @TitleContent
+        </div>
+        <div class="action">
+            @ActionContent
+        </div>
     </div>
-    <div class="title">
-        @TitleContent
-    </div>
-    <div class="action">
-        @ActionContent
-    </div>
+    <Spacer SpacerDirection="SpacerDirection.horizontal" />
 </div>
-
 
 @code {
     [CascadingParameter]

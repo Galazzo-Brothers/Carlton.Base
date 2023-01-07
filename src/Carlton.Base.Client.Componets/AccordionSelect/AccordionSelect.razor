@@ -6,10 +6,7 @@
         <span class="mdi mdi-icon mdi-24px mdi-plus-box-outline"></span>
         <span class="item-name align-middle">
             @Title
-        </span>
-        <span class="icon">
-            <i class="icon mdi mdi-24px @(IsExpanded ? "mdi-chevron-up" : "mdi-chevron-down")"></i>
-        </span>
+        </span>    
     </div>
     <div class="item-container  @(!IsExpanded ? "collapsed" : string.Empty)">        
         @foreach(var item in Items)

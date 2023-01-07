@@ -1,5 +1,9 @@
-﻿span {
-  color: white;
-  font-size: 16pt;
-  vertical-align: middle; 
+﻿.collapser{
+    text-align: center;
 }
+
+    .collapser span {
+        color: var( --hamburger-collapser-color);
+        font-size: 16pt;
+        vertical-align: middle;
+    }

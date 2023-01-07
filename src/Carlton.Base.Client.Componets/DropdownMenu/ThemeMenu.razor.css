@@ -2,5 +2,5 @@
 .theme-menu {
     margin-top: auto;
     margin-bottom: auto;
-    color: white;
+    color: var(--theme-menu-color);
 }
