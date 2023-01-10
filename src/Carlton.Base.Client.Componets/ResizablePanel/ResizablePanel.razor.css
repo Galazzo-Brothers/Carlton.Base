@@ -3,13 +3,14 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-height: calc(100% - 60px);
     overflow: hidden;
 }
 
 .panel-top {
     /* only manually resize */
     padding: 10px;
-    height: 150px;
+    height: 100px;
     width: 100%;
     overflow-y: scroll;
     max-height: calc(100vh - 60px);
@@ -25,7 +26,6 @@
 
 .panel-bottom {
     padding: 10px;
-    min-height: 100vh;
 }
 
 .theme-light .panel-bottom {

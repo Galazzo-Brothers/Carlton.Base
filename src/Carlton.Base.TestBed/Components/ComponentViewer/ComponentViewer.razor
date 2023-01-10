@@ -3,9 +3,9 @@
 
 @inherits CarltonComponentBase<ComponentViewerViewModel>
 
-<div class="component-viewer">
-        @TestComponentFragment
-</div>
+<span class="component-viewer">
+    @TestComponentFragment
+</span>
 
 @code {
     private RenderFragment TestComponentFragment { get; set; }
@@ -19,8 +19,8 @@
 
         TestComponentFragment = builder =>
         {
-            builder.OpenElement(1, "div");
-            builder.OpenComponent(2, ViewModel.ComponentType);
+            builder.OpenElement(0, "div");
+            builder.OpenComponent(1, ViewModel.ComponentType);
 
             Func<object, Task> wrappedCallback = async (evt) => await base.OnComponentEvent.InvokeAsync(new ComponentViewerAddEvent(evt));
             EventCallback eventCallback = EventCallback.Factory.Create(this, wrappedCallback);

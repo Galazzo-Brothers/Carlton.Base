@@ -7,6 +7,9 @@
     <div class="logo">
         @LogoCotentent
     </div>
+    <div class="title">
+        @TitleContent
+    </div>
     <div class="action">
         @ActionContent
     </div>
@@ -18,6 +21,8 @@
     public RenderFragment NavContent { get; set; }
     [Parameter]
     public RenderFragment LogoCotentent { get; set; }
+    [Parameter]
+    public RenderFragment TitleContent { get; set; }
     [Parameter]
     public RenderFragment ActionContent { get; set; }
 }

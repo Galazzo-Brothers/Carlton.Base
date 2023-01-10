@@ -5,17 +5,18 @@
     --sub-text-color: #9a9a9a;
     /**/
     --layout-main-background-color: #f4f3ef;
-    --layout-nav-background-color: #000;
-    --accordion-select-group-background-color: #000;
+    --layout-nav-background-color: #212120;
+    --accordion-select-group-background-color: #212120;
     --accordion-select-group-padding-horizontal: 15px;
-    --accordion-select-background-color: #000;
+    --accordion-select-background-color: #212120;
     --accordion-select-color: #fff;
     --accordion-select-selected-background-color: #21c1d6;
     --accordion-select-selected-text-color: #21c1d6;
-    --logo-background-color: #000;
+    --logo-background-color: #212120;
     --logo-color: #fff;
     --logo-font-size: 12pt;
     --header-background-color: #f4f3ef;
+    --header-mobile-background-color: #212120;
     --header-height: 75px;
     --page-title-color: #5e5e5e;
     --page-title-font-size: 15pt;

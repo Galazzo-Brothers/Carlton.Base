@@ -1,7 +1,7 @@
 ﻿.header-bar {
     display: flex;
     height: 75px;
-    background-color: #263238;
+    background-color: var(--header-mobile-background-color);
 }
 
     .header-bar .nav {
@@ -12,11 +12,19 @@
     }
 
     .header-bar .logo {
-        flex-basis: 90%;
+        flex-basis: 5%;
         margin-top: auto;
         margin-bottom: auto;
         text-align: center;
     }
+
+    .header-bar .title {
+        flex-basis: 85%;
+        margin-top: auto;
+        margin-bottom: auto;
+        text-align: left;
+    }
+
 
     .header-bar .action {
         flex-basis: 5%;

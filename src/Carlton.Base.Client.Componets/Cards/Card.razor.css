@@ -8,7 +8,7 @@
     background-color: var(--card-background-color);
     word-wrap: break-word;
     background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0 6px 10px -4px rgb(0 0 0 / 15%);
     border-radius: 0.25rem;
 }
 
