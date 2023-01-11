@@ -6,6 +6,7 @@
     display: none;
     height: 100vh;
     z-index: 11;
+    transition: left 1s;
 }
 
     .menu-content-container.active {
@@ -15,3 +16,5 @@
         top: 0;
         margin-top: 57px;
     }
+
+

@@ -5,20 +5,21 @@
     white-space: pre;
     box-sizing: border-box;
     text-align: left;
+    color: var(--dropdown-element-color);
 }
 
 .accent-color-1 {
-    color: #1e88e5;
+    color: var(--dropdown-element-accent-color-1);
 }
 
 .accent-color-2 {
-    color: #00897b;
+    color: var(--dropdown-element-accent-color-2);
 }
 
 .accent-color-3 {
-    color: #e46a76;
+    color: var(--dropdown-element-accent-color-3);
 }
 
 .accent-color-4 {
-    color: #ab8ce4;
+    color: var(--dropdown-element-accent-color-4);
 }

@@ -23,6 +23,7 @@
 .profile-avatar {
     display: flex;
     gap: 5px;
+    cursor: pointer;
 }
 
     .profile-avatar .avatar-img {
@@ -60,12 +61,11 @@
     display: inline-block;
     white-space: pre;
     box-sizing: border-box;
-    color: white;
     text-decoration: none;
 }
 
 ::deep li:hover {
-    background: darkslategray;
+    background: #e9ecef;
     color: seagreen;
     border-radius: 5px;
 }

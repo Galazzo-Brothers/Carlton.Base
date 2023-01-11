@@ -1,12 +1,12 @@
 ﻿textarea {
     width: 100%;
-    max-height: 300px;
-    background-color: black;
-    color: greenyellow;
+    max-height: var(--console-max-height);
+    background-color: var(--console-background-color);
+    color: var(--console-color);
     margin-left: auto;
     margin-right: auto;
 }
 
     textarea.error {
-        color: red;
+        color: var(--console-color-red);
     }

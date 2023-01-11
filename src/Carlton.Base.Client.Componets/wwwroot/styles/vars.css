@@ -27,6 +27,18 @@
     --theme-menu-color: #5e5e5e;
     --notifications-menu-color: #5e5e5e;
     --profile-text-color: #5e5e5e;
+    --console-max-height: 300px;
+    --console-background-color: #000;
+    --console-color: #adff2f;
+    --console-error-color: #ff0000;
+    --dropdown-background-color: #fff;
+    --dropdown-color: #5e5e5e;
+    --dropdown-element-color: #5e5e5e;
+    --dropdown-element-accent-color-1: #1e88e5;
+    --dropdown-element-accent-color-2: #00897b;
+    --dropdown-element-accent-color-3: #e46a76;
+    --dropdown-element-accent-color-4: #ab8ce4;
+    
     /**/
     --sub-title-color: lightslategray;
     --card-background-color: #fff;
