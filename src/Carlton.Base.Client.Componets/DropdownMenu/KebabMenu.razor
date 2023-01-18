@@ -1,16 +1,35 @@
 ﻿@namespace Carlton.Base.Components
 
-<DropdownMenu MenuItems="MenuItems">
+<DropdownMenu MenuItems="MenuItems" Style="Style">
     <MenuTemplate Context="isActive">
-        <i class="hamburger mdi mdi-24px mdi-dots-vertical @(isActive ? "active" : string.Empty)"></i>
-        <i class="close mdi mdi-24px mdi-close-circle @(isActive ? "active" : string.Empty)"></i>
+        <i class="@IconCss(isActive)"></i>
     </MenuTemplate>
     <MenuItemTemplate Context="item">
         <DropdownMenuElement MenuItem="item" />
     </MenuItemTemplate>
 </DropdownMenu>
 
-@code{
+@code {
     [Parameter]
     public DropdownMenuItems MenuItems { get; set; } = new DropdownMenuItems(new List<DropdownMenuItem>());
+
+    private Func<bool, string> IconCss
+    {
+        get => (isActive) => new CssBuilder()
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-dots-vertical", !isActive)
+                .AddClass("mdi-close-circle", isActive)
+                .Build();
+
+    }
+
+    private DropdownMenuStyle Style
+    {
+        get => new DropdownMenuStyle
+            {
+                Left = 10,
+                Top = 10,
+                Top_Mobile = 10
+            };
+    }
 }

@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="count-card @(AccentColorClass)" data-theme="light">
-    <div class="count-icon mdi mdi-48px @(Icon)"></div>
+<div class="count-card @(AccentColorClass)">
+    <div class="@IconCss"></div>
     <span class="count-message">@Message</span>
 </div>
 
@@ -19,10 +19,14 @@
 
     public string Message
     {
-        get
-        {
-            return $"{Count} {MessageTemplate}";
-        }
+        get =>  $"{Count} {MessageTemplate}";
+    }
+
+    private string IconCss
+    {
+        get => new CssBuilder("count-icon")
+                .AddClass($"mdi mdi-48px {Icon}")
+                .Build();
     }
 }
 

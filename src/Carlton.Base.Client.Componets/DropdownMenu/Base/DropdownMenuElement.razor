@@ -1,11 +1,19 @@
 ﻿@namespace Carlton.Base.Components
 
 
-<span class="mdi mdi-@(MenuItem.MenuIcon) accent-color-@(MenuItem.accentColorIndex)"></span>
+<span class="@MenuElementCss"></span>
 <a href="#" @onclick:preventDefault="true" @onclick="MenuItem.MenuItemEvent">@MenuItem.MenuItemName</a>
 
 
 @code {
     [Parameter]
     public DropdownMenuItem MenuItem { get; set; }
+
+    private string MenuElementCss
+    {
+        get => new CssBuilder()
+                .AddClass($"mdi mdi-{MenuItem.MenuIcon}")
+                .AddClass($"accent-color-{MenuItem.accentColorIndex}")
+                .Build();
+    }
 }

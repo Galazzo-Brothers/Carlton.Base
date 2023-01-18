@@ -8,8 +8,8 @@
 .dropdown {
     position: absolute;
     width: 200px;
-    left: -56px;
-    top: 57px;
+    left: var(--dropdown-left);
+    top: var(--dropdown-top);
     opacity: 0;
     display:none;
     z-index: 3;
@@ -37,7 +37,7 @@
 /*Media Queries*/
 @media (max-width: 768px) {
     .dropdown {
-        top: 75px;
+        top: var(--dropdown-top-mobile);
     }
 }
 

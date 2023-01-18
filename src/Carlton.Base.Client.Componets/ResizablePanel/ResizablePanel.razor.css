@@ -19,7 +19,7 @@
 
 .splitter-horizontal {
     height: 20px;
-    background: #535353;
+    background: var(--resizeable-panel-splitter-background-color);
     cursor: row-resize;
     z-index: 2;
 }
@@ -28,10 +28,3 @@
     padding: 10px;
 }
 
-.theme-light .panel-bottom {
-    background-color: #e9edf1;
-}
-
-.theme-dark .panel-bottom {
-    background-color: #383f48;
-}

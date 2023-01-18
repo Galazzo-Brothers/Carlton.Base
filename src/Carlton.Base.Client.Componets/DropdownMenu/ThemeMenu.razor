@@ -1,13 +1,22 @@
 ﻿@namespace Carlton.Base.Components
 
 <a href="#" class="theme-menu" @onclick="SwapTheme">
-    <i class="mdi mdi-24px mdi-@(LayoutState.Theme == Themes.light ? "weather-sunny" : "moon-waxing-crescent")"></i>
+    <i class="@ThemeIconCss"></i>
 </a>
 
 
 @code {
     [CascadingParameter]
     private LayoutState LayoutState { get; set; }
+
+    private string ThemeIconCss
+    {
+        get => new CssBuilder()
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-weather-sunny", LayoutState.Theme == Themes.light)
+                .AddClass("mdi-moon-waxing-crescent", LayoutState.Theme == Themes.dark)
+                .Build();
+    }
 
     private void SwapTheme()
     {

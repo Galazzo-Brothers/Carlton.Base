@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Base.Components
 
 <div class="profile-avatar-container">
-    <DropdownMenu MenuItems="DropdownMenuItems">
+    <DropdownMenu MenuItems="DropdownMenuItems" Style="Style">
         <MenuTemplate Context="isActive">
             <MediaQueryWrapper>
                 <DesktopContent>
@@ -44,12 +44,22 @@
         DropdownMenuItems = new DropdownMenuItems
         (
             new List<DropdownMenuItem>
-                                                {
+            {
                         new DropdownMenuItem("Profile", "account", 1, () => { return Task.CompletedTask; }),
                         new DropdownMenuItem("Theme", "theme-light-dark", 2, () => { return Task.CompletedTask; }),
                         new DropdownMenuItem("Logout", "logout", 3, () => { return Task.CompletedTask; })
-                                                }
+            }
         );
         base.OnInitialized();
     }
-}
+
+    private DropdownMenuStyle Style
+    {
+        get => new DropdownMenuStyle
+            {
+                Left = -56,
+                Top = 57,
+                Top_Mobile = 75
+            };
+    }
+}   

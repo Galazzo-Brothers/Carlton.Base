@@ -27,6 +27,5 @@
 /*Overrides*/
 .desktop-header-template-container ::deep .horizontal-spacer::after {
     width: 100%;
-    background-color: var(--text-color);
     opacity: .5;
 }

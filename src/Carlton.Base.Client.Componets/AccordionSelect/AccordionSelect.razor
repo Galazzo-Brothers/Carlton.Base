@@ -2,18 +2,18 @@
 @typeparam TValue
 
 <div class="accordion-select">
-    <div class="heading @(ValueExists(SelectedValue) ? "selected" : string.Empty)" @onclick="() => IsExpanded = !IsExpanded">
-        <span class="mdi mdi-icon mdi-24px mdi-plus-box-outline"></span>
-        <span class="item-name align-middle">
+    <div class="@AccordionHeaderCssClass" @onclick="() => IsExpanded = !IsExpanded">
+        <span class="@AccordionIconBtnCssClass"></span>
+        <span class="item-group-name">
             @Title
-        </span>    
+        </span>
     </div>
-    <div class="item-container  @(!IsExpanded ? "collapsed" : string.Empty)">        
+    <div class="@ItemContainerCssClass">
         @foreach(var item in Items)
         {
-            <div class="item @(item.Value.Equals(SelectedValue) ? "selected" : string.Empty)" @onclick="() => OnItemSelected(item.Value)">
-                <span class="icon mdi mdi-icon mdi-12px mdi-bookmark"></span>
-                <span class="item-name align-middle">
+            <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item.Value)">
+                <span class="@ItemIconCss"></span>
+                <span class="item-name">
                     @item.Key
                 </span>
             </div>
@@ -36,6 +36,43 @@
 
     [Parameter]
     public EventCallback<TValue> SelectedItemChanged { get; set; }
+
+    private string AccordionHeaderCssClass
+    {
+        get => new CssBuilder("accordion-header")
+                .AddClass("selected", ValueExists(SelectedValue))
+                .Build();
+    }
+
+    private string AccordionIconBtnCssClass
+    {
+        get => new CssBuilder("accordion-icon-btn")
+                 .AddClass("mdi mdi-icon mdi-24px")
+                 .AddClass("mdi-minus-box-outline", IsExpanded)
+                 .AddClass("mdi-plus-box-outline", !IsExpanded)
+                 .Build();
+    }
+
+    private string ItemContainerCssClass
+    {
+        get => new CssBuilder("item-container")
+                 .AddClass("collapsed", !IsExpanded)
+                 .Build();
+    }
+
+    private Func<TValue, string> ItemCss
+    {
+        get => (value) => new CssBuilder("item")
+            .AddClass("selected", value.Equals(SelectedValue))
+            .Build();
+    }
+
+    private string ItemIconCss
+    {
+        get => new CssBuilder("icon")
+               .AddClass("mdi mdi-icon mdi-12px mdi-bookmark")
+               .Build();
+    }
 
     private bool ValueExists(TValue value)
     {

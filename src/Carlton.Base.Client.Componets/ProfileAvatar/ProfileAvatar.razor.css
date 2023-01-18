@@ -65,8 +65,7 @@
 }
 
 ::deep li:hover {
-    background: #e9ecef;
-    color: seagreen;
+    background: var(--profile-hover-background-color);
     border-radius: 5px;
 }
 

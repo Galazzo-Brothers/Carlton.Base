@@ -1,5 +1,23 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="carlton-fab"> 
-    Clear 
-</div>
+<div class="carlton-fab mdi mdi-24px mdi-@(Icon)" style="@CarltonFabStyle"></div>
+
+@code{
+    [Parameter]
+    public string Icon { get; set; }
+
+    [Parameter]
+    public int PositionTop { get; set; }
+
+    [Parameter]
+    public int PositionRight { get; set; }
+
+    private string CarltonFabStyle
+    {
+        get => StyleBuilder.Empty()
+                .AddStyle("--carlton-fab-top", $"{PositionTop}px")
+                .AddStyle("--carlton-fab-right", $"{PositionRight}px")
+                .Build();
+
+    }
+}

@@ -2,7 +2,7 @@
 
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
     @MenuTemplate(IsActive)
-    <div class="dropdown @(IsActive ? " active" : string.Empty)">
+    <div class="dropdown @DropdownMenuCss" style="@DropdownMenuStyle">
         <ul>
             @HeaderTemplate
             @foreach(var (item, index) in MenuItems.Items.WithIndex())
@@ -15,7 +15,6 @@
     </div>
 </div>
 
-
 @code {
     private bool IsActive { get; set; }
 
@@ -27,8 +26,24 @@
     public RenderFragment<bool> MenuTemplate { get; set; }
     [Parameter]
     public RenderFragment<DropdownMenuItem> MenuItemTemplate { get; set; }
+    [Parameter]
+    public DropdownMenuStyle Style { get; set; }
+
+    private string DropdownMenuCss
+    {
+        get => new CssBuilder()
+            .AddClass("active", IsActive)
+            .Build();
+    }
+
+    private string DropdownMenuStyle
+    {
+        get => new StyleBuilder()
+            .AddStyle("--dropdown-left", $"{Style.Left}px")
+            .AddStyle("--dropdown-top", $"{Style.Top}px")
+            .AddStyle("--dropdown-top-mobile", $"{Style.Top_Mobile}px")
+            .Build();
+    }
 }
-
-
 
 

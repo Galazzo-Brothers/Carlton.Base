@@ -1,13 +1,12 @@
 ﻿.count-card {
     display: flex;
-    width: 250px;
+    width: var(--count-card-width);
     padding: 1.25rem;
     background-color: var(--card-background-color);
     word-wrap: break-word;
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
-    font-family: 'Roboto', sans-serif;
 }
     .count-card.accent-color-1 {
         background-color: var(--count-bg-color1);

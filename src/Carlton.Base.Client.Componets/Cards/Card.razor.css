@@ -1,11 +1,10 @@
 ﻿.card {
     display: flex;
     flex-direction: column;
-    width: 325px;
-    min-height: 100px;
-    min-width: 0;
-    padding-left: 15px;
+    width: var(--card-width);
+    min-height: var(--card-height);
     background-color: var(--card-background-color);
+    padding-left: 15px;
     word-wrap: break-word;
     background-clip: border-box;
     box-shadow: 0 6px 10px -4px rgb(0 0 0 / 15%);
@@ -23,8 +22,7 @@
             margin-bottom: auto;
             text-align: left;
             font-weight: bold;
-            color: darkslategrey;
-            /* color: var(--title-color);*/
+            color: var(--card-title-color);
         }
 
         .card .title-content .status-icon {
