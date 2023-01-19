@@ -6,12 +6,6 @@ public enum Themes
     dark = 2
 }
 
-public enum SpacerDirection
-{
-    horizontal = 1,
-    vertical = 2
-}
-
 public enum CarltonNotificationType
 {
     DEFAULT = 0,

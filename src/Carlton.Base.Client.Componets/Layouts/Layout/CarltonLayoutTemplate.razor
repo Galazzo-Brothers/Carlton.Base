@@ -1,9 +1,7 @@
 ﻿@namespace Carlton.Base.Components
 
 <CascadingValue Value="_layoutState">
-    <div class="layout-container
-            @(_layoutState.IsCollapsed ? "collapsed" : string.Empty)"
-         data-theme="@_layoutState.Theme.ToString()">
+    <div class="@LayoutContainerCss" data-theme="@Theme.ToString()">
         <header>
             @HeaderContent
         </header>
@@ -13,7 +11,7 @@
         <main>
             @Body
         </main>
-        <footer class="@(_layoutState.IsFooterFixed ? "fixed" : string.Empty)">
+        <footer class="@LayoutFooterCss">
             @FooterContent
         </footer>
     </div>
@@ -91,5 +89,19 @@
 
 
         await base.SetParametersAsync(parameters);
+    }
+
+    private string LayoutContainerCss
+    {
+        get => new CssBuilder("layout-container")
+                .AddClass("collapsed", _layoutState.IsCollapsed)
+                .Build();
+    }
+
+    private string LayoutFooterCss
+    {
+        get => new CssBuilder("footer")
+            .AddClass("fixed", _layoutState.IsFooterFixed)
+            .Build();
     }
 }

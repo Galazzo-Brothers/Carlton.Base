@@ -8,11 +8,7 @@
     height: 1px;
     margin-left: auto;
     margin-right: auto;
-    width: 85%;
+    width: var(--spacer-width);
 }
 
 
-.vertical-spacer {
-    border-left: 1px solid white;
-    opacity: .5;
-}

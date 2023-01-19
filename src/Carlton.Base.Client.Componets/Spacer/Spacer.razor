@@ -1,16 +1,15 @@
 ﻿@namespace Carlton.Base.Components
 
-@if (SpacerDirection == SpacerDirection.horizontal)
-{
-    <span class="horizontal-spacer"></span>
-}
-
-@if (SpacerDirection == SpacerDirection.vertical)
-{
-    <span class="vertical-spacer"></span> 
-}
+ <span class="horizontal-spacer"></span>
 
 @code {
     [Parameter]
-    public SpacerDirection SpacerDirection { get; set; }
+    public int WidthPercentage { get; set; }
+
+    private string SpacerStyle
+    {
+        get => new StyleBuilder()
+                    .AddStyle("--spacer-width", $"{WidthPercentage}%")
+                    .Build();
+    }
 }
