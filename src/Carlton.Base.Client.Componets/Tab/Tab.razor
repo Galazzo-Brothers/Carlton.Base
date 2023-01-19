@@ -1,12 +1,10 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="row tab">
-    <div class="col-12">
-        @if(Parent.ActiveTab == this)
-        {
-            @ChildContent
-        }
-    </div>
+<div class="tab">
+    @if(Parent.ActiveTab == this)
+    {
+        @ChildContent
+    }
 </div>
 
 

@@ -45,6 +45,13 @@
     --carlton-footer-color: #7c848a;
     --resizeable-panel-splitter-background-color: #535353;
     --spacer-background-color: #5e5e5e;
+    --tab-font-size: 14px;
+    --tab-color: #757575;
+    --tab-hover-color: #7c848a;
+    --tab-selected-color: #009688;
+    --mobile-tab-bottom-nav-color: #252a32;
+    --mobile-tab-bottom-nav-item-color: #f1f5f8;
+    --mobile-tab-bottom-nav-item-active-color: #d32f2f;
 }
 
 [data-theme="dark"] {

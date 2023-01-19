@@ -7,7 +7,7 @@
     public string Icon { get; set; }
 
     [Parameter]
-    public int PositionTop { get; set; }
+    public int PositionBottom { get; set; }
 
     [Parameter]
     public int PositionRight { get; set; }
@@ -15,8 +15,8 @@
     private string CarltonFabStyle
     {
         get => StyleBuilder.Empty()
-                .AddStyle("--carlton-fab-top", $"{PositionTop}px")
-                .AddStyle("--carlton-fab-right", $"{PositionRight}px")
+                .AddStyle("--carlton-fab-bottom", $"{PositionBottom}px")
+                .AddStyle("--carlton-fab-right", $"{PositionRight}%")
                 .Build();
 
     }

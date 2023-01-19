@@ -10,7 +10,7 @@
     color: white;
     position: absolute;
     right: var(--carlton-fab-right);
-    top: var(--carlton-fab-top);
+    bottom: var(--carlton-fab-bottom);
     background-color: teal;
     transition: all 0.1s ease-in-out;
 }
