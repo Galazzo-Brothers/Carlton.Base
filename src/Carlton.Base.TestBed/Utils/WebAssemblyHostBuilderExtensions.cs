@@ -3,11 +3,11 @@
 public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestBed(this WebAssemblyHostBuilder builder,
-        Action<NavTreeBuilder> navTreeAct,
+        Action<NavMenuBuilder> navTreeAct,
         string sourceBasePath,
         params Assembly[] assemblies)
     {
-        var NavTreeBuilder = new NavTreeBuilder();
+        var NavTreeBuilder = new NavMenuBuilder();
         navTreeAct(NavTreeBuilder);
         var options = NavTreeBuilder.Build();
         var state = new TestBedState(options);
@@ -19,7 +19,7 @@ public static class WebAssemblyHostBuilderExtensions
         builder.Services.AddSingleton(new SourceConfig(sourceBasePath));
 
         builder.Services.AddCarltonState(builder =>
-            builder.ForComponent<NavTreeViewModel>(_ =>
+            builder.ForComponent<NavMenuViewModel>(_ =>
             {
                 _.AddStateEvent(TestBedState.SELECTED_ITEM);
                 _.AddStateEvent(TestBedState.VIEW_MODEL_CHANGED);

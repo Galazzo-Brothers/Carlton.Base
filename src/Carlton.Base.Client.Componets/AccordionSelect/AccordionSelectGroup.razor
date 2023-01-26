@@ -3,27 +3,29 @@
 
 
 <div class="accordion-select-group">
-    @foreach(var (group, index) in ItemGroups.WithIndex())
+    @foreach(var (group, index) in Groups.WithIndex())
     {
         <AccordionSelect TValue="TValue"
-                     Title="@group.Key"
-                     Items="@group.Value"
+                     Title="@group.Name"
+                     Items="group.Items"
                      SelectedValue="GetSelectedValue(index)"
-                     SelectedItemChanged="(value) => ChangeSelectedItem(index, value)" />
+                     SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
     }
 </div>
 
 @code {
     [Parameter]
-    public Dictionary<string, Dictionary<string, TValue>> ItemGroups { get; set; }
+    public IEnumerable<SelectGroup<TValue>> Groups { get; set; }
 
     [Parameter]
     public TValue SelectedItem { get; set; }
 
     [Parameter]
-    public EventCallback<TValue> OnSelectedItemChanged { get; set; }
+    public EventCallback<SelectItemChangedEvent<TValue>> OnSelectedItemChanged { get; set; }
 
     private int _selectedGroupIndex;
+
+    private int _selectedItemIndex;
 
     private TValue GetSelectedValue(int groupIndex)
     {
@@ -33,10 +35,11 @@
         return SelectedItem;
     }
 
-    private async Task ChangeSelectedItem(int groupIndex, TValue value)
+    private async Task ChangeSelectedItem(int groupIndex, int itemIndex, TValue value)
     {
         _selectedGroupIndex = groupIndex;
         SelectedItem = value;
-        await OnSelectedItemChanged.InvokeAsync();
+        
+        await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEvent<TValue>(groupIndex, itemIndex, value));
     }
 }

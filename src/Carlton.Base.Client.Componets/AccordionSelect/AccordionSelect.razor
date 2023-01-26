@@ -11,10 +11,10 @@
     <div class="@ItemContainerCssClass">
         @foreach(var item in Items)
         {
-            <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item.Value)">
+            <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item)">
                 <span class="@ItemIconCss"></span>
                 <span class="item-name">
-                    @item.Key
+                    @item.Name
                 </span>
             </div>
         }
@@ -26,7 +26,7 @@
     public string Title { get; set; }
 
     [Parameter]
-    public Dictionary<string, TValue> Items { get; set; } = new Dictionary<string, TValue>();
+    public IEnumerable<SelectItem<TValue>> Items { get; set; }
 
     [Parameter]
     public TValue SelectedValue { get; set; }
@@ -35,7 +35,7 @@
     public bool IsExpanded { get; set; }
 
     [Parameter]
-    public EventCallback<TValue> SelectedItemChanged { get; set; }
+    public EventCallback<SelectItem<TValue>> SelectedItemChanged { get; set; }
 
     private string AccordionHeaderCssClass
     {
@@ -76,12 +76,12 @@
 
     private bool ValueExists(TValue value)
     {
-        return Items.Values.Contains(value);
+        return Items.Any(_ => _.Value.Equals(value));
     }
 
-    private async Task OnItemSelected(TValue value)
+    private async Task OnItemSelected(SelectItem<TValue> item)
     {
-        SelectedValue = value;
-        await SelectedItemChanged.InvokeAsync(value);
+        SelectedValue = item.Value;
+        await SelectedItemChanged.InvokeAsync(item);
     }
 }

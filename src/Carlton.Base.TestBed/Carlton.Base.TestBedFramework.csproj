@@ -39,4 +39,8 @@
     <ProjectReference Include="..\Carlton.Base.Client.Componets\Carlton.Base.Components.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

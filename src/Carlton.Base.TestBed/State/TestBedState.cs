@@ -2,28 +2,28 @@
 
 public class TestBedState : ICarltonStateStore
 {
-    public static string SELECTED_ITEM = "SelectedItem";
-    public static string VIEW_MODEL_CHANGED = "ViewModelChanged";
-    public static string STATUS_CHANGED = "StatusChanged";
-    public static string COMPONENT_EVENT_ADDED = "ComponentEventAdded";
-    public static string COMPONENT_EVENTS_CLEARED = "COMPONENT_EVENTS_CLEARED";
+    public const string SELECTED_ITEM = "SelectedItem";
+    public const string VIEW_MODEL_CHANGED = "ViewModelChanged";
+    public const string STATUS_CHANGED = "StatusChanged";
+    public const string COMPONENT_EVENT_ADDED = "ComponentEventAdded";
+    public const string COMPONENT_EVENTS_CLEARED = "COMPONENT_EVENTS_CLEARED";
 
     public event Func<object, string, Task> StateChanged;
 
     private readonly IList<object> _componentEvents;
 
-    public IEnumerable<TreeItem<NavTreeItemModel>> TreeItems { get; init; }
-    public TreeItem<NavTreeItemModel> SelectedItem { get; private set; }
+    public IEnumerable<SelectGroup<NavMenuItem>> NavMenuItems { get; init; }
+    public NavMenuItem SelectedItem { get; private set; }
     public Type TestComponentType { get { return SelectedItem.Type; } }
-    public bool IsTestComponentCarltonComponent { get { return SelectedItem.LeafNodeObj.IsCarltonComponent; } }
+    public bool IsTestComponentCarltonComponent { get { return SelectedItem.IsCarltonComponent; } }
     public object TestComponentViewModel { get; private set; }
     public IEnumerable<object> ComponentEvents { get { return _componentEvents; } }
 
-    public TestBedState(NavTreeViewModel navTreeVM)
+    public TestBedState(NavMenuViewModel vm)
     {
-        TreeItems = navTreeVM.TreeItems;
-        SelectedItem = navTreeVM.SelectedNode;
-        TestComponentViewModel = navTreeVM.SelectedNode.LeafNodeObj.ViewModel;
+        NavMenuItems = vm.MenuItems;
+        SelectedItem = vm.SelectedItem;
+        TestComponentViewModel = vm.SelectedItem.ViewModel;
         _componentEvents = new List<object>();
     }
 
@@ -45,12 +45,21 @@ public class TestBedState : ICarltonStateStore
         await StateChanged.Invoke(sender, VIEW_MODEL_CHANGED).ConfigureAwait(false);
     }
 
-    public async Task UpdateSelectedItemId(object sender, int id)
+    public async Task UpdateSelectedItemId(object sender, int componentID, int stateID)
     {
-        TreeItems.ToList().ForEach(_ => System.Console.WriteLine(_.LeafId));
-        SelectedItem = TreeItems.GetLeafById(id);
-        TestComponentViewModel = SelectedItem.LeafNodeObj.ViewModel;
+        SelectedItem = NavMenuItems.First(_ => _.Index == componentID)
+                             .Items.First(_ => _.Index == stateID)
+                             .Value;
+        TestComponentViewModel = SelectedItem.ViewModel;
         await StateChanged.Invoke(sender, SELECTED_ITEM).ConfigureAwait(false);
+    }
+
+    private async Task InvokeStateChanged(object sender, string evt)
+    {
+        var task = StateChanged?.Invoke(sender, evt);
+        
+        if(task != null)
+            await task.ConfigureAwait(false);
     }
 }
 

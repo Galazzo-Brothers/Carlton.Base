@@ -1,10 +1,10 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public record NavTreeSelectedNodeEvent(int SelectedItemId);
+public record NavTreeSelectedItemEvent(int SelectedGroupID, int SelectedItemID);
 
-public class NavTreeSelectNodeRequest : ComponentEventRequestBase<NavTreeSelectedNodeEvent>
+public class NavTreeSelectNodeRequest : ComponentEventRequestBase<NavTreeSelectedItemEvent>
 {
-    public NavTreeSelectNodeRequest(object sender, NavTreeSelectedNodeEvent componentEvent)
+    public NavTreeSelectNodeRequest(object sender, NavTreeSelectedItemEvent componentEvent)
         :base(sender, componentEvent)
     {
     }
@@ -18,7 +18,7 @@ public class NavTreeSelectNodeRequestHandler : TestBedEventRequestHandlerBase<Na
 
     public async override Task<Unit> Handle(NavTreeSelectNodeRequest request, CancellationToken cancellationToken)
     {
-        await State.UpdateSelectedItemId(request.Sender, request.ComponentEvent.SelectedItemId);
+        await State.UpdateSelectedItemId(request.Sender, request.ComponentEvent.SelectedGroupID, request.ComponentEvent.SelectedItemID);
         return Unit.Value;
     }
 }

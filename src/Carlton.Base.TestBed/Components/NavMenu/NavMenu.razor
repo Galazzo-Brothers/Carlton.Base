@@ -1,0 +1,9 @@
+﻿@namespace Carlton.Base.TestBedFramework
+@inherits CarltonComponentBase<NavMenuViewModel>
+
+
+<AccordionSelectGroup TValue="NavMenuItem"
+  Groups="ViewModel.MenuItems"
+  SelectedItem="ViewModel.SelectedItem"
+  OnSelectedItemChanged="async (selectedItem) =>
+    await base.OnComponentEvent.InvokeAsync(new NavTreeSelectedItemEvent(selectedItem.GroupIndexID, selectedItem.ItemIndexID))"/>
