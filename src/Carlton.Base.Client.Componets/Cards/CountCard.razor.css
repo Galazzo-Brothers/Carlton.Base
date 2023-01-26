@@ -9,19 +9,19 @@
     border-radius: 0.25rem;
 }
     .count-card.accent-color-1 {
-        background-color: var(--count-bg-color1);
+        background-color: var(--count-card-background-color1);
     }
 
     .count-card.accent-color-2 {
-        background-color: var(--count-bg-color2);
+        background-color: var(--count-card-background-color2);
     }
 
     .count-card.accent-color-3 {
-        background-color: var(--count-bg-color3);
+        background-color: var(--count-card-background-color3);
     }
 
     .count-card.accent-color-4 {
-        background-color: var(--count-bg-color4);
+        background-color: var(--count-card-background-color4);
     }
 
     .count-card .count-icon {
@@ -39,23 +39,23 @@
         }
 
     .count-card.accent-color-1 .count-icon {
-        background-color: var(--count-icon-bg-color1);
-        color: var(--count-icon-color1);
+        background-color: var(--count-card-icon-background-color1);
+        color: var(--count-card-icon-color1);
     }
 
     .count-card.accent-color-2 .count-icon {
-        background-color: var(--count-icon-bg-color2);
-        color: var(--count-icon-color2);
+        background-color: var(--count-card-icon-background-color2);
+        color: var(--count-card-icon-color2);
     }
 
     .count-card.accent-color-3 .count-icon {
-        background-color: var(--count-icon-bg-color3);
-        color: var(--count-icon-color3);
+        background-color: var(--count-card-icon-background-color3);
+        color: var(--count-card-icon-color3);
     }
 
     .count-card.accent-color-4 .count-icon {
-        background-color: var(--count-icon-bg-color4);
-        color: var(--count-icon-color4);
+        background-color: var(--count-card-icon-background-color4);
+        color: var(--count-card-icon-color4);
     }
 
     .count-card .count-message {
@@ -66,5 +66,5 @@
         margin-bottom: auto;
         flex-basis: 75%;
         text-align: center;
-        color: var(--title-color);
+        color: var(--card-title-color);
     }

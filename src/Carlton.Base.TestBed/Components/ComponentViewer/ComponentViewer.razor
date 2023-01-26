@@ -32,12 +32,10 @@
             }
             else
             {
-                var i = 1;
                 var componentParameters = (IDictionary<string, object>)ViewModel.ComponentViewModel;
-                foreach(var key in componentParameters.Keys)
+                foreach(var (key, i) in componentParameters.Keys.WithIndex())
                 {
                     builder.AddAttribute(i, key, componentParameters[key]);
-                    i++;
                 }
             }
 

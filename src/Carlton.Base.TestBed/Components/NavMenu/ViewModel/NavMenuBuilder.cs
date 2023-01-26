@@ -18,12 +18,8 @@ public class NavMenuBuilder
     }
 
     public NavMenuBuilder AddComponent<T>(string displayName, Action<TestStateBuilder> builder)
-    {
-        var x = typeof(T);
-
-        var y = x == typeof(Carlton.Base.Components.Card);
-        
-        var testComp = new TestComponent(displayName, x, true);
+    {   
+        var testComp = new TestComponent(displayName, typeof(T), false);
         builder(new TestStateBuilder(testComp));
         _internalState.Add(testComp);
 

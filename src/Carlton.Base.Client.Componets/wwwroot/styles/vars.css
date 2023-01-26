@@ -39,6 +39,19 @@
     --card-background-color: #fff;
     --card-title-color: #5e5e5e;
     --count-card-width: 250px;
+    --count-card-title-color: #5e5e5e;
+    --count-card-background-color1: #fff;
+    --count-card-background-color2: #fff;
+    --count-card-background-color3: #fff;
+    --count-card-background-color4: #fff;
+    --count-card-icon-background-color1: #1e88e5;
+    --count-card-icon-background-color2: #00897b;
+    --count-card-icon-background-color3: #e46a76;
+    --count-card-icon-background-color4: #ab8ce4;
+    --count-card-icon-color1: #fff;
+    --count-card-icon-color2: #fff;
+    --count-card-icon-color3: #fff;
+    --count-card-icon-color4: #fff;
     --kebab-menu-color: #757575;
     --tab-font-size: 14px;
     --tab-color: #757575;
@@ -93,6 +106,19 @@
     --card-background-color: #272b34;
     --card-title-color: #fff;
     --count-card-width: 250px;
+    --count-card-title-color: #fff;
+    --count-card-background-color1: #1e88e5;
+    --count-card-background-color2: #00897b;
+    --count-card-background-color3: #e46a76;
+    --count-card-background-color4: #ab8ce4;
+    --count-card-icon-background-color1: #fff;
+    --count-card-icon-background-color2: #fff;
+    --count-card-icon-background-color3: #fff;
+    --count-card-icon-background-color4: #fff;
+    --count-card-icon-color1: #1e88e5;
+    --count-card-icon-color2: #00897b;
+    --count-card-icon-color3: #e46a76;
+    --count-card-icon-color4: #ab8ce4;
     --list-card-sub-title-color: #b2b9bf;
     --list-card-color: #b2b9bf;
     --kebab-menu-color: #fff;
@@ -112,7 +138,3 @@
 }
 
 
-/*--count-bg-color1: #1e88e5;
---count-bg-color2: #00897b;
---count-bg-color3: #e46a76;
---count-bg-color4: #ab8ce4;*/

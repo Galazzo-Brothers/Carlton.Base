@@ -22,7 +22,7 @@ public static class Program
                          .WithTestState("CountCardAccent3", CardTestStates.CountCard3State())
                          .WithTestState("CountCardAccent4", CardTestStates.CountCard4State()))
                   .AddComponent<Logo>($"Logo", _ =>
-                        _.WithTestState("Default", ""))
+                        _.WithTestState("Default", LogoTestStates.DefaultState()))
                   .AddComponent<ProfileAvatar>("ProfileAvatar", _ =>
                         _.WithTestState("Default", ProfileAvatarTestStates.DefaultState()))
                   .AddComponent<Checkbox>($"checkbox", _ =>
