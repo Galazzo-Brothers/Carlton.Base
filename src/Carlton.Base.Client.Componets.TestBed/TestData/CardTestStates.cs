@@ -1,6 +1,6 @@
-﻿namespace Carlton.Base.Components.TestStates;
+﻿namespace Carlton.Base.Components.TestBed;
 
-public static class CardTestStates
+internal static class CardTestStates
 {
     public static Dictionary<string, object> DefaultState()
     {

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Carlton.Base.Components.TestBed;
+﻿namespace Carlton.Base.Components.TestBed;
 
 public static class Program
 {
@@ -12,25 +10,19 @@ public static class Program
         builder.AddCarltonTestBed(builder =>
         {
             //Base Components
-            builder.AddComponent<Card>($"Cards", _ =>
-                        _.WithTestState("Card", CardTestStates.DefaultState()))
-                  .AddComponent<ListCard<string>>("ListCard", _ =>
-                        _.WithTestState("Default", CardTestStates.DefaultListState()))
-                  .AddComponent<CountCard>($"Count Cards", _ =>
-                        _.WithTestState("CountCardAccent1", CardTestStates.CountCard1State())
-                         .WithTestState("CountCardAccent2", CardTestStates.CountCard2State())
-                         .WithTestState("CountCardAccent3", CardTestStates.CountCard3State())
-                         .WithTestState("CountCardAccent4", CardTestStates.CountCard4State()))
-                  .AddComponent<Logo>($"Logo", _ =>
-                        _.WithTestState("Default", LogoTestStates.DefaultState()))
-                  .AddComponent<ProfileAvatar>("ProfileAvatar", _ =>
-                        _.WithTestState("Default", ProfileAvatarTestStates.DefaultState()))
-                  .AddComponent<Checkbox>($"checkbox", _ =>
-                        _.WithTestState("Checked", CheckboxTestStates.CheckedState())
-                         .WithTestState("Unchecked", CheckboxTestStates.UncheckedState()))
-                  .AddComponent<Select>("Select", _ =>
-                        _.WithTestState("Default", SelectTestStates.Default()))
-                  .Build();
+            builder.AddComponent<Card>(CardTestStates.DefaultState())
+                   .AddComponent<ListCard<string>>(CardTestStates.DefaultListState())
+                   .AddComponent<CountCard>("CountCardAccent1", CardTestStates.CountCard1State())
+                   .AddComponent<CountCard>("CountCardAccent2", CardTestStates.CountCard2State())
+                   .AddComponent<CountCard>("CountCardAccent3", CardTestStates.CountCard3State())
+                   .AddComponent<CountCard>("CountCardAccent4", CardTestStates.CountCard4State())
+                   .AddComponent<Logo>(LogoTestStates.DefaultState())
+                   .AddComponent<ProfileAvatar>(ProfileAvatarTestStates.DefaultState())
+                   .AddComponent<PageTitle>(PageTitleTestStates.DefaultState())
+                   .AddComponent<Checkbox>("Checked", CheckboxTestStates.CheckedState())
+                   .AddComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState())
+                   .AddComponent<Select>(SelectTestStates.Default())
+                   .Build();
         },
         sourceBasePath,
         typeof(TestBedFramework.TestBed).Assembly);

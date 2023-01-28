@@ -8,19 +8,23 @@ public class NavMenuBuilder
         _internalState = new List<TestComponent>();
     }
 
-    public NavMenuBuilder AddCarltonComponent<T>(string displayName, Action<TestStateBuilder> builder)
+    public NavMenuBuilder AddComponent<T>(object parameters)
     {
-        var testComp = new TestComponent(displayName, typeof(T), true);
-        builder(new TestStateBuilder(testComp));
+        return AddComponent<T>("Default", parameters);
+    }
+
+
+    public NavMenuBuilder AddComponent<T>(string displayName, object parameters)
+    {
+        var testComp = new TestComponent(displayName, typeof(T), false, parameters);
         _internalState.Add(testComp);
 
         return this;
     }
 
-    public NavMenuBuilder AddComponent<T>(string displayName, Action<TestStateBuilder> builder)
-    {   
-        var testComp = new TestComponent(displayName, typeof(T), false);
-        builder(new TestStateBuilder(testComp));
+    public NavMenuBuilder AddCarltonComponent<T>(string displayName, object parameters)
+    {
+        var testComp = new TestComponent(displayName, typeof(T), true, parameters);
         _internalState.Add(testComp);
 
         return this;
@@ -30,18 +34,18 @@ public class NavMenuBuilder
     {
         var groups = new List<SelectGroup<NavMenuItem>>();
 
-        foreach(var (comp, compIndex) in _internalState.WithIndex())
+        foreach(var (group, groupIndex) in _internalState.GroupBy(_ => _.Type).WithIndex())
         {
             var selectItems = new List<SelectItem<NavMenuItem>>();
 
-            foreach(var (state, stateIndex) in comp.TestStates.WithIndex())
+            foreach(var (state, stateIndex) in group.WithIndex())
             {
-                var navItem = new NavMenuItem(state.Key, comp.Type, comp.IsCarltonComponent, state.Value);
-                selectItems.Add(new SelectItem<NavMenuItem>(state.Key, stateIndex, navItem));
+                var navItem = new NavMenuItem(state.DisplayName, state.Type, state.IsCarltonComponent, state.Parameters);
+                selectItems.Add(new SelectItem<NavMenuItem>(state.DisplayName, stateIndex, navItem));
             }
 
 
-            groups.Add(new SelectGroup<NavMenuItem>(comp.DisplayName, compIndex, selectItems));
+            groups.Add(new SelectGroup<NavMenuItem>(group.Key.Name.RemoveTypeParamCharacters(), groupIndex, selectItems));
         }
 
         return new NavMenuViewModel
@@ -53,30 +57,14 @@ public class NavMenuBuilder
 }
 
 
-public class TestStateBuilder
-{
-    private readonly TestComponent _component;
-
-    public TestStateBuilder(TestComponent component)
-    {
-        _component = component;
-    }
-
-    public TestStateBuilder WithTestState(string displayName, object value)
-    {
-        _component.TestStates.Add(displayName, value);
-        return this;
-    }
-}
-
 public record TestComponent
 {
     public string DisplayName { get; private set; }
     public Type Type { get; init; }
     public bool IsCarltonComponent { get; init; }
-    public Dictionary<string, object> TestStates { get; init; } = new Dictionary<string, object>();
+    public object Parameters { get; init; }
 
-    public TestComponent(string nodeTitle, Type type, bool isCarltonComponent)
-        => (DisplayName, Type, IsCarltonComponent) = (nodeTitle, type, isCarltonComponent);
+    public TestComponent(string nodeTitle, Type type, bool isCarltonComponent, object parameters)
+        => (DisplayName, Type, IsCarltonComponent, Parameters) = (nodeTitle, type, isCarltonComponent, parameters);
 
 }
