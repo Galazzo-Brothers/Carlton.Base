@@ -1,0 +1,46 @@
+﻿.carlton-notification {
+    display: flex;
+    width: 200px;
+    height: 50px;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--carlton-notification-background-color);
+    transition: opacity .4s ease-out
+}
+
+    .carlton-notification .icon {
+        flex-basis: 10%;
+        margin-top: auto;
+        margin-bottom: auto;
+        color: var(--carlton-notification-icon-color);
+    }
+
+    .carlton-notification .message-container {
+        flex-basis: 90%;
+        display: flex;
+        flex-direction: column;
+        margin-top: auto;
+        margin-bottom: auto;
+        padding-left: 10px;
+    }
+
+        .carlton-notification .message-container .title {
+            font-weight: bold;
+            color: var(--carlton-notification-title-color);
+        }
+
+
+        .carlton-notification .message-container .message {
+            color: var(--carlton-notification-message-color);
+            font-size: 8pt;
+        }
+
+    .carlton-notification .dismiss {
+        flex-basis: 5%;
+        color: var( --carlton-notification-dismiss-color);
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 50px;
+        cursor: pointer;
+    }

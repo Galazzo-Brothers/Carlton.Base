@@ -44,8 +44,8 @@ public class NavMenuBuilder
                 selectItems.Add(new SelectItem<NavMenuItem>(state.DisplayName, stateIndex, navItem));
             }
 
-
-            groups.Add(new SelectGroup<NavMenuItem>(group.Key.Name.RemoveTypeParamCharacters(), groupIndex, selectItems));
+            var displayName = group.Key.Name.ToDisplayFormat().RemoveTypeParamCharacters();
+            groups.Add(new SelectGroup<NavMenuItem>(displayName, groupIndex, selectItems));
         }
 
         return new NavMenuViewModel

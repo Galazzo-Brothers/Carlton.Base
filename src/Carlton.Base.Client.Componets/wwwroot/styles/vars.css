@@ -65,6 +65,11 @@
     --console-background-color: #000;
     --console-color: #adff2f;
     --console-error-color: #ff0000;
+    --carlton-fab-background-color: #00897b;
+    --carlton-notification-icon-color: #fff;
+    --carlton-notification-title-color: #fff;
+    --carlton-notification-dismiss-color: #d3d3d3;
+    --carlton-notification-message-color: #d3d3d3;
 }
 
 [data-theme="dark"] {
@@ -135,6 +140,11 @@
     --console-background-color: #000;
     --console-color: #adff2f;
     --console-error-color: #ff0000;
+    --carlton-fab-background-color: #00897b;
+    --carlton-notification-icon-color: #fff;
+    --carlton-notification-title-color: #fff;
+    --carlton-notification-dismiss-color: #d3d3d3;
+    --carlton-notification-message-color: #d3d3d3;
 }
 
 

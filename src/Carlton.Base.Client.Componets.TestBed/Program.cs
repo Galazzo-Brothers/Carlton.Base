@@ -22,6 +22,10 @@ public static class Program
                    .AddComponent<Checkbox>("Checked", CheckboxTestStates.CheckedState())
                    .AddComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState())
                    .AddComponent<Select>(SelectTestStates.Default())
+                   .AddComponent<SuccessNotification>(NotificationStates.SuccessState())
+                   .AddComponent<InfoNotification>(NotificationStates.InfoState())
+                   .AddComponent<WarningNotification>(NotificationStates.WarningState())
+                   .AddComponent<FailureNotification>(NotificationStates.FailureState())
                    .Build();
         },
         sourceBasePath,

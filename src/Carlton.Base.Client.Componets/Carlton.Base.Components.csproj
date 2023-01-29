@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Notifications\notification.scss" />
     <Content Include="ResizablePanel\ResizablePanel.razor.js" />
     <Content Include="Styles\animations\fade_out_animation.scss" />
     <Content Include="Styles\libs\vendor.scss" />

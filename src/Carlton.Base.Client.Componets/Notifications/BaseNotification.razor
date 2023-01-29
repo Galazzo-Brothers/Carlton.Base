@@ -1,28 +1,20 @@
 ﻿@namespace Carlton.Base.Components
-<div class="carlton-notification @(BackgroundClass) @(IsDismissed ? "d-none" : string.Empty) @(FadeOutEnabled ? "fadeOut" : string.Empty)">
-    <div class="container">
-        <div class="row">
-            <div class="col-2 icon-col">
-                <span class="icon mdi mdi-24px @IconClass"></span>
-            </div>
-            <div class="col-7 message-col">
-                <span class="message">@Message</span>
-            </div>
-            <div class="col-2 action-col">
-                <a href="#" @onclick="Dismiss">Dismiss</a>
-            </div>
-        </div>
+
+<div class="@NotificationCss">
+    <span class="@IconCss"></span>
+    <div class="message-container">
+        <span class="title">@Title</span>
+        <span class="message">@Message</span>
     </div>
+    <span class="@DismissCss"></span>
 </div>
 
-
-
-@code{
+@code {
     [Parameter]
     public string IconClass { get; set; }
 
     [Parameter]
-    public string BackgroundClass { get; set; }
+    public string Title { get; set; }
 
     [Parameter]
     public string Message { get; set; }
@@ -31,6 +23,29 @@
     public bool FadeOutEnabled { get; set; }
 
     private bool IsDismissed { get; set; }
+
+    private string IconCss
+    {
+        get => new CssBuilder("icon")
+                .AddClass("mdi mdi-24px")
+                .AddClass(IconClass)
+                .Build();
+
+    }
+
+    private string NotificationCss
+    {
+        get => new CssBuilder("carlton-notification")
+                .AddClass("dismissed", IsDismissed)
+                .Build();
+    }
+
+    private string DismissCss
+    {
+        get => new CssBuilder("dismiss")
+                .AddClass("mdi mdi-18px mdi-close")
+                .Build();
+    }
 
     private void Dismiss()
     {

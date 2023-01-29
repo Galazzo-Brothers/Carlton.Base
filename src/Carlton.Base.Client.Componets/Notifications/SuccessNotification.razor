@@ -1,5 +1,12 @@
 ﻿@namespace Carlton.Base.Components
+
 <div class="success-notification">
-    <CarltonBaseNotification IconClass="mdi-check" BackgroundClass="success-notification" Message="Success"></CarltonBaseNotification>
+    <BaseNotification IconClass="mdi-check-circle" Title="@Title" Message="@Message"/>
 </div>
 
+@code{
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string Message { get; set; }
+}
