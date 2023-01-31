@@ -1,11 +1,16 @@
 ﻿.tabs {
+    --tab-font-size: 14px;
+    --tab-hover-color: #7c848a;
+}
+
+.content {
     position: relative;
     display: block;
     padding: 0;
     margin-bottom: 15px;
 }
 
-    .tabs > a {
+    .content > a {
         position: relative;
         display: inline-block;
         text-decoration: none;
@@ -13,21 +18,21 @@
         text-transform: uppercase;
         font-size: var(--tab-font-size);
         font-weight: 600;
-        color: var(--tab-color);
+        color: var(--primary-text-color);
         text-align: center;
     }
 
-.tabs > a.active {
+.content > a.active {
     font-weight: 700;
     outline: none;
 }
 
-.tabs > a:hover {
+.content > a:hover {
     background-color: inherit;
     color: var(--tab-hover-color);
 }
 
-    .tabs .tab-selected-bar {
+    .content .tab-selected-bar {
         left: var(--tab-select-bar-left);
         bottom: 0;
         height: 3px;
@@ -37,7 +42,7 @@
         z-index: 10;
         transition: left .2s ease;
         -webkit-transition: left .2s ease;
-        background: var(--tab-selected-color);
+        background: var(--selected-color);
     }
 
 

@@ -5,7 +5,7 @@
 }
 
 .notifications i {
-    color: var(--notifications-menu-color);
+    color: var(--icon-color);
 }
 
 .notifications .notify {

@@ -1,12 +1,14 @@
 ﻿@namespace Carlton.Base.Components
 
 <div class="@NotificationCss">
-    <span class="@IconCss"></span>
-    <div class="message-container">
-        <span class="title">@Title</span>
-        <span class="message">@Message</span>
+    <div class="content">
+        <span class="@IconCss"></span>
+        <div class="message-container">
+            <span class="title">@Title</span>
+            <span class="message">@Message</span>
+        </div>
+        <span class="@DismissCss"></span>
     </div>
-    <span class="@DismissCss"></span>
 </div>
 
 @code {

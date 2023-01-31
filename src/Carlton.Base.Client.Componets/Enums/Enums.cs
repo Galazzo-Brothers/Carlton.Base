@@ -14,3 +14,11 @@ public enum CarltonNotificationType
     INFO = 3,
     FAILURE = 4
 }
+
+public enum CountCardTheme
+{
+    Blue = 1,
+    Green = 2,
+    Red = 3,
+    Purpble = 4
+}

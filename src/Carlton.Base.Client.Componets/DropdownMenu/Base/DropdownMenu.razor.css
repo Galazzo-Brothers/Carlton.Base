@@ -24,7 +24,7 @@
     }
 
     .dropdown.active {
-        background-color: var(--dropdown-background-color);
+        background-color: var(--card-background-color);
         opacity: 1;
         display: inherit;
     }

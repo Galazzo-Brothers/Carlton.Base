@@ -28,7 +28,7 @@ internal static class CardTestStates
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
             { "Icon", "mdi-camera" },
-            { "AccentColorClass", "accent-color-1" }
+            { "Theme", CountCardTheme.Blue }
         };
     }
 
@@ -39,7 +39,7 @@ internal static class CardTestStates
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
             { "Icon", "mdi-camera" },
-            { "AccentColorClass", "accent-color-2" }
+            { "Theme", CountCardTheme.Green }
         };
     }
 
@@ -50,7 +50,7 @@ internal static class CardTestStates
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
             { "Icon", "mdi-camera" },
-            { "AccentColorClass", "accent-color-3" }
+            { "Theme", CountCardTheme.Red }
         };
     }
 
@@ -61,7 +61,7 @@ internal static class CardTestStates
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
             { "Icon", "mdi-camera" },
-            { "AccentColorClass", "accent-color-4" }
+            { "Theme", CountCardTheme.Purpble }
         };
     }
 

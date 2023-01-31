@@ -1,4 +1,9 @@
 ﻿.card {
+    --card-width: 325px;
+    --card-height: 100px;
+}
+
+.content {
     display: flex;
     flex-direction: column;
     width: var(--card-width);
@@ -11,22 +16,21 @@
     border-radius: 0.25rem;
 }
 
-    .card .title-content {
+    .content .title-content {
         display: flex;
         margin-top: 5px;
     }
 
-        .card .title-content .card-title {
+        .content .title-content .card-title {
             flex-basis: 75%;
             margin-top: auto;
             margin-bottom: auto;
             text-align: left;
             font-weight: bold;
-            color: var(--card-title-color);
+            color: var(--primary-text-color);
         }
 
-        .card .title-content .status-icon {
+        .content .title-content .status-icon {
             flex-basis: 25%;
             text-align: right;
         }
-

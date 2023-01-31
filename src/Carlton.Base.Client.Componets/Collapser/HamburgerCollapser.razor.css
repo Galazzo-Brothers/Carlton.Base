@@ -3,7 +3,7 @@
 }
 
     .collapser span {
-        color: var( --hamburger-collapser-color);
+        color: var(--icon-color);
         font-size: 16pt;
         vertical-align: middle;
     }

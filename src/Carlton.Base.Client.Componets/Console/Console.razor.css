@@ -1,4 +1,10 @@
-﻿textarea {
+﻿.console {
+    --console-background-color: #000;
+    --console-color: #adff2f;
+    --console-error-color: #ff0000;
+}
+
+textarea {
     width: 95%;
     background-color: var(--console-background-color);
     color: var(--console-color);

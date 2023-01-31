@@ -1,7 +1,9 @@
 ﻿.header-bar {
+    --header-height: 75px;
+
     display: flex;
     height: var(--header-height);
-    background-color: var(--header-background-color);
+    background-color: var(--layout-header-background-color);
 }
 
     .header-bar .menu {

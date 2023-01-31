@@ -12,11 +12,6 @@
 
   <ItemGroup>
     <Content Include="ResizablePanel\ResizablePanel.razor.js" />
-    <Content Include="Styles\animations\fade_out_animation.scss" />
-    <Content Include="Styles\libs\vendor.scss" />
-    <Content Include="Styles\Overrides\scrollbar.scss" />
-    <Content Include="Styles\themes\theme_defenitions.scss" />
-    <Content Include="Styles\themes\theme_utilities.scss" />
   </ItemGroup>
 
 

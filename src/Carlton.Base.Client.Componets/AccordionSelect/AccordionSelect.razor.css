@@ -1,46 +1,50 @@
 ﻿.accordion-select {
-    background-color: var(--accordion-select-background-color);
-    color: var(--accordion-select-color);
+    --accordion-select-background-color: #212120;
 }
 
-    .accordion-select .accordion-header {
+.content {
+    color: var(--nav-text-color);
+    background-color: var(--accordion-select-background-color);
+}
+
+    .content .accordion-header {
         display: flex;
         padding-top: 10px;
         padding-left: 5px;
         padding-right: 5px;
         cursor: pointer;
-        color: var(--accordion-select-text-color);
+        color: var(--nav-text-color);
     }
 
-        .accordion-select .accordion-header.selected {
-            background-color: var(--accordion-select-selected-background-color);
-            color: var(--accordion-select-text-color);
+        .content .accordion-header.selected {
+            background-color: var(--selected-color);
+            color: var(--nav-text-color);
             padding: 5px;
             border-radius: 10px;
             margin-top: 10px;
         }
 
-        .accordion-select .accordion-header .item-group-name {
+        .content .accordion-header .item-group-name {
             text-align: left;
             margin-top: auto;
             margin-bottom: auto;
             margin-left: 10px;
         }
 
-    .accordion-select .item-container {
+    .content .item-container {
         padding-left: 15px;
     }
 
-        .accordion-select .item-container.collapsed {
+        .content .item-container.collapsed {
             display: none;
         }
 
-    .accordion-select .item {
+    .content .item {
         padding-top: 15px;
         cursor: pointer;
     }
 
-        .accordion-select .item.selected {
-            color: var(--accordion-select-selected-text-color);
+        .content .item.selected {
+            color: var(--selected-color);
             font-weight: bold;
         }

@@ -1,8 +1,10 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="count-card @(AccentColorClass)">
-    <div class="@IconCss"></div>
-    <span class="count-message">@Message</span>
+<div class="@CountCardCss">
+    <div class="content">
+        <div class="@IconCss"></div>
+        <span class="count-message">@Message</span>
+    </div>
 </div>
 
 
@@ -14,12 +16,18 @@
     [Parameter]
     public string Icon { get; set; }
     [Parameter]
-    public string AccentColorClass { get; set; }
-
+    public CountCardTheme Theme { get; set; }
 
     public string Message
     {
-        get =>  $"{Count} {MessageTemplate}";
+        get => $"{Count} {MessageTemplate}";
+    }
+
+    private string CountCardCss
+    {
+        get => new CssBuilder("count-card")
+                .AddClass($"accent{(int)Theme}")
+                .Build();
     }
 
     private string IconCss

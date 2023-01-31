@@ -1,5 +1,5 @@
 ﻿.accordion-select-group {
-    background: var(--accordion-select-group-background-color);
-    padding-left: var(--accordion-select-group-padding-horizontal);
-    padding-right: var(--accordion-select-group-padding-horizontal);
+    background: #212120;
+    padding-left: 15px;
+    padding-right: 15px;
 }

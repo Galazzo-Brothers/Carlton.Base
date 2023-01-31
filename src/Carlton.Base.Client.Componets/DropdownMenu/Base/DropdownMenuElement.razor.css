@@ -5,21 +5,21 @@
     white-space: pre;
     box-sizing: border-box;
     text-align: left;
-    color: var(--dropdown-element-color);
+    color: var(--primary-text-color);
 }
 
 .accent-color-1 {
-    color: var(--dropdown-element-accent-color-1);
+    color: var(--accent-color-1);
 }
 
 .accent-color-2 {
-    color: var(--dropdown-element-accent-color-2);
+    color: var(--accent-color-2);
 }
 
 .accent-color-3 {
-    color: var(--dropdown-element-accent-color-3);
+    color: var(--accent-color-3);
 }
 
 .accent-color-4 {
-    color: var(--dropdown-element-accent-color-4);
+    color: var(--accent-color-4);
 }

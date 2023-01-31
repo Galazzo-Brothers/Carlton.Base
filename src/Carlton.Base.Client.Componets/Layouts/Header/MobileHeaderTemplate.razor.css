@@ -1,7 +1,7 @@
 ﻿.header-bar {
     display: flex;
     height: 75px;
-    background-color: var(--header-mobile-background-color);
+    background-color: var(--layout-mobile-header-background-color);
 }
 
     .header-bar .nav {

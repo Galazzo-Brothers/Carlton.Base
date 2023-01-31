@@ -2,11 +2,13 @@
 @inherits TabBarBase
 
 <div class="tabs">
-    @foreach(Tab tab in _tabs)
-    {
-        <a class="@CarltonTabCss(tab)" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>
-    }
-    <span class="tab-selected-bar" style="@TabSelectBarStyle"></span>
+    <div class="content">
+        @foreach(Tab tab in _tabs)
+        {
+            <a class="@CarltonTabCss(tab)" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>
+        }
+        <span class="tab-selected-bar" style="@TabSelectBarStyle"></span>
+    </div>
 </div>
 
 <CascadingValue Value="this">

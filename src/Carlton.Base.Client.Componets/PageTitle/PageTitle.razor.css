@@ -1,16 +1,21 @@
-﻿.content {
+﻿.page-title {
+    --page-title-font-size: 15pt;
+    --page-title-bread-crumb-font-size: 12pt;
+}
+
+.page-title {
     display: flex;
     flex-direction: column;
 }
 
-    .content .title {
+    .page-title .title {
         font-size: var(--page-title-font-size);
-        color: var(--page-title-color);
+        color: var(--primary-text-color);
     }
 
-    .content .bread-crumbs {
+    .page-title .bread-crumbs {
         font-size: var(--page-title-bread-crumb-font-size);
-        color: var(--page-title-bread-crumb-color);
+        color: var(--secondary-text-color);
     }
 
 

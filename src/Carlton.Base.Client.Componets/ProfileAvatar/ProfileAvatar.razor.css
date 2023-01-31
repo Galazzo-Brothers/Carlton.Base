@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 5px;
     padding: 10px;
-    color: var(--profile-text-color);
+    color: var(--primary-text-color);
 }
 
     .header ::deep .horizontal-spacer::after {
@@ -17,7 +17,7 @@
 
     .header .email {
         margin-left: 10px;
-        color: var(--profile-text-color);
+        color: var(--primary-text-color);
     }
 
 .profile-avatar {
@@ -36,13 +36,13 @@
         font-size: 12pt;
         margin-top: auto;
         margin-bottom: auto;
-        color: var(--profile-text-color);
+        color: var(--primary-text-color);
     }
 
     .profile-avatar .icon {
         margin-top: auto;
         margin-bottom: auto;
-        color: var(--profile-text-color);
+        color: var(--primary-text-color);
     }
 
 /*Deep Style Overrides*/
@@ -65,7 +65,7 @@
 }
 
 ::deep li:hover {
-    background: var(--profile-hover-background-color);
+    background: var(--card-hover-background-color);
     border-radius: 5px;
 }
 

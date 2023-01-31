@@ -19,7 +19,7 @@
 
 .splitter-horizontal {
     height: 20px;
-    background: var(--resizeable-panel-splitter-background-color);
+    background: #535353;
     cursor: row-resize;
     z-index: 2;
 }

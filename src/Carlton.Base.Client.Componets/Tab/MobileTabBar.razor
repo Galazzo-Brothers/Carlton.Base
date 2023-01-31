@@ -2,24 +2,26 @@
 @inherits TabBarBase
 
 <div class="mobile-tabs">
-    <SlideTab Title="Test Panel">
-        <Content>
-            <CascadingValue Value="this">
-                @ChildContent
-            </CascadingValue>
-        </Content>
-    </SlideTab>
+    <div class="content">
+        <SlideTab Title="Test Panel">
+            <Content>
+                <CascadingValue Value="this">
+                    @ChildContent
+                </CascadingValue>
+            </Content>
+        </SlideTab>
 
-    <div class="bottom-nav">
-        @foreach(Tab tab in _tabs)
-        {
-            <div class="bottom-nav-item @(tab==this.ActiveTab ? "active" : "")">
-                <div class="bottom-nav-link" @onclick="(args)=>ActivateTab(tab)">
-                    <i class="mdi mdi-24px @tab.Icon"></i>
-                    <span>@tab.DisplayText</span>
+        <div class="bottom-nav">
+            @foreach(Tab tab in _tabs)
+            {
+                <div class="bottom-nav-item @(tab==this.ActiveTab ? "active" : "")">
+                    <div class="bottom-nav-link" @onclick="(args)=>ActivateTab(tab)">
+                        <i class="mdi mdi-24px @tab.Icon"></i>
+                        <span>@tab.DisplayText</span>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
 

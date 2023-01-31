@@ -1,14 +1,13 @@
 ﻿ul {
     list-style: none;
-    color: var(--list-card-color);
 }
 
 li {
     padding: 2px;
-    color: var(--list-card-color);
+    color: var(--primary-text-color);
 }
 
 .card .sub-title {
-    color: var(--list-card-sub-title-color);
+    color: var(--secondary-text-color);
     font-size: 10pt;
 }

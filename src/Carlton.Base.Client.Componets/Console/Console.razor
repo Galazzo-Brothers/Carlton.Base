@@ -1,13 +1,15 @@
 ﻿@namespace Carlton.Base.Components
 
-<textarea rows="15"
-          disabled="@IsReadOnly"
-          class="@ConsoleCss"
-          @onchange="OnViewModelChanged">
+<div class="console">
+    <textarea rows="15"
+              disabled="@IsReadOnly"
+              class="@ConsoleCss"
+              @onchange="OnViewModelChanged">
         @Text   
-</textarea>
+    </textarea>
+</div>
 
-@code{
+@code {
     [Parameter]
     public string Text { get; set; }
     [Parameter]

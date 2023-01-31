@@ -1,24 +1,26 @@
 ﻿@namespace Carlton.Base.Components
 
 <div class="card">
-    <div class="title-content">
-        <span class="card-title">@CardTitle</span>
-        <span class="status-icon">
-            @if (ActionBarContent == null)
-            {
-                <KebabMenu />
-            }
-            else
-            {
-                @ActionBarContent
-            }
-        </span>
-    </div>
-    <div class="header-content">
-        @HeaderContent
-    </div>
-    <div class="primary-content">
-        @PrimaryCardContent
+    <div class="content">
+        <div class="title-content">
+            <span class="card-title">@CardTitle</span>
+            <span class="status-icon">
+                @if(ActionBarContent == null)
+                {
+                    <KebabMenu />
+                }
+                else
+                {
+                    @ActionBarContent
+                }
+            </span>
+        </div>
+        <div class="header-content">
+            @HeaderContent
+        </div>
+        <div class="primary-content">
+            @PrimaryCardContent
+        </div>
     </div>
 </div>
 

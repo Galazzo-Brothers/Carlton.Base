@@ -1,150 +1,59 @@
 ﻿
 [data-theme="light"] {
+    /*Layout Themeing*/
     --layout-main-background-color: #f4f3ef;
     --layout-nav-background-color: #212120;
     --layout-footer-background-color: #272727;
-    --carlton-footer-color: #7c848a;
-    --header-height: 75px;
-    --header-background-color: #f4f3ef;
-    --header-mobile-background-color: #212120;
+    --layout-header-background-color: #f4f3ef;
+    --layout-mobile-header-background-color: #212120;
+    /*Logo*/
     --logo-background-color: #212120;
     --logo-color: #fff;
     --logo-font-size: 12pt;
-    --page-title-color: #5e5e5e;
-    --page-title-font-size: 15pt;
-    --page-title-bread-crumb-font-size: 12pt;
-    --page-title-bread-crumb-color: #9a9a9a;
-    --hamburger-collapser-color: #5e5e5e;
-    --carlton-header-actions-color: #5e5e5e;
-    --theme-menu-color: #5e5e5e;
-    --notifications-menu-color: #5e5e5e;
-    --profile-text-color: #5e5e5e;
-    --profile-hover-background-color: #e9ecef;
-    --dropdown-background-color: #fff;
-    --dropdown-color: #5e5e5e;
-    --dropdown-element-color: #5e5e5e;
-    --dropdown-element-accent-color-1: #1e88e5;
-    --dropdown-element-accent-color-2: #00897b;
-    --dropdown-element-accent-color-3: #e46a76;
-    --dropdown-element-accent-color-4: #ab8ce4;
-    --accordion-select-group-background-color: #212120;
-    --accordion-select-group-padding-horizontal: 15px;
-    --accordion-select-background-color: #212120;
-    --accordion-select-color: #fff;
-    --accordion-select-selected-background-color: #21c1d6;
-    --accordion-select-selected-text-color: #21c1d6;
-    --console-max-height: 300px;
-    --card-width: 325px;
-    --card-height: 100px;
+    /*Text*/
+    --primary-text-color: #5e5e5e;
+    --secondary-text-color: #9a9a9a;
+    --nav-text-color: #fff;
+    --selected-color: #21c1d6;
+    --icon-color: #5e5e5e;
+    --spacer-color: #5e5e5e;
+    /*Accents*/
+    --accent-color-1: #1e88e5;
+    --accent-color-2: #00897b;
+    --accent-color-3: #e46a76;
+    --accent-color-4: #ab8ce4;
+    /*Cards*/
     --card-background-color: #fff;
-    --card-title-color: #5e5e5e;
-    --count-card-width: 250px;
-    --count-card-title-color: #5e5e5e;
-    --count-card-background-color1: #fff;
-    --count-card-background-color2: #fff;
-    --count-card-background-color3: #fff;
-    --count-card-background-color4: #fff;
-    --count-card-icon-background-color1: #1e88e5;
-    --count-card-icon-background-color2: #00897b;
-    --count-card-icon-background-color3: #e46a76;
-    --count-card-icon-background-color4: #ab8ce4;
-    --count-card-icon-color1: #fff;
-    --count-card-icon-color2: #fff;
-    --count-card-icon-color3: #fff;
-    --count-card-icon-color4: #fff;
-    --kebab-menu-color: #757575;
-    --tab-font-size: 14px;
-    --tab-color: #757575;
-    --tab-hover-color: #7c848a;
-    --tab-selected-color: #009688;
-    --mobile-tab-bottom-nav-color: #252a32;
-    --mobile-tab-bottom-nav-item-color: #f1f5f8;
-    --mobile-tab-bottom-nav-item-active-color: #d32f2f;
-    --resizeable-panel-splitter-background-color: #535353;
-    --spacer-background-color: #5e5e5e;
-    --console-background-color: #000;
-    --console-color: #adff2f;
-    --console-error-color: #ff0000;
-    --carlton-fab-background-color: #00897b;
-    --carlton-notification-icon-color: #fff;
-    --carlton-notification-title-color: #fff;
-    --carlton-notification-dismiss-color: #d3d3d3;
-    --carlton-notification-message-color: #d3d3d3;
+    --card-hover-background-color: #e9ecef;
 }
 
+
 [data-theme="dark"] {
+    /*Layout Themeing*/
     --layout-main-background-color: #323743;
     --layout-nav-background-color: #212120;
     --layout-footer-background-color: #272727;
-    --carlton-footer-color: #fff;
-    --header-height: 75px;
-    --header-background-color: #323743;
-    --header-mobile-background-color: #212120;
+    --layout-header-background-color: #323743;
+    --layout-mobile-header-background-color: #212120;
+    /*Logo*/
     --logo-background-color: #212120;
     --logo-color: #fff;
     --logo-font-size: 12pt;
-    --page-title-color: #00acc1;
-    --page-title-font-size: 15pt;
-    --page-title-bread-crumb-font-size: 12pt;
-    --page-title-bread-crumb-color: #b2b9bf;
-    --hamburger-collapser-color: #fff;
-    --carlton-header-actions-color: #5e5e5e;
-    --theme-menu-color: #fff;
-    --notifications-menu-color: #fff;
-    --profile-text-color: #fff;
-    --profile-hover-background-color: #e9ecef;
-    --dropdown-background-color: #272b34;
-    --dropdown-color: #5e5e5e;
-    --dropdown-element-color: #fff;
-    --dropdown-element-accent-color-1: #1e88e5;
-    --dropdown-element-accent-color-2: #00897b;
-    --dropdown-element-accent-color-3: #e46a76;
-    --dropdown-element-accent-color-4: #ab8ce4;
-    --accordion-select-group-background-color: #212120;
-    --accordion-select-group-padding-horizontal: 15px;
-    --accordion-select-background-color: #212120;
-    --accordion-select-color: #fff;
-    --accordion-select-selected-background-color: #21c1d6;
-    --accordion-select-selected-text-color: #21c1d6;
-    --card-width: 325px;
-    --card-height: 100px;
+    /*Text*/
+    --primary-text-color: #fff;
+    --secondary-text-color: #a1aab2;
+    --nav-text-color: #fff;
+    --selected-color: #21c1d6;
+    --icon-color: #fff;
+    --spacer-color: #5e5e5e;
+    /*Accents*/
+    --accent-color-1: #1e88e5;
+    --accent-color-2: #00897b;
+    --accent-color-3: #e46a76;
+    --accent-color-4: #ab8ce4;
+    /*Cards*/
     --card-background-color: #272b34;
-    --card-title-color: #fff;
-    --count-card-width: 250px;
-    --count-card-title-color: #fff;
-    --count-card-background-color1: #1e88e5;
-    --count-card-background-color2: #00897b;
-    --count-card-background-color3: #e46a76;
-    --count-card-background-color4: #ab8ce4;
-    --count-card-icon-background-color1: #fff;
-    --count-card-icon-background-color2: #fff;
-    --count-card-icon-background-color3: #fff;
-    --count-card-icon-background-color4: #fff;
-    --count-card-icon-color1: #1e88e5;
-    --count-card-icon-color2: #00897b;
-    --count-card-icon-color3: #e46a76;
-    --count-card-icon-color4: #ab8ce4;
-    --list-card-sub-title-color: #b2b9bf;
-    --list-card-color: #b2b9bf;
-    --kebab-menu-color: #fff;
-    --tab-font-size: 14px;
-    --tab-color: #fff;
-    --tab-hover-color: #7c848a;
-    --tab-selected-color: #009688;
-    --mobile-tab-bottom-nav-color: #252a32;
-    --mobile-tab-bottom-nav-item-color: #f1f5f8;
-    --mobile-tab-bottom-nav-item-active-color: #d32f2f;
-    --resizeable-panel-splitter-background-color: #535353;
-    --spacer-background-color: #5e5e5e;
-    --console-max-height: 300px;
-    --console-background-color: #000;
-    --console-color: #adff2f;
-    --console-error-color: #ff0000;
-    --carlton-fab-background-color: #00897b;
-    --carlton-notification-icon-color: #fff;
-    --carlton-notification-title-color: #fff;
-    --carlton-notification-dismiss-color: #d3d3d3;
-    --carlton-notification-message-color: #d3d3d3;
+    --card-hover-background-color: #e9ecef;
 }
 
 

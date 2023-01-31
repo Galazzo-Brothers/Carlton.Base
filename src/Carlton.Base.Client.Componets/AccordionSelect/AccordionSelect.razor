@@ -2,22 +2,24 @@
 @typeparam TValue
 
 <div class="accordion-select">
-    <div class="@AccordionHeaderCssClass" @onclick="() => IsExpanded = !IsExpanded">
-        <span class="@AccordionIconBtnCssClass"></span>
-        <span class="item-group-name">
-            @Title
-        </span>
-    </div>
-    <div class="@ItemContainerCssClass">
-        @foreach(var item in Items)
-        {
-            <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item)">
-                <span class="@ItemIconCss"></span>
-                <span class="item-name">
-                    @item.Name
-                </span>
-            </div>
-        }
+    <div class="content">
+        <div class="@AccordionHeaderCssClass" @onclick="() => IsExpanded = !IsExpanded">
+            <span class="@AccordionIconBtnCssClass"></span>
+            <span class="item-group-name">
+                @Title
+            </span>
+        </div>
+        <div class="@ItemContainerCssClass">
+            @foreach(var item in Items)
+            {
+                <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item)">
+                    <span class="@ItemIconCss"></span>
+                    <span class="item-name">
+                        @item.Name
+                    </span>
+                </div>
+            }
+        </div>
     </div>
 </div>
 

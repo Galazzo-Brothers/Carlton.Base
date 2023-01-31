@@ -6,9 +6,9 @@
     .carlton-actions .icon {
         margin-top: auto;
         margin-block: auto;
-        color: var(--carlton-header-actions-color);
+        color: var(--icon-color);
     }
 
     .carlton-actions ::deep .vertical-spacer {
-        border-left-color: var(--carlton-header-actions-color);
+        border-left-color: var(--icon-color);
     }
