@@ -1,37 +1,46 @@
 ﻿@namespace Carlton.Base.Components
-@using System.Threading.Tasks
 
 <div class="carlton-notification-bar">
-    @switch(NotificationType)
+    @foreach(var (notification, index) in Notifications.WithIndex())
     {
-        case CarltonNotificationType.SUCCESS:
-            <SuccessNotification></SuccessNotification>
-            break;
-        case CarltonNotificationType.ALERT:
-            <AlertNotification></AlertNotification>
-            break;
-        case CarltonNotificationType.INFO:
-            <InfoNotification></InfoNotification>
-            break;
-        case CarltonNotificationType.FAILURE:
-            <FailureNotification></FailureNotification>
-            break;
-        default:
-            break;
+        switch(notification.NotificationType)
+        {
+            case NotificationType.Success:
+                <SuccessNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                break;
+            case NotificationType.Info:
+                <InfoNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled"  />
+                break;
+            case NotificationType.Warning:
+                <WarningNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                break;
+            case NotificationType.Error:
+                <ErrorNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                break;
+        }
     }
 </div>
 
+@if (IsTestMode)
+{
+    <button class="success-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Success))">Success</button>
+    <button class="info-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Info))">Info</button>
+    <button class="warning-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Warning))">Warning</button>
+    <button class="error-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Error))">Error</button>
+}
 
-@code{
+@code {
     [Parameter]
-    public CarltonNotificationType NotificationType { get; set; }
+    public bool IsTestMode { get; set; }
 
+    [Parameter]
+    public bool FadeOutEnabled { get; set; }
 
-    protected async override Task OnParametersSetAsync()
+    private List<Notification> Notifications { get; } = new List<Notification>();
+
+    private void GenerateNotification(string title, string message, NotificationType notificationType)
     {
-        await base.OnParametersSetAsync();
-        await Task.Delay(5000);
-        NotificationType = CarltonNotificationType.DEFAULT;
+        Notifications.Add(new Notification(title, message, notificationType));
     }
 }
 

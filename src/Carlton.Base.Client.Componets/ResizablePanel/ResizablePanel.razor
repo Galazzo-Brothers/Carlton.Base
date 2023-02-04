@@ -28,11 +28,9 @@
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        var projectName = "Carlton.Base.Components";
-
         if(firstRender)
         {
-            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{projectName}/ResizablePanel/ResizablePanel.razor.js");
+            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.PROJECT_NAME}/ResizablePanel/ResizablePanel.razor.js");
             await _module.InvokeAsync<Task>("initResizablePanel");
         }
         base.OnAfterRender(firstRender);

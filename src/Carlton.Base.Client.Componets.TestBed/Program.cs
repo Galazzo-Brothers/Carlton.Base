@@ -22,10 +22,12 @@ public static class Program
                    .AddComponent<Checkbox>("Checked", CheckboxTestStates.CheckedState())
                    .AddComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState())
                    .AddComponent<Select>(SelectTestStates.Default())
+                   .AddComponent<NotificationBar>("Fade Out Disabled", NotificationStates.FadeOutDisabledStated())
+                    .AddComponent<NotificationBar>("Fade Out Enabled", NotificationStates.FadeOutEnabledStated())
                    .AddComponent<SuccessNotification>(NotificationStates.SuccessState())
                    .AddComponent<InfoNotification>(NotificationStates.InfoState())
                    .AddComponent<WarningNotification>(NotificationStates.WarningState())
-                   .AddComponent<FailureNotification>(NotificationStates.FailureState())
+                   .AddComponent<ErrorNotification>(NotificationStates.ErrorState())
                    .Build();
         },
         sourceBasePath,

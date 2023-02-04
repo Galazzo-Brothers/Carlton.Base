@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Content Include="ResizablePanel\ResizablePanel.razor.js" />
+    <Content Include="Notifications\BaseNotification.razor.js" />
   </ItemGroup>
 
 

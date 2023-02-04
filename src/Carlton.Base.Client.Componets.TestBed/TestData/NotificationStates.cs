@@ -2,6 +2,24 @@
 
 internal static class NotificationStates
 {
+    public static Dictionary<string, object> FadeOutDisabledStated()
+    {
+        return new Dictionary<string, object>
+        {
+            { "IsTestMode", true },
+            { "FadeOutEnabled", false }
+        };
+    }
+
+    public static Dictionary<string, object> FadeOutEnabledStated()
+    {
+        return new Dictionary<string, object>
+        {
+            { "IsTestMode", true },
+            { "FadeOutEnabled", true }
+        };
+    }
+
     public static Dictionary<string, object> SuccessState()
     {
         return new Dictionary<string, object>
@@ -29,7 +47,7 @@ internal static class NotificationStates
         };
     }
 
-    public static Dictionary<string, object> FailureState()
+    public static Dictionary<string, object> ErrorState()
     {
         return new Dictionary<string, object>
         {

@@ -1,18 +1,23 @@
 ﻿namespace Carlton.Base.Components;
 
+public static class Constants
+{
+    public static string PROJECT_NAME = "Carlton.Base.Components";
+}
+
 public enum Themes
 {
     light = 1,
     dark = 2
 }
 
-public enum CarltonNotificationType
+public enum NotificationType
 {
-    DEFAULT = 0,
-    SUCCESS = 1,
-    ALERT = 2,
-    INFO = 3,
-    FAILURE = 4
+    Default = 0,
+    Success = 1,
+    Warning = 2,
+    Info = 3,
+    Error = 4
 }
 
 public enum CountCardTheme

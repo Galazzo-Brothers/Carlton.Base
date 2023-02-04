@@ -1,5 +1,7 @@
 ﻿@namespace Carlton.Base.Components
 
+
+
 <div class="@NotificationCss">
     <div class="content">
         <span class="@IconCss"></span>
@@ -7,9 +9,10 @@
             <span class="title">@Title</span>
             <span class="message">@Message</span>
         </div>
-        <span class="@DismissCss"></span>
+        <span class="@DismissCss" @onclick="Dismiss"></span>
     </div>
 </div>
+
 
 @code {
     [Parameter]
@@ -22,9 +25,29 @@
     public string Message { get; set; }
 
     [Parameter]
-    public bool FadeOutEnabled { get; set; }
+    public bool FadeOutEnabled { get; set; } = true;
 
-    private bool IsDismissed { get; set; }
+    [Parameter]
+    public EventCallback OnDismiss { get; set; }
+
+    @inject IJSRuntime JS;
+
+    private bool IsDismissed;
+
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+        var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.PROJECT_NAME}/Notifications/BaseNotification.razor.js");
+        await module.InvokeAsync<Task>("applyTransitionedCallback");
+
+        if(FadeOutEnabled)
+        {
+            await Task.Delay(3000);
+            await Dismiss();
+            StateHasChanged();
+        }
+    }
 
     private string IconCss
     {
@@ -49,8 +72,9 @@
                 .Build();
     }
 
-    private void Dismiss()
+    private async Task Dismiss()
     {
         IsDismissed = true;
+        await OnDismiss.InvokeAsync();
     }
 }
