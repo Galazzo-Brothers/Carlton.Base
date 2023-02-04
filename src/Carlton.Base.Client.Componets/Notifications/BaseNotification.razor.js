@@ -3,10 +3,7 @@ export function applyTransitionedCallback() {
 
     for (let elem of transitionElements) {
         elem.ontransitionend = () => {
-            elem.remove();
-            console.log('Transition ended');
+            elem.parentElement.remove();
         };
     }
-
-
 }
