@@ -12,13 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Components\SourceViewer\SourceViewer.razor.js" />
   </ItemGroup>
-
   
   <ItemGroup>
     <SupportedPlatform Include="browser" />
@@ -32,15 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="compilerconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Carlton.Base.Client.Componets\Carlton.Base.Components.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

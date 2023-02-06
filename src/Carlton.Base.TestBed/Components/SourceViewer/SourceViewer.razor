@@ -12,14 +12,14 @@
 
 @code{
     private const string CODE_BLOCK_TEMPLATE = "<pre><code class='{0}'></code></pre>";
-    private const string PROJECT_NAME = "Carlton.TestBed";
+    private const string PROJECT_NAME = "Carlton.Base.TestBedFramework";
     private IJSObjectReference _module;
 
     private string OutputMarkup { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
-        _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/js/sourceViewer.razor.js");
+         _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
         await base.OnInitializedAsync();
     }
 

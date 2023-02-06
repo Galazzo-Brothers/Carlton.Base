@@ -8,7 +8,7 @@ public class  SourceViewerViewModelRequest : IRequest<SourceViewerViewModel>
 
 public class SourceViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<SourceViewerViewModelRequest, SourceViewerViewModel>
 {
-    private const string PROJECT_NAME = "Carlton.TestBed";
+    private const string PROJECT_NAME = "Carlton.Base.TestBedFramework";
     private readonly IJSRuntime _jsRuntime; 
 
     public SourceViewerViewModelRequestHandler(IJSRuntime jsRuntime, TestBedState state) : base(state)
@@ -18,7 +18,7 @@ public class SourceViewerViewModelRequestHandler : TestBedRequestHandlerViewMode
 
     public async override Task<SourceViewerViewModel> Handle(SourceViewerViewModelRequest request, CancellationToken cancellationToken)
     {
-        var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/js/sourceViewer.razor.js");
+        var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
         var markup = await module.InvokeAsync<string>("getOutputSource");
 
         return new SourceViewerViewModel(markup);
