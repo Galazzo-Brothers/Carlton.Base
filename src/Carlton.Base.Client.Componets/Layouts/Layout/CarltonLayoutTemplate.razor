@@ -1,68 +1,30 @@
 ﻿@namespace Carlton.Base.Components
 
-<CascadingValue Value="_layoutState">
-    <div class="@LayoutContainerCss" data-theme="@Theme.ToString()">
-        <header>
-            @HeaderContent
-        </header>
-        <nav>
-            @NavContent
-        </nav>
-        <main>
-            @Body
-        </main>
-        <footer class="@LayoutFooterCss">
-            @FooterContent
-        </footer>
-    </div>
+<CascadingValue Value="@LayoutState">
+    <CascadingValue Value="@ThemeState">
+        <CascadingValue Value="@GenerateNotificationAct">
+            <div class="@LayoutContainerCss" data-theme="@ThemeState.ThemeString">
+                <header>
+                    <NotificationBar @ref="NotificationBarRef" IsTestMode="false" FadeOutEnabled="true" Top="10" Right="10" />
+                    @HeaderContent
+                </header>
+                <nav>
+                    @NavContent
+                </nav>
+                <main>
+                    @Body
+                </main>
+                <footer class="@LayoutFooterCss">
+                    @FooterContent
+                </footer>
+            </div>
+        </CascadingValue>
+    </CascadingValue>
 </CascadingValue>
 
 
 
 @code {
-    private LayoutState _layoutState;
-
-    [Parameter]
-    public bool? IsCollapsed
-    {
-        get
-        {
-            return _layoutState.IsCollapsed;
-        }
-        set
-        {
-            //Can only be set from child elements
-            return;
-        }
-    }
-
-    [Parameter]
-    public Themes? Theme
-    {
-        get
-        {
-            return _layoutState.Theme;
-        }
-        set
-        {
-            //Can only be set from child elements
-            return;
-        }
-    }
-
-    [Parameter]
-    public bool IsFixedFooter
-    {
-        get
-        {
-            return _layoutState.IsFooterFixed;
-        }
-        set
-        {
-            //Can only be set from child elements
-            return;
-        }
-    }
     [Parameter]
     public RenderFragment HeaderContent { get; set; }
     [Parameter]
@@ -71,37 +33,43 @@
     public RenderFragment Body { get; set; }
     [Parameter]
     public RenderFragment FooterContent { get; set; }
+    [Parameter]
+    public bool IsFixedFooter { get; set; }
 
-    public override async Task SetParametersAsync(ParameterView parameters)
+    private LayoutState LayoutState { get; set; }
+    private ThemeState ThemeState { get; set; }
+    private NotificationBar NotificationBarRef { get; set; }
+    private Action<string, string, NotificationType> GenerateNotificationAct { get; set; }
+
+    protected override void OnInitialized()
     {
-        if(_layoutState is null)
+        LayoutState = new LayoutState(false, StateHasChanged);
+        ThemeState = new ThemeState(Themes.light, StateHasChanged);
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
         {
-            var themeSuccess = parameters.TryGetValue<Themes>(nameof(Theme), out var inputTheme);
-            var collasedStateSuccess = parameters.TryGetValue<bool>(nameof(IsCollapsed), out var inputCollasedState);
-            var isFixedFooterSuccess = parameters.TryGetValue<bool>(nameof(IsFixedFooter), out var inputIsFixedFooter);
-
-            inputCollasedState = (collasedStateSuccess) ? inputCollasedState : false;
-            inputTheme = (themeSuccess) ? inputTheme : Themes.light;
-            inputIsFixedFooter = (isFixedFooterSuccess) ? inputIsFixedFooter : false;
-
-            _layoutState = new LayoutState(inputCollasedState, inputTheme, inputIsFixedFooter, StateHasChanged);
+            GenerateNotificationAct = NotificationBarRef.GenerateNotification;
+            StateHasChanged();
         }
 
-
-        await base.SetParametersAsync(parameters);
+        base.OnAfterRender(firstRender);
     }
 
     private string LayoutContainerCss
     {
         get => new CssBuilder("layout-container")
-                .AddClass("collapsed", _layoutState.IsCollapsed)
+                .AddClass("collapsed", LayoutState.IsCollapsed)
                 .Build();
     }
 
     private string LayoutFooterCss
     {
         get => new CssBuilder("footer")
-            .AddClass("fixed", _layoutState.IsFooterFixed)
+            .AddClass("fixed", IsFixedFooter)
             .Build();
     }
 }

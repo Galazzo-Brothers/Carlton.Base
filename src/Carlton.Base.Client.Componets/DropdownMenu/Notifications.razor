@@ -1,6 +1,6 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="notifications">
+<div class="notifications" @onclick="@OnClick">
     <i class="mdi mdi-24px mdi-bell-outline"></i>
     <div class="notify">
         <span class="point">5</span>
@@ -10,4 +10,12 @@
 @code {
     [Parameter]
     public int NotificationCount { get; set; }
+
+    [CascadingParameter]
+    private Action<string, string, NotificationType> GenerateNotificationAct { get; set; }
+
+    public void OnClick()
+    {
+        GenerateNotificationAct("", "", NotificationType.Success);
+    }
 }

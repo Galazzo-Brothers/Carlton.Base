@@ -7,26 +7,26 @@
 
 @code {
     [CascadingParameter]
-    private LayoutState LayoutState { get; set; }
+    private ThemeState ThemeState { get; set; }
 
     private string ThemeIconCss
     {
         get => new CssBuilder()
                 .AddClass("mdi mdi-24px")
-                .AddClass("mdi-weather-sunny", LayoutState.Theme == Themes.light)
-                .AddClass("mdi-moon-waxing-crescent", LayoutState.Theme == Themes.dark)
+                .AddClass("mdi-weather-sunny", ThemeState.Theme == Themes.light)
+                .AddClass("mdi-moon-waxing-crescent", ThemeState.Theme == Themes.dark)
                 .Build();
     }
 
     private void SwapTheme()
     {
-        if(LayoutState.Theme == Themes.light)
+        if(ThemeState.Theme == Themes.light)
         {
-            LayoutState.SetTheme(Themes.dark);
+            ThemeState.SetTheme(Themes.dark);
         }
         else
         {
-            LayoutState.SetTheme(Themes.light);
+            ThemeState.SetTheme(Themes.light);
         }
     }
 }

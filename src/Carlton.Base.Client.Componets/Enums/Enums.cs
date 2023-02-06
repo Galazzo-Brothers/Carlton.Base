@@ -13,7 +13,6 @@ public enum Themes
 
 public enum NotificationType
 {
-    Default = 0,
     Success = 1,
     Warning = 2,
     Info = 3,

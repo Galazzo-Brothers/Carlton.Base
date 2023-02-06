@@ -1,4 +1,13 @@
 ﻿
+.notification-bar{
+    position: relative;
+}
+
+    .notification-bar .content {
+        position: absolute;
+        z-index: 3;
+    }
+
 button {
     height: 25px;
     border-style: none;

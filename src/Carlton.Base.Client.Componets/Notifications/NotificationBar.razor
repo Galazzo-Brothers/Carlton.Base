@@ -1,27 +1,29 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="carlton-notification-bar">
-    @foreach(var (notification, index) in Notifications.WithIndex())
-    {
-        switch(notification.NotificationType)
+<div class="notification-bar">
+    <div class="content" style="@ContentStyle">
+        @foreach(var (notification, index) in Notifications.WithIndex())
         {
-            case NotificationType.Success:
-                <SuccessNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
-                break;
-            case NotificationType.Info:
-                <InfoNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled"  />
-                break;
-            case NotificationType.Warning:
-                <WarningNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
-                break;
-            case NotificationType.Error:
-                <ErrorNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
-                break;
+            switch(notification.NotificationType)
+            {
+                case NotificationType.Success:
+                    <SuccessNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                    break;
+                case NotificationType.Info:
+                    <InfoNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                    break;
+                case NotificationType.Warning:
+                    <WarningNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                    break;
+                case NotificationType.Error:
+                    <ErrorNotification Title="@notification.Title" Message="@notification.Message" FadeOutEnabled="@FadeOutEnabled" />
+                    break;
+            }
         }
-    }
+    </div>
 </div>
 
-@if (IsTestMode)
+@if(IsTestMode)
 {
     <button class="success-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Success))">Success</button>
     <button class="info-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Info))">Info</button>
@@ -29,18 +31,31 @@
     <button class="error-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Error))">Error</button>
 }
 
+
 @code {
     [Parameter]
     public bool IsTestMode { get; set; }
-
     [Parameter]
     public bool FadeOutEnabled { get; set; }
+    [Parameter]
+    public int Top { get; set; }
+    [Parameter]
+    public int Right { get; set; }
 
     private List<Notification> Notifications { get; } = new List<Notification>();
 
-    private void GenerateNotification(string title, string message, NotificationType notificationType)
+    public void GenerateNotification(string title, string message, NotificationType notificationType)
     {
         Notifications.Add(new Notification(title, message, notificationType));
+        StateHasChanged();
+    }
+
+    private string ContentStyle
+    {
+        get => new StyleBuilder()
+                .AddStyle("top", $"{Top}px")
+                .AddStyle("right", $"{Right}px")
+                .Build();
     }
 }
 
