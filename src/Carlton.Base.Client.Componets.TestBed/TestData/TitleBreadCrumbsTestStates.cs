@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.Components.TestBed;
 
-internal static class PageTitleTestStates
+internal static class TitleBreadCrumbsTestStates
 {
     public static Dictionary<string, object> DefaultState()
     {

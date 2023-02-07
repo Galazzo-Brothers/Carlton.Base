@@ -19,7 +19,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-         _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
+        _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
         await base.OnInitializedAsync();
     }
 

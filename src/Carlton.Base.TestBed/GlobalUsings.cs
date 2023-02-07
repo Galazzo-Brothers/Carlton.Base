@@ -11,4 +11,4 @@ global using System.Threading.Tasks;
 global using MediatR;
 global using Newtonsoft.Json;
 global using Carlton.Base.Components;
-global using Carlton.Base.Client.State;
+global using Carlton.Base.State;

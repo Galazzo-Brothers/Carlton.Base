@@ -1,10 +1,16 @@
 ﻿@namespace Carlton.Base.TestBedFramework
-
-
 @inherits CarltonComponentBase<ComponentViewerViewModel>
 
 <div class="component-viewer">
-    @TestComponentFragment
+    @if(ViewModel.IsCarltonComponent)
+    {
+
+    }
+    else
+    {
+        <DynamicComponent Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />
+    }
+
 </div>
 
 @code {

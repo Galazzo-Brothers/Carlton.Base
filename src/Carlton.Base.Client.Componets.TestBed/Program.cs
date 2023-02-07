@@ -18,7 +18,7 @@ public static class Program
                    .AddComponent<CountCard>("Accent 4", CardTestStates.CountCard4State())
                    .AddComponent<Logo>(LogoTestStates.DefaultState())
                    .AddComponent<ProfileAvatar>(ProfileAvatarTestStates.DefaultState())
-                   .AddComponent<PageTitle>(PageTitleTestStates.DefaultState())
+                   .AddComponent<TitleBreadCrumbs>(TitleBreadCrumbsTestStates.DefaultState())
                    .AddComponent<Checkbox>("Checked", CheckboxTestStates.CheckedState())
                    .AddComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState())
                    .AddComponent<Select>(SelectTestStates.Default())

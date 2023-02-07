@@ -9,7 +9,7 @@ public class  SourceViewerViewModelRequest : IRequest<SourceViewerViewModel>
 public class SourceViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<SourceViewerViewModelRequest, SourceViewerViewModel>
 {
     private const string PROJECT_NAME = "Carlton.Base.TestBedFramework";
-    private readonly IJSRuntime _jsRuntime; 
+    private readonly IJSRuntime _jsRuntime;
 
     public SourceViewerViewModelRequestHandler(IJSRuntime jsRuntime, TestBedState state) : base(state)
     {
@@ -20,6 +20,8 @@ public class SourceViewerViewModelRequestHandler : TestBedRequestHandlerViewMode
     {
         var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
         var markup = await module.InvokeAsync<string>("getOutputSource");
+
+        await module.DisposeAsync();
 
         return new SourceViewerViewModel(markup);
     }
