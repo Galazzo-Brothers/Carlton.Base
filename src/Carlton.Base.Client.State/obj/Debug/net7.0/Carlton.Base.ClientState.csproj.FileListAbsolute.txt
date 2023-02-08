@@ -1,0 +1,6 @@
+C:\Users\nicho\Documents\Code\Carlton.Base.Client.Components\src\Carlton.Base.Client.State\obj\Debug\net7.0\Carlton.Base.ClientState.csproj.AssemblyReference.cache
+C:\Users\nicho\Documents\Code\Carlton.Base.Client.Components\src\Carlton.Base.Client.State\obj\Debug\net7.0\Sentry.Attributes.cs
+C:\Users\nicho\Documents\Code\Carlton.Base.Client.Components\src\Carlton.Base.Client.State\obj\Debug\net7.0\Carlton.Base.ClientState.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nicho\Documents\Code\Carlton.Base.Client.Components\src\Carlton.Base.Client.State\obj\Debug\net7.0\Carlton.Base.ClientState.AssemblyInfoInputs.cache
+C:\Users\nicho\Documents\Code\Carlton.Base.Client.Components\src\Carlton.Base.Client.State\obj\Debug\net7.0\Carlton.Base.ClientState.AssemblyInfo.cs
+C:\Users\nicho\Documents\Code\Carlton.Base.Client.Components\src\Carlton.Base.Client.State\obj\Debug\net7.0\Carlton.Base.ClientState.csproj.CoreCompileInputs.cache
