@@ -8,9 +8,9 @@
     }
     else
     {
-        <DynamicComponent Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />
+        @TestComponentFragment
+       @* <DynamicComponent Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />*@
     }
-
 </div>
 
 @code {
@@ -18,6 +18,8 @@
 
     protected override void OnParametersSet()
     {
+        //base.OnParametersSet();
+        //StateHasChanged();
         var componentType = ViewModel.ComponentType;
 
         if(!(typeof(ComponentBase).IsAssignableFrom(componentType)))
@@ -48,6 +50,12 @@
             builder.CloseComponent();
             builder.CloseElement();
         };
+    }
+
+    protected override bool ShouldRender()
+    {
+        var x = base.ShouldRender();
+        return x;
     }
 }
 

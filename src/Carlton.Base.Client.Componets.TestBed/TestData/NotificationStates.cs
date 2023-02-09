@@ -2,12 +2,14 @@
 
 internal static class NotificationStates
 {
-    public static Dictionary<string, object> FadeOutDisabledStated()
+    public static Dictionary<string, object> NotificationBarFadeOutDisabledStated()
     {
         return new Dictionary<string, object>
         {
             { "IsTestMode", true },
-            { "FadeOutEnabled", false }
+            { "FadeOutEnabled", false },
+            { "Top", 0 },
+            { "Right", -300 }
         };
     }
 
@@ -20,12 +22,23 @@ internal static class NotificationStates
         };
     }
 
-    public static Dictionary<string, object> SuccessState()
+    public static Dictionary<string, object> SuccessFadeOutEnabledState()
     {
         return new Dictionary<string, object>
         {
             {"Title", "Testing" },
-            {"Message", "This is a test" }
+            {"Message", "This is a test" },
+            {"FadeOutEnabled", true }
+        };
+    }
+
+    public static Dictionary<string, object> SuccessFadeOutDisabledState()
+    {
+        return new Dictionary<string, object>
+        {
+            {"Title", "Testing" },
+            {"Message", "This is a test" },
+            {"FadeOutEnabled", false }
         };
     }
 
