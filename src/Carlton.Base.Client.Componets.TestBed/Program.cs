@@ -23,7 +23,7 @@ public static class Program
                    .AddComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState())
                    .AddComponent<Select>(SelectTestStates.Default())
                    .AddComponent<NotificationBar>("FadeOut Disabled", NotificationStates.NotificationBarFadeOutDisabledStated())
-                    .AddComponent<NotificationBar>("FadeOut Enabled", NotificationStates.FadeOutEnabledStated())
+                    .AddComponent<NotificationBar>("FadeOut Enabled", NotificationStates.NotificationBarFadeOutEnabledStated())
                    .AddComponent<SuccessNotification>("FadeOut Disabled", NotificationStates.SuccessFadeOutDisabledState())
                    .AddComponent<SuccessNotification>("FadeOut Enabled", NotificationStates.SuccessFadeOutEnabledState())
                    .AddComponent<InfoNotification>(NotificationStates.InfoState())

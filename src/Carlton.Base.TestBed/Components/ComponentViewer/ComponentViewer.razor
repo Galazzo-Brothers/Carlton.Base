@@ -8,14 +8,11 @@
     }
     else
     {
-        @TestComponentFragment
-       @* <DynamicComponent Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />*@
+        <DynamicComponent Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />
     }
 </div>
 
 @code {
-    private RenderFragment TestComponentFragment { get; set; }
-
     protected override void OnParametersSet()
     {
         //base.OnParametersSet();
@@ -25,37 +22,31 @@
         if(!(typeof(ComponentBase).IsAssignableFrom(componentType)))
             throw new InvalidOperationException($"{componentType} is not a valid component type.");
 
-        TestComponentFragment = builder =>
-        {
-            builder.OpenElement(0, "div");
-            builder.OpenComponent(1, ViewModel.ComponentType);
+        //TestComponentFragment = builder =>
+        //{
+        //    builder.OpenElement(0, "div");
+        //    builder.OpenComponent(1, ViewModel.ComponentType);
 
-            Func<object, Task> wrappedCallback = async (evt) => await base.OnComponentEvent.InvokeAsync(new ComponentViewerAddEvent(evt));
-            EventCallback eventCallback = EventCallback.Factory.Create(this, wrappedCallback);
+        //    Func<object, Task> wrappedCallback = async (evt) => await base.OnComponentEvent.InvokeAsync(new ComponentViewerAddEvent(evt));
+        //    EventCallback eventCallback = EventCallback.Factory.Create(this, wrappedCallback);
 
-            if(ViewModel.IsCarltonComponent)
-            {
-                builder.AddAttribute(1, "ViewModel", base.ViewModel.ComponentViewModel);
-                builder.AddAttribute(2, "OnComponentEvent", eventCallback);
-            }
-            else
-            {
-                var componentParameters = (IDictionary<string, object>)ViewModel.ComponentViewModel;
-                foreach(var (key, i) in componentParameters.Keys.WithIndex())
-                {
-                    builder.AddAttribute(i, key, componentParameters[key]);
-                }
-            }
+        //    if(ViewModel.IsCarltonComponent)
+        //    {
+        //        builder.AddAttribute(1, "ViewModel", base.ViewModel.ComponentViewModel);
+        //        builder.AddAttribute(2, "OnComponentEvent", eventCallback);
+        //    }
+        //    else
+        //    {
+        //        var componentParameters = (IDictionary<string, object>)ViewModel.ComponentViewModel;
+        //        foreach(var (key, i) in componentParameters.Keys.WithIndex())
+        //        {
+        //            builder.AddAttribute(i, key, componentParameters[key]);
+        //        }
+        //    }
 
-            builder.CloseComponent();
-            builder.CloseElement();
-        };
-    }
-
-    protected override bool ShouldRender()
-    {
-        var x = base.ShouldRender();
-        return x;
+        //    builder.CloseComponent();
+        //    builder.CloseElement();
+        //};
     }
 }
 

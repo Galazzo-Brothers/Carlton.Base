@@ -9,16 +9,18 @@ internal static class NotificationStates
             { "IsTestMode", true },
             { "FadeOutEnabled", false },
             { "Top", 0 },
-            { "Right", -300 }
+            { "Right", -500 }
         };
     }
 
-    public static Dictionary<string, object> FadeOutEnabledStated()
+    public static Dictionary<string, object> NotificationBarFadeOutEnabledStated()
     {
         return new Dictionary<string, object>
         {
             { "IsTestMode", true },
-            { "FadeOutEnabled", true }
+            { "FadeOutEnabled", true },
+            { "Top", 0 },
+            { "Right", -500 }
         };
     }
 
