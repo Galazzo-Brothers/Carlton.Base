@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.TestBedFramewo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.State", "src\Carlton.Base.Client.State\Carlton.Base.State.csproj", "{2DE589B6-95B1-46B4-9774-4F0B9F465229}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Infrastructure", "src\Carlton.Base.Infrastructure\Carlton.Base.Infrastructure.csproj", "{E5EB3291-FC3A-4181-A816-CE2531D4E66A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2DE589B6-95B1-46B4-9774-4F0B9F465229}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DE589B6-95B1-46B4-9774-4F0B9F465229}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DE589B6-95B1-46B4-9774-4F0B9F465229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5EB3291-FC3A-4181-A816-CE2531D4E66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5EB3291-FC3A-4181-A816-CE2531D4E66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5EB3291-FC3A-4181-A816-CE2531D4E66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5EB3291-FC3A-4181-A816-CE2531D4E66A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
