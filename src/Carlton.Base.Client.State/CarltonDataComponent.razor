@@ -4,35 +4,34 @@
 
 <CarltonDataWrapper TViewModel="TViewModel">
     <ChildComponent>
-        @DynamicChild(context)
+        <DynamicComponent Type="DynamicComponentType" Parameters="DynamicComponentParameters(context)" />
     </ChildComponent>
 </CarltonDataWrapper>
 
-@code{
-    private RenderFragment<CarltonDataWrapperContext<TViewModel>> DynamicChild { get; set; }
-
+@code {
     [Inject]
     private ICarltonStateFactory factory { get; set; }
 
     private delegate Task ComponentEventDel(object evt);
 
-
-    protected override void OnInitialized()
+    private Type DynamicComponentType
     {
-        DynamicChild = (CarltonDataWrapperContext<TViewModel> context) =>
-        builder =>
+        get
         {
-            var viewModel = context.ViewModel;
-            var del = new ComponentEventDel(context.OnComponentEvent);
-            var eventCallback = new EventCallback(this, del);
+            return factory.GetComponentType<TViewModel>();
+        }
+    }
 
-            builder.OpenComponent(1, factory.GetComponentType<TViewModel>());
-            builder.AddAttribute(1, "ViewModel", viewModel);
-            builder.AddAttribute(2, "OnComponentEvent", eventCallback);
-            builder.CloseComponent();
-        };
+    private Dictionary<string, object> DynamicComponentParameters(CarltonDataWrapperContext<TViewModel> context)
+    {
+        var del = new ComponentEventDel(context.OnComponentEvent);
+        var eventCallback = new EventCallback(this, del);
 
-        base.OnInitialized();
+        return new Dictionary<string, object>
+            {
+                {"ViewModel", context.ViewModel},
+                {"OnComponentEvent", eventCallback}
+            };
     }
 }
 

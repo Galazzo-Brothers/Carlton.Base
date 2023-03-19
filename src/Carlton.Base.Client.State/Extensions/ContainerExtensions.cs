@@ -2,6 +2,8 @@
 
 public static class ContainerExtensions
 {
+    private static bool expression(Type _) => _.IsGenericType && _.GetGenericTypeDefinition().Equals(typeof(ICarltonComponentEventRequest<>));
+
     public static void AddCarltonState(this IServiceCollection services, Action<CarltonStateEventMapBuiler> builder, params Assembly[] assemblies)
     {
         //Build StateEvents Map
@@ -84,8 +86,6 @@ public static class ContainerExtensions
         }
 
         return result;
-
-        static bool expression(Type _) => _.IsGenericType && _.GetGenericTypeDefinition().Equals(typeof(ICarltonComponentEventRequest<>));
     }
 }
 
