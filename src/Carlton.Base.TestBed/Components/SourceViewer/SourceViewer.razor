@@ -13,9 +13,9 @@
 @code{
     private const string CODE_BLOCK_TEMPLATE = "<pre><code class='{0}'></code></pre>";
     private const string PROJECT_NAME = "Carlton.Base.TestBedFramework";
-    private IJSObjectReference _module;
+    private IJSObjectReference? _module;
 
-    private string OutputMarkup { get; set; }
+    private string OutputMarkup { get; set; } = string.Empty;
 
     protected async override Task OnInitializedAsync()
     {
@@ -33,12 +33,18 @@
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
+        if(_module == null)
+            throw new InvalidOperationException();
+
         await _module.InvokeAsync<Task>("postRender", ViewModel.ComponentSource);
         await base.OnAfterRenderAsync(firstRender);
     }
 
     public async ValueTask DisposeAsync()
     {
+        if(_module == null)
+            throw new InvalidOperationException();
+
         await _module.DisposeAsync();
     }
 }

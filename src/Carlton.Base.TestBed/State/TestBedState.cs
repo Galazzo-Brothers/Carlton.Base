@@ -8,7 +8,7 @@ public class TestBedState : ICarltonStateStore
     public const string COMPONENT_EVENT_ADDED = "ComponentEventAdded";
     public const string COMPONENT_EVENTS_CLEARED = "COMPONENT_EVENTS_CLEARED";
 
-    public event Func<object, string, Task> StateChanged;
+    public event Func<object, string, Task>? StateChanged;
 
     private readonly IList<object> _componentEvents;
 
@@ -30,19 +30,21 @@ public class TestBedState : ICarltonStateStore
     public async Task AddTestComponentEvents(object sender, object componentEvent)
     {
         _componentEvents.Add(componentEvent);
-        await StateChanged.Invoke(sender, COMPONENT_EVENT_ADDED).ConfigureAwait(false);
+        
+        if(StateChanged != null)
+            await InvokeStateChanged(sender, COMPONENT_EVENT_ADDED);
     }
 
     public async Task ClearComponentEvents(object sender)
     {
         _componentEvents.Clear();
-        await StateChanged.Invoke(sender, COMPONENT_EVENTS_CLEARED).ConfigureAwait(false);
+        await InvokeStateChanged(sender, COMPONENT_EVENTS_CLEARED);
     }
 
     public async Task UpdateTestComponentViewModel(object sender, object vm)
     {
         TestComponentViewModel = vm;
-        await StateChanged.Invoke(sender, VIEW_MODEL_CHANGED).ConfigureAwait(false);
+        await InvokeStateChanged(sender, VIEW_MODEL_CHANGED);
     }
 
     public async Task UpdateSelectedItemId(object sender, int componentID, int stateID)
@@ -51,7 +53,8 @@ public class TestBedState : ICarltonStateStore
                              .Items.First(_ => _.Index == stateID)
                              .Value;
         TestComponentViewModel = SelectedItem.ViewModel;
-        await StateChanged.Invoke(sender, SELECTED_ITEM).ConfigureAwait(false);
+        
+        await InvokeStateChanged(sender, SELECTED_ITEM);
     }
 
     private async Task InvokeStateChanged(object sender, string evt)

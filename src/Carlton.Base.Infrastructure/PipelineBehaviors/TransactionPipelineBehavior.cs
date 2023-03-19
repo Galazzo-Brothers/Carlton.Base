@@ -20,7 +20,7 @@ public class TransactionPipelineBehavior<TRequest, TResponse> : BasePipelineBeha
                 Logger.LogInformation($"End Transaction for {RequestType}");
                 return result;
             }
-        }catch(Exception ex)
+        }catch(Exception)
         {
             throw;
         }

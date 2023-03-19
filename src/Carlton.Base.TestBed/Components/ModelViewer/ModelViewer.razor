@@ -12,8 +12,8 @@
 
 
 @code {
-    private string ViewModelJson { get; set; }
-    private object DesieralizedViewModel { get; set; }
+    private string ViewModelJson { get; set; } = string.Empty;
+    private object DesieralizedViewModel { get; set; } = new object();
 
     protected override void OnParametersSet()
     {
@@ -26,7 +26,7 @@
         try
         {
             var currentType = ViewModel.TestComponentViewModel.GetType();
-            DesieralizedViewModel = JsonConvert.DeserializeObject(vm, currentType);
+            DesieralizedViewModel = JsonConvert.DeserializeObject(vm, currentType) ?? new object();
             return Task.FromResult(true);
         }
         catch(Exception)

@@ -5,7 +5,6 @@ public static class Program
     public static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
-        var sourceBasePath = builder.Configuration.GetSection("sourceSamplesSettings").GetValue<string>("sourceBasePath");
 
         builder.AddCarltonTestBed(builder =>
         {
@@ -31,7 +30,6 @@ public static class Program
                    .AddComponent<ErrorNotification>(NotificationStates.ErrorState())
                    .Build();
         },
-        sourceBasePath,
         typeof(TestBedFramework.TestBed).Assembly);
 
 

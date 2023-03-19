@@ -4,7 +4,6 @@ public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestBed(this WebAssemblyHostBuilder builder,
         Action<NavMenuBuilder> navTreeAct,
-        string sourceBasePath,
         params Assembly[] assemblies)
     {
         var NavTreeBuilder = new NavMenuBuilder();
@@ -15,8 +14,6 @@ public static class WebAssemblyHostBuilderExtensions
         builder.Services.AddSingleton(state);
         builder.Services.AddSingleton<ICarltonStateStore>(state);
         builder.Services.AddMediatR(assemblies);
-
-        builder.Services.AddSingleton(new SourceConfig(sourceBasePath));
 
         builder.Services.AddCarltonState(builder =>
             builder.ForComponent<NavMenuViewModel>(_ =>
