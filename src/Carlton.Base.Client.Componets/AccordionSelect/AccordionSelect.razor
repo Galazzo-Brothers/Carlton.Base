@@ -28,7 +28,7 @@
     public string Title { get; set; }
 
     [Parameter]
-    public IEnumerable<SelectItem<TValue>> Items { get; set; }
+    public IEnumerable<SelectItem<TValue>> Items { get; set; } = new List<SelectItem<TValue>>();
 
     [Parameter]
     public TValue SelectedValue { get; set; }
