@@ -25,6 +25,25 @@
 
     private int _selectedGroupIndex;
 
+    protected override void OnInitialized()
+    {
+        SetDefaultSelectedValues();
+        base.OnInitialized();
+    }
+
+    private void SetDefaultSelectedValues()
+    {
+        foreach(var group in Groups)
+        {
+            var selectedItem = group.Items.FirstOrDefault(_ => _.Value.Equals(SelectedItem));
+            if(selectedItem != null)
+            {
+                _selectedGroupIndex = group.Index;
+                break;
+            }
+        }
+    }
+
     private TValue GetSelectedValue(int groupIndex)
     {
         if(groupIndex != _selectedGroupIndex)
@@ -37,7 +56,7 @@
     {
         _selectedGroupIndex = groupIndex;
         SelectedItem = value;
-        
+
         await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEvent<TValue>(groupIndex, itemIndex, value));
     }
 }
