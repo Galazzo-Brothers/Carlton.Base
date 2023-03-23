@@ -24,5 +24,5 @@ public enum CountCardTheme
     Blue = 1,
     Green = 2,
     Red = 3,
-    Purpble = 4
+    Purple = 4
 }

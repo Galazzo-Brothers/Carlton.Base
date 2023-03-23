@@ -61,7 +61,7 @@ internal static class CardTestStates
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
             { "Icon", "mdi-camera" },
-            { "Theme", CountCardTheme.Purpble }
+            { "Theme", CountCardTheme.Purple }
         };
     }
 

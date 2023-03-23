@@ -10,14 +10,14 @@ internal static class MenuTestStates
         };
     }
 
-    private static IEnumerable<DropdownMenuItem> DefaultMenuItems()
+    private static IEnumerable<DropdownMenuItem<int>> DefaultMenuItems()
     {
-        return new List<DropdownMenuItem>
-              {
-                      //new MenuItem("Option 1", () => Task.CompletedTask),
-                      //new MenuItem("Option 2", () => Task.CompletedTask),
-                      //new MenuItem("Option 3", () => Task.CompletedTask)
-              };
+        return new List<DropdownMenuItem<int>>
+        {
+            new DropdownMenuItem<int>("Option 1", 1, "mdi-icon1", 1),
+            new DropdownMenuItem<int>("Option 2", 2, "mdi-icon2", 2),
+            new DropdownMenuItem<int>("Option 3", 3, "mdi-icon3", 3)
+        };
     }
 }
 

@@ -35,20 +35,6 @@
     public IEnumerable<TItem> Items { get; set; }
 
 
-    DropdownMenuItems x = new DropdownMenuItems
-            (
-                new List<DropdownMenuItem> 
-                {
-                    new DropdownMenuItem("Item 1", "icon", 1, () => Task.CompletedTask),
-                    new DropdownMenuItem("Item 2", "icon", 1, () => Task.CompletedTask),
-                   new DropdownMenuItem("Item 3", "icon", 1, () => Task.CompletedTask)
-                }
-            );
-
-    protected override void OnInitialized()
-    {
-
-    base.OnInitialized();
-    }
+    IEnumerable<DropdownMenuItem<int>> x = new List<DropdownMenuItem<int>>(new List<DropdownMenuItem<int>>());
 }
 

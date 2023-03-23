@@ -1,11 +1,12 @@
 ﻿@namespace Carlton.Base.Components
+@typeparam T
 
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
     @MenuTemplate(IsActive)
     <div class="dropdown @DropdownMenuCss" style="@DropdownMenuStyle">
         <ul>
             @HeaderTemplate
-            @foreach(var (item, index) in MenuItems.Items.WithIndex())
+            @foreach(var item in MenuItems)
             {
                 <li>
                     @MenuItemTemplate(item)
@@ -19,13 +20,13 @@
     private bool IsActive { get; set; }
 
     [Parameter]
-    public DropdownMenuItems MenuItems { get; set; }
+    public IEnumerable<DropdownMenuItem<T>> MenuItems { get; set; }
     [Parameter]
     public RenderFragment HeaderTemplate { get; set; }
     [Parameter]
     public RenderFragment<bool> MenuTemplate { get; set; }
     [Parameter]
-    public RenderFragment<DropdownMenuItem> MenuItemTemplate { get; set; }
+    public RenderFragment<DropdownMenuItem<T>> MenuItemTemplate { get; set; }
     [Parameter]
     public DropdownMenuStyle Style { get; set; }
 

@@ -26,7 +26,7 @@
             </div>
         </HeaderTemplate>
         <MenuItemTemplate Context="item">
-            <DropdownMenuElement MenuItem="item" />
+            <DropdownMenuElement MenuItemName="@item.MenuItemName" Value="@item.Value" MenuIcon="@item.MenuIcon" AccentColorIndex="@item.AccentColorIndex" />
         </MenuItemTemplate>
     </DropdownMenu>
 </div>
@@ -36,22 +36,13 @@
     public string AvatarImgUrl { get; set; }
     [Parameter]
     public string Username { get; set; }
-    [Parameter]
-    public DropdownMenuItems DropdownMenuItems { get; set; }
 
-    protected override void OnInitialized()
+    public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; private set; } = new List<DropdownMenuItem<int>>
     {
-        DropdownMenuItems = new DropdownMenuItems
-        (
-            new List<DropdownMenuItem>
-            {
-                        new DropdownMenuItem("Profile", "account", 1, () => { return Task.CompletedTask; }),
-                        new DropdownMenuItem("Theme", "theme-light-dark", 2, () => { return Task.CompletedTask; }),
-                        new DropdownMenuItem("Logout", "logout", 3, () => { return Task.CompletedTask; })
-            }
-        );
-        base.OnInitialized();
-    }
+        new DropdownMenuItem<int>("Profile", 1, "account", 1),
+        new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2),
+        new DropdownMenuItem<int>("Logout", 3, "logout", 3)
+    };
 
     private DropdownMenuStyle Style
     {

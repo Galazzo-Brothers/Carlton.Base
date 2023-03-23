@@ -1,4 +1,3 @@
 ﻿namespace Carlton.Base.Components;
 
-public record DropdownMenuItems(IEnumerable<DropdownMenuItem> Items);
-public record DropdownMenuItem(string MenuItemName, string MenuIcon, int accentColorIndex, Func<Task> MenuItemEvent);
+public record DropdownMenuItem<T>(string MenuItemName, T Value, string MenuIcon, int AccentColorIndex);
