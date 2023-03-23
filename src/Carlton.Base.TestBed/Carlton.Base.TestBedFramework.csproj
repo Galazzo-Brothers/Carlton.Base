@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Carlton.Base.Client.State\Carlton.Base.State.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestData\" />
+  </ItemGroup>
+
 </Project>
