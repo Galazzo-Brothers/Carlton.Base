@@ -9,9 +9,13 @@ public class ListCardComponentTests : TestContext
       <span class=""card-title"" b-g3swmy425k>List Card Title</span>
       <div class=""status-icon"" b-g3swmy425k>
         <div class=""dropdown-menu"" blazor:onclick=""1"" b-e7te7pxji7>
-          <i class=""mdi mdi-24px mdi-dots-vertical"" b-m40yy2q1d3></i>
+          <div class=""menu"" b-e7te7pxji7>
+            <i class=""mdi mdi-24px mdi-dots-vertical"" b-m40yy2q1d3></i>
+          </div>
           <div class=""dropdown "" style=""--dropdown-left:10px;--dropdown-top:10px;--dropdown-top-mobile:10px;"" b-e7te7pxji7>
-            <ul b-e7te7pxji7></ul>
+            <ul b-e7te7pxji7>
+                 <div class=""header"" b-e7te7pxji7></div>
+            </ul>
           </div>
         </div>
       </div>
