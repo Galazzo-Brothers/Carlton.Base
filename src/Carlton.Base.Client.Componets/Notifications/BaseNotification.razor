@@ -35,9 +35,10 @@
     private IJSObjectReference _module;
 
 
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
+
         _module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.PROJECT_NAME}/Notifications/BaseNotification.razor.js");
         await _module.InvokeAsync<Task>("applyTransitionedCallback");
 
@@ -75,8 +76,10 @@
     private async Task Dismiss()
     {
         IsDismissed = true;
-        await _module.InvokeAsync<Task>("removeTransitionedCallback");
-        await OnDismiss.InvokeAsync();
+        var jsInvokeTask = _module.InvokeAsync<Task>("removeTransitionedCallback");
+        var onDismissInvokeTask = OnDismiss.InvokeAsync();
+        await Task.WhenAll(jsInvokeTask.AsTask(), onDismissInvokeTask);
+
     }
 
     public async ValueTask DisposeAsync()
