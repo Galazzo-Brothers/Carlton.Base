@@ -40,6 +40,23 @@ public class ListCardComponentTests : TestContext
   </div>
 </div>";
 
+
+    public static IEnumerable<object[]> GetItems()
+    {
+        yield return new object[]
+           {
+               new List<int> { 1, 2, 3 }
+           };
+        yield return new object[]
+           {
+              new List<int> { 1, 2, 3, 10, 15 }
+            };
+        yield return new object[]
+            {
+                new List<int> { 7 }
+            };
+    }
+
     private static readonly IEnumerable<int> _items = new List<int> { 1, 2, 3 };
 
 
@@ -59,8 +76,9 @@ public class ListCardComponentTests : TestContext
         cut.MarkupMatches(ListCardMarkup);
     }
 
-    [Fact]
-    public void ListCard_RendersCorrectNumberOfItems()
+    [Theory]
+    [MemberData(nameof(GetItems))]
+    public void ListCard_ItemsParam_RendersCorrectly(IEnumerable<int> items)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
@@ -68,21 +86,24 @@ public class ListCardComponentTests : TestContext
             .Add(p => p.SubTitle, "Some Test Subtitle")
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, _items)
+            .Add(p => p.Items, items)
             );
 
         var liElements = cut.FindAll(".primary-content li");
 
         //Assert
-        Assert.Equal(3, liElements.Count);
+        Assert.Equal(items.Count(), liElements.Count);
     }
 
-    [Fact]
-    public void ListCard_CardTitleParam_RendersCorrectly()
+    [Theory]
+    [InlineData("Test Title 1")]
+    [InlineData("Test Title 2")]
+    [InlineData("Test Title 3")]
+    public void ListCard_CardTitleParam_RendersCorrectly(string title)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-            .Add(p => p.CardTitle, "List Card Test Title")
+            .Add(p => p.CardTitle, title)
             .Add(p => p.SubTitle, "Some Test Subtitle")
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
@@ -92,16 +113,19 @@ public class ListCardComponentTests : TestContext
         var cardTitle = cut.Find(".card-title").TextContent;
 
         //Assert
-        Assert.Equal("List Card Test Title", cardTitle);
+        Assert.Equal(title, cardTitle);
     }
 
-    [Fact]
-    public void ListCard_CardSubTitleParam_RendersCorrectly()
+    [Theory]
+    [InlineData("Test Subtitle 1")]
+    [InlineData("Test Subtitle 2")]
+    [InlineData("Test Subtitle 3")]
+    public void ListCard_CardSubTitleParam_RendersCorrectly(string subtitle)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
             .Add(p => p.CardTitle, "List Card Test Title")
-            .Add(p => p.SubTitle, "List Card Test Subtitle")
+            .Add(p => p.SubTitle, subtitle)
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
             .Add(p => p.Items, _items)
@@ -110,17 +134,20 @@ public class ListCardComponentTests : TestContext
         var cardTitle = cut.Find(".sub-title").TextContent;
 
         //Assert
-        Assert.Equal("List Card Test Subtitle", cardTitle);
+        Assert.Equal(subtitle, cardTitle);
     }
 
-    [Fact]
-    public void ListCard_HeaderContentChildParam_RendersCorrectly()
+    [Theory]
+    [InlineData("<span>Header Testing Content</span>")]
+    [InlineData("<span>More Header Testing Content</span>")]
+    [InlineData("<span>Event More Header Testing Content</span>")]
+    public void ListCard_HeaderContentChildParam_RendersCorrectly(string expectedHeaderContent)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
             .Add(p => p.CardTitle, "List Card Test Title")
             .Add(p => p.SubTitle, "List Card Test Subtitle")
-            .Add(p => p.HeaderContent, "<span>Header Testing Content</span>")
+            .Add(p => p.HeaderContent, expectedHeaderContent)
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
             .Add(p => p.Items, _items)
             );
@@ -128,6 +155,6 @@ public class ListCardComponentTests : TestContext
         var headerContent = cut.Find(".header-content").InnerHtml;
 
         //Assert
-        Assert.Equal("<span>Header Testing Content</span>", headerContent);
+        Assert.Equal(expectedHeaderContent, headerContent);
     }
 }

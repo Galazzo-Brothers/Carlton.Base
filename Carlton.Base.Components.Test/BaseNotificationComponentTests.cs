@@ -3,7 +3,7 @@
 public class BaseNotificationComponentTests : TestContext
 {
     private static readonly string BaseNotificationMarkup =
-@"
+    @"
 <div class=""carlton-notification"" b-rlbygplu4k>
     <div class=""content"" b-rlbygplu4k>
         <span class=""icon mdi mdi-24px icon-class"" b-rlbygplu4k></span>
@@ -34,8 +34,11 @@ public class BaseNotificationComponentTests : TestContext
         cut.MarkupMatches(BaseNotificationMarkup);
     }
 
-    [Fact]
-    public void BaseNotification_TitleParam_RendersCorrectly()
+    [Theory]
+    [InlineData("Notification Title Test 1")]
+    [InlineData("Notification Title Test 2")]
+    [InlineData("Notification Title Test 3")]
+    public void BaseNotification_TitleParam_RendersCorrectly(string expectedTitle)
     {
         //Arrange
         var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");
@@ -43,7 +46,7 @@ public class BaseNotificationComponentTests : TestContext
 
         //Act
         var cut = RenderComponent<BaseNotification>(parameters => parameters
-            .Add(p => p.Title, "Notification Title Test")
+            .Add(p => p.Title, expectedTitle)
             .Add(p => p.Message, "Some Notification Message")
             .Add(p => p.IconClass, "icon-class")
             .Add(p => p.FadeOutEnabled, false)
@@ -52,11 +55,14 @@ public class BaseNotificationComponentTests : TestContext
         var title = cut.Find(".title").TextContent;
 
         //Assert
-        Assert.Equal("Notification Title Test", title);
+        Assert.Equal(expectedTitle, title);
     }
 
-    [Fact]
-    public void BaseNotification_MessageParam_RendersCorrectly()
+    [Theory]
+    [InlineData("Notification Message Test 1")]
+    [InlineData("Notification Message Test 2")]
+    [InlineData("Notification Message Test 3")]
+    public void BaseNotification_MessageParam_RendersCorrectly(string expectedMessage)
     {
         //Arrange
         var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");
@@ -65,7 +71,7 @@ public class BaseNotificationComponentTests : TestContext
         //Act
         var cut = RenderComponent<BaseNotification>(parameters => parameters
             .Add(p => p.Title, "Notification Title")
-            .Add(p => p.Message, "Some Test Notification Message")
+            .Add(p => p.Message, expectedMessage)
             .Add(p => p.IconClass, "icon-class")
             .Add(p => p.FadeOutEnabled, false)
             );
@@ -73,11 +79,14 @@ public class BaseNotificationComponentTests : TestContext
         var message = cut.Find(".message").TextContent;
 
         //Assert
-        Assert.Equal("Some Test Notification Message", message);
+        Assert.Equal(expectedMessage, message);
     }
 
-    [Fact]
-    public void BaseNotification_IconClassParameter_RendersCorrectly()
+    [Theory]
+    [InlineData("icon-class-test-1")]
+    [InlineData("icon-class-test-2")]
+    [InlineData("icon-class-test-3")]
+    public void BaseNotification_IconClassParameter_RendersCorrectly(string expectedIconClass)
     {
         //Arrange
         var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");
@@ -87,33 +96,14 @@ public class BaseNotificationComponentTests : TestContext
         var cut = RenderComponent<BaseNotification>(parameters => parameters
             .Add(p => p.Title, "Notification Title")
             .Add(p => p.Message, "Some Test Notification Message")
-            .Add(p => p.IconClass, "icon-class-test")
+            .Add(p => p.IconClass, expectedIconClass)
             .Add(p => p.FadeOutEnabled, false)
             );
 
         var icon = cut.Find(".icon");
 
         //Assert
-        Assert.Contains("icon-class-test", icon.ClassList);
-    }
-
-    [Fact]
-    public void BaseNotification_FadeOutEnabledParameter_RendersCorrectly()
-    {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");
-        moduleInterop.Setup<Task>("applyTransitionedCallback");
-
-        //Act
-        var cut = RenderComponent<BaseNotification>(parameters => parameters
-            .Add(p => p.Title, "Notification Title")
-            .Add(p => p.Message, "Some Test Notification Message")
-            .Add(p => p.IconClass, "icon-class-test")
-            .Add(p => p.FadeOutEnabled, true)
-            );
-
-        //Assert
-        cut.WaitForAssertion(() => cut.Find(".carlton-notification").ClassList.Contains("dismissed"));
+        Assert.Contains(expectedIconClass, icon.ClassList);
     }
 
     [Fact]

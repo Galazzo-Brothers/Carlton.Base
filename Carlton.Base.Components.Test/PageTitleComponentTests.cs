@@ -22,33 +22,39 @@ public class PageTitleComponentTests : TestContext
         cut.MarkupMatches(PageTitleMarkup);
     }
 
-    [Fact]
-    public void PageTitle_TitleParam_RendersCorrectly()
+    [Theory]
+    [InlineData("Test Title")]
+    [InlineData("Another Test Title")]
+    [InlineData("Yet Another Test Title")]
+    public void PageTitle_TitleParam_RendersCorrectly(string expectedTitle)
     {
         //Act
         var cut = RenderComponent<TitleBreadCrumbs>(paramaters => paramaters
-            .Add(p => p.Title, "Test")
+            .Add(p => p.Title, expectedTitle)
             .Add(p => p.BreadCrumbs, "SomeThing > AnotherThing")
             );
 
         var title = cut.Find(".title");
 
         //Assert
-        Assert.Equal("Test", title.InnerHtml);
+        Assert.Equal(expectedTitle, title.InnerHtml);
     }
 
-    [Fact]
-    public void PageTitle_BreadCrumbParam_RendersCorrectly()
+    [Theory]
+    [InlineData("SomeThing > AnotherThing")]
+    [InlineData("SomeOtherThing > AnotherThing")]
+    [InlineData("YetAnotherThing > AnotherThing")]
+    public void PageTitle_BreadCrumbParam_RendersCorrectly(string expectedBreadCrumbs)
     {
         //Act
         var cut = RenderComponent<TitleBreadCrumbs>(paramaters => paramaters
             .Add(p => p.Title, "Test Title")
-            .Add(p => p.BreadCrumbs, "SomeThing > AnotherThing")
+            .Add(p => p.BreadCrumbs, expectedBreadCrumbs)
             );
 
         var breadCrumbs = cut.Find(".bread-crumbs");
 
         //Assert
-        Assert.Equal("SomeThing > AnotherThing", breadCrumbs.TextContent);
+        Assert.Equal(expectedBreadCrumbs, breadCrumbs.TextContent);
     }
 }

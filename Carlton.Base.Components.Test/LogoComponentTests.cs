@@ -25,31 +25,19 @@ public class LogoComponentTests : TestContext
         cut.MarkupMatches(LogoMarkup);
     }
 
-    [Fact]
-    public void Logo_IsCollapsedParam_False_ShouldBeExpanded()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Logo_IsCollapsedParam_ShouldBeExpanded(bool isCollapsed)
     {
         //Arrange
-        var layoutState = new LayoutState(false, () => { });
+        var layoutState = new LayoutState(isCollapsed, () => { });
 
         //Act
         var cut = RenderComponent<HamburgerCollapser>(paramaters => paramaters
             .AddCascadingValue(layoutState));
 
         //Assert
-        Assert.False(layoutState.IsCollapsed);
-    }
-
-    [Fact]
-    public void Logo_IsCollapsedParam_True_ShouldBeCollapsed()
-    {
-        //Arrange
-        var layoutState = new LayoutState(true, () => { });
-
-        //Act
-        var cut = RenderComponent<HamburgerCollapser>(paramaters => paramaters
-            .AddCascadingValue(layoutState));
-
-        //Assert
-        Assert.True(layoutState.IsCollapsed);
+        Assert.Equal(isCollapsed, layoutState.IsCollapsed);
     }
 }

@@ -2,7 +2,7 @@ namespace Carlton.Base.Components.Test;
 
 public class AccordionSelectComponentTests : TestContext
 {
-    private static readonly string AccordionSelectMarkup =
+    private static readonly string AccordionSelectNoItemsMarkup =
     @"
     <div class=""accordion-select"" b-6835cu0hu3>
         <div class=""content"" b-6835cu0hu3>
@@ -14,13 +14,30 @@ public class AccordionSelectComponentTests : TestContext
         </div>
     </div>";
 
-    private static readonly string AccordionSelectItemMarkup =
+    private static readonly string AccordionSelectWithItemsMarkup =
     @"
-        <div class=""item"" blazor:onclick=""2"" b-6835cu0hu3="""">
-            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3=""""></span>
-            <span class=""item-name"" b-6835cu0hu3="""">Item 1</span>
+    <div class=""accordion-select"" b-6835cu0hu3>
+      <div class=""content"" b-6835cu0hu3>
+        <div class=""accordion-header"" blazor:onclick=""1"" b-6835cu0hu3>
+          <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline"" b-6835cu0hu3></span>
+          <span class=""item-group-name"" b-6835cu0hu3>AccordionSelect Title</span>
         </div>
-    ";
+        <div class=""item-container"" b-6835cu0hu3>
+          <div class=""item"" blazor:onclick=""2"" b-6835cu0hu3>
+            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
+            <span class=""item-name"" b-6835cu0hu3>Item 1</span>
+          </div>
+          <div class=""item"" blazor:onclick=""3"" b-6835cu0hu3>
+            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
+            <span class=""item-name"" b-6835cu0hu3>Item 2</span>
+          </div>
+          <div class=""item"" blazor:onclick=""4"" b-6835cu0hu3>
+            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
+            <span class=""item-name"" b-6835cu0hu3>Item 3</span>
+          </div>
+        </div>
+      </div>
+    </div>";
 
     public static IEnumerable<object[]> GetItems()
     {
@@ -50,15 +67,15 @@ public class AccordionSelectComponentTests : TestContext
             };
     }
 
-    private static readonly List<SelectItem<int>> Items = new List<SelectItem<int>>()
-                {
-                    new SelectItem<int>("Item 1", 0, 1),
-                    new SelectItem<int>("Item 2", 1, 2),
-                    new SelectItem<int>("Item 3", 2, 3)
-                };
+    public static readonly List<SelectItem<int>> Items = new()
+    {
+        new SelectItem<int>("Item 1", 0, 1),
+        new SelectItem<int>("Item 2", 1, 2),
+        new SelectItem<int>("Item 3", 2, 3)
+    };
 
     [Fact]
-    public void AccordionSelect_Markup_RendersCorrectly()
+    public void AccordionSelect_MarkupWithhNoItems_RendersCorrectly()
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -66,14 +83,28 @@ public class AccordionSelectComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(AccordionSelectMarkup);
+        cut.MarkupMatches(AccordionSelectNoItemsMarkup);
+    }
+
+    [Fact]
+    public void AccordionSelect_MarkupWithItems_RendersCorrectly()
+    {
+        //Act
+        var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
+            .Add(p => p.Title, "AccordionSelect Title")
+            .Add(p => p.IsExpanded, true)
+            .Add(p => p.Items, Items)
+            );
+
+        //Assert
+        cut.MarkupMatches(AccordionSelectWithItemsMarkup);
     }
 
     [Theory]
     [InlineData("Test 1")]
     [InlineData("Test 2")]
     [InlineData("Test 3")]
-    public void AccordionSelect_TitleParam_RendersTitleCorrectly(string expectedTitle)
+    public void AccordionSelect_TitleParam_RendersCorrectly(string expectedTitle)
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -87,27 +118,9 @@ public class AccordionSelectComponentTests : TestContext
     }
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void AccordionSelect_IsExpandedParam_RendersCollapsedStateCorrectly(bool isExpanded)
-    {
-        //Act
-        var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
-            .Add(p => p.Title, "AccordionSelect Title")
-            .Add(p => p.IsExpanded, isExpanded)
-            );
-
-        var itemContainerElm = cut.Find(".item-container");
-        var expectedValue = !isExpanded;
-
-        //Assert
-        Assert.Equal(expectedValue, itemContainerElm.ClassList.Contains("collapsed"));
-    }
-
-    [Theory]
     [InlineData(false, "mdi-plus-box-outline")]
     [InlineData(true, "mdi-minus-box-outline")]
-    public void AccordionSelect_IsExpandedParam_RendersCorrectIcon(bool isExpanded, string expectedClass)
+    public void AccordionSelect_IsExpandedParam_RendersCorrectly(bool isExpanded, string expectedClass)
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -115,15 +128,18 @@ public class AccordionSelectComponentTests : TestContext
             .Add(p => p.IsExpanded, isExpanded)
             );
 
-        var itemContainerElm = cut.Find(".accordion-icon-btn");
+        var itemContainerElement = cut.Find(".item-container");
+        var accordionContainerElement = cut.Find(".accordion-icon-btn");
+        var expectedAccordionValue = !isExpanded;
 
         //Assert
-        Assert.True(itemContainerElm.ClassList.Contains(expectedClass));
+        Assert.Equal(expectedAccordionValue, itemContainerElement.ClassList.Contains("collapsed"));
+        Assert.True(accordionContainerElement.ClassList.Contains(expectedClass));
     }
 
     [Theory]
     [MemberData(nameof(GetItems))]
-    public void AccordionSelect_IsExpandedParam_True_WithItems_RendersItemsCorrectly(IEnumerable<SelectItem<int>> items)
+    public void AccordionSelect_ItemsParams_RendersCorrectly(IEnumerable<SelectItem<int>> items)
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -139,51 +155,40 @@ public class AccordionSelectComponentTests : TestContext
         Assert.Equal(expectedCount, itemElms.Count);
     }
 
-    [Fact]
-    public void AccordionSelect_WithItems_Markup_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
-            .Add(p => p.Title, "AccordionSelect Title")
-            .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, Items)
-            );
-
-        var itemElms = cut.FindAll(".item");
-        var firstItem = itemElms[0];
-
-        //Assert
-        firstItem.MarkupMatches(AccordionSelectItemMarkup);
-    }
-
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
     [InlineData(2, 3)]
-    public void AccordionSelect_AfterItemSelection_ReturnsCorrectSelectedItem(int selectedIndex, int expectedValue)
+    public void AccordionSelect_SelectedItemChangedParam_FiresCallback(int itemIndex, int expectedValue)
     {
         //Arrange
+        var eventCalled = false;
+        SelectItem<int>? selectedItem = null;
+
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
             .Add(p => p.Items, Items)
+            .Add(p => p.SelectedItemChanged, (selected) => { eventCalled = true; selectedItem = selected; })
             );
 
         var itemElms = cut.FindAll(".item");
-        var selectedItem = itemElms[selectedIndex];
+        var lastItem = itemElms[itemIndex];
 
         //Act
-        selectedItem.Click();
+        lastItem.Click();
 
         //Assert
-        Assert.Equal(expectedValue, cut.Instance.SelectedValue);
+        Assert.True(eventCalled);
+        Assert.NotNull(selectedItem);
+        Assert.Equal(expectedValue, selectedItem.Value);
     }
 
     [Theory]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
     [InlineData(2, 3)]
-    public void AccordionSelect_SelectedValueParam_Exists_Should_HaveSelectedClass(int selectedIndex, int selectedValue)
+    public void AccordionSelect_SelectedValueParam_RendersCorreectly(int selectedIndex, int selectedValue)
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -201,7 +206,7 @@ public class AccordionSelectComponentTests : TestContext
     }
 
     [Fact]
-    public void AccordionSelect_SelectedValueParam_DoesNotExist_ShouldNot_HaveSelectedClass()
+    public void AccordionSelect_SelectedValueParamDoesNotExist_RendersCorrectly()
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -217,29 +222,26 @@ public class AccordionSelectComponentTests : TestContext
         Assert.DoesNotContain("selected", itemElms.SelectMany(_ => _.ClassList));
     }
 
-    [Fact]
-    public void AccordionSelect_AfeterItemSelection_Eventcallback()
+    [Theory]
+    [InlineData(0, 1)]
+    [InlineData(1, 2)]
+    [InlineData(2, 3)]
+    public void AccordionSelect_ItemClick_RendersCorrectly(int selectedIndex, int expectedValue)
     {
         //Arrange
-        var eventCalled = false;
-        SelectItem<int>? selectedItem = null;
-
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
             .Add(p => p.Items, Items)
-            .Add(p => p.SelectedItemChanged, (selected) => { eventCalled = true; selectedItem = selected; })
             );
 
         var itemElms = cut.FindAll(".item");
-        var lastItem = itemElms[itemElms.Count - 1];
+        var selectedItem = itemElms[selectedIndex];
 
         //Act
-        lastItem.Click();
+        selectedItem.Click();
 
         //Assert
-        Assert.True(eventCalled);
-        Assert.NotNull(selectedItem);
-        Assert.Equal(3, selectedItem.Value);
+        Assert.Equal(expectedValue, cut.Instance.SelectedValue);
     }
 }

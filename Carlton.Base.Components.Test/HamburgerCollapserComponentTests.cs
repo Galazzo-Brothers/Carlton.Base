@@ -18,41 +18,27 @@ public class HamburgerCollapserCompoentTests : TestContext
 
         //Assert
         cut.MarkupMatches(HamburgerCollapserMarkup);
+
     }
 
-    [Fact]
-    public void HamburgerCollapser_IsCollapsedParam_False_ClickEvent_ShouldCollapse()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void HamburgerCollapser_ClickEvent_ShouldRenderCorrectly(bool isCollapsed)
     {
         //Arrange
-        var layoutState = new LayoutState(false, () => { });
+        var layoutState = new LayoutState(isCollapsed, () => { });
 
         var cut = RenderComponent<HamburgerCollapser>(paramaters => paramaters
             .AddCascadingValue(layoutState));
 
         var ele = cut.Find(".collapser a");
+        var expectedResult = !isCollapsed;
 
         //Act
         ele.Click();
 
         //Assert
-        Assert.True(layoutState.IsCollapsed);
-    }
-
-    [Fact]
-    public void HamburgerCollapser_IsCollapsedParam_True_ClickEvent_ShouldExpand()
-    {
-        //Arrange
-        var layoutState = new LayoutState(true, () => { });
-
-        var cut = RenderComponent<HamburgerCollapser>(paramaters => paramaters
-            .AddCascadingValue(layoutState));
-
-        var ele = cut.Find(".collapser a");
-
-        //Act
-        ele.Click();
-
-        //Assert
-        Assert.False(layoutState.IsCollapsed);
+        Assert.Equal(expectedResult, layoutState.IsCollapsed);
     }
 }

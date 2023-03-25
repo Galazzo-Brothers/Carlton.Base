@@ -18,15 +18,18 @@ public class CheckboxComponentTests : TestContext
         cut.MarkupMatches(CheckboxMarkup);
     }
 
-    [Fact]
-    public void Checkbox_Markup_IsCheckedParam_True_OnClickCallback()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void Checkbox_IsCheckedParam_FiresCallback(bool isChecked)
     {
         //Arrange
         var eventCalled = false;
-        var checkedState = false;
+        var checkedState = isChecked;
+        var expectedState = !isChecked;
 
         var cut = RenderComponent<Checkbox>(parameters => parameters
-            .Add(p => p.IsChecked, true)
+            .Add(p => p.IsChecked, isChecked)
             .Add(p => p.OnCheckboxChangeCallback, (state) => { eventCalled = true; checkedState = state; })
             );
 
@@ -35,26 +38,6 @@ public class CheckboxComponentTests : TestContext
 
         //Assert
         Assert.True(eventCalled);
-        Assert.False(checkedState);
-    }
-
-    [Fact]
-    public void Checkbox_Markup_IsCheckedParam_False_OnClickCallback()
-    {
-        //Arrange
-        var eventCalled = false;
-        var checkedState = false;
-
-        var cut = RenderComponent<Checkbox>(parameters => parameters
-            .Add(p => p.IsChecked, false)
-            .Add(p => p.OnCheckboxChangeCallback, (state) => { eventCalled = true; checkedState = state; })
-            );
-
-        //Act
-        cut.Find(".checkbox").Click();
-
-        //Assert
-        Assert.True(eventCalled);
-        Assert.True(checkedState);
+        Assert.Equal(expectedState, checkedState);
     }
 }

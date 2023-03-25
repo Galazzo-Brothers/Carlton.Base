@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Carlton.Base.Components.Test;
+﻿namespace Carlton.Base.Components.Test;
 
 public class CountCardComponentTests : TestContext
 {
@@ -28,12 +26,15 @@ public class CountCardComponentTests : TestContext
         cut.MarkupMatches(CountCardMarkup);
     }
 
-    [Fact]
-    public void CountCard_CountParam_ShouldRenderCountCorrectly()
+    [Theory]
+    [InlineData(10)]
+    [InlineData(15)]
+    [InlineData(30)]
+    public void CountCard_CountParam_RendersCorrectly(int count)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
-            .Add(p => p.Count, 15)
+            .Add(p => p.Count, count)
             .Add(p => p.Icon, "mdi-camera")
             .Add(p => p.MessageTemplate, "Items Tracked by this component")
             .Add(p => p.Theme, CountCardTheme.Purple)
@@ -42,17 +43,20 @@ public class CountCardComponentTests : TestContext
         var displayCount = int.Parse(cut.Find(".count-message").TextContent.Split(' ')[0]);
 
         //Assert
-        Assert.Equal(15, displayCount);
+        Assert.Equal(count, displayCount);
     }
 
-    [Fact]
-    public void CountCard_MessageTemplateParam_ShouldRenderMessageCorrectly()
+    [Theory]
+    [InlineData("Items Tracked by this component")]
+    [InlineData("More Items Tracked by this component")]
+    [InlineData("Event Items Tracked by this component")]
+    public void CountCard_MessageTemplateParam_RendersCorrectly(string messageTemplate)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
             .Add(p => p.Count, 15)
             .Add(p => p.Icon, "mdi-camera")
-            .Add(p => p.MessageTemplate, "Items Tracked by this component")
+            .Add(p => p.MessageTemplate, messageTemplate)
             .Add(p => p.Theme, CountCardTheme.Purple)
             );
 
@@ -62,16 +66,19 @@ public class CountCardComponentTests : TestContext
                                         .Skip(1));
 
         //Assert
-        Assert.Equal("Items Tracked by this component", displayMessageTemplate);
+        Assert.Equal(messageTemplate, displayMessageTemplate);
     }
 
-    [Fact]
-    public void CountCard_IconParam_ShouldRenderIconClassCorrectly()
+    [Theory]
+    [InlineData("icon-1")]
+    [InlineData("icon-2")]
+    [InlineData("icon-3")]
+    public void CountCard_IconParam_RendersCorrectly(string icon)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
             .Add(p => p.Count, 15)
-            .Add(p => p.Icon, "mdi-camera")
+            .Add(p => p.Icon, icon)
             .Add(p => p.MessageTemplate, "Items Tracked by this component")
             .Add(p => p.Theme, CountCardTheme.Purple)
             );
@@ -79,23 +86,28 @@ public class CountCardComponentTests : TestContext
         var iconElm = cut.Find(".count-icon");
 
         //Assert
-        Assert.Contains("mdi-camera", iconElm.ClassList);
+        Assert.Contains(icon, iconElm.ClassList);
     }
 
-    [Fact]
-    public void CountCard_ThemeParam_ShouldRenderThemeClassCorrectly()
+    [Theory]
+    [InlineData(CountCardTheme.Blue)]
+    [InlineData(CountCardTheme.Green)]
+    [InlineData(CountCardTheme.Purple)]
+    [InlineData(CountCardTheme.Red)]
+    public void CountCard_ThemeParam_RendersCorrectly(CountCardTheme theme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
             .Add(p => p.Count, 15)
             .Add(p => p.Icon, "mdi-camera")
             .Add(p => p.MessageTemplate, "Items Tracked by this component")
-            .Add(p => p.Theme, CountCardTheme.Red)
+            .Add(p => p.Theme, theme)
             );
 
         var countCardElm = cut.Find(".count-card");
+        var expectedResults = $"accent{(int) theme}";
 
         //Assert
-        Assert.Contains("accent3", countCardElm.ClassList);
+        Assert.Contains(expectedResults, countCardElm.ClassList);
     }
 }

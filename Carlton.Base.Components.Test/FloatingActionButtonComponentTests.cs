@@ -21,7 +21,7 @@ public class FloatingActionButtonComponentTests : TestContext
     }
 
     [Fact]
-    public void FloatingActionButton_OnClick_EventCallback()
+    public void FloatingActionButton_OnClick_RendersCorrectly()
     {
         //Arrange
         var eventCalled = false;

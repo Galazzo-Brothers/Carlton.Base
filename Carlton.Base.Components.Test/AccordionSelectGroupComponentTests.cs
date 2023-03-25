@@ -3,7 +3,7 @@
 public class AccordionSelectGroupComponentTests : TestContext
 {
     private static readonly string AccordionSelectGroupMarkup =
-  @"
+    @"
   <div class=""accordion-select-group"" b-pnd1og41cd>
     <div class=""accordion-select"" b-6835cu0hu3>
         <div class=""content"" b-6835cu0hu3>
@@ -43,6 +43,63 @@ public class AccordionSelectGroupComponentTests : TestContext
     </div>
   </div>";
 
+    public static IEnumerable<object[]> GetGroups()
+    {
+        yield return new object[]
+           {
+               new List<SelectGroup<int>>
+               {
+                    new SelectGroup<int>("Group 1", 0,
+                        new List<SelectItem<int>>
+                        {
+                            new SelectItem<int>("Item 1", 0, 1),
+                            new SelectItem<int>("Item 2", 1, 2)
+                        })
+               }
+           };
+        yield return new object[]
+           {
+               new List<SelectGroup<int>>
+               {
+                 new SelectGroup<int>("Group 1", 0,
+                    new List<SelectItem<int>>
+                    {
+                        new SelectItem<int>("Item 1", 0, 1),
+                        new SelectItem<int>("Item 2", 1, 2)
+                    }),
+                 new SelectGroup<int>("Group 2", 1,
+                    new List<SelectItem<int>>
+                    {
+                        new SelectItem<int>("Item 3", 0, 3),
+                        new SelectItem<int>("Item 4", 1, 4)
+                    })
+               }
+           };
+        yield return new object[]
+            {
+                new List<SelectGroup<int>>
+                {
+                 new SelectGroup<int>("Group 1", 0,
+                    new List<SelectItem<int>>
+                    {
+                        new SelectItem<int>("Item 1", 0, 1),
+                        new SelectItem<int>("Item 2", 1, 2)
+                    }),
+                 new SelectGroup<int>("Group 2", 1,
+                    new List<SelectItem<int>>
+                    {
+                        new SelectItem<int>("Item 3", 0, 3),
+                        new SelectItem<int>("Item 4", 1, 4)
+                    }),
+                  new SelectGroup<int>("Group 3", 2,
+                    new List<SelectItem<int>>
+                    {
+                        new SelectItem<int>("Item 5", 0, 3)
+                    })
+                }
+           };
+    }
+
     private readonly IEnumerable<SelectGroup<int>> Groups = new List<SelectGroup<int>>
     {
         new SelectGroup<int>("Group 1", 0,
@@ -73,177 +130,58 @@ public class AccordionSelectGroupComponentTests : TestContext
         cut.MarkupMatches(AccordionSelectGroupMarkup);
     }
 
-    [Fact]
-    public void AccordionSelectGroup_ShouldContainTwoGroups()
+    [Theory]
+    [MemberData(nameof(GetGroups))]
+    public void AccordionSelectGroup_GroupsParam_ShouldRenderCorreectly(IEnumerable<SelectGroup<int>> groups)
     {
         //Act
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
+            .Add(p => p.Groups, groups)
             );
 
         var accordionSelects = cut.FindAll(".accordion-select");
+        var expectedCount = groups.Count();
 
         //Assert
-        Assert.Equal(2, accordionSelects.Count);
+        Assert.Equal(expectedCount, accordionSelects.Count);
     }
 
-    [Fact]
-    public void AccordionSelectGroup_ClickItemTwoInGroupOne_SelectedItem_ShouldHaveValue2()
-    {
-        //Arrange
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
-            );
-
-        var itemToClick = cut.FindAll(".item")[1];
-
-        //Act
-        itemToClick.Click();
-        var selectedItem = cut.Instance.SelectedItem;
-
-
-        //Assert
-        Assert.Equal(2, selectedItem);
-    }
-
-    [Fact]
-    public void AccordionSelectGroup_ClickItemTwoInGroupOne_GroupOneHeader_shouldHaveSelectedClass()
-    {
-        //Arrange
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
-            );
-
-        var itemToClick = cut.FindAll(".item")[1];
-
-        //Act
-        itemToClick.Click();
-        var headers = cut.FindAll(".accordion-header");
-        var items = cut.FindAll(".item");
-
-        //Assert
-        Assert.Collection(headers,
-            item => Assert.Contains("selected", item.ClassList),
-            item => Assert.DoesNotContain("selected", item.ClassList));
-    }
-
-    [Fact]
-    public void AccordionSelectGroup_ClickItemTwoInGroupOne_GroupOneItemTwo_shouldHaveSelectedClass()
-    {
-        //Arrange
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
-            );
-
-        var itemToClick = cut.FindAll(".item")[1];
-
-        //Act
-        itemToClick.Click();
-        var items = cut.FindAll(".item");
-
-        //Assert
-        Assert.Collection(items,
-            item => Assert.DoesNotContain("selected", item.ClassList),
-            item => Assert.Contains("selected", item.ClassList),
-            item => Assert.DoesNotContain("selected", item.ClassList),
-            item => Assert.DoesNotContain("selected", item.ClassList)
-        );
-    }
-
-    [Fact]
-    public void AccordionSelectGroup_ClickItemOneInGroupTwo_SelectedItem_ShouldHaveValue3()
-    {
-        //Arrange
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
-            );
-
-        var itemToClick = cut.FindAll(".item")[2];
-
-        //Act
-        itemToClick.Click();
-        var selectedItem = cut.Instance.SelectedItem;
-
-
-        //Assert
-        Assert.Equal(3, selectedItem);
-    }
-
-    [Fact]
-    public void AccordionSelectGroup_ClickItemOneInGroupTwo_GroupTwoHeader_shouldHaveSelectedClass()
-    {
-        //Arrange
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
-            );
-
-        var itemToClick = cut.FindAll(".item")[3];
-
-        //Act
-        itemToClick.Click();
-        var headers = cut.FindAll(".accordion-header");
-
-        //Assert
-        Assert.Collection(headers,
-            item => Assert.DoesNotContain("selected", item.ClassList),
-            item => Assert.Contains("selected", item.ClassList));
-    }
-
-    [Fact]
-    public void AccordionSelectGroup_ClickItemOneInGroupTwo_GroupTwoItemOne_shouldHaveSelectedClass()
-    {
-        //Arrange
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, Groups)
-            );
-
-        var itemToClick = cut.FindAll(".item")[2];
-
-        //Act
-        itemToClick.Click();
-        var items = cut.FindAll(".item");
-
-
-        //Assert
-        Assert.Collection(items,
-            item => Assert.DoesNotContain("selected", item.ClassList),
-            item => Assert.DoesNotContain("selected", item.ClassList),
-            item => Assert.Contains("selected", item.ClassList),
-            item => Assert.DoesNotContain("selected", item.ClassList)
-        );
-    }
-
-    [Fact]
-    public void AccordionSelectGroup_WithDefaultParameter_shouldSelectCorrectItem()
+    [Theory]
+    [InlineData(0, 0, 1)]
+    [InlineData(0, 1, 2)]
+    [InlineData(1, 2, 3)]
+    [InlineData(1, 3, 4)]
+    public void AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(int groupIndex, int itemIndex, int itemValue)
     {
         //Act
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
             .Add(p => p.Groups, Groups)
-            .Add(p => p.SelectedItem, 3)
+            .Add(p => p.SelectedItem, itemValue)
             );
 
-        var headers = cut.FindAll(".accordion-header");
-        var items = cut.FindAll(".item");
+        var headers = cut.FindAll(".accordion-header").ToList();
+        var items = cut.FindAll(".item").ToList();
+
+        var selectedHeader = headers.ElementAt(groupIndex);
+        headers.RemoveAt(groupIndex);
+        var unselectedHeaders = headers;
+
+        var selectedItem = items.ElementAt(itemIndex);
+        items.RemoveAt(itemIndex);
+        var unselectedItems = items;
 
         //Assert
-        Assert.DoesNotContain("selected", headers[0].ClassList);
-        Assert.Contains("selected", headers[1].ClassList);
+        Assert.Equal(itemValue, cut.Instance.SelectedItem);
 
-        //Assert
-        Assert.Equal(3, cut.Instance.SelectedItem);
-        Assert.Collection(headers,
-              item => Assert.DoesNotContain("selected", item.ClassList),
-              item => Assert.Contains("selected", item.ClassList));
-        Assert.Collection(items,
-             item => Assert.DoesNotContain("selected", item.ClassList),
-             item => Assert.DoesNotContain("selected", item.ClassList),
-             item => Assert.Contains("selected", item.ClassList),
-             item => Assert.DoesNotContain("selected", item.ClassList)
-         );
+        Assert.Contains("selected", selectedHeader.ClassList);
+        Assert.DoesNotContain("selected", unselectedHeaders.SelectMany(_ => _.ClassList));
+
+        Assert.Contains("selected", selectedItem.ClassList);
+        Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
 
     [Fact]
-    public void AccordionSelectGroup_OnSelectedItemChangedParam_shouldBeCalled()
+    public void AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback()
     {
         //Arrange
         var eventCalled = false;
@@ -265,5 +203,44 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.True(eventCalled);
         Assert.Equal(1, evt?.GroupIndexID);
         Assert.Equal(1, evt?.ItemIndexID);
+    }
+
+    [Theory]
+    [InlineData(0, 0, 1)]
+    [InlineData(0, 1, 2)]
+    [InlineData(1, 2, 3)]
+    [InlineData(1, 3, 4)]
+    public void AccordionSelectGroup_ClickEvent_RendersCorrectly(int groupIndex, int itemIndex, int expectedValue)
+    {
+        //Arrange
+        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
+            .Add(p => p.Groups, Groups)
+            );
+
+        var itemToClick = cut.FindAll(".item")[itemIndex];
+
+        //Act
+        itemToClick.Click();
+
+        var value = cut.Instance.SelectedItem;
+        var headers = cut.FindAll(".accordion-header").ToList();
+        var items = cut.FindAll(".item").ToList();
+
+        var selectedHeader = headers.ElementAt(groupIndex);
+        headers.RemoveAt(groupIndex);
+        var unselectedHeaders = headers;
+
+        var selectedItem = items.ElementAt(itemIndex);
+        items.RemoveAt(itemIndex);
+        var unselectedItems = items;
+
+        //Assert
+        Assert.Equal(expectedValue, value);
+
+        Assert.Contains("selected", selectedHeader.ClassList);
+        Assert.DoesNotContain("selected", unselectedHeaders.SelectMany(_ => _.ClassList));
+
+        Assert.Contains("selected", selectedItem.ClassList);
+        Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
 }

@@ -23,6 +23,34 @@ public class DropDownMenuComponentTests : TestContext
   </div>
 </div>";
 
+    public static IEnumerable<object[]> GetItems()
+    {
+        yield return new object[]
+           {
+                new List<DropdownMenuItem<int>>()
+                {
+                    new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1)
+                }
+           };
+        yield return new object[]
+           {
+                new List<DropdownMenuItem<int>>()
+                {
+                    new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
+                    new DropdownMenuItem<int>("Item 2", 2, "icon-2", 2)
+                }
+           };
+        yield return new object[]
+            {
+                new List<DropdownMenuItem<int>>()
+                {
+                    new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
+                    new DropdownMenuItem<int>("Item 2", 2, "icon-2", 2),
+                    new DropdownMenuItem<int>("Item 3", 3, "icon-3", 3)
+                }
+            };
+    }
+
     private readonly IEnumerable<DropdownMenuItem<int>> _items = new List<DropdownMenuItem<int>>
     {
         new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
@@ -48,31 +76,35 @@ public class DropDownMenuComponentTests : TestContext
         cut.MarkupMatches(DropDownMenuMarkup);
     }
 
-    [Fact]
-    public void DropDownMenuElement_ShouldRenderCorrecetNumberOfItems()
+    [Theory]
+    [MemberData(nameof(GetItems))]
+    public void DropDownMenuElement_MenuItemsParams_RendersCorrectly(IEnumerable<DropdownMenuItem<int>> items)
     {
         //Act
         var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
                 .Add(p => p.HeaderTemplate, "<span>Header</span>")
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
-                .Add(p => p.MenuItems, _items)
+                .Add(p => p.MenuItems, items)
                 .Add(p => p.Style, _style)
                 );
 
-        var expectedItemsCount = _items.Count();
+        var expectedItemsCount = items.Count();
         var itemsCount = cut.FindAll("li").Count;
 
         //Assert
         Assert.Equal(expectedItemsCount, itemsCount);
     }
 
-    [Fact]
-    public void DropDownMenuElement_HeaderTemplateParam_RendersCorrectly()
+    [Theory]
+    [InlineData("<span>Testing Header</span>")]
+    [InlineData("<span>More Testing Header</span>")]
+    [InlineData("<span>Event Testing Header</span>")]
+    public void DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(string headerTemplate)
     {
         //Act
         var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
-                .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
+                .Add(p => p.HeaderTemplate, headerTemplate)
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
                 .Add(p => p.MenuItems, _items)
@@ -82,7 +114,7 @@ public class DropDownMenuComponentTests : TestContext
         var header = cut.Find(".header").InnerHtml;
 
         //Assert
-        Assert.Equal("<span>Testing Header</span>", header);
+        Assert.Equal(headerTemplate, header);
     }
 
     [Fact]
@@ -91,7 +123,7 @@ public class DropDownMenuComponentTests : TestContext
         //Act
         var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
                 .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
-                .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
+                .Add(p => p.MenuItemTemplate, item => $"<span class=\"item\">{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
                 .Add(p => p.MenuItems, _items)
                 .Add(p => p.Style, _style)
@@ -126,7 +158,26 @@ public class DropDownMenuComponentTests : TestContext
     }
 
     [Fact]
-    public void DropDownMenuElement_ClickEvent_ShouldExpandDropdown()
+    public void DropDownMenuElement_StyleParam_RendersCorrectly()
+    {
+        //Act
+        var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
+                .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
+                .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
+                .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive} testing'></i>")
+                .Add(p => p.MenuItems, _items)
+                .Add(p => p.Style, _style)
+                );
+
+        var dropdown = cut.Find(".dropdown");
+        var styleAttribute = dropdown?.Attributes.GetNamedItem("style")?.TextContent;
+
+        //Assert
+        Assert.Equal("--dropdown-left:50px;--dropdown-top:75px;--dropdown-top-mobile:37px;", styleAttribute);
+    }
+
+    [Fact]
+    public void DropDownMenuElement_ClickEvent_RendersCorrectly()
     {
         //Arrange
         var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
@@ -146,24 +197,5 @@ public class DropDownMenuComponentTests : TestContext
 
         //Assert
         Assert.Contains("Active", i.ClassList);
-    }
-
-    [Fact]
-    public void DropDownMenuElement_StyleParam_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
-                .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
-                .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
-                .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive} testing'></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
-                );
-
-        var dropdown = cut.Find(".dropdown");
-        var styleAttribute = dropdown?.Attributes.GetNamedItem("style")?.TextContent;
-
-        //Assert
-        Assert.Equal("--dropdown-left:50px;--dropdown-top:75px;--dropdown-top-mobile:37px;", styleAttribute);
     }
 }
