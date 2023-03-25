@@ -25,10 +25,12 @@
 
 @if(IsTestMode)
 {
-    <button class="success-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Success))">Success</button>
-    <button class="info-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Info))">Info</button>
-    <button class="warning-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Warning))">Warning</button>
-    <button class="error-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Error))">Error</button>
+    <div class="test-btns">
+        <button class="success-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Success))">Success</button>
+        <button class="info-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Info))">Info</button>
+        <button class="warning-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Warning))">Warning</button>
+        <button class="error-btn" @onclick="@(() => GenerateNotification("Test", "Test", NotificationType.Error))">Error</button>
+    </div>
 }
 
 

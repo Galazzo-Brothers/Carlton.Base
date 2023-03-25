@@ -26,7 +26,7 @@
         //Register State Changed Handler
         State.StateChanged += OnStateChanged;
 
-        ////Get VM and initalize context for wrapped component
+        //Get VM and initalize context for wrapped component
         var vm = await GetViewModel();
 
         Context = new CarltonDataWrapperContext<TViewModel>(vm, OnComponentEvent);
