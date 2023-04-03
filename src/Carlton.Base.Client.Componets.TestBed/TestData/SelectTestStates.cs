@@ -7,11 +7,11 @@ internal static class SelectTestStates
         return new Dictionary<string, object>()
           {
               {"Label", "Test" },
-              {"Options",  new Dictionary<int, string>
+              {"Options",  new Dictionary<string, int>
                     {
-                      { 1,  "Option 1" },
-                      { 2, "Option 2" },
-                      { 3, "Option 3" }
+                      { "Option 1", 1 },
+                      { "Option 2", 2},
+                      { "Option 3", 3 }
                     }
               }
           };
