@@ -1,0 +1,17 @@
+﻿.row-item{
+    color:var(--primary-text-color);
+}
+
+.status-row{
+    width: 75px;
+    display: flex;
+    gap: 10px;
+}
+
+.test-passed-icon {
+    color: var(--accent-color-2);
+}
+
+.test-failed-icon {
+    color: var(--accent-color-3);
+}
