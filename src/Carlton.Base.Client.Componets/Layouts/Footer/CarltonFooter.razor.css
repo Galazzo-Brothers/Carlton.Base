@@ -20,7 +20,6 @@
         margin-bottom: auto;
         margin-right: 10px;
         text-align: right;
-        color: var(--carlton-footer-color);
     }
 
         .content .contacts .msg {
@@ -35,7 +34,7 @@
         }
 
     .content .external-urls a {
-        color: var(--carlton-footer-color);
+        color: var(--layout-footer-color);
         text-decoration: none;
         padding-left: 20px;
         padding-right: 20px;

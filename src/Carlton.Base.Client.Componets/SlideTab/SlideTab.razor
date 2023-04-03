@@ -1,5 +1,5 @@
 ﻿@namespace Carlton.Base.Components
-<div class="slide-tab">
+<div class="slide-tab" style="@SlideTabStyle">
     <button class="slide-button" @onclick="() => IsExpanded = !IsExpanded">@Title</button>
     <div class="slide-container @(IsExpanded ? "expanded" : string.Empty)">
         @Content
@@ -13,5 +13,15 @@
     public RenderFragment Content { get; set; }
     [Parameter]
     public bool IsExpanded { get; set; }
+    [Parameter]
+    public int PositionBottom { get; set; }
+
+    private string SlideTabStyle
+    {
+        get => StyleBuilder.Empty()
+                .AddStyle("--slide-tab-bottom", $"{PositionBottom}px")
+                .Build();
+
+    }
 }
 

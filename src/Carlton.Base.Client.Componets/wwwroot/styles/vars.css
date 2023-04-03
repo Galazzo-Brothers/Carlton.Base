@@ -3,9 +3,11 @@
     /*Layout Themeing*/
     --layout-main-background-color: #f4f3ef;
     --layout-nav-background-color: #212120;
-    --layout-footer-background-color: #272727;
+    --layout-footer-background-color: #272b34;
+    --layout-footer-color: #fff;
     --layout-header-background-color: #f4f3ef;
     --layout-mobile-header-background-color: #212120;
+    --layout-mobile-header-primary-text-color: #fff;
     /*Logo*/
     --logo-background-color: #212120;
     --logo-color: #fff;
@@ -32,9 +34,11 @@
     /*Layout Themeing*/
     --layout-main-background-color: #323743;
     --layout-nav-background-color: #212120;
-    --layout-footer-background-color: #272727;
+    --layout-footer-background-color: #272b34;
+    --layout-footer-color: #fff;
     --layout-header-background-color: #323743;
     --layout-mobile-header-background-color: #212120;
+    --layout-mobile-header-primary-text-color: #fff;
     /*Logo*/
     --logo-background-color: #212120;
     --logo-color: #fff;
@@ -53,7 +57,7 @@
     --accent-color-4: #ab8ce4;
     /*Cards*/
     --card-background-color: #272b34;
-    --card-hover-background-color: #e9ecef;
+    --card-hover-background-color: #828487;
 }
 
 

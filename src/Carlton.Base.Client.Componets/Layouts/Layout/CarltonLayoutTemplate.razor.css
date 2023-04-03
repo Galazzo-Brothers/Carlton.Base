@@ -26,7 +26,7 @@
     .layout-container footer {
         grid-area: footer;
         background: var(--layout-footer-background-color);
-        color: white;
+        color: var(--layout-footer-color);
     }
 
     .layout-container footer.fixed {

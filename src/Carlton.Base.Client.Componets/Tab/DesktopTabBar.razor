@@ -5,9 +5,11 @@
     <div class="content">
         @foreach(Tab tab in _tabs)
         {
-            <a class="@CarltonTabCss(tab)" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>
+            <div class="@CarltonTabCss(tab)">
+                <a class="" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>
+                <span class="tab-selected-bar"></span>
+            </div>
         }
-        <span class="tab-selected-bar" style="@TabSelectBarStyle"></span>
     </div>
 </div>
 
@@ -17,22 +19,10 @@
 
 
 @code {
-    private int CalculateTabBarOffset()
-    {
-        return _activeTabIndex * 175;
-    }
-
     private Func<Tab, string> CarltonTabCss
     {
         get => (tab) => new CssBuilder("carlton-tab")
                 .AddClass("active", ActiveTab == tab)
-                .Build();
-    }
-
-    private string TabSelectBarStyle
-    {
-        get => new StyleBuilder()
-                .AddStyle("--tab-select-bar-left", $"{CalculateTabBarOffset()}px")
                 .Build();
     }
 }

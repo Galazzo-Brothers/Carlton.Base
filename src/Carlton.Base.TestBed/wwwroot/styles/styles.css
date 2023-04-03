@@ -1,4 +1,6 @@
-﻿html, body, app {
+﻿@import "atom-one-dark.css";
+
+html, body, app {
     overflow: hidden;
 }
 

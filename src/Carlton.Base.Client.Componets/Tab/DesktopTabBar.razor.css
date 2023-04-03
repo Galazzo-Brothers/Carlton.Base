@@ -1,16 +1,23 @@
 ﻿.tabs {
     --tab-font-size: 14px;
     --tab-hover-color: #7c848a;
+    --tab-selected-bar-width: 175px;
 }
 
 .content {
     position: relative;
-    display: block;
+    display: flex;
+    justify-content: space-evenly;
     padding: 0;
     margin-bottom: 15px;
 }
 
-    .content > a {
+    .content .carlton-tab {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content a {
         position: relative;
         display: inline-block;
         text-decoration: none;
@@ -22,27 +29,21 @@
         text-align: center;
     }
 
-.content > a.active {
-    font-weight: 700;
-    outline: none;
-}
+        .content a:hover {
+            background-color: inherit;
+            color: var(--tab-hover-color);
+        }
 
-.content > a:hover {
-    background-color: inherit;
-    color: var(--tab-hover-color);
-}
-
-    .content .tab-selected-bar {
-        left: var(--tab-select-bar-left);
-        bottom: 0;
-        height: 3px;
-        width: 175px;
-        display: block;
-        position: absolute;
-        z-index: 10;
-        transition: left .2s ease;
-        -webkit-transition: left .2s ease;
-        background: var(--selected-color);
+    .content .active .tab-selected-bar {
+        display: inherit;
     }
 
-
+    .content .tab-selected-bar {
+        display: none;
+        height: 3px;
+        width: var(--tab-selected-bar-width);
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 10;
+        background: var(--selected-color);
+    }
