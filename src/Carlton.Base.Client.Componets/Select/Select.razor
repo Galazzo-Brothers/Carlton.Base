@@ -12,7 +12,7 @@
         <div class="options">
             @foreach(var opt in Options)
             {
-                <div @onclick="()=>ValueChangedCallback.InvokeAsync(opt)">@opt.Value</div>
+                <div @onclick="()=>OnValueChanged(opt)">@opt.Key</div>
             }
         </div>
     }
@@ -27,10 +27,10 @@
     public string Label { get; set; }
 
     [Parameter]
-    public IReadOnlyDictionary<int, string> Options { get; set; } = new Dictionary<int, string>();
+    public IReadOnlyDictionary<string, int> Options { get; set; } = new Dictionary<string, int>();
 
     [Parameter]
-    public EventCallback<KeyValuePair<int, string>> ValueChangedCallback { get; set; }
+    public EventCallback<KeyValuePair<string, int>> ValueChangedCallback { get; set; }
 
     [Parameter]
     public int SelectedValue { get; set; }
@@ -39,9 +39,13 @@
     {
         get
         {
-            var returnValue = string.Empty;
-            var success = Options.TryGetValue(SelectedValue, out returnValue);
-            return returnValue;
+            return Options.FirstOrDefault(_ => _.Value == SelectedValue).Key;
         }
+    }
+
+    private async Task OnValueChanged(KeyValuePair<string, int> opt)
+    {
+        SelectedValue = opt.Value;
+        await ValueChangedCallback.InvokeAsync(opt);
     }
 }
