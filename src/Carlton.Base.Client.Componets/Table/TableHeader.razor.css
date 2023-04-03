@@ -1,0 +1,32 @@
+﻿
+.header-row {
+    gap: 5px;
+    color: var(--primary-text-color);
+    font-weight: bold;
+}
+
+    .header-row .filter-arrows {
+        display: none;
+        gap: 5px;
+    }
+
+    .header-row.selected .filter-arrows {
+        display: flex;
+        gap: 0;
+    }
+
+    .header-row .arrow-ascending {
+        display: none;
+    }
+
+    .header-row .arrow-descending {
+        display: none;
+    }
+
+    .header-row.selected.ascending .arrow-ascending {
+        display: inherit;
+    }
+
+    .header-row.selected.descending .arrow-descending {
+        display: inherit;
+    }

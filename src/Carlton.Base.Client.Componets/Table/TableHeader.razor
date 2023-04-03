@@ -1,0 +1,56 @@
+﻿@namespace Carlton.Base.Components
+@typeparam TItem
+
+@foreach(var (heading, i) in Headings.WithIndex())
+{
+    <div class="@HeaderRowCss(i)" @onclick="()=>HeaderRowOnClick(i, heading.OrderColumn)">
+        <span class="heading-text">@heading.DisplayName</span>
+        <div class="filter-arrows">
+            <span class="arrow-ascending mdi mdi-arrow-up"></span>
+            <span class="arrow-descending mdi mdi-arrow-down"></span>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<TableHeadingItem> Headings { get; set; }
+
+    [Parameter]
+    public IList<TItem> Items { get; set; }
+
+    [Parameter]
+    public EventCallback<IList<TItem>> OnItemsFiltered { get; set; }
+
+    private int HeaderHoverIndex { get; set; } = -1;
+    private bool IsAscending = true;
+
+    private string HeaderRowCss(int index)
+    {
+        return new CssBuilder("header-row")
+                .AddClass("row-item")
+                .AddClass("selected", HeaderHoverIndex == index)
+                .AddClass("ascending", IsAscending)
+                .AddClass("descending", !IsAscending)
+                .Build();
+    }
+
+    private async Task HeaderRowOnClick(int index, string orderColumn)
+    {
+        if(HeaderHoverIndex == index)
+        {
+            IsAscending = !IsAscending;
+
+            var orderString = $"{orderColumn}{(IsAscending ? string.Empty : " desc")}";
+            var filteredItems = Items.AsQueryable().OrderBy(orderString).ToList();
+            await OnItemsFiltered.InvokeAsync(filteredItems);
+        }
+        else
+        {
+            HeaderHoverIndex = index;
+            IsAscending = true;
+            var filteredItems = Items.AsQueryable().OrderBy(orderColumn).ToList();
+            await OnItemsFiltered.InvokeAsync(filteredItems);
+        }
+    }
+}
