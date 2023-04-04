@@ -15,12 +15,12 @@
     }
 
         .select input:focus {
-            border-color: #009688;
+            border-color: var(--selected-color);
         }
 
     .select .options {
         position: absolute;
-        background: #fff;
+        background: var(--card-background-color);
         opacity: 0;
         max-height: 0;
         overflow: hidden;
@@ -28,29 +28,35 @@
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
     }
 
-        .select .options > div {
+        .select .options .option {
+            color: var(--primary-text-color);
             cursor: pointer;
             padding: 0.5rem;
         }
 
-            .select .options > div:not(*:last-child) {
+            .select .options .option:not(*:last-child) {
                 border-bottom: 1px solid #aaa;
             }
 
     .select .label {
         position: absolute;
+        color: var(--primary-text-color);
         transform: translateY(-1.8rem);
         transition: 0.25s transform ease-in-out, 0.25s color ease-in-out;
     }
 
     .select input:focus ~ .label, .select input:not(:placeholder-shown) ~ .label {
-        color: #009688;
         transform: translate(-0.8rem, -2.5rem) scale(0.6);
     }
 
     .select input:focus ~ .options {
         opacity: 1;
         max-height: 8rem;
+    }
+
+    .select .option:hover {
+        color: var(--primary-text-color);
+        background-color: var(--card-hover-background-color);
     }
 
     .select *:focus {
