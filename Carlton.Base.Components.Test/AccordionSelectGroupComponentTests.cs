@@ -132,7 +132,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 
     [Theory]
     [MemberData(nameof(GetGroups))]
-    public void AccordionSelectGroup_GroupsParam_ShouldRenderCorreectly(IEnumerable<SelectGroup<int>> groups)
+    public void AccordionSelectGroup_GroupsParam_RendersCorreectly(IEnumerable<SelectGroup<int>> groups)
     {
         //Act
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
