@@ -14,7 +14,7 @@ public class HamburgerCollapserCompoentTests : TestContext
 
         //Act
         var cut = RenderComponent<HamburgerCollapser>(paramaters => paramaters
-            .AddCascadingValue<LayoutState>(layoutState));
+            .AddCascadingValue(layoutState));
 
         //Assert
         cut.MarkupMatches(HamburgerCollapserMarkup);

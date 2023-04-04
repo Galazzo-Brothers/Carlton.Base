@@ -19,7 +19,7 @@ public class LogoComponentTests : TestContext
 
         //Act
         var cut = RenderComponent<Logo>(paramaters => paramaters
-            .AddCascadingValue<LayoutState>(layoutState));
+            .AddCascadingValue(layoutState));
 
         //Assert
         cut.MarkupMatches(LogoMarkup);
