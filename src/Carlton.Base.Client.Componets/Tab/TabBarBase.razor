@@ -6,19 +6,19 @@
 
     public Tab ActiveTab { get; set; }
 
-    protected List<Tab> _tabs = new List<Tab>();
+    protected List<Tab> Tabs { get; } = new List<Tab>();
 
-    protected int _tabCount;
+    protected int TabCount { get; private set; }
 
-    protected int _activeTabIndex;
+    protected int ActiveTabIndex { get; private set; }
 
     internal void AddTab(Tab tab)
     {
-        _tabCount = _tabCount + 1;
-        tab.TabIndex = _tabCount - 1;
+        TabCount = TabCount + 1;
+        tab.TabIndex = TabCount - 1;
 
-        _tabs.Add(tab);
-        if(_tabs.Count == 1)
+        Tabs.Add(tab);
+        if(Tabs.Count == 1)
             ActiveTab = tab;
         StateHasChanged();
     }
@@ -26,7 +26,7 @@
     internal void ActivateTab(Tab tab)
     {
         ActiveTab = tab;
-        _activeTabIndex = tab.TabIndex;
+        ActiveTabIndex = tab.TabIndex;
     }
 
     private string GetButtonClass(Tab tab)

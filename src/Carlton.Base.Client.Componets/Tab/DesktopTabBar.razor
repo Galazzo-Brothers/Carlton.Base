@@ -3,7 +3,7 @@
 
 <div class="tabs">
     <div class="content">
-        @foreach(Tab tab in _tabs)
+        @foreach(Tab tab in Tabs)
         {
             <div class="@CarltonTabCss(tab)">
                 <a class="" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>

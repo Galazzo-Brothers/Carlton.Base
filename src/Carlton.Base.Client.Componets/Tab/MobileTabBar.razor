@@ -12,7 +12,7 @@
         </SlideTab>
 
         <div class="bottom-nav">
-            @foreach(Tab tab in _tabs)
+            @foreach(Tab tab in Tabs)
             {
                 <div class="bottom-nav-item @(tab==this.ActiveTab ? "active" : "")">
                     <div class="bottom-nav-link" @onclick="(args)=>ActivateTab(tab)">
