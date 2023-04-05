@@ -1,5 +1,4 @@
 ﻿.logo {
-    min-width: 200px;
     display: flex;
     background-color: var(--logo-background-color);
     height: 75px;

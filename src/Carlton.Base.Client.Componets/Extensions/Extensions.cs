@@ -1,26 +1,28 @@
-﻿namespace Carlton.Base.Components;
+﻿using System.Text;
+
+namespace Carlton.Base.Components;
 
 public static class StringExtensions
 {
     public static string ToKebabCase(this string str)
     {
-        str = char.ToLowerInvariant(str[0]) + str.Substring(1);
-        var newStr = string.Empty;
+        str = char.ToLowerInvariant(str[0]) + str[1..];
+        var newStr = new StringBuilder();
 
 
         foreach(var chr in str)
         {
             if(char.IsUpper(chr))
             {
-                newStr += $"-{char.ToLower(chr, CultureInfo.InvariantCulture)}";
+                newStr.Append($"-{char.ToLower(chr, CultureInfo.InvariantCulture)}");
             }
             else
             {
-                newStr += chr;
+                newStr.Append(chr);
             }
         }
 
-        return newStr;
+        return newStr.ToString();
     }
 
     public static string ToDisplayFormat(this string str)

@@ -2,7 +2,7 @@
 
 public static class Constants
 {
-    public static string PROJECT_NAME = "Carlton.Base.Components";
+    public const string PROJECT_NAME = "Carlton.Base.Components";
 }
 
 public enum Themes

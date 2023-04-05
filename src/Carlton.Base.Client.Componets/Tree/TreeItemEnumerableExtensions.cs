@@ -21,7 +21,6 @@ public static class TreeItemEnumerableExtensions
             if(item.LeafId == leafId)
                 return item;
 
-            var children = item.Children.Where(_ => _.IsParentNode).ToList();
             var leaf = item.Children.Where(_ => !_.IsParentNode)
                                     .FirstOrDefault(_ => _.LeafId == leafId);
             var foundLeaf = leaf != null;
