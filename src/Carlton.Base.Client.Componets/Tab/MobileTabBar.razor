@@ -1,16 +1,12 @@
 ﻿@namespace Carlton.Base.Components
 @inherits TabBarBase
 
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
 <div class="mobile-tabs">
     <div class="content">
-        <SlideTab Title="Settings" PositionBottom="50">
-            <Content>
-                <CascadingValue Value="this">
-                    @ChildContent
-                </CascadingValue>
-            </Content>
-        </SlideTab>
-
         <div class="bottom-nav">
             @foreach(Tab tab in Tabs)
             {

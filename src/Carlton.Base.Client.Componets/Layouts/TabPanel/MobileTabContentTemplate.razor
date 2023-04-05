@@ -1,9 +1,15 @@
 ﻿@namespace Carlton.Base.Components
 
+
 @MainContent
+
 <MobileTabBar>
     <ChildContent>
-        @Tabs
+        <SlideTab Title="Settings" PositionBottom="50">
+            <Content>
+                @Tabs
+            </Content>
+        </SlideTab>
     </ChildContent>
 </MobileTabBar>
 
