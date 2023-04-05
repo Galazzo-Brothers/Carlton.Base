@@ -1,19 +1,27 @@
 ﻿@namespace Carlton.Base.Components
 @inherits TabBarBase
 
+
 <CascadingValue Value="this">
     @ChildContent
 </CascadingValue>
 
-<div class="mobile-tabs">
+
+<div class="mobile-tab-bar">
     <div class="content">
-        <div class="bottom-nav">
+        <div class="mobile-tabs">
             @foreach(Tab tab in Tabs)
             {
-                <div class="bottom-nav-item @(tab==this.ActiveTab ? "active" : "")">
-                    <div class="bottom-nav-link" @onclick="(args)=>ActivateTab(tab)">
-                        <i class="mdi mdi-24px @tab.Icon"></i>
-                        <span>@tab.DisplayText</span>
+                <div class="mobile-tab @(tab==this.ActiveTab ? "active" : "")">
+                    <div class="mobile-tab-link" @onclick="(args)=>ActivateTab(tab)">
+                        @if (ShowDisplayIcon)
+                        {
+                            <i class="mdi mdi-24px @tab.Icon"></i>
+                        }
+                       @if(ShowDisplayText)
+                       {
+                            <span>@tab.DisplayText</span>
+                       }
                     </div>
                 </div>
             }
@@ -21,3 +29,10 @@
     </div>
 </div>
 
+@code{
+    [Parameter]
+    public bool ShowDisplayIcon { get; set; }
+
+    [Parameter]
+    public bool ShowDisplayText { get; set; } 
+}
