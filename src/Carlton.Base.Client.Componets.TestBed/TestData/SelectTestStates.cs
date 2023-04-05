@@ -2,9 +2,9 @@
 
 internal static class SelectTestStates
 {
-    public static Dictionary<string, object> Default()
+    public static Dictionary<string, object> Default
     {
-        return new Dictionary<string, object>()
+        get => new()
           {
               {"Label", "Test" },
               {"Options",  new Dictionary<string, int>

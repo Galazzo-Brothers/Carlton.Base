@@ -2,17 +2,17 @@
 
 internal static class CardTestStates
 {
-    public static Dictionary<string, object> DefaultState()
+    public static Dictionary<string, object> DefaultState
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "CardTitle", "Test"}
         };
     }
 
-    public static Dictionary<string, object> DefaultListState()
+    public static Dictionary<string, object> DefaultListState
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "CardTitle", "Shopping List"},
             { "SubTitle", "Low Items" },
@@ -21,9 +21,9 @@ internal static class CardTestStates
         };
     }
 
-    public static Dictionary<string, object> CountCard1State()
+    public static Dictionary<string, object> CountCard1State
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
@@ -32,9 +32,9 @@ internal static class CardTestStates
         };
     }
 
-    public static Dictionary<string, object> CountCard2State()
+    public static Dictionary<string, object> CountCard2State
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
@@ -43,9 +43,9 @@ internal static class CardTestStates
         };
     }
 
-    public static Dictionary<string, object> CountCard3State()
+    public static Dictionary<string, object> CountCard3State
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },
@@ -54,9 +54,9 @@ internal static class CardTestStates
         };
     }
 
-    public static Dictionary<string, object> CountCard4State()
+    public static Dictionary<string, object> CountCard4State
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "Count", 7 },
             { "MessageTemplate", "This is a test" },

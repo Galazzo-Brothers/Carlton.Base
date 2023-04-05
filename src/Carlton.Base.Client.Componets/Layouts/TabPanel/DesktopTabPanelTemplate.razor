@@ -6,14 +6,12 @@
     </TopContent>
     <BottomContent>
         <DesktopTabBar>
-            <ChildContent>
-                @Tabs
-            </ChildContent>
+            @Tabs
         </DesktopTabBar>
     </BottomContent>
 </ResizablePanel>
 
-@code{
+@code {
     [Parameter]
     public RenderFragment MainContent { get; set; }
     [Parameter]

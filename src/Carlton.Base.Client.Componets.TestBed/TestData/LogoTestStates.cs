@@ -2,9 +2,9 @@
 
 internal static class LogoTestStates
 {
-    public static Dictionary<string, object> DefaultState()
+    public static Dictionary<string, object> DefaultState
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "Title", "Project Carlton"}
         };

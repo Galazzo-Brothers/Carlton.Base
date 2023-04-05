@@ -1,32 +1,33 @@
 ﻿
-.header-row {
+.header-row-item {
+    display: flex;
     gap: 5px;
     color: var(--primary-text-color);
     font-weight: bold;
 }
 
-    .header-row .filter-arrows {
+    .header-row-item .filter-arrows {
         display: none;
         gap: 5px;
     }
 
-    .header-row.selected .filter-arrows {
+    .header-row-item.selected .filter-arrows {
         display: flex;
         gap: 0;
     }
 
-    .header-row .arrow-ascending {
+    .header-row-item .arrow-ascending {
         display: none;
     }
 
-    .header-row .arrow-descending {
+    .header-row-item .arrow-descending {
         display: none;
     }
 
-    .header-row.selected.ascending .arrow-ascending {
+    .header-row-item.selected.ascending .arrow-ascending {
         display: inherit;
     }
 
-    .header-row.selected.descending .arrow-descending {
+    .header-row-item.selected.descending .arrow-descending {
         display: inherit;
     }

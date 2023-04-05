@@ -2,9 +2,9 @@
 
 internal static class TitleBreadCrumbsTestStates
 {
-    public static Dictionary<string, object> DefaultState()
+    public static Dictionary<string, object> DefaultState
     {
-        return new Dictionary<string, object>
+        get => new()
         {
             { "Title", "Test Page"},
             { "BreadCrumbs", "Home > Test" }

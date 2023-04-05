@@ -2,17 +2,17 @@
 
 internal static class CheckboxTestStates
 {
-    public static Dictionary<string, object> CheckedState()
+    public static Dictionary<string, object> CheckedState
     {
-        return new Dictionary<string, object>
+        get => new()
             {
                 { "IsChecked", true }
             };
     }
 
-    public static Dictionary<string, object> UncheckedState()
+    public static Dictionary<string, object> UncheckedState
     {
-        return new Dictionary<string, object>
+        get => new()
             {
                 { "IsChecked", false }
             };

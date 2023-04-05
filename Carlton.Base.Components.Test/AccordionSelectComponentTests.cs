@@ -67,7 +67,7 @@ public class AccordionSelectComponentTests : TestContext
             };
     }
 
-    public static readonly List<SelectItem<int>> Items = new()
+    private static readonly List<SelectItem<int>> Items = new()
     {
         new SelectItem<int>("Item 1", 0, 1),
         new SelectItem<int>("Item 2", 1, 2),
