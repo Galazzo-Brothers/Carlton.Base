@@ -289,7 +289,7 @@ public class TablePaginationRowComponentTests : TestContext
         //Arrange
         var eventFired = false;
         var expectedItems = BigItemsList.Skip(expectedSkip).Take(expectedTake);
-        IList<TableTestObject> actualItems = new List<TableTestObject>();
+        IEnumerable<TableTestObject> actualItems = new List<TableTestObject>();
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
             .Add(p => p.CurrentItems, BigItemsList)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)

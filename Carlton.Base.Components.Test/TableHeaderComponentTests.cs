@@ -5,21 +5,21 @@ public class TableHeaderComponentTests : TestContext
     private static readonly string TableHeaderMarkup =
        @"<div class=""header-row-item row-item ascending"" blazor:onclick=""1"" b-ydzvi9l03d>
   <span class=""heading-text"" b-ydzvi9l03d>ID</span>
-  <div class=""filter-arrows"" b-ydzvi9l03d>
+  <div class=""sort-arrows"" b-ydzvi9l03d>
     <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
     <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
   </div>
 </div>
 <div class=""header-row-item row-item ascending"" blazor:onclick=""2"" b-ydzvi9l03d>
   <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
-  <div class=""filter-arrows"" b-ydzvi9l03d>
+  <div class=""sort-arrows"" b-ydzvi9l03d>
     <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
     <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
   </div>
 </div>
 <div class=""header-row-item row-item ascending"" blazor:onclick=""3"" b-ydzvi9l03d>
   <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
-  <div class=""filter-arrows"" b-ydzvi9l03d>
+  <div class=""sort-arrows"" b-ydzvi9l03d>
     <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
     <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
   </div>
@@ -122,15 +122,15 @@ public class TableHeaderComponentTests : TestContext
     }
 
     [Fact]
-    public void TableHeader_OnClickOnce_FirstColum_EventFires_And_FiltersItemsAsc()
+    public void TableHeader_OnClickOnce_FirstColum_EventFires_And_OrdersItemsAsc()
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> filteredItems = new List<TableTestObject>();
+        IList<TableTestObject> orderedItems = new List<TableTestObject>();
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
             .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsFiltered, items => { eventFired = true; filteredItems = items; })
+            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
             );
 
         var headerRowItems = cut.FindAll(".header-row-item");
@@ -140,22 +140,22 @@ public class TableHeaderComponentTests : TestContext
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(filteredItems,
+        Assert.Collection(orderedItems,
             _ => Assert.Equal(1, _.ID),
             _ => Assert.Equal(2, _.ID),
             _ => Assert.Equal(3, _.ID));
     }
 
     [Fact]
-    public void TableHeader_OnClickTwice_FirstColum_EventFires_And_FiltersItemsDesc()
+    public void TableHeader_OnClickTwice_FirstColum_EventFires_And_OrdersItemsDesc()
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> filteredItems = new List<TableTestObject>();
+        IList<TableTestObject> orderedItems = new List<TableTestObject>();
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
             .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsFiltered, items => { eventFired = true; filteredItems = items; })
+            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
             );
 
         //Act
@@ -166,22 +166,22 @@ public class TableHeaderComponentTests : TestContext
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(filteredItems,
+        Assert.Collection(orderedItems,
             _ => Assert.Equal(3, _.ID),
             _ => Assert.Equal(2, _.ID),
             _ => Assert.Equal(1, _.ID));
     }
 
     [Fact]
-    public void TableHeader_OnClickOnce_SecondColumColum_EventFires_And_FiltersItemsAsc()
+    public void TableHeader_OnClickOnce_SecondColumColum_EventFires_And_OrdersItemsAsc()
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> filteredItems = new List<TableTestObject>();
+        IList<TableTestObject> orderedItems = new List<TableTestObject>();
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
             .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsFiltered, items => { eventFired = true; filteredItems = items; })
+            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
             );
 
         var headerRowItems = cut.FindAll(".header-row-item");
@@ -192,22 +192,22 @@ public class TableHeaderComponentTests : TestContext
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(filteredItems,
+        Assert.Collection(orderedItems,
             _ => Assert.Equal("Item A", _.DisplayName),
             _ => Assert.Equal("Item B", _.DisplayName),
             _ => Assert.Equal("Item C", _.DisplayName));
     }
 
     [Fact]
-    public void TableHeader_OnClickTwice_SecondColumColum_EventFires_And_FiltersItemsDesc()
+    public void TableHeader_OnClickTwice_SecondColumColum_EventFires_And_OrdersItemsDesc()
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> filteredItems = new List<TableTestObject>();
+        IList<TableTestObject> orderedItems = new List<TableTestObject>();
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
             .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsFiltered, items => { eventFired = true; filteredItems = items; })
+            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
             );
 
         //Act
@@ -218,22 +218,22 @@ public class TableHeaderComponentTests : TestContext
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(filteredItems,
+        Assert.Collection(orderedItems,
             _ => Assert.Equal("Item C", _.DisplayName),
             _ => Assert.Equal("Item B", _.DisplayName),
             _ => Assert.Equal("Item A", _.DisplayName));
     }
 
     [Fact]
-    public void TableHeader_OnClickOnce_ThirdColumColum_EventFires_And_FiltersItemsAsc()
+    public void TableHeader_OnClickOnce_ThirdColumColum_EventFires_And_OrdersItemsAsc()
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> filteredItems = new List<TableTestObject>();
+        IList<TableTestObject> orderedItems = new List<TableTestObject>();
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
             .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsFiltered, items => { eventFired = true; filteredItems = items; })
+            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
             );
 
         var headerRowItems = cut.FindAll(".header-row-item");
@@ -244,22 +244,22 @@ public class TableHeaderComponentTests : TestContext
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(filteredItems,
+        Assert.Collection(orderedItems,
             _ => Assert.Equal(new DateTime(2021, 5, 19), _.CreatedDate),
             _ => Assert.Equal(new DateTime(2022, 2, 3), _.CreatedDate),
             _ => Assert.Equal(new DateTime(2023, 10, 9), _.CreatedDate));
     }
 
     [Fact]
-    public void TableHeader_OnClickTwice_ThirdColumColum_EventFires_And_FiltersItemsDesc()
+    public void TableHeader_OnClickTwice_ThirdColumColum_EventFires_And_OrdersItemsDesc()
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> filteredItems = new List<TableTestObject>();
+        IList<TableTestObject> orderedItems = new List<TableTestObject>();
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
             .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsFiltered, items => { eventFired = true; filteredItems = items; })
+            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
             );
 
 
@@ -271,7 +271,7 @@ public class TableHeaderComponentTests : TestContext
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(filteredItems,
+        Assert.Collection(orderedItems,
             _ => Assert.Equal(0, DateTime.Compare(new DateTime(2023, 10, 9).Date, _.CreatedDate.Date)),
             _ => Assert.Equal(0, DateTime.Compare(new DateTime(2022, 2, 3).Date, _.CreatedDate.Date)),
             _ => Assert.Equal(0, DateTime.Compare(new DateTime(2021, 5, 19).Date, _.CreatedDate.Date)));

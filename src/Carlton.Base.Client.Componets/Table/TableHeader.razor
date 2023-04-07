@@ -4,9 +4,9 @@
 
 @foreach(var (heading, i) in Headings.WithIndex())
 {
-    <div class="@HeaderRowItemCss(i)" @onclick="()=>HeaderRowItemClick(i, heading.OrderColumn)">
+    <div class="@HeaderRowItemCss(i)" @onclick="()=>HeaderRowItemClick(i)">
         <span class="heading-text">@heading.DisplayName</span>
-        <div class="filter-arrows">
+        <div class="sort-arrows">
             <span class="arrow-ascending mdi mdi-arrow-up"></span>
             <span class="arrow-descending mdi mdi-arrow-down"></span>
         </div>
@@ -19,13 +19,37 @@
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
     [Parameter]
-    public IList<TItem> Items { get; set; }
+    public IEnumerable<TItem> Items { get; set; }
 
     [Parameter]
-    public EventCallback<IList<TItem>> OnItemsFiltered { get; set; }
+    public EventCallback<IList<TItem>> OnItemsOrdered { get; set; }
 
+    private bool ReOrderingInProgress { get; set; } = false;
     private int SelectedIndex { get; set; } = -1;
     private bool IsAscending = true;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        var initialState = SelectedIndex == -1;
+        var requiresReOrdering = !initialState && !ReOrderingInProgress;
+
+        if(requiresReOrdering)
+        {
+            ReOrderingInProgress = true;
+            await OrderItems();
+        }
+        else
+        {
+            ReOrderingInProgress = false;
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    protected override bool ShouldRender()
+    {
+        return base.ShouldRender() && !ReOrderingInProgress;
+    }
 
     private string HeaderRowItemCss(int index)
     {
@@ -37,22 +61,20 @@
                 .Build();
     }
 
-    private async Task HeaderRowItemClick(int index, string orderColumn)
+    private async Task HeaderRowItemClick(int index)
     {
-        if(SelectedIndex == index)
-        {
-            IsAscending = !IsAscending;
+        IsAscending = (SelectedIndex == index) ? !IsAscending : true;
+        SelectedIndex = index;
+        await OrderItems();
+    }
 
-            var orderString = $"{orderColumn}{(IsAscending ? string.Empty : " desc")}";
-            var filteredItems = Items.AsQueryable().OrderBy(orderString).ToList();
-            await OnItemsFiltered.InvokeAsync(filteredItems);
-        }
-        else
-        {
-            SelectedIndex = index;
-            IsAscending = true;
-            var filteredItems = Items.AsQueryable().OrderBy(orderColumn).ToList();
-            await OnItemsFiltered.InvokeAsync(filteredItems);
-        }
+    private async Task OrderItems()
+    {
+        if(SelectedIndex == -1)
+            return;
+
+        var orderString = $"{Headings.ElementAt(SelectedIndex).OrderColumn}{(IsAscending ? string.Empty : " desc")}";
+        var orderedItems = Items.AsQueryable().OrderBy(orderString).ToList();
+        await OnItemsOrdered.InvokeAsync(orderedItems);
     }
 }

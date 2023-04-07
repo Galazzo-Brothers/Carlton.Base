@@ -8,21 +8,21 @@ public class TableComponentTests : TestContext
     <div class=""header-row table-row"" b-rbixdumkuw>
       <div class=""header-row-item row-item ascending"" blazor:onclick=""1"" b-ydzvi9l03d>
         <span class=""heading-text"" b-ydzvi9l03d>ID</span>
-        <div class=""filter-arrows"" b-ydzvi9l03d>
+        <div class=""sort-arrows"" b-ydzvi9l03d>
           <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
           <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
         </div>
       </div>
       <div class=""header-row-item row-item ascending"" blazor:onclick=""2"" b-ydzvi9l03d>
         <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
-        <div class=""filter-arrows"" b-ydzvi9l03d>
+        <div class=""sort-arrows"" b-ydzvi9l03d>
           <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
           <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
         </div>
       </div>
       <div class=""header-row-item row-item ascending"" blazor:onclick=""3"" b-ydzvi9l03d>
         <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
-        <div class=""filter-arrows"" b-ydzvi9l03d>
+        <div class=""sort-arrows"" b-ydzvi9l03d>
           <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
           <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
         </div>
