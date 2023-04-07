@@ -170,7 +170,6 @@ public class TablePaginationRowComponentTests : TestContext
 
         //Act
         optToClick.Click();
-        cut.Render();
 
         for(var i = 0; i < currentPage - 1; i++)
             rightChevron.Click();
@@ -198,7 +197,6 @@ public class TablePaginationRowComponentTests : TestContext
 
         //Act
         optToClick.Click();
-        cut.Render();
 
         //Assert
         Assert.Equal(expectedText, paginationLabel.TextContent);
@@ -308,7 +306,6 @@ public class TablePaginationRowComponentTests : TestContext
 
         //Act
         optToClick.Click();
-        cut.Render();
 
         for(var i = 0; i < currentPage - 1; i++)
             rightChevron.Click();

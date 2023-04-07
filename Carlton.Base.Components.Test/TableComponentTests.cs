@@ -91,6 +91,25 @@ public class TableComponentTests : TestContext
         new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
     };
 
+    private static readonly IList<TableTestObject> BigItemsList = new List<TableTestObject>
+    {
+        new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+        new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+        new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
+        new TableTestObject(4, "Item 1", new DateTime(2023, 10, 9)),
+        new TableTestObject(5, "Item 2", new DateTime(2022, 2, 3)),
+        new TableTestObject(6, "Item 3", new DateTime(2021, 5, 19)),
+        new TableTestObject(7, "Additional Item A", new DateTime(2023, 10, 9)),
+        new TableTestObject(8, "Additional Item B", new DateTime(2022, 2, 3)),
+        new TableTestObject(9, "Additional Item C", new DateTime(2021, 5, 19)),
+        new TableTestObject(10, "Additional Item 1", new DateTime(2023, 10, 9)),
+        new TableTestObject(11, "Additional Item 2", new DateTime(2022, 2, 3)),
+        new TableTestObject(12, "Additional Item 3", new DateTime(2021, 5, 19)),
+        new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
+        new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
+        new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
+    };
+
     private static readonly IList<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
 
     private static readonly string RowTemplate =
@@ -609,5 +628,44 @@ public class TableComponentTests : TestContext
 
         //Assert
         Assert.Equal(showPaginationRow, paginationRowExists);
+    }
+
+    [Theory]
+    [InlineData(1, 0, 0, 5)]
+    [InlineData(1, 1, 0, 10)]
+    [InlineData(1, 2, 0, 15)]
+    [InlineData(2, 0, 5, 5)]
+    [InlineData(2, 1, 10, 10)]
+    [InlineData(2, 2, 0, 15)]
+    [InlineData(3, 0, 10, 5)]
+    [InlineData(3, 1, 10, 5)]
+    [InlineData(3, 2, 0, 15)]
+    public void Table_ItemsChangedCallback_FiresEvent(int currentPage, int optIndex, int expectedSkip, int expectedTake)
+    {
+        //Arrange
+        var expectedItems = BigItemsList.Skip(expectedSkip).Take(expectedTake);
+        var expectedIDs = expectedItems.Select(_ => _.ID);
+        var cut = RenderComponent<Table<TableTestObject>>(paramaters => paramaters
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.Items, BigItemsList)
+            .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+            .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.ShowPaginationRow, true)
+            );
+
+        var options = cut.FindAll(".option");
+        var optToClick = options.ElementAt(optIndex);
+        var rightChevron = cut.Find(".mdi-chevron-right");
+
+        //Act
+        optToClick.Click();
+
+        for(var i = 0; i < currentPage - 1; i++)
+            rightChevron.Click();
+
+        var actualIDs = cut.FindAll(".test-row").Select(_ => int.Parse(_.Children.First().TextContent.Replace("ID:", string.Empty)));
+
+        //Assert
+        Assert.Equal(expectedIDs, actualIDs);
     }
 }

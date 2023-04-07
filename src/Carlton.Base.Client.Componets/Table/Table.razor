@@ -15,7 +15,7 @@
         @if (ShowPaginationRow)
         {
             <div class="pagination-row table-row">
-                <TablePaginationRow TItem="TItem" CurrentItems="Items" RowsPerPageOpts="RowsPerPageOpts" ItemsChangedCallback="(items)=>Items=items" />
+                <TablePaginationRow TItem="TItem" CurrentItems="AllItems" RowsPerPageOpts="RowsPerPageOpts" ItemsChangedCallback="(items)=>Items=items" />
             </div>
         }
     </div>
@@ -37,4 +37,13 @@
 
     [Parameter]
     public IEnumerable<int> RowsPerPageOpts { get; set; }
+
+    private IList<TItem> AllItems { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        AllItems = Items;
+        Items = Items.Take(RowsPerPageOpts.First()).ToList();
+        base.OnParametersSet();
+    }
 }
