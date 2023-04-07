@@ -3,19 +3,19 @@
 
 <div class="main-container">
     <div class="table-container">
-        <div class="table-row heading">
+        <div class="header-row table-row">
             <TableHeader TItem="TItem" Headings="Headings" Items="Items" OnItemsFiltered="(items)=>Items=items"  />
         </div>
         @foreach(var item in Items)
         {
-            <div class="table-row">
+            <div class="item-row table-row">
                 @RowTemplate(item)
             </div>
         }
         @if (ShowPaginationRow)
         {
             <div class="pagination-row table-row">
-                <TablePaginationRow TItem="TItem" CurrentItems="Items" RowsPerPageCounts="RowsPerPageInts" ItemsChangedCallback="(items)=>Items=items" />
+                <TablePaginationRow TItem="TItem" CurrentItems="Items" RowsPerPageOpts="RowsPerPageOpts" ItemsChangedCallback="(items)=>Items=items" />
             </div>
         }
     </div>
@@ -36,5 +36,5 @@
     public bool ShowPaginationRow { get; set; }
 
     [Parameter]
-    public IEnumerable<int> RowsPerPageInts { get; set; }
+    public IEnumerable<int> RowsPerPageOpts { get; set; }
 }

@@ -5,7 +5,7 @@
 <div class="pagination-row-item">
     <div class="rows-per-page">
         <span class="rows-per-page-label">Rows Per Page</span>
-        <Select Options="RowsPerPageOpts" SelectedValue="SelectedRowsPerPageCount" ValueChangedCallback="(rpp) => SelectedRowsPerPageCount=rpp.Value" />
+        <Select Options="RowsPerPageSelectOpts" SelectedValue="SelectedRowsPerPageCount" ValueChangedCallback="(rpp) => ChangeRowsPerPage(rpp.Value)" />
     </div>
     <div class="page-number">
         <span class="pagination-label">@PaginationLabel</span>
@@ -24,14 +24,14 @@
     public IList<TItem> CurrentItems { get; set; }
 
     [Parameter]
-    public IEnumerable<int> RowsPerPageCounts { get; set; }
+    public IEnumerable<int> RowsPerPageOpts { get; set; }
 
     [Parameter]
     public EventCallback<IList<TItem>> ItemsChangedCallback { get; set; }
 
     private IList<TItem> AllItems { get; set; }
 
-    private IReadOnlyDictionary<string, int> RowsPerPageOpts { get; set; }
+    private IReadOnlyDictionary<string, int> RowsPerPageSelectOpts { get; set; }
 
     private int SelectedRowsPerPageCount { get; set; }
 
@@ -43,8 +43,8 @@
     {
         get  
         {
-            var paginationCurrentRangeStart = (CurrentPage - 1) * SelectedRowsPerPageCount + 1; 
-            var paginationCurrentRangeEnd = Math.Min(SelectedRowsPerPageCount, CurrentItems.Count); 
+            var paginationCurrentRangeStart = 1 + ((CurrentPage - 1) * SelectedRowsPerPageCount); 
+            var paginationCurrentRangeEnd = Math.Min(CurrentPage * SelectedRowsPerPageCount, AllItems.Count);
             return $"{paginationCurrentRangeStart}-{paginationCurrentRangeEnd} of {AllItems.Count}"; 
         }
     }
@@ -52,27 +52,34 @@
     protected override void OnInitialized()
     {
         AllItems = CurrentItems;
-        RowsPerPageOpts = RowsPerPageCounts.ToDictionary(_ => _.ToString(), _ => _);
-        SelectedRowsPerPageCount = RowsPerPageCounts.First();
+        RowsPerPageSelectOpts = RowsPerPageOpts.ToDictionary(_ => _.ToString(), _ => _);
+        SelectedRowsPerPageCount = RowsPerPageOpts.First();
         SetCurrentItems();
         base.OnInitialized();
     }
 
     private void SetCurrentItems()
     {
-        CurrentItems = AllItems.Skip(SelectedRowsPerPageCount * CurrentPage)
+        CurrentItems = AllItems.Skip((CurrentPage- 1) * SelectedRowsPerPageCount) 
                                .Take(SelectedRowsPerPageCount)
                                .ToList();
     }
 
     private async Task ChangePage(int newPageNumber)
     {
-        if (newPageNumber >= MaxPage || newPageNumber <= 1)
+        if (newPageNumber > MaxPage || newPageNumber < 1)
             return;
 
         CurrentPage = newPageNumber;
         SetCurrentItems();
-        await ItemsChangedCallback.InvokeAsync();
+        await ItemsChangedCallback.InvokeAsync(CurrentItems);
+    }
+
+    private async Task ChangeRowsPerPage(int newRowsPerPageNumber)
+    {
+        SelectedRowsPerPageCount = newRowsPerPageNumber;
+        SetCurrentItems();
+        await ItemsChangedCallback.InvokeAsync(CurrentItems);
     }
 
     private string PageFirstChevronCss
