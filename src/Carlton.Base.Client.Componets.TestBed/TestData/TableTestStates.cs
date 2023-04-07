@@ -2,21 +2,53 @@
 
 public static class TableTestStates
 {
-    public static Dictionary<string, object> DefaultState
+    public static Dictionary<string, object> LargeItemList
     {
         get => new()
         {
-            {
-                "Headings", new List<TableHeadingItem>
+            { "Headings", Headings },
+            { "Items", BigList },
+            { "RowTemplate", RowTemplate },
+            { "ShowPaginationRow", true },
+            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+        };
+    }
+
+    public static Dictionary<string, object> SmallItemList
+    {
+        get => new()
+        {
+            { "Headings", Headings },
+            { "Items", SmallList },
+            { "RowTemplate", RowTemplate },
+            { "ShowPaginationRow", true },
+            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+        };
+    }
+
+    public static Dictionary<string, object> WithOutPaginationRow
+    {
+        get => new()
+        {
+            { "Headings", Headings },
+            { "Items", SmallList },
+            { "RowTemplate", RowTemplate },
+            { "ShowPaginationRow", false },
+            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+        };
+    }
+
+    private static readonly List<TableHeadingItem> Headings =
+        new()
                 {
                     new TableHeadingItem(nameof(TableTestObject.ID)),
                     new TableHeadingItem(nameof(TableTestObject.DisplayName)),
                     new TableHeadingItem(nameof(TableTestObject.CreatedDate))
-                }
-            },
-            {
-                "Items", new List<TableTestObject>
-                {
+                };
+
+    private static readonly List<TableTestObject> BigList =
+        new()
+        {
                 new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
                 new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
                 new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
@@ -32,19 +64,21 @@ public static class TableTestStates
                 new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
                 new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
                 new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
-                }
-            },
-            { "RowTemplate", RowTemplate },
-            { "ShowPaginationRow", true },
-            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+                };
+
+    private static readonly List<TableTestObject> SmallList =
+        new()
+        {
+                new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+                new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
         };
-    }
 
     private static readonly RenderFragment<TableTestObject> RowTemplate = item =>
-        builder =>
-        {
-            builder.AddMarkupContent(0,
-             $@"<div class=""row-item"">
+            builder =>
+            {
+                builder.AddMarkupContent(0,
+                 $@"<div class=""row-item"">
                     <span>{item.ID}</span>
               </div>
              <div class= ""row-item"">
@@ -53,7 +87,7 @@ public static class TableTestStates
             <div class=""row-item"">
                 <span>{item.CreatedDate}</span>
             </div>");
-        };
+            };
 
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 }
