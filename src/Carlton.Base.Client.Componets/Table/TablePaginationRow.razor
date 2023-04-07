@@ -12,57 +12,47 @@
     </div>
     <div class="page-chevrons">
         <span class="@PageFirstChevronCss" @onclick="() => ChangePage(1)"></span>
-        <span class="@PageLeftChevronCss" @onclick="() =>  ChangePage(CurrentPage-1)"></span>
+        <span class="@PageLeftChevronCss" @onclick="() => ChangePage(CurrentPage-1)"></span>
         <span class="@PageRightChevronCss" @onclick="() => ChangePage(CurrentPage+1)"></span>
-        <span class="@PageLastChevronCss" @onclick="() =>  ChangePage(MaxPage)"></span>
+        <span class="@PageLastChevronCss" @onclick="() => ChangePage(MaxPage)"></span>
     </div>
 </div>
 
 @code {
 
     [Parameter]
-    public IEnumerable<TItem> CurrentItems { get; set; }
-
-    [Parameter]
     public IEnumerable<int> RowsPerPageOpts { get; set; }
 
     [Parameter]
-    public EventCallback<IEnumerable<TItem>> ItemsChangedCallback { get; set; }
+    public EventCallback<TablePaginationChangedArgs> OnPaginationChanged { get; set; }
 
-    private IEnumerable<TItem> AllItems { get; set; }
+    [Parameter]
+    public int TotalItemCount { get; set; }
+
+    [Parameter]
+    public int CurrentPage { get; set; } = 1;
+
+    [Parameter]
+    public int SelectedRowsPerPageCount { get; set; }
 
     private IReadOnlyDictionary<string, int> RowsPerPageSelectOpts { get; set; }
 
-    private int SelectedRowsPerPageCount { get; set; }
-
-    private int CurrentPage { get; set; } = 1;
-
-    private int MaxPage { get => (int)Math.Ceiling((decimal)AllItems.Count() / SelectedRowsPerPageCount); }
+    private int MaxPage { get => (int)Math.Ceiling((decimal)TotalItemCount / SelectedRowsPerPageCount); }
 
     private string PaginationLabel 
     {
         get  
         {
             var paginationCurrentRangeStart = 1 + ((CurrentPage - 1) * SelectedRowsPerPageCount); 
-            var paginationCurrentRangeEnd = Math.Min(CurrentPage * SelectedRowsPerPageCount, AllItems.Count());
-            return $"{paginationCurrentRangeStart}-{paginationCurrentRangeEnd} of {AllItems.Count()}"; 
+            var paginationCurrentRangeEnd = Math.Min(CurrentPage * SelectedRowsPerPageCount, TotalItemCount);
+            return $"{paginationCurrentRangeStart}-{paginationCurrentRangeEnd} of {TotalItemCount}";
         }
     }
 
     protected override void OnInitialized()
     {
-        AllItems = CurrentItems;
         RowsPerPageSelectOpts = RowsPerPageOpts.ToDictionary(_ => _.ToString(), _ => _);
-        SelectedRowsPerPageCount = RowsPerPageOpts.First();
-        SetCurrentItems();
         base.OnInitialized();
-    }
-
-    private void SetCurrentItems()
-    {
-        CurrentItems = AllItems.Skip((CurrentPage- 1) * SelectedRowsPerPageCount) 
-                               .Take(SelectedRowsPerPageCount)
-                               .ToList();
     }
 
     private async Task ChangePage(int newPageNumber)
@@ -71,15 +61,14 @@
             return;
 
         CurrentPage = newPageNumber;
-        SetCurrentItems();
-        await ItemsChangedCallback.InvokeAsync(CurrentItems);
+        await OnPaginationChanged.InvokeAsync(new TablePaginationChangedArgs(CurrentPage, SelectedRowsPerPageCount));
     }
 
     private async Task ChangeRowsPerPage(int newRowsPerPageNumber)
     {
         SelectedRowsPerPageCount = newRowsPerPageNumber;
-        SetCurrentItems();
-        await ItemsChangedCallback.InvokeAsync(CurrentItems);
+        CurrentPage = 1;
+        await OnPaginationChanged.InvokeAsync(new TablePaginationChangedArgs(CurrentPage, SelectedRowsPerPageCount));
     }
 
     private string PageFirstChevronCss

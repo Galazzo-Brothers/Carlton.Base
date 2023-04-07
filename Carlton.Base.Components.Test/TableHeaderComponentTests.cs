@@ -34,13 +34,6 @@ public class TableHeaderComponentTests : TestContext
             new TableHeadingItem(nameof(TableTestObject.CreatedDate))
     };
 
-    private static readonly IList<TableTestObject> Items = new List<TableTestObject>
-    {
-        new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-        new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-        new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
-    };
-
     public static IEnumerable<object[]> GetHeadings()
     {
         yield return new object[]
@@ -76,7 +69,8 @@ public class TableHeaderComponentTests : TestContext
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
             );
 
         //Assert
@@ -93,7 +87,8 @@ public class TableHeaderComponentTests : TestContext
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, headings)
-            .Add(p => p.Items, Items)
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
             );
 
         var headerRowItems = cut.FindAll(".header-row-item");
@@ -109,7 +104,8 @@ public class TableHeaderComponentTests : TestContext
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
             );
 
         var headingText = cut.FindAll(".heading-text").Select(_ => _.TextContent);
@@ -121,160 +117,61 @@ public class TableHeaderComponentTests : TestContext
             _ => Assert.Equal("CreatedDate", _));
     }
 
-    [Fact]
-    public void TableHeader_OnClickOnce_FirstColum_EventFires_And_OrdersItemsAsc()
+    [Theory]
+    [InlineData(0, "ID")]
+    [InlineData(1, "DisplayName")]
+    [InlineData(2, "CreatedDate")]
+    public void TableHeader_ClickHeadersOnce_EventFires(int columnIndex, string expectedColumnName)
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> orderedItems = new List<TableTestObject>();
+        var actualOrderAscending = false;
+        var actualOrderColumn = string.Empty;
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
+            .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; })
             );
 
         var headerRowItems = cut.FindAll(".header-row-item");
 
         //Act
-        headerRowItems.ElementAt(0).Click();
+        headerRowItems.ElementAt(columnIndex).Click();
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(orderedItems,
-            _ => Assert.Equal(1, _.ID),
-            _ => Assert.Equal(2, _.ID),
-            _ => Assert.Equal(3, _.ID));
+        Assert.True(actualOrderAscending);
+        Assert.Equal(expectedColumnName, actualOrderColumn);
     }
 
-    [Fact]
-    public void TableHeader_OnClickTwice_FirstColum_EventFires_And_OrdersItemsDesc()
+    [Theory]
+    [InlineData(0, "ID")]
+    [InlineData(1, "DisplayName")]
+    [InlineData(2, "CreatedDate")]
+    public void TableHeader_ClickHeadersOnceTwice_EventFires(int columnIndex, string expectedColumnName)
     {
         //Arrange
         var eventFired = false;
-        IList<TableTestObject> orderedItems = new List<TableTestObject>();
+        var actualOrderAscending = true;
+        var actualOrderColumn = string.Empty;
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
+            .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; })
             );
 
         //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(0);
+        var itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
         itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(0);
+        itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
         itemToClick.Click();
 
         //Assert
         Assert.True(eventFired);
-        Assert.Collection(orderedItems,
-            _ => Assert.Equal(3, _.ID),
-            _ => Assert.Equal(2, _.ID),
-            _ => Assert.Equal(1, _.ID));
-    }
-
-    [Fact]
-    public void TableHeader_OnClickOnce_SecondColumColum_EventFires_And_OrdersItemsAsc()
-    {
-        //Arrange
-        var eventFired = false;
-        IList<TableTestObject> orderedItems = new List<TableTestObject>();
-        var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
-            );
-
-        var headerRowItems = cut.FindAll(".header-row-item");
-
-        //Act
-        var itemToClick = headerRowItems.ElementAt(1);
-        itemToClick.Click();
-
-        //Assert
-        Assert.True(eventFired);
-        Assert.Collection(orderedItems,
-            _ => Assert.Equal("Item A", _.DisplayName),
-            _ => Assert.Equal("Item B", _.DisplayName),
-            _ => Assert.Equal("Item C", _.DisplayName));
-    }
-
-    [Fact]
-    public void TableHeader_OnClickTwice_SecondColumColum_EventFires_And_OrdersItemsDesc()
-    {
-        //Arrange
-        var eventFired = false;
-        IList<TableTestObject> orderedItems = new List<TableTestObject>();
-        var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
-            );
-
-        //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(1);
-        itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(1);
-        itemToClick.Click();
-
-        //Assert
-        Assert.True(eventFired);
-        Assert.Collection(orderedItems,
-            _ => Assert.Equal("Item C", _.DisplayName),
-            _ => Assert.Equal("Item B", _.DisplayName),
-            _ => Assert.Equal("Item A", _.DisplayName));
-    }
-
-    [Fact]
-    public void TableHeader_OnClickOnce_ThirdColumColum_EventFires_And_OrdersItemsAsc()
-    {
-        //Arrange
-        var eventFired = false;
-        IList<TableTestObject> orderedItems = new List<TableTestObject>();
-        var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
-            );
-
-        var headerRowItems = cut.FindAll(".header-row-item");
-
-        //Act
-        var itemToClick = headerRowItems.ElementAt(2);
-        itemToClick.Click();
-
-        //Assert
-        Assert.True(eventFired);
-        Assert.Collection(orderedItems,
-            _ => Assert.Equal(new DateTime(2021, 5, 19), _.CreatedDate),
-            _ => Assert.Equal(new DateTime(2022, 2, 3), _.CreatedDate),
-            _ => Assert.Equal(new DateTime(2023, 10, 9), _.CreatedDate));
-    }
-
-    [Fact]
-    public void TableHeader_OnClickTwice_ThirdColumColum_EventFires_And_OrdersItemsDesc()
-    {
-        //Arrange
-        var eventFired = false;
-        IList<TableTestObject> orderedItems = new List<TableTestObject>();
-        var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
-            .Add(p => p.OnItemsOrdered, items => { eventFired = true; orderedItems = items; })
-            );
-
-
-        //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(2);
-        itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(2);
-        itemToClick.Click();
-
-        //Assert
-        Assert.True(eventFired);
-        Assert.Collection(orderedItems,
-            _ => Assert.Equal(0, DateTime.Compare(new DateTime(2023, 10, 9).Date, _.CreatedDate.Date)),
-            _ => Assert.Equal(0, DateTime.Compare(new DateTime(2022, 2, 3).Date, _.CreatedDate.Date)),
-            _ => Assert.Equal(0, DateTime.Compare(new DateTime(2021, 5, 19).Date, _.CreatedDate.Date)));
+        Assert.False(actualOrderAscending);
+        Assert.Equal(expectedColumnName, actualOrderColumn);
     }
 
     [Theory]
@@ -286,7 +183,8 @@ public class TableHeaderComponentTests : TestContext
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
             );
 
         var headerRowItems = cut.FindAll(".header-row-item", true);
@@ -296,7 +194,7 @@ public class TableHeaderComponentTests : TestContext
         selectedItem.Click();
         selectedItem = headerRowItems.ElementAt(selectedIndex);
         var containsSelectedClass = selectedItem.ClassList.Contains("selected");
-        
+
 
         //Assert
         Assert.True(containsSelectedClass);
@@ -311,7 +209,8 @@ public class TableHeaderComponentTests : TestContext
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
             );
 
         var headerRowItems = cut.FindAll(".header-row-item", true);
@@ -336,7 +235,8 @@ public class TableHeaderComponentTests : TestContext
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, Items)
+            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, true)
             );
 
 

@@ -4,7 +4,11 @@
 <div class="main-container">
     <div class="table-container">
         <div class="header-row table-row">
-            <TableHeader TItem="TItem" Headings="Headings" Items="Items" OnItemsOrdered="(items)=>Items=items"  />
+            <TableHeader TItem="TItem"
+                         Headings="Headings"
+                         OrderColumn="@OrderColumn"
+                         OrderAscending="OrderAscending"
+                         OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
         </div>
         @foreach(var item in Items)
         {
@@ -12,10 +16,15 @@
                 @RowTemplate(item)
             </div>
         }
-        @if (ShowPaginationRow)
+        @if(ShowPaginationRow)
         {
             <div class="pagination-row table-row">
-                <TablePaginationRow TItem="TItem" CurrentItems="AllItems" RowsPerPageOpts="RowsPerPageOpts" ItemsChangedCallback="(items)=>Items=items" />
+                <TablePaginationRow TItem="TItem"
+                                RowsPerPageOpts="RowsPerPageOpts"
+                                TotalItemCount="AllItems.Count()"
+                                CurrentPage="CurrentPage"
+                                SelectedRowsPerPageCount="SelectedRowsPerPageCount"
+                                OnPaginationChanged="(args)=>OnPaginationChanged(args)" />
             </div>
         }
     </div>
@@ -27,7 +36,7 @@
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
     [Parameter]
-    public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+    public IList<TItem> Items { get; set; } = new List<TItem>();
 
     [Parameter]
     public RenderFragment<TItem> RowTemplate { get; set; }
@@ -38,12 +47,70 @@
     [Parameter]
     public IEnumerable<int> RowsPerPageOpts { get; set; }
 
+    [Parameter]
+    public int SelectedRowsPerPageCount { get; set; }
+
+    [Parameter]
+    public int CurrentPage { get; set; } = 1;
+
+    [Parameter]
+    public string OrderColumn { get; set; }
+
+    [Parameter]
+    public bool OrderAscending { get; set; } = true;
+
     private IEnumerable<TItem> AllItems { get; set; }
+
+    protected override void OnInitialized()
+    {
+        SelectedRowsPerPageCount = RowsPerPageOpts.FirstOrDefault();
+        base.OnInitialized();
+    }
 
     protected override void OnParametersSet()
     {
         AllItems = Items;
-        Items = Items.Take(RowsPerPageOpts.First()).ToList();
+        ResetPaginationAndOrdering();
+        UpdatePagination();
+        UpdateOrdering();
         base.OnParametersSet();
+    }
+
+    private void OnPaginationChanged(TablePaginationChangedArgs args)
+    {
+        CurrentPage = args.CurrentPage;
+        SelectedRowsPerPageCount = args.SelectedRowsPerPageCount;
+        UpdatePagination();
+        UpdateOrdering();
+    }
+
+    private void OnOrderingChanged(TableOrderingChangedArgs args)
+    {
+        OrderColumn = args.OrderColumn;
+        OrderAscending = args.OrderAscending;
+        UpdateOrdering();
+    }
+
+    private void UpdatePagination()
+    {
+        Items = AllItems.Skip((CurrentPage - 1) * SelectedRowsPerPageCount)
+                               .Take(SelectedRowsPerPageCount)
+                               .ToList();
+    }
+
+    private void UpdateOrdering()
+    {
+        if (string.IsNullOrEmpty(OrderColumn))
+            return;
+
+        var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
+        Items = Items.AsQueryable().OrderBy(orderString).ToList();
+    }
+
+    private void ResetPaginationAndOrdering()
+    {
+        CurrentPage = 1;
+        OrderColumn = string.Empty;
+        OrderAscending = true;
     }
 }

@@ -6,3 +6,7 @@ public record TableHeadingItem(string DisplayName, string OrderColumn)
     {
     }
 };
+
+public record TablePaginationChangedArgs(int CurrentPage, int SelectedRowsPerPageCount);
+
+public record TableOrderingChangedArgs(string OrderColumn, bool OrderAscending);

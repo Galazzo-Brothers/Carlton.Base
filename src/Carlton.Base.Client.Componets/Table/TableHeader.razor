@@ -2,9 +2,9 @@
 @typeparam TItem
 
 
-@foreach(var (heading, i) in Headings.WithIndex())
+@foreach(var heading in Headings)
 {
-    <div class="@HeaderRowItemCss(i)" @onclick="()=>HeaderRowItemClick(i)">
+    <div class="@HeaderRowItemCss(heading.OrderColumn)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
         <span class="heading-text">@heading.DisplayName</span>
         <div class="sort-arrows">
             <span class="arrow-ascending mdi mdi-arrow-up"></span>
@@ -13,68 +13,41 @@
     </div>
 }
 
-
 @code {
     [Parameter]
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
     [Parameter]
-    public IEnumerable<TItem> Items { get; set; }
+    public string OrderColumn { get; set; }
 
     [Parameter]
-    public EventCallback<IList<TItem>> OnItemsOrdered { get; set; }
+    public bool OrderAscending { get; set; } = true;
 
-    private bool ReOrderingInProgress { get; set; } = false;
-    private int SelectedIndex { get; set; } = -1;
-    private bool IsAscending = true;
+    [Parameter]
+    public EventCallback<TableOrderingChangedArgs> OnItemsOrdered { get; set; }
 
-    protected async override Task OnParametersSetAsync()
-    {
-        var initialState = SelectedIndex == -1;
-        var requiresReOrdering = !initialState && !ReOrderingInProgress;
-
-        if(requiresReOrdering)
-        {
-            ReOrderingInProgress = true;
-            await OrderItems();
-        }
-        else
-        {
-            ReOrderingInProgress = false;
-        }
-
-        await base.OnParametersSetAsync();
-    }
-
-    protected override bool ShouldRender()
-    {
-        return base.ShouldRender() && !ReOrderingInProgress;
-    }
-
-    private string HeaderRowItemCss(int index)
+    private string HeaderRowItemCss(string selectedOrderColumn)
     {
         return new CssBuilder("header-row-item")
                 .AddClass("row-item")
-                .AddClass("selected", SelectedIndex == index)
-                .AddClass("ascending", IsAscending)
-                .AddClass("descending", !IsAscending)
+                .AddClass("selected", OrderColumn == selectedOrderColumn)
+                .AddClass("ascending", OrderAscending)
+                .AddClass("descending", !OrderAscending)
                 .Build();
     }
 
-    private async Task HeaderRowItemClick(int index)
+    private async Task HeaderRowItemClick(string selectedOrderColumn)
     {
-        IsAscending = (SelectedIndex == index) ? !IsAscending : true;
-        SelectedIndex = index;
+        OrderAscending = (OrderColumn == selectedOrderColumn) ? !OrderAscending : true;
+        OrderColumn = selectedOrderColumn;
         await OrderItems();
     }
 
     private async Task OrderItems()
     {
-        if(SelectedIndex == -1)
+        if(string.IsNullOrEmpty(OrderColumn))
             return;
 
-        var orderString = $"{Headings.ElementAt(SelectedIndex).OrderColumn}{(IsAscending ? string.Empty : " desc")}";
-        var orderedItems = Items.AsQueryable().OrderBy(orderString).ToList();
-        await OnItemsOrdered.InvokeAsync(orderedItems);
+        await OnItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(OrderColumn, OrderAscending));
     }
 }
