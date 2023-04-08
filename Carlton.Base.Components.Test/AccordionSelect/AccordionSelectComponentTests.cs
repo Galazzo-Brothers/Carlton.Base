@@ -2,78 +2,6 @@ namespace Carlton.Base.Components.Test;
 
 public class AccordionSelectComponentTests : TestContext
 {
-    private static readonly string AccordionSelectNoItemsMarkup =
-    @"
-    <div class=""accordion-select"" b-6835cu0hu3>
-        <div class=""content"" b-6835cu0hu3>
-                <div class=""accordion-header"" blazor:onclick=""1"" b-6835cu0hu3>
-                <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline"" b-6835cu0hu3></span>
-                <span class=""item-group-name"" b-6835cu0hu3>AccordionSelect Title</span>
-        </div>        
-        <div class=""item-container collapsed"" b-6835cu0hu3></div>
-        </div>
-    </div>";
-
-    private static readonly string AccordionSelectWithItemsMarkup =
-    @"
-    <div class=""accordion-select"" b-6835cu0hu3>
-      <div class=""content"" b-6835cu0hu3>
-        <div class=""accordion-header"" blazor:onclick=""1"" b-6835cu0hu3>
-          <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline"" b-6835cu0hu3></span>
-          <span class=""item-group-name"" b-6835cu0hu3>AccordionSelect Title</span>
-        </div>
-        <div class=""item-container"" b-6835cu0hu3>
-          <div class=""item"" blazor:onclick=""2"" b-6835cu0hu3>
-            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
-            <span class=""item-name"" b-6835cu0hu3>Item 1</span>
-          </div>
-          <div class=""item"" blazor:onclick=""3"" b-6835cu0hu3>
-            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
-            <span class=""item-name"" b-6835cu0hu3>Item 2</span>
-          </div>
-          <div class=""item"" blazor:onclick=""4"" b-6835cu0hu3>
-            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
-            <span class=""item-name"" b-6835cu0hu3>Item 3</span>
-          </div>
-        </div>
-      </div>
-    </div>";
-
-    public static IEnumerable<object[]> GetItems()
-    {
-        yield return new object[]
-           {
-                new List<SelectItem<int>>()
-                {
-                    new SelectItem<int>("Item 1", 0, 1),
-                }
-           };
-        yield return new object[]
-           {
-                new List<SelectItem<int>>()
-                {
-                    new SelectItem<int>("Item 1", 0, 1),
-                    new SelectItem<int>("Item 2", 1, 2),
-                }
-           };
-        yield return new object[]
-            {
-                new List<SelectItem<int>>()
-                {
-                    new SelectItem<int>("Item 1", 0, 1),
-                    new SelectItem<int>("Item 2", 1, 2),
-                    new SelectItem<int>("Item 3", 2, 3)
-                }
-            };
-    }
-
-    private static readonly List<SelectItem<int>> Items = new()
-    {
-        new SelectItem<int>("Item 1", 0, 1),
-        new SelectItem<int>("Item 2", 1, 2),
-        new SelectItem<int>("Item 3", 2, 3)
-    };
-
     [Fact]
     public void AccordionSelect_MarkupWithhNoItems_RendersCorrectly()
     {
@@ -83,7 +11,7 @@ public class AccordionSelectComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(AccordionSelectNoItemsMarkup);
+        cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectNoItemsMarkup);
     }
 
     [Fact]
@@ -93,11 +21,11 @@ public class AccordionSelectComponentTests : TestContext
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, Items)
+            .Add(p => p.Items, AccordionSelectTestHelper.SelectItems)
             );
 
         //Assert
-        cut.MarkupMatches(AccordionSelectWithItemsMarkup);
+        cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectWithItemsMarkup);
     }
 
     [Theory]
@@ -138,9 +66,13 @@ public class AccordionSelectComponentTests : TestContext
     }
 
     [Theory]
-    [MemberData(nameof(GetItems))]
-    public void AccordionSelect_ItemsParams_RendersCorrectly(IEnumerable<SelectItem<int>> items)
+    [MemberData(nameof(AccordionSelectTestHelper.GetItems),MemberType = typeof(AccordionSelectTestHelper))]
+    public void AccordionSelect_ItemsParams_RendersCorrectly(ReadOnlyCollection<SelectItem<int>> items)
     {
+        //Arrange
+        var expectedCount = items.Count;
+        var expectedItemNames = items.Select(_ => _.Name);
+
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
                 .Add(p => p.Title, "AccordionSelect Title")
@@ -148,11 +80,13 @@ public class AccordionSelectComponentTests : TestContext
                 .Add(p => p.Items, items)
                 );
 
-        var itemElms = cut.FindAll(".item");
-        var expectedCount = items.Count();
+        var actualCount = cut.FindAll(".item").Count();
+        var actualItemNames = cut.FindAll(".item-name").Select(_ => _.TextContent);
+
 
         //Assert
-        Assert.Equal(expectedCount, itemElms.Count);
+        Assert.Equal(expectedCount, actualCount);
+        Assert.Equal(expectedItemNames, actualItemNames);
     }
 
     [Theory]
@@ -168,7 +102,7 @@ public class AccordionSelectComponentTests : TestContext
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, Items)
+            .Add(p => p.Items, AccordionSelectTestHelper.SelectItems)
             .Add(p => p.SelectedItemChanged, (selected) => { eventCalled = true; selectedItem = selected; })
             );
 
@@ -194,7 +128,7 @@ public class AccordionSelectComponentTests : TestContext
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, Items)
+            .Add(p => p.Items, AccordionSelectTestHelper.SelectItems)
             .Add(p => p.SelectedValue, selectedValue)
             );
 
@@ -212,7 +146,7 @@ public class AccordionSelectComponentTests : TestContext
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, Items)
+            .Add(p => p.Items, AccordionSelectTestHelper.SelectItems)
             .Add(p => p.SelectedValue, -1)
             );
 
@@ -232,7 +166,7 @@ public class AccordionSelectComponentTests : TestContext
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, "AccordionSelect Title")
             .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, Items)
+            .Add(p => p.Items, AccordionSelectTestHelper.SelectItems)
             );
 
         var itemElms = cut.FindAll(".item");

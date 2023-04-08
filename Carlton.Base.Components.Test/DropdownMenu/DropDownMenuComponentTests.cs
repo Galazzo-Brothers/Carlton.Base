@@ -2,64 +2,6 @@
 
 public class DropDownMenuComponentTests : TestContext
 {
-    private static readonly string DropDownMenuMarkup = @"
-<div class=""dropdown-menu"" blazor:onclick=""1"" b-e7te7pxji7>
-  <div class=""menu"" b-e7te7pxji7><i class='False'></i></div>
-  <div class=""dropdown "" style=""--dropdown-left:50px;--dropdown-top:75px;--dropdown-top-mobile:37px;"" b-e7te7pxji7>
-    <ul b-e7te7pxji7>
-      <div class=""header"" b-e7te7pxji7>  
-        <span>Header</span>
-      </div>
-      <li b-e7te7pxji7>
-        <span class='item'>Item 1</span>
-      </li>
-      <li b-e7te7pxji7>
-        <span class='item'>Item 2</span>
-      </li>
-      <li b-e7te7pxji7>
-        <span class='item'>Item 3</span>
-      </li>
-    </ul>
-  </div>
-</div>";
-
-    public static IEnumerable<object[]> GetItems()
-    {
-        yield return new object[]
-           {
-                new List<DropdownMenuItem<int>>()
-                {
-                    new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1)
-                }
-           };
-        yield return new object[]
-           {
-                new List<DropdownMenuItem<int>>()
-                {
-                    new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
-                    new DropdownMenuItem<int>("Item 2", 2, "icon-2", 2)
-                }
-           };
-        yield return new object[]
-            {
-                new List<DropdownMenuItem<int>>()
-                {
-                    new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
-                    new DropdownMenuItem<int>("Item 2", 2, "icon-2", 2),
-                    new DropdownMenuItem<int>("Item 3", 3, "icon-3", 3)
-                }
-            };
-    }
-
-    private readonly IEnumerable<DropdownMenuItem<int>> _items = new List<DropdownMenuItem<int>>
-    {
-        new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
-        new DropdownMenuItem<int>("Item 2", 2, "icon-2", 2),
-        new DropdownMenuItem<int>("Item 3", 3, "icon-3", 3)
-    };
-
-    private readonly DropdownMenuStyle _style = new(50, 75, 37);
-
     [Fact]
     public void DropDownMenuElement_Markup_RendersCorrectly()
     {
@@ -68,32 +10,44 @@ public class DropDownMenuComponentTests : TestContext
                 .Add(p => p.HeaderTemplate, "<span>Header</span>")
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.MenuItems, DropdownMenuTestHelper.DropdownMenuItems)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
         //Assert
-        cut.MarkupMatches(DropDownMenuMarkup);
+        cut.MarkupMatches(DropdownMenuTestHelper.DropDownMenuMarkup);
     }
 
     [Theory]
-    [MemberData(nameof(GetItems))]
-    public void DropDownMenuElement_MenuItemsParams_RendersCorrectly(IEnumerable<DropdownMenuItem<int>> items)
+    [MemberData(nameof(DropdownMenuTestHelper.GetItems), MemberType = typeof(DropdownMenuTestHelper))]
+    public void DropDownMenuElement_MenuItemsParams_RendersCorrectly(ReadOnlyCollection<DropdownMenuItem<int>> items)
     {
+        //Arrange
+        var expectedItemsCount = items.Count;
+        var expectedNames = items.Select(_ => _.MenuItemName);
+        var expectedValues = items.Select(_ => _.Value);
+        var expectedIcons = items.Select(_ => _.MenuIcon);
+
         //Act
         var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
                 .Add(p => p.HeaderTemplate, "<span>Header</span>")
-                .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
+                .Add(p => p.MenuItemTemplate, item => $"<span class='item-name'>{item.MenuItemName}</span><span class='item-value'>{item.Value}</span><span class='item-icon'>{item.MenuIcon}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
                 .Add(p => p.MenuItems, items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
-        var expectedItemsCount = items.Count();
-        var itemsCount = cut.FindAll("li").Count;
+
+        var actualCount = cut.FindAll("li").Count;
+        var actualItemNames = cut.FindAll(".item-name").Select(_ => _.TextContent);
+        var actualItemValues = cut.FindAll(".item-value").Select(_ => int.Parse(_.TextContent));
+        var actualItemIcons = cut.FindAll(".item-icon").Select(_ => _.TextContent);
 
         //Assert
-        Assert.Equal(expectedItemsCount, itemsCount);
+        Assert.Equal(expectedItemsCount, actualCount);
+        Assert.Equal(expectedNames, actualItemNames);
+        Assert.Equal(expectedValues, actualItemValues);
+        Assert.Equal(expectedIcons, actualItemIcons);
     }
 
     [Theory]
@@ -107,8 +61,8 @@ public class DropDownMenuComponentTests : TestContext
                 .Add(p => p.HeaderTemplate, headerTemplate)
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.MenuItems, DropdownMenuTestHelper.DropdownMenuItems)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
         var header = cut.Find(".header").InnerHtml;
@@ -125,8 +79,8 @@ public class DropDownMenuComponentTests : TestContext
                 .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
                 .Add(p => p.MenuItemTemplate, item => $"<span class=\"item\">{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive}'></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.MenuItems, DropdownMenuTestHelper.DropdownMenuItems)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
         var items = cut.FindAll("li");
@@ -147,8 +101,8 @@ public class DropDownMenuComponentTests : TestContext
                 .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive} testing'></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.MenuItems, DropdownMenuTestHelper.DropdownMenuItems)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
         var menuTemplateMarkup = cut.Find(".menu").InnerHtml;
@@ -165,8 +119,8 @@ public class DropDownMenuComponentTests : TestContext
                 .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class='{isActive} testing'></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.MenuItems, DropdownMenuTestHelper.DropdownMenuItems)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
         var dropdown = cut.Find(".dropdown");
@@ -184,12 +138,11 @@ public class DropDownMenuComponentTests : TestContext
                 .Add(p => p.HeaderTemplate, "<span>Testing Header</span>")
                 .Add(p => p.MenuItemTemplate, item => $"<span class='item'>{item.MenuItemName}</span>")
                 .Add(p => p.MenuTemplate, isActive => $"<i class=\"{(isActive ? "Active" : string.Empty)} testing\"></i>")
-                .Add(p => p.MenuItems, _items)
-                .Add(p => p.Style, _style)
+                .Add(p => p.MenuItems, DropdownMenuTestHelper.DropdownMenuItems)
+                .Add(p => p.Style, DropdownMenuTestHelper.Style)
                 );
 
         var dropdown = cut.Find(".dropdown-menu");
-        var menu = cut.Find(".menu");
         var i = cut.Find("i");
 
         //Act

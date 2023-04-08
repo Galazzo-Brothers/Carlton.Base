@@ -144,7 +144,7 @@ public class BaseNotificationComponentTests : TestContext
         var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");
         moduleInterop.Setup<Task>("applyTransitionedCallback");
 
-        var cut = RenderComponent<BaseNotification>(parameters => parameters
+        RenderComponent<BaseNotification>(parameters => parameters
             .Add(p => p.Title, "Notification Title")
             .Add(p => p.Message, "Some Test Notification Message")
             .Add(p => p.IconClass, "icon-class-test")
@@ -152,6 +152,9 @@ public class BaseNotificationComponentTests : TestContext
             );
 
         //Act
-        DisposeComponents();
+        var ex = Record.Exception(() => DisposeComponents());
+
+        //Assert
+        Assert.Null(ex);
     }
 }
