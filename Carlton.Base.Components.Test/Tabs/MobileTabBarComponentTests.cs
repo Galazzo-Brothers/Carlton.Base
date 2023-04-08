@@ -35,7 +35,6 @@ public class MobileTabBarComponentTests : TestContext
   </div>
 </div>";
 
-
     [Fact]
     public void MobileTabBar_Markup_RendersCorrectly()
     {

@@ -2,23 +2,6 @@
 
 public class CardComponentTests : TestContext
 {
-    private static readonly string CardMarkup =@"
-<div class=""card"" b-g3swmy425k>
-    <div class=""content"" b-g3swmy425k>
-        <div class=""title-content"" b-g3swmy425k>
-            <span class=""card-title"" b-g3swmy425k>Test Title</span>
-            <div class=""status-icon"" b-g3swmy425k>Test ActionBar Content</div>
-        </div>
-        <div class=""header-content"" b-g3swmy425k>
-            <span>Test Header</span>
-        </div>
-        <div class=""primary-content"" b-g3swmy425k>
-            <span>Test Primary Content</span>
-        </div>
-    </div>
-</div>";
-
-
     [Fact]
     public void Card_Markup_RendersCorrectly()
     {
@@ -31,7 +14,7 @@ public class CardComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(CardMarkup);
+        cut.MarkupMatches(CardTestHelper.CardMarkup);
     }
 
     [Theory]

@@ -1,65 +1,22 @@
-﻿namespace Carlton.Base.Components.Test;
+﻿using System.Linq;
+
+namespace Carlton.Base.Components.Test;
 
 public class SelectComponentTests : TestContext
 {
-    private static readonly string SelectMarkup = @"
- <div class=""select"" b-b4t7b28hd7><input readonly placeholder="" "" value=""Option 2"" b-b4t7b28hd7 />
-    <div class=""label"" b-b4t7b28hd7>Test Select</div>
-    <div class=""options"" b-b4t7b28hd7>
-        <div class=""option"" blazor:onclick=""1"" b-b4t7b28hd7>Option 1</div>
-        <div class=""option"" blazor:onclick=""2"" b-b4t7b28hd7>Option 2</div>
-        <div class=""option"" blazor:onclick=""3"" b-b4t7b28hd7>Option 3</div>
-    </div>
-</div>";
-
-    private static readonly IReadOnlyDictionary<string, int> options = new Dictionary<string, int>
-    {
-        { "Option 1", 1 },
-        { "Option 2", 2 },
-        { "Option 3", 3 }
-    };
-
-    public static IEnumerable<object[]> GetOptions()
-    {
-        yield return new object[]
-           {
-                new Dictionary<string, int>
-                {
-                    { "Item 1", 1 }
-                }
-           };
-        yield return new object[]
-           {
-               new Dictionary<string, int>
-                {
-                    { "Item 1", 1 },
-                    { "Item 2", 2 }
-                }
-           };
-        yield return new object[]
-            {
-                new Dictionary<string, int>
-                {
-                    { "Item 1", 1 },
-                    { "Item 2", 2 },
-                    { "Item 3", 3 }
-                }
-            };
-    }
-
     [Fact]
     public void Select_Markup_RendersCorrectly()
     {
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "Test Select")
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, 2)
             );
 
         //Assert
-        cut.MarkupMatches(SelectMarkup);
+        cut.MarkupMatches(SelectTestHelper.SelectMarkup);
     }
 
     [Theory]
@@ -70,7 +27,7 @@ public class SelectComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, 2)
@@ -89,7 +46,7 @@ public class SelectComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "Test Label")
             .Add(p => p.IsDisabled, isDisabled)
             .Add(p => p.SelectedValue, 2)
@@ -103,11 +60,13 @@ public class SelectComponentTests : TestContext
     }
 
     [Theory]
-    [MemberData(nameof(GetOptions))]
+    [MemberData(nameof(SelectTestHelper.GetOptions), MemberType = typeof(SelectTestHelper))]
     public void Select_OptionsParam_OptsCount_RendersCorrectly(IReadOnlyDictionary<string, int> opts)
     {
         //Arrange
         var expectedCount = opts.Count;
+        var expectedOptionNames = opts.Keys;
+        var expectedValues = opts.Values;
 
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
@@ -119,9 +78,13 @@ public class SelectComponentTests : TestContext
 
         var optionsElements = cut.FindAll(".option");
         var actualCount = optionsElements.Count;
+        var actualOptionNames = optionsElements.Select(_ => _.TextContent);
+        var actualValues = optionsElements.Select(_ => int.Parse(_.Attributes.First(attri => attri.Name == "blazor:onclick").Value));
 
         //Assert
         Assert.Equal(expectedCount, actualCount);
+        Assert.Equal(expectedOptionNames, actualOptionNames);
+        Assert.Equal(expectedValues, actualValues);
     }
 
     [Fact]
@@ -129,7 +92,7 @@ public class SelectComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, 2)
@@ -152,7 +115,7 @@ public class SelectComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, selectedValue)
@@ -170,7 +133,7 @@ public class SelectComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, -1)
@@ -194,11 +157,11 @@ public class SelectComponentTests : TestContext
         var eventKey = string.Empty;
         var eventValue = -1;
 
-        var expectedKey = options.Keys.ElementAt(index);
-        var expectedValue = options.Values.ElementAt(index);
+        var expectedKey = SelectTestHelper.Options.Keys.ElementAt(index);
+        var expectedValue = SelectTestHelper.Options.Values.ElementAt(index);
 
         var cut = RenderComponent<Select>(paramaters => paramaters
-            .Add(p => p.Options, options)
+            .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, -1)

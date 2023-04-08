@@ -2,7 +2,7 @@
 
 public static class DropdownMenuTestHelper
 {
-    public readonly static string DropDownMenuMarkup = @"
+    public const string DropDownMenuMarkup = @"
 <div class=""dropdown-menu"" blazor:onclick=""1"" b-e7te7pxji7>
   <div class=""menu"" b-e7te7pxji7><i class='False'></i></div>
   <div class=""dropdown "" style=""--dropdown-left:50px;--dropdown-top:75px;--dropdown-top-mobile:37px;"" b-e7te7pxji7>
@@ -23,14 +23,14 @@ public static class DropdownMenuTestHelper
   </div>
 </div>";
 
-    public readonly static ReadOnlyCollection<DropdownMenuItem<int>> DropdownMenuItems = new List<DropdownMenuItem<int>>
+    public static readonly IReadOnlyCollection<DropdownMenuItem<int>> DropdownMenuItems = new List<DropdownMenuItem<int>>
     {
         new DropdownMenuItem<int>("Item 1", 1, "icon-1", 1),
         new DropdownMenuItem<int>("Item 2", 2, "icon-2", 2),
         new DropdownMenuItem<int>("Item 3", 3, "icon-3", 3)
-    }.AsReadOnly();
+    };
 
-    public readonly static DropdownMenuStyle Style = new(50, 75, 37);
+    public static readonly DropdownMenuStyle Style = new(50, 75, 37);
 
     public static IEnumerable<object[]> GetItems()
     {

@@ -2,64 +2,6 @@
 
 public class ListCardComponentTests : TestContext
 {
-    private static readonly string ListCardMarkup = @"
-<div class=""card"" b-g3swmy425k>
-  <div class=""content"" b-g3swmy425k>
-    <div class=""title-content"" b-g3swmy425k>
-      <span class=""card-title"" b-g3swmy425k>List Card Title</span>
-      <div class=""status-icon"" b-g3swmy425k>
-        <div class=""dropdown-menu"" blazor:onclick=""1"" b-e7te7pxji7>
-          <div class=""menu"" b-e7te7pxji7>
-            <i class=""mdi mdi-24px mdi-dots-vertical"" b-m40yy2q1d3></i>
-          </div>
-          <div class=""dropdown "" style=""--dropdown-left:10px;--dropdown-top:10px;--dropdown-top-mobile:10px;"" b-e7te7pxji7>
-            <ul b-e7te7pxji7>
-                 <div class=""header"" b-e7te7pxji7></div>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class=""header-content"" b-g3swmy425k>
-      <span>Header Content</span>
-    </div>
-    <div class=""primary-content"" b-g3swmy425k>
-      <div class=""sub-title"" b-22crlgp3bk>Some Test Subtitle</div>
-      <ul b-22crlgp3bk>
-        <li b-22crlgp3bk>
-          <span>1</span>
-        </li>
-        <li b-22crlgp3bk>
-          <span>2</span>
-        </li>
-        <li b-22crlgp3bk>
-          <span>3</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>";
-
-
-    public static IEnumerable<object[]> GetItems()
-    {
-        yield return new object[]
-           {
-               new List<int> { 1, 2, 3 }
-           };
-        yield return new object[]
-           {
-              new List<int> { 1, 2, 3, 10, 15 }
-            };
-        yield return new object[]
-            {
-                new List<int> { 7 }
-            };
-    }
-
-    private static readonly IEnumerable<int> _items = new List<int> { 1, 2, 3 };
-
-
     [Fact]
     public void ListCard_Markup_RendersCorrectly()
     {
@@ -69,30 +11,36 @@ public class ListCardComponentTests : TestContext
             .Add(p => p.SubTitle, "Some Test Subtitle")
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, _items)
+            .Add(p => p.Items, CardTestHelper.Items)
             );
 
         //Assert
-        cut.MarkupMatches(ListCardMarkup);
+        cut.MarkupMatches(CardTestHelper.ListCardMarkup);
     }
 
     [Theory]
-    [MemberData(nameof(GetItems))]
-    public void ListCard_ItemsParam_RendersCorrectly(IEnumerable<int> items)
+    [MemberData(nameof(CardTestHelper.GetItems), MemberType = typeof(CardTestHelper))]
+    public void ListCard_ItemsParam_RendersCorrectly(ReadOnlyCollection<int> expectedItems)
     {
+        //Arrange
+        var expectedCount = expectedItems.Count;
+
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
             .Add(p => p.CardTitle, "List Card Title")
             .Add(p => p.SubTitle, "Some Test Subtitle")
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, items)
+            .Add(p => p.Items, expectedItems)
             );
 
         var liElements = cut.FindAll(".primary-content li");
+        var actualCount = liElements.Count;
+        var actualItems = liElements.Select(_ => int.Parse(_.TextContent));
 
         //Assert
-        Assert.Equal(items.Count(), liElements.Count);
+        Assert.Equal(expectedCount, actualCount);
+        Assert.Equal(expectedItems, actualItems);
     }
 
     [Theory]
@@ -107,7 +55,7 @@ public class ListCardComponentTests : TestContext
             .Add(p => p.SubTitle, "Some Test Subtitle")
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, _items)
+            .Add(p => p.Items, CardTestHelper.Items)
             );
 
         var cardTitle = cut.Find(".card-title").TextContent;
@@ -128,7 +76,7 @@ public class ListCardComponentTests : TestContext
             .Add(p => p.SubTitle, subtitle)
             .Add(p => p.HeaderContent, "<span>Header Content</span>")
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, _items)
+            .Add(p => p.Items, CardTestHelper.Items)
             );
 
         var cardTitle = cut.Find(".sub-title").TextContent;
@@ -149,7 +97,7 @@ public class ListCardComponentTests : TestContext
             .Add(p => p.SubTitle, "List Card Test Subtitle")
             .Add(p => p.HeaderContent, expectedHeaderContent)
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, _items)
+            .Add(p => p.Items, CardTestHelper.Items)
             );
 
         var headerContent = cut.Find(".header-content").InnerHtml;

@@ -2,7 +2,7 @@
 
 public static class AccordionSelectTestHelper
 {
-    public readonly static string AccordionSelectNoItemsMarkup =
+    public const string AccordionSelectNoItemsMarkup =
     @"
     <div class=""accordion-select"" b-6835cu0hu3>
         <div class=""content"" b-6835cu0hu3>
@@ -14,7 +14,7 @@ public static class AccordionSelectTestHelper
         </div>
     </div>";
 
-    public readonly static string AccordionSelectWithItemsMarkup =
+    public const string AccordionSelectWithItemsMarkup =
     @"
     <div class=""accordion-select"" b-6835cu0hu3>
       <div class=""content"" b-6835cu0hu3>
@@ -39,7 +39,7 @@ public static class AccordionSelectTestHelper
       </div>
     </div>";
 
-    public readonly static string AccordionSelectGroupMarkup =
+    public const string AccordionSelectGroupMarkup =
     @"
   <div class=""accordion-select-group"" b-pnd1og41cd>
     <div class=""accordion-select"" b-6835cu0hu3>
@@ -167,14 +167,14 @@ public static class AccordionSelectTestHelper
     }
 
 
-    public readonly static ReadOnlyCollection<SelectItem<int>> SelectItems = new List<SelectItem<int>>()
+    public static readonly IReadOnlyCollection<SelectItem<int>> SelectItems = new List<SelectItem<int>>()
     {
         new SelectItem<int>("Item 1", 0, 1),
         new SelectItem<int>("Item 2", 1, 2),
         new SelectItem<int>("Item 3", 2, 3)
-    }.AsReadOnly();
+    };
 
-    public readonly static ReadOnlyCollection<SelectGroup<int>> Groups = new List<SelectGroup<int>>
+    public static readonly IReadOnlyCollection<SelectGroup<int>> Groups = new List<SelectGroup<int>>
     {
         new SelectGroup<int>("Group 1", 0,
             new List<SelectItem<int>>
@@ -190,7 +190,7 @@ public static class AccordionSelectTestHelper
                 new SelectItem<int>("Item 4", 1, 4)
             }.AsReadOnly()
          )
-    }.AsReadOnly();
+    };
 };
 
 

@@ -2,19 +2,6 @@
 
 public class BaseNotificationComponentTests : TestContext
 {
-    private static readonly string BaseNotificationMarkup =
-    @"
-<div class=""carlton-notification"" b-rlbygplu4k>
-    <div class=""content"" b-rlbygplu4k>
-        <span class=""icon mdi mdi-24px icon-class"" b-rlbygplu4k></span>
-        <div class=""message-container"" b-rlbygplu4k>
-            <span class=""title"" b-rlbygplu4k>Notification Title</span>
-            <span class=""message"" b-rlbygplu4k>Some Notification Message</span>
-        </div>
-        <span class=""dismiss mdi mdi-18px mdi-close"" blazor:onclick=""1"" b-rlbygplu4k></span>
-    </div>
-</div>";
-
     [Fact]
     public void BaseNotification_Markup_RendersCorrectly()
     {
@@ -31,7 +18,7 @@ public class BaseNotificationComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(BaseNotificationMarkup);
+        cut.MarkupMatches(NotificationTestHelper.BaseNotificationMarkup);
     }
 
     [Theory]

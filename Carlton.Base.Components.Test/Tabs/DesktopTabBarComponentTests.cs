@@ -28,7 +28,6 @@ public class DesktopTabBarComponentTests : TestContext
 <div class=""tab"">
 </div>";
 
-
     [Fact]
     public void DesktopTabBar_Markup_RendersCorrectly()
     {

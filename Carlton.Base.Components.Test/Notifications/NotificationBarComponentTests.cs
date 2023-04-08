@@ -2,42 +2,6 @@
 
 public class NotificationBarComponentTests : TestContext
 {
-    private static readonly string NotificationBarMarkup =
-     @"
-<div class=""notification-bar"" b-5w4ezungf0>
-    <div class=""content"" style=""top:50px;right:70px;"" b-5w4ezungf0></div>
-</div>
-<div class=""test-btns"">
-    <button class=""success-btn"" blazor:onclick=""1"" b-5w4ezungf0>Success</button>
-    <button class=""info-btn"" blazor:onclick=""2"" b-5w4ezungf0>Info</button>
-    <button class=""warning-btn"" blazor:onclick=""3"" b-5w4ezungf0>Warning</button>
-    <button class=""error-btn"" blazor:onclick=""4"" b-5w4ezungf0>Error</button>
-</div>";
-
-    private static readonly string TestBtnsMarkup =
-    @"<div class=""test-btns"" b-5w4ezungf0>
-        <button class=""success-btn"" blazor:onclick=""1"" b-5w4ezungf0>Success</button>
-        <button class=""info-btn"" blazor:onclick=""2"" b-5w4ezungf0>Info</button>
-        <button class=""warning-btn"" blazor:onclick=""3"" b-5w4ezungf0>Warning</button>
-        <button class=""error-btn"" blazor:onclick=""4"" b-5w4ezungf0>Error</button>
-    </div>";
-
-    public static IEnumerable<object[]> GetNotifications()
-    {
-        yield return new object[]
-           {
-               new List<int> { 2, 7, 3, 4 }
-           };
-        yield return new object[]
-           {
-               new List<int> { 1, 2, 3, 4 }
-           };
-        yield return new object[]
-            {
-               new List<int> { 0, 1, 3, 0 }
-            };
-    }
-
     [Fact]
     public void NotificationBar_Markup_RendersCorrectly()
     {
@@ -50,7 +14,7 @@ public class NotificationBarComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(NotificationBarMarkup);
+        cut.MarkupMatches(NotificationTestHelper.NotificationBarMarkup);
     }
 
     [Fact]
@@ -82,7 +46,7 @@ public class NotificationBarComponentTests : TestContext
         var testBtns = cut.Find(".test-btns");
 
         //Assert
-        testBtns.MarkupMatches(TestBtnsMarkup);
+        testBtns.MarkupMatches(NotificationTestHelper.TestBtnsMarkup);
     }
 
     [Theory]
@@ -168,8 +132,8 @@ public class NotificationBarComponentTests : TestContext
     }
 
     [Theory]
-    [MemberData(nameof(GetNotifications))]
-    public void NotificationBar_ClickEventRepeatedly_RendersCorrectly(IEnumerable<int> clickCounts)
+    [MemberData(nameof(NotificationTestHelper.GetNotifications), MemberType = typeof(NotificationTestHelper))]
+    public void NotificationBar_ClickEventRepeatedly_RendersCorrectly(ReadOnlyCollection<int> clickCounts)
     {
         //Arrange
         var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");
@@ -201,7 +165,7 @@ public class NotificationBarComponentTests : TestContext
         var successActual = cut.FindComponents<SuccessNotification>().Count;
         var infoActual = cut.FindComponents<InfoNotification>().Count;
         var warnActual = cut.FindComponents<WarningNotification>().Count;
-        var errorActual = cut.FindComponents<ErrorNotification>().Count();
+        var errorActual = cut.FindComponents<ErrorNotification>().Count;
 
         var successExpected = clickCounts.ElementAt(0);
         var infoExpected = clickCounts.ElementAt(1);

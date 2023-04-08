@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Carlton.Base.Components.Test;
+﻿namespace Carlton.Base.Components.Test;
 
 public class SlideTabComponentTestscs : TestContext
 {

@@ -2,15 +2,6 @@
 
 public class CountCardComponentTests : TestContext
 {
-    private static readonly string CountCardMarkup = @"
-<div class=""count-card accent4"" b-xj8ojuw516>
-    <div class=""content"" b-xj8ojuw516>
-        <div class=""count-icon mdi mdi-48px mdi-delete"" b-xj8ojuw516></div>
-        <span class=""count-message"" b-xj8ojuw516>5 Items Tracked by this component</span>
-    </div>
-</div>";
-
-
     [Fact]
     public void CountCard_Markup_RendersCorrectly()
     {
@@ -23,7 +14,7 @@ public class CountCardComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(CountCardMarkup);
+        cut.MarkupMatches(CardTestHelper.CountCardMarkup);
     }
 
     [Theory]
