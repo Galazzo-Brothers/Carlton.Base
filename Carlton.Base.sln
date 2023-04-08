@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDA61EBF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Components.Test", "Carlton.Base.Components.Test\Carlton.Base.Components.Test.csproj", "{E9CDD832-DED2-40E5-93A8-94648E408516}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Base.TestBedFramework.Test", "Carlton.Base.TestBedFramework.Test\Carlton.Base.TestBedFramework.Test.csproj", "{018794FE-96BA-4FEE-AFB5-D8BCBDFD8F26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +49,17 @@ Global
 		{E9CDD832-DED2-40E5-93A8-94648E408516}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9CDD832-DED2-40E5-93A8-94648E408516}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9CDD832-DED2-40E5-93A8-94648E408516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{018794FE-96BA-4FEE-AFB5-D8BCBDFD8F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{018794FE-96BA-4FEE-AFB5-D8BCBDFD8F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{018794FE-96BA-4FEE-AFB5-D8BCBDFD8F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{018794FE-96BA-4FEE-AFB5-D8BCBDFD8F26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E9CDD832-DED2-40E5-93A8-94648E408516} = {DDA61EBF-8310-4804-BC46-8A6CB9457CC0}
+		{018794FE-96BA-4FEE-AFB5-D8BCBDFD8F26} = {DDA61EBF-8310-4804-BC46-8A6CB9457CC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}

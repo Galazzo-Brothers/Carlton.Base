@@ -3,13 +3,13 @@
 <div class="row-item">
     @switch(Item?.TestResultStatus)
     {
-        case TestResultStatus.Passed:
+        case TestResult.Passed:
             <div class="status-row">
                 <span class="test-passed-icon mdi mdi-18px mdi-check-circle"></span>
                 <span>Passed</span>
             </div>
             break;
-        case TestResultStatus.Failed:
+        case TestResult.Failed:
             <div class="status-row">
                 <span class="test-failed-icon mdi mdi-18px mdi-close-circle"></span>
                 <span>Failed</span>
@@ -23,5 +23,5 @@
 
 @code {
     [Parameter]
-    public TestResultItem? Item { get; set; }
+    public TestResultItemModel? Item { get; set; }
 }

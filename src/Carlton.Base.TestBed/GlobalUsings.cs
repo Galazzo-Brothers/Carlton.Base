@@ -1,5 +1,6 @@
 ﻿global using System;
 global using System.Linq;
+global using System.Xml.Linq;
 global using System.Net.Http;
 global using System.Reflection;
 global using System.Collections.Generic;
