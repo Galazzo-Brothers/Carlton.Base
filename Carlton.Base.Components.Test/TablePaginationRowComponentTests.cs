@@ -29,12 +29,7 @@ public class TablePaginationRowComponentTests : TestContext
 
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 
-    private static readonly IList<TableTestObject> Items = new List<TableTestObject>
-    {
-        new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-        new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-        new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
-    };
+    private const int ItemsCount = 3;
 
     private static readonly IList<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
 
@@ -59,7 +54,7 @@ public class TablePaginationRowComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, 5)
@@ -78,7 +73,7 @@ public class TablePaginationRowComponentTests : TestContext
 
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, opts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, expectedValue)
@@ -101,7 +96,7 @@ public class TablePaginationRowComponentTests : TestContext
 
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, opts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, initialRowsPerPageCount)
@@ -119,7 +114,7 @@ public class TablePaginationRowComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, 5)
@@ -133,7 +128,6 @@ public class TablePaginationRowComponentTests : TestContext
             item => Assert.Equal("10", item.TextContent),
             item => Assert.Equal("15", item.TextContent));
     }
-
 
     [Theory]
     [InlineData(1, 5, "1-5 of 15")]
@@ -179,7 +173,7 @@ public class TablePaginationRowComponentTests : TestContext
         //Arrange
         var expectedText = "1-3 of 3";
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, 5)
@@ -196,12 +190,15 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.Equal(expectedText, paginationLabel.TextContent);
     }
 
-    [Fact]
-    public void TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly()
+    [Theory]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    public void TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(int itemCount)
     {
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, itemCount)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, 5)
@@ -242,7 +239,7 @@ public class TablePaginationRowComponentTests : TestContext
     {
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageCount, 5)
@@ -264,7 +261,7 @@ public class TablePaginationRowComponentTests : TestContext
     {
         //Arrange
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.TotalItemCount, Items.Count)
+            .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, currentPage)
             .Add(p => p.SelectedRowsPerPageCount, 5)

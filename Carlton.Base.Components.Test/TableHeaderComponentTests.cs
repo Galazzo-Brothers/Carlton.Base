@@ -98,6 +98,51 @@ public class TableHeaderComponentTests : TestContext
         Assert.Equal(expectedCount, actualCount);
     }
 
+    [Theory]
+    [InlineData("ID", 0, true)]
+    [InlineData("ID", 0, false)]
+    [InlineData("DisplayName", 1, true)]
+    [InlineData("DisplayName", 1, false)]
+    [InlineData("CreatedDate", 2, true)]
+    [InlineData("CreatedDate", 2, false)]
+    public void TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(string columnName, int columnIndex, bool orderAscending)
+    {
+        //Act
+        var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.OrderColumn, columnName)
+            .Add(p => p.OrderAscending, orderAscending)
+            );
+
+        var headerRowItems = cut.FindAll(".header-row-item");
+        var selectedItem = headerRowItems.ElementAt(columnIndex);
+        var hasSelectedClass = selectedItem.ClassList.Contains("selected");
+        var hasAscendingClass = selectedItem.ClassList.Contains("ascending");
+        var hasdescendingClass = selectedItem.ClassList.Contains("descending");
+
+        //Assert
+        Assert.True(hasSelectedClass);
+        Assert.Equal(orderAscending, hasAscendingClass);
+        Assert.Equal(orderAscending, !hasdescendingClass);
+    }
+
+    [Theory]
+    [InlineData("Wrong")]
+    [InlineData("Also Wrong")]
+    [InlineData("Still Wrong")]
+    public void TableHeader_InvalidOrderColumnParam_RendersCorrectly(string columnName)
+    {
+        //Arrange
+        var cut = RenderComponent<TableHeader<TableTestObject>>(paramaters => paramaters
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.OrderColumn, columnName)
+            .Add(p => p.OrderAscending, true)
+            );
+
+        //Act
+        Assert.Throws<ElementNotFoundException>(() => cut.Find(".selected"));
+    }
+
     [Fact]
     public void TableHeader_HeadingsParam_RendersCorrectly()
     {
@@ -251,4 +296,3 @@ public class TableHeaderComponentTests : TestContext
         Assert.True(containsDescendingClass);
     }
 }
-

@@ -646,12 +646,12 @@ public class TableComponentTests : TestContext
         var expectedItems = BigItemsList.Skip(expectedSkip).Take(expectedTake);
         var expectedIDs = expectedItems.Select(_ => _.ID);
         var cut = RenderComponent<Table<TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, Headings)
-            .Add(p => p.Items, BigItemsList)
-            .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
+           .Add(p => p.Headings, Headings)
+           .Add(p => p.Items, BigItemsList)
+           .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+           .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+           .Add(p => p.ShowPaginationRow, true)
+           );
 
         var options = cut.FindAll(".option");
         var optToClick = options.ElementAt(optIndex);
