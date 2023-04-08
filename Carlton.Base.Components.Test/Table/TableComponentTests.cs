@@ -44,8 +44,9 @@ public class TableComponentTests : TestContext
         Assert.Equal(expectedHeaders, actualHeaders);
     }
 
-    [Fact]
-    public void Table_OnClickOnce_FirstColum_FiltersItemsAsc()
+    [Theory]
+    [MemberData(nameof(TableTestHelper.GetFilteredItemsAsc), MemberType = typeof(TableTestHelper))]
+    public void Table_OnClickOnce_FiltersItemsAsc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
@@ -59,17 +60,19 @@ public class TableComponentTests : TestContext
         var headerRowItems = cut.FindAll(".header-row-item");
 
         //Act
-        headerRowItems.ElementAt(0).Click();
+        headerRowItems.ElementAt(expected.ColumnIndex).Click();
 
         //Assert
-        Assert.Collection(cut.Instance.Items,
-            _ => Assert.Equal(1, _.ID),
-            _ => Assert.Equal(2, _.ID),
-            _ => Assert.Equal(3, _.ID));
+        Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
+        //Assert.Collection(cut.Instance.Items,
+        //    _ => Assert.Equal(1, _.ID),
+        //    _ => Assert.Equal(2, _.ID),
+        //    _ => Assert.Equal(3, _.ID));
     }
 
-    [Fact]
-    public void Table_OnClickTwice_FirstColum_FiltersItemsDesc()
+    [Theory]
+    [MemberData(nameof(TableTestHelper.GetFilteredItemsDesc), MemberType = typeof(TableTestHelper))]
+    public void Table_OnClickTwice_FiltersItemsDesc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
@@ -81,117 +84,13 @@ public class TableComponentTests : TestContext
             );
 
         //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(0);
+        var itemToClick = cut.FindAll(".header-row-item").ElementAt(expected.ColumnIndex);
         itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(0);
-        itemToClick.Click();
-
-        //Assert
-        Assert.Collection(cut.Instance.Items,
-            _ => Assert.Equal(3, _.ID),
-            _ => Assert.Equal(2, _.ID),
-            _ => Assert.Equal(1, _.ID));
-    }
-
-    [Fact]
-    public void Table_OnClickOnce_SecondColumColum_FiltersItemsAsc()
-    {
-        //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
-
-        var headerRowItems = cut.FindAll(".header-row-item");
-
-        //Act
-        var itemToClick = headerRowItems.ElementAt(1);
+        itemToClick = cut.FindAll(".header-row-item").ElementAt(expected.ColumnIndex);
         itemToClick.Click();
 
         //Assert
-        Assert.Collection(cut.Instance.Items,
-            _ => Assert.Equal("Item A", _.DisplayName),
-            _ => Assert.Equal("Item B", _.DisplayName),
-            _ => Assert.Equal("Item C", _.DisplayName));
-    }
-
-    [Fact]
-    public void Table_OnClickTwice_SecondColumColum_FiltersItemsDesc()
-    {
-        //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
-
-        //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(1);
-        itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(1);
-        itemToClick.Click();
-
-        //Assert
-        Assert.Collection(cut.Instance.Items,
-            _ => Assert.Equal("Item C", _.DisplayName),
-            _ => Assert.Equal("Item B", _.DisplayName),
-            _ => Assert.Equal("Item A", _.DisplayName));
-    }
-
-    [Fact]
-    public void Table_OnClickOnce_ThirdColumColum_FiltersItemsAsc()
-    {
-        //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
-
-        var headerRowItems = cut.FindAll(".header-row-item");
-
-        //Act
-        var itemToClick = headerRowItems.ElementAt(2);
-        itemToClick.Click();
-
-        //Assert
-        Assert.Collection(cut.Instance.Items,
-            _ => Assert.Equal(new DateTime(2021, 5, 19), _.CreatedDate),
-            _ => Assert.Equal(new DateTime(2022, 2, 3), _.CreatedDate),
-            _ => Assert.Equal(new DateTime(2023, 10, 9), _.CreatedDate));
-    }
-
-    [Fact]
-    public void Table_OnClickTwice_ThirdColumColum_FiltersItemsDesc()
-    {
-        //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
-
-
-        //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(2);
-        itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(2);
-        itemToClick.Click();
-
-        //Assert
-        Assert.Collection(cut.Instance.Items,
-            _ => Assert.Equal(0, DateTime.Compare(new DateTime(2023, 10, 9).Date, _.CreatedDate.Date)),
-            _ => Assert.Equal(0, DateTime.Compare(new DateTime(2022, 2, 3).Date, _.CreatedDate.Date)),
-            _ => Assert.Equal(0, DateTime.Compare(new DateTime(2021, 5, 19).Date, _.CreatedDate.Date)));
+        Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
     }
 
     [Theory]
@@ -278,53 +177,29 @@ public class TableComponentTests : TestContext
     }
 
     [Theory]
-    [MemberData(nameof(TableTestHelper.GetItems), MemberType = typeof(TableTestHelper))]
-    public void Table_ItemsParam_Count_RendersCorrectly(IReadOnlyCollection<TableTestHelper.TableTestObject> items)
+    [MemberData(nameof(TableTestHelper.GetItemsWithDisplayedValues), MemberType = typeof(TableTestHelper))]
+    public void Table_ItemsParam_RendersCorrectly((ReadOnlyCollection<TableTestHelper.TableTestObject> items, ReadOnlyCollection<string> displayValues) expected)
     {
         //Arrange
-        var expectedCount = items.Count;
+        var expectedItemCount = expected.items.Count;
 
         //Act
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
             .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, items)
+            .Add(p => p.Items, expected.items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
             .Add(p => p.ShowPaginationRow, true)
             );
 
         var tableRows = cut.FindAll(".table-row");
-        var actualCount = tableRows.Count - 2; //Exclude the header and action rows
+        var actualItemCount = tableRows.Count - 2; //Exclude the header and action rows
+        var actualDisplayValues = cut.FindAll(".item-row span").Select(_ => _.TextContent);
 
         //Assert
-        Assert.Equal(expectedCount, actualCount);
-    }
+        Assert.Equal(expectedItemCount, actualItemCount);
+        Assert.Equal(expected.displayValues, actualDisplayValues);
 
-    [Fact]
-    public void Table_ItemsParam_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
-
-        var itemSpans = cut.FindAll(".item-row span");
-
-        //Assert
-        Assert.Collection(itemSpans,
-            item => Assert.Equal("ID:1", item.TextContent),
-            item => Assert.Equal("Display Name:Item A", item.TextContent),
-            item => Assert.Equal("Date:10/9/2023 12:00:00 AM", item.TextContent),
-            item => Assert.Equal("ID:2", item.TextContent),
-            item => Assert.Equal("Display Name:Item B", item.TextContent),
-            item => Assert.Equal("Date:2/3/2022 12:00:00 AM", item.TextContent),
-            item => Assert.Equal("ID:3", item.TextContent),
-            item => Assert.Equal("Display Name:Item C", item.TextContent),
-            item => Assert.Equal("Date:5/19/2021 12:00:00 AM", item.TextContent));
     }
 
     [Theory]
@@ -356,12 +231,14 @@ public class TableComponentTests : TestContext
             item => Assert.Equal(expectedRow3, item.InnerHtml));
     }
 
+
     [Theory]
     [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
-    public void Table_RowsPerPageOptsParam_Count_RendersCorrectly(IEnumerable<int> rowsPerPageOpts)
+    public void Table_RowsPerPageOptsParam_RendersCorrectly(IEnumerable<int> rowsPerPageOpts)
     {
         //Arrange
         var expectedCount = rowsPerPageOpts.Count();
+        var expectedRowsPerPageValues = rowsPerPageOpts.Select(_ => _);
 
         //Act
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
@@ -374,30 +251,11 @@ public class TableComponentTests : TestContext
 
         var options = cut.FindAll(".option");
         var actualCount = options.Count;
+        var actualValues = options.Select(_ => int.Parse(_.TextContent));
 
         //Assert
         Assert.Equal(expectedCount, actualCount);
-    }
-
-    [Fact]
-    public void Table_RowsPerPageOptsParam_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
-            .Add(p => p.ShowPaginationRow, true)
-            );
-
-        var options = cut.FindAll(".option");
-
-        //Assert
-        Assert.Collection(options,
-            item => Assert.Equal("5", item.TextContent),
-            item => Assert.Equal("10", item.TextContent),
-            item => Assert.Equal("15", item.TextContent));
+        Assert.Equal(expectedRowsPerPageValues, actualValues);
     }
 
     [Theory]

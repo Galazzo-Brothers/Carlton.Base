@@ -87,6 +87,55 @@ public static class TableTestHelper
             <span>Date:{2}</span>
         </div>";
 
+    public const string TableHeaderMarkup =
+    @"<div class=""header-row-item row-item ascending"" blazor:onclick=""1"" b-ydzvi9l03d>
+  <span class=""heading-text"" b-ydzvi9l03d>ID</span>
+  <div class=""sort-arrows"" b-ydzvi9l03d>
+    <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+    <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+  </div>
+</div>
+<div class=""header-row-item row-item ascending"" blazor:onclick=""2"" b-ydzvi9l03d>
+  <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
+  <div class=""sort-arrows"" b-ydzvi9l03d>
+    <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+    <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+  </div>
+</div>
+<div class=""header-row-item row-item ascending"" blazor:onclick=""3"" b-ydzvi9l03d>
+  <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
+  <div class=""sort-arrows"" b-ydzvi9l03d>
+    <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+    <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+  </div>
+</div>";
+
+    public const string TablePaginationRowMarkup =
+    @"<div class=""pagination-row-item"" b-hp2nj7a13h>
+  <div class=""rows-per-page"" b-hp2nj7a13h>
+    <span class=""rows-per-page-label"" b-hp2nj7a13h>Rows Per Page</span>
+    <div class=""select"" b-b4t7b28hd7>
+      <input readonly placeholder="" "" value=""5"" b-b4t7b28hd7 />
+      <div class=""label"" b-b4t7b28hd7></div>
+      <div class=""options"" b-b4t7b28hd7>
+        <div class=""option"" blazor:onclick=""5"" b-b4t7b28hd7>5</div>
+        <div class=""option"" blazor:onclick=""6"" b-b4t7b28hd7>10</div>
+        <div class=""option"" blazor:onclick=""7"" b-b4t7b28hd7>15</div>
+      </div>
+    </div>
+  </div>
+  <div class=""page-number"" b-hp2nj7a13h>
+    <span class=""pagination-label"" b-hp2nj7a13h>1-3 of 3</span>
+  </div>
+  <div class=""page-chevrons"" b-hp2nj7a13h>
+    <span class=""mdi mdi-18px mdi-page-first disabled"" blazor:onclick=""1"" b-hp2nj7a13h></span>
+    <span class=""mdi mdi-18px mdi-chevron-left disabled"" blazor:onclick=""2"" b-hp2nj7a13h></span>
+    <span class=""mdi mdi-18px mdi-chevron-right disabled"" blazor:onclick=""3"" b-hp2nj7a13h></span>
+    <span class=""mdi mdi-18px mdi-page-last disabled"" blazor:onclick=""4"" b-hp2nj7a13h></span>
+  </div>
+</div>";
+
+
     public static readonly IReadOnlyCollection<TableHeadingItem> Headings = new List<TableHeadingItem>
     {
             new TableHeadingItem(nameof(TableTestObject.ID)),
@@ -123,31 +172,129 @@ public static class TableTestHelper
     public static readonly IReadOnlyCollection<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
 
 
-    public static IEnumerable<object[]> GetItems()
+    public static IEnumerable<object[]> GetFilteredItemsAsc()
     {
         yield return new object[]
         {
-           new List<TableTestObject>
-                 {
-                      new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
-                 }.AsReadOnly()
+           (
+                0,
+                new List<TableTestObject>
+                {
+                    new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+                    new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                    new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
+                }.AsReadOnly()
+            )
         };
         yield return new object[]
         {
+          (
+                1,
+                new List<TableTestObject>
+                {
+                    new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+                    new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                    new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
+                }.AsReadOnly()
+            )
+        };
+        yield return new object[]
+        {
+         (
+                2,
+                new List<TableTestObject>
+                {
+                    new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
+                    new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                    new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
+                }.AsReadOnly()
+            )
+        };
+    }
+
+    public static IEnumerable<object[]> GetFilteredItemsDesc()
+    {
+        yield return new object[]
+        {
+           (
+                0,
+                new List<TableTestObject>
+                {
+                    new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
+                    new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                    new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
+                }.AsReadOnly()
+            )
+        };
+        yield return new object[]
+        {
+          (
+                1,
+                new List<TableTestObject>
+                {
+                    new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
+                    new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                    new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
+                }.AsReadOnly()
+            )
+        };
+        yield return new object[]
+        {
+         (
+                2,
+                new List<TableTestObject>
+                {
+                    new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+                    new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+                    new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
+                }.AsReadOnly()
+            )
+        };
+    }
+
+    public static IEnumerable<object[]> GetItemsWithDisplayedValues()
+    {
+        yield return new object[]
+        {
+           (
+               new List<TableTestObject>
+                     {
+                          new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
+                     }.AsReadOnly(),
+               new List<string> { "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM" }.AsReadOnly()
+            )
+        };
+        yield return new object[]
+        {
+            (
                  new List<TableTestObject>
                  {
                       new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
                       new TableTestObject(2, "Item B", new DateTime(2022, 2, 3))
+                 }.AsReadOnly(),
+                 new List<string> 
+                 {
+                     "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM",
+                     "ID:2", "Display Name:Item B", "Date:2/3/2022 12:00:00 AM"
                  }.AsReadOnly()
+            )
         };
         yield return new object[]
         {
+            (
                  new List<TableTestObject>
                  {
                       new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
                       new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
                       new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
-                 }.AsReadOnly()
+                 }.AsReadOnly(),
+                 new List<string>
+                 {
+                     "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM",
+                     "ID:2", "Display Name:Item B", "Date:2/3/2022 12:00:00 AM",
+                     "ID:3", "Display Name:Item C", "Date:5/19/2021 12:00:00 AM" 
+                }.AsReadOnly()
+            )
         };
     }
 
@@ -194,5 +341,4 @@ public static class TableTestHelper
             new List<int> { 5, 10, 15, 20, 25 }.AsReadOnly()
         };
     }
-
 }
