@@ -85,25 +85,6 @@ public class TableHeaderComponentTests : TestContext
         Assert.Throws<ElementNotFoundException>(() => cut.Find(".selected"));
     }
 
-    [Fact]
-    public void TableHeader_HeadingsParam_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.OrderColumn, string.Empty)
-            .Add(p => p.OrderAscending, true)
-            );
-
-        var headingText = cut.FindAll(".heading-text").Select(_ => _.TextContent);
-
-        //Assert
-        Assert.Collection(headingText,
-            _ => Assert.Equal("ID", _),
-            _ => Assert.Equal("DisplayName", _),
-            _ => Assert.Equal("CreatedDate", _));
-    }
-
     [Theory]
     [InlineData(0, "ID")]
     [InlineData(1, "DisplayName")]
