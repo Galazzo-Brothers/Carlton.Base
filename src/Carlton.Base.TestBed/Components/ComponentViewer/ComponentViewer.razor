@@ -2,17 +2,12 @@
 @inherits CarltonComponentBase<ComponentViewerViewModel>
 
 <div class="component-viewer">
-    @if(ViewModel.IsCarltonComponent)
-    {
-
-    }
-    else
-    {
-        <DynamicComponent Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />
-    }
+    <DynamicComponent @ref="CurrentComponent" Type="ViewModel.ComponentType" Parameters="(IDictionary<string, object>)ViewModel.ComponentViewModel" />
 </div>
 
 @code {
+    private DynamicComponent CurrentComponent { get; set; }
+
     protected override void OnParametersSet()
     {
         var componentType = ViewModel.ComponentType;
@@ -20,7 +15,80 @@
         if(!(typeof(ComponentBase).IsAssignableFrom(componentType)))
             throw new InvalidOperationException($"{componentType} is not a valid component type.");
 
+        AssignEventCallbacks();
+
         base.OnParametersSet();
+    }
+
+    private void AssignEventCallbacks()
+    {
+        var castedParameterDictionary = (IDictionary<string, object>)ViewModel.ComponentViewModel;
+
+        var eventCallbacks = ViewModel.ComponentType
+                 .GetProperties()
+                 .Where(_ => _.PropertyType == typeof(EventCallback) || (_.PropertyType.IsGenericType && _.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+                 .ToList();
+
+        foreach(var evtCallback in eventCallbacks)
+        {
+            var isGenericCallback = evtCallback.PropertyType.IsGenericType;
+            castedParameterDictionary[evtCallback.Name] = (isGenericCallback) ? CreateGenericEventCallback(evtCallback) : CreateNonGenericEventCallback(evtCallback);
+        };
+    }
+
+    private object CreateGenericEventCallback(PropertyInfo evtCallback)
+    {
+        var genericTypeParam = evtCallback.PropertyType.GenericTypeArguments.First();
+        var lambda = CreateLambda(evtCallback.Name, genericTypeParam);
+
+        var invokeParams = new object[] { CurrentComponent, lambda };
+
+        return GetEvtCallbackFactoryCreateMethodInfo(genericTypeParam)
+                           .Invoke(EventCallback.Factory, invokeParams);
+    }
+
+    private object CreateNonGenericEventCallback(PropertyInfo evtCallback)
+    {
+        return EventCallback.Factory.Create(CurrentComponent, () => System.Console.WriteLine("This worked"));
+    }
+
+    private Delegate CreateLambda(string evtCallbackName, Type genericTypeParam)
+    {
+        var nameParamaeter = Expression.Constant(evtCallbackName);
+        var objParameter = Expression.Parameter(genericTypeParam);
+
+        var methodInfo = this.GetType()
+                             .GetMethod(nameof(RecordEventCallback), BindingFlags.NonPublic | BindingFlags.Instance)
+                             .MakeGenericMethod(genericTypeParam);
+
+        var instance = Expression.Constant(this, typeof(ComponentViewer));
+        var methodCall = Expression.Call(instance, methodInfo, nameParamaeter, objParameter);
+        var lambda = Expression.Lambda(methodCall, objParameter);
+
+        return lambda.Compile();        
+    }
+
+    private MethodInfo GetEvtCallbackFactoryCreateMethodInfo(Type genericTypeParam)
+    {
+        var method = typeof(EventCallbackFactory).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Where(_ => _.Name == nameof(EventCallbackFactory.Create))
+            .Where(_ => _.ContainsGenericParameters)
+            .Where(_ => !_.CustomAttributes.Any())
+            .First(_ => _.GetParameters().Count() == 2 &&
+                        _.GetParameters()[0].ParameterType == typeof(object) &&
+                        _.GetParameters()[1].ParameterType.IsGenericType &&
+                        _.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Action<>));
+
+
+        var methodInfo = method.MakeGenericMethod(genericTypeParam);
+        return methodInfo;
+    }
+
+    private void RecordEventCallback<T>(string callbackName, T obj)
+    {
+        var jsonString = System.Text.Json.JsonSerializer.Serialize(obj);
+        System.Console.WriteLine($"Eventcallback {callbackName} was called.");
+        System.Console.WriteLine($"Eventcallback Parameter: {jsonString}");
     }
 }
 

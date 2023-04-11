@@ -7,7 +7,7 @@
     <Company>Project Carlton</Company>
     <Description>Contains blazor front end components used throughout the project.</Description>
     <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
-    <nullable>enable</nullable>
+    <nullable>disable</nullable>
     <PackageVersion>1.0.1</PackageVersion>
   </PropertyGroup>
 
