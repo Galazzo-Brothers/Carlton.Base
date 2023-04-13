@@ -1,19 +1,19 @@
 ﻿@namespace Carlton.Base.Components
 
-<CarltonLayoutTemplate IsFixedFooter="true" >
+<LayoutTemplate IsFixedFooter="true" >
     <HeaderContent>
-        <CarltonHeader NavMenuContent="NavContent" />
+        <Header NavMenuContent="NavContent" />
     </HeaderContent>
     <NavContent>
-        <CarltonNavTemplate Title="@Title" NavContent="NavContent" />
+        <NavTemplate Title="@Title" NavContent="NavContent" />
     </NavContent>
     <Body>
-        <CarltonBodyContent ShowTabPanel="ShowTabPanel" Body="Body" Tabs="Tabs" />
+        <BodyContent ShowTabPanel="ShowTabPanel" Body="Body" Tabs="Tabs" />
     </Body>
     <FooterContent>
-        <CarltonFooter />
+        <Footer />
     </FooterContent>
-</CarltonLayoutTemplate>
+</LayoutTemplate>
 
 @code {
     [Parameter]
