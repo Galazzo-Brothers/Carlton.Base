@@ -8,7 +8,7 @@ public class TestBedState : ICarltonStateStore
     public const string COMPONENT_EVENT_ADDED = "ComponentEventAdded";
     public const string COMPONENT_EVENTS_CLEARED = "COMPONENT_EVENTS_CLEARED";
 
-    public event Func<object, string, Task>? StateChanged;
+    public event Func<object, string, Task> StateChanged;
 
     private readonly IList<object> _componentEvents;
 

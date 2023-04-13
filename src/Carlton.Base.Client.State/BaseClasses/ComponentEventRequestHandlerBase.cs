@@ -5,7 +5,7 @@ public abstract class ComponentEventRequestHandlerBase<TRequest, TState> : IRequ
 {
     protected TState State { get; init; }
     
-    public ComponentEventRequestHandlerBase(TState state) => State = state;
+    protected ComponentEventRequestHandlerBase(TState state) => State = state;
 
     public abstract Task<Unit> Handle(TRequest request, CancellationToken cancellationToken);
 }

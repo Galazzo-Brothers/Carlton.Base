@@ -1,20 +1,20 @@
 ﻿namespace Carlton.Base.TestBedFramework;
-public class NavMenuBuilder
+public class NavMenuViewModelBuilder
 {
     private readonly List<TestComponent> _internalState;
 
-    public NavMenuBuilder()
+    public NavMenuViewModelBuilder()
     {
         _internalState = new List<TestComponent>();
     }
 
-    public NavMenuBuilder AddComponent<T>(object parameters)
+    public NavMenuViewModelBuilder AddComponent<T>(object parameters)
     {
         return AddComponent<T>("Default", parameters);
     }
 
 
-    public NavMenuBuilder AddComponent<T>(string displayName, object parameters)
+    public NavMenuViewModelBuilder AddComponent<T>(string displayName, object parameters)
     {
         var testComp = new TestComponent(displayName, typeof(T), false, parameters);
         _internalState.Add(testComp);
@@ -22,7 +22,7 @@ public class NavMenuBuilder
         return this;
     }
 
-    public NavMenuBuilder AddCarltonComponent<T>(string displayName, object parameters)
+    public NavMenuViewModelBuilder AddCarltonComponent<T>(string displayName, object parameters)
     {
         var testComp = new TestComponent(displayName, typeof(T), true, parameters);
         _internalState.Add(testComp);

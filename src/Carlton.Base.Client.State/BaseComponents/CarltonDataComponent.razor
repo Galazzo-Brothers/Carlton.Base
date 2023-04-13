@@ -1,0 +1,37 @@
+﻿@namespace Carlton.Base.State
+@typeparam TViewModel
+
+
+<CarltonDataWrapper TViewModel="TViewModel" StateEvents="StateEvents">
+    <ChildComponent>
+        <DynamicComponent Type="DynamicComponentType" Parameters="DynamicComponentParameters(context)" />
+    </ChildComponent>
+</CarltonDataWrapper>
+
+@code {
+    [Parameter]
+    public IEnumerable<string> StateEvents { get; set; }
+
+    [Inject]
+    private ICarltonComponent<TViewModel> CarltonComponent { get; set; }
+
+    private Type DynamicComponentType
+    {
+        get
+        {
+            return CarltonComponent.GetType();
+        }
+    }
+
+    private Dictionary<string, object> DynamicComponentParameters(CarltonDataWrapperContext<TViewModel> context)
+    {
+        var eventCallback = EventCallback.Factory.Create<IComponentEvent<TViewModel>>(this, (evt) => context.OnComponentEvent(CarltonComponent, evt));
+
+        return new Dictionary<string, object>
+            {
+                {"ViewModel", context.ViewModel},
+                {"OnComponentEvent", eventCallback}
+            };
+    }
+}
+

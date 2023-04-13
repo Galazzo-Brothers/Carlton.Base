@@ -1,9 +1,9 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public abstract class TestBedRequestHandlerViewModelBase<TRequest, TViewModel> : ViewModelRequestHandlerBase<TRequest, TViewModel, TestBedState>
-    where TRequest : IRequest<TViewModel>
+public abstract class TestBedRequestHandlerViewModelBase<TRequest, TViewModel> : ComponentViewModelRequestHandlerBase<TRequest, TViewModel, TestBedState>
+    where TRequest : IViewModelRequest<TViewModel>
 {
-    public TestBedRequestHandlerViewModelBase(TestBedState state) : base(state)
+    protected TestBedRequestHandlerViewModelBase(TestBedState state) : base(state)
     {
     }
 }

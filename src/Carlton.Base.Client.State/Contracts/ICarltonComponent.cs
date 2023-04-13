@@ -3,5 +3,5 @@
 public interface ICarltonComponent<TViewModel>
 {
     TViewModel ViewModel { get; set; }
-    EventCallback OnComponentEvent { get; init; }
+    EventCallback<IComponentEvent<TViewModel>> OnComponentEvent { get; init; }
 }

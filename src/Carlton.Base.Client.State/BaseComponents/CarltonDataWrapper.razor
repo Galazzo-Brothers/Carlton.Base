@@ -1,0 +1,66 @@
+﻿@namespace Carlton.Base.State
+@implements IDisposable
+@typeparam TViewModel
+@ChildComponent(Context)
+
+@code {
+    [Parameter]
+    public RenderFragment<CarltonDataWrapperContext<TViewModel>> ChildComponent { get; set; }
+
+    [Parameter]
+    public IEnumerable<string> StateEvents { get; set; }
+
+    [Inject]
+    private IViewModelRequest<TViewModel> ViewModelRequest { get; set; }
+
+    [Inject]
+    private ComponentEventRequestFactory Factory { get; set; }
+
+    [Inject]
+    private IMediator Mediatr { get; set; }
+
+    [Inject]
+    private ICarltonStateStore State { get; set; }
+
+    protected CarltonDataWrapperContext<TViewModel> Context { get; set; }
+        = new CarltonDataWrapperContext<TViewModel>(default(TViewModel), (sender, obj) => Task.CompletedTask);
+
+    protected async override Task OnInitializedAsync()
+    {
+        //Register State Changed Handler
+        State.StateChanged += OnStateChanged;
+
+        //Get VM and initalize context for wrapped component
+        var vm = await GetViewModel();
+
+        Context = new CarltonDataWrapperContext<TViewModel>(vm, async (sender, evt) => await OnComponentEvent(sender, evt));
+
+        //Continue initilization
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task<TViewModel> GetViewModel()
+    {
+        return await Mediatr.Send(ViewModelRequest);
+    }
+
+    private async Task OnComponentEvent<TComponentEvent>(ICarltonComponent<TViewModel> sender, TComponentEvent evt)
+        where TComponentEvent : IComponentEvent<TViewModel>
+    {
+        await Mediatr.Send(Factory.Create<TComponentEvent, TViewModel>(sender, evt));
+    }
+
+    private async Task OnStateChanged(object sender, string stateEvent)
+    {
+        if(!StateEvents.Contains(stateEvent))
+            return;
+
+        Context.ViewModel = await GetViewModel();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        State.StateChanged -= OnStateChanged;
+    }
+}

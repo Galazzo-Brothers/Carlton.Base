@@ -1,0 +1,10 @@
+﻿@namespace Carlton.Base.State
+@typeparam TViewModel
+@implements ICarltonComponent<TViewModel>
+
+@code {
+    [Parameter]
+    public TViewModel ViewModel { get; set; }
+    [Parameter]
+    public EventCallback<IComponentEvent<TViewModel>> OnComponentEvent { get; init; }
+}
