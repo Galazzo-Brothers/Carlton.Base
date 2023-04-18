@@ -1,4 +1,4 @@
-﻿namespace Carlton.Base.TestBedFramework;
+﻿namespace Carlton.Base.TestBed;
 
 public sealed class NavItemSelectedRequest : ComponentEventRequestBase<NavItemSelected, NavMenuViewModel>
 {

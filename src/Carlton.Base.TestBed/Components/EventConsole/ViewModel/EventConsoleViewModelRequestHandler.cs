@@ -1,4 +1,4 @@
-﻿namespace Carlton.Base.TestBedFramework;
+﻿namespace Carlton.Base.TestBed;
 
 public sealed class EventConsoleViewModelRequestHandler : TestBedRequestHandlerViewModelBase<EventConsoleViewModelRequest, EventConsoleViewModel>
 {

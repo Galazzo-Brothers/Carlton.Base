@@ -1,15 +1,9 @@
 ﻿global using System;
 global using System.Collections.Generic;
-global using System.Net.Http;
+global using System.Linq;
+global using System.Reflection;
+global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Components;
-global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 global using Microsoft.Extensions.DependencyInjection;
-global using Carlton.Base.TestBedFramework;
-
-
-
-
-
-
-
+global using MediatR;

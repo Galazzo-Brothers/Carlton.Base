@@ -1,3 +1,3 @@
-﻿namespace Carlton.Base.TestBedFramework;
+﻿namespace Carlton.Base.TestBed;
 
 public record EventsCleared : ComponentEventBase<EventConsoleViewModel>;

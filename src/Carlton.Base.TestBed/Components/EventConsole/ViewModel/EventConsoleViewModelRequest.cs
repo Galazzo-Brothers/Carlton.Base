@@ -1,6 +1,8 @@
-﻿namespace Carlton.Base.TestBedFramework;
+﻿namespace Carlton.Base.TestBed;
 
-public sealed class EventConsoleViewModelRequest : IViewModelRequest<EventConsoleViewModel>
+[ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventAdded)]
+[ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventsCleared)]
+public sealed record EventConsoleViewModelRequest : IViewModelRequest<EventConsoleViewModel>
 {
 }
 

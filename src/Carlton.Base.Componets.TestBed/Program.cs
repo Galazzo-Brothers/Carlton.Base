@@ -33,7 +33,7 @@ public static class Program
                    .AddComponent<ErrorNotification>(NotificationStates.ErrorState)
                    .Build();
         },
-        typeof(TestBedFramework.TestBed).Assembly);
+        typeof(TestBedLayout).Assembly);
 
 
         builder.Services.AddScoped(sp =>

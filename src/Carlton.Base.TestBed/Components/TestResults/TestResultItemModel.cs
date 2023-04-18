@@ -1,4 +1,4 @@
-﻿namespace Carlton.Base.TestBedFramework;
+﻿namespace Carlton.Base.TestBed;
 
 public record TestResultItemModel(string TestName, TestResult TestResultStatus, double TestDuration);
 

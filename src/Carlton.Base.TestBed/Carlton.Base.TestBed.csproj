@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Carlton.Base.Client.Componets\Carlton.Base.Components.csproj" />
-    <ProjectReference Include="..\Carlton.Base.Client.State\Carlton.Base.State.csproj" />
+    <ProjectReference Include="..\Carlton.Base.Componets\Carlton.Base.Components.csproj" />
+    <ProjectReference Include="..\Carlton.Base.State\Carlton.Base.State.csproj" />
   </ItemGroup>
 
 </Project>

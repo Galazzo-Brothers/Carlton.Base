@@ -1,5 +1,4 @@
-﻿
-namespace Carlton.Base.State;
+﻿namespace Carlton.Base.TestBed;
 
 public enum TestBedStateEvents
 {

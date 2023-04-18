@@ -1,4 +1,4 @@
-namespace Carlton.Base.TestBedFramework.Test
+namespace Carlton.Base.TestBed.Test
 {
     public class TrxParserTests
     {

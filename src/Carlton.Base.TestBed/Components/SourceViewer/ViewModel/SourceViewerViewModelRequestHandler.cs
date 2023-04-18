@@ -1,4 +1,5 @@
-﻿namespace Carlton.Base.TestBedFramework;
+﻿namespace Carlton.Base.TestBed;
+
 public sealed class SourceViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<SourceViewerViewModelRequest, SourceViewerViewModel>
 {
     private const string PROJECT_NAME = "Carlton.Base.TestBedFramework";

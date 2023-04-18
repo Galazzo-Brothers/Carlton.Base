@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Authors>Nicholas Galazzo</Authors>
+    <Product>Project Carlton</Product>
+    <Company>Project Carlton</Company>
+    <Description>Contains the carlton state management framework for web aseembly front ends.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.git</RepositoryUrl>
+    <PackageVersion>1.0.1</PackageVersion>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carlton.Base.Infrastructure\Carlton.Base.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

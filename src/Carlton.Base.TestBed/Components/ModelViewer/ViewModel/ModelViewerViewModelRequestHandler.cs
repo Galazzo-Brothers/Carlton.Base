@@ -1,5 +1,4 @@
-﻿namespace Carlton.Base.TestBedFramework;
-
+﻿namespace Carlton.Base.TestBed;
 public sealed class ModelViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<ModelViewerViewModelRequest, ModelViewerViewModel>
 {
     public ModelViewerViewModelRequestHandler(TestBedState state) : base(state)

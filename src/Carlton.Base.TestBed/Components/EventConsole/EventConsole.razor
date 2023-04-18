@@ -1,18 +1,18 @@
-﻿@namespace Carlton.Base.TestBedFramework
+﻿@namespace Carlton.Base.TestBed
 
 @inherits CarltonComponentBase<EventConsoleViewModel>
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@ConsoleText" />
-    <FloatingActionButton Icon="delete" PositionRight="3" PositionBottom="5" />
+    <FloatingActionButton Icon="delete" PositionRight="3" PositionBottom="5" OnClickCallback="() => base.OnComponentEvent.InvokeAsync(new EventsCleared())" />
 </div>
 
 
 @code {
     private string ConsoleText { get; set; } = string.Empty;
-
     protected override void OnParametersSet()
     {
+        ConsoleText = string.Empty;
         foreach(var evt in ViewModel.ComponentEvents)
         {
             ConsoleText += Environment.NewLine;
