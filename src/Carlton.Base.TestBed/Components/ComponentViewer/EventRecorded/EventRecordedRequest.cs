@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public sealed class EventRecordedRequest : ComponentEventRequestBase<EventRecorded, EventConsoleViewModel>
+public sealed class EventRecordedRequest : ComponentEventRequestBase<EventRecorded, ComponentViewerViewModel>
 {
-    public EventRecordedRequest(ICarltonComponent<EventConsoleViewModel> sender, EventRecorded evt) : base(sender, evt)
+    public EventRecordedRequest(ICarltonComponent<ComponentViewerViewModel> sender, EventRecorded evt) : base(sender, evt)
     {
     }
 }

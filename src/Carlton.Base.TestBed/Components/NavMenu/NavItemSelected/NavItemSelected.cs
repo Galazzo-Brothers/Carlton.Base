@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public record NavItemSelected(int SelectedGroupID, int SelectedItemID) : IComponentEvent<NavMenuViewModel>;
+public record NavItemSelected(int SelectedGroupID, int SelectedItemID) : ComponentEventBase<NavMenuViewModel>;

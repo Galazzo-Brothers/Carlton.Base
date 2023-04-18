@@ -87,6 +87,7 @@
     private void RecordEventCallback<T>(string callbackName, T obj)
     {
         var jsonString = System.Text.Json.JsonSerializer.Serialize(obj);
+        base.OnComponentEvent.InvokeAsync(new EventRecorded(jsonString));
         System.Console.WriteLine($"Eventcallback {callbackName} was called.");
         System.Console.WriteLine($"Eventcallback Parameter: {jsonString}");
     }

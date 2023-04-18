@@ -2,6 +2,6 @@
 
 
 [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.SelectedItem)]
-public sealed class NavMenuViewModelRequest : IViewModelRequest<NavMenuViewModel>
+public sealed record NavMenuViewModelRequest : IViewModelRequest<NavMenuViewModel>
 {
 }

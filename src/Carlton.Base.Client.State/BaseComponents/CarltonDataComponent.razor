@@ -10,9 +10,6 @@
 </CarltonDataWrapper>
 
 @code {
-    [Parameter]
-    public IEnumerable<string> StateEvents { get; set; }
-
     [Inject]
     private ICarltonComponent<TViewModel> CarltonComponent { get; set; }
 

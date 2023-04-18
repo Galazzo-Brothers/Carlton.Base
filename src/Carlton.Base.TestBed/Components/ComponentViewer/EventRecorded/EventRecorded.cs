@@ -1,2 +1,2 @@
 ﻿namespace Carlton.Base.TestBedFramework;
-public record EventRecorded(object Evt) : IComponentEvent<EventConsoleViewModel>;
+public record EventRecorded(object Evt) : ComponentEventBase<ComponentViewerViewModel>;

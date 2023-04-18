@@ -1,5 +1,5 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public sealed class SourceViewerViewModelRequest : IViewModelRequest<SourceViewerViewModel>
+public sealed record SourceViewerViewModelRequest : IViewModelRequest<SourceViewerViewModel>
 {
 }
