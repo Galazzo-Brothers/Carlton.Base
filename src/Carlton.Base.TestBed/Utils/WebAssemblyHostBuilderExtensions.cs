@@ -12,7 +12,7 @@ public static class WebAssemblyHostBuilderExtensions
         var state = new TestBedState(options);
 
         builder.Services.AddSingleton(state);
-        builder.Services.AddSingleton<ICarltonStateStore>(state);
+        builder.Services.AddSingleton<ICarltonStateStore<TestBedStateEvents>>(state);
         builder.Services.AddMediatR(assemblies);
         builder.Services.AddCarltonState(assemblies);
     }

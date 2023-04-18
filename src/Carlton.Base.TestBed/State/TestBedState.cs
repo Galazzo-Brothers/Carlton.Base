@@ -1,14 +1,8 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class TestBedState : ICarltonStateStore
+public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 {
-    public const string SELECTED_ITEM = "SelectedItem";
-    public const string VIEW_MODEL_CHANGED = "ViewModelChanged";
-    public const string STATUS_CHANGED = "StatusChanged";
-    public const string COMPONENT_EVENT_ADDED = "ComponentEventAdded";
-    public const string COMPONENT_EVENTS_CLEARED = "COMPONENT_EVENTS_CLEARED";
-
-    public event Func<object, string, Task> StateChanged;
+    public event Func<object, TestBedStateEvents, Task> StateChanged;
 
     private readonly IList<object> _componentEvents;
 
@@ -32,19 +26,19 @@ public class TestBedState : ICarltonStateStore
         _componentEvents.Add(componentEvent);
         
         if(StateChanged != null)
-            await InvokeStateChanged(sender, COMPONENT_EVENT_ADDED);
+            await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventAdded);
     }
 
     public async Task ClearComponentEvents(object sender)
     {
         _componentEvents.Clear();
-        await InvokeStateChanged(sender, COMPONENT_EVENTS_CLEARED);
+        await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventsCleared);
     }
 
     public async Task UpdateTestComponentViewModel(object sender, object vm)
     {
         TestComponentViewModel = vm;
-        await InvokeStateChanged(sender, VIEW_MODEL_CHANGED);
+        await InvokeStateChanged(sender, TestBedStateEvents.ViewModelChanged);
     }
 
     public async Task UpdateSelectedItemId(object sender, int componentID, int stateID)
@@ -54,10 +48,10 @@ public class TestBedState : ICarltonStateStore
                              .Value;
         TestComponentViewModel = SelectedItem.ViewModel;
         
-        await InvokeStateChanged(sender, SELECTED_ITEM);
+        await InvokeStateChanged(sender, TestBedStateEvents.SelectedItem);
     }
 
-    private async Task InvokeStateChanged(object sender, string evt)
+    private async Task InvokeStateChanged(object sender, TestBedStateEvents evt)
     {
         var task = StateChanged?.Invoke(sender, evt);
         

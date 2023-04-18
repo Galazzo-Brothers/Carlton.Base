@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class EventRecordedRequestHandler : TestBedEventRequestHandlerBase<EventRecordedRequest>
+public sealed class EventRecordedRequestHandler : TestBedEventRequestHandlerBase<EventRecordedRequest>
 {
     public EventRecordedRequestHandler(TestBedState state) : base(state) { }
 

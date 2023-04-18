@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.State;
-//todo consider renaming
-public interface IComponentEventRequestFactory<TComponentEvent, TViewModel>
-    where TComponentEvent : IComponentEvent<TViewModel>
+
+public interface IComponentEventRequestFactory
 {
-    public IComponentEventRequest<TComponentEvent, TViewModel> CreateEventRequest(ICarltonComponent<TViewModel> sender, TComponentEvent evt);
+    public IComponentEventRequest CreateRequest<TComponentEvent, TViewModel>(ICarltonComponent<TViewModel> sender, TComponentEvent evt)
+        where TComponentEvent : IComponentEvent<TViewModel>;
 
 }

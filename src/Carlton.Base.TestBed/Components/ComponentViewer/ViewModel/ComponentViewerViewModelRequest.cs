@@ -1,6 +1,8 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class ComponentViewerViewModelRequest : IViewModelRequest<ComponentViewerViewModel>
+
+[ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.SelectedItem, TestBedStateEvents.ViewModelChanged)]
+public sealed class ComponentViewerViewModelRequest : IViewModelRequest<ComponentViewerViewModel>
 {
 }
 

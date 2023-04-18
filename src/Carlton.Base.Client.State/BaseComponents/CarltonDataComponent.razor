@@ -1,8 +1,9 @@
 ﻿@namespace Carlton.Base.State
 @typeparam TViewModel
+@typeparam TStateEvents where TStateEvents : Enum
 
 
-<CarltonDataWrapper TViewModel="TViewModel" StateEvents="StateEvents">
+<CarltonDataWrapper TViewModel="TViewModel" TStateEvents="TStateEvents" >
     <ChildComponent>
         <DynamicComponent Type="DynamicComponentType" Parameters="DynamicComponentParameters(context)" />
     </ChildComponent>

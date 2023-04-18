@@ -6,7 +6,7 @@
         <Console Text="@ViewModelJson"
                  IsReadOnly="false"
                  ValidateFunc="ValidateViewModel"
-                 OnChangeCallback="async () => await base.OnComponentEvent.InvokeAsync(new ModelChanged(this, DesieralizedViewModel))" />
+                 OnChangeCallback="async () => await base.OnComponentEvent.InvokeAsync(new ModelChanged(DesieralizedViewModel))" />
     </div>
 </div>
 

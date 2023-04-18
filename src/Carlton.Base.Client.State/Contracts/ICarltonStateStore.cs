@@ -1,6 +1,7 @@
 ﻿namespace Carlton.Base.State;
 
-public interface ICarltonStateStore
+public interface ICarltonStateStore<TStateEvents>
+    where TStateEvents : Enum
 {
-    event Func<object, string, Task> StateChanged;
+    event Func<object, TStateEvents, Task> StateChanged;
 }

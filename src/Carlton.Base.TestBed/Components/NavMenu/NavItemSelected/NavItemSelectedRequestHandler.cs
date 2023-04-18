@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class NavItemSelectedRequestHandler : TestBedEventRequestHandlerBase<NavItemSelectedRequest>
+public sealed class NavItemSelectedRequestHandler : TestBedEventRequestHandlerBase<NavItemSelectedRequest>
 {
     public NavItemSelectedRequestHandler(TestBedState state) : base(state)
     {

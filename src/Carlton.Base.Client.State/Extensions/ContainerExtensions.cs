@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Carlton.Base.State;
+﻿namespace Carlton.Base.State;
 
 public static class ContainerExtensions
 {
@@ -16,13 +14,19 @@ public static class ContainerExtensions
                     .AddClasses(classes => classes.AssignableTo(typeof(IViewModelRequest<>)))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
-                _.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IComponentEventRequestFactory<,>)))
-                    .AsImplementedInterfaces()
-                    .WithTransientLifetime();
             });
 
-        services.AddSingleton<ComponentEventRequestFactory>();
+
+        services.AddSingleton<IComponentEventRequestFactory, ComponentEventRequestFactory>(_ => new ComponentEventRequestFactory(GetEventRequestTypes(assemblies)));
+    }
+
+    private static IEnumerable<Type> GetEventRequestTypes(Assembly[] assemblies)
+    {
+        return  assemblies.SelectMany(t => t.ExportedTypes)
+                  .Where(t => t.GetInterfaces()
+                  .Any(i => i.IsGenericType && i.GetGenericTypeDefinition().Equals(typeof(IComponentEventRequest<,>))))
+                  .ToList();
+
     }
 
 }

@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class ComponentViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<ComponentViewerViewModelRequest, ComponentViewerViewModel>
+public sealed class ComponentViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<ComponentViewerViewModelRequest, ComponentViewerViewModel>
 {
 
     public ComponentViewerViewModelRequestHandler(TestBedState state)

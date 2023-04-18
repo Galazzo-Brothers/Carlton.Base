@@ -6,4 +6,4 @@
   Groups="ViewModel.MenuItems"
   SelectedItem="ViewModel.SelectedItem"
   OnSelectedItemChanged="async (selectedItem) =>
-    await base.OnComponentEvent.InvokeAsync(new NavItemSelected(this, selectedItem.GroupIndexID, selectedItem.ItemIndexID))"/>
+    await base.OnComponentEvent.InvokeAsync(new NavItemSelected(selectedItem.GroupIndexID, selectedItem.ItemIndexID))"/>

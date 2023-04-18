@@ -3,3 +3,4 @@
 public interface IViewModelRequest<out TViewModel> : IRequest<TViewModel>
 {
 }
+

@@ -1,29 +1,29 @@
 ﻿@namespace Carlton.Base.State
 @implements IDisposable
 @typeparam TViewModel
+@typeparam TStateEvents where TStateEvents : Enum
 @ChildComponent(Context)
 
 @code {
     [Parameter]
     public RenderFragment<CarltonDataWrapperContext<TViewModel>> ChildComponent { get; set; }
 
-    [Parameter]
-    public IEnumerable<string> StateEvents { get; set; }
-
     [Inject]
     private IViewModelRequest<TViewModel> ViewModelRequest { get; set; }
 
     [Inject]
-    private ComponentEventRequestFactory Factory { get; set; }
+    private IComponentEventRequestFactory Factory { get; set; }
 
     [Inject]
     private IMediator Mediatr { get; set; }
 
     [Inject]
-    private ICarltonStateStore State { get; set; }
+    private ICarltonStateStore<TStateEvents> State { get; set; }
 
     protected CarltonDataWrapperContext<TViewModel> Context { get; set; }
         = new CarltonDataWrapperContext<TViewModel>(default(TViewModel), (sender, obj) => Task.CompletedTask);
+
+    private IEnumerable<TStateEvents> StateEvents { get; set; } = new List<TStateEvents> { };
 
     protected async override Task OnInitializedAsync()
     {
@@ -33,7 +33,12 @@
         //Get VM and initalize context for wrapped component
         var vm = await GetViewModel();
 
+        //Establish the context hooks for the child component
         Context = new CarltonDataWrapperContext<TViewModel>(vm, async (sender, evt) => await OnComponentEvent(sender, evt));
+
+        //Gather the StateEvents, this component should be listening for, from the attributes on the ViewModelRequest object
+        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) ViewModelRequest.GetType().GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
+        StateEvents = attributes.SelectMany(_ => _.StateEventes);
 
         //Continue initilization
         await base.OnInitializedAsync();
@@ -47,10 +52,11 @@
     private async Task OnComponentEvent<TComponentEvent>(ICarltonComponent<TViewModel> sender, TComponentEvent evt)
         where TComponentEvent : IComponentEvent<TViewModel>
     {
-        await Mediatr.Send(Factory.Create<TComponentEvent, TViewModel>(sender, evt));
+        var request = Factory.CreateRequest(sender, evt);
+        await Mediatr.Send(request);
     }
 
-    private async Task OnStateChanged(object sender, string stateEvent)
+    private async Task OnStateChanged(object sender, TStateEvents stateEvent)
     {
         if(!StateEvents.Contains(stateEvent))
             return;

@@ -1,7 +1,7 @@
 ﻿namespace Carlton.Base.State;
 
 public abstract class ComponentEventRequestHandlerBase<TRequest, TState> : IRequestHandler<TRequest, Unit>
-    where TRequest : IRequest<Unit>
+    where TRequest : IComponentEventRequest
 {
     protected TState State { get; init; }
     

@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class NavMenuViewModelRequestHandler : TestBedRequestHandlerViewModelBase<NavMenuViewModelRequest, NavMenuViewModel>
+public sealed class NavMenuViewModelRequestHandler : TestBedRequestHandlerViewModelBase<NavMenuViewModelRequest, NavMenuViewModel>
 {
     public NavMenuViewModelRequestHandler(TestBedState state)
         :base(state)

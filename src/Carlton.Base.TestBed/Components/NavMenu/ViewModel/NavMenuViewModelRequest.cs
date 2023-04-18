@@ -1,5 +1,7 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class NavMenuViewModelRequest : IViewModelRequest<NavMenuViewModel>
+
+[ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.SelectedItem)]
+public sealed class NavMenuViewModelRequest : IViewModelRequest<NavMenuViewModel>
 {
 }

@@ -3,10 +3,10 @@
 
 <DashboardLayout ShowTabPanel="true">
     <NavContent>
-        <CarltonDataComponent TViewModel="NavMenuViewModel" />
+        <CarltonDataComponent TViewModel="NavMenuViewModel" TStateEvents="TestBedStateEvents" />
     </NavContent>
     <Body>
-        <CarltonDataComponent TViewModel="ComponentViewerViewModel" />
+        <CarltonDataComponent TViewModel="ComponentViewerViewModel" TStateEvents="TestBedStateEvents" />
     </Body>
     <Tabs>
         <TestBedTabs />

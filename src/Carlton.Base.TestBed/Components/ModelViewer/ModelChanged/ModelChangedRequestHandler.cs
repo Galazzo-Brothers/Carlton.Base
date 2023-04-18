@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class ModelChangedRequestHandler : TestBedEventRequestHandlerBase<ModelChangedRequest>
+public sealed class ModelChangedRequestHandler : TestBedEventRequestHandlerBase<ModelChangedRequest>
 {
     public ModelChangedRequestHandler(TestBedState state) : base(state)
     {

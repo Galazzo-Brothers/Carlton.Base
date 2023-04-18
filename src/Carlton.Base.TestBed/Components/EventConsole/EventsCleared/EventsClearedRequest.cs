@@ -1,8 +1,10 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class EventsClearedRequest : ComponentEventRequestBase<EventsCleared, EventConsoleViewModel>
+[ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventAdded)]
+[ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventsCleared)]
+public sealed class EventsClearedRequest : ComponentEventRequestBase<EventsCleared, EventConsoleViewModel>
 {
-    public EventsClearedRequest(object sender, EventsCleared evt) : base(sender, evt)
+    public EventsClearedRequest(ICarltonComponent<EventConsoleViewModel> sender, EventsCleared evt) : base(sender, evt)
     {
     }
 }

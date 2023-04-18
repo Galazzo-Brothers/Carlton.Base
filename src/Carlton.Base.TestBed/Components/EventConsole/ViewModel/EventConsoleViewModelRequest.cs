@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBedFramework;
 
-public class EventConsoleViewModelRequest : IViewModelRequest<EventConsoleViewModel>
+public sealed class EventConsoleViewModelRequest : IViewModelRequest<EventConsoleViewModel>
 {
 }
 
