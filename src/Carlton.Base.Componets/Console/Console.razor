@@ -4,8 +4,8 @@
     <textarea rows="15"
               disabled="@IsReadOnly"
               class="@ConsoleCss"
-              @onchange="OnViewModelChanged">
-        @Text   
+              value="@Text"
+              @onchange="(args) => OnChangeCallback.InvokeAsync(args.Value.ToString())">  
     </textarea>
 </div>
 
@@ -15,29 +15,14 @@
     [Parameter]
     public bool IsReadOnly { get; set; }
     [Parameter]
-    public Func<string, Task<bool>> ValidateFunc { get; set; } = (_) => Task.FromResult(true);
+    public bool IsValid { get; set; } = true;
     [Parameter]
-    public EventCallback<ChangeEventArgs> OnChangeCallback { get; set; }
+    public EventCallback<string> OnChangeCallback { get; set; }
 
-    private bool IsValid { get; set; }
     private string ConsoleCss
     {
         get => new CssBuilder()
                 .AddClass("error", !IsValid)
                 .Build();
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        IsValid = await ValidateFunc(Text);
-        base.OnInitialized();
-    }
-
-    private async Task OnViewModelChanged(ChangeEventArgs args)
-    {
-        IsValid = await ValidateFunc(args.Value.ToString());
-
-        if(IsValid)
-            await OnChangeCallback.InvokeAsync(args);
     }
 }

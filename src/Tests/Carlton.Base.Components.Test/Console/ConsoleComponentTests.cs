@@ -4,7 +4,7 @@ public class ConsoleComponentTests : TestContext
 {
     private static readonly string ConsoleMarkup = @"
 <div class=""console"" b-26bfns5jah>
-    <textarea rows=""15"" class="""" blazor:onchange=""1"" b-26bfns5jah>this is some dummt text</textarea>
+    <textarea rows=""15"" class="""" value=""this is some dummt text"" blazor:onchange=""1"" b-26bfns5jah></textarea>
 </div>";
 
 
@@ -43,63 +43,64 @@ public class ConsoleComponentTests : TestContext
     [InlineData("here is some super special test text")]
     [InlineData("here is some more super special test text")]
     [InlineData("here is event more super special test text")]
-    public void Console_TextParam_RendersCorrectly(string expectedParam)
+    public void Console_TextParam_RendersCorrectly(string expectedText)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
-            .Add(p => p.Text, expectedParam)
+            .Add(p => p.Text, expectedText)
             );
 
         var consoleElement = cut.Find("textarea");
+        var actualText = consoleElement.Attributes.First(_ => _.Name == "value").Value;
 
         //Assert
-        Assert.Equal(expectedParam, consoleElement.TextContent);
+        Assert.Equal(expectedText, actualText);
     }
 
+
     [Theory]
-    [InlineData(false)]
     [InlineData(true)]
-    public void Console_ValidateFuncParam_RendersCorrectly(bool expectedValidationResult)
+    [InlineData(false)]
+    public void Console_IsValidParam_RendersCorrectly(bool expectedIsValid)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
-            .Add(p => p.Text, "here is some super special test text")
-            .Add(p => p.ValidateFunc, (_) => Task.FromResult(expectedValidationResult))
+            .Add(p => p.Text, "Some random text")
+            .Add(p => p.IsValid, expectedIsValid)
             );
 
         var consoleElement = cut.Find("textarea");
         var errorClassExists = consoleElement.ClassList.Contains("error");
-        var expectedResult = !expectedValidationResult;
 
         //Assert
-        Assert.Equal(expectedResult, errorClassExists);
+        Assert.Equal(expectedIsValid, !errorClassExists);
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void Console_OnChangeCallbackParam_FiresCallback(bool expectedValidation)
+    [InlineData("new text")]
+    [InlineData("some more new text")]
+    [InlineData("even more new text")]
+    public void Console_OnChangeCallbackParam_FiresCallback(string expectedText)
     {
         //Arrange
         var eventCalled = false;
-        ChangeEventArgs changeEventArgs;
+        var actualText = string.Empty;
 
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
-            .Add(p => p.Text, "here is some super special test text")
-            .Add(p => p.ValidateFunc, (_) => Task.FromResult(expectedValidation))
-            .Add(p => p.OnChangeCallback, (_) => { eventCalled = true; changeEventArgs = _; })
+            .Add(p => p.Text, "some original text")
+            .Add(p => p.OnChangeCallback, (str) => { eventCalled = true; actualText = str; })
             );
 
         var consoleElement = cut.Find("textarea");
-        var expectedResult = expectedValidation;
 
         //Act
-       consoleElement.Change(new ChangeEventArgs { Value = "New Value" });
+       consoleElement.Change(new ChangeEventArgs { Value = expectedText });
 
         //Assert
-        Assert.Equal(expectedResult, eventCalled);
+        Assert.True(eventCalled);
+        Assert.Equal(expectedText, actualText);
     }
 }

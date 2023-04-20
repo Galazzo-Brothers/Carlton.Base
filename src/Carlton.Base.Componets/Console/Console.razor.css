@@ -12,5 +12,5 @@ textarea {
 }
 
     textarea.error {
-        color: var(--console-color-red);
+        color: var(--console-error-color);
     }
