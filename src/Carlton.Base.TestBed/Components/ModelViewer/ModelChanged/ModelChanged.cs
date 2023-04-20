@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record ModelChanged(object ComponentParameters) : ComponentEventBase<ModelViewerViewModel>;
+public sealed record ModelChanged(object ComponentParameters) : ComponentEventBase<ModelViewerViewModel>;

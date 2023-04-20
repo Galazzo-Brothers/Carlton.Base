@@ -8,7 +8,7 @@
                 <HamburgerCollapser />
             </MenuContent>
             <TitleContent>
-                <TitleBreadCrumbs Title="Count Card" BreadCrumbs="Cards > CountCard" />
+                @PageTitleContent
             </TitleContent>
             <ActionContent>
               <HeaderActions />
@@ -26,7 +26,7 @@
                 <Logo Title="Carlton Test Bed" />
             </LogoCotentent>
             <TitleContent>
-                <TitleBreadCrumbs Title="Cound Card" BreadCrumbs="Cards > CountCard" />
+                @PageTitleContent
             </TitleContent>
             <ActionContent>
                 <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Base.Components/images/avatar.jpg" />
@@ -37,6 +37,8 @@
 </MediaQueryWrapper>
 
 @code {
+    [Parameter]
+    public RenderFragment PageTitleContent { get; set; }
     [Parameter, AllowNull]
     public RenderFragment NavMenuContent { get; set; }
 }

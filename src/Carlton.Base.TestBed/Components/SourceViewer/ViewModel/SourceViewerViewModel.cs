@@ -1,4 +1,4 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record SourceViewerViewModel(string ComponentSource);
+public sealed record SourceViewerViewModel(string ComponentSource);
 

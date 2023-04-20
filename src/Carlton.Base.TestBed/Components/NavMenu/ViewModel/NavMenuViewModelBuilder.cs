@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public class NavMenuViewModelBuilder
+public sealed class NavMenuViewModelBuilder
 {
     private readonly List<NavMenuBuilderTestComponent> _internalState;
 

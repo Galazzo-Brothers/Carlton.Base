@@ -12,19 +12,12 @@ public sealed class NavMenuViewModelRequestHandler : TestBedRequestHandlerViewMo
         var selectGroups = State.RegisteredComponentStates.Select((group, groupIndex) =>
         {
             var items = group.Select((item, itemIndex) => new SelectItem<RegisteredComponentState>(item.DisplayName, itemIndex, item));
-            var displayName = FormatTypeName(group.Key.Name);
+            var displayName = group.Key.GetDisplayName();
             return new SelectGroup<RegisteredComponentState>(displayName, groupIndex, items);
         });
 
         return Task.FromResult(new NavMenuViewModel(selectGroups, State.SelectedComponentState));
     }
 
-    private string FormatTypeName(string str)
-    {
-        var strIndex = str.IndexOf("`");
-        if(strIndex == -1)
-            return str;
 
-        return str[..strIndex];
-    }
 }

@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record NavMenuBuilderTestComponent(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);
+public sealed record NavMenuBuilderTestComponent(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);

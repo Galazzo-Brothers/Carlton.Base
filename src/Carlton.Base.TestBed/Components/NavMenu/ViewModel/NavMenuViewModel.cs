@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record NavMenuViewModel
+public sealed record NavMenuViewModel
 (
     IEnumerable<SelectGroup<RegisteredComponentState>> MenuItems,
     RegisteredComponentState SelectedItem

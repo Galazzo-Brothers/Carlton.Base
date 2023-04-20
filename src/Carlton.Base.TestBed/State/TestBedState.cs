@@ -36,7 +36,6 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
     public async Task UpdateTestComponentParameters(object sender, object parameterObj)
     {
         TestComponentParameters = new ComponentParameters(parameterObj, TestComponentParameters.ParameterObjType);
-        System.Console.WriteLine("Made it here");
         await InvokeStateChanged(sender, TestBedStateEvents.ParametersChanged);
     }
 

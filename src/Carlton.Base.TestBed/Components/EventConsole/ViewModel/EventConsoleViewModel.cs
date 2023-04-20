@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record EventConsoleViewModel(IEnumerable<ComponentRecordedEvent> RecordedEvents);
+public sealed record EventConsoleViewModel(IEnumerable<ComponentRecordedEvent> RecordedEvents);
