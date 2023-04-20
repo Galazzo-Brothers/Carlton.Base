@@ -10,6 +10,5 @@ global using Microsoft.JSInterop;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using MediatR;
-global using Newtonsoft.Json;
 global using Carlton.Base.Components;
 global using Carlton.Base.State;

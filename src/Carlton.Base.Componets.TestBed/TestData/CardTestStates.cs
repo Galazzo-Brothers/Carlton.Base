@@ -1,67 +1,83 @@
-﻿namespace Carlton.Base.Components.TestBed;
+﻿using Microsoft.AspNetCore.Components.Web.Virtualization;
+using System.Text.Json.Serialization;
+
+namespace Carlton.Base.Components.TestBed;
 
 internal static class CardTestStates
 {
-    public static Dictionary<string, object> DefaultState
+    public static object DefaultState
     {
-        get => new()
+        get => new
         {
-            { "CardTitle", "Test"}
+            CardTitle = "Test"
         };
     }
 
-    public static Dictionary<string, object> DefaultListState
+    public static object DefaultListState
     {
-        get => new()
+        get => new TestListState
+
+            (
+                "Shopping List",
+                "Low Items",
+                new List<string> { "Eggs", "Milk", "Carrots" },
+                listFragment
+            );
+    }
+
+    public record TestListState
+    {
+        public string CardTitle { get; init; }
+        public string SubTitle { get; init; }
+        public List<string> Items { get; init; }
+        [JsonIgnore]
+        public RenderFragment<string> ItemTemplate { get; init; }
+
+        public TestListState(string cardTitle, string subTitle, List<string> items, RenderFragment<string> itemTemplate) =>
+            (CardTitle, SubTitle, Items, ItemTemplate) = (cardTitle, subTitle, items, itemTemplate);
+    }
+
+    public static object CountCard1State
+    {
+        get => new
         {
-            { "CardTitle", "Shopping List"},
-            { "SubTitle", "Low Items" },
-            { "Items", new List<string> {"Eggs", "Milk", "Carrots"} },
-            { "ItemTemplate", listFragment }
+            Count = 7,
+            MessageTemplate = "This is a test",
+            Icon = "mdi-camera",
+            Theme = CountCardTheme.Blue
         };
     }
 
-    public static Dictionary<string, object> CountCard1State
+    public static object CountCard2State
     {
-        get => new()
+        get => new
         {
-            { "Count", 7 },
-            { "MessageTemplate", "This is a test" },
-            { "Icon", "mdi-camera" },
-            { "Theme", CountCardTheme.Blue }
+            Count = 7,
+            MessageTemplate = "This is a test",
+            Icon = "mdi-camera",
+            Theme = CountCardTheme.Green
         };
     }
 
-    public static Dictionary<string, object> CountCard2State
+    public static object CountCard3State
     {
-        get => new()
+        get => new
         {
-            { "Count", 7 },
-            { "MessageTemplate", "This is a test" },
-            { "Icon", "mdi-camera" },
-            { "Theme", CountCardTheme.Green }
+            Count = 7,
+            MessageTemplate = "This is a test",
+            Icon = "mdi-camera",
+            Theme = CountCardTheme.Red
         };
     }
 
-    public static Dictionary<string, object> CountCard3State
+    public static object CountCard4State
     {
-        get => new()
+        get => new
         {
-            { "Count", 7 },
-            { "MessageTemplate", "This is a test" },
-            { "Icon", "mdi-camera" },
-            { "Theme", CountCardTheme.Red }
-        };
-    }
-
-    public static Dictionary<string, object> CountCard4State
-    {
-        get => new()
-        {
-            { "Count", 7 },
-            { "MessageTemplate", "This is a test" },
-            { "Icon", "mdi-camera" },
-            { "Theme", CountCardTheme.Purple }
+            Count = 7,
+            MessageTemplate = "This is a test",
+            Icon = "mdi-camera",
+            Theme = CountCardTheme.Purple
         };
     }
 

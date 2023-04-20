@@ -13,8 +13,7 @@ public sealed class ComponentViewerViewModelRequestHandler : TestBedRequestHandl
         return Task.FromResult(new ComponentViewerViewModel
         (
             State.TestComponentType,
-            State.TestComponentViewModel,
-            State.IsTestComponentCarltonComponent
+            State.TestComponentParameters
         ));
     }
 }

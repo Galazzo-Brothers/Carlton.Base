@@ -2,39 +2,39 @@
 
 public static class TableTestStates
 {
-    public static Dictionary<string, object> LargeItemList
+    public static object LargeItemList
     {
-        get => new()
+        get => new
         {
-            { "Headings", Headings },
-            { "Items", BigList },
-            { "RowTemplate", RowTemplate },
-            { "ShowPaginationRow", true },
-            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+            Headings,
+            Items = BigList,
+            RowTemplate,
+            ShowPaginationRow = true,
+            RowsPerPageOpts = new List<int> { 5, 10, 15 }
         };
     }
 
-    public static Dictionary<string, object> SmallItemList
+    public static object SmallItemList
     {
-        get => new()
+        get => new
         {
-            { "Headings", Headings },
-            { "Items", SmallList },
-            { "RowTemplate", RowTemplate },
-            { "ShowPaginationRow", true },
-            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+            Headings,
+            Items=SmallList ,
+            RowTemplate,
+            ShowPaginationRow=true ,
+            RowsPerPageOpts=new List<int> {5, 10, 15} 
         };
     }
 
-    public static Dictionary<string, object> WithOutPaginationRow
+    public static object WithOutPaginationRow
     {
-        get => new()
+        get => new
         {
-            { "Headings", Headings },
-            { "Items", SmallList },
-            { "RowTemplate", RowTemplate },
-            { "ShowPaginationRow", false },
-            { "RowsPerPageOpts", new List<int> {5, 10, 15} }
+            Headings,
+            Items=SmallList,
+            RowTemplate,
+            ShowPaginationRow=false ,
+            RowsPerPageOpts = new List<int> {5, 10, 15} 
         };
     }
 

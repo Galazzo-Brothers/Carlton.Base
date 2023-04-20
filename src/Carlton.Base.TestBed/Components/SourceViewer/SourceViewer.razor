@@ -6,13 +6,13 @@
 
 <div class="row">
     <div class="col-12 test-component-output-source">
-        @((MarkupString) OutputMarkup)
+        @((MarkupString)OutputMarkup)
     </div>
 </div>
 
-@code{
+@code {
     private const string CODE_BLOCK_TEMPLATE = "<pre><code class='{0}'></code></pre>";
-    private const string PROJECT_NAME = "Carlton.Base.TestBedFramework";
+    private const string PROJECT_NAME = "Carlton.Base.TestBed";
     private IJSObjectReference _module;
 
     private string OutputMarkup { get; set; } = string.Empty;
@@ -27,16 +27,14 @@
     {
         //Set the Output Markup
         OutputMarkup = string.Format(CODE_BLOCK_TEMPLATE, "html");
-
         await base.OnParametersSetAsync();
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        if(_module == null)
-            throw new InvalidOperationException();
+        if(_module != null && ViewModel != null)
+            await _module.InvokeAsync<Task>("postRender", ViewModel.ComponentSource);
 
-        await _module.InvokeAsync<Task>("postRender", ViewModel.ComponentSource);
         await base.OnAfterRenderAsync(firstRender);
     }
 

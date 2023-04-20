@@ -16,7 +16,7 @@
         foreach(var evt in ViewModel.ComponentEvents)
         {
             ConsoleText += Environment.NewLine;
-            ConsoleText += $"{evt.GetType().Name}: {JsonConvert.SerializeObject(evt)}";
+            ConsoleText += $"{evt.Name}: {JsonSerializer.Serialize(evt.Obj)}";
         }
 
         base.OnParametersSet();

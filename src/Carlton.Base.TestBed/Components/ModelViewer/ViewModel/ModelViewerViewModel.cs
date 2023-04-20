@@ -1,4 +1,4 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record ModelViewerViewModel(object TestComponentViewModel);
+public record ModelViewerViewModel(object TestComponentParameters);
 

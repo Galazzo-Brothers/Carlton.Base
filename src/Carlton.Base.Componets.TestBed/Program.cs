@@ -15,6 +15,7 @@ public static class Program
                    .AddComponent<CountCard>("Accent 2", CardTestStates.CountCard2State)
                    .AddComponent<CountCard>("Accent 3", CardTestStates.CountCard3State)
                    .AddComponent<CountCard>("Accent 4", CardTestStates.CountCard4State)
+                   .AddComponent<FloatingActionButton>("Default", ButtonTestStates.DefaultState)
                    .AddComponent<Logo>(LogoTestStates.DefaultState)
                    .AddComponent<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
                    .AddComponent<TitleBreadCrumbs>(TitleBreadCrumbsTestStates.DefaultState)

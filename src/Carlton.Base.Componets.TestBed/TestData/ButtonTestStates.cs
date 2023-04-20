@@ -1,12 +1,16 @@
-﻿namespace Carlton.Base.Components.TestBed;
+﻿using System.Reflection.Metadata;
+
+namespace Carlton.Base.Components.TestBed;
 
 internal static class ButtonTestStates
 {
-    public static Dictionary<string, object> DefaultState()
+    public static object DefaultState
     {
-        return new Dictionary<string, object>
+        get => new
         {
-            { "BtnText", "Click Me"}
+            Icon = "delete",
+            PositionBottom = 75,
+            PositionRight = 50
         };
     }
 }

@@ -2,11 +2,11 @@
 
 internal static class LogoTestStates
 {
-    public static Dictionary<string, object> DefaultState
+    public static object DefaultState
     {
-        get => new()
+        get => new
         {
-            { "Title", "Project Carlton"}
+             Title = "Project Carlton"
         };
     }
 }

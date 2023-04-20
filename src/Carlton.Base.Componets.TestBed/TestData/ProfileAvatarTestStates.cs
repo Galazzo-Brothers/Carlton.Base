@@ -2,12 +2,12 @@
 
 internal static class ProfileAvatarTestStates
 {
-    public static Dictionary<string, object> DefaultState
+    public static object DefaultState
     {
-        get => new()
+        get => new
         {
-            { "AvatarImgUrl", "https://www.w3schools.com/w3images/avatar2.png" },
-            { "UserName", "Stephen" }
+            AvatarImgUrl = "https://www.w3schools.com/w3images/avatar2.png",
+            UserName = "Stephen"
         };
     }
 }

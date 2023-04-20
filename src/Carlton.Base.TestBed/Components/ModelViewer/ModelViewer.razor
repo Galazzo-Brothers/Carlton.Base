@@ -5,33 +5,36 @@
     <div class="form-group">
         <Console Text="@ViewModelJson"
                  IsReadOnly="false"
-                 ValidateFunc="ValidateViewModel"
-                 OnChangeCallback="async () => await base.OnComponentEvent.InvokeAsync(new ModelChanged(DesieralizedViewModel))" />
+                 IsValid="@IsValid"
+                 OnChangeCallback="(str) => OnViewModelChanged(str)" />
     </div>
 </div>
 
 
 @code {
+    private bool IsValid { get; set; } = true;
     private string ViewModelJson { get; set; } = string.Empty;
-    private object DesieralizedViewModel { get; set; } = new object();
 
     protected override void OnParametersSet()
     {
-        ViewModelJson = JsonConvert.SerializeObject(ViewModel.TestComponentViewModel, Formatting.Indented);
+        IsValid = true;
+        ViewModelJson =  JsonSerializer.Serialize(ViewModel.TestComponentParameters, new JsonSerializerOptions { WriteIndented = true });
         base.OnParametersSet();
     }
 
-    private Task<bool> ValidateViewModel(string vm)
+    private async Task OnViewModelChanged(string vmStr)
     {
         try
         {
-            var currentType = ViewModel.TestComponentViewModel.GetType();
-            DesieralizedViewModel = JsonConvert.DeserializeObject(vm, currentType) ?? new object();
-            return Task.FromResult(true);
+            var type = ViewModel.TestComponentParameters.GetType();
+            var deserializedViewModel = JsonSerializer.Deserialize(vmStr, type);
+
+            IsValid = true;
+            await base.OnComponentEvent.InvokeAsync(new ModelChanged(deserializedViewModel));
         }
         catch(Exception)
         {
-            return Task.FromResult(false);
+            IsValid = false;
         }
     }
 }

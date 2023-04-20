@@ -2,72 +2,72 @@
 
 internal static class NotificationStates
 {
-    public static Dictionary<string, object> NotificationBarFadeOutDisabledStated
+    public static object NotificationBarFadeOutDisabledStated
     {
-        get => new()
+        get => new
         {
-            { "IsTestMode", true },
-            { "FadeOutEnabled", false },
-            { "Top", 0 },
-            { "Right", -500 }
+            IsTestMode = true,
+            FadeOutEnabled = false,
+            Top = 0,
+            Right = -500
         };
     }
 
-    public static Dictionary<string, object> NotificationBarFadeOutEnabledStated
+    public static object NotificationBarFadeOutEnabledStated
     {
-        get => new()
+        get => new
         {
-            { "IsTestMode", true },
-            { "FadeOutEnabled", true },
-            { "Top", 0 },
-            { "Right", -500 }
+            IsTestMode = true,
+            FadeOutEnabled = true,
+            Top = 0,
+            Right = -500
         };
     }
 
-    public static Dictionary<string, object> SuccessFadeOutEnabledState
+    public static object SuccessFadeOutEnabledState
     {
-        get => new()
+        get => new
         {
-            {"Title", "Testing" },
-            {"Message", "This is a test" },
-            {"FadeOutEnabled", true }
+            Title = "Testing",
+            Message = "This is a test",
+            FadeOutEnabled = true
         };
     }
 
-    public static Dictionary<string, object> SuccessFadeOutDisabledState
+    public static object SuccessFadeOutDisabledState
     {
-        get => new()
+        get => new
         {
-            {"Title", "Testing" },
-            {"Message", "This is a test" },
-            {"FadeOutEnabled", false }
+            Title = "Testing",
+            Message = "This is a test",
+            FadeOutEnabled = false
         };
     }
 
-    public static Dictionary<string, object> InfoState
+    public static object InfoState
     {
-        get => new()
+        get => new
         {
-            {"Title", "Info" },
-            {"Message", "Something you should know about" }
+            Title = "Info",
+            Message = "Something you should know about"
         };
     }
 
-    public static Dictionary<string, object> WarningState
+    public static object WarningState
     {
-        get => new()
+        get => new
         {
-            {"Title", "Warning" },
-            {"Message", "This is a warning" }
+            Title = "Warning",
+            Message = "This is a warning"
         };
     }
 
-    public static Dictionary<string, object> ErrorState
+    public static object ErrorState
     {
-        get => new()
+        get => new
         {
-            {"Title", "Error" },
-            {"Message", "Something went wrong" }
+            Title = "Error",
+            Message = "Something went wrong"
         };
     }
 }

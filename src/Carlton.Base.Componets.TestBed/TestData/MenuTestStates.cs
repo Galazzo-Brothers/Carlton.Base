@@ -2,17 +2,17 @@
 
 internal static class MenuTestStates
 {
-    public static Dictionary<string, object> Default()
+    public static object Default
     {
-        return new Dictionary<string, object>
+        get => new
         {
-            {"MenuItems", DefaultMenuItems() }
+            MenuItems=DefaultMenuItems
         };
     }
 
-    private static IEnumerable<DropdownMenuItem<int>> DefaultMenuItems()
+    private static IEnumerable<DropdownMenuItem<int>> DefaultMenuItems
     {
-        return new List<DropdownMenuItem<int>>
+        get => new List<DropdownMenuItem<int>>
         {
             new DropdownMenuItem<int>("Option 1", 1, "mdi-icon1", 1),
             new DropdownMenuItem<int>("Option 2", 2, "mdi-icon2", 2),

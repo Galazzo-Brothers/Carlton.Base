@@ -4,24 +4,23 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 {
     public event Func<object, TestBedStateEvents, Task> StateChanged;
 
-    private readonly IList<object> _componentEvents;
+    private readonly IList<(string, object)> _componentEvents;
 
     public IEnumerable<SelectGroup<NavMenuItem>> NavMenuItems { get; init; }
     public NavMenuItem SelectedItem { get; private set; }
     public Type TestComponentType { get { return SelectedItem.Type; } }
-    public bool IsTestComponentCarltonComponent { get { return SelectedItem.IsCarltonComponent; } }
-    public object TestComponentViewModel { get; private set; }
-    public IEnumerable<object> ComponentEvents { get { return _componentEvents; } }
+    public object TestComponentParameters { get; private set; }
+    public IEnumerable<(string, object)> ComponentEvents { get { return _componentEvents; } }
 
     public TestBedState(NavMenuViewModel vm)
     {
         NavMenuItems = vm.MenuItems;
         SelectedItem = vm.SelectedItem;
-        TestComponentViewModel = vm.SelectedItem.ViewModel;
-        _componentEvents = new List<object>();
+        TestComponentParameters = vm.SelectedItem.ComponentParameters;
+        _componentEvents = new List<(string, object)>();
     }
 
-    public async Task AddTestComponentEvents(object sender, object componentEvent)
+    public async Task AddTestComponentEvents(object sender, (string, object) componentEvent)
     {
         _componentEvents.Add(componentEvent);
         
@@ -35,10 +34,11 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
         await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventsCleared);
     }
 
-    public async Task UpdateTestComponentViewModel(object sender, object vm)
+    public async Task UpdateTestComponentParameters(object sender, object componentParameters)
     {
-        TestComponentViewModel = vm;
-        await InvokeStateChanged(sender, TestBedStateEvents.ViewModelChanged);
+        TestComponentParameters = componentParameters;
+        System.Console.WriteLine("Made it here");
+        await InvokeStateChanged(sender, TestBedStateEvents.ParametersChanged);
     }
 
     public async Task UpdateSelectedItemId(object sender, int componentID, int stateID)
@@ -46,7 +46,7 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
         SelectedItem = NavMenuItems.First(_ => _.Index == componentID)
                              .Items.First(_ => _.Index == stateID)
                              .Value;
-        TestComponentViewModel = SelectedItem.ViewModel;
+        TestComponentParameters = SelectedItem.ComponentParameters;
         
         await InvokeStateChanged(sender, TestBedStateEvents.SelectedItem);
     }

@@ -3,7 +3,7 @@
 public enum TestBedStateEvents
 {
     SelectedItem,
-    ViewModelChanged,
+    ParametersChanged,
     StatusChanged,
     ComponentEventAdded,
     ComponentEventsCleared
