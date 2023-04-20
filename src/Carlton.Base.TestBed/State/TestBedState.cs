@@ -4,20 +4,19 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 {
     public event Func<object, TestBedStateEvents, Task> StateChanged;
 
-    private readonly IList<ComponentRecordedEvent> _componentEvents;
+    private readonly IList<ComponentRecordedEvent> _componentEvents = new List<ComponentRecordedEvent>();
 
-    public IEnumerable<SelectGroup<NavMenuItem>> NavMenuItems { get; init; }
-    public NavMenuItem SelectedItem { get; private set; }
-    public Type TestComponentType { get { return SelectedItem.Type; } }
+    public IEnumerable<IGrouping<Type, RegisteredComponentState>> RegisteredComponentStates { get; init; }
+    public RegisteredComponentState SelectedComponentState { get; private set; }
+    public Type TestComponentType { get { return SelectedComponentState.Type; } }
     public ComponentParameters TestComponentParameters { get; private set; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents { get { return _componentEvents; } }
 
-    public TestBedState(NavMenuViewModel vm)
+    public TestBedState(IEnumerable<IGrouping<Type, RegisteredComponentState>> registeredComponentStates)
     {
-        NavMenuItems = vm.MenuItems;
-        SelectedItem = vm.SelectedItem;
-        TestComponentParameters = vm.SelectedItem.ComponentParameters;
-        _componentEvents = new List<ComponentRecordedEvent>();
+        RegisteredComponentStates = registeredComponentStates;
+        SelectedComponentState = registeredComponentStates.ElementAt(0).ElementAt(0);
+        TestComponentParameters = SelectedComponentState.ComponentParameters;
     }
 
     public async Task AddTestComponentEvents(object sender, string eventName, object evt)
@@ -43,10 +42,11 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 
     public async Task UpdateSelectedItemId(object sender, int componentID, int stateID)
     {
-        SelectedItem = NavMenuItems.First(_ => _.Index == componentID)
-                             .Items.First(_ => _.Index == stateID)
-                             .Value;
-        TestComponentParameters = SelectedItem.ComponentParameters;
+        SelectedComponentState = RegisteredComponentStates
+            .ElementAt(componentID)
+            .ElementAt(stateID);
+
+        TestComponentParameters = SelectedComponentState.ComponentParameters;
         
         await InvokeStateChanged(sender, TestBedStateEvents.SelectedItem);
     }

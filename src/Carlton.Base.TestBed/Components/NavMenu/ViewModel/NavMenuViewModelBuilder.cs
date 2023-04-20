@@ -37,30 +37,13 @@ public class NavMenuViewModelBuilder
         return this;
     }
 
-    public NavMenuViewModel Build()
+    public IEnumerable<IGrouping<Type, RegisteredComponentState>> Build()
     {
-        var groups = new List<SelectGroup<NavMenuItem>>();
-
-        foreach(var (group, groupIndex) in _internalState.GroupBy(_ => _.ComponentType).WithIndex())
+        return _internalState.Select(_ =>
         {
-            var selectItems = new List<SelectItem<NavMenuItem>>();
-
-            foreach(var (state, stateIndex) in group.WithIndex())
-            {
-                var paramObjType = state.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
-                var componentParameters = new ComponentParameters(state.ComponentParameters, paramObjType);
-                var navItem = new NavMenuItem(state.DisplayName, state.ComponentType, componentParameters);
-                selectItems.Add(new SelectItem<NavMenuItem>(state.DisplayName, stateIndex, navItem));
-            }
-
-            var displayName = group.Key.Name.ToDisplayFormat().RemoveTypeParamCharacters();
-            groups.Add(new SelectGroup<NavMenuItem>(displayName, groupIndex, selectItems));
-        }
-
-        return new NavMenuViewModel
-        (
-            groups,
-            groups.SelectItem(0, 0)
-        );
+            var paramObjType = _.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
+            var compParams = new ComponentParameters(_.ComponentParameters, paramObjType);
+            return new RegisteredComponentState(_.DisplayName, _.ComponentType, compParams);
+        }).GroupBy(_ => _.Type);
     }
 }

@@ -2,8 +2,7 @@
 
 public record NavMenuViewModel
 (
-    IEnumerable<SelectGroup<NavMenuItem>> MenuItems,
-    NavMenuItem SelectedItem
+    IEnumerable<SelectGroup<RegisteredComponentState>> MenuItems,
+    RegisteredComponentState SelectedItem
 );
 
-public record NavMenuItem(string DisplayName, Type Type, ComponentParameters ComponentParameters);
