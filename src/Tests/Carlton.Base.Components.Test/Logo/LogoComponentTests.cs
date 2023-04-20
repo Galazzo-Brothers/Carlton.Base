@@ -18,7 +18,7 @@ public class LogoComponentTests : TestContext
         var layoutState = new LayoutState(false, () => { });
 
         //Act
-        var cut = RenderComponent<Logo>(paramaters => paramaters
+        var cut = RenderComponent<Logo>(parameters => parameters
             .AddCascadingValue(layoutState));
 
         //Assert
@@ -34,7 +34,7 @@ public class LogoComponentTests : TestContext
         var layoutState = new LayoutState(isCollapsed, () => { });
 
         //Act
-        var cut = RenderComponent<HamburgerCollapser>(paramaters => paramaters
+        var cut = RenderComponent<HamburgerCollapser>(parameters => parameters
             .AddCascadingValue(layoutState));
 
         //Assert

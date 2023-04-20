@@ -22,7 +22,7 @@ public class TabComponentTests : TestContext
     public void Tab_WithOutParent_ThrowsArgumentNullException()
     {
         //Act
-        var act = () => RenderComponent<Tab>(paramaters => paramaters
+        var act = () => RenderComponent<Tab>(parameters => parameters
             .Add(p => p.DisplayText, "Test Tab")
             );
 
@@ -34,7 +34,7 @@ public class TabComponentTests : TestContext
     public void Tab_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<Tab>(paramaters => paramaters
+        var cut = RenderComponent<Tab>(parameters => parameters
             .AddCascadingValue(parent.Instance)
             .Add(p => p.DisplayText, "Test Tab")
             .AddChildContent("<div><span class=\"message\">This is some test content under this tab</span><div class=\"main\"><button>Click Me!</button></div></div>")
@@ -49,7 +49,7 @@ public class TabComponentTests : TestContext
     {
 
         //Arrange
-        var cut = RenderComponent<Tab>(paramaters => paramaters
+        var cut = RenderComponent<Tab>(parameters => parameters
             .AddCascadingValue(parent.Instance)
             .Add(p => p.DisplayText, "Test Tab")
             .AddChildContent("<div><span class=\"message\">This is some test content under this tab</span><div class=\"main\"><button>Click Me!</button></div></div>")
@@ -71,7 +71,7 @@ public class TabComponentTests : TestContext
 
         //Arrange
         var childContent = "<div><span class=\"message\">This is some test content under this tab</span><div class=\"main\"><button>Click Me!</button></div></div>";
-        var cut = RenderComponent<Tab>(paramaters => paramaters
+        var cut = RenderComponent<Tab>(parameters => parameters
             .AddCascadingValue(parent.Instance)
             .Add(p => p.DisplayText, "Test Tab")
             .AddChildContent(childContent)

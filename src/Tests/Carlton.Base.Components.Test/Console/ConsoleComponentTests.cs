@@ -4,7 +4,7 @@ public class ConsoleComponentTests : TestContext
 {
     private static readonly string ConsoleMarkup = @"
 <div class=""console"" b-26bfns5jah>
-    <textarea rows=""15"" class="""" value=""this is some dummt text"" blazor:onchange=""1"" b-26bfns5jah></textarea>
+    <textarea rows=""15"" class="""" value=""this is some dummy text"" blazor:onchange=""1"" b-26bfns5jah></textarea>
 </div>";
 
 
@@ -14,7 +14,7 @@ public class ConsoleComponentTests : TestContext
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, false)
-            .Add(p => p.Text, "this is some dummt text")
+            .Add(p => p.Text, "this is some dummy text")
             );
 
         //Assert
@@ -29,7 +29,7 @@ public class ConsoleComponentTests : TestContext
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, isReadOnly)
-            .Add(p => p.Text, "this is some dummt text")
+            .Add(p => p.Text, "this is some dummy text")
             );
 
         var consoleElement = cut.Find("textarea");

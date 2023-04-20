@@ -6,7 +6,7 @@ public class TableComponentTests : TestContext
     public void Table_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -27,7 +27,7 @@ public class TableComponentTests : TestContext
         var expectedHeaders = headings.Select(_ => _.DisplayName);
 
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -49,7 +49,7 @@ public class TableComponentTests : TestContext
     public void Table_OnClickOnce_FiltersItemsAsc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
     {
         //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -64,10 +64,6 @@ public class TableComponentTests : TestContext
 
         //Assert
         Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
-        //Assert.Collection(cut.Instance.Items,
-        //    _ => Assert.Equal(1, _.ID),
-        //    _ => Assert.Equal(2, _.ID),
-        //    _ => Assert.Equal(3, _.ID));
     }
 
     [Theory]
@@ -75,7 +71,7 @@ public class TableComponentTests : TestContext
     public void Table_OnClickTwice_FiltersItemsDesc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
     {
         //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -97,10 +93,10 @@ public class TableComponentTests : TestContext
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void Table_HeaderItemOnClick_SelectedClass_RendersCorreectly(int selectedIndex)
+    public void Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -125,10 +121,10 @@ public class TableComponentTests : TestContext
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void Table_HeaderItemOnClick_AscendingClass_RendersCorreectly(int selectedIndex)
+    public void Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -153,10 +149,10 @@ public class TableComponentTests : TestContext
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void Table_HeaderItemOnClick_DescendingClass_RendersCorreectly(int selectedIndex)
+    public void Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -184,7 +180,7 @@ public class TableComponentTests : TestContext
         var expectedItemCount = expected.items.Count;
 
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, expected.items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -214,7 +210,7 @@ public class TableComponentTests : TestContext
         var expectedRow3 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(2).ID, TableTestHelper.Items.ElementAt(2).DisplayName, TableTestHelper.Items.ElementAt(2).CreatedDate);
 
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -241,7 +237,7 @@ public class TableComponentTests : TestContext
         var expectedRowsPerPageValues = rowsPerPageOpts.Select(_ => _);
 
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
@@ -264,7 +260,7 @@ public class TableComponentTests : TestContext
     public void Table_ShowPaginationRow_RendersCorrectly(bool showPaginationRow)
     {
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
@@ -293,7 +289,7 @@ public class TableComponentTests : TestContext
         //Arrange
         var expectedItems = TableTestHelper.BigItemsList.Skip(expectedSkip).Take(expectedTake);
         var expectedIDs = expectedItems.Select(_ => _.ID);
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
            .Add(p => p.Headings, TableTestHelper.Headings)
            .Add(p => p.Items, TableTestHelper.BigItemsList)
            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)

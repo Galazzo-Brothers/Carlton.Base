@@ -6,7 +6,7 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
@@ -25,7 +25,7 @@ public class TableHeaderComponentTests : TestContext
         var expectedHeadings = headings.Select(_ => _.DisplayName);
 
         //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
@@ -50,7 +50,7 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(string columnName, int columnIndex, bool orderAscending)
     {
         //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, columnName)
             .Add(p => p.OrderAscending, orderAscending)
@@ -60,12 +60,12 @@ public class TableHeaderComponentTests : TestContext
         var selectedItem = headerRowItems.ElementAt(columnIndex);
         var hasSelectedClass = selectedItem.ClassList.Contains("selected");
         var hasAscendingClass = selectedItem.ClassList.Contains("ascending");
-        var hasdescendingClass = selectedItem.ClassList.Contains("descending");
+        var hasDescendingClass = selectedItem.ClassList.Contains("descending");
 
         //Assert
         Assert.True(hasSelectedClass);
         Assert.Equal(orderAscending, hasAscendingClass);
-        Assert.Equal(orderAscending, !hasdescendingClass);
+        Assert.Equal(orderAscending, !hasDescendingClass);
     }
 
     [Theory]
@@ -75,7 +75,7 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_InvalidOrderColumnParam_RendersCorrectly(string columnName)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, columnName)
             .Add(p => p.OrderAscending, true)
@@ -95,7 +95,7 @@ public class TableHeaderComponentTests : TestContext
         var eventFired = false;
         var actualOrderAscending = false;
         var actualOrderColumn = string.Empty;
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
@@ -123,7 +123,7 @@ public class TableHeaderComponentTests : TestContext
         var eventFired = false;
         var actualOrderAscending = true;
         var actualOrderColumn = string.Empty;
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
@@ -146,10 +146,10 @@ public class TableHeaderComponentTests : TestContext
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void TableHeader_OnClick_SelectedClass_RendersCorreectly(int selectedIndex)
+    public void TableHeader_OnClick_SelectedClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
@@ -172,10 +172,10 @@ public class TableHeaderComponentTests : TestContext
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void TableHeader_OnClick_AscendingClass_RendersCorreectly(int selectedIndex)
+    public void TableHeader_OnClick_AscendingClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
@@ -198,10 +198,10 @@ public class TableHeaderComponentTests : TestContext
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void TableHeader_OnClick_DescendingClass_RendersCorreectly(int selectedIndex)
+    public void TableHeader_OnClick_DescendingClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)

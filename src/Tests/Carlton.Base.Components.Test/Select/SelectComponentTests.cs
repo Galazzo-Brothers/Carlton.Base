@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Carlton.Base.Components.Test;
+﻿namespace Carlton.Base.Components.Test;
 
 public class SelectComponentTests : TestContext
 {
@@ -8,7 +6,7 @@ public class SelectComponentTests : TestContext
     public void Select_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "Test Select")
             .Add(p => p.IsDisabled, false)
@@ -26,7 +24,7 @@ public class SelectComponentTests : TestContext
     public void Select_LabelParam_RendersCorrectly(string labelText)
     {
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
@@ -45,7 +43,7 @@ public class SelectComponentTests : TestContext
     public void Select_DisabledParam_RendersCorrectly(bool isDisabled)
     {
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "Test Label")
             .Add(p => p.IsDisabled, isDisabled)
@@ -69,7 +67,7 @@ public class SelectComponentTests : TestContext
         var expectedValues = opts.Values;
 
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, opts)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
@@ -79,7 +77,7 @@ public class SelectComponentTests : TestContext
         var optionsElements = cut.FindAll(".option");
         var actualCount = optionsElements.Count;
         var actualOptionNames = optionsElements.Select(_ => _.TextContent);
-        var actualValues = optionsElements.Select(_ => int.Parse(_.Attributes.First(attri => attri.Name == "blazor:onclick").Value));
+        var actualValues = optionsElements.Select(_ => int.Parse(_.Attributes.First(attribute => attribute.Name == "blazor:onclick").Value));
 
         //Assert
         Assert.Equal(expectedCount, actualCount);
@@ -91,7 +89,7 @@ public class SelectComponentTests : TestContext
     public void Select_OptionsParam_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
@@ -114,7 +112,7 @@ public class SelectComponentTests : TestContext
     public void Select_SelectedValueParam_RendersCorrectly(int selectedValue, string expectedLabel)
     {
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
@@ -132,7 +130,7 @@ public class SelectComponentTests : TestContext
     public void Select_SelectedValueParam_InvalidDefaultValue_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)
@@ -140,10 +138,10 @@ public class SelectComponentTests : TestContext
             );
 
         var inputElement = cut.Find("input");
-        var containsValueAttribtue = inputElement.Attributes.Any(_ => _.Name == "value");
+        var containsValueAttribute = inputElement.Attributes.Any(_ => _.Name == "value");
 
         //Assert
-        Assert.False(containsValueAttribtue);
+        Assert.False(containsValueAttribute);
     }
 
     [Theory]
@@ -160,7 +158,7 @@ public class SelectComponentTests : TestContext
         var expectedKey = SelectTestHelper.Options.Keys.ElementAt(index);
         var expectedValue = SelectTestHelper.Options.Values.ElementAt(index);
 
-        var cut = RenderComponent<Select>(paramaters => paramaters
+        var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, SelectTestHelper.Options)
             .Add(p => p.Label, "some label text")
             .Add(p => p.IsDisabled, false)

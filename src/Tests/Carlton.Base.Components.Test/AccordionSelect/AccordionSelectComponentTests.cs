@@ -3,7 +3,7 @@ namespace Carlton.Base.Components.Test;
 public class AccordionSelectComponentTests : TestContext
 {
     [Fact]
-    public void AccordionSelect_MarkupWithhNoItems_RendersCorrectly()
+    public void AccordionSelect_MarkupWithNoItems_RendersCorrectly()
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -122,7 +122,7 @@ public class AccordionSelectComponentTests : TestContext
     [InlineData(0, 1)]
     [InlineData(1, 2)]
     [InlineData(2, 3)]
-    public void AccordionSelect_SelectedValueParam_RendersCorreectly(int selectedIndex, int selectedValue)
+    public void AccordionSelect_SelectedValueParam_RendersCorrectly(int selectedIndex, int selectedValue)
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters

@@ -16,7 +16,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 
     [Theory]
     [MemberData(nameof(AccordionSelectTestHelper.GetGroups), MemberType = typeof(AccordionSelectTestHelper))]
-    public void AccordionSelectGroup_GroupsParam_RendersCorreectly(ReadOnlyCollection<SelectGroup<int>> groups)
+    public void AccordionSelectGroup_GroupsParam_RendersCorrectly(ReadOnlyCollection<SelectGroup<int>> groups)
     {
         //Arrange
         var expectedCount = groups.Count;

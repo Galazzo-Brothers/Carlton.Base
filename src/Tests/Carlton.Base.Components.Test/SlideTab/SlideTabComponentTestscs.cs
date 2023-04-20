@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.Components.Test;
 
-public class SlideTabComponentTestscs : TestContext
+public class SlideTabComponentTests : TestContext
 {
     private static readonly string SlideTabMarkup = @"
 <div class=""slide-tab"" style=""--slide-tab-bottom:50px;"" b-wxqrrervve>
@@ -15,7 +15,7 @@ public class SlideTabComponentTestscs : TestContext
     public void SlideTab_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<SlideTab>(paramaters => paramaters
+        var cut = RenderComponent<SlideTab>(parameters => parameters
             .Add(p => p.Title, "Test Title")
             .Add(p => p.IsExpanded, false)
             .Add(p => p.PositionBottom, 50)
@@ -33,7 +33,7 @@ public class SlideTabComponentTestscs : TestContext
     public void SlideTab_TitleParam_RendersCorrectly(string expectedTitle)
     {
         //Act
-        var cut = RenderComponent<SlideTab>(paramaters => paramaters
+        var cut = RenderComponent<SlideTab>(parameters => parameters
             .Add(p => p.Title, expectedTitle)
             .Add(p => p.IsExpanded, false)
             .Add(p => p.PositionBottom, 50)
@@ -53,7 +53,7 @@ public class SlideTabComponentTestscs : TestContext
     public void SlideTab_IsExpandedParam_RendersCorrectly(bool expectedIsExpanded)
     {
         //Act
-        var cut = RenderComponent<SlideTab>(paramaters => paramaters
+        var cut = RenderComponent<SlideTab>(parameters => parameters
             .Add(p => p.Title, "test title")
             .Add(p => p.IsExpanded, expectedIsExpanded)
             .Add(p => p.PositionBottom, 50)
@@ -77,7 +77,7 @@ public class SlideTabComponentTestscs : TestContext
         var expectedStyleValue = $"--slide-tab-bottom:{expectedPositionBottom}px;";
 
         //Act
-        var cut = RenderComponent<SlideTab>(paramaters => paramaters
+        var cut = RenderComponent<SlideTab>(parameters => parameters
             .Add(p => p.Title, "test title")
             .Add(p => p.IsExpanded, false)
             .Add(p => p.PositionBottom, expectedPositionBottom)
@@ -98,7 +98,7 @@ public class SlideTabComponentTestscs : TestContext
     public void SlideTab_ContentParam_RendersCorrectly(string expectedContent)
     {
         //Act
-        var cut = RenderComponent<SlideTab>(paramaters => paramaters
+        var cut = RenderComponent<SlideTab>(parameters => parameters
             .Add(p => p.Title, "test title")
             .Add(p => p.IsExpanded, false)
             .Add(p => p.PositionBottom, 50)

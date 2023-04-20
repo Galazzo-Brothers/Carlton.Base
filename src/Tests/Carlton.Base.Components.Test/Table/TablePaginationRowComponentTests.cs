@@ -8,7 +8,7 @@ public class TablePaginationRowComponentTests : TestContext
     public void TablePaginationRow_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
@@ -27,7 +27,7 @@ public class TablePaginationRowComponentTests : TestContext
         var expectedValue = opts.First();
 
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, opts)
             .Add(p => p.CurrentPage, 1)
@@ -50,7 +50,7 @@ public class TablePaginationRowComponentTests : TestContext
         var initialRowsPerPageCount = opts.First();
       
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, opts)
             .Add(p => p.CurrentPage, 1)
@@ -79,7 +79,7 @@ public class TablePaginationRowComponentTests : TestContext
     public void TablePaginationRow_PaginationLabel_RendersCorrectly(int currentPage, int currentRowsPerPage, string expectedText)
     {
         //Arrange
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, 15)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, currentPage)
@@ -109,7 +109,7 @@ public class TablePaginationRowComponentTests : TestContext
     {
         //Arrange
         var expectedText = "1-3 of 3";
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
@@ -134,7 +134,7 @@ public class TablePaginationRowComponentTests : TestContext
     public void TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(int itemCount)
     {
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, itemCount)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
@@ -156,7 +156,7 @@ public class TablePaginationRowComponentTests : TestContext
     public void TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(int itemCount)
     {
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, itemCount)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
@@ -175,7 +175,7 @@ public class TablePaginationRowComponentTests : TestContext
     public void TablePaginationRow_PageOne_LeftChevronsDisabled_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
@@ -197,7 +197,7 @@ public class TablePaginationRowComponentTests : TestContext
     public void TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(int currentPage)
     {
         //Arrange
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, ItemsCount)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, currentPage)
@@ -232,7 +232,7 @@ public class TablePaginationRowComponentTests : TestContext
         var eventFired = false;
         var actualCurrentPage = -1;
         var actualSelectedRowsPerPageCount = -1;
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(paramaters => paramaters
+        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, 15)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
             .Add(p => p.CurrentPage, selectedPage)

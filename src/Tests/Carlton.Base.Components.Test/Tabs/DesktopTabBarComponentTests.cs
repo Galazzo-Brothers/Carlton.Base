@@ -32,7 +32,7 @@ public class DesktopTabBarComponentTests : TestContext
     public void DesktopTabBar_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
             .AddChildContent<Tab>(parameters => parameters
                 .Add(p => p.DisplayText, "Test Tab 1")
                 .Add(p => p.Icon, "Icon 1")
@@ -58,7 +58,7 @@ public class DesktopTabBarComponentTests : TestContext
         var expectedCount = 1;
 
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
                     .AddChildContent<Tab>(parameters => parameters
                         .Add(p => p.DisplayText, "Test Tab 1")
                         .Add(p => p.Icon, "Icon 1")
@@ -79,7 +79,7 @@ public class DesktopTabBarComponentTests : TestContext
         var expectedCount =2;
 
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
                     .AddChildContent<Tab>(parameters => parameters
                         .Add(p => p.DisplayText, "Test Tab 1")
                         .Add(p => p.Icon, "Icon 1")
@@ -104,7 +104,7 @@ public class DesktopTabBarComponentTests : TestContext
         var expectedCount = 3;
 
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
                     .AddChildContent<Tab>(parameters => parameters
                         .Add(p => p.DisplayText, "Test Tab 1")
                         .Add(p => p.Icon, "Icon 1")
@@ -130,7 +130,7 @@ public class DesktopTabBarComponentTests : TestContext
     public void DesktopTabBar_DefaultActiveTab_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
             .AddChildContent<Tab>(parameters => parameters
                 .Add(p => p.DisplayText, "Test Tab 1")
                 .Add(p => p.Icon, "Icon 1")
@@ -159,7 +159,7 @@ public class DesktopTabBarComponentTests : TestContext
     public void DesktopTabBar_ActiveTabClass_RendersCorrectly(int activeTabIndex)
     {
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
             .AddChildContent<Tab>(parameters => parameters
                 .Add(p => p.DisplayText, "Test Tab 1")
                 .Add(p => p.Icon, "Icon 1")
@@ -191,7 +191,7 @@ public class DesktopTabBarComponentTests : TestContext
     public void DesktopTabBar_ActiveTab_RendersCorrectly(int activeTabIndex, string expectedText)
     {
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
             .AddChildContent<Tab>(parameters => parameters
                 .Add(p => p.DisplayText, "Test Tab 1")
                 .Add(p => p.Icon, "Icon 1")
@@ -223,7 +223,7 @@ public class DesktopTabBarComponentTests : TestContext
     public void DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(string displayText)
     {
         //Act
-        var cut = RenderComponent<DesktopTabBar>(paramaters => paramaters
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
             .AddChildContent<Tab>(parameters => parameters
                 .Add(p => p.DisplayText, displayText)
                 .Add(p => p.Icon, "Icon 1")

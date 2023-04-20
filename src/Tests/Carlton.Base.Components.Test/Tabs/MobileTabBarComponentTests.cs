@@ -39,7 +39,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_Markup_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, true)
             .Add(p => p.ShowDisplayText, true)
             .AddChildContent<Tab>(parameters => parameters
@@ -67,7 +67,7 @@ public class MobileTabBarComponentTests : TestContext
         var expectedCount = 1;
 
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
                     .Add(p => p.ShowDisplayIcon, true)
                     .Add(p => p.ShowDisplayText, true)
                     .AddChildContent<Tab>(parameters => parameters
@@ -90,7 +90,7 @@ public class MobileTabBarComponentTests : TestContext
         var expectedCount = 2;
 
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
                     .Add(p => p.ShowDisplayIcon, true)
                     .Add(p => p.ShowDisplayText, true)
                     .AddChildContent<Tab>(parameters => parameters
@@ -117,7 +117,7 @@ public class MobileTabBarComponentTests : TestContext
         var expectedCount = 3;
 
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
                     .Add(p => p.ShowDisplayIcon, true)
                     .Add(p => p.ShowDisplayText, true)
                     .AddChildContent<Tab>(parameters => parameters
@@ -145,7 +145,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_DefaultActiveTab_RendersCorrectly()
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, true)
             .Add(p => p.ShowDisplayText, true)
             .AddChildContent<Tab>(parameters => parameters
@@ -176,7 +176,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ActiveTabClass_RendersCorrectly(int activeTabIndex)
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, true)
             .Add(p => p.ShowDisplayText, true)
             .AddChildContent<Tab>(parameters => parameters
@@ -210,7 +210,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ActiveTab_RendersCorrectly(int activeTabIndex, string expectedText)
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, true)
             .Add(p => p.ShowDisplayText, true)
             .AddChildContent<Tab>(parameters => parameters
@@ -244,7 +244,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ChildIconParam_RendersCorrectly(string icon)
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, true)
             .Add(p => p.ShowDisplayText, true)
             .AddChildContent<Tab>(parameters => parameters
@@ -266,7 +266,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ShowDisplayIconParam_RendersCorrectly(bool showDisplayIcon)
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, showDisplayIcon)
             .Add(p => p.ShowDisplayText, true)
             .AddChildContent<Tab>(parameters => parameters
@@ -287,7 +287,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ShowDisplayTextParam_RendersCorrectly(bool showDisplayText)
     {
         //Act
-        var cut = RenderComponent<MobileTabBar>(paramaters => paramaters
+        var cut = RenderComponent<MobileTabBar>(parameters => parameters
             .Add(p => p.ShowDisplayIcon, true)
             .Add(p => p.ShowDisplayText, showDisplayText)
             .AddChildContent<Tab>(parameters => parameters
