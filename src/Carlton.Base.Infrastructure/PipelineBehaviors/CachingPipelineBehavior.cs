@@ -16,13 +16,13 @@ public class CachingPipelineBehavior<TRequest, TResponse> : BasePipelineBehavior
 
     public override async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var key = _cacheKeyGenerator.GenerateCacheKey(JsonConvert.SerializeObject(request));
+        var key = _cacheKeyGenerator.GenerateCacheKey(JsonSerializer.Serialize(request));
         var cachedValue = await _cache.GetValueAsync<TResponse>(key).ConfigureAwait(false);
 
         if(cachedValue != null)
         {
             Logger.LogInformation($"{RequestType} Request is retrieving value from Cache");
-            Logger.LogDebug($"object being retrieved from cache: {JsonConvert.SerializeObject(RequestType)}");
+            Logger.LogDebug($"object being retrieved from cache: {JsonSerializer.Serialize(RequestType)}");
             return cachedValue;
         }
         else
@@ -35,7 +35,7 @@ public class CachingPipelineBehavior<TRequest, TResponse> : BasePipelineBehavior
         if(response != null)
         {
             Logger.LogInformation($"{nameof(response)} is being placed in memory cache");
-            Logger.LogDebug($"object being placed in cache: {JsonConvert.SerializeObject(response)}");
+            Logger.LogDebug($"object being placed in cache: {JsonSerializer.Serialize(response)}");
             var cacheExpiresIn = _cacheDurationGenerator.GetCacheDuration(response);
             await _cache.SetAsync(key, response, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = cacheExpiresIn }).ConfigureAwait(false);
         }

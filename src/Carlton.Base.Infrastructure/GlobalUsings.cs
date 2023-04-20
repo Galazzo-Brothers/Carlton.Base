@@ -20,12 +20,10 @@ global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.Logging;
 global using FluentValidation;
 global using MediatR;
-global using Newtonsoft.Json;
 global using Polly;
 global using Polly.Wrap;
 global using Carlton.Base.Infrastructure.Caching;
 global using Carlton.Base.Infrastructure.Exceptions;
-global using Carlton.Base.Infrastructure.Extensions;
 global using Carlton.Base.Infrastructure.Resiliance;
 global using Carlton.Base.Infrastructure.Security;
 
