@@ -2,16 +2,34 @@
 
 public static class TableTestStates
 {
+    public record TableTestDate
+    {
+        public List<TableHeadingItem> Headings { get; init; }
+        public List<TableTestObject> Items { get; init; }
+        [JsonIgnore]
+        public RenderFragment<TableTestObject> RowTemplate { get; init; }
+        public bool ShowPaginationRow { get; init; }
+        public List<int> RowsPerPageOpts { get; init; }
+
+        public TableTestDate(List<TableHeadingItem> headings,
+            List<TableTestObject> items,
+            RenderFragment<TableTestObject> rowTemplate,
+            bool showPaginationRow,
+            List<int> rowsPerPageOpts
+            )
+        {
+            Headings = headings;
+            Items = items;
+            RowTemplate = rowTemplate;
+            ShowPaginationRow = showPaginationRow;
+            RowsPerPageOpts = rowsPerPageOpts;
+        }
+
+    }
+
     public static object LargeItemList
     {
-        get => new
-        {
-            Headings,
-            Items = BigList,
-            RowTemplate,
-            ShowPaginationRow = true,
-            RowsPerPageOpts = new List<int> { 5, 10, 15 }
-        };
+        get => new TableTestDate(Headings, BigList, RowTemplate, true, new List<int> { 5, 10, 15 });
     }
 
     public static object SmallItemList
