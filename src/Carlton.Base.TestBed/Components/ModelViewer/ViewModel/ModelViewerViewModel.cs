@@ -1,4 +1,3 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public record ModelViewerViewModel(object TestComponentParameters);
-
+public sealed record ModelViewerViewModel(ComponentParameters ComponentParameters);

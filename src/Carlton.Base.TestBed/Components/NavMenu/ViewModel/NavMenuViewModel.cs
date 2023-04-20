@@ -6,4 +6,4 @@ public record NavMenuViewModel
     NavMenuItem SelectedItem
 );
 
-public record NavMenuItem(string DisplayName, Type Type, object ComponentParameters);
+public record NavMenuItem(string DisplayName, Type Type, ComponentParameters ComponentParameters);

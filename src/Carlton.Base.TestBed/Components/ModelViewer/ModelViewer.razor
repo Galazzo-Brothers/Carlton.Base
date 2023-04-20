@@ -18,7 +18,7 @@
     protected override void OnParametersSet()
     {
         IsValid = true;
-        ViewModelJson =  JsonSerializer.Serialize(ViewModel.TestComponentParameters, new JsonSerializerOptions { WriteIndented = true });
+        ViewModelJson =  JsonSerializer.Serialize(ViewModel.ComponentParameters.ParameterObj, new JsonSerializerOptions { WriteIndented = true });
         base.OnParametersSet();
     }
 
@@ -26,9 +26,8 @@
     {
         try
         {
-            var type = ViewModel.TestComponentParameters.GetType();
+            var type = ViewModel.ComponentParameters.ParameterObj.GetType();
             var deserializedViewModel = JsonSerializer.Deserialize(vmStr, type);
-
             IsValid = true;
             await base.OnComponentEvent.InvokeAsync(new ModelChanged(deserializedViewModel));
         }

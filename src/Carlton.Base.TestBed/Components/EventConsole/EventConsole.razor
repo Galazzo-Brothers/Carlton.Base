@@ -13,10 +13,10 @@
     protected override void OnParametersSet()
     {
         ConsoleText = string.Empty;
-        foreach(var evt in ViewModel.ComponentEvents)
+        foreach(var evt in ViewModel.RecordedEvents)
         {
             ConsoleText += Environment.NewLine;
-            ConsoleText += $"{evt.Name}: {JsonSerializer.Serialize(evt.Obj)}";
+            ConsoleText += $"{evt.Name}: {JsonSerializer.Serialize(evt.EventObj)}";
         }
 
         base.OnParametersSet();

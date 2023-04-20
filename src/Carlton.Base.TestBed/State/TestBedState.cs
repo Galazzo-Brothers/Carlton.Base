@@ -4,25 +4,25 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 {
     public event Func<object, TestBedStateEvents, Task> StateChanged;
 
-    private readonly IList<(string, object)> _componentEvents;
+    private readonly IList<ComponentRecordedEvent> _componentEvents;
 
     public IEnumerable<SelectGroup<NavMenuItem>> NavMenuItems { get; init; }
     public NavMenuItem SelectedItem { get; private set; }
     public Type TestComponentType { get { return SelectedItem.Type; } }
-    public object TestComponentParameters { get; private set; }
-    public IEnumerable<(string, object)> ComponentEvents { get { return _componentEvents; } }
+    public ComponentParameters TestComponentParameters { get; private set; }
+    public IEnumerable<ComponentRecordedEvent> ComponentEvents { get { return _componentEvents; } }
 
     public TestBedState(NavMenuViewModel vm)
     {
         NavMenuItems = vm.MenuItems;
         SelectedItem = vm.SelectedItem;
         TestComponentParameters = vm.SelectedItem.ComponentParameters;
-        _componentEvents = new List<(string, object)>();
+        _componentEvents = new List<ComponentRecordedEvent>();
     }
 
-    public async Task AddTestComponentEvents(object sender, (string, object) componentEvent)
+    public async Task AddTestComponentEvents(object sender, string eventName, object evt)
     {
-        _componentEvents.Add(componentEvent);
+        _componentEvents.Add(new ComponentRecordedEvent(eventName, evt));
         
         if(StateChanged != null)
             await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventAdded);
@@ -34,9 +34,9 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
         await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventsCleared);
     }
 
-    public async Task UpdateTestComponentParameters(object sender, object componentParameters)
+    public async Task UpdateTestComponentParameters(object sender, object parameterObj)
     {
-        TestComponentParameters = componentParameters;
+        TestComponentParameters = new ComponentParameters(parameterObj, TestComponentParameters.ParameterObjType);
         System.Console.WriteLine("Made it here");
         await InvokeStateChanged(sender, TestBedStateEvents.ParametersChanged);
     }
@@ -59,7 +59,6 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
             await task.ConfigureAwait(false);
     }
 }
-
 
 
 

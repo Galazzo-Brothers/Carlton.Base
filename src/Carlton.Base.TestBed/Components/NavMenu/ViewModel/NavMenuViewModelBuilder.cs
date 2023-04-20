@@ -9,27 +9,33 @@ public class NavMenuViewModelBuilder
         _internalState = new List<NavMenuBuilderTestComponent>();
     }
 
-    public NavMenuViewModelBuilder AddComponent<T>(object parameters)
+    public NavMenuViewModelBuilder AddParameterObjComponent<T>(object parameters)
     {
-        return AddComponent<T>("Default", parameters);
+        return AddComponent<T>("Default", parameters, false);
     }
 
-
-    public NavMenuViewModelBuilder AddComponent<T>(string displayName, object parameters)
+    public NavMenuViewModelBuilder AddParameterObjComponent<T>(string displayName, object parameters)
     {
-        var testComp = new NavMenuBuilderTestComponent(displayName, typeof(T), parameters);
+        return AddComponent<T>(displayName, parameters, false);
+    }
+
+    public NavMenuViewModelBuilder AddViewModelComponent<T>(object vm)
+    {
+        return AddComponent<T>("Default", vm, true);
+    }
+
+    public NavMenuViewModelBuilder AddViewModelComponent<T>(string displayName, object vm)
+    {
+        return AddComponent<T>(displayName, vm, true);
+    }
+
+    public NavMenuViewModelBuilder AddComponent<T>(string displayName, object vm, bool isViewModel)
+    {
+        var testComp = new NavMenuBuilderTestComponent(displayName, typeof(T), vm, isViewModel);
         _internalState.Add(testComp);
 
         return this;
     }
-
-    //public NavMenuViewModelBuilder AddCarltonComponent<T>(string displayName, object parameters)
-    //{
-    //    var testComp = new TestComponent(displayName, typeof(T), true, parameters);
-    //    _internalState.Add(testComp);
-
-    //    return this;
-    //}
 
     public NavMenuViewModel Build()
     {
@@ -41,7 +47,9 @@ public class NavMenuViewModelBuilder
 
             foreach(var (state, stateIndex) in group.WithIndex())
             {
-                var navItem = new NavMenuItem(state.DisplayName, state.ComponentType, state.ComponentParameters);
+                var paramObjType = state.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
+                var componentParameters = new ComponentParameters(state.ComponentParameters, paramObjType);
+                var navItem = new NavMenuItem(state.DisplayName, state.ComponentType, componentParameters);
                 selectItems.Add(new SelectItem<NavMenuItem>(state.DisplayName, stateIndex, navItem));
             }
 

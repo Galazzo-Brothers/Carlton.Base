@@ -32,16 +32,24 @@
                 .Where(prop => prop.PropertyType != typeof(RenderFragment) || (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(RenderFragment<>)))
                 .ToList();
 
+        if (ViewModel.ComponentParameters.ParameterObjType == ParameterObjectType.ViewModel)
+            ComponentParameters.Add("ViewMode", ViewModel.ComponentParameters.ParameterObj);
+        else
+            AssignComponentParameters(props);
+    }
+
+    private void AssignComponentParameters(IEnumerable<PropertyInfo> props)
+    {
         foreach(var prop in props)
         {
-            var instance = ViewModel.ComponentParameters;
+            var instance = ViewModel.ComponentParameters.ParameterObj;
             var type = instance.GetType();
             var instanceProp = type.GetProperty(prop.Name);
 
             if(instanceProp == null)
                 continue;
 
-            var value = instanceProp.GetValue(ViewModel.ComponentParameters);
+            var value = instanceProp.GetValue(ViewModel.ComponentParameters.ParameterObj);
             if(value != null)
                 ComponentParameters.Add(prop.Name, value);
         }
