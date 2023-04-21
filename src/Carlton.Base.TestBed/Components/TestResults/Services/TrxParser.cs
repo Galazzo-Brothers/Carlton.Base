@@ -23,7 +23,7 @@ public class TrxParser : ITrxParser
     private const string Outcome = "outcome";
     private const string Duration = "duration";
 
-    public IEnumerable<TestResultItemModel> ParseTrxTestResultsContent(string content)
+    public IEnumerable<TestResult> ParseTrxTestResultsContent(string content)
     {
         try
         {
@@ -38,10 +38,10 @@ public class TrxParser : ITrxParser
                                    {
                                        var resultAttributes = _.Attributes().ToDictionary(attrib => attrib.Name, attrib => attrib.Value);
                                        var testName = resultAttributes[TestName];
-                                       var testResult = (TestResult)Enum.Parse(typeof(TestResult), resultAttributes[Outcome]);
+                                       var testResult = (TestResultOutcomes)Enum.Parse(typeof(TestResultOutcomes), resultAttributes[Outcome]);
                                        var duration = Math.Round(TimeSpan.Parse(resultAttributes[Duration]).TotalMilliseconds, 2);
 
-                                       return new TestResultItemModel(testName, testResult, duration);
+                                       return new TestResult(testName, testResult, duration);
 
                                    }).ToList();
             return results;
@@ -52,7 +52,7 @@ public class TrxParser : ITrxParser
         }
     }
 
-    public TestResultsSummaryModel ParseTrxSummaryContent(string content)
+    public TestResultsSummary ParseTrxSummaryContent(string content)
     {
         try
         {
@@ -85,7 +85,7 @@ public class TrxParser : ITrxParser
 
             var duration = Math.Round(timespan.TotalSeconds, 2);
 
-            return new TestResultsSummaryModel(total, passed, failed, duration);
+            return new TestResultsSummary(total, passed, failed, duration);
         }
         catch(Exception)
         {

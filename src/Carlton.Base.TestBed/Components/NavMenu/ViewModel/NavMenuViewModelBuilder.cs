@@ -37,13 +37,13 @@ public sealed class NavMenuViewModelBuilder
         return this;
     }
 
-    public IEnumerable<IGrouping<Type, RegisteredComponentState>> Build()
+    public IEnumerable<IGrouping<Type, ComponentState>> Build()
     {
         return _internalState.Select(_ =>
         {
             var paramObjType = _.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
             var compParams = new ComponentParameters(_.ComponentParameters, paramObjType);
-            return new RegisteredComponentState(_.DisplayName, _.ComponentType, compParams);
+            return new ComponentState(_.DisplayName, _.ComponentType, compParams);
         }).GroupBy(_ => _.Type);
     }
 }

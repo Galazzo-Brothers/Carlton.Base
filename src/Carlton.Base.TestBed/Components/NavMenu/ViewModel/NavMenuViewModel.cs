@@ -2,7 +2,7 @@
 
 public sealed record NavMenuViewModel
 (
-    IEnumerable<SelectGroup<RegisteredComponentState>> MenuItems,
-    RegisteredComponentState SelectedItem
+    IEnumerable<SelectGroup<ComponentState>> MenuItems,
+    ComponentState SelectedItem
 );
 

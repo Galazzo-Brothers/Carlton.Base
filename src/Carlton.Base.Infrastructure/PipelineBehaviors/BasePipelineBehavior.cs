@@ -10,7 +10,7 @@ public abstract class BasePipelineBehavior<TRequest, TResponse> : IPipelineBehav
         get { return $"{typeof(TRequest).Name} Request"; }
     }
 
-    public BasePipelineBehavior(ILogger logger)
+    protected BasePipelineBehavior(ILogger logger)
     {
         Logger = logger;
     }

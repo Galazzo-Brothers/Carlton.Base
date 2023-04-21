@@ -25,6 +25,7 @@
     <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\theme_defenitions.scss" />
     <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\theme_utilities.scss" />
     <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\vendor.scss" />
+    <Content Remove="wwwroot\UnitTestResults\UnitTestResults.trx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Carlton.Base.TestBed\Carlton.Base.TestBed.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\UnitTestResults\UnitTestResults.trx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

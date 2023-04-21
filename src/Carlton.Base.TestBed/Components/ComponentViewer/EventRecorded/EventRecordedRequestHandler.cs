@@ -6,7 +6,7 @@ public sealed class EventRecordedRequestHandler : TestBedEventRequestHandlerBase
 
     public async override Task<Unit> Handle(EventRecordedRequest request, CancellationToken cancellationToken)
     {
-        await State.AddTestComponentEvents(request.Sender, request.ComponentEvent.Name, request.ComponentEvent.Obj);
+        await State.RecordComponentEvent(request.Sender, request.ComponentEvent.Name, request.ComponentEvent.Obj);
         return Unit.Value;
     }
 }

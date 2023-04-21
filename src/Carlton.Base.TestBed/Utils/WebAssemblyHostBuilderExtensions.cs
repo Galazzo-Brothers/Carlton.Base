@@ -1,4 +1,6 @@
-﻿namespace Carlton.Base.TestBed;
+﻿using System.Net.NetworkInformation;
+
+namespace Carlton.Base.TestBed;
 
 public static class WebAssemblyHostBuilderExtensions
 {
@@ -11,9 +13,16 @@ public static class WebAssemblyHostBuilderExtensions
         var options = NavTreeBuilder.Build();
         var state = new TestBedState(options);
 
+
         builder.Services.AddSingleton(state);
         builder.Services.AddSingleton<ICarltonStateStore<TestBedStateEvents>>(state);
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        builder.Services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+                cfg.AddBehavior<IPipelineBehavior<TestResultsReportViewerViewModelRequest, TestResultsViewModel>, TestBedHttpRequestPipelineBehavior<TestResultsReportViewerViewModelRequest, TestResultsViewModel>>();
+                //cfg.AddOpenBehavior(typeof(TestBedHttpRequestPipelineBehavior<,>));
+            });
+                      // .AddTransient(typeof(IPipelineBehavior<UnitTestResultsViewModelRequest,UnitTestResultsViewModel>), typeof(HttpRequestPipelineBehaviorBase<UnitTestResultsViewModelRequest,UnitTestResultsViewModel, TestBedState>));
         builder.Services.AddCarltonState(assemblies);
     }
 }

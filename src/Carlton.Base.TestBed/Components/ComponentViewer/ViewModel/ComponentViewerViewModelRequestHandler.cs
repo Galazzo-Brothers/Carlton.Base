@@ -12,8 +12,8 @@ public sealed class ComponentViewerViewModelRequestHandler : TestBedRequestHandl
     {
         return Task.FromResult(new ComponentViewerViewModel
         (
-            State.TestComponentType,
-            State.TestComponentParameters
+            State.SelectedComponentType,
+            State.SelectedComponentParameters
         ));
     }
 }

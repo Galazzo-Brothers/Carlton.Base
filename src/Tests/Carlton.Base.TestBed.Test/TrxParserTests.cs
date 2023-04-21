@@ -16,7 +16,7 @@ namespace Carlton.Base.TestBed.Test
         [InlineData(4, 3, 1, TrxTestHelper.StartDate_1, TrxTestHelper.EndDate_1, TrxTestHelper.SummaryDuration_1)]
         [InlineData(7, 5, 2, TrxTestHelper.StartDate_2, TrxTestHelper.EndDate_2, TrxTestHelper.SummaryDuration_2)]
         [InlineData(10, 10, 0, TrxTestHelper.StartDate_3, TrxTestHelper.EndDate_3, TrxTestHelper.SummaryDuration_3)]
-        public void TrxParser_ParsingSummarayModel_Success(
+        public void TrxParser_ParsingSummaryModel_Success(
             int expectedTotal,
             int expectedSuccess,
             int expectedFailed,
@@ -26,7 +26,7 @@ namespace Carlton.Base.TestBed.Test
         {
             //Arrange
             var content = string.Format(_trxTemplate, expectedTotal, expectedSuccess, expectedFailed, startDateString, endDateString, string.Empty);
-            var expected = new TestResultsSummaryModel(expectedTotal, expectedSuccess, expectedFailed, expectedDuration);
+            var expected = new TestResultsSummary(expectedTotal, expectedSuccess, expectedFailed, expectedDuration);
 
             //Act
             var summary = _parser.ParseTrxSummaryContent(content);
@@ -36,7 +36,7 @@ namespace Carlton.Base.TestBed.Test
         }
 
         [Fact]
-        public void TrxParser_ParsingSummarayModel_InvalidContent_ThrowsArgumentException()
+        public void TrxParser_ParsingSummaryModel_InvalidContent_ThrowsArgumentException()
         {
             //Arrange
             var content = "this is garbage content";
@@ -48,7 +48,7 @@ namespace Carlton.Base.TestBed.Test
 
         [Theory]
         [MemberData(nameof(TrxTestHelper.GetItems), MemberType = typeof(TrxTestHelper))]
-        public void TrxParser_ParsingTestResultsModel_Success((string replacementMarkup, ReadOnlyCollection<TestResultItemModel> expectedOutput) expectedResults)
+        public void TrxParser_ParsingTestResultsModel_Success((string replacementMarkup, ReadOnlyCollection<TestResult> expectedOutput) expectedResults)
         {
             //Arrange
             var content = string.Format(_trxTemplate, 3, 1, TrxTestHelper.StartDate_1, TrxTestHelper.EndDate_1, TrxTestHelper.SummaryDuration_1, expectedResults.replacementMarkup);

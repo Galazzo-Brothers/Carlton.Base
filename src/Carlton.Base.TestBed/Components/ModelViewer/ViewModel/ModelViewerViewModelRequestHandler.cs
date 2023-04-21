@@ -7,6 +7,6 @@ public sealed class ModelViewerViewModelRequestHandler : TestBedRequestHandlerVi
 
     public override Task<ModelViewerViewModel> Handle(ModelViewerViewModelRequest request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(new ModelViewerViewModel(State.TestComponentParameters));
+        return Task.FromResult(new ModelViewerViewModel(State.SelectedComponentParameters));
     }
 }

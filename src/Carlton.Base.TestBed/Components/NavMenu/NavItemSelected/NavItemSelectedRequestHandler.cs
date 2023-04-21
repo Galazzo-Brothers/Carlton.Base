@@ -8,7 +8,7 @@ public sealed class NavItemSelectedRequestHandler : TestBedEventRequestHandlerBa
 
     public async override Task<Unit> Handle(NavItemSelectedRequest request, CancellationToken cancellationToken)
     {
-        await State.UpdateSelectedItemId(request.Sender, request.ComponentEvent.SelectedGroupID, request.ComponentEvent.SelectedItemID);
+        await State.SelectComponentState(request.Sender, request.ComponentEvent.SelectedGroupID, request.ComponentEvent.SelectedItemID);
         return Unit.Value;
     }
 }

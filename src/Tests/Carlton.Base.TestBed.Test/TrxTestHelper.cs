@@ -29,10 +29,10 @@ public static class TrxTestHelper
     public readonly static double TestDurationResult_3 = Math.Round(TimeSpan.Parse(TestDuration_3).TotalMilliseconds, 2);
     public readonly static double TestDurationResult_4 = Math.Round(TimeSpan.Parse(TestDuration_4).TotalMilliseconds, 2);
 
-    public readonly static TestResult TestResult_1 = TestResult.Passed;
-    public readonly static TestResult TestResult_2 = TestResult.Passed;
-    public readonly static TestResult TestResult_3 = TestResult.Failed;
-    public readonly static TestResult TestResult_4 = TestResult.Passed;
+    public readonly static TestResultOutcomes TestResult_1 = TestResultOutcomes.Passed;
+    public readonly static TestResultOutcomes TestResult_2 = TestResultOutcomes.Passed;
+    public readonly static TestResultOutcomes TestResult_3 = TestResultOutcomes.Failed;
+    public readonly static TestResultOutcomes TestResult_4 = TestResultOutcomes.Passed;
 
     public readonly static string UnitTestResult_1 = @$"
     <UnitTestResult executionId=""d7b75d23-a952-4578-8542-326abd65c695"" testId=""272c9292-71fc-4aaa-5ed5-d7869de15ae4"" testName=""{TestName_1}"" computerName=""BUMBLEBEE"" duration=""00:00:00.0768910"" startTime=""2012-02-19T09:25:25.2729281-05:00"" endTime=""2012-02-19T09:25:25.9379661-05:00"" testType=""13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b"" outcome=""{TestResult_1}"" testListId=""8c84fa94-04c1-424b-9868-57a2d4851a1d"" relativeResultsDirectory=""d7b75d23-a952-4578-8542-326abd65c695"">
@@ -154,21 +154,21 @@ public static class TrxTestHelper
       </Output>
     </UnitTestResult>";
 
-    public static readonly ReadOnlyCollection<TestResultItemModel> TestSummaryModel_1 = new List<TestResultItemModel>()
+    public static readonly ReadOnlyCollection<TestResult> TestSummaryModel_1 = new List<TestResult>()
     {
-        new TestResultItemModel(TestName_1, TestResult_1, TestDurationResult_1)
+        new TestResult(TestName_1, TestResult_1, TestDurationResult_1)
     }.AsReadOnly();
-    public readonly static ReadOnlyCollection<TestResultItemModel> TestSummaryModel_2 = new List<TestResultItemModel>()
+    public readonly static ReadOnlyCollection<TestResult> TestSummaryModel_2 = new List<TestResult>()
     {
-        new TestResultItemModel(TestName_1, TestResult_1, TestDurationResult_1),
-        new TestResultItemModel(TestName_2, TestResult_2, TestDurationResult_2)
+        new TestResult(TestName_1, TestResult_1, TestDurationResult_1),
+        new TestResult(TestName_2, TestResult_2, TestDurationResult_2)
     }.AsReadOnly();
-    public readonly static ReadOnlyCollection<TestResultItemModel> TestSummaryModel_3 = new List<TestResultItemModel>()
+    public readonly static ReadOnlyCollection<TestResult> TestSummaryModel_3 = new List<TestResult>()
     {
-        new TestResultItemModel(TestName_1, TestResult_1, TestDurationResult_1),
-        new TestResultItemModel(TestName_2, TestResult_2, TestDurationResult_2),
-        new TestResultItemModel(TestName_3, TestResult_3, TestDurationResult_3),
-        new TestResultItemModel(TestName_4, TestResult_4, TestDurationResult_4)
+        new TestResult(TestName_1, TestResult_1, TestDurationResult_1),
+        new TestResult(TestName_2, TestResult_2, TestDurationResult_2),
+        new TestResult(TestName_3, TestResult_3, TestDurationResult_3),
+        new TestResult(TestName_4, TestResult_4, TestDurationResult_4)
     }.AsReadOnly();
 
     public static IEnumerable<object[]> GetItems()

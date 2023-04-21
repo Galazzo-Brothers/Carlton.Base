@@ -2,6 +2,6 @@
 
 public interface ITrxParser
 {
-    public IEnumerable<TestResultItemModel> ParseTrxTestResultsContent(string content);
-    public TestResultsSummaryModel ParseTrxSummaryContent(string content);
+    public IEnumerable<TestResult> ParseTrxTestResultsContent(string content);
+    public TestResultsSummary ParseTrxSummaryContent(string content);
 }

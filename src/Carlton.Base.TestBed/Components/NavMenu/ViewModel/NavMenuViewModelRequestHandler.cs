@@ -9,15 +9,13 @@ public sealed class NavMenuViewModelRequestHandler : TestBedRequestHandlerViewMo
 
     public override Task<NavMenuViewModel> Handle(NavMenuViewModelRequest request, CancellationToken cancellationToken)
     {
-        var selectGroups = State.RegisteredComponentStates.Select((group, groupIndex) =>
+        var selectGroups = State.ComponentStates.Select((group, groupIndex) =>
         {
-            var items = group.Select((item, itemIndex) => new SelectItem<RegisteredComponentState>(item.DisplayName, itemIndex, item));
+            var items = group.Select((item, itemIndex) => new SelectItem<ComponentState>(item.DisplayName, itemIndex, item));
             var displayName = group.Key.GetDisplayName();
-            return new SelectGroup<RegisteredComponentState>(displayName, groupIndex, items);
+            return new SelectGroup<ComponentState>(displayName, groupIndex, items);
         });
 
         return Task.FromResult(new NavMenuViewModel(selectGroups, State.SelectedComponentState));
     }
-
-
 }

@@ -6,3 +6,10 @@ public enum ParameterObjectType
     ViewModel = 2
 }
 
+
+public enum TestResultOutcomes
+{
+    Passed,
+    Failed,
+    NotRun
+}

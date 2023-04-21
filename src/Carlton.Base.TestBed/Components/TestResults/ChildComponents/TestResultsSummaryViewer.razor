@@ -2,23 +2,24 @@
 
 <div class="test-results-summary">
     <div class="summary-metric">
-        <div class="summary-count summary-total-count">10</div>
+        <div class="summary-count summary-total-count">@Summary.Total</div>
         <span class="summary-text">Total</span>
     </div>
     <div class="summary-metric">
-        <div class="summary-count summary-passing-count">8</div>
+        <div class="summary-count summary-passing-count">@Summary.Passed</div>
         <span class="summary-text">Passing</span>
     </div>
     <div class="summary-metric">
-        <div class="summary-count summary-failing-count">2</div>
+        <div class="summary-count summary-failing-count">@Summary.Failed</div>
         <span class="summary-text">Failing</span>
     </div>
     <div class="summary-metric">
-        <div class="summary-count summary-time-count">10</div>
+        <div class="summary-count summary-time-count">@Summary.Duration</div>
         <span class="summary-text">Time (sec)</span>
     </div>
 </div>
 
-@code {
-
+@code{
+    [Parameter]
+    public TestResultsSummary Summary { get; set; }
 }

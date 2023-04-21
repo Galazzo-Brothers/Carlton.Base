@@ -2,9 +2,8 @@
 
 public enum TestBedStateEvents
 {
-    SelectedItem,
+    ComponentStateSelected,
     ParametersChanged,
-    StatusChanged,
-    ComponentEventAdded,
+    ComponentEventRecorded,
     ComponentEventsCleared
 }

@@ -6,25 +6,27 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 
     private readonly IList<ComponentRecordedEvent> _componentEvents = new List<ComponentRecordedEvent>();
 
-    public IEnumerable<IGrouping<Type, RegisteredComponentState>> RegisteredComponentStates { get; init; }
-    public RegisteredComponentState SelectedComponentState { get; private set; }
-    public Type TestComponentType { get { return SelectedComponentState.Type; } }
-    public ComponentParameters TestComponentParameters { get; private set; }
+    public IEnumerable<IGrouping<Type, ComponentState>> ComponentStates { get; init; }
+    public ComponentState SelectedComponentState { get; private set; }
+    public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
+    public ComponentParameters SelectedComponentParameters { get; private set; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents { get { return _componentEvents; } }
+    public Dictionary<Type, TestResultsSummary> ComponentTestResultsReports { get; init; } = new Dictionary<Type, TestResultsSummary>();
 
-    public TestBedState(IEnumerable<IGrouping<Type, RegisteredComponentState>> registeredComponentStates)
+
+    public TestBedState(IEnumerable<IGrouping<Type, ComponentState>> componentStates)
     {
-        RegisteredComponentStates = registeredComponentStates;
-        SelectedComponentState = registeredComponentStates.ElementAt(0).ElementAt(0);
-        TestComponentParameters = SelectedComponentState.ComponentParameters;
+        ComponentStates = componentStates;
+        SelectedComponentState = ComponentStates.ElementAt(0).ElementAt(0);
+        SelectedComponentParameters = SelectedComponentState.ComponentParameters;
     }
 
-    public async Task AddTestComponentEvents(object sender, string eventName, object evt)
+    public async Task RecordComponentEvent(object sender, string eventName, object evt)
     {
         _componentEvents.Add(new ComponentRecordedEvent(eventName, evt));
         
         if(StateChanged != null)
-            await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventAdded);
+            await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventRecorded);
     }
 
     public async Task ClearComponentEvents(object sender)
@@ -33,21 +35,28 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
         await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventsCleared);
     }
 
-    public async Task UpdateTestComponentParameters(object sender, object parameterObj)
+    public async Task UpdateSelectedComponentParameters(object sender, object parameterObj)
     {
-        TestComponentParameters = new ComponentParameters(parameterObj, TestComponentParameters.ParameterObjType);
+        SelectedComponentParameters = new ComponentParameters(parameterObj, SelectedComponentParameters.ParameterObjType);
         await InvokeStateChanged(sender, TestBedStateEvents.ParametersChanged);
     }
 
-    public async Task UpdateSelectedItemId(object sender, int componentID, int stateID)
+    public async Task SelectComponentState(object sender, int componentID, int stateID)
     {
-        SelectedComponentState = RegisteredComponentStates
+        SelectedComponentState = ComponentStates
             .ElementAt(componentID)
             .ElementAt(stateID);
 
-        TestComponentParameters = SelectedComponentState.ComponentParameters;
+        SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         
-        await InvokeStateChanged(sender, TestBedStateEvents.SelectedItem);
+        await InvokeStateChanged(sender, TestBedStateEvents.ComponentStateSelected);
+    }
+
+    public async Task UpdateComponentTestResultsReports(IEnumerable<TestResultsReport> reports)
+    {
+        ComponentTestResultsReports.Clear();
+        
+        
     }
 
     private async Task InvokeStateChanged(object sender, TestBedStateEvents evt)

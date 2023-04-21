@@ -8,7 +8,7 @@ public sealed class ModelChangedRequestHandler : TestBedEventRequestHandlerBase<
 
     public async override Task<Unit> Handle(ModelChangedRequest request, CancellationToken cancellationToken)
     {
-        await State.UpdateTestComponentParameters(request.Sender, request.ComponentEvent.ComponentParameters);
+        await State.UpdateSelectedComponentParameters(request.Sender, request.ComponentEvent.ComponentParameters);
         return Unit.Value;
     }
 }
