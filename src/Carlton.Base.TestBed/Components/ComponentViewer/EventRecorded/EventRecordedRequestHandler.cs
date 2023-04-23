@@ -1,12 +1,13 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class EventRecordedRequestHandler : TestBedEventRequestHandlerBase<EventRecordedRequest>
+public sealed class EventRecordedRequestHandler : TestBedRequestHandlerBase, IRequestHandler<CommandRequest<EventRecorded>>
 {
-    public EventRecordedRequestHandler(TestBedState state) : base(state) { }
-
-    public async override Task<Unit> Handle(EventRecordedRequest request, CancellationToken cancellationToken)
+    public EventRecordedRequestHandler(TestBedState state) : base(state)
     {
-        await State.RecordComponentEvent(request.Sender, request.ComponentEvent.Name, request.ComponentEvent.Obj);
-        return Unit.Value;
+    }
+
+    public async Task Handle(CommandRequest<EventRecorded> request, CancellationToken cancellationToken)
+    {
+        await State.RecordComponentEvent(request.Sender, request.Command.Name, request.Command.Obj);
     }
 }

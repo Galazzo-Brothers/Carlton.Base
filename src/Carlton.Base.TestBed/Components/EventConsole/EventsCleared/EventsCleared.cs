@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed record EventsCleared : ComponentEventBase<EventConsoleViewModel>;
+public sealed record EventsCleared : ICommand;

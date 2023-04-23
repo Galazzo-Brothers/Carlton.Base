@@ -54,9 +54,7 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
 
     public async Task UpdateComponentTestResultsReports(IEnumerable<TestResultsReport> reports)
     {
-        ComponentTestResultsReports.Clear();
-        
-        
+        ComponentTestResultsReports.Clear();        
     }
 
     private async Task InvokeStateChanged(object sender, TestBedStateEvents evt)

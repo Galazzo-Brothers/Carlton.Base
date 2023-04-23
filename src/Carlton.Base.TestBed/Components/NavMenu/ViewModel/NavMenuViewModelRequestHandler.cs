@@ -1,13 +1,12 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class NavMenuViewModelRequestHandler : TestBedRequestHandlerViewModelBase<NavMenuViewModelRequest, NavMenuViewModel>
+public sealed class NavMenuViewModelRequestHandler : TestBedRequestHandlerBase, IRequestHandler<ViewModelRequest<NavMenuViewModel>, NavMenuViewModel>
 {
-    public NavMenuViewModelRequestHandler(TestBedState state)
-        :base(state)
+    public NavMenuViewModelRequestHandler(TestBedState state) : base(state)
     {
     }
 
-    public override Task<NavMenuViewModel> Handle(NavMenuViewModelRequest request, CancellationToken cancellationToken)
+    public Task<NavMenuViewModel> Handle(ViewModelRequest<NavMenuViewModel> request, CancellationToken cancellationToken)
     {
         var selectGroups = State.ComponentStates.Select((group, groupIndex) =>
         {

@@ -1,5 +1,7 @@
 ﻿namespace Carlton.Base.TestBed;
 
+internal sealed record NavMenuBuilderTestComponent(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);
+
 public sealed class NavMenuViewModelBuilder
 {
     private readonly List<NavMenuBuilderTestComponent> _internalState;

@@ -9,12 +9,6 @@
     public RenderFragment<CarltonDataWrapperContext<TViewModel>> ChildComponent { get; set; }
 
     [Inject]
-    private IViewModelRequest<TViewModel> ViewModelRequest { get; set; }
-
-    [Inject]
-    private IComponentEventRequestFactory Factory { get; set; }
-
-    [Inject]
     private IMediator Mediatr { get; set; }
 
     [Inject]
@@ -37,7 +31,7 @@
         Context = new CarltonDataWrapperContext<TViewModel>(vm, async (sender, evt) => await OnComponentEvent(sender, evt));
 
         //Gather the StateEvents, this component should be listening for, from the attributes on the ViewModelRequest object
-        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) ViewModelRequest.GetType().GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
+        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) typeof(TViewModel).GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
         StateEvents = attributes.SelectMany(_ => _.StateEventes);
 
         //Continue initilization
@@ -46,13 +40,14 @@
 
     protected async Task<TViewModel> GetViewModel()
     {
-        return await Mediatr.Send(ViewModelRequest);
+        var request = new ViewModelRequest<TViewModel>(this);
+        return await Mediatr.Send(request);
     }
 
-    private async Task OnComponentEvent<TComponentEvent>(ICarltonComponent<TViewModel> sender, TComponentEvent evt)
-        where TComponentEvent : IComponentEvent<TViewModel>
+    private async Task OnComponentEvent(object sender, ICommand command)
     {
-        var request = Factory.CreateRequest(sender, evt);
+        var commandType = command.GetType();
+        var request = Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
         await Mediatr.Send(request);
     }
 

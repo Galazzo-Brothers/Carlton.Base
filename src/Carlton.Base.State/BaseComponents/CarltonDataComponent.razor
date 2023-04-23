@@ -23,7 +23,7 @@
 
     private Dictionary<string, object> DynamicComponentParameters(CarltonDataWrapperContext<TViewModel> context)
     {
-        var eventCallback = EventCallback.Factory.Create<IComponentEvent<TViewModel>>(this, (evt) => context.OnComponentEvent(CarltonComponent, evt));
+        var eventCallback = EventCallback.Factory.Create<ICommand>(this, (command) => context.OnComponentEvent(CarltonComponent, command));
 
         return new Dictionary<string, object>
             {
