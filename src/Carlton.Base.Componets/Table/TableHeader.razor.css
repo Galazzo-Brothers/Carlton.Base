@@ -1,7 +1,14 @@
 ﻿
+.table-header-row{
+    display:flex;
+    width: 100%;
+    margin-left: 10px;
+}
+
 .header-row-item {
     display: flex;
     gap: 5px;
+    justify-content: left;
     color: var(--primary-text-color);
     font-weight: bold;
 }

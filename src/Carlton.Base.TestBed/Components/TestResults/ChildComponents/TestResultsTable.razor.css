@@ -1,0 +1,17 @@
+﻿
+/*Deep Style Overrides*/
+.test-results-table ::deep .table-container{
+    width: 85%;
+}
+
+.test-results-table ::deep .heading-0 {
+    flex-basis: 5%;
+}
+
+.test-results-table ::deep .heading-1 {
+    flex-basis: 50%;
+}
+
+.test-results-table ::deep .heading-2 {
+    flex-basis: 5%;
+}

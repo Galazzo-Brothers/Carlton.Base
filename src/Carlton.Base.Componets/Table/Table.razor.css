@@ -10,7 +10,6 @@
 .table-container {
     display: flex;
     flex-flow: column nowrap;
-    width: 80%;
     margin: 0 auto;
     background-color: var(--card-background-color);
     border-radius: 4px;

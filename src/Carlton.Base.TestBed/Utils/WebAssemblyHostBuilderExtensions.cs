@@ -13,6 +13,7 @@ public static class WebAssemblyHostBuilderExtensions
 
         builder.Services.AddSingleton(state);
         builder.Services.AddSingleton<ICarltonStateStore<TestBedStateEvents>>(state);
+        builder.Services.AddSingleton<ITrxParser, TrxParser>();
         builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assemblies);

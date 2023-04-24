@@ -1,23 +1,25 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class TestResultsReportViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<TestResultsReportViewerViewModelRequest, TestResultsViewModel>
+public sealed class TestResultsReportViewerViewModelRequestHandler : TestBedRequestHandlerBase, IRequestHandler<ViewModelRequest<TestResultsViewModel>, TestResultsViewModel>
 {
-    public TestResultsReportViewerViewModelRequestHandler(TestBedState state)
-        : base(state)
+    private readonly HttpClient _client;
+    private readonly ITrxParser _trxParser;
+
+
+    public TestResultsReportViewerViewModelRequestHandler(TestBedState state, HttpClient client, ITrxParser trxParser) : base(state)
     {
+        _client = client;
+        _trxParser = trxParser;
     }
 
-    public override Task<TestResultsViewModel> Handle(TestResultsReportViewerViewModelRequest request, CancellationToken cancellationToken)
+    public async Task<TestResultsViewModel> Handle(ViewModelRequest<TestResultsViewModel> request, CancellationToken cancellationToken)
     {
-        var x = new List<TestResult>
-        {
-            new TestResult("Test 1", TestResultOutcomes.Passed, 2.2),
-            new TestResult("Test 2", TestResultOutcomes.Passed, 2.2),
-            new TestResult("Test 3", TestResultOutcomes.Failed, 2.5)
-        };
+        var route = "/UnitTestResults/UnitTestResults.trx";
+        var xml = await _client.GetStringAsync(route , cancellationToken);
 
-        var y = new TestResultsSummary(10, 8, 2, .05);
+        var summary = _trxParser.ParseTrxSummaryContent(xml);
+        var results = _trxParser.ParseTrxTestResultsContent(xml);
 
-        return Task.FromResult(new TestResultsViewModel(x, y));
+        return new TestResultsViewModel(results, summary);
     }
 }

@@ -1,17 +1,19 @@
 ﻿@namespace Carlton.Base.Components
 @typeparam TItem
 
-
-@foreach(var heading in Headings)
-{
-    <div class="@HeaderRowItemCss(heading.OrderColumn)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
-        <span class="heading-text">@heading.DisplayName</span>
-        <div class="sort-arrows">
-            <span class="arrow-ascending mdi mdi-arrow-up"></span>
-            <span class="arrow-descending mdi mdi-arrow-down"></span>
+<div class="table-header-row">
+    @foreach(var (heading, i) in Headings.WithIndex())
+    {
+        <div class="@HeaderRowItemCss(heading.OrderColumn, i)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
+            <span class="heading-text">@heading.DisplayName</span>
+            <div class="sort-arrows">
+                <span class="arrow-ascending mdi mdi-arrow-up"></span>
+                <span class="arrow-descending mdi mdi-arrow-down"></span>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
+
 
 @code {
     [Parameter]
@@ -26,13 +28,14 @@
     [Parameter]
     public EventCallback<TableOrderingChangedArgs> OnItemsOrdered { get; set; }
 
-    private string HeaderRowItemCss(string selectedOrderColumn)
+    private string HeaderRowItemCss(string selectedOrderColumn, int index)
     {
         return new CssBuilder("header-row-item")
                 .AddClass("row-item")
                 .AddClass("selected", OrderColumn == selectedOrderColumn)
                 .AddClass("ascending", OrderAscending)
                 .AddClass("descending", !OrderAscending)
+                .AddClass($"heading-{index}")
                 .Build();
     }
 

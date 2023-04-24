@@ -1,10 +1,12 @@
 ﻿@namespace Carlton.Base.TestBed
 
-<Table Headings="Headings" Items="TestResults" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
-    <RowTemplate Context="item"  >
-        <TestResultRow Item="item"  />
-    </RowTemplate>
-</Table>
+<div class="test-results-table">
+    <Table Headings="Headings" Items="TestResults" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+        <RowTemplate Context="item">
+            <TestResultRow Item="item" />
+        </RowTemplate>
+    </Table>
+</div>
 
 @code {
 
@@ -13,8 +15,8 @@
 
     private IEnumerable<TableHeadingItem> Headings
     {
-        get => new List<TableHeadingItem> 
-        { 
+        get => new List<TableHeadingItem>
+        {
             new TableHeadingItem("Result", "TestResultStatus"),
             new TableHeadingItem("Test Name", "TestName"),
             new TableHeadingItem("Duration", "TestDuration")

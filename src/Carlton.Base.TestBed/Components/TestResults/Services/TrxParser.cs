@@ -37,7 +37,7 @@ public class TrxParser : ITrxParser
                                    .Select(_ =>
                                    {
                                        var resultAttributes = _.Attributes().ToDictionary(attrib => attrib.Name, attrib => attrib.Value);
-                                       var testName = resultAttributes[TestName];
+                                       var testName = resultAttributes[TestName].Split('.').Last();
                                        var testResult = (TestResultOutcomes)Enum.Parse(typeof(TestResultOutcomes), resultAttributes[Outcome]);
                                        var duration = Math.Round(TimeSpan.Parse(resultAttributes[Duration]).TotalMilliseconds, 2);
 
