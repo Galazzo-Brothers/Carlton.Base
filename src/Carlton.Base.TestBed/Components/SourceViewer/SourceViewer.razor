@@ -11,29 +11,33 @@
 </div>
 
 @code {
-    private const string CODE_BLOCK_TEMPLATE = "<pre><code class='{0}'></code></pre>";
-    private const string PROJECT_NAME = "Carlton.Base.TestBed";
-    private IJSObjectReference _module;
+    public const string GetOutputSource = "getOutputSource";
+    public const string PostRender = "postRender";
 
+    private const string CodeBlockTemplate = "<pre><code class='{0}'></code></pre>";
+    private const string HTML = "html";
+
+    private IJSObjectReference _module;
     private string OutputMarkup { get; set; } = string.Empty;
 
     protected async override Task OnInitializedAsync()
     {
-        _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
+        var projectName = Assembly.GetExecutingAssembly().GetName().Name;
+        _module = await JSRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(nameof(SourceViewer)));
         await base.OnInitializedAsync();
     }
 
     protected async override Task OnParametersSetAsync()
     {
         //Set the Output Markup
-        OutputMarkup = string.Format(CODE_BLOCK_TEMPLATE, "html");
+        OutputMarkup = string.Format(CodeBlockTemplate, HTML);
         await base.OnParametersSetAsync();
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if(_module != null && ViewModel != null)
-            await _module.InvokeAsync<Task>("postRender", ViewModel.ComponentSource);
+            await _module.InvokeAsync<Task>(PostRender, ViewModel.ComponentSource);
 
         await base.OnAfterRenderAsync(firstRender);
     }

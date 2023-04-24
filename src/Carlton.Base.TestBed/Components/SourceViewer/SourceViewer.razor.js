@@ -1,6 +1,6 @@
 ﻿export function getOutputSource() {
-    var viewer = document.querySelector(".component-viewer");
-    var markup = viewer.innerHTML;
+    let viewer = document.querySelector(".component-viewer");
+    let markup = viewer.innerHTML;
     markup = markup.replaceAll("<!--!-->", "");
     markup = markup.replaceAll(/\n/g, "");
     return format(markup);
@@ -12,19 +12,19 @@ export function postRender(markup) {
 }
 
 function setOutputMarkup(markup) {
-    var block = document.querySelector('.test-component-output-source pre code');
+    let block = document.querySelector('.test-component-output-source pre code');
     block.textContent = markup;
 }
 
 function highlightCodeBlock() {
-    var blocks = document.querySelectorAll('pre code');
+    let blocks = document.querySelectorAll('pre code');
     Array.prototype.forEach.call(blocks, hljs.highlightBlock);
 };
 
 function format(html) {
-    var tab = '\t';
-    var result = '';
-    var indent = '';
+    let tab = '\t';
+    let result = '';
+    let indent = '';
 
     html.split(/>\s*</).forEach(function (element) {
         if (element.match(/^\/\w/)) {

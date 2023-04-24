@@ -1,22 +1,18 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class SourceViewerViewModelRequestHandler : TestBedRequestHandlerViewModelBase<SourceViewerViewModelRequest, SourceViewerViewModel>
+public sealed class SourceViewerViewModelRequestHandler : TestBedRequestHandlerBase, IRequestHandler<ViewModelRequest<SourceViewerViewModel>, SourceViewerViewModel>
 {
-    private const string PROJECT_NAME = "Carlton.Base.TestBed";
     private readonly IJSRuntime _jsRuntime;
 
-    public SourceViewerViewModelRequestHandler(IJSRuntime jsRuntime, TestBedState state) : base(state)
+    public SourceViewerViewModelRequestHandler(TestBedState state, IJSRuntime jsRuntime) : base(state)
     {
         _jsRuntime = jsRuntime;
     }
 
-    public async override Task<SourceViewerViewModel> Handle(SourceViewerViewModelRequest request, CancellationToken cancellationToken)
+    public async Task<SourceViewerViewModel> Handle(ViewModelRequest<SourceViewerViewModel> request, CancellationToken cancellationToken)
     {
-        var module = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{PROJECT_NAME}/Components/SourceViewer/sourceViewer.razor.js");
-        var markup = await module.InvokeAsync<string>("getOutputSource");
-
-        await module.DisposeAsync();
-
+        await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(nameof(SourceViewer)));
+        var markup = await module.InvokeAsync<string>(SourceViewer.GetOutputSource);
         return new SourceViewerViewModel(markup);
     }
 }
