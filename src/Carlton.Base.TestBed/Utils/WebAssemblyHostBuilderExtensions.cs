@@ -6,11 +6,12 @@ public static class WebAssemblyHostBuilderExtensions
         Action<NavMenuViewModelBuilder> navTreeAct,
         params Assembly[] assemblies)
     {
-        var NavTreeBuilder = new NavMenuViewModelBuilder();
-        navTreeAct(NavTreeBuilder);
-        var options = NavTreeBuilder.Build();
-        var state = new TestBedState(options);
+        //NavMenu Initialization
+        var NavMenuBuilder = new NavMenuViewModelBuilder();
+        navTreeAct(NavMenuBuilder);
+        var options = NavMenuBuilder.Build();
 
+        var state = new TestBedState(options);
         builder.Services.AddSingleton(state);
         builder.Services.AddSingleton<ICarltonStateStore<TestBedStateEvents>>(state);
         builder.Services.AddSingleton<ITrxParser, TrxParser>();

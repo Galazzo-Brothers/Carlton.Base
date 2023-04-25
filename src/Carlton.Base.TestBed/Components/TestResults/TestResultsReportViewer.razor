@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Base.TestBed
-@inherits CarltonComponentBase<TestResultsViewModel>
+@inherits CarltonComponentBase<TestResultsReportViewerViewModel>
 
 <div class="test-results-report">
-    <TestResultsSummaryViewer Summary="ViewModel.TestResultsSummary" />
-    <TestResultsTable TestResults="ViewModel.TestResults" />
+    <TestResultsSummaryViewer Summary="ViewModel.TestResultsReport.TestResultsSummary" />
+    <TestResultsTable TestResults="ViewModel.TestResultsReport.TestResults" />
 </div>
