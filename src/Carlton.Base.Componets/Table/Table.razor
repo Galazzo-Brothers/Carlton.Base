@@ -55,7 +55,7 @@
 
     private bool OrderAscending { get; set; } = true;
 
-    private IEnumerable<TItem> AllItems { get; set; }
+    private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
 
     protected override void OnInitialized()
     {

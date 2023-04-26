@@ -18,6 +18,7 @@ public static class WebAssemblyHostBuilderExtensions
         builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assemblies);
+                cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsReportViewerViewModel>, TestResultsReportViewerViewModel>, TestResultsReportViewerViewModelHttpBehavior>();
             });
 
         builder.Services.AddCarltonState(assemblies);

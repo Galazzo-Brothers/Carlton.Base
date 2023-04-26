@@ -9,9 +9,8 @@
 </div>
 
 @code {
-
     [Parameter]
-    public IEnumerable<TestResult> TestResults { get; set; }
+    public IEnumerable<TestResult> TestResults { get; set; } = new List<TestResult>();
 
     private IEnumerable<TableHeadingItem> Headings
     {
