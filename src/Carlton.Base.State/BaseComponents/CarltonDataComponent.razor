@@ -3,7 +3,10 @@
 @typeparam TViewModel
 @typeparam TStateEvents where TStateEvents : Enum
 
-<DynamicComponent @ref="Component" Type="DynamicComponentType" Parameters="DynamicComponentParameters" />
+@if(ViewModel != null)
+{
+    <DynamicComponent @ref="Component" Type="DynamicComponentType" Parameters="DynamicComponentParameters" />
+}
 
 @code {
     [Inject]
@@ -25,7 +28,7 @@
         }
     }
 
-    private TViewModel ViewModel { get; set; }
+    private TViewModel ViewModel { get; set; } 
 
     private Dictionary<string, object> DynamicComponentParameters
     {

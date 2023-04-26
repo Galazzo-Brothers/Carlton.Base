@@ -11,7 +11,7 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
     public ComponentParameters SelectedComponentParameters { get; private set; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents { get { return _componentEvents; } }
-    public Dictionary<string, TestResultsReport> ComponentTestResultsReports { get; init; } = new Dictionary<string, TestResultsReport>();
+    public IReadOnlyDictionary<string, TestResultsReport> ComponentTestResultsReports { get; private set; } = new Dictionary<string, TestResultsReport>();
 
 
     public TestBedState(IEnumerable<IGrouping<Type, ComponentState>> componentStates)
@@ -50,6 +50,11 @@ public class TestBedState : ICarltonStateStore<TestBedStateEvents>
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         
         await InvokeStateChanged(sender, TestBedStateEvents.ComponentStateSelected);
+    }
+
+    public void InitComponentTestResultsReports(IReadOnlyDictionary<string, TestResultsReport> testResultsReports)
+    {
+        ComponentTestResultsReports = testResultsReports;
     }
 
     private async Task InvokeStateChanged(object sender, TestBedStateEvents evt)

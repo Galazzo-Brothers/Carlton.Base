@@ -1,25 +1,21 @@
-﻿export function getOutputSource() {
-    let viewer = document.querySelector(".component-viewer");
+﻿
+export function highlightCodeBlock(selector) {
+    let block = document.querySelector(selector);
+    hljs.highlightElement(block);
+};
+
+export function getOutputSource(selector) {
+    let viewer = document.querySelector(selector);
     let markup = viewer.innerHTML;
     markup = markup.replaceAll("<!--!-->", "");
     markup = markup.replaceAll(/\n/g, "");
     return format(markup);
 }
 
-export function postRender(markup) {
-    setOutputMarkup(markup);
-    highlightCodeBlock();
+export function setCodeBlock(selector, source) {
+    let blocks = document.querySelector(selector);
+    blocks.textContent = source;
 }
-
-function setOutputMarkup(markup) {
-    let block = document.querySelector('.test-component-output-source pre code');
-    block.textContent = markup;
-}
-
-function highlightCodeBlock() {
-    let blocks = document.querySelectorAll('pre code');
-    Array.prototype.forEach.call(blocks, hljs.highlightBlock);
-};
 
 function format(html) {
     let tab = '\t';
@@ -40,4 +36,3 @@ function format(html) {
 
     return result.substring(1, result.length - 3);
 }
-

@@ -10,10 +10,6 @@
     <nullable>disable</nullable>
     <PackageVersion>1.0.1</PackageVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="Components\SourceViewer\SourceViewer.razor.js" />
-  </ItemGroup>
   
   <ItemGroup>
     <SupportedPlatform Include="browser" />

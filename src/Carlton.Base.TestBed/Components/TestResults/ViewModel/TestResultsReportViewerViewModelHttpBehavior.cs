@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace Carlton.Base.TestBed;
+﻿namespace Carlton.Base.TestBed;
 
 public class TestResultsReportViewerViewModelHttpBehavior : IPipelineBehavior<ViewModelRequest<TestResultsReportViewerViewModel>, TestResultsReportViewerViewModel>
 {
@@ -17,8 +15,6 @@ public class TestResultsReportViewerViewModelHttpBehavior : IPipelineBehavior<Vi
 
     public async Task<TestResultsReportViewerViewModel> Handle(ViewModelRequest<TestResultsReportViewerViewModel> request, RequestHandlerDelegate<TestResultsReportViewerViewModel> next, CancellationToken cancellationToken)
     {
-        System.Console.WriteLine($"Middleware");
-
         var refreshRequired = !_state.ComponentTestResultsReports.Any();
 
         if(refreshRequired)
@@ -30,13 +26,7 @@ public class TestResultsReportViewerViewModelHttpBehavior : IPipelineBehavior<Vi
         }
 
 
-        var x = await next();
-
-        System.Console.WriteLine($"Middleware ViewModel: {JsonSerializer.Serialize(x)}");
-        System.Console.WriteLine($"Middleware ViewModel: {x == null}");
-
-
-        return x;
+        return await next();
     }
 
     private async Task<IEnumerable<TestResult>> GetTestData(CancellationToken cancellationToken)
@@ -49,6 +39,8 @@ public class TestResultsReportViewerViewModelHttpBehavior : IPipelineBehavior<Vi
 
     private void SaveResults(IEnumerable<IGrouping<string, TestResult>> groups)
     {
+        var results = new Dictionary<string, TestResultsReport>();
+
         foreach(var group in groups)
         {
             var total = group.Count();
@@ -57,11 +49,13 @@ public class TestResultsReportViewerViewModelHttpBehavior : IPipelineBehavior<Vi
             var duration = group.Sum(_ => Math.Round(_.TestDuration));
             var summary = new TestResultsSummary(total, passed, failed, duration);
 
-            _state.ComponentTestResultsReports.Add(group.Key, new TestResultsReport
+            results.Add(group.Key, new TestResultsReport
                 (
                     group,
                     summary
                 ));
         }
+
+        _state.InitComponentTestResultsReports(results);
     }
 }
