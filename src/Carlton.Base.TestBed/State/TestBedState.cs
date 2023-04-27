@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public class TestBedState : ICarltonStateStore<TestBedStateEvents>
+public class TestBedState : IStateStore<TestBedStateEvents>
 {
     public event Func<object, TestBedStateEvents, Task> StateChanged;
 

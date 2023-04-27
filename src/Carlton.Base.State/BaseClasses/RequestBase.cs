@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.State;
 
-public abstract class ComponentRequestBase
+public abstract class RequestBase
 {
     public object Sender { get; init; }
 
@@ -11,7 +11,7 @@ public abstract class ComponentRequestBase
     public DateTime CompletedDateTime { get; private set; }
     public bool ServerCalled { get; private set; }
 
-    protected ComponentRequestBase(object sender)
+    protected RequestBase(object sender)
     {
         Sender = sender;
         CreatedDateTime = DateTime.UtcNow;

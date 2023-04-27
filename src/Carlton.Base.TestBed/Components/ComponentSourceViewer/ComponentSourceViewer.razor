@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Base.TestBed
-@inherits CarltonComponentBase<ComponentSourceViewerViewModel>
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
+@inherits DataComponentBase<ComponentSourceViewerViewModel>
 
 
 <SourceViewer Language="html" Source="@ViewModel.ComponentSource" />

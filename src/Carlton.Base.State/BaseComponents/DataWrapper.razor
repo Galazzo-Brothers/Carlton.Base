@@ -10,13 +10,13 @@
 
 @code {
     [Inject]
-    private ICarltonComponent<TViewModel> CarltonComponent { get; set; }
+    private IDataComponent<TViewModel> CarltonComponent { get; set; }
 
     [Inject]
     private IMediator Mediatr { get; set; }
 
     [Inject]
-    private ICarltonStateStore<TStateEvents> State { get; set; }
+    private IStateStore<TStateEvents> State { get; set; }
 
     private DynamicComponent Component { get; set; }
 
@@ -38,7 +38,7 @@
             return new Dictionary<string, object>
             {
                 {"ViewModel", ViewModel},
-                {"GetViewModel", GetViewModel },
+                {"GetViewModel", async () => await GetViewModel() },
                 {"OnComponentEvent", eventCallback}
             };
         }
@@ -55,8 +55,8 @@
         ViewModel = await GetViewModel();
 
         //Gather the StateEvents, this component should be listening for, from the attributes on the ViewModelRequest object
-        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) typeof(TViewModel).GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
-        StateEvents = attributes.SelectMany(_ => _.StateEventes);
+        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) DynamicComponentType.GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
+        StateEvents = attributes.SelectMany(_ => _.StateEvents);
 
         //Continue initilization
         await base.OnInitializedAsync();

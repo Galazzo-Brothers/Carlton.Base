@@ -1,6 +1,9 @@
 ﻿@namespace Carlton.Base.TestBed
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventRecorded)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventsCleared)]
+@*@attribute [RefreshViewModel<EventConsoleViewModel>("/Page/Stuff")]*@
 
-@inherits CarltonComponentBase<EventConsoleViewModel>
+@inherits DataComponentBase<EventConsoleViewModel>
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@ConsoleText" />

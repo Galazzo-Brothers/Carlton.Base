@@ -1,5 +1,7 @@
 ﻿@namespace Carlton.Base.TestBed
-@inherits CarltonComponentBase<ComponentViewerViewModel>
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ParametersChanged)]
+@inherits DataComponentBase<ComponentViewerViewModel>
 
 <div class="component-viewer">
     <DynamicComponent @ref="CurrentComponent" Type="ViewModel.ComponentType" Parameters="ComponentParameters" />

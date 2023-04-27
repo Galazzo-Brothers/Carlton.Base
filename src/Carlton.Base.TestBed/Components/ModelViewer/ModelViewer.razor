@@ -1,5 +1,7 @@
 ﻿@namespace Carlton.Base.TestBed
-@inherits CarltonComponentBase<ModelViewerViewModel>
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ParametersChanged)]
+@inherits DataComponentBase<ModelViewerViewModel>
 
 <div class="view-model-viewer">
     <div class="form-group">

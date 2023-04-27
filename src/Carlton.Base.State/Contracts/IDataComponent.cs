@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.State;
 
-public interface ICarltonComponent<TViewModel>
+public interface IDataComponent<TViewModel>
 {
     TViewModel ViewModel { get; set; }
     Func<Task<TViewModel>> GetViewModel { get; init; }

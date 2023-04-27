@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Base.TestBed
-@inherits CarltonComponentBase<NavMenuViewModel>
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
+@inherits DataComponentBase<NavMenuViewModel>
 
 
 <AccordionSelectGroup TValue="ComponentState"

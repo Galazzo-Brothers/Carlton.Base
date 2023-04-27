@@ -7,7 +7,7 @@ public static class ContainerExtensions
         services.Scan(_ =>
             {
                 _.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(ICarltonComponent<>)))
+                    .AddClasses(classes => classes.AssignableTo(typeof(IDataComponent<>)))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
             });

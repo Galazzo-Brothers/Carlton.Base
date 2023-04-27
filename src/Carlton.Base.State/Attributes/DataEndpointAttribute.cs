@@ -1,12 +1,15 @@
 ﻿namespace Carlton.Base.State;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class RefreshViewModelAttribute : Attribute
+public class DataEndpointAttribute : Attribute
 {
+    public HttpVerb HttpVerb { get; init; }
     public string Route { get; init; } 
 
-    public RefreshViewModelAttribute(string route)
+    public DataEndpointAttribute(string route)
     {
         Route = route;
     }
 }
+
+

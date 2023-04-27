@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.State;
 
-public class CommandRequest<TStateCommand> : ComponentRequestBase, IRequest
+public class CommandRequest<TStateCommand> : RequestBase, IRequest
     where TStateCommand : ICommand
 {
     public TStateCommand Command { get; init; }
