@@ -1,13 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class NavItemSelectedRequestHandler : TestBedRequestHandlerBase, IRequestHandler<CommandRequest<NavItemSelected>>
+public sealed class NavItemSelectedRequestHandler : TestBedCommandRequestHandler<NavItemSelectedCommand>
 {
-    public NavItemSelectedRequestHandler(TestBedState state) : base(state)
+    public NavItemSelectedRequestHandler(ICommandProcessor processor) : base(processor)
     {
-    }
-
-    public async Task Handle(CommandRequest<NavItemSelected> request, CancellationToken cancellationToken)
-    {
-        await State.SelectComponentState(request.Sender, request.Command.SelectedGroupID, request.Command.SelectedItemID);
     }
 }

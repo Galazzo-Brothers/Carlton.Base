@@ -9,7 +9,7 @@
         <Console Text="@ViewModelJson"
                  IsReadOnly="false"
                  IsValid="@IsValid"
-                 OnChangeCallback="(str) => OnViewModelChanged(str)" />
+                 OnChangeCallback="OnViewModelChanged" />
     </div>
 </div>
 
@@ -29,10 +29,15 @@
     {
         try
         {
+            //Parse New ViewModel String
             var type = ViewModel.ComponentParameters.ParameterObj.GetType();
             var deserializedViewModel = JsonSerializer.Deserialize(vmStr, type);
             IsValid = true;
-            await base.OnComponentEvent.InvokeAsync(new ModelChanged(deserializedViewModel));
+            
+            //If Parse succeeds Send ComponentEvent
+            var paramObjType = ViewModel.ComponentParameters.ParameterObjType;
+            var componentParameters = new ComponentParameters(deserializedViewModel, paramObjType);
+            await base.OnComponentEvent.InvokeAsync(new ModelChangedCommand(componentParameters));
         }
         catch(Exception)
         {

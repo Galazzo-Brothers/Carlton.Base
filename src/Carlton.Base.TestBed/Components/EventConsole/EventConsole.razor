@@ -8,7 +8,7 @@
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@ConsoleText" />
-    <FloatingActionButton Icon="delete" PositionRight="3" PositionBottom="5" OnClickCallback="() => base.OnComponentEvent.InvokeAsync(new EventsCleared())" />
+    <FloatingActionButton Icon="delete" PositionRight="3" PositionBottom="5" OnClickCallback="OnClick" />
 </div>
 
 
@@ -24,6 +24,11 @@
         }
 
         base.OnParametersSet();
+    }
+
+    private async Task OnClick()
+    {
+        await base.OnComponentEvent.InvokeAsync(new EventsClearedCommand());
     }
 }
 

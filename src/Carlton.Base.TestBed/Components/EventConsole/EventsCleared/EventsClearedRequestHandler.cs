@@ -1,14 +1,9 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class EventsClearedRequestHandler : TestBedRequestHandlerBase, IRequestHandler<CommandRequest<EventsCleared>>
+public sealed class EventsClearedRequestHandler : TestBedCommandRequestHandler<EventsClearedCommand>
 {
-    public EventsClearedRequestHandler(TestBedState state) : base(state)
+    public EventsClearedRequestHandler(ICommandProcessor processor) : base(processor)
     {
-    }
-
-    public async Task Handle(CommandRequest<EventsCleared> request, CancellationToken cancellationToken)
-    {
-        await State.ClearComponentEvents(request.Sender);
     }
 }
 

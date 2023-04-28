@@ -5,14 +5,12 @@
 
 
 <AccordionSelectGroup TValue="ComponentState"
-  Groups="SelectGroups"
-  SelectedItem="ViewModel.SelectedItem"
-  OnSelectedItemChanged="async (selectedItem) =>
-    await base.OnComponentEvent.InvokeAsync(new NavItemSelected(selectedItem.GroupIndexID, selectedItem.ItemIndexID))"
-  />
+                      Groups="SelectGroups"
+                      SelectedItem="ViewModel.SelectedItem"
+                      OnSelectedItemChanged="NavItemSelected" />
 
 
-@code{
+@code {
     private IEnumerable<SelectGroup<ComponentState>> SelectGroups { get; set; }
 
     protected override void OnParametersSet()
@@ -32,5 +30,11 @@
 
         SelectGroups = resultGroups;
         base.OnParametersSet();
+    }
+
+    private async Task NavItemSelected(SelectItemChangedEventArgs<ComponentState> args)
+    {
+        var selectedItem = SelectGroups.ElementAt(args.GroupIndexID).Items.ElementAt(args.ItemIndexID).Value;
+        await base.OnComponentEvent.InvokeAsync(new NavItemSelectedCommand(selectedItem));
     }
 }

@@ -21,7 +21,7 @@
     public TValue SelectedItem { get; set; }
 
     [Parameter]
-    public EventCallback<SelectItemChangedEvent<TValue>> OnSelectedItemChanged { get; set; }
+    public EventCallback<SelectItemChangedEventArgs<TValue>> OnSelectedItemChanged { get; set; }
 
     private int _selectedGroupIndex;
 
@@ -57,6 +57,6 @@
         _selectedGroupIndex = groupIndex;
         SelectedItem = value;
 
-        await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEvent<TValue>(groupIndex, itemIndex, value));
+        await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEventArgs<TValue>(groupIndex, itemIndex, value));
     }
 }

@@ -87,7 +87,7 @@
     private object CreateNonGenericEventCallback(PropertyInfo evtCallback)
     {
         return EventCallback.Factory.Create(CurrentComponent, 
-            () => base.OnComponentEvent.InvokeAsync(new EventRecorded(evtCallback.Name)));
+            () => base.OnComponentEvent.InvokeAsync(new EventRecordedCommand(evtCallback.Name)));
     }
 
     private Delegate CreateLambda(string evtCallbackName, Type genericTypeParam)
@@ -125,7 +125,7 @@
     private void RecordEventCallback<T>(string callbackName, T obj)
     {
         var jsonString = System.Text.Json.JsonSerializer.Serialize(obj);
-        base.OnComponentEvent.InvokeAsync(new EventRecorded(callbackName, jsonString));
+        base.OnComponentEvent.InvokeAsync(new EventRecordedCommand(callbackName, jsonString));
     }
 }
 

@@ -1,13 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class ModelChangedRequestHandler : TestBedRequestHandlerBase, IRequestHandler<CommandRequest<ModelChanged>>
+public sealed class ModelChangedRequestHandler : TestBedCommandRequestHandler<ModelChangedCommand>
 {
-    public ModelChangedRequestHandler(TestBedState state) : base(state)
+    public ModelChangedRequestHandler(ICommandProcessor processor) : base(processor)
     {
-    }
-
-    public async Task Handle(CommandRequest<ModelChanged> request, CancellationToken cancellationToken)
-    {
-        await State.UpdateSelectedComponentParameters(request.Sender, request.Command.ComponentParameters);
     }
 }
