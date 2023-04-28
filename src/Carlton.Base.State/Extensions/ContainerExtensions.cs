@@ -10,6 +10,7 @@ public static class ContainerExtensions
                     .AddClasses(classes => classes.AssignableTo(typeof(IDataComponent<>)))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
+
             });
     }
 }

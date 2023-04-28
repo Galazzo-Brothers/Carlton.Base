@@ -6,4 +6,5 @@ global using System.Threading;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.Extensions.DependencyInjection;
+global using Mapster;
 global using MediatR;

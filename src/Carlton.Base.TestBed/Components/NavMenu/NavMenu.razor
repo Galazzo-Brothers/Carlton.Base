@@ -1,10 +1,36 @@
 ﻿@namespace Carlton.Base.TestBed
+@attribute [DataEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
 @attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
 @inherits DataComponentBase<NavMenuViewModel>
 
 
 <AccordionSelectGroup TValue="ComponentState"
-  Groups="ViewModel.MenuItems"
+  Groups="SelectGroups"
   SelectedItem="ViewModel.SelectedItem"
   OnSelectedItemChanged="async (selectedItem) =>
-    await base.OnComponentEvent.InvokeAsync(new NavItemSelected(selectedItem.GroupIndexID, selectedItem.ItemIndexID))"/>
+    await base.OnComponentEvent.InvokeAsync(new NavItemSelected(selectedItem.GroupIndexID, selectedItem.ItemIndexID))"
+  />
+
+
+@code{
+    private IEnumerable<SelectGroup<ComponentState>> SelectGroups { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var resultGroups = new List<SelectGroup<ComponentState>>();
+
+        var groups = ViewModel.MenuItems
+                              .GroupBy(_ => _.Type);
+
+        var groupIndex = 0;
+        foreach(var group in groups)
+        {
+            var selectItems = group.WithIndex().Select(_ => new SelectItem<ComponentState>(_.item.DisplayName, _.index, _.item));
+            resultGroups.Add(new SelectGroup<ComponentState>(group.Key.GetDisplayName(), groupIndex, selectItems));
+            groupIndex++;
+        }
+
+        SelectGroups = resultGroups;
+        base.OnParametersSet();
+    }
+}

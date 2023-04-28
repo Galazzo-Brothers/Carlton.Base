@@ -1,7 +1,8 @@
 ﻿@namespace Carlton.Base.TestBed
+@attribute [DataEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
 @attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventRecorded)]
 @attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentEventsCleared)]
-@*@attribute [RefreshViewModel<EventConsoleViewModel>("/Page/Stuff")]*@
+
 
 @inherits DataComponentBase<EventConsoleViewModel>
 

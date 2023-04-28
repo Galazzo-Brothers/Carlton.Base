@@ -6,7 +6,7 @@ public class TestBedState : IStateStore<TestBedStateEvents>
 
     private readonly IList<ComponentRecordedEvent> _componentEvents = new List<ComponentRecordedEvent>();
 
-    public IEnumerable<IGrouping<Type, ComponentState>> ComponentStates { get; init; }
+    public IEnumerable<ComponentState> ComponentStates { get; init; }
     public ComponentState SelectedComponentState { get; private set; }
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
     public ComponentParameters SelectedComponentParameters { get; private set; }
@@ -14,10 +14,10 @@ public class TestBedState : IStateStore<TestBedStateEvents>
     public IReadOnlyDictionary<string, TestResultsReport> ComponentTestResultsReports { get; private set; } = new Dictionary<string, TestResultsReport>();
 
 
-    public TestBedState(IEnumerable<IGrouping<Type, ComponentState>> componentStates)
+    public TestBedState(IEnumerable<ComponentState> componentStates)
     {
         ComponentStates = componentStates;
-        SelectedComponentState = ComponentStates.ElementAt(0).ElementAt(0);
+        SelectedComponentState = ComponentStates.First();
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
     }
 
@@ -41,12 +41,9 @@ public class TestBedState : IStateStore<TestBedStateEvents>
         await InvokeStateChanged(sender, TestBedStateEvents.ParametersChanged);
     }
 
-    public async Task SelectComponentState(object sender, int componentID, int stateID)
+    public async Task SelectComponentState(object sender, Type componentType, string componentState)
     {
-        SelectedComponentState = ComponentStates
-            .ElementAt(componentID)
-            .ElementAt(stateID);
-
+        //SelectedComponentState = ComponentStates[componentType].First(_ => _.DisplayName == componentState);
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         
         await InvokeStateChanged(sender, TestBedStateEvents.ComponentStateSelected);

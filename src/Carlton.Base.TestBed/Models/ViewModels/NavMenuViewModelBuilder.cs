@@ -1,14 +1,14 @@
 ﻿namespace Carlton.Base.TestBed;
 
-internal sealed record NavMenuBuilderTestComponent(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);
+internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);
 
 public sealed class NavMenuViewModelBuilder
 {
-    private readonly List<NavMenuBuilderTestComponent> _internalState;
+    private readonly List<NavMenuBuilderItemState> _internalState;
 
     public NavMenuViewModelBuilder()
     {
-        _internalState = new List<NavMenuBuilderTestComponent>();
+        _internalState = new List<NavMenuBuilderItemState>();
     }
 
     public NavMenuViewModelBuilder AddParameterObjComponent<T>(object parameters)
@@ -33,19 +33,22 @@ public sealed class NavMenuViewModelBuilder
 
     public NavMenuViewModelBuilder AddComponent<T>(string displayName, object vm, bool isViewModel)
     {
-        var testComp = new NavMenuBuilderTestComponent(displayName, typeof(T), vm, isViewModel);
+        var testComp = new NavMenuBuilderItemState(displayName, typeof(T), vm, isViewModel);
         _internalState.Add(testComp);
 
         return this;
     }
 
-    public IEnumerable<IGrouping<Type, ComponentState>> Build()
+    public IEnumerable<ComponentState> Build()
     {
-        return _internalState.Select(_ =>
+        return _internalState.Select(BuildComponentState);
+
+
+        static ComponentState BuildComponentState(NavMenuBuilderItemState state)
         {
-            var paramObjType = _.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
-            var compParams = new ComponentParameters(_.ComponentParameters, paramObjType);
-            return new ComponentState(_.DisplayName, _.ComponentType, compParams);
-        }).GroupBy(_ => _.Type);
+            var paramObjType = state.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
+            var compParams = new ComponentParameters(state.ComponentParameters, paramObjType);
+            return new ComponentState(state.DisplayName, state.ComponentType, compParams);
+        }
     }
 }

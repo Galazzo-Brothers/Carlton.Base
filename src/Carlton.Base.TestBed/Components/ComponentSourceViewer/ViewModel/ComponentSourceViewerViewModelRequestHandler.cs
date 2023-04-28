@@ -1,10 +1,10 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class ComponentSourceViewerViewModelRequestHandler : TestBedRequestHandlerBase, IRequestHandler<ViewModelRequest<ComponentSourceViewerViewModel>, ComponentSourceViewerViewModel>
+public sealed class ComponentSourceViewerViewModelRequestHandler : IRequestHandler<ViewModelRequest<ComponentSourceViewerViewModel>, ComponentSourceViewerViewModel>
 {
     private readonly IJSRuntime _jsRuntime;
 
-    public ComponentSourceViewerViewModelRequestHandler(TestBedState state, IJSRuntime jsRuntime) : base(state)
+    public ComponentSourceViewerViewModelRequestHandler(IJSRuntime jsRuntime) 
     {
         _jsRuntime = jsRuntime;
     }

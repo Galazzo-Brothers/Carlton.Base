@@ -14,13 +14,16 @@ public static class WebAssemblyHostBuilderExtensions
         var state = new TestBedState(options);
         builder.Services.AddSingleton(state);
         builder.Services.AddSingleton<IStateStore<TestBedStateEvents>>(state);
+        builder.Services.AddTransient<IViewModelStateFacade, TestBedViewModelStateFacade>();
         builder.Services.AddSingleton<ITrxParser, TrxParser>();
         builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assemblies);
-                cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsReportViewerViewModel>, TestResultsReportViewerViewModel>, TestResultsReportViewerViewModelHttpBehavior>();
+                
+                //cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsReportViewerViewModel>, TestResultsReportViewerViewModel>, TestResultsReportViewerViewModelHttpBehavior>();
             });
 
         builder.Services.AddCarltonState(assemblies);
+        builder.Services.RegisterMapsterConfiguration();
     }
 }

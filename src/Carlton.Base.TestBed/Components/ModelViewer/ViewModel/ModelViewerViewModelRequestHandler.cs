@@ -1,12 +1,9 @@
 ﻿namespace Carlton.Base.TestBed;
-public sealed class ModelViewerViewModelRequestHandler : TestBedRequestHandlerBase, IRequestHandler<ViewModelRequest<ModelViewerViewModel>, ModelViewerViewModel>
-{
-    public ModelViewerViewModelRequestHandler(TestBedState state) : base(state)
-    {
-    }
 
-    public Task<ModelViewerViewModel> Handle(ViewModelRequest<ModelViewerViewModel> request, CancellationToken cancellationToken)
+public class ModelViewerViewModelRequestHandler : TestBedViewModelRequestHandler<ModelViewerViewModel>
+{
+    public ModelViewerViewModelRequestHandler(IViewModelStateFacade state) : base(state)
     {
-        return Task.FromResult(new ModelViewerViewModel(State.SelectedComponentParameters));
     }
 }
+
