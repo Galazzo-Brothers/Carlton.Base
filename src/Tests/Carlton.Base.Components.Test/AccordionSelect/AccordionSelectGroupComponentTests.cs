@@ -74,7 +74,7 @@ public class AccordionSelectGroupComponentTests : TestContext
     {
         //Arrange
         var eventCalled = false;
-        SelectItemChangedEvent<int>? evt = null;
+        SelectItemChangedEventArgs<int>? evt = null;
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
             .Add(p => p.Groups, AccordionSelectTestHelper.Groups)
             .Add(p => p.OnSelectedItemChanged, (_) => { eventCalled = true; evt = _; })
