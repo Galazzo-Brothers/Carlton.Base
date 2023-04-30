@@ -5,11 +5,11 @@ namespace Carlton.Base.TestBed;
 public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestBed(this WebAssemblyHostBuilder builder,
-        Action<TestBedNavMenuViewModelBuilder> navTreeAct,
+        Action<NavMenuViewModelBuilder> navTreeAct,
         params Assembly[] assemblies)
     {
         //NavMenu Initialization
-        var NavMenuBuilder = new TestBedNavMenuViewModelBuilder();
+        var NavMenuBuilder = new NavMenuViewModelBuilder();
         navTreeAct(NavMenuBuilder);
         var options = NavMenuBuilder.Build();
 
@@ -22,8 +22,8 @@ public static class WebAssemblyHostBuilderExtensions
         builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assemblies);
-                
-                //cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsReportViewerViewModel>, TestResultsReportViewerViewModel>, TestResultsReportViewerViewModelHttpBehavior>();
+                cfg.AddOpenBehavior(typeof(TestBedHttpRequestPipelineBehavior<,>));
+                // cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsViewModel>, TestResultsViewModel>, TestResultsViewModelHttpBehavior>();
             });
 
         builder.Services.AddCarltonState(assemblies);

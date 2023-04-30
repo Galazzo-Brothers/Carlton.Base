@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Components.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Components.Test", "src\Tests\Carlton.Base.Components.Test\Carlton.Base.Components.Test.csproj", "{830F2420-A333-4667-B1C4-943F50F0952A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.TestBed.Test", "src\Tests\Carlton.Base.TestBed.Test\Carlton.Base.TestBed.Test.csproj", "{E337791F-6E8D-42C2-9699-1F6C29D46933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Infrastructure.Test", "src\Tests\Carlton.Base.TestBed.Test\Carlton.Base.Infrastructure.Test.csproj", "{E337791F-6E8D-42C2-9699-1F6C29D46933}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

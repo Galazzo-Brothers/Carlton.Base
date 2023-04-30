@@ -1,9 +1,0 @@
-﻿@namespace Carlton.Base.TestBed
-
-@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
-@inherits DataComponentBase<TestResultsReportViewerViewModel>
-
-<div class="test-results-report">
-    <TestResultsSummaryViewer Summary="ViewModel.TestResultsReport.TestResultsSummary" />
-    <TestResultsTable TestResults="ViewModel.TestResultsReport.TestResults" />
-</div>

@@ -45,4 +45,13 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\UnitTestResults\UnitTestResults.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\UnitTestResults\UnitTestResults_Unflattened.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,4 @@
-﻿namespace Carlton.Base.TestBed;
-
+﻿namespace Carlton.Base.TestBed.Models;
 public enum ParameterObjectType
 {
     ParameterObject = 1,
@@ -7,9 +6,4 @@ public enum ParameterObjectType
 }
 
 
-public enum TestResultOutcomes
-{
-    Passed,
-    Failed,
-    NotRun
-}
+
