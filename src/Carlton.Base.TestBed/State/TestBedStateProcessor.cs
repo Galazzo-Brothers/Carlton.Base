@@ -13,30 +13,29 @@ public class TestBedStateProcessor : TestBedState, ICommandProcessor
         await ProcessCommand(sender, (dynamic)command);
     }
 
-    public async Task ProcessCommand(object sender, EventRecordedCommand command)
+    public async Task ProcessCommand(object sender, RecordEventCommand command)
     {
-        _componentEvents.Add(new ComponentRecordedEvent(command.Name, command.Obj));
-        await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventRecorded);
+        _componentEvents.Add(new ComponentRecordedEvent(command.RecordedEventName, command.EventArgs));
+        await InvokeStateChanged(sender, TestBedStateEvents.EventRecorded);
     }
 
-    public async Task ProcessCommand(object sender, EventsClearedCommand command)
+    public async Task ProcessCommand(object sender, ClearEventsCommand command)
     {
         _componentEvents.Clear();
-        await InvokeStateChanged(sender, TestBedStateEvents.ComponentEventsCleared);
+        await InvokeStateChanged(sender, TestBedStateEvents.EventsCleared);
     }
 
-    public async Task ProcessCommand(object sender, ModelChangedCommand command)
+    public async Task ProcessCommand(object sender, UpdateParametersCommand command)
     {
-        SelectedComponentParameters = command.ComponentParameters;
-        await InvokeStateChanged(sender, TestBedStateEvents.ParametersChanged);
+        SelectedComponentParameters = new ComponentParameters(command.ComponentParameters, ParameterObjectType.ParameterObject);
+        await InvokeStateChanged(sender, TestBedStateEvents.ParametersUpdated);
     }
 
-    public async Task ProcessCommand(object sender, NavItemSelectedCommand command)
+    public async Task ProcessCommand(object sender, SelectMenuItemCommand command)
     {
         SelectedComponentState = command.ComponentState;
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
-
-        await InvokeStateChanged(sender, TestBedStateEvents.ComponentStateSelected);
+        await InvokeStateChanged(sender, TestBedStateEvents.MenuItemSelected);
     }
 
     public void InitComponentTestResultsReports(IReadOnlyDictionary<string, TestResultsReport> testResultsReports)

@@ -1,7 +1,0 @@
-﻿@namespace Carlton.Base.TestBed
-@attribute [DataEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ComponentStateSelected)]
-@inherits DataComponentBase<SelectedComponentBreadCrumbsViewModel>
-
-<BreadCrumbs Title="@ViewModel.SelectedComponent" BreadCrumbItems="@(new string[] {ViewModel.SelectedState})" Separator=">" />
-

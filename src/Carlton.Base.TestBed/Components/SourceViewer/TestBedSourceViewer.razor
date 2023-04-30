@@ -1,0 +1,8 @@
+﻿@namespace Carlton.Base.TestBed
+@attribute [DataEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.MenuItemSelected)]
+@inherits DataComponentBase<TestBedSourceViewerViewModel>
+
+
+<SourceViewer Language="html" Source="@ViewModel.ComponentSource" />
+

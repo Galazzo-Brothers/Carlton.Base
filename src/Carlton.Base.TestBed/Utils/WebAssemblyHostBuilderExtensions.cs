@@ -5,11 +5,11 @@ namespace Carlton.Base.TestBed;
 public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestBed(this WebAssemblyHostBuilder builder,
-        Action<NavMenuViewModelBuilder> navTreeAct,
+        Action<TestBedNavMenuViewModelBuilder> navTreeAct,
         params Assembly[] assemblies)
     {
         //NavMenu Initialization
-        var NavMenuBuilder = new NavMenuViewModelBuilder();
+        var NavMenuBuilder = new TestBedNavMenuViewModelBuilder();
         navTreeAct(NavMenuBuilder);
         var options = NavMenuBuilder.Build();
 
