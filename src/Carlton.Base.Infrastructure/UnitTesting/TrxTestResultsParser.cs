@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.Infrastructure.UnitTesting;
 
-public class TrxParser : ITrxParser
+public class TrxTestResultsParser : ITestResultsParser
 {
     //Tag Local Names
     private const string TestRun = "TestRun";
@@ -23,7 +23,7 @@ public class TrxParser : ITrxParser
     private const string Outcome = "outcome";
     private const string Duration = "duration";
 
-    public IEnumerable<TestResult> ParseTrxTestResultsContent(string content)
+    public static IEnumerable<TestResult> ParseTrxTestResultsContent(string content)
     {
         try
         {
@@ -91,5 +91,20 @@ public class TrxParser : ITrxParser
         {
             throw new ArgumentException ("Content is not a valid Trx file.");
         }
+    }
+
+    public TestResultsReport ParseTestResults(string content)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IDictionary<string, IEnumerable<TestResultsReport>> ParseTestResultsByGroup(string content, string groupKey)
+    {
+        throw new NotImplementedException();
+    }
+
+    IDictionary<string, TestResultsReport> ITestResultsParser.ParseTestResultsByGroup(string content, string groupKey)
+    {
+        throw new NotImplementedException();
     }
 }
