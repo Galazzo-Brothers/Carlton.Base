@@ -1,77 +1,63 @@
 ﻿@namespace Carlton.Base.State
+@implements IDataWrapper
 @implements IDisposable
 @typeparam TViewModel
 @typeparam TStateEvents where TStateEvents : Enum
 
-@if(ViewModel != null)
+@if(ViewModel == null)
 {
-    <DynamicComponent @ref="Component" Type="DynamicComponentType" Parameters="DynamicComponentParameters" />
+    //Show Loading SPinner
+}
+else
+{
+    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 }
 
 @code {
     [Inject]
-    private IDataComponent<TViewModel> CarltonComponent { get; set; }
+    private IDataComponent<TViewModel> Component { get; set; }
 
     [Inject]
     private IMediator Mediatr { get; set; }
 
     [Inject]
-    private IStateStore<TStateEvents> State { get; set; }
+    private IStateStore<TStateEvents> StateStore { get; set; }
 
-    private DynamicComponent Component { get; set; }
+    public Object State { get => StateStore; }
 
-    private Type DynamicComponentType
-    {
-        get
-        {
-            return CarltonComponent.GetType();
-        }
-    }
+    public Type WrappedComponentType { get => Component.GetType(); }
 
-    private TViewModel ViewModel { get; set; } 
-
-    private Dictionary<string, object> DynamicComponentParameters
-    {
-        get
-        {
-            var eventCallback = EventCallback.Factory.Create<ICommand>(this, (command) => OnComponentEvent(CarltonComponent, command));
-            return new Dictionary<string, object>
-            {
-                {"ViewModel", ViewModel},
-                {"GetViewModel", async () => await GetViewModel() },
-                {"OnComponentEvent", eventCallback}
-            };
-        }
-    }
+    private TViewModel ViewModel { get; set; }
 
     private IEnumerable<TStateEvents> StateEvents { get; set; } = new List<TStateEvents> { };
 
     protected async override Task OnInitializedAsync()
     {
         //Register State Changed Handler
-        State.StateChanged += OnStateChanged;
+        StateStore.StateChanged += OnStateChanged;
 
         //Get VM and initalize context for wrapped component
         ViewModel = await GetViewModel();
 
-        //Gather the StateEvents, this component should be listening for, from the attributes on the ViewModelRequest object
-        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) DynamicComponentType.GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
+        //Gather the StateEvents this component should be listening for
+        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>)WrappedComponentType.GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
         StateEvents = attributes.SelectMany(_ => _.StateEvents);
 
         //Continue initilization
         await base.OnInitializedAsync();
     }
 
-    protected async Task<TViewModel> GetViewModel()
+    private async Task<TViewModel> GetViewModel()
     {
-        var request = new ViewModelRequest<TViewModel>(Component);
+        var request = new ViewModelRequest<TViewModel>(this);
         return await Mediatr.Send(request);
     }
 
-    private async Task OnComponentEvent(object sender, ICommand command)
+    private async Task OnComponentEvent<TCommand>(object sender, TCommand command)
+        where TCommand : ICommand
     {
         var commandType = command.GetType();
-        var request = Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), Component, command);
+        var request = Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
         await Mediatr.Send(request);
     }
 
@@ -84,8 +70,19 @@
         StateHasChanged();
     }
 
+    private Dictionary<string, object> GetParameters()
+    {
+        var eventCallback = EventCallback.Factory.Create<ICommand>(this, (command) => OnComponentEvent(Component, command));
+        return new Dictionary<string, object>
+            {
+                {"ViewModel", ViewModel},
+                {"GetViewModel", async () => await GetViewModel() },
+                {"OnComponentEvent", eventCallback}
+            };
+    }
+
     public void Dispose()
     {
-        State.StateChanged -= OnStateChanged;
+        StateStore.StateChanged -= OnStateChanged;
     }
 }

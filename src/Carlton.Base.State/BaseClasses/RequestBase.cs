@@ -2,7 +2,9 @@
 
 public abstract class RequestBase
 {
-    public object Sender { get; init; }
+    public IDataWrapper Sender { get; init; }
+    
+    public object State { get => Sender.State; }
 
     public bool IsCompleted { get; private set; }
 
@@ -11,7 +13,7 @@ public abstract class RequestBase
     public DateTime CompletedDateTime { get; private set; }
     public bool ServerCalled { get; private set; }
 
-    protected RequestBase(object sender)
+    protected RequestBase(IDataWrapper sender)
     {
         Sender = sender;
         CreatedDateTime = DateTime.UtcNow;

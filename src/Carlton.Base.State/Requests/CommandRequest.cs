@@ -5,7 +5,7 @@ public class CommandRequest<TStateCommand> : RequestBase, IRequest
 {
     public TStateCommand Command { get; init; }
 
-    public CommandRequest(object sender, TStateCommand command) : base(sender)
+    public CommandRequest(IDataWrapper sender, TStateCommand command) : base(sender)
         => Command = command;
 }
 

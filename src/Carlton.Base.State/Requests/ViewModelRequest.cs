@@ -2,7 +2,7 @@
 
 public class ViewModelRequest<TViewModel> : RequestBase, IRequest<TViewModel>
 {
-    public ViewModelRequest(object sender) : base(sender)
+    public ViewModelRequest(IDataWrapper sender) : base(sender)
     {
     }
 }
