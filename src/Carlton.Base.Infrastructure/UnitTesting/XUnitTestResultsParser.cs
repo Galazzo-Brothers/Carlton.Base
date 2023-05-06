@@ -12,39 +12,28 @@ public class XUnitTestResultsParser : ITestResultsParser
     private const string Pass = "Pass";
     private const string Fail = "Fail";
     private const string Traits = "traits";
-    private const string Value = "value";
     private const string ExMessage = "Content is not a valid XUnit test results file.";
-
-    private const string DisplayName = "DisplayName";
+    private const string Value = "value";
     private const string Default = "default";
+    private const string TestCategory = "TestCategory";
 
     public TestResultsReport ParseTestResults(string content)
     {
         try
         {
             var document = XDocument.Parse(content);
-
-            var results = ParseDocument(document).Select(_ => ParseTestResult(_).Value);
-
-            var totalCount = 0;
-            var totalPassedCount = 0;
-            var totalFailureCount = 0;
-            var totalDuration = 0.0;
-
-            results.ToList().ForEach(_ => CalculateSummary(_, ref totalCount, ref totalPassedCount, ref totalFailureCount, ref totalDuration));
-
-            var summary = new TestResultsSummary(totalCount, totalPassedCount, totalFailureCount, totalDuration);
-
-            return new TestResultsReport
-            (
-                results,
-                summary
-            );
+            var results = ParseDocument(document).Select(_ => ParseTestResult(_).First().Value);
+            return new TestResultsReport(results);
         }
         catch(Exception)
         {
             throw new ArgumentException(ExMessage);
         }
+    }
+
+    public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content)
+    {
+        return ParseTestResultsByGroup(content, TestCategory);
     }
 
     public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content, string groupKey)
@@ -54,23 +43,13 @@ public class XUnitTestResultsParser : ITestResultsParser
             var results = new Dictionary<string, TestResultsReport>();
 
             var document = XDocument.Parse(content);
-            var tests = ParseDocument(document).Select(_ => ParseTestResult(_, groupKey));
+            var tests = ParseDocument(document).SelectMany(_ => ParseTestResult(_, groupKey));
 
             tests.GroupBy(_ => _.Key, _ => _.Value)
                            .ToList()
                            .ForEach(group =>
                            {
-                               var totalCount = 0;
-                               var totalPassedCount = 0;
-                               var totalFailureCount = 0;
-                               var totalDuration = 0.0;
-
-                               group.ToList()
-                                    .ForEach(_ => CalculateSummary(_, ref totalCount, ref totalPassedCount, ref totalFailureCount, ref totalDuration));
-
-                               var summary = new TestResultsSummary(totalCount, totalPassedCount, totalFailureCount, totalDuration);
-                               var report = new TestResultsReport(group, summary);
-
+                               var report = new TestResultsReport(group);
                                results.Add(group.Key, report);
                            });
 
@@ -85,35 +64,50 @@ public class XUnitTestResultsParser : ITestResultsParser
     private static IEnumerable<XElement> ParseDocument(XDocument document)
     {
         return document.Elements()
-                                          .First(_ => _.Name == Assemblies)
-                                          .Elements()
-                                          .Where(_ => _.Name == Assembly)
-                                          .SelectMany(_ => _.Elements())
-                                          .Where(_ => _.Name == Collection)
-                                          .SelectMany(_ => _.Elements())
-                                          .Where(_ => _.Name == Test);
-    }
-    
-    private static KeyValuePair<string, TestResult> ParseTestResult(XElement testElement)
-    {
-        return ParseTestResult(testElement, string.Empty);
+                       .First(_ => _.Name == Assemblies)
+                       .Elements()
+                       .Where(_ => _.Name == Assembly)
+                       .SelectMany(_ => _.Elements())
+                       .Where(_ => _.Name == Collection)
+                       .SelectMany(_ => _.Elements())
+                       .Where(_ => _.Name == Test);
     }
 
-    private static KeyValuePair<string, TestResult> ParseTestResult(XElement testElement, string groupingTrait)
+    private static IEnumerable<KeyValuePair<string, TestResult>> ParseTestResult(XElement testElement, string groupingTrait = null)
     {
+        //Find all traits
         var traitsElements = testElement.Elements()
                                 .FirstOrDefault(_ => _.Name == Traits)
                                 ?.Elements();
 
-        var traits = traitsElements
-                    .ToDictionary(_ => _.Attribute(Name).Value, _ => _.Attribute(Value).Value);
+        //Find the grouping traits
+        var groupingTraits = traitsElements.Where(_ => _.Attribute(Name)?.Value == groupingTrait);
 
-        traits.TryGetValue(DisplayName, out var displayName);
-        traits.TryGetValue(groupingTrait, out var groupingName);
-
-
+        //Parse the test results element attributes into a dictionary
         var resultAttributes = testElement.Attributes().ToDictionary(attrib => attrib.Name, attrib => attrib.Value);
-        var testName = (string.IsNullOrEmpty(displayName)) ? resultAttributes[Name] : displayName;
+
+        //Create a TestResult object
+        var testResult = ParseTestResult(resultAttributes);
+
+        //Handle Groups
+        var result = new List<KeyValuePair<string, TestResult>>();
+        if(groupingTraits.Any())
+        {
+            //Create a resulting key/value pair for each group
+            foreach(var groupingKey in groupingTraits.Select(_ => _.Attribute(Value).Value))
+                result.Add(new KeyValuePair<string, TestResult>(groupingKey, testResult));
+        }
+        else
+        {
+            //Add the test result to the default grouping
+            result.Add(new KeyValuePair<string, TestResult>(Default, testResult));
+        }
+
+        return result;
+    }
+
+    private static TestResult ParseTestResult(Dictionary<XName, string> resultAttributes)
+    {
         var outcome = resultAttributes[Result];
         var parsedOutcome = outcome switch
         {
@@ -122,21 +116,10 @@ public class XUnitTestResultsParser : ITestResultsParser
             _ => throw new ArgumentException(ExMessage),
         };
         var duration = double.Parse(resultAttributes[Time]);
+        var testName = resultAttributes[Name];
 
         var testResult = new TestResult(testName, parsedOutcome, duration);
-        var groupingKey = string.IsNullOrEmpty(groupingName) ? Default : groupingName;
-        return new KeyValuePair<string, TestResult>(groupingKey, testResult);
-    }
-
-    private static void CalculateSummary(TestResult testResult, ref int totalCount, ref int totalPassedCount, ref int totalFailureCount, ref double totalDuration)
-    {
-        totalCount++;
-        totalDuration += testResult.TestDuration;
-
-        if(testResult.TestResultOutcome == TestResultOutcomes.Passed)
-            totalPassedCount++;
-        if(testResult.TestResultOutcome == TestResultOutcomes.Failed)
-            totalFailureCount++;
+        return testResult;
     }
 }
 
