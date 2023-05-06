@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(ListCard<int>))]
 public class ListCardComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void ListCard_Markup_RendersCorrectly()
     {
         //Act
@@ -18,7 +19,7 @@ public class ListCardComponentTests : TestContext
         cut.MarkupMatches(CardTestHelper.ListCardMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Items Parameter Test")]
     [MemberData(nameof(CardTestHelper.GetItems), MemberType = typeof(CardTestHelper))]
     public void ListCard_ItemsParam_RendersCorrectly(ReadOnlyCollection<int> expectedItems)
     {
@@ -43,7 +44,7 @@ public class ListCardComponentTests : TestContext
         Assert.Equal(expectedItems, actualItems);
     }
 
-    [Theory]
+    [Theory(DisplayName = "CardTitle Parameter Test")]
     [InlineData("Test Title 1")]
     [InlineData("Test Title 2")]
     [InlineData("Test Title 3")]
@@ -64,7 +65,7 @@ public class ListCardComponentTests : TestContext
         Assert.Equal(title, cardTitle);
     }
 
-    [Theory]
+    [Theory(DisplayName = "CardSubTitle Parameter Test")]
     [InlineData("Test Subtitle 1")]
     [InlineData("Test Subtitle 2")]
     [InlineData("Test Subtitle 3")]
@@ -85,7 +86,7 @@ public class ListCardComponentTests : TestContext
         Assert.Equal(subtitle, cardTitle);
     }
 
-    [Theory]
+    [Theory(DisplayName = "HeaderContentChild Parameter Test")]
     [InlineData("<span>Header Testing Content</span>")]
     [InlineData("<span>More Header Testing Content</span>")]
     [InlineData("<span>Event More Header Testing Content</span>")]

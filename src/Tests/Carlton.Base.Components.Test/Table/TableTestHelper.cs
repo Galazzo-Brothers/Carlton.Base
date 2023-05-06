@@ -8,25 +8,27 @@ public static class TableTestHelper
     @"<div class=""main-container"" b-rbixdumkuw>
   <div class=""table-container"" b-rbixdumkuw>
     <div class=""header-row table-row"" b-rbixdumkuw>
-      <div class=""header-row-item row-item ascending"" blazor:onclick=""1"" b-ydzvi9l03d>
-        <span class=""heading-text"" b-ydzvi9l03d>ID</span>
-        <div class=""sort-arrows"" b-ydzvi9l03d>
-          <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-          <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+      <div class=""table-header-row"" b-ydzvi9l03d>
+        <div class=""header-row-item row-item ascending heading-0"" blazor:onclick=""1"" b-ydzvi9l03d>
+          <span class=""heading-text"" b-ydzvi9l03d>ID</span>
+          <div class=""sort-arrows"" b-ydzvi9l03d>
+            <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+            <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+          </div>
         </div>
-      </div>
-      <div class=""header-row-item row-item ascending"" blazor:onclick=""2"" b-ydzvi9l03d>
-        <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
-        <div class=""sort-arrows"" b-ydzvi9l03d>
-          <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-          <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+        <div class=""header-row-item row-item ascending heading-1"" blazor:onclick=""2"" b-ydzvi9l03d>
+          <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
+          <div class=""sort-arrows"" b-ydzvi9l03d>
+            <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+            <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+          </div>
         </div>
-      </div>
-      <div class=""header-row-item row-item ascending"" blazor:onclick=""3"" b-ydzvi9l03d>
-        <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
-        <div class=""sort-arrows"" b-ydzvi9l03d>
-          <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-          <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+        <div class=""header-row-item row-item ascending heading-2"" blazor:onclick=""3"" b-ydzvi9l03d>
+          <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
+          <div class=""sort-arrows"" b-ydzvi9l03d>
+            <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+            <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+          </div>
         </div>
       </div>
     </div>
@@ -88,25 +90,27 @@ public static class TableTestHelper
         </div>";
 
     public const string TableHeaderMarkup =
-    @"<div class=""header-row-item row-item ascending"" blazor:onclick=""1"" b-ydzvi9l03d>
-  <span class=""heading-text"" b-ydzvi9l03d>ID</span>
-  <div class=""sort-arrows"" b-ydzvi9l03d>
-    <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-    <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+    @"<div class=""table-header-row"" b-ydzvi9l03d>
+  <div class=""header-row-item row-item ascending heading-0"" blazor:onclick=""1"" b-ydzvi9l03d>
+    <span class=""heading-text"" b-ydzvi9l03d>ID</span>
+    <div class=""sort-arrows"" b-ydzvi9l03d>
+      <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+      <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+    </div>
   </div>
-</div>
-<div class=""header-row-item row-item ascending"" blazor:onclick=""2"" b-ydzvi9l03d>
-  <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
-  <div class=""sort-arrows"" b-ydzvi9l03d>
-    <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-    <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+  <div class=""header-row-item row-item ascending heading-1"" blazor:onclick=""2"" b-ydzvi9l03d>
+    <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
+    <div class=""sort-arrows"" b-ydzvi9l03d>
+      <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+      <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+    </div>
   </div>
-</div>
-<div class=""header-row-item row-item ascending"" blazor:onclick=""3"" b-ydzvi9l03d>
-  <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
-  <div class=""sort-arrows"" b-ydzvi9l03d>
-    <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-    <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+  <div class=""header-row-item row-item ascending heading-2"" blazor:onclick=""3"" b-ydzvi9l03d>
+    <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
+    <div class=""sort-arrows"" b-ydzvi9l03d>
+      <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
+      <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
+    </div>
   </div>
 </div>";
 

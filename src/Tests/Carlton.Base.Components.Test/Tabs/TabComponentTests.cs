@@ -1,5 +1,6 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(TabComponentTests))]
 public class TabComponentTests : TestContext
 {
     private static readonly string TabMarkup =
@@ -18,7 +19,7 @@ public class TabComponentTests : TestContext
         parent = RenderComponent<TabBarBase>();
     }
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void Tab_WithOutParent_ThrowsArgumentNullException()
     {
         //Act
@@ -30,7 +31,7 @@ public class TabComponentTests : TestContext
         Assert.Throws<ArgumentNullException>(act);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Tab Markup Test")]
     public void Tab_Markup_RendersCorrectly()
     {
         //Act
@@ -44,7 +45,7 @@ public class TabComponentTests : TestContext
         cut.MarkupMatches(TabMarkup);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Parent Active False, Render Test")]
     public void Tab_Parent_ActiveParam_False_RendersCorrectly()
     {
 
@@ -65,7 +66,7 @@ public class TabComponentTests : TestContext
         Assert.Empty(tabElement.InnerHtml);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Parent Active True, Render Test")]
     public void Tab_Parent_ActiveParam_True_RendersCorrectly()
     {
 

@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(AccordionSelectGroup<int>))]
 public class AccordionSelectGroupComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void AccordionSelectGroup_Markup_RendersCorrectly()
     {
         //Act
@@ -14,7 +15,7 @@ public class AccordionSelectGroupComponentTests : TestContext
         cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectGroupMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Groups Parameter Test")]
     [MemberData(nameof(AccordionSelectTestHelper.GetGroups), MemberType = typeof(AccordionSelectTestHelper))]
     public void AccordionSelectGroup_GroupsParam_RendersCorrectly(ReadOnlyCollection<SelectGroup<int>> groups)
     {
@@ -35,7 +36,7 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.Equal(expectedGroupNames, actualGroupNames);
     }
 
-    [Theory]
+    [Theory(DisplayName = "SelectedItem Parameter Test")]
     [InlineData(0, 0, 1)]
     [InlineData(0, 1, 2)]
     [InlineData(1, 2, 3)]
@@ -69,7 +70,7 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
 
-    [Fact]
+    [Fact(DisplayName = "OnSelectedItemChanged Callback Parameter Test")]
     public void AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback()
     {
         //Arrange
@@ -91,7 +92,7 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.Equal(1, evt?.ItemIndexID);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Group Click Event Test")]
     [InlineData(0, 0, 1)]
     [InlineData(0, 1, 2)]
     [InlineData(1, 2, 3)]

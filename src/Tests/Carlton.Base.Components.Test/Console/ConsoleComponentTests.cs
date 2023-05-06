@@ -1,5 +1,7 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+
+[Trait("Component", nameof(Console))]
 public class ConsoleComponentTests : TestContext
 {
     private static readonly string ConsoleMarkup = @"
@@ -8,7 +10,7 @@ public class ConsoleComponentTests : TestContext
 </div>";
 
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void Console_Markup_RendersCorrectly()
     {
         //Act
@@ -21,7 +23,7 @@ public class ConsoleComponentTests : TestContext
         cut.MarkupMatches(ConsoleMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ReadOnly Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void Console_ReadOnlyParam_RendersCorrectly(bool isReadOnly)
@@ -39,7 +41,7 @@ public class ConsoleComponentTests : TestContext
         Assert.Equal(isReadOnly, actualIsDisabled);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Text Parameter Test")]
     [InlineData("here is some super special test text")]
     [InlineData("here is some more super special test text")]
     [InlineData("here is event more super special test text")]
@@ -59,7 +61,7 @@ public class ConsoleComponentTests : TestContext
     }
 
 
-    [Theory]
+    [Theory(DisplayName = "IsValid Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void Console_IsValidParam_RendersCorrectly(bool expectedIsValid)
@@ -78,7 +80,7 @@ public class ConsoleComponentTests : TestContext
         Assert.Equal(expectedIsValid, !errorClassExists);
     }
 
-    [Theory]
+    [Theory(DisplayName = "OnChangeCallback Parameter Test")]
     [InlineData("new text")]
     [InlineData("some more new text")]
     [InlineData("even more new text")]

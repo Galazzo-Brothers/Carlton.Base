@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(DropdownMenu<int>))]
 public class DropDownMenuComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void DropDownMenuElement_Markup_RendersCorrectly()
     {
         //Act
@@ -18,7 +19,7 @@ public class DropDownMenuComponentTests : TestContext
         cut.MarkupMatches(DropdownMenuTestHelper.DropDownMenuMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "MenuItems Parameter Test")]
     [MemberData(nameof(DropdownMenuTestHelper.GetItems), MemberType = typeof(DropdownMenuTestHelper))]
     public void DropDownMenuElement_MenuItemsParams_RendersCorrectly(ReadOnlyCollection<DropdownMenuItem<int>> items)
     {
@@ -50,7 +51,7 @@ public class DropDownMenuComponentTests : TestContext
         Assert.Equal(expectedIcons, actualItemIcons);
     }
 
-    [Theory]
+    [Theory(DisplayName = "HeaderTemplate Parameter Test")]
     [InlineData("<span>Testing Header</span>")]
     [InlineData("<span>More Testing Header</span>")]
     [InlineData("<span>Event Testing Header</span>")]
@@ -71,7 +72,7 @@ public class DropDownMenuComponentTests : TestContext
         Assert.Equal(headerTemplate, header);
     }
 
-    [Fact]
+    [Fact(DisplayName = "MenuItemTemplate Parameter Test")]
     public void DropDownMenuElement_MenuItemTemplateParam_RendersCorrectly()
     {
         //Act
@@ -93,7 +94,7 @@ public class DropDownMenuComponentTests : TestContext
             );
     }
 
-    [Fact]
+    [Fact(DisplayName = "MenuTemplate Parameter Test")]
     public void DropDownMenuElement_MenuTemplateParam_RendersCorrectly()
     {
         //Act
@@ -111,7 +112,7 @@ public class DropDownMenuComponentTests : TestContext
         Assert.Equal("<i class=\"False testing\"></i>", menuTemplateMarkup);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Style Parameter Test")]
     public void DropDownMenuElement_StyleParam_RendersCorrectly()
     {
         //Act
@@ -130,7 +131,7 @@ public class DropDownMenuComponentTests : TestContext
         Assert.Equal("--dropdown-left:50px;--dropdown-top:75px;--dropdown-top-mobile:37px;", styleAttribute);
     }
 
-    [Fact]
+    [Fact(DisplayName = "MenuItem Click Test")]
     public void DropDownMenuElement_ClickEvent_RendersCorrectly()
     {
         //Arrange

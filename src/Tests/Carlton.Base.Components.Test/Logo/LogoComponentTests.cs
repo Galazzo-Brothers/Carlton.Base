@@ -1,5 +1,6 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(Logo))]
 public class LogoComponentTests : TestContext
 {
     private static readonly string LogoMarkup =
@@ -11,7 +12,7 @@ public class LogoComponentTests : TestContext
     </div>";
 
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void Logo_Markup_RendersCorrectly()
     {
         //Arrange
@@ -25,7 +26,7 @@ public class LogoComponentTests : TestContext
         cut.MarkupMatches(LogoMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "IsCollapsed Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void Logo_IsCollapsedParam_ShouldBeExpanded(bool isCollapsed)

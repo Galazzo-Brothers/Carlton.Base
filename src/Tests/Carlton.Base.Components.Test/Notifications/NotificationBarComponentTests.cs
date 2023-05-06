@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(NotificationBar))]
 public class NotificationBarComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void NotificationBar_Markup_RendersCorrectly()
     {
         //Act
@@ -17,7 +18,7 @@ public class NotificationBarComponentTests : TestContext
         cut.MarkupMatches(NotificationTestHelper.NotificationBarMarkup);
     }
 
-    [Fact]
+    [Fact(DisplayName = "IsTestMode Parameter False Test")]
     public void NotificationBar_IsTestModeFalseParam_RendersCorrectly()
     {
         //Act
@@ -32,7 +33,7 @@ public class NotificationBarComponentTests : TestContext
         Assert.Throws<ElementNotFoundException>(() => cut.Find(".test-btns"));
     }
 
-    [Fact]
+    [Fact(DisplayName = "FadeOutEnabled Parameter True Test")]
     public void NotificationBar_IsTestModeTrueParam_RendersCorrectly()
     {
         //Act
@@ -49,7 +50,7 @@ public class NotificationBarComponentTests : TestContext
         testBtns.MarkupMatches(NotificationTestHelper.TestBtnsMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "FadeOutEnabled Parameter Test")]
     [InlineData(true, "success-btn")]
     [InlineData(true, "info-btn")]
     [InlineData(true, "warning-btn")]
@@ -80,7 +81,7 @@ public class NotificationBarComponentTests : TestContext
         Assert.Equal(fadeOutEnabled, notification.FadeOutEnabled);
     }
 
-    [Theory]
+    [Theory(DisplayName = "TopRight Parameter Test")]
     [InlineData(5, 10, "top:5px;right:10px;")]
     [InlineData(10, 5, "top:10px;right:5px;")]
     [InlineData(7, 7, "top:7px;right:7px;")]
@@ -105,7 +106,7 @@ public class NotificationBarComponentTests : TestContext
         Assert.Equal(expectedResult, style);
     }
 
-    [Theory]
+    [Theory(DisplayName = "NotificationBar Click Test")]
     [InlineData("success-btn", typeof(SuccessNotification))]
     [InlineData("info-btn", typeof(InfoNotification))]
     [InlineData("warning-btn", typeof(WarningNotification))]
@@ -131,7 +132,7 @@ public class NotificationBarComponentTests : TestContext
         Assert.Equal(expectedType, component.GetType());
     }
 
-    [Theory]
+    [Theory(DisplayName = "Notification Bar Multiple Click Test")]
     [MemberData(nameof(NotificationTestHelper.GetNotifications), MemberType = typeof(NotificationTestHelper))]
     public void NotificationBar_ClickEventRepeatedly_RendersCorrectly(ReadOnlyCollection<int> clickCounts)
     {

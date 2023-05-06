@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(TableHeader<int>))]
 public class TableHeaderComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void TableHeader_Markup_RendersCorrectly()
     {
         //Act
@@ -16,7 +17,7 @@ public class TableHeaderComponentTests : TestContext
         cut.MarkupMatches(TableTestHelper.TableHeaderMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Headings Parameter Test")]
     [MemberData(nameof(TableTestHelper.GetHeadings), MemberType = typeof(TableTestHelper))]
     public void TableHeader_HeadingsParam_RendersCorrectly(IEnumerable<TableHeadingItem> headings)
     {
@@ -40,7 +41,7 @@ public class TableHeaderComponentTests : TestContext
         Assert.Equal(expectedHeadings, actualHeadings);
     }
 
-    [Theory]
+    [Theory(DisplayName = "OrderColumn and OrderDirection Parameter Test")]
     [InlineData("ID", 0, true)]
     [InlineData("ID", 0, false)]
     [InlineData("DisplayName", 1, true)]
@@ -68,7 +69,7 @@ public class TableHeaderComponentTests : TestContext
         Assert.Equal(orderAscending, !hasDescendingClass);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Invalid OrderColumn Parameter Test")]
     [InlineData("Wrong")]
     [InlineData("Also Wrong")]
     [InlineData("Still Wrong")]
@@ -85,7 +86,7 @@ public class TableHeaderComponentTests : TestContext
         Assert.Throws<ElementNotFoundException>(() => cut.Find(".selected"));
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click Once Test")]
     [InlineData(0, "ID")]
     [InlineData(1, "DisplayName")]
     [InlineData(2, "CreatedDate")]
@@ -113,11 +114,12 @@ public class TableHeaderComponentTests : TestContext
         Assert.Equal(expectedColumnName, actualOrderColumn);
     }
 
-    [Theory]
+
+    [Theory(DisplayName = "Header Click Twice Test")]
     [InlineData(0, "ID")]
     [InlineData(1, "DisplayName")]
     [InlineData(2, "CreatedDate")]
-    public void TableHeader_ClickHeadersOnceTwice_EventFires(int columnIndex, string expectedColumnName)
+    public void TableHeader_ClickHeadersTwice_EventFires(int columnIndex, string expectedColumnName)
     {
         //Arrange
         var eventFired = false;
@@ -142,7 +144,7 @@ public class TableHeaderComponentTests : TestContext
         Assert.Equal(expectedColumnName, actualOrderColumn);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click, CSS Selected Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -168,7 +170,7 @@ public class TableHeaderComponentTests : TestContext
         Assert.True(containsSelectedClass);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click, CSS Ascending Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -194,7 +196,7 @@ public class TableHeaderComponentTests : TestContext
         Assert.True(containsAscendingClass);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click, CSS Descending Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]

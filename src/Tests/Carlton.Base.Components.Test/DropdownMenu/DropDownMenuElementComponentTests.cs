@@ -1,12 +1,13 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(DropdownMenuElement<int>))]
 public class DropDownMenuElementComponentTests : TestContext
 {
     private static readonly string DropDownMenuElementMarkup = @"
 <span class=""mdi mdi-mdi-delete accent-color-2"" b-7gb23ut1dh></span>
 <a href=""#"" blazor:onclick:preventDefault blazor:onclick=""1"" b-7gb23ut1dh>Test Menu Item</a>";
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void DropDownMenuElement_Markup_RendersCorrectly()
     {
         //Act
@@ -21,7 +22,7 @@ public class DropDownMenuElementComponentTests : TestContext
         cut.MarkupMatches(DropDownMenuElementMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "MenuItemName Parameter Test")]
     [InlineData("Test Menu Item")]
     [InlineData("Test Menu Item Again")]
     [InlineData("Test Menu Items Yet Another Time")]
@@ -41,7 +42,7 @@ public class DropDownMenuElementComponentTests : TestContext
         Assert.Equal(menuItemName, itemName);
     }
 
-    [Theory]
+    [Theory(DisplayName = "MenuItemValue Parameter Test")]
     [InlineData(5)]
     [InlineData(10)]
     [InlineData(12)]
@@ -61,7 +62,7 @@ public class DropDownMenuElementComponentTests : TestContext
         Assert.Equal(value, item.Value);
     }
 
-    [Theory]
+    [Theory(DisplayName = "MenutItemIcon Parameter Test")]
     [InlineData("icon-1")]
     [InlineData("icon-2")]
     [InlineData("icon-3")]
@@ -83,7 +84,7 @@ public class DropDownMenuElementComponentTests : TestContext
         Assert.Contains(expectedResult, spanElement.ClassList);
     }
 
-    [Theory]
+    [Theory(DisplayName = "MenuItemAccentColorIndex Parameter Test")]
     [InlineData(1, "accent-color-1")]
     [InlineData(2, "accent-color-2")]
     [InlineData(3, "accent-color-3")]
@@ -104,7 +105,7 @@ public class DropDownMenuElementComponentTests : TestContext
         Assert.Contains(expectedValue, spanElement.ClassList);
     }
 
-    [Theory]
+    [Theory(DisplayName = "OnMenuItemSelected Parameter Test")]
     [InlineData(7)]
     [InlineData(8)]
     [InlineData(1)]

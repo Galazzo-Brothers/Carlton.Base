@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(BaseNotification))]
 public class BaseNotificationComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void BaseNotification_Markup_RendersCorrectly()
     {
         //Arrange
@@ -21,7 +22,7 @@ public class BaseNotificationComponentTests : TestContext
         cut.MarkupMatches(NotificationTestHelper.BaseNotificationMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Title Parameter Test")]
     [InlineData("Notification Title Test 1")]
     [InlineData("Notification Title Test 2")]
     [InlineData("Notification Title Test 3")]
@@ -45,7 +46,7 @@ public class BaseNotificationComponentTests : TestContext
         Assert.Equal(expectedTitle, title);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Message Parameter Test")]
     [InlineData("Notification Message Test 1")]
     [InlineData("Notification Message Test 2")]
     [InlineData("Notification Message Test 3")]
@@ -69,7 +70,7 @@ public class BaseNotificationComponentTests : TestContext
         Assert.Equal(expectedMessage, message);
     }
 
-    [Theory]
+    [Theory(DisplayName = "IconClass Parameter Test")]
     [InlineData("icon-class-test-1")]
     [InlineData("icon-class-test-2")]
     [InlineData("icon-class-test-3")]
@@ -93,7 +94,7 @@ public class BaseNotificationComponentTests : TestContext
         Assert.Contains(expectedIconClass, icon.ClassList);
     }
 
-    [Fact]
+    [Fact(DisplayName = "OnDismiss Parameter Test")]
     public void BaseNotification_OnDismissParameter_RendersCorrectly()
     {
         //Arrange
@@ -124,8 +125,8 @@ public class BaseNotificationComponentTests : TestContext
         );
     }
 
-    [Fact]
-    public void BaseNotification_DisposeComponent_ShouldSucced()
+    [Fact(DisplayName = "Dispose Component Test")]
+    public void BaseNotification_DisposeComponent_ShouldSucceed()
     {
         //Arrange
         var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Base.Components/Notifications/BaseNotification.razor.js");

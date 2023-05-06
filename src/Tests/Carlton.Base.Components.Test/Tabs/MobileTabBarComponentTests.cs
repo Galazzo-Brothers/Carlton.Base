@@ -1,5 +1,8 @@
-﻿namespace Carlton.Base.Components.Test;
+﻿using System.ComponentModel;
 
+namespace Carlton.Base.Components.Test;
+
+[Trait("Component", nameof(MobileTabBar))]
 public class MobileTabBarComponentTests : TestContext
 {
 
@@ -35,7 +38,7 @@ public class MobileTabBarComponentTests : TestContext
   </div>
 </div>";
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void MobileTabBar_Markup_RendersCorrectly()
     {
         //Act
@@ -60,7 +63,7 @@ public class MobileTabBarComponentTests : TestContext
         cut.MarkupMatches(MobileTabBarMarkup);
     }
 
-    [Fact]
+    [Fact(DisplayName = "One Tab Test")]
     public void MobileTabBar_WithOneTab_RendersCorrectly()
     {
         //Arrange
@@ -83,7 +86,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.Equal(expectedCount, count);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Two Tabs Test")]
     public void MobileTabBar_WithTwoTabs_RendersCorrectly()
     {
         //Arrange
@@ -110,7 +113,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.Equal(expectedCount, count);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Three Tabs Test")]
     public void MobileTabBar_WithThreeTabs_RendersCorrectly()
     {
         //Arrange
@@ -141,7 +144,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.Equal(expectedCount, count);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Default Active Tab, Render Test")]
     public void MobileTabBar_DefaultActiveTab_RendersCorrectly()
     {
         //Act
@@ -169,7 +172,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.True(isActive);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Default Active Tab, CSS Active Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -203,7 +206,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.True(isActive);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Selected Active Tab, CSS Active Class Test")]
     [InlineData(0, "<span>This is the first tab</span>")]
     [InlineData(1, "<span>This is the second tab</span>")]
     [InlineData(2, "<span>This is the third tab</span>")]
@@ -237,7 +240,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.Equal(expectedText, actualText);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ChildIcon Parameter Test")]
     [InlineData("Icon-Test")]
     [InlineData("Icon-Still-Testing")]
     [InlineData("Icon-Done-Testing")]
@@ -260,7 +263,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.True(hasIcon);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ShowDisplayIcon Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void MobileTabBar_ShowDisplayIconParam_RendersCorrectly(bool showDisplayIcon)
@@ -281,7 +284,7 @@ public class MobileTabBarComponentTests : TestContext
         Assert.Equal(showDisplayIcon, iTag.Any());
     }
 
-    [Theory]
+    [Theory(DisplayName = "ShowDisplayText Paramter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void MobileTabBar_ShowDisplayTextParam_RendersCorrectly(bool showDisplayText)

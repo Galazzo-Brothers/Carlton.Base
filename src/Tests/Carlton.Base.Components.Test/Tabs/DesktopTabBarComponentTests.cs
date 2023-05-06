@@ -1,5 +1,8 @@
-﻿namespace Carlton.Base.Components.Test;
+﻿using System.ComponentModel;
 
+namespace Carlton.Base.Components.Test;
+
+[Trait("Component", nameof(DesktopTabBar))]
 public class DesktopTabBarComponentTests : TestContext
 {
     private readonly string DesktopTabBarMarkup = @"
@@ -28,7 +31,7 @@ public class DesktopTabBarComponentTests : TestContext
 <div class=""tab"">
 </div>";
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void DesktopTabBar_Markup_RendersCorrectly()
     {
         //Act
@@ -52,6 +55,7 @@ public class DesktopTabBarComponentTests : TestContext
     }
 
     [Fact]
+    [DisplayName("One Tab, Render Test")]
     public void DesktopTabBar_WithOneTab_RendersCorrectly()
     {
         //Arrange
@@ -72,7 +76,7 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.Equal(expectedCount, count);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Two Tabs, Render Test")]
     public void DesktopTabBar_WithTwoTabs_RendersCorrectly()
     {
         //Arrange
@@ -98,6 +102,7 @@ public class DesktopTabBarComponentTests : TestContext
     }
 
     [Fact]
+    [DisplayName("Three Tabs, Render Test")]
     public void DesktopTabBar_WithThreeTabs_RendersCorrectly()
     {
         //Arrange
@@ -126,7 +131,7 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.Equal(expectedCount, count);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Default Active Tab Test")]
     public void DesktopTabBar_DefaultActiveTab_RendersCorrectly()
     {
         //Act
@@ -152,7 +157,7 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.True(isActive);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Default Active Tab, CSS Active Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -184,7 +189,7 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.True(isActive);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Active Tab, Render Test")]
     [InlineData(0, "<span>This is the first tab</span>")]
     [InlineData(1, "<span>This is the second tab</span>")]
     [InlineData(2, "<span>This is the third tab</span>")]
@@ -216,7 +221,7 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.Equal(expectedText, actualText);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ChildDisplayText Parameter")]
     [InlineData("Display Test 1")]
     [InlineData("Display Test Again")]
     [InlineData("Display Test One Final Time")]

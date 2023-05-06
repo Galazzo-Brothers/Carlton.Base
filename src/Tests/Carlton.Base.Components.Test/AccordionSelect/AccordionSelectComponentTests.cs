@@ -1,8 +1,9 @@
 namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(AccordionSelect<int>))]
 public class AccordionSelectComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test, No Items")]
     public void AccordionSelect_MarkupWithNoItems_RendersCorrectly()
     {
         //Act
@@ -14,7 +15,7 @@ public class AccordionSelectComponentTests : TestContext
         cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectNoItemsMarkup);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test, With Items")]
     public void AccordionSelect_MarkupWithItems_RendersCorrectly()
     {
         //Act
@@ -28,7 +29,7 @@ public class AccordionSelectComponentTests : TestContext
         cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectWithItemsMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Title Parameter Test")]
     [InlineData("Test 1")]
     [InlineData("Test 2")]
     [InlineData("Test 3")]
@@ -45,7 +46,7 @@ public class AccordionSelectComponentTests : TestContext
         Assert.Equal(expectedTitle, titleElm.InnerHtml);
     }
 
-    [Theory]
+    [Theory(DisplayName = "IsExpanded Parameter Test")]
     [InlineData(false, "mdi-plus-box-outline")]
     [InlineData(true, "mdi-minus-box-outline")]
     public void AccordionSelect_IsExpandedParam_RendersCorrectly(bool isExpanded, string expectedClass)
@@ -65,8 +66,8 @@ public class AccordionSelectComponentTests : TestContext
         Assert.True(accordionContainerElement.ClassList.Contains(expectedClass));
     }
 
-    [Theory]
-    [MemberData(nameof(AccordionSelectTestHelper.GetItems),MemberType = typeof(AccordionSelectTestHelper))]
+    [Theory(DisplayName = "Items Parameter Test")]
+    [MemberData(nameof(AccordionSelectTestHelper.GetItems), MemberType = typeof(AccordionSelectTestHelper))]
     public void AccordionSelect_ItemsParams_RendersCorrectly(ReadOnlyCollection<SelectItem<int>> items)
     {
         //Arrange
@@ -89,7 +90,7 @@ public class AccordionSelectComponentTests : TestContext
         Assert.Equal(expectedItemNames, actualItemNames);
     }
 
-    [Theory]
+    [Theory(DisplayName = "SelectedItemChanged Callback Parameter Test")]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
     [InlineData(2, 3)]
@@ -118,7 +119,7 @@ public class AccordionSelectComponentTests : TestContext
         Assert.Equal(expectedValue, selectedItem.Value);
     }
 
-    [Theory]
+    [Theory(DisplayName = "SelectedValue Parameter Test")]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
     [InlineData(2, 3)]
@@ -139,7 +140,7 @@ public class AccordionSelectComponentTests : TestContext
         Assert.True(selectedItem.ClassList.Contains("selected"));
     }
 
-    [Fact]
+    [Fact(DisplayName = "SelectedValue Parameter, Not Provided Test")]
     public void AccordionSelect_SelectedValueParamDoesNotExist_RendersCorrectly()
     {
         //Act
@@ -156,7 +157,7 @@ public class AccordionSelectComponentTests : TestContext
         Assert.DoesNotContain("selected", itemElms.SelectMany(_ => _.ClassList));
     }
 
-    [Theory]
+    [Theory(DisplayName = "Item Click Test")]
     [InlineData(0, 1)]
     [InlineData(1, 2)]
     [InlineData(2, 3)]

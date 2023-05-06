@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(Select))]
 public class SelectComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void Select_Markup_RendersCorrectly()
     {
         //Act
@@ -17,7 +18,7 @@ public class SelectComponentTests : TestContext
         cut.MarkupMatches(SelectTestHelper.SelectMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Label Parameter Test")]
     [InlineData("Test Label")]
     [InlineData("Another Test Label")]
     [InlineData("Yet Another Label")]
@@ -37,7 +38,7 @@ public class SelectComponentTests : TestContext
         Assert.Equal(labelText, labelContent);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Disabled Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void Select_DisabledParam_RendersCorrectly(bool isDisabled)
@@ -57,7 +58,7 @@ public class SelectComponentTests : TestContext
         Assert.Equal(isDisabled, containsDisabledAttribute);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Options Parameter Tests")]
     [MemberData(nameof(SelectTestHelper.GetOptions), MemberType = typeof(SelectTestHelper))]
     public void Select_OptionsParam_OptsCount_RendersCorrectly(IReadOnlyDictionary<string, int> opts)
     {
@@ -85,7 +86,7 @@ public class SelectComponentTests : TestContext
         Assert.Equal(expectedValues, actualValues);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Selected Options Parameter Render Test")]
     public void Select_OptionsParam_RendersCorrectly()
     {
         //Act
@@ -105,7 +106,7 @@ public class SelectComponentTests : TestContext
                    item => Assert.Equal("Option 3", item.TextContent));
     }
 
-    [Theory]
+    [Theory(DisplayName = "SelectedValue Parameter Test")]
     [InlineData(1, "Option 1")]
     [InlineData(2, "Option 2")]
     [InlineData(3, "Option 3")]
@@ -126,7 +127,7 @@ public class SelectComponentTests : TestContext
         Assert.Equal(expectedLabel, valueDisplay);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Default Selected Value Parameter Test")]
     public void Select_SelectedValueParam_InvalidDefaultValue_RendersCorrectly()
     {
         //Act
@@ -144,7 +145,7 @@ public class SelectComponentTests : TestContext
         Assert.False(containsValueAttribute);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ValueChangedCallback Parameter Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]

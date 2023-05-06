@@ -1,12 +1,13 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(FloatingActionButton))]
 public class FloatingActionButtonComponentTests : TestContext
 {
     private static readonly string FloatingActionButtonMarkup = 
-    @"<div class=""carlton-fab mdi mdi-24px mdi-delete"" style=""--carlton-fab-bottom:10%;--carlton-fab-right:50%;"" b-f8128unqw5></div>";
+    @"<div class=""fab mdi mdi-24px mdi-delete"" style=""--fab-bottom:10%;--fab-right:50%;"" b-f8128unqw5></div>";
 
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void FloatingActionButton_Markup_RendersCorrectly()
     {
         //Act
@@ -20,7 +21,7 @@ public class FloatingActionButtonComponentTests : TestContext
         cut.MarkupMatches(FloatingActionButtonMarkup);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Button Click Test")]
     public void FloatingActionButton_OnClick_RendersCorrectly()
     {
         //Arrange
@@ -33,7 +34,7 @@ public class FloatingActionButtonComponentTests : TestContext
         );
 
         //Act
-        cut.Find(".carlton-fab").Click();
+        cut.Find(".fab").Click();
 
         //Assert
         Assert.True(eventCalled);

@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(Card))]
 public class CardComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void Card_Markup_RendersCorrectly()
     {
         //Act
@@ -17,7 +18,7 @@ public class CardComponentTests : TestContext
         cut.MarkupMatches(CardTestHelper.CardMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Title Parameter Test")]
     [InlineData("Test Title 1")]
     [InlineData("Test Title 2")]
     [InlineData("Test Title 3")]
@@ -37,7 +38,7 @@ public class CardComponentTests : TestContext
         Assert.Equal(expectedTitle, cardTitle);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ActionBarContentChild Parameter Test")]
     [InlineData("ActionBar Testing Content 1")]
     [InlineData("ActionBar Testing Content 2")]
     [InlineData("ActionBar Testing Content 3")]
@@ -57,7 +58,7 @@ public class CardComponentTests : TestContext
         Assert.Equal(expectedActionBarContent, actionBarContent);
     }
 
-    [Theory]
+    [Theory(DisplayName = "HeaderContentChild Parameter Test")]
     [InlineData("<span>Header Testing Content 1</span>")]
     [InlineData("<span>Header Testing Content 2</span>")]
     [InlineData("<span>Header Testing Content 3</span>")]
@@ -77,7 +78,7 @@ public class CardComponentTests : TestContext
         Assert.Equal(expectedHeaderContent, headerContent);
     }
 
-    [Theory]
+    [Theory(DisplayName = "PrimaryContentChild Parameter Test")]
     [InlineData("<span>Primary Testing Content 1</span>")]
     [InlineData("<span>Primary Testing Content 2</span>")]
     [InlineData("<span>Primary Testing Content 3</span>")]

@@ -1,10 +1,11 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(TablePaginationRow<int>))]
 public class TablePaginationRowComponentTests : TestContext
 {
     private const int ItemsCount = 3;
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void TablePaginationRow_Markup_RendersCorrectly()
     {
         //Act
@@ -19,7 +20,7 @@ public class TablePaginationRowComponentTests : TestContext
         cut.MarkupMatches(TableTestHelper.TablePaginationRowMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "RowsPerPageOpts Parameter Test")]
     [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
     public void TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly(IEnumerable<int> opts)
     {
@@ -41,7 +42,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.Equal(expectedValue, actualValue);
     }
 
-    [Theory]
+    [Theory(DisplayName = "RowsPerPageOpts Parameter Render Test")]
     [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
     public void TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly(IEnumerable<int> opts)
     {
@@ -66,7 +67,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.Equal(opts, actualOptions);
     }
 
-    [Theory]
+    [Theory(DisplayName = "PaginationLabel Parameter Test")]
     [InlineData(1, 5, "1-5 of 15")]
     [InlineData(1, 10, "1-10 of 15")]
     [InlineData(1, 15, "1-15 of 15")]
@@ -101,7 +102,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.Equal(expectedText, paginationLabel.TextContent);
     }
 
-    [Theory]
+    [Theory(DisplayName = "PaginationLabel Parameter, Item Count Less Than Page Count Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -127,7 +128,8 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.Equal(expectedText, paginationLabel.TextContent);
     }
 
-    [Theory]
+
+    [Theory(DisplayName = "Item Count, Right Chevron Disabled Test")]
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(4)]
@@ -149,7 +151,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.True(chevronLastPageDisabled);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Item Count, Right Chevron Enabled Test")]
     [InlineData(10)]
     [InlineData(50)]
     [InlineData(100)]
@@ -171,7 +173,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.False(chevronLastPageDisabled);
     }
 
-    [Fact]
+    [Fact(DisplayName = "Page One, Left Chevron Disabled Test")]
     public void TablePaginationRow_PageOne_LeftChevronsDisabled_RendersCorrectly()
     {
         //Act
@@ -190,7 +192,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.True(chevronFirstPageDisabled);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Page Greater Than One, Left Chevron Enabled Test")]
     [InlineData(2)]
     [InlineData(3)]
     [InlineData(5)]
@@ -216,7 +218,7 @@ public class TablePaginationRowComponentTests : TestContext
         Assert.False(chevronFirstPageDisabled);
     }
 
-    [Theory]
+    [Theory(DisplayName = "OnPaginationChangedCallback Parameter Test")]
     [InlineData(1, 5, 1)]
     [InlineData(1, 10, 1)]
     [InlineData(1, 15, 1)]

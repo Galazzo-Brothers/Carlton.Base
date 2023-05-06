@@ -1,5 +1,6 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(SlideTab))]
 public class SlideTabComponentTests : TestContext
 {
     private static readonly string SlideTabMarkup = @"
@@ -11,7 +12,7 @@ public class SlideTabComponentTests : TestContext
 </div>";
 
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void SlideTab_Markup_RendersCorrectly()
     {
         //Act
@@ -26,7 +27,7 @@ public class SlideTabComponentTests : TestContext
         cut.MarkupMatches(SlideTabMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Title Parameter Test")]
     [InlineData("Test Title")]
     [InlineData("Another Test Title")]
     [InlineData("One Final Test Title")]
@@ -47,7 +48,7 @@ public class SlideTabComponentTests : TestContext
         Assert.Equal(expectedTitle, actualTitle);
     }
 
-    [Theory]
+    [Theory(DisplayName = "IsExpanded Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void SlideTab_IsExpandedParam_RendersCorrectly(bool expectedIsExpanded)
@@ -67,7 +68,7 @@ public class SlideTabComponentTests : TestContext
         Assert.Equal(expectedIsExpanded, actualIsExpanded);
     }
 
-    [Theory]
+    [Theory(DisplayName = "PositionBottom Parameter Test")]
     [InlineData(5)]
     [InlineData(50)]
     [InlineData(500)]
@@ -91,7 +92,7 @@ public class SlideTabComponentTests : TestContext
         Assert.Equal(expectedStyleValue, actualStyleValue);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Content Parameter Test")]
     [InlineData("<span class=\"test-content\">Here is some test content</span>")]
     [InlineData("<button class=\"test-content\">Here is some test content</button>")]
     [InlineData("<div class=\"test-content\">Here is some test content</div>")]

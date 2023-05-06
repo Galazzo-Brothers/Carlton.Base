@@ -1,0 +1,1427 @@
+<assemblies timestamp="05/05/2023 13:08:47">
+  <assembly name="C:\Users\nicho\source\repos\NickGalazzo\Carlton.Base\src\Tests\Carlton.Base.Components.Test\bin\Debug\net7.0\Carlton.Base.Components.Test.dll" run-date="2023-05-05" run-time="13:08:47" total="335" passed="333" failed="2" skipped="0" time="8.004" errors="0">
+    <errors />
+    <collection total="20" passed="20" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.AccordionSelectComponentTests" time="0.127">
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_TitleParam_RendersCorrectly(expectedTitle: &quot;Test 2&quot;)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_TitleParam_RendersCorrectly(expectedTitle: &quot;Test 2&quot;)" time="0.0051767" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Title Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_TitleParam_RendersCorrectly(expectedTitle: &quot;Test 3&quot;)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_TitleParam_RendersCorrectly(expectedTitle: &quot;Test 3&quot;)" time="0.0110154" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Title Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_TitleParam_RendersCorrectly(expectedTitle: &quot;Test 1&quot;)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_TitleParam_RendersCorrectly(expectedTitle: &quot;Test 1&quot;)" time="0.0018136" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Title Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_IsExpandedParam_RendersCorrectly(isExpanded: True, expectedClass: &quot;mdi-minus-box-outline&quot;)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_IsExpandedParam_RendersCorrectly(isExpanded: True, expectedClass: &quot;mdi-minus-box-outline&quot;)" time="0.0035774" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="IsExpanded Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_IsExpandedParam_RendersCorrectly(isExpanded: False, expectedClass: &quot;mdi-plus-box-outline&quot;)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_IsExpandedParam_RendersCorrectly(isExpanded: False, expectedClass: &quot;mdi-plus-box-outline&quot;)" time="0.0022772" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="IsExpanded Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedValueParamDoesNotExist_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedValueParamDoesNotExist_RendersCorrectly" time="0.0046679" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedValue Parameter, Not Provided Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_ItemClick_RendersCorrectly(selectedIndex: 2, expectedValue: 3)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_ItemClick_RendersCorrectly(selectedIndex: 2, expectedValue: 3)" time="0.0353100" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Item Click Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_ItemClick_RendersCorrectly(selectedIndex: 0, expectedValue: 1)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_ItemClick_RendersCorrectly(selectedIndex: 0, expectedValue: 1)" time="0.0032686" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Item Click Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_ItemClick_RendersCorrectly(selectedIndex: 1, expectedValue: 2)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_ItemClick_RendersCorrectly(selectedIndex: 1, expectedValue: 2)" time="0.0022948" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Item Click Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_MarkupWithNoItems_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_MarkupWithNoItems_RendersCorrectly" time="0.0034419" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Markup Test, No Items" />
+          <trait name="TestCategory" value="Category 1" />
+          <trait name="TestCategory" value="Category 2" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedItemChangedParam_FiresCallback(itemIndex: 1, expectedValue: 2)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedItemChangedParam_FiresCallback(itemIndex: 1, expectedValue: 2)" time="0.0048419" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItemChanged Callback Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedItemChangedParam_FiresCallback(itemIndex: 0, expectedValue: 1)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedItemChangedParam_FiresCallback(itemIndex: 0, expectedValue: 1)" time="0.0098489" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItemChanged Callback Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedItemChangedParam_FiresCallback(itemIndex: 2, expectedValue: 3)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedItemChangedParam_FiresCallback(itemIndex: 2, expectedValue: 3)" time="0.0025267" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItemChanged Callback Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedValueParam_RendersCorrectly(selectedIndex: 0, selectedValue: 1)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedValueParam_RendersCorrectly(selectedIndex: 0, selectedValue: 1)" time="0.0041886" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedValue Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedValueParam_RendersCorrectly(selectedIndex: 2, selectedValue: 3)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedValueParam_RendersCorrectly(selectedIndex: 2, selectedValue: 3)" time="0.0026562" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedValue Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_SelectedValueParam_RendersCorrectly(selectedIndex: 1, selectedValue: 2)" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_SelectedValueParam_RendersCorrectly(selectedIndex: 1, selectedValue: 2)" time="0.0095999" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedValue Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_MarkupWithItems_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_MarkupWithItems_RendersCorrectly" time="0.0052507" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Markup Test, With Items" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_ItemsParams_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_ItemsParams_RendersCorrectly(items: [SelectItem { Name = Item 1, Index = 0, Value = 1 }])" time="0.0044405" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Items Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_ItemsParams_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_ItemsParams_RendersCorrectly(items: [SelectItem { Name = Item 1, Index = 0, Value = 1 }, SelectItem { Name = Item 2, Index = 1, Value = 2 }])" time="0.0088472" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Items Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectComponentTests.AccordionSelect_ItemsParams_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectComponentTests" method="AccordionSelect_ItemsParams_RendersCorrectly(items: [SelectItem { Name = Item 1, Index = 0, Value = 1 }, SelectItem { Name = Item 2, Index = 1, Value = 2 }, SelectItem { Name = Item 3, Index = 2, Value = 3 }])" time="0.0015986" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Items Parameter Test" />
+          <trait name="Component" value="AccordionSelect" />
+        </traits>
+      </test>
+    </collection>
+    <collection total="13" passed="13" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" time="0.150">
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback" time="0.0584950" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="OnSelectedItemChanged Callback Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_Markup_RendersCorrectly" time="0.0187492" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Markup Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_GroupsParam_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_GroupsParam_RendersCorrectly(groups: [SelectGroup { Name = Group 1, Index = 0, Items = System.Collections.Generic.List`1[Carlton.Base.Components.SelectItem`1[System.Int32]] }])" time="0.0041089" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Groups Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_GroupsParam_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_GroupsParam_RendersCorrectly(groups: [SelectGroup { Name = Group 1, Index = 0, Items = System.Collections.Generic.List`1[Carlton.Base.Components.SelectItem`1[System.Int32]] }, SelectGroup { Name = Group 2, Index = 1, Items = System.Collections.Generic.List`1[Carlton.Base.Components.SelectItem`1[System.Int32]] }])" time="0.0108192" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Groups Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_GroupsParam_RendersCorrectly" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_GroupsParam_RendersCorrectly(groups: [SelectGroup { Name = Group 1, Index = 0, Items = System.Collections.Generic.List`1[Carlton.Base.Components.SelectItem`1[System.Int32]] }, SelectGroup { Name = Group 2, Index = 1, Items = System.Collections.Generic.List`1[Carlton.Base.Components.SelectItem`1[System.Int32]] }, SelectGroup { Name = Group 3, Index = 2, Items = System.Collections.Generic.List`1[Carlton.Base.Components.SelectItem`1[System.Int32]] }])" time="0.0028168" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Groups Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 0, itemIndex: 0, expectedValue: 1)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 0, itemIndex: 0, expectedValue: 1)" time="0.0151210" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Group Click Event Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 0, itemIndex: 1, expectedValue: 2)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 0, itemIndex: 1, expectedValue: 2)" time="0.0041555" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Group Click Event Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 1, itemIndex: 2, expectedValue: 3)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 1, itemIndex: 2, expectedValue: 3)" time="0.0108633" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Group Click Event Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 1, itemIndex: 3, expectedValue: 4)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_ClickEvent_RendersCorrectly(groupIndex: 1, itemIndex: 3, expectedValue: 4)" time="0.0036515" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="Group Click Event Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 0, itemIndex: 0, itemValue: 1)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 0, itemIndex: 0, itemValue: 1)" time="0.0130438" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItem Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 1, itemIndex: 3, itemValue: 4)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 1, itemIndex: 3, itemValue: 4)" time="0.0029669" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItem Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 0, itemIndex: 1, itemValue: 2)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 0, itemIndex: 1, itemValue: 2)" time="0.0024085" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItem Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests.AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 1, itemIndex: 2, itemValue: 3)" type="Carlton.Base.Components.Test.AccordionSelectGroupComponentTests" method="AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(groupIndex: 1, itemIndex: 2, itemValue: 3)" time="0.0023227" result="Pass">
+        <traits>
+          <trait name="DisplayName" value="SelectedItem Parameter Test" />
+          <trait name="Component" value="AccordionSelectGroup" />
+        </traits>
+      </test>
+    </collection>
+    <collection total="12" passed="12" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.BaseNotificationComponentTests" time="0.177">
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_Markup_RendersCorrectly" time="0.0216943" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_MessageParam_RendersCorrectly(expectedMessage: &quot;Notification Message Test 2&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_MessageParam_RendersCorrectly(expectedMessage: &quot;Notification Message Test 2&quot;)" time="0.0114451" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_MessageParam_RendersCorrectly(expectedMessage: &quot;Notification Message Test 3&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_MessageParam_RendersCorrectly(expectedMessage: &quot;Notification Message Test 3&quot;)" time="0.0021455" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_MessageParam_RendersCorrectly(expectedMessage: &quot;Notification Message Test 1&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_MessageParam_RendersCorrectly(expectedMessage: &quot;Notification Message Test 1&quot;)" time="0.0018385" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_DisposeComponent_ShouldSucced" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_DisposeComponent_ShouldSucced" time="0.0378200" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_TitleParam_RendersCorrectly(expectedTitle: &quot;Notification Title Test 2&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_TitleParam_RendersCorrectly(expectedTitle: &quot;Notification Title Test 2&quot;)" time="0.0113515" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_TitleParam_RendersCorrectly(expectedTitle: &quot;Notification Title Test 1&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_TitleParam_RendersCorrectly(expectedTitle: &quot;Notification Title Test 1&quot;)" time="0.0024911" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_TitleParam_RendersCorrectly(expectedTitle: &quot;Notification Title Test 3&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_TitleParam_RendersCorrectly(expectedTitle: &quot;Notification Title Test 3&quot;)" time="0.0019261" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_OnDismissParameter_RendersCorrectly" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_OnDismissParameter_RendersCorrectly" time="0.0708395" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_IconClassParameter_RendersCorrectly(expectedIconClass: &quot;icon-class-test-3&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_IconClassParameter_RendersCorrectly(expectedIconClass: &quot;icon-class-test-3&quot;)" time="0.0043199" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_IconClassParameter_RendersCorrectly(expectedIconClass: &quot;icon-class-test-2&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_IconClassParameter_RendersCorrectly(expectedIconClass: &quot;icon-class-test-2&quot;)" time="0.0090168" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BaseNotificationComponentTests.BaseNotification_IconClassParameter_RendersCorrectly(expectedIconClass: &quot;icon-class-test-1&quot;)" type="Carlton.Base.Components.Test.BaseNotificationComponentTests" method="BaseNotification_IconClassParameter_RendersCorrectly(expectedIconClass: &quot;icon-class-test-1&quot;)" time="0.0016614" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="10" passed="10" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.BreadCrumbsComponentTests" time="0.062">
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_TitleParam_RendersCorrectly(expectedTitle: &quot;Another Test Title&quot;)" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_TitleParam_RendersCorrectly(expectedTitle: &quot;Another Test Title&quot;)" time="0.0189316" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_TitleParam_RendersCorrectly(expectedTitle: &quot;Test Title&quot;)" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_TitleParam_RendersCorrectly(expectedTitle: &quot;Test Title&quot;)" time="0.0110541" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_TitleParam_RendersCorrectly(expectedTitle: &quot;Yet Another Test Title&quot;)" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_TitleParam_RendersCorrectly(expectedTitle: &quot;Yet Another Test Title&quot;)" time="0.0018373" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly(expected: (System.Collections.Generic.List`1[System.String], Home Page))" time="0.0033205" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly(expected: (System.Collections.Generic.List`1[System.String], Home Page &gt; Test Page))" time="0.0026614" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly(expected: (System.Collections.Generic.List`1[System.String], Home Page &gt; Test Page &gt; SubTest Page))" time="0.0017695" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_SeparatorParam_RendersCorrectly(expectedSeparator: &quot;|&quot;)" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_SeparatorParam_RendersCorrectly(expectedSeparator: &quot;|&quot;)" time="0.0118019" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_SeparatorParam_RendersCorrectly(expectedSeparator: &quot;&gt;&quot;)" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_SeparatorParam_RendersCorrectly(expectedSeparator: &quot;&gt;&quot;)" time="0.0021253" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_SeparatorParam_RendersCorrectly(expectedSeparator: &quot;/&quot;)" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_SeparatorParam_RendersCorrectly(expectedSeparator: &quot;/&quot;)" time="0.0017295" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.BreadCrumbsComponentTests.BreadCrumbs_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.BreadCrumbsComponentTests" method="BreadCrumbs_Markup_RendersCorrectly" time="0.0063749" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="13" passed="13" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.CardComponentTests" time="0.075">
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_ActionBarContentChildParam_RendersCorrectly(expectedActionBarContent: &quot;ActionBar Testing Content 2&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_ActionBarContentChildParam_RendersCorrectly(expectedActionBarContent: &quot;ActionBar Testing Content 2&quot;)" time="0.0150397" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_ActionBarContentChildParam_RendersCorrectly(expectedActionBarContent: &quot;ActionBar Testing Content 3&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_ActionBarContentChildParam_RendersCorrectly(expectedActionBarContent: &quot;ActionBar Testing Content 3&quot;)" time="0.0055373" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_ActionBarContentChildParam_RendersCorrectly(expectedActionBarContent: &quot;ActionBar Testing Content 1&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_ActionBarContentChildParam_RendersCorrectly(expectedActionBarContent: &quot;ActionBar Testing Content 1&quot;)" time="0.0135840" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content 1&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content 1&lt;/span&gt;&quot;)" time="0.0032927" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content 3&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content 3&lt;/span&gt;&quot;)" time="0.0020371" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content 2&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content 2&lt;/span&gt;&quot;)" time="0.0099544" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_CardTitleParam_RendersCorrectly(expectedTitle: &quot;Test Title 2&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_CardTitleParam_RendersCorrectly(expectedTitle: &quot;Test Title 2&quot;)" time="0.0031074" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_CardTitleParam_RendersCorrectly(expectedTitle: &quot;Test Title 1&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_CardTitleParam_RendersCorrectly(expectedTitle: &quot;Test Title 1&quot;)" time="0.0019066" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_CardTitleParam_RendersCorrectly(expectedTitle: &quot;Test Title 3&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_CardTitleParam_RendersCorrectly(expectedTitle: &quot;Test Title 3&quot;)" time="0.0017547" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_Markup_RendersCorrectly" time="0.0114924" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_PrimaryContentChildParam_RendersCorrectly(expectedPrimaryCardContent: &quot;&lt;span&gt;Primary Testing Content 2&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_PrimaryContentChildParam_RendersCorrectly(expectedPrimaryCardContent: &quot;&lt;span&gt;Primary Testing Content 2&lt;/span&gt;&quot;)" time="0.0031278" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_PrimaryContentChildParam_RendersCorrectly(expectedPrimaryCardContent: &quot;&lt;span&gt;Primary Testing Content 3&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_PrimaryContentChildParam_RendersCorrectly(expectedPrimaryCardContent: &quot;&lt;span&gt;Primary Testing Content 3&lt;/span&gt;&quot;)" time="0.0020087" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+      <test name="Carlton.Base.Components.Test.CardComponentTests.Card_PrimaryContentChildParam_RendersCorrectly(expectedPrimaryCardContent: &quot;&lt;span&gt;Primary Testing Content 1&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.CardComponentTests" method="Card_PrimaryContentChildParam_RendersCorrectly(expectedPrimaryCardContent: &quot;&lt;span&gt;Primary Testing Content 1&lt;/span&gt;&quot;)" time="0.0018320" result="Pass">
+        <traits>
+          <trait name="Category" value="XXX" />
+        </traits>
+      </test>
+    </collection>
+    <collection total="3" passed="3" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.CheckboxComponentTests" time="0.023">
+      <test name="Carlton.Base.Components.Test.CheckboxComponentTests.Checkbox_IsCheckedParam_FiresCallback(isChecked: False)" type="Carlton.Base.Components.Test.CheckboxComponentTests" method="Checkbox_IsCheckedParam_FiresCallback(isChecked: False)" time="0.0100262" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CheckboxComponentTests.Checkbox_IsCheckedParam_FiresCallback(isChecked: True)" type="Carlton.Base.Components.Test.CheckboxComponentTests" method="Checkbox_IsCheckedParam_FiresCallback(isChecked: True)" time="0.0024822" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CheckboxComponentTests.Checkbox_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.CheckboxComponentTests" method="Checkbox_Markup_RendersCorrectly" time="0.0101550" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="11" passed="11" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.ConsoleComponentTests" time="0.567">
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_IsValidParam_RendersCorrectly(expectedIsValid: True)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_IsValidParam_RendersCorrectly(expectedIsValid: True)" time="0.4896215" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_IsValidParam_RendersCorrectly(expectedIsValid: False)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_IsValidParam_RendersCorrectly(expectedIsValid: False)" time="0.0024350" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_ReadOnlyParam_RendersCorrectly(isReadOnly: False)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_ReadOnlyParam_RendersCorrectly(isReadOnly: False)" time="0.0036712" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_ReadOnlyParam_RendersCorrectly(isReadOnly: True)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_ReadOnlyParam_RendersCorrectly(isReadOnly: True)" time="0.0020203" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_OnChangeCallbackParam_FiresCallback(expectedText: &quot;even more new text&quot;)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_OnChangeCallbackParam_FiresCallback(expectedText: &quot;even more new text&quot;)" time="0.0091071" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_OnChangeCallbackParam_FiresCallback(expectedText: &quot;some more new text&quot;)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_OnChangeCallbackParam_FiresCallback(expectedText: &quot;some more new text&quot;)" time="0.0022939" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_OnChangeCallbackParam_FiresCallback(expectedText: &quot;new text&quot;)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_OnChangeCallbackParam_FiresCallback(expectedText: &quot;new text&quot;)" time="0.0110038" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_TextParam_RendersCorrectly(expectedText: &quot;here is some more super special test text&quot;)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_TextParam_RendersCorrectly(expectedText: &quot;here is some more super special test text&quot;)" time="0.0032053" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_TextParam_RendersCorrectly(expectedText: &quot;here is event more super special test text&quot;)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_TextParam_RendersCorrectly(expectedText: &quot;here is event more super special test text&quot;)" time="0.0021743" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_TextParam_RendersCorrectly(expectedText: &quot;here is some super special test text&quot;)" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_TextParam_RendersCorrectly(expectedText: &quot;here is some super special test text&quot;)" time="0.0016797" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ConsoleComponentTests.Console_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.ConsoleComponentTests" method="Console_Markup_RendersCorrectly" time="0.0398002" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="14" passed="14" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.CountCardComponentTests" time="0.060">
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_CountParam_RendersCorrectly(count: 30)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_CountParam_RendersCorrectly(count: 30)" time="0.0116209" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_CountParam_RendersCorrectly(count: 15)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_CountParam_RendersCorrectly(count: 15)" time="0.0096743" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_CountParam_RendersCorrectly(count: 10)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_CountParam_RendersCorrectly(count: 10)" time="0.0016568" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_MessageTemplateParam_RendersCorrectly(messageTemplate: &quot;Items Tracked by this component&quot;)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_MessageTemplateParam_RendersCorrectly(messageTemplate: &quot;Items Tracked by this component&quot;)" time="0.0038784" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_MessageTemplateParam_RendersCorrectly(messageTemplate: &quot;More Items Tracked by this component&quot;)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_MessageTemplateParam_RendersCorrectly(messageTemplate: &quot;More Items Tracked by this component&quot;)" time="0.0032328" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_MessageTemplateParam_RendersCorrectly(messageTemplate: &quot;Event Items Tracked by this component&quot;)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_MessageTemplateParam_RendersCorrectly(messageTemplate: &quot;Event Items Tracked by this component&quot;)" time="0.0019477" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_ThemeParam_RendersCorrectly(theme: Red)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_ThemeParam_RendersCorrectly(theme: Red)" time="0.0033631" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_ThemeParam_RendersCorrectly(theme: Purple)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_ThemeParam_RendersCorrectly(theme: Purple)" time="0.0021675" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_ThemeParam_RendersCorrectly(theme: Blue)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_ThemeParam_RendersCorrectly(theme: Blue)" time="0.0019813" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_ThemeParam_RendersCorrectly(theme: Green)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_ThemeParam_RendersCorrectly(theme: Green)" time="0.0018026" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_Markup_RendersCorrectly" time="0.0047129" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_IconParam_RendersCorrectly(icon: &quot;icon-3&quot;)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_IconParam_RendersCorrectly(icon: &quot;icon-3&quot;)" time="0.0107926" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_IconParam_RendersCorrectly(icon: &quot;icon-2&quot;)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_IconParam_RendersCorrectly(icon: &quot;icon-2&quot;)" time="0.0019234" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.CountCardComponentTests.CountCard_IconParam_RendersCorrectly(icon: &quot;icon-1&quot;)" type="Carlton.Base.Components.Test.CountCardComponentTests" method="CountCard_IconParam_RendersCorrectly(icon: &quot;icon-1&quot;)" time="0.0014941" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="14" passed="14" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.DesktopTabBarComponentTests" time="0.153">
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(displayText: &quot;Display Test One Final Time&quot;)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(displayText: &quot;Display Test One Final Time&quot;)" time="0.0125828" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(displayText: &quot;Display Test Again&quot;)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(displayText: &quot;Display Test Again&quot;)" time="0.0099093" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(displayText: &quot;Display Test 1&quot;)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ChildDisplayTextParam_RendersCorrectly(displayText: &quot;Display Test 1&quot;)" time="0.0021361" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 1, expectedText: &quot;&lt;span&gt;This is the second tab&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 1, expectedText: &quot;&lt;span&gt;This is the second tab&lt;/span&gt;&quot;)" time="0.0219401" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 2, expectedText: &quot;&lt;span&gt;This is the third tab&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 2, expectedText: &quot;&lt;span&gt;This is the third tab&lt;/span&gt;&quot;)" time="0.0113125" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 0, expectedText: &quot;&lt;span&gt;This is the first tab&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 0, expectedText: &quot;&lt;span&gt;This is the first tab&lt;/span&gt;&quot;)" time="0.0030838" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 1)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 1)" time="0.0164153" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 0)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 0)" time="0.0206791" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 2)" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 2)" time="0.0143470" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_DefaultActiveTab_RendersCorrectly" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_DefaultActiveTab_RendersCorrectly" time="0.0052803" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_Markup_RendersCorrectly" time="0.0141385" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_WithTwoTabs_RendersCorrectly" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_WithTwoTabs_RendersCorrectly" time="0.0043898" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_WithOneTab_RendersCorrectly" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_WithOneTab_RendersCorrectly" time="0.0112047" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DesktopTabBarComponentTests.DesktopTabBar_WithThreeTabs_RendersCorrectly" type="Carlton.Base.Components.Test.DesktopTabBarComponentTests" method="DesktopTabBar_WithThreeTabs_RendersCorrectly" time="0.0058342" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="11" passed="11" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.DropDownMenuComponentTests" time="0.577">
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_MenuTemplateParam_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_MenuTemplateParam_RendersCorrectly" time="0.4923342" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_StyleParam_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_StyleParam_RendersCorrectly" time="0.0054263" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_ClickEvent_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_ClickEvent_RendersCorrectly" time="0.0072331" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_MenuItemTemplateParam_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_MenuItemTemplateParam_RendersCorrectly" time="0.0184232" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_MenuItemsParams_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_MenuItemsParams_RendersCorrectly(items: [DropdownMenuItem { MenuItemName = Item 1, Value = 1, MenuIcon = icon-1, AccentColorIndex = 1 }])" time="0.0087011" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_MenuItemsParams_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_MenuItemsParams_RendersCorrectly(items: [DropdownMenuItem { MenuItemName = Item 1, Value = 1, MenuIcon = icon-1, AccentColorIndex = 1 }, DropdownMenuItem { MenuItemName = Item 2, Value = 2, MenuIcon = icon-2, AccentColorIndex = 2 }])" time="0.0025967" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_MenuItemsParams_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_MenuItemsParams_RendersCorrectly(items: [DropdownMenuItem { MenuItemName = Item 1, Value = 1, MenuIcon = icon-1, AccentColorIndex = 1 }, DropdownMenuItem { MenuItemName = Item 2, Value = 2, MenuIcon = icon-2, AccentColorIndex = 2 }, DropdownMenuItem { MenuItemName = Item 3, Value = 3, MenuIcon = icon-3, AccentColorIndex = 3 }])" time="0.0023002" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(headerTemplate: &quot;&lt;span&gt;More Testing Header&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(headerTemplate: &quot;&lt;span&gt;More Testing Header&lt;/span&gt;&quot;)" time="0.0181109" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(headerTemplate: &quot;&lt;span&gt;Event Testing Header&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(headerTemplate: &quot;&lt;span&gt;Event Testing Header&lt;/span&gt;&quot;)" time="0.0021074" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(headerTemplate: &quot;&lt;span&gt;Testing Header&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_HeaderTemplateParam_RendersCorrectly(headerTemplate: &quot;&lt;span&gt;Testing Header&lt;/span&gt;&quot;)" time="0.0022491" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuComponentTests.DropDownMenuElement_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuComponentTests" method="DropDownMenuElement_Markup_RendersCorrectly" time="0.0170654" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="16" passed="16" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.DropDownMenuElementComponentTests" time="0.579">
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(accentColorIndex: 2, expectedValue: &quot;accent-color-2&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(accentColorIndex: 2, expectedValue: &quot;accent-color-2&quot;)" time="0.4905262" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(accentColorIndex: 3, expectedValue: &quot;accent-color-3&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(accentColorIndex: 3, expectedValue: &quot;accent-color-3&quot;)" time="0.0022536" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(accentColorIndex: 1, expectedValue: &quot;accent-color-1&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(accentColorIndex: 1, expectedValue: &quot;accent-color-1&quot;)" time="0.0017369" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(value: 8)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(value: 8)" time="0.0138663" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(value: 1)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(value: 1)" time="0.0114250" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(value: 7)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(value: 7)" time="0.0021706" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemIconParam_RendersCorrectly(icon: &quot;icon-3&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemIconParam_RendersCorrectly(icon: &quot;icon-3&quot;)" time="0.0034961" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemIconParam_RendersCorrectly(icon: &quot;icon-2&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemIconParam_RendersCorrectly(icon: &quot;icon-2&quot;)" time="0.0020132" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemIconParam_RendersCorrectly(icon: &quot;icon-1&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemIconParam_RendersCorrectly(icon: &quot;icon-1&quot;)" time="0.0019124" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemNameParam_RendersCorrectly(menuItemName: &quot;Test Menu Item Again&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemNameParam_RendersCorrectly(menuItemName: &quot;Test Menu Item Again&quot;)" time="0.0034529" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemNameParam_RendersCorrectly(menuItemName: &quot;Test Menu Item&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemNameParam_RendersCorrectly(menuItemName: &quot;Test Menu Item&quot;)" time="0.0018098" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemNameParam_RendersCorrectly(menuItemName: &quot;Test Menu Items Yet Another Time&quot;)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemNameParam_RendersCorrectly(menuItemName: &quot;Test Menu Items Yet Another Time&quot;)" time="0.0014655" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemValueParam_RendersCorrectly(value: 10)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemValueParam_RendersCorrectly(value: 10)" time="0.0028306" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemValueParam_RendersCorrectly(value: 12)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemValueParam_RendersCorrectly(value: 12)" time="0.0010894" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_MenuItemValueParam_RendersCorrectly(value: 5)" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_MenuItemValueParam_RendersCorrectly(value: 5)" time="0.0011132" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.DropDownMenuElementComponentTests.DropDownMenuElement_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.DropDownMenuElementComponentTests" method="DropDownMenuElement_Markup_RendersCorrectly" time="0.0374782" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="2" passed="2" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.FloatingActionButtonComponentTests" time="0.568">
+      <test name="Carlton.Base.Components.Test.FloatingActionButtonComponentTests.FloatingActionButton_OnClick_RendersCorrectly" type="Carlton.Base.Components.Test.FloatingActionButtonComponentTests" method="FloatingActionButton_OnClick_RendersCorrectly" time="0.5043967" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.FloatingActionButtonComponentTests.FloatingActionButton_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.FloatingActionButtonComponentTests" method="FloatingActionButton_Markup_RendersCorrectly" time="0.0634817" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="3" passed="3" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.HamburgerCollapserComponentTests" time="0.568">
+      <test name="Carlton.Base.Components.Test.HamburgerCollapserComponentTests.HamburgerCollapser_ClickEvent_ShouldRenderCorrectly(isCollapsed: True)" type="Carlton.Base.Components.Test.HamburgerCollapserComponentTests" method="HamburgerCollapser_ClickEvent_ShouldRenderCorrectly(isCollapsed: True)" time="0.5042835" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.HamburgerCollapserComponentTests.HamburgerCollapser_ClickEvent_ShouldRenderCorrectly(isCollapsed: False)" type="Carlton.Base.Components.Test.HamburgerCollapserComponentTests" method="HamburgerCollapser_ClickEvent_ShouldRenderCorrectly(isCollapsed: False)" time="0.0021045" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.HamburgerCollapserComponentTests.HamburgerCollapser_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.HamburgerCollapserComponentTests" method="HamburgerCollapser_Markup_RendersCorrectly" time="0.0614790" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="13" passed="13" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.ListCardComponentTests" time="0.558">
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_CardSubTitleParam_RendersCorrectly(subtitle: &quot;Test Subtitle 3&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_CardSubTitleParam_RendersCorrectly(subtitle: &quot;Test Subtitle 3&quot;)" time="0.4895959" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_CardSubTitleParam_RendersCorrectly(subtitle: &quot;Test Subtitle 1&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_CardSubTitleParam_RendersCorrectly(subtitle: &quot;Test Subtitle 1&quot;)" time="0.0048670" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_CardSubTitleParam_RendersCorrectly(subtitle: &quot;Test Subtitle 2&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_CardSubTitleParam_RendersCorrectly(subtitle: &quot;Test Subtitle 2&quot;)" time="0.0025374" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_ItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_ItemsParam_RendersCorrectly(expectedItems: [1, 2, 3])" time="0.0141041" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_ItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_ItemsParam_RendersCorrectly(expectedItems: [1, 2, 3, 10, 15])" time="0.0028431" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_ItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_ItemsParam_RendersCorrectly(expectedItems: [7])" time="0.0019417" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_CardTitleParam_RendersCorrectly(title: &quot;Test Title 2&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_CardTitleParam_RendersCorrectly(title: &quot;Test Title 2&quot;)" time="0.0037570" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_CardTitleParam_RendersCorrectly(title: &quot;Test Title 3&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_CardTitleParam_RendersCorrectly(title: &quot;Test Title 3&quot;)" time="0.0168987" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_CardTitleParam_RendersCorrectly(title: &quot;Test Title 1&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_CardTitleParam_RendersCorrectly(title: &quot;Test Title 1&quot;)" time="0.0019390" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Header Testing Content&lt;/span&gt;&quot;)" time="0.0039517" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Event More Header Testing Content&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;Event More Header Testing Content&lt;/span&gt;&quot;)" time="0.0023925" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;More Header Testing Content&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_HeaderContentChildParam_RendersCorrectly(expectedHeaderContent: &quot;&lt;span&gt;More Header Testing Content&lt;/span&gt;&quot;)" time="0.0024475" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.ListCardComponentTests.ListCard_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.ListCardComponentTests" method="ListCard_Markup_RendersCorrectly" time="0.0105827" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="3" passed="3" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.LogoComponentTests" time="0.563">
+      <test name="Carlton.Base.Components.Test.LogoComponentTests.Logo_IsCollapsedParam_ShouldBeExpanded(isCollapsed: False)" type="Carlton.Base.Components.Test.LogoComponentTests" method="Logo_IsCollapsedParam_ShouldBeExpanded(isCollapsed: False)" time="0.4530712" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.LogoComponentTests.Logo_IsCollapsedParam_ShouldBeExpanded(isCollapsed: True)" type="Carlton.Base.Components.Test.LogoComponentTests" method="Logo_IsCollapsedParam_ShouldBeExpanded(isCollapsed: True)" time="0.0019409" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.LogoComponentTests.Logo_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.LogoComponentTests" method="Logo_Markup_RendersCorrectly" time="0.1084150" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="18" passed="18" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.MobileTabBarComponentTests" time="0.189">
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_WithOneTab_RendersCorrectly" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_WithOneTab_RendersCorrectly" time="0.0099881" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 1)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 1)" time="0.0236388" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 2)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 2)" time="0.0037415" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 0)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ActiveTabClass_RendersCorrectly(activeTabIndex: 0)" time="0.0039481" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ShowDisplayTextParam_RendersCorrectly(showDisplayText: False)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ShowDisplayTextParam_RendersCorrectly(showDisplayText: False)" time="0.0320473" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ShowDisplayTextParam_RendersCorrectly(showDisplayText: True)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ShowDisplayTextParam_RendersCorrectly(showDisplayText: True)" time="0.0022405" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 0, expectedText: &quot;&lt;span&gt;This is the first tab&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 0, expectedText: &quot;&lt;span&gt;This is the first tab&lt;/span&gt;&quot;)" time="0.0150505" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 2, expectedText: &quot;&lt;span&gt;This is the third tab&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 2, expectedText: &quot;&lt;span&gt;This is the third tab&lt;/span&gt;&quot;)" time="0.0038614" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 1, expectedText: &quot;&lt;span&gt;This is the second tab&lt;/span&gt;&quot;)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ActiveTab_RendersCorrectly(activeTabIndex: 1, expectedText: &quot;&lt;span&gt;This is the second tab&lt;/span&gt;&quot;)" time="0.0034014" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ShowDisplayIconParam_RendersCorrectly(showDisplayIcon: True)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ShowDisplayIconParam_RendersCorrectly(showDisplayIcon: True)" time="0.0037951" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ShowDisplayIconParam_RendersCorrectly(showDisplayIcon: False)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ShowDisplayIconParam_RendersCorrectly(showDisplayIcon: False)" time="0.0022058" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ChildIconParam_RendersCorrectly(icon: &quot;Icon-Test&quot;)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ChildIconParam_RendersCorrectly(icon: &quot;Icon-Test&quot;)" time="0.0124672" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ChildIconParam_RendersCorrectly(icon: &quot;Icon-Still-Testing&quot;)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ChildIconParam_RendersCorrectly(icon: &quot;Icon-Still-Testing&quot;)" time="0.0022795" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_ChildIconParam_RendersCorrectly(icon: &quot;Icon-Done-Testing&quot;)" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_ChildIconParam_RendersCorrectly(icon: &quot;Icon-Done-Testing&quot;)" time="0.0020111" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_Markup_RendersCorrectly" time="0.0199716" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_WithThreeTabs_RendersCorrectly" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_WithThreeTabs_RendersCorrectly" time="0.0070683" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_DefaultActiveTab_RendersCorrectly" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_DefaultActiveTab_RendersCorrectly" time="0.0246249" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.MobileTabBarComponentTests.MobileTabBar_WithTwoTabs_RendersCorrectly" type="Carlton.Base.Components.Test.MobileTabBarComponentTests" method="MobileTabBar_WithTwoTabs_RendersCorrectly" time="0.0169747" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="21" passed="21" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.NotificationBarComponentTests" time="0.318">
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEventRepeatedly_RendersCorrectly" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEventRepeatedly_RendersCorrectly(clickCounts: [2, 7, 3, 4])" time="0.2091048" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEventRepeatedly_RendersCorrectly" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEventRepeatedly_RendersCorrectly(clickCounts: [1, 2, 3, 4])" time="0.0419697" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEventRepeatedly_RendersCorrectly" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEventRepeatedly_RendersCorrectly(clickCounts: [0, 1, 3, 0])" time="0.0078768" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;warning-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;warning-btn&quot;)" time="0.0053169" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;success-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;success-btn&quot;)" time="0.0090490" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;info-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;info-btn&quot;)" time="0.0025636" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;error-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;error-btn&quot;)" time="0.0028249" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;info-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: True, notificationClass: &quot;info-btn&quot;)" time="0.0027441" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;success-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;success-btn&quot;)" time="0.0024667" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;warning-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;warning-btn&quot;)" time="0.0031251" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;error-btn&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_FadeOutEnabledParam_RendersCorrectly(fadeOutEnabled: False, notificationClass: &quot;error-btn&quot;)" time="0.0029665" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_IsTestModeTrueParam_RendersCorrectly" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_IsTestModeTrueParam_RendersCorrectly" time="0.0050407" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;success-btn&quot;, expectedType: typeof(Carlton.Base.Components.SuccessNotification))" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;success-btn&quot;, expectedType: typeof(Carlton.Base.Components.SuccessNotification))" time="0.0035368" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;warning-btn&quot;, expectedType: typeof(Carlton.Base.Components.WarningNotification))" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;warning-btn&quot;, expectedType: typeof(Carlton.Base.Components.WarningNotification))" time="0.0023580" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;error-btn&quot;, expectedType: typeof(Carlton.Base.Components.ErrorNotification))" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;error-btn&quot;, expectedType: typeof(Carlton.Base.Components.ErrorNotification))" time="0.0021827" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;info-btn&quot;, expectedType: typeof(Carlton.Base.Components.InfoNotification))" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_ClickEvent_RendersCorrectly(btnClass: &quot;info-btn&quot;, expectedType: typeof(Carlton.Base.Components.InfoNotification))" time="0.0020787" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_TopRightParams_RendersCorrectly(top: 7, right: 7, expectedResult: &quot;top:7px;right:7px;&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_TopRightParams_RendersCorrectly(top: 7, right: 7, expectedResult: &quot;top:7px;right:7px;&quot;)" time="0.0028282" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_TopRightParams_RendersCorrectly(top: 10, right: 5, expectedResult: &quot;top:10px;right:5px;&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_TopRightParams_RendersCorrectly(top: 10, right: 5, expectedResult: &quot;top:10px;right:5px;&quot;)" time="0.0021176" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_TopRightParams_RendersCorrectly(top: 5, right: 10, expectedResult: &quot;top:5px;right:10px;&quot;)" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_TopRightParams_RendersCorrectly(top: 5, right: 10, expectedResult: &quot;top:5px;right:10px;&quot;)" time="0.0015179" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_Markup_RendersCorrectly" time="0.0036829" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.NotificationBarComponentTests.NotificationBar_IsTestModeFalseParam_RendersCorrectly" type="Carlton.Base.Components.Test.NotificationBarComponentTests" method="NotificationBar_IsTestModeFalseParam_RendersCorrectly" time="0.0026816" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="17" passed="17" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.SelectComponentTests" time="0.139">
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_OptionsParam_OptsCount_RendersCorrectly" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_OptionsParam_OptsCount_RendersCorrectly(opts: [[&quot;Item 1&quot;] = 1])" time="0.0333273" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_OptionsParam_OptsCount_RendersCorrectly" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_OptionsParam_OptsCount_RendersCorrectly(opts: [[&quot;Item 1&quot;] = 1, [&quot;Item 2&quot;] = 2])" time="0.0028232" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_OptionsParam_OptsCount_RendersCorrectly" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_OptionsParam_OptsCount_RendersCorrectly(opts: [[&quot;Item 1&quot;] = 1, [&quot;Item 2&quot;] = 2, [&quot;Item 3&quot;] = 3])" time="0.0094543" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_DisabledParam_RendersCorrectly(isDisabled: False)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_DisabledParam_RendersCorrectly(isDisabled: False)" time="0.0047540" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_DisabledParam_RendersCorrectly(isDisabled: True)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_DisabledParam_RendersCorrectly(isDisabled: True)" time="0.0020603" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_LabelParam_RendersCorrectly(labelText: &quot;Yet Another Label&quot;)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_LabelParam_RendersCorrectly(labelText: &quot;Yet Another Label&quot;)" time="0.0183435" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_LabelParam_RendersCorrectly(labelText: &quot;Test Label&quot;)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_LabelParam_RendersCorrectly(labelText: &quot;Test Label&quot;)" time="0.0019748" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_LabelParam_RendersCorrectly(labelText: &quot;Another Test Label&quot;)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_LabelParam_RendersCorrectly(labelText: &quot;Another Test Label&quot;)" time="0.0012763" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_ValueChangedCallbackParam_FiresCallback(index: 1)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_ValueChangedCallbackParam_FiresCallback(index: 1)" time="0.0167903" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_ValueChangedCallbackParam_FiresCallback(index: 2)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_ValueChangedCallbackParam_FiresCallback(index: 2)" time="0.0100928" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_ValueChangedCallbackParam_FiresCallback(index: 0)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_ValueChangedCallbackParam_FiresCallback(index: 0)" time="0.0024103" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_SelectedValueParam_RendersCorrectly(selectedValue: 3, expectedLabel: &quot;Option 3&quot;)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_SelectedValueParam_RendersCorrectly(selectedValue: 3, expectedLabel: &quot;Option 3&quot;)" time="0.0050920" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_SelectedValueParam_RendersCorrectly(selectedValue: 2, expectedLabel: &quot;Option 2&quot;)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_SelectedValueParam_RendersCorrectly(selectedValue: 2, expectedLabel: &quot;Option 2&quot;)" time="0.0095812" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_SelectedValueParam_RendersCorrectly(selectedValue: 1, expectedLabel: &quot;Option 1&quot;)" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_SelectedValueParam_RendersCorrectly(selectedValue: 1, expectedLabel: &quot;Option 1&quot;)" time="0.0017829" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_OptionsParam_RendersCorrectly" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_OptionsParam_RendersCorrectly" time="0.0038772" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_SelectedValueParam_InvalidDefaultValue_RendersCorrectly" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_SelectedValueParam_InvalidDefaultValue_RendersCorrectly" time="0.0108909" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SelectComponentTests.Select_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.SelectComponentTests" method="Select_Markup_RendersCorrectly" time="0.0045034" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="12" passed="12" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.SlideTabComponentTests" time="0.068">
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_PositionBottomParam_RendersCorrectly(expectedPositionBottom: 500)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_PositionBottomParam_RendersCorrectly(expectedPositionBottom: 500)" time="0.0176815" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_PositionBottomParam_RendersCorrectly(expectedPositionBottom: 50)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_PositionBottomParam_RendersCorrectly(expectedPositionBottom: 50)" time="0.0022625" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_PositionBottomParam_RendersCorrectly(expectedPositionBottom: 5)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_PositionBottomParam_RendersCorrectly(expectedPositionBottom: 5)" time="0.0017524" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_IsExpandedParam_RendersCorrectly(expectedIsExpanded: True)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_IsExpandedParam_RendersCorrectly(expectedIsExpanded: True)" time="0.0033273" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_IsExpandedParam_RendersCorrectly(expectedIsExpanded: False)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_IsExpandedParam_RendersCorrectly(expectedIsExpanded: False)" time="0.0109678" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_ContentParam_RendersCorrectly(expectedContent: &quot;&lt;div class=\&quot;test-content\&quot;&gt;Here is some test cont&quot;...)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_ContentParam_RendersCorrectly(expectedContent: &quot;&lt;div class=\&quot;test-content\&quot;&gt;Here is some test cont&quot;...)" time="0.0037739" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_ContentParam_RendersCorrectly(expectedContent: &quot;&lt;button class=\&quot;test-content\&quot;&gt;Here is some test c&quot;...)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_ContentParam_RendersCorrectly(expectedContent: &quot;&lt;button class=\&quot;test-content\&quot;&gt;Here is some test c&quot;...)" time="0.0027372" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_ContentParam_RendersCorrectly(expectedContent: &quot;&lt;span class=\&quot;test-content\&quot;&gt;Here is some test con&quot;...)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_ContentParam_RendersCorrectly(expectedContent: &quot;&lt;span class=\&quot;test-content\&quot;&gt;Here is some test con&quot;...)" time="0.0023938" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_TitleParam_RendersCorrectly(expectedTitle: &quot;One Final Test Title&quot;)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_TitleParam_RendersCorrectly(expectedTitle: &quot;One Final Test Title&quot;)" time="0.0036105" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_TitleParam_RendersCorrectly(expectedTitle: &quot;Test Title&quot;)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_TitleParam_RendersCorrectly(expectedTitle: &quot;Test Title&quot;)" time="0.0107277" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_TitleParam_RendersCorrectly(expectedTitle: &quot;Another Test Title&quot;)" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_TitleParam_RendersCorrectly(expectedTitle: &quot;Another Test Title&quot;)" time="0.0022836" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.SlideTabComponentTests.SlideTab_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.SlideTabComponentTests" method="SlideTab_Markup_RendersCorrectly" time="0.0060264" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="4" passed="4" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.TabComponentTests" time="0.642">
+      <test name="Carlton.Base.Components.Test.TabComponentTests.Tab_Parent_ActiveParam_True_RendersCorrectly" type="Carlton.Base.Components.Test.TabComponentTests" method="Tab_Parent_ActiveParam_True_RendersCorrectly" time="0.5032576" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TabComponentTests.Tab_Parent_ActiveParam_False_RendersCorrectly" type="Carlton.Base.Components.Test.TabComponentTests" method="Tab_Parent_ActiveParam_False_RendersCorrectly" time="0.0042608" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TabComponentTests.Tab_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.TabComponentTests" method="Tab_Markup_RendersCorrectly" time="0.0779013" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TabComponentTests.Tab_WithOutParent_ThrowsArgumentNullException" type="Carlton.Base.Components.Test.TabComponentTests" method="Tab_WithOutParent_ThrowsArgumentNullException" time="0.0568717" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="39" passed="38" failed="1" skipped="0" name="Test collection for Carlton.Base.Components.Test.TableComponentTests" time="0.427">
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_OnClickOnce_FiltersItemsAsc" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_OnClickOnce_FiltersItemsAsc(expected: (0, System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject]))" time="0.1845922" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_OnClickOnce_FiltersItemsAsc" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_OnClickOnce_FiltersItemsAsc(expected: (1, System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject]))" time="0.0068411" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_OnClickOnce_FiltersItemsAsc" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_OnClickOnce_FiltersItemsAsc(expected: (2, System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject]))" time="0.0120244" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ShowPaginationRow_RendersCorrectly(showPaginationRow: True)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ShowPaginationRow_RendersCorrectly(showPaginationRow: True)" time="0.0052738" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ShowPaginationRow_RendersCorrectly(showPaginationRow: False)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ShowPaginationRow_RendersCorrectly(showPaginationRow: False)" time="0.0013536" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 2, optIndex: 2, expectedSkip: 0, expectedTake: 15)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 2, optIndex: 2, expectedSkip: 0, expectedTake: 15)" time="0.0128818" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 3, optIndex: 1, expectedSkip: 10, expectedTake: 5)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 3, optIndex: 1, expectedSkip: 10, expectedTake: 5)" time="0.0073994" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 2, optIndex: 0, expectedSkip: 5, expectedTake: 5)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 2, optIndex: 0, expectedSkip: 5, expectedTake: 5)" time="0.0058892" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 3, optIndex: 2, expectedSkip: 0, expectedTake: 15)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 3, optIndex: 2, expectedSkip: 0, expectedTake: 15)" time="0.0093719" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 1, optIndex: 2, expectedSkip: 0, expectedTake: 15)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 1, optIndex: 2, expectedSkip: 0, expectedTake: 15)" time="0.0176367" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 1, optIndex: 0, expectedSkip: 0, expectedTake: 5)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 1, optIndex: 0, expectedSkip: 0, expectedTake: 5)" time="0.0037942" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 2, optIndex: 1, expectedSkip: 10, expectedTake: 10)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 2, optIndex: 1, expectedSkip: 10, expectedTake: 10)" time="0.0056111" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 1, optIndex: 1, expectedSkip: 0, expectedTake: 10)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 1, optIndex: 1, expectedSkip: 0, expectedTake: 10)" time="0.0038651" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsChangedCallback_FiresEvent(currentPage: 3, optIndex: 0, expectedSkip: 10, expectedTake: 5)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsChangedCallback_FiresEvent(currentPage: 3, optIndex: 0, expectedSkip: 10, expectedTake: 5)" time="0.0064195" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(selectedIndex: 0)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(selectedIndex: 0)" time="0.0097582" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(selectedIndex: 2)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(selectedIndex: 2)" time="0.0077244" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(selectedIndex: 1)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(selectedIndex: 1)" time="0.0072821" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeadingsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeadingsParam_RendersCorrectly(headings: [TableHeadingItem { DisplayName = ID, OrderColumn = ID }])" time="0.0046367" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeadingsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeadingsParam_RendersCorrectly(headings: [TableHeadingItem { DisplayName = ID, OrderColumn = ID }, TableHeadingItem { DisplayName = DisplayName, OrderColumn = DisplayName }])" time="0.0024313" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeadingsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeadingsParam_RendersCorrectly(headings: [TableHeadingItem { DisplayName = ID, OrderColumn = ID }, TableHeadingItem { DisplayName = DisplayName, OrderColumn = DisplayName }, TableHeadingItem { DisplayName = CreatedDate, OrderColumn = CreatedDate }])" time="0.0022541" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(selectedIndex: 0)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(selectedIndex: 0)" time="0.0069576" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(selectedIndex: 2)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(selectedIndex: 2)" time="0.0053392" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(selectedIndex: 1)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(selectedIndex: 1)" time="0.0050129" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_RowTemplateParam_RendersCorrectly(rowTemplate: &quot;&lt;div class=\&quot;test-row\&quot;&gt;{0}&lt;span class=\&quot;test\&quot;&gt;{1&quot;...)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_RowTemplateParam_RendersCorrectly(rowTemplate: &quot;&lt;div class=\&quot;test-row\&quot;&gt;{0}&lt;span class=\&quot;test\&quot;&gt;{1&quot;...)" time="0.0049130" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_RowTemplateParam_RendersCorrectly(rowTemplate: &quot;&lt;div class=\&quot;test-row\&quot;&gt;&lt;span&gt;{0}Test Template {1}&quot;...)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_RowTemplateParam_RendersCorrectly(rowTemplate: &quot;&lt;div class=\&quot;test-row\&quot;&gt;&lt;span&gt;{0}Test Template {1}&quot;...)" time="0.0026840" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_RowTemplateParam_RendersCorrectly(rowTemplate: &quot;&lt;div class=\&quot;test-row\&quot;&gt;&lt;span&gt;Template {0}{1}{2}&lt;/&quot;...)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_RowTemplateParam_RendersCorrectly(rowTemplate: &quot;&lt;div class=\&quot;test-row\&quot;&gt;&lt;span&gt;Template {0}{1}{2}&lt;/&quot;...)" time="0.0022628" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(selectedIndex: 1)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(selectedIndex: 1)" time="0.0101093" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(selectedIndex: 2)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(selectedIndex: 2)" time="0.0076878" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(selectedIndex: 0)" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(selectedIndex: 0)" time="0.0060728" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_Markup_RendersCorrectly" time="0.0068982" result="Fail">
+        <failure>
+          <message>Bunit.HtmlEqualException : HTML comparison failed. 
+
+The following errors were found:
+  1: The value of the attribute div(0) &gt; div(1) &gt; div(1) &gt; div(1)[class] and actual attribute div(0) &gt; div(0) &gt; div(0) &gt; div(0)[class] are different.
+  2: The value of the attribute div(0) &gt; div(1) &gt; div(1) &gt; div(1) &gt; div(3)[class] and actual attribute div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(0)[class] are different.
+  3: The value of the attribute div(0) &gt; div(1) &gt; div(1) &gt; div(1) &gt; div(3) &gt; span(1)[class] and actual attribute div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; span(0)[class] are different.
+  4: The element at div(0) &gt; div(1) &gt; div(1) &gt; div(1) &gt; div(3) &gt; span(3) is missing.
+  5: The element at div(0) &gt; div(1) &gt; div(1) &gt; div(1) &gt; span(1) is missing.
+  6: The element at div(0) &gt; div(1) &gt; div(1) &gt; div(3) is missing.
+  7: The element at div(0) &gt; div(1) &gt; div(1) &gt; div(5) is missing.
+  8: The text at div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; span(0) &gt; #text(0) was not expected.
+  9: The element at div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(2) was not expected.
+  10: The element at div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(1) was not expected.
+  11: The element at div(0) &gt; div(0) &gt; div(0) &gt; div(0) &gt; div(2) was not expected.
+
+Actual HTML: 
+&lt;div class="main-container" &gt;
+  &lt;div class="table-container" &gt;
+    &lt;div class="header-row table-row" &gt;
+      &lt;div class="table-header-row" &gt;
+        &lt;div class="header-row-item row-item ascending heading-0"  &gt;
+          &lt;span class="heading-text" &gt;ID&lt;/span&gt;
+          &lt;div class="sort-arrows" &gt;
+            &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+            &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="header-row-item row-item ascending heading-1"  &gt;
+          &lt;span class="heading-text" &gt;DisplayName&lt;/span&gt;
+          &lt;div class="sort-arrows" &gt;
+            &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+            &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="header-row-item row-item ascending heading-2"  &gt;
+          &lt;span class="heading-text" &gt;CreatedDate&lt;/span&gt;
+          &lt;div class="sort-arrows" &gt;
+            &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+            &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="item-row table-row" &gt;
+      &lt;div class="test-row"&gt;
+        &lt;span&gt;ID:1&lt;/span&gt;
+        &lt;span&gt;Display Name:Item A&lt;/span&gt;
+        &lt;span&gt;Date:10/9/2023 12:00:00 AM&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="item-row table-row" &gt;
+      &lt;div class="test-row"&gt;
+        &lt;span&gt;ID:2&lt;/span&gt;
+        &lt;span&gt;Display Name:Item B&lt;/span&gt;
+        &lt;span&gt;Date:2/3/2022 12:00:00 AM&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="item-row table-row" &gt;
+      &lt;div class="test-row"&gt;
+        &lt;span&gt;ID:3&lt;/span&gt;
+        &lt;span&gt;Display Name:Item C&lt;/span&gt;
+        &lt;span&gt;Date:5/19/2021 12:00:00 AM&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="pagination-row table-row" &gt;
+      &lt;div class="pagination-row-item" &gt;
+        &lt;div class="rows-per-page" &gt;
+          &lt;span class="rows-per-page-label" &gt;Rows Per Page&lt;/span&gt;
+          &lt;div class="select" &gt;
+            &lt;input readonly="" placeholder=" " value="5" &gt;
+            &lt;div class="label" &gt;&lt;/div&gt;
+            &lt;div class="options" &gt;
+              &lt;div class="option"  &gt;5&lt;/div&gt;
+              &lt;div class="option"  &gt;10&lt;/div&gt;
+              &lt;div class="option"  &gt;15&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="page-number" &gt;
+          &lt;span class="pagination-label" &gt;1-3 of 3&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="page-chevrons" &gt;
+          &lt;span class="mdi mdi-18px mdi-page-first disabled"  &gt;&lt;/span&gt;
+          &lt;span class="mdi mdi-18px mdi-chevron-left disabled"  &gt;&lt;/span&gt;
+          &lt;span class="mdi mdi-18px mdi-chevron-right disabled"  &gt;&lt;/span&gt;
+          &lt;span class="mdi mdi-18px mdi-page-last disabled"  &gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+Expected HTML: 
+&lt;div class="main-container" &gt;
+  &lt;div class="table-container" &gt;
+    &lt;div class="header-row table-row" &gt;
+      &lt;div class="header-row-item row-item ascending"  &gt;
+        &lt;span class="heading-text" &gt;ID&lt;/span&gt;
+        &lt;div class="sort-arrows" &gt;
+          &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+          &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="header-row-item row-item ascending"  &gt;
+        &lt;span class="heading-text" &gt;DisplayName&lt;/span&gt;
+        &lt;div class="sort-arrows" &gt;
+          &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+          &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="header-row-item row-item ascending"  &gt;
+        &lt;span class="heading-text" &gt;CreatedDate&lt;/span&gt;
+        &lt;div class="sort-arrows" &gt;
+          &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+          &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="item-row table-row" &gt;
+      &lt;div class="test-row"&gt;
+        &lt;span&gt;ID:1&lt;/span&gt;
+        &lt;span&gt;Display Name:Item A&lt;/span&gt;
+        &lt;span&gt;Date:10/9/2023 12:00:00 AM&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="item-row table-row" &gt;
+      &lt;div class="test-row"&gt;
+        &lt;span&gt;ID:2&lt;/span&gt;
+        &lt;span&gt;Display Name:Item B&lt;/span&gt;
+        &lt;span&gt;Date:2/3/2022 12:00:00 AM&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="item-row table-row" &gt;
+      &lt;div class="test-row"&gt;
+        &lt;span&gt;ID:3&lt;/span&gt;
+        &lt;span&gt;Display Name:Item C&lt;/span&gt;
+        &lt;span&gt;Date:5/19/2021 12:00:00 AM&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="pagination-row table-row" &gt;
+      &lt;div class="pagination-row-item" &gt;
+        &lt;div class="rows-per-page" &gt;
+          &lt;span class="rows-per-page-label" &gt;Rows Per Page&lt;/span&gt;
+          &lt;div class="select" &gt;
+            &lt;input readonly="" placeholder=" " value="5" &gt;
+            &lt;div class="label" &gt;&lt;/div&gt;
+            &lt;div class="options" &gt;
+              &lt;div class="option"  &gt;5&lt;/div&gt;
+              &lt;div class="option"  &gt;10&lt;/div&gt;
+              &lt;div class="option"  &gt;15&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="page-number" &gt;
+          &lt;span class="pagination-label" &gt;1-3 of 3&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="page-chevrons" &gt;
+          &lt;span class="mdi mdi-18px mdi-page-first disabled"  &gt;&lt;/span&gt;
+          &lt;span class="mdi mdi-18px mdi-chevron-left disabled"  &gt;&lt;/span&gt;
+          &lt;span class="mdi mdi-18px mdi-chevron-right disabled"  &gt;&lt;/span&gt;
+          &lt;span class="mdi mdi-18px mdi-page-last disabled"  &gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</message>
+          <stack-trace>   at Bunit.MarkupMatchesAssertExtensions.MarkupMatches(INodeList actual, INodeList expected, String userMessage) in /_/src/bunit.web/Asserting/MarkupMatchesAssertExtensions.cs:line 237
+   at Bunit.MarkupMatchesAssertExtensions.MarkupMatches(IRenderedFragment actual, String expected, String userMessage) in /_/src/bunit.web/Asserting/MarkupMatchesAssertExtensions.cs:line 113
+   at Carlton.Base.Components.Test.TableComponentTests.Table_Markup_RendersCorrectly() in C:\Users\nicho\source\repos\NickGalazzo\Carlton.Base\src\Tests\Carlton.Base.Components.Test\Table\TableComponentTests.cs:line 18
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)</stack-trace>
+        </failure>
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsParam_RendersCorrectly(expected: (System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject], System.Collections.ObjectModel.ReadOnlyCollection`1[System.String]))" time="0.0058104" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsParam_RendersCorrectly(expected: (System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject], System.Collections.ObjectModel.ReadOnlyCollection`1[System.String]))" time="0.0027711" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_ItemsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_ItemsParam_RendersCorrectly(expected: (System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject], System.Collections.ObjectModel.ReadOnlyCollection`1[System.String]))" time="0.0023341" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_OnClickTwice_FiltersItemsDesc" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_OnClickTwice_FiltersItemsDesc(expected: (0, System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject]))" time="0.0087800" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_OnClickTwice_FiltersItemsDesc" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_OnClickTwice_FiltersItemsDesc(expected: (1, System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject]))" time="0.0099212" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_OnClickTwice_FiltersItemsDesc" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_OnClickTwice_FiltersItemsDesc(expected: (2, System.Collections.ObjectModel.ReadOnlyCollection`1[Carlton.Base.Components.Test.TableTestHelper+TableTestObject]))" time="0.0117098" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_RowsPerPageOptsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_RowsPerPageOptsParam_RendersCorrectly(rowsPerPageOpts: [1, 3, 5])" time="0.0058589" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_RowsPerPageOptsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_RowsPerPageOptsParam_RendersCorrectly(rowsPerPageOpts: [2])" time="0.0023596" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableComponentTests.Table_RowsPerPageOptsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableComponentTests" method="Table_RowsPerPageOptsParam_RendersCorrectly(rowsPerPageOpts: [5, 10, 15, 20, 25])" time="0.0025463" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="28" passed="27" failed="1" skipped="0" name="Test collection for Carlton.Base.Components.Test.TableHeaderComponentTests" time="0.138">
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_ClickHeadersOnceTwice_EventFires(columnIndex: 0, expectedColumnName: &quot;ID&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_ClickHeadersOnceTwice_EventFires(columnIndex: 0, expectedColumnName: &quot;ID&quot;)" time="0.0171868" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_ClickHeadersOnceTwice_EventFires(columnIndex: 2, expectedColumnName: &quot;CreatedDate&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_ClickHeadersOnceTwice_EventFires(columnIndex: 2, expectedColumnName: &quot;CreatedDate&quot;)" time="0.0037841" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_ClickHeadersOnceTwice_EventFires(columnIndex: 1, expectedColumnName: &quot;DisplayName&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_ClickHeadersOnceTwice_EventFires(columnIndex: 1, expectedColumnName: &quot;DisplayName&quot;)" time="0.0035166" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;ID&quot;, columnIndex: 0, orderAscending: True)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;ID&quot;, columnIndex: 0, orderAscending: True)" time="0.0038881" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;CreatedDate&quot;, columnIndex: 2, orderAscending: True)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;CreatedDate&quot;, columnIndex: 2, orderAscending: True)" time="0.0093101" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;DisplayName&quot;, columnIndex: 1, orderAscending: True)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;DisplayName&quot;, columnIndex: 1, orderAscending: True)" time="0.0017391" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;ID&quot;, columnIndex: 0, orderAscending: False)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;ID&quot;, columnIndex: 0, orderAscending: False)" time="0.0015820" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;DisplayName&quot;, columnIndex: 1, orderAscending: False)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;DisplayName&quot;, columnIndex: 1, orderAscending: False)" time="0.0014524" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;CreatedDate&quot;, columnIndex: 2, orderAscending: False)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(columnName: &quot;CreatedDate&quot;, columnIndex: 2, orderAscending: False)" time="0.0016503" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_DescendingClass_RendersCorrectly(selectedIndex: 0)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_DescendingClass_RendersCorrectly(selectedIndex: 0)" time="0.0121732" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_DescendingClass_RendersCorrectly(selectedIndex: 1)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_DescendingClass_RendersCorrectly(selectedIndex: 1)" time="0.0033751" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_DescendingClass_RendersCorrectly(selectedIndex: 2)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_DescendingClass_RendersCorrectly(selectedIndex: 2)" time="0.0032320" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_InvalidOrderColumnParam_RendersCorrectly(columnName: &quot;Still Wrong&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_InvalidOrderColumnParam_RendersCorrectly(columnName: &quot;Still Wrong&quot;)" time="0.0034722" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_InvalidOrderColumnParam_RendersCorrectly(columnName: &quot;Also Wrong&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_InvalidOrderColumnParam_RendersCorrectly(columnName: &quot;Also Wrong&quot;)" time="0.0023495" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_InvalidOrderColumnParam_RendersCorrectly(columnName: &quot;Wrong&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_InvalidOrderColumnParam_RendersCorrectly(columnName: &quot;Wrong&quot;)" time="0.0082639" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_AscendingClass_RendersCorrectly(selectedIndex: 2)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_AscendingClass_RendersCorrectly(selectedIndex: 2)" time="0.0046501" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_AscendingClass_RendersCorrectly(selectedIndex: 0)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_AscendingClass_RendersCorrectly(selectedIndex: 0)" time="0.0033245" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_AscendingClass_RendersCorrectly(selectedIndex: 1)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_AscendingClass_RendersCorrectly(selectedIndex: 1)" time="0.0031008" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_ClickHeadersOnce_EventFires(columnIndex: 2, expectedColumnName: &quot;CreatedDate&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_ClickHeadersOnce_EventFires(columnIndex: 2, expectedColumnName: &quot;CreatedDate&quot;)" time="0.0045125" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_ClickHeadersOnce_EventFires(columnIndex: 0, expectedColumnName: &quot;ID&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_ClickHeadersOnce_EventFires(columnIndex: 0, expectedColumnName: &quot;ID&quot;)" time="0.0084411" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_ClickHeadersOnce_EventFires(columnIndex: 1, expectedColumnName: &quot;DisplayName&quot;)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_ClickHeadersOnce_EventFires(columnIndex: 1, expectedColumnName: &quot;DisplayName&quot;)" time="0.0016851" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_SelectedClass_RendersCorrectly(selectedIndex: 2)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_SelectedClass_RendersCorrectly(selectedIndex: 2)" time="0.0036852" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_SelectedClass_RendersCorrectly(selectedIndex: 1)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_SelectedClass_RendersCorrectly(selectedIndex: 1)" time="0.0021760" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_OnClick_SelectedClass_RendersCorrectly(selectedIndex: 0)" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_OnClick_SelectedClass_RendersCorrectly(selectedIndex: 0)" time="0.0026345" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_Markup_RendersCorrectly" time="0.0163753" result="Fail">
+        <failure>
+          <message>Bunit.HtmlEqualException : HTML comparison failed. 
+
+The following errors were found:
+  1: The values of the attributes at div(0)[class] are different.
+  2: The value of the attribute div(0) &gt; div(3)[class] and actual attribute div(0) &gt; div(0)[class] are different.
+  3: The value of the attribute div(0) &gt; div(3) &gt; span(1)[class] and actual attribute div(0) &gt; div(0) &gt; span(0)[class] are different.
+  4: The element at div(0) &gt; div(3) &gt; span(3) is missing.
+  5: The element at div(0) &gt; span(1) is missing.
+  6: The element at div(2) is missing.
+  7: The element at div(4) is missing.
+  8: The text at div(0) &gt; div(0) &gt; span(0) &gt; #text(0) was not expected.
+  9: The element at div(0) &gt; div(0) &gt; div(2) was not expected.
+  10: The element at div(0) &gt; div(1) was not expected.
+  11: The element at div(0) &gt; div(2) was not expected.
+
+Actual HTML: 
+&lt;div class="table-header-row" &gt;
+  &lt;div class="header-row-item row-item ascending heading-0"  &gt;
+    &lt;span class="heading-text" &gt;ID&lt;/span&gt;
+    &lt;div class="sort-arrows" &gt;
+      &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+      &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="header-row-item row-item ascending heading-1"  &gt;
+    &lt;span class="heading-text" &gt;DisplayName&lt;/span&gt;
+    &lt;div class="sort-arrows" &gt;
+      &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+      &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="header-row-item row-item ascending heading-2"  &gt;
+    &lt;span class="heading-text" &gt;CreatedDate&lt;/span&gt;
+    &lt;div class="sort-arrows" &gt;
+      &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+      &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+Expected HTML: 
+&lt;div class="header-row-item row-item ascending"  &gt;
+  &lt;span class="heading-text" &gt;ID&lt;/span&gt;
+  &lt;div class="sort-arrows" &gt;
+    &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+    &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="header-row-item row-item ascending"  &gt;
+  &lt;span class="heading-text" &gt;DisplayName&lt;/span&gt;
+  &lt;div class="sort-arrows" &gt;
+    &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+    &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="header-row-item row-item ascending"  &gt;
+  &lt;span class="heading-text" &gt;CreatedDate&lt;/span&gt;
+  &lt;div class="sort-arrows" &gt;
+    &lt;span class="arrow-ascending mdi mdi-arrow-up" &gt;&lt;/span&gt;
+    &lt;span class="arrow-descending mdi mdi-arrow-down" &gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</message>
+          <stack-trace>   at Bunit.MarkupMatchesAssertExtensions.MarkupMatches(INodeList actual, INodeList expected, String userMessage) in /_/src/bunit.web/Asserting/MarkupMatchesAssertExtensions.cs:line 237
+   at Bunit.MarkupMatchesAssertExtensions.MarkupMatches(IRenderedFragment actual, String expected, String userMessage) in /_/src/bunit.web/Asserting/MarkupMatchesAssertExtensions.cs:line 113
+   at Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_Markup_RendersCorrectly() in C:\Users\nicho\source\repos\NickGalazzo\Carlton.Base\src\Tests\Carlton.Base.Components.Test\Table\TableHeaderComponentTests.cs:line 16
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodInvoker.Invoke(Object obj, IntPtr* args, BindingFlags invokeAttr)</stack-trace>
+        </failure>
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_HeadingsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_HeadingsParam_RendersCorrectly(headings: [TableHeadingItem { DisplayName = ID, OrderColumn = ID }])" time="0.0050894" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_HeadingsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_HeadingsParam_RendersCorrectly(headings: [TableHeadingItem { DisplayName = ID, OrderColumn = ID }, TableHeadingItem { DisplayName = DisplayName, OrderColumn = DisplayName }])" time="0.0026042" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TableHeaderComponentTests.TableHeader_HeadingsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TableHeaderComponentTests" method="TableHeader_HeadingsParam_RendersCorrectly(headings: [TableHeadingItem { DisplayName = ID, OrderColumn = ID }, TableHeadingItem { DisplayName = DisplayName, OrderColumn = DisplayName }, TableHeadingItem { DisplayName = CreatedDate, OrderColumn = CreatedDate }])" time="0.0023335" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="38" passed="38" failed="0" skipped="0" name="Test collection for Carlton.Base.Components.Test.TablePaginationRowComponentTests" time="0.290">
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(optIndex: 1)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(optIndex: 1)" time="0.0400142" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(optIndex: 0)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(optIndex: 0)" time="0.0131841" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(optIndex: 2)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(optIndex: 2)" time="0.0036035" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 2, selectedRowsPerPage: 15, expectedPage: 1)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 2, selectedRowsPerPage: 15, expectedPage: 1)" time="0.0333143" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 2, selectedRowsPerPage: 5, expectedPage: 2)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 2, selectedRowsPerPage: 5, expectedPage: 2)" time="0.0043234" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 3, selectedRowsPerPage: 15, expectedPage: 1)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 3, selectedRowsPerPage: 15, expectedPage: 1)" time="0.0147700" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 1, selectedRowsPerPage: 10, expectedPage: 1)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 1, selectedRowsPerPage: 10, expectedPage: 1)" time="0.0034761" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 1, selectedRowsPerPage: 5, expectedPage: 1)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 1, selectedRowsPerPage: 5, expectedPage: 1)" time="0.0026348" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 2, selectedRowsPerPage: 10, expectedPage: 2)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 2, selectedRowsPerPage: 10, expectedPage: 2)" time="0.0039225" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 1, selectedRowsPerPage: 15, expectedPage: 1)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 1, selectedRowsPerPage: 15, expectedPage: 1)" time="0.0035499" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 3, selectedRowsPerPage: 5, expectedPage: 3)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 3, selectedRowsPerPage: 5, expectedPage: 3)" time="0.0147910" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 3, selectedRowsPerPage: 10, expectedPage: 2)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_OnPaginationChangedCallback_FiresEvent(selectedPage: 3, selectedRowsPerPage: 10, expectedPage: 2)" time="0.0142930" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 3, currentRowsPerPage: 15, expectedText: &quot;1-15 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 3, currentRowsPerPage: 15, expectedText: &quot;1-15 of 15&quot;)" time="0.0080971" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 2, currentRowsPerPage: 10, expectedText: &quot;11-15 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 2, currentRowsPerPage: 10, expectedText: &quot;11-15 of 15&quot;)" time="0.0144918" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 1, currentRowsPerPage: 15, expectedText: &quot;1-15 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 1, currentRowsPerPage: 15, expectedText: &quot;1-15 of 15&quot;)" time="0.0038784" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 1, currentRowsPerPage: 5, expectedText: &quot;1-5 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 1, currentRowsPerPage: 5, expectedText: &quot;1-5 of 15&quot;)" time="0.0041097" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 3, currentRowsPerPage: 5, expectedText: &quot;11-15 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 3, currentRowsPerPage: 5, expectedText: &quot;11-15 of 15&quot;)" time="0.0058230" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 2, currentRowsPerPage: 15, expectedText: &quot;1-15 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 2, currentRowsPerPage: 15, expectedText: &quot;1-15 of 15&quot;)" time="0.0178241" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 2, currentRowsPerPage: 5, expectedText: &quot;6-10 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 2, currentRowsPerPage: 5, expectedText: &quot;6-10 of 15&quot;)" time="0.0047371" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 3, currentRowsPerPage: 10, expectedText: &quot;11-15 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 3, currentRowsPerPage: 10, expectedText: &quot;11-15 of 15&quot;)" time="0.0132120" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 1, currentRowsPerPage: 10, expectedText: &quot;1-10 of 15&quot;)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PaginationLabel_RendersCorrectly(currentPage: 1, currentRowsPerPage: 10, expectedText: &quot;1-10 of 15&quot;)" time="0.0025139" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(currentPage: 5)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(currentPage: 5)" time="0.0042874" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(currentPage: 2)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(currentPage: 2)" time="0.0024259" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(currentPage: 3)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(currentPage: 3)" time="0.0097118" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(itemCount: 4)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(itemCount: 4)" time="0.0032159" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(itemCount: 3)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(itemCount: 3)" time="0.0017840" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(itemCount: 2)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(itemCount: 2)" time="0.0016379" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_PageOne_LeftChevronsDisabled_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_PageOne_LeftChevronsDisabled_RendersCorrectly" time="0.0028403" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly(opts: [1, 3, 5])" time="0.0101081" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly(opts: [2])" time="0.0013835" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly(opts: [5, 10, 15, 20, 25])" time="0.0013108" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(itemCount: 100)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(itemCount: 100)" time="0.0031329" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(itemCount: 50)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(itemCount: 50)" time="0.0016880" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(itemCount: 10)" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(itemCount: 10)" time="0.0020444" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly(opts: [1, 3, 5])" time="0.0036093" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly(opts: [2])" time="0.0017417" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly(opts: [5, 10, 15, 20, 25])" time="0.0077970" result="Pass">
+        <traits />
+      </test>
+      <test name="Carlton.Base.Components.Test.TablePaginationRowComponentTests.TablePaginationRow_Markup_RendersCorrectly" type="Carlton.Base.Components.Test.TablePaginationRowComponentTests" method="TablePaginationRow_Markup_RendersCorrectly" time="0.0043810" result="Pass">
+        <traits />
+      </test>
+    </collection>
+  </assembly>
+</assemblies>

@@ -1,4 +1,4 @@
-﻿.carlton-fab {
+﻿.fab {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -10,14 +10,14 @@
     box-shadow: 0 6px 10px 0 #666;
     color: white;
     position: absolute;
-    right: var(--carlton-fab-right);
-    bottom: var(--carlton-fab-bottom);
+    right: var(--fab-right);
+    bottom: var(--fab-bottom);
     background-color: var(--selected-color);
     transition: all 0.1s ease-in-out;
     cursor: pointer;
 }
 
-.carlton-fab:hover {
+.fab:hover {
     box-shadow: 0 6px 14px 0 #666;
     transform: scale(1.05);
 }

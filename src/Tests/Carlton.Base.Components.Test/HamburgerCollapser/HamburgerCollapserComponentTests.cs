@@ -1,12 +1,13 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(HamburgerCollapser))]
 public class HamburgerCollapserComponentTests : TestContext
 {
     private static readonly string HamburgerCollapserMarkup =
     @"<div class=""collapser"" b-uskw0t9tqy><a href=""#"" blazor:onclick=""1"" b-uskw0t9tqy><span class=""mdi mdi-24px mdi-menu"" b-uskw0t9tqy></span></a></div>";
 
 
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void HamburgerCollapser_Markup_RendersCorrectly()
     {
         //Arrange
@@ -21,7 +22,7 @@ public class HamburgerCollapserComponentTests : TestContext
 
     }
 
-    [Theory]
+    [Theory(DisplayName = "Collapser Click Event Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void HamburgerCollapser_ClickEvent_ShouldRenderCorrectly(bool isCollapsed)

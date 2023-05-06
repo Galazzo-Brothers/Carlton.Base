@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(CountCard))]
 public class CountCardComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void CountCard_Markup_RendersCorrectly()
     {
         //Act
@@ -17,7 +18,7 @@ public class CountCardComponentTests : TestContext
         cut.MarkupMatches(CardTestHelper.CountCardMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Count Parameter Test")]
     [InlineData(10)]
     [InlineData(15)]
     [InlineData(30)]
@@ -37,7 +38,7 @@ public class CountCardComponentTests : TestContext
         Assert.Equal(count, displayCount);
     }
 
-    [Theory]
+    [Theory(DisplayName = "MessageTemplate Parameter Test")]
     [InlineData("Items Tracked by this component")]
     [InlineData("More Items Tracked by this component")]
     [InlineData("Event Items Tracked by this component")]
@@ -60,7 +61,7 @@ public class CountCardComponentTests : TestContext
         Assert.Equal(messageTemplate, displayMessageTemplate);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Icon Parameter Test")]
     [InlineData("icon-1")]
     [InlineData("icon-2")]
     [InlineData("icon-3")]
@@ -80,7 +81,7 @@ public class CountCardComponentTests : TestContext
         Assert.Contains(icon, iconElm.ClassList);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Theme Parameter Test")]
     [InlineData(CountCardTheme.Blue)]
     [InlineData(CountCardTheme.Green)]
     [InlineData(CountCardTheme.Purple)]

@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+[Trait("Component", nameof(Table<int>))]
 public class TableComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void Table_Markup_RendersCorrectly()
     {
         //Act
@@ -18,7 +19,7 @@ public class TableComponentTests : TestContext
         cut.MarkupMatches(TableTestHelper.TableMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Headings Parameter Test")]
     [MemberData(nameof(TableTestHelper.GetHeadings), MemberType = typeof(TableTestHelper))]
     public void Table_HeadingsParam_RendersCorrectly(IReadOnlyCollection<TableHeadingItem> headings)
     {
@@ -44,9 +45,9 @@ public class TableComponentTests : TestContext
         Assert.Equal(expectedHeaders, actualHeaders);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click Once Test")]
     [MemberData(nameof(TableTestHelper.GetFilteredItemsAsc), MemberType = typeof(TableTestHelper))]
-    public void Table_OnClickOnce_FiltersItemsAsc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
+    public void Table_Header_OnClickOnce_FiltersItemsAsc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
@@ -66,9 +67,9 @@ public class TableComponentTests : TestContext
         Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click Twice Test")]
     [MemberData(nameof(TableTestHelper.GetFilteredItemsDesc), MemberType = typeof(TableTestHelper))]
-    public void Table_OnClickTwice_FiltersItemsDesc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
+    public void Table_Header_OnClickTwice_FiltersItemsDesc((int ColumnIndex, ReadOnlyCollection<TableTestHelper.TableTestObject> ExpectedItems) expected)
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
@@ -89,7 +90,7 @@ public class TableComponentTests : TestContext
         Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click Once, CSS Selected Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -117,7 +118,7 @@ public class TableComponentTests : TestContext
         Assert.True(containsSelectedClass);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click Once, CSS Ascending Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -145,7 +146,7 @@ public class TableComponentTests : TestContext
         Assert.True(containsAscendingClass);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Header Click Once, CSS Descending Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
@@ -172,7 +173,7 @@ public class TableComponentTests : TestContext
         Assert.True(containsDescendingClass);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Items Parameter Test")]
     [MemberData(nameof(TableTestHelper.GetItemsWithDisplayedValues), MemberType = typeof(TableTestHelper))]
     public void Table_ItemsParam_RendersCorrectly((ReadOnlyCollection<TableTestHelper.TableTestObject> items, ReadOnlyCollection<string> displayValues) expected)
     {
@@ -198,7 +199,7 @@ public class TableComponentTests : TestContext
 
     }
 
-    [Theory]
+    [Theory(DisplayName = "RowTemplate Parameter Test")]
     [InlineData("<div class=\"test-row\"><span>Template {0}{1}{2}</span></div>")]
     [InlineData("<div class=\"test-row\"><span>{0}Test Template {1}{2}</span></div>")]
     [InlineData("<div class=\"test-row\">{0}<span class=\"test\">{1}More Test Templates {2}</span></div>")]
@@ -228,7 +229,7 @@ public class TableComponentTests : TestContext
     }
 
 
-    [Theory]
+    [Theory(DisplayName = "RowsPerPageOpts Parameter Test")]
     [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
     public void Table_RowsPerPageOptsParam_RendersCorrectly(IEnumerable<int> rowsPerPageOpts)
     {
@@ -254,7 +255,7 @@ public class TableComponentTests : TestContext
         Assert.Equal(expectedRowsPerPageValues, actualValues);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ShowPaginationRow Paremter Test")]
     [InlineData(true)]
     [InlineData(false)]
     public void Table_ShowPaginationRow_RendersCorrectly(bool showPaginationRow)
@@ -274,7 +275,7 @@ public class TableComponentTests : TestContext
         Assert.Equal(showPaginationRow, paginationRowExists);
     }
 
-    [Theory]
+    [Theory(DisplayName = "ItemsChangedCallback Parameter Test")]
     [InlineData(1, 0, 0, 5)]
     [InlineData(1, 1, 0, 10)]
     [InlineData(1, 2, 0, 15)]

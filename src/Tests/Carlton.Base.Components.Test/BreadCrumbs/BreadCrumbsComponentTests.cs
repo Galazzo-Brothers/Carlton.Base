@@ -1,10 +1,9 @@
-﻿using System.Web;
+﻿namespace Carlton.Base.Components.Test;
 
-namespace Carlton.Base.Components.Test;
-
+[Trait("Component", nameof(BreadCrumbs))]
 public class BreadCrumbsComponentTests : TestContext
 {
-    [Fact]
+    [Fact(DisplayName = "Markup Test")]
     public void BreadCrumbs_Markup_RendersCorrectly()
     {
         //Act
@@ -18,7 +17,7 @@ public class BreadCrumbsComponentTests : TestContext
         cut.MarkupMatches(BreadCrumbsTestHelper.BreadCrumbsMarkup);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Title Parameter Test")]
     [InlineData("Test Title")]
     [InlineData("Another Test Title")]
     [InlineData("Yet Another Test Title")]
@@ -37,7 +36,7 @@ public class BreadCrumbsComponentTests : TestContext
         Assert.Equal(expectedTitle, title.InnerHtml);
     }
 
-    [Theory]
+    [Theory(DisplayName = "Seperator Parameter Test")]
     [InlineData(">")]
     [InlineData("/")]
     [InlineData("|")]
@@ -57,7 +56,7 @@ public class BreadCrumbsComponentTests : TestContext
         Assert.True(separatorExists);
     }
 
-    [Theory]
+    [Theory(DisplayName = "BreadCrumbItems Parameter Test")]
     [MemberData(nameof(BreadCrumbsTestHelper.GetItems), MemberType = typeof(BreadCrumbsTestHelper))]
     public void BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly((List<string> Items, string BreadCrumbString) expected)
     {
