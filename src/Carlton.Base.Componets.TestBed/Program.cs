@@ -6,6 +6,22 @@ public static class Program
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+
+        var http = new HttpClient()
+        {
+            BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+        };
+
+        builder.Services.AddScoped(sp => http);
+
+
+
+        var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
+        var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
+
+        //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
+        //var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
+
         builder.AddCarltonTestBed(builder =>
         {
             //Base Components
@@ -37,14 +53,8 @@ public static class Program
                    .AddParameterObjComponent<ErrorNotification>(NotificationStates.ErrorState)
                    .Build();
         },
+        testResults,
         typeof(TestBedLayout).Assembly);
-
-
-        builder.Services.AddScoped(sp =>
-            new HttpClient
-            {
-                BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-            });
 
 
         builder.RootComponents.Add<App>("app");

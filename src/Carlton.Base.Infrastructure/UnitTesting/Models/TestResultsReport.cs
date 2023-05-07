@@ -2,8 +2,13 @@
 
 public record TestResultsReport
 {
-    public IEnumerable<TestResult> TestResults { get; init; }
-    public TestResultsSummary Summary { get; init; }
+    public IEnumerable<TestResult> TestResults { get; init; } = new List<TestResult>();
+    public TestResultsSummary Summary { get; init; } = new TestResultsSummary(0, 0, 0, 0);
+
+    public TestResultsReport()
+    {
+        //Empty Report
+    }
 
     public TestResultsReport(IEnumerable<TestResult> testResults)
     {

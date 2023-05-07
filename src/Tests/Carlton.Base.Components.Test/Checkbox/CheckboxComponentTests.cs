@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.Components.Test;
 
-[Trait("Component", nameof(BreadCrumbs))]
+[Trait("Component", nameof(Checkbox))]
 public class CheckboxComponentTests : TestContext
 {
     private static readonly string CheckboxMarkup =

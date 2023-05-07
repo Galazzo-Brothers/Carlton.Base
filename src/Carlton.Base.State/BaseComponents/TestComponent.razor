@@ -1,0 +1,63 @@
+﻿@namespace Carlton.Base.State
+@typeparam TViewModel
+@typeparam TStateEvents where TStateEvents : Enum
+
+
+@code {
+    [Parameter]
+    public virtual TViewModel ViewModel { get; set; }
+
+    [Inject]
+    private IMediator Mediatr { get; set; }
+
+    [Inject]
+    public IStateStore<TStateEvents> StateStore { get; set; }
+
+    private IEnumerable<TStateEvents> StateEvents { get; set; } = new List<TStateEvents> { };
+
+    protected async override Task OnInitializedAsync()
+    {
+        //Register State Changed Handler
+        StateStore.StateChanged += OnStateChanged;
+
+        //Get VM and initalize context for wrapped component
+        ViewModel = await GetViewModel();
+
+        System.Console.WriteLine("Made it here ViewModel");
+
+        //Gather the StateEvents, this component should be listening for
+        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>) GetType().GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
+        StateEvents = attributes.SelectMany(_ => _.StateEvents);
+        System.Console.WriteLine($"StateEvents {StateEvents.Count()}");
+        //Continue initilization
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task<TViewModel> GetViewModel()
+    {
+        var request = new ViewModelRequest<TViewModel>(null);
+        return await Mediatr.Send(request);
+    }
+
+    protected async Task OnComponentEvent<TCommand>(TCommand command)
+        where TCommand : ICommand
+    {
+        var commandType = command.GetType();
+        var request = new CommandRequest<TCommand>(null, command);
+        await Mediatr.Send(request);
+    }
+
+    private async Task OnStateChanged(object sender, TStateEvents stateEvent)
+    {
+        if(!StateEvents.Contains(stateEvent))
+            return;
+
+        ViewModel = await GetViewModel();
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+    public void Dispose()
+    {
+        StateStore.StateChanged -= OnStateChanged;
+    }
+}

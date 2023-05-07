@@ -25,7 +25,8 @@
     <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\theme_defenitions.scss" />
     <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\theme_utilities.scss" />
     <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\vendor.scss" />
-    <Content Remove="wwwroot\UnitTestResults\UnitTestResults.trx" />
+    <Content Remove="wwwroot\UnitTestResults\ComponentTestResults.trx" />
+    <Content Remove="wwwroot\UnitTestResults\ComponentTestResults.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,18 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\UnitTestResults\UnitTestResults.trx">
+    <None Include="wwwroot\UnitTestResults\ComponentTestResults.trx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\UnitTestResults\UnitTestResults.json">
+    <None Include="wwwroot\UnitTestResults\ComponentTestResults.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\UnitTestResults\UnitTestResults_Unflattened.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 
 </Project>

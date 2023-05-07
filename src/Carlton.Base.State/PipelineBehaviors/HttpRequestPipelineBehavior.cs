@@ -1,49 +1,42 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace Carlton.Base.State;
 
-public class HttpRequestPipelineBehaviorBase<TRequest, TViewModel, TStateStore> : IPipelineBehavior<TRequest, TViewModel>
+public abstract class HttpRequestPipelineBehaviorBase<TRequest, TViewModel> : IPipelineBehavior<TRequest, TViewModel>
     where TRequest : ViewModelRequest<TViewModel>
-    where TStateStore : Enum
 {
     protected HttpClient Client { get; init; }
-    protected IStateAdapter<TViewModel> Adapter { get; init; }
-    protected IStateStore<TStateStore> State { get; init; }
-    protected ILogger<TViewModel> Logger { get; init; }
-
+    protected ICommandProcessor CommandProcessor { get; init; }
 
     protected HttpRequestPipelineBehaviorBase(HttpClient client,
-        IStateAdapter<TViewModel> adapter,
-        IStateStore<TStateStore> state,
-        ILogger<TViewModel> logger)
+        ICommandProcessor commandProcessor)
     {
         Client = client;
-        Adapter = adapter;
-        State = state;
-        Logger = logger;
+        CommandProcessor = commandProcessor;
     }
 
     public virtual async Task<TViewModel> Handle(TRequest request, RequestHandlerDelegate<TViewModel> next, CancellationToken cancellationToken)
     {
-        var attributes = request.Sender.GetType().CustomAttributes;
+        var attributes = request.Sender.GetType().GetCustomAttributes();
         var refreshPolicyAttribute = attributes.OfType<DataEndpointRefreshPolicyAttribute>().FirstOrDefault();
-        var urlAttribute = attributes.OfType<DataEndpointAttribute>().FirstOrDefault();
+        var urlAttribute = attributes.OfType<DataRefreshEndpointAttribute>().FirstOrDefault();
         var urlParameterAttributes = attributes.OfType<DataEndpointParameterAttribute>() ?? new List<DataEndpointParameterAttribute>();
         var requiresRefresh = GetRefreshPolicy(refreshPolicyAttribute);
-
+       
         if(requiresRefresh)
         {
-            var serverUrl = GetServerUrl(urlAttribute, urlParameterAttributes, request.Sender);
-            var viewModel = await Client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken: cancellationToken);
-            Adapter.SaveViewModel(viewModel);
+          //  var serverUrl = GetServerUrl(urlAttribute, urlParameterAttributes, request.Sender);
+         //   var viewModel = await Client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken: cancellationToken);
+            System.Console.WriteLine("Made it here, Adapting");
+     //       viewModel.Adapt(request.Sender.State);
         }
 
+        System.Console.WriteLine("Made it here, Returning");
         return await next();
     }
 
-    private bool GetRefreshPolicy(DataEndpointRefreshPolicyAttribute attribute)
+    private static bool GetRefreshPolicy(DataEndpointRefreshPolicyAttribute attribute)
     {
         if(attribute == null)
             throw new InvalidOperationException();
@@ -53,15 +46,15 @@ public class HttpRequestPipelineBehaviorBase<TRequest, TViewModel, TStateStore> 
         {
             DataEndpointRefreshPolicy.Never => false,
             DataEndpointRefreshPolicy.Always => true,
-            DataEndpointRefreshPolicy.InitOnly => Adapter.IsEmpty,
+            //DataEndpointRefreshPolicy.InitOnly => Adapter.IsEmpty,
             DataEndpointRefreshPolicy.Expired => throw new NotImplementedException(),
             _ => throw new ArgumentException(),
         };
     }
 
-    private string GetServerUrl(DataEndpointAttribute endpointAttribute,
+    private string GetServerUrl(DataRefreshEndpointAttribute endpointAttribute,
         IEnumerable<DataEndpointParameterAttribute> parameterAttributes,
-        object sender)
+        IDataWrapper sender)
     {
         if(endpointAttribute == null)
             throw new InvalidOperationException();
@@ -73,7 +66,7 @@ public class HttpRequestPipelineBehaviorBase<TRequest, TViewModel, TStateStore> 
             var value = string.Empty;
             value = attribute.ParameterType switch
             {
-                DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(State).ToString(),
+                DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender.State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
                 _ => throw new Exception(),
             };
