@@ -6,7 +6,6 @@ public static class JavaScriptHelper
 
     public static string GetImportPath(Type componentType)
     {
-        System.Console.WriteLine($"./_content/{GetProjectName(componentType)}/{componentType.Name}/{componentType.Name}.razor.js");
         return $"./_content/{GetProjectName(componentType)}/{componentType.Name}/{componentType.Name}.razor.js";
     }
 
