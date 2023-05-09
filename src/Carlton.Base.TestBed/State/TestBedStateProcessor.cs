@@ -3,7 +3,8 @@
 public class TestBedStateProcessor : TestBedState, ICommandProcessor
 {
 
-    public TestBedStateProcessor(IEnumerable<ComponentState> componentStates) : base(componentStates)
+    public TestBedStateProcessor(IEnumerable<ComponentState> componentState, IDictionary<string, TestResultsReport> testResults) 
+        : base(componentState, testResults)
     {
     }
 
@@ -36,11 +37,6 @@ public class TestBedStateProcessor : TestBedState, ICommandProcessor
         SelectedComponentState = command.ComponentState;
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         await InvokeStateChanged(sender, TestBedStateEvents.MenuItemSelected);
-    }
-
-    public void InitComponentTestResultsReports(IReadOnlyDictionary<string, TestResultsReport> testResultsReports)
-    {
-        ComponentTestResultsReports = testResultsReports;
     }
 }
 

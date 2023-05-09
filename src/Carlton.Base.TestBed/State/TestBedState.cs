@@ -11,14 +11,20 @@ public class TestBedState : IStateStore<TestBedStateEvents>
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
     public ComponentParameters SelectedComponentParameters { get; protected set; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents { get { return _componentEvents; } }
-    public IReadOnlyDictionary<string, TestResultsReport> ComponentTestResultsReports { get; protected set; } = new Dictionary<string, TestResultsReport>();
+    public IReadOnlyDictionary<string, TestResultsReport> ComponentTestResults { get; init; }
+    public TestResultsReport SelectedComponentTestReport
+    {
+        get => ComponentTestResults.ContainsKey(SelectedComponentType.GetDisplayName()) ?
+             ComponentTestResults[SelectedComponentType.GetDisplayName()]
+            : new TestResultsReport();
+    }
 
-
-    public TestBedState(IEnumerable<ComponentState> componentStates)
+    public TestBedState(IEnumerable<ComponentState> componentStates, IDictionary<string, TestResultsReport> testResults)
     {
         ComponentStates = componentStates;
         SelectedComponentState = ComponentStates.First();
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
+        ComponentTestResults = testResults.AsReadOnly();
     }
 
     protected async Task InvokeStateChanged(object sender, TestBedStateEvents evt)
