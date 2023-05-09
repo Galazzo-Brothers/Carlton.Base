@@ -1,10 +1,8 @@
 ﻿@namespace Carlton.Base.TestBed
-@attribute [DataEndpointRefreshPolicy(DataEndpointRefreshPolicy.Always)]
-@attribute [DataRefreshEndpoint("UnitTestResults/UnitTestResults_Unflattened.json")]
+@attribute [DataEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
 @attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.MenuItemSelected)]
 @inherits DataComponentBase<TestResultsViewModel>
 
 <div class="test-results-report">
-    <TestResultsSummary Summary="ViewModel.TestResultsSummary" />
-    <TestResultsTable TestResults="ViewModel.TestResults" />
+    <TestResultsTable TestResults="ViewModel.TestResultsReport.TestResults" />
 </div>
