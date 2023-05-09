@@ -1,9 +1,6 @@
 ﻿/* vertical panel */
 .resizable-panel {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-height: calc(100% - 60px);
+    height: calc(100vh - 100px);
     overflow: hidden;
 }
 
@@ -13,7 +10,7 @@
     height: 100px;
     width: 100%;
     overflow-y: scroll;
-    max-height: calc(100vh - 60px);
+    max-height: calc(100vh - 120px);
     box-sizing: border-box;
 }
 

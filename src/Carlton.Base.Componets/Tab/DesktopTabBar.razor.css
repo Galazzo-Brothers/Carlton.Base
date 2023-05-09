@@ -21,7 +21,7 @@
         position: relative;
         display: inline-block;
         text-decoration: none;
-        padding: 22px;
+        padding: 10px;
         text-transform: uppercase;
         font-size: var(--tab-font-size);
         font-weight: 600;
