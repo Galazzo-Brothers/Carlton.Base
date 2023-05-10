@@ -38,6 +38,7 @@ public static class Program
                    .AddParameterObjComponent<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
                    .AddParameterObjComponent<BreadCrumbs>("Slash MultiCrumb", BreadCrumbsTestStates.SlashMultiCrumb)
                    .AddParameterObjComponent<BreadCrumbs>("Slash SingleCrumb", BreadCrumbsTestStates.SlashSingleCrumb)
+                   .AddParameterObjComponent<Spinner>("Default", null)
                    .AddParameterObjComponent<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddParameterObjComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
                    .AddParameterObjComponent<Select>(SelectTestStates.Default)

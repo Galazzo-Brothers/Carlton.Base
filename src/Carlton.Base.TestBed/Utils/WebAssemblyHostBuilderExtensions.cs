@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Carlton.Base.TestBed;
+﻿namespace Carlton.Base.TestBed;
 
 public static class WebAssemblyHostBuilderExtensions
 {

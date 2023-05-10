@@ -4,9 +4,10 @@
 @typeparam TViewModel
 @typeparam TStateEvents where TStateEvents : Enum
 
+
 @if(ViewModel == null)
 {
-    //Show Loading SPinner
+    @SpinnerContent
 }
 else
 {
@@ -22,6 +23,9 @@ else
 
     [Inject]
     private IStateStore<TStateEvents> StateStore { get; set; }
+
+    [Parameter]
+    public RenderFragment SpinnerContent { get; set; }
 
     public Object State { get => StateStore; }
 
