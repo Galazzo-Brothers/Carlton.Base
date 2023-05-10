@@ -1,0 +1,24 @@
+﻿.spinner {
+    position: relative;
+    width: var(--spinner-dimensions);
+    height: var(--spinner-dimensions);
+    -webkit-animation: spinner infinite .75s linear;
+    -moz-animation: spinner infinite .75s linear;
+    -o-animation: spinner infinite .75s linear;
+    animation: spinner infinite .75s linear;
+    border: 2px solid transparent;
+    border-top-color: var(--spinner-color);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 100%;
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
