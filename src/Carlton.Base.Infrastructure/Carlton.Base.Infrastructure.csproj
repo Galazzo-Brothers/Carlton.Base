@@ -21,7 +21,7 @@
     <PackageReference Include="Scrutor" Version="4.2.2" />
     <PackageReference Include="Sentry" Version="3.30.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <Folder Include="Utilities\" />
   </ItemGroup>

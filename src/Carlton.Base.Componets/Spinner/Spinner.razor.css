@@ -1,7 +1,16 @@
-﻿.spinner {
+﻿.spinner-container{
+    height: 100%;
+    display: flex;
+}
+
+.spinner {
     position: relative;
     width: var(--spinner-dimensions);
     height: var(--spinner-dimensions);
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
     -webkit-animation: spinner infinite .75s linear;
     -moz-animation: spinner infinite .75s linear;
     -o-animation: spinner infinite .75s linear;

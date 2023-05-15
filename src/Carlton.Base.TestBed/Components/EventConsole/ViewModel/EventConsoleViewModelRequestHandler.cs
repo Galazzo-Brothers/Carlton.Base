@@ -2,7 +2,7 @@
 
 public class EventConsoleViewModelRequestHandler : TestBedViewModelRequestHandler<EventConsoleViewModel>
 {
-    public EventConsoleViewModelRequestHandler(IViewModelStateFacade state) : base(state)
+    public EventConsoleViewModelRequestHandler(IViewModelStateFacade state, ILogger<TestBedViewModelRequestHandler<EventConsoleViewModel>> logger) : base(state, logger)
     {
     }
 }

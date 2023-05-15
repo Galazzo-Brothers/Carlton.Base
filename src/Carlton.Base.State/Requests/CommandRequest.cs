@@ -5,6 +5,8 @@ public class CommandRequest<TStateCommand> : RequestBase, IRequest
 {
     public TStateCommand Command { get; init; }
 
+    public override string RequestName => $"{typeof(CommandRequest<>).GetDisplayName()}_{nameof(TStateCommand)}";
+
     public CommandRequest(IDataWrapper sender, TStateCommand command) : base(sender)
         => Command = command;
 }

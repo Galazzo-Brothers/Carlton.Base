@@ -1,8 +1,8 @@
 ﻿@namespace Carlton.Base.TestBed
 @typeparam TViewModel
 
-<DataWrapper TViewModel="TViewModel" TStateEvents="TestBedStateEvents"  >
-    <SpinnerContent>
-        <Spinner />
-    </SpinnerContent>
-</DataWrapper>
+<ComponentErrorBoundary>
+    <ChildContent>
+        <UtilityDecoratedDataWrapper TViewModel="TViewModel" TStateEvents="TestBedStateEvents"/>
+    </ChildContent>
+</ComponentErrorBoundary>

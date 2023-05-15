@@ -1,8 +1,10 @@
 ﻿@namespace Carlton.Base.Components
 
-<div class="spinner" style="@SpinnerStyle"></div>
+<div class="spinner-container">
+    <div class="spinner" style="@(SpinnerStyle)"></div>
+</div>
 
-@code{
+@code {
     private string SpinnerStyle
     {
         get => StyleBuilder.Empty()

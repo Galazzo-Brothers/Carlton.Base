@@ -14,14 +14,14 @@ public static class Program
 
         builder.Services.AddScoped(sp => http);
 
-
-
         var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
         var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
 
         //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
         //var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
 
+
+        //var x = builder.Logging;
         builder.AddCarltonTestBed(builder =>
         {
             //Base Components
@@ -39,6 +39,7 @@ public static class Program
                    .AddParameterObjComponent<BreadCrumbs>("Slash MultiCrumb", BreadCrumbsTestStates.SlashMultiCrumb)
                    .AddParameterObjComponent<BreadCrumbs>("Slash SingleCrumb", BreadCrumbsTestStates.SlashSingleCrumb)
                    .AddParameterObjComponent<Spinner>("Default", null)
+                   .AddParameterObjComponent<ErrorPrompt>("Default", null)
                    .AddParameterObjComponent<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddParameterObjComponent<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
                    .AddParameterObjComponent<Select>(SelectTestStates.Default)

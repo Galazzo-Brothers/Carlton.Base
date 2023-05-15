@@ -2,7 +2,7 @@
 
 public sealed class EventRecordedCommandHandler : TestBedCommandRequestHandler<RecordEventCommand>
 {
-    public EventRecordedCommandHandler(ICommandProcessor processor) : base(processor)
+    public EventRecordedCommandHandler(ICommandProcessor processor, ILogger<TestBedCommandRequestHandler<RecordEventCommand>> logger) : base(processor, logger)
     {
     }
 }

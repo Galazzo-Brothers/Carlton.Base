@@ -1,0 +1,31 @@
+﻿@namespace Carlton.Base.Components
+@inherits ErrorBoundary
+@inject ILogger<ComponentErrorBoundary> Logger
+@inject IExceptionDisplayService ExceptionDisplayService
+
+<ErrorBoundary>
+    <ChildContent>
+        @ChildContent
+    </ChildContent>
+    <ErrorContent>
+        <ErrorPrompt 
+            ErrorHeader="Error.Header"
+            ErrorMessage="Error.Message"
+            IconClass="Error.IconCss"
+            OnClick="base.Recover" />
+    </ErrorContent>
+</ErrorBoundary>
+
+
+@code {
+    public new Exception CurrentException => base.CurrentException;
+
+    private ExceptionErrorPrompt Error { get; set; }
+
+    protected override Task OnErrorAsync(Exception ex)
+    {
+        Error = ExceptionDisplayService.GetExceptionErrorPrompt(CurrentException);
+        Logger.LogError(CurrentException, "ComponentErrorBounday caught an exception");
+        return Task.CompletedTask;
+    }
+}

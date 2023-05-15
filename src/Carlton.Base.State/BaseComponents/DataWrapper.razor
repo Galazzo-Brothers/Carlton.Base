@@ -3,37 +3,22 @@
 @implements IDisposable
 @typeparam TViewModel
 @typeparam TStateEvents where TStateEvents : Enum
+@inject IDataComponent<TViewModel> Component
+@inject IMediator Mediatr
+@inject IStateStore<TStateEvents> StateStore
+@inject ILogger<DataWrapper<TViewModel, TStateEvents>> Logger
 
+<DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 
-@if(ViewModel == null)
-{
-    @SpinnerContent
-}
-else
-{
-    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
-}
 
 @code {
-    [Inject]
-    private IDataComponent<TViewModel> Component { get; set; }
-
-    [Inject]
-    private IMediator Mediatr { get; set; }
-
-    [Inject]
-    private IStateStore<TStateEvents> StateStore { get; set; }
-
-    [Parameter]
-    public RenderFragment SpinnerContent { get; set; }
-
     public Object State { get => StateStore; }
 
     public Type WrappedComponentType { get => Component.GetType(); }
 
-    private TViewModel ViewModel { get; set; }
+    public TViewModel ViewModel { get; private set; }
 
-    private IEnumerable<TStateEvents> StateEvents { get; set; } = new List<TStateEvents> { };
+    public IEnumerable<TStateEvents> ObserveableStateEvents { get; private set; } = new List<TStateEvents> { };
 
     protected async override Task OnInitializedAsync()
     {
@@ -41,47 +26,59 @@ else
         StateStore.StateChanged += OnStateChanged;
 
         //Get VM and initalize context for wrapped component
-        ViewModel = await GetViewModel();
+        ViewModel = await GetViewModelInternal();
 
         //Gather the StateEvents this component should be listening for
         var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>)WrappedComponentType.GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
-        StateEvents = attributes.SelectMany(_ => _.StateEvents);
+        ObserveableStateEvents = attributes.SelectMany(_ => _.StateEvents);
 
         //Continue initilization
         await base.OnInitializedAsync();
     }
 
-    private async Task<TViewModel> GetViewModel()
+    private async Task<TViewModel> GetViewModelInternal()
     {
         var request = new ViewModelRequest<TViewModel>(this);
+        return await GetViewModel(request);
+    }
+
+    protected async virtual Task<TViewModel> GetViewModel(ViewModelRequest<TViewModel> request)
+    {
         return await Mediatr.Send(request);
     }
 
-    private async Task OnComponentEvent<TCommand>(object sender, TCommand command)
+    protected async Task OnComponentEventInternal<TCommand>(object sender, TCommand command)
         where TCommand : ICommand
     {
         var commandType = command.GetType();
-        var request = Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
+        var request = (dynamic) Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
+        await OnComponentEvent(request);
+    }
+
+    protected async virtual Task OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
+        where TCommand : ICommand
+    {
         await Mediatr.Send(request);
     }
 
-    private async Task OnStateChanged(object sender, TStateEvents stateEvent)
+    protected virtual async Task<bool> OnStateChanged(object sender, TStateEvents stateEvent)
     {
-        if(!StateEvents.Contains(stateEvent))
-            return;
+        if(!ObserveableStateEvents.Contains(stateEvent))
+            return false;
 
-        ViewModel = await GetViewModel();
+        ViewModel = await GetViewModelInternal();
         StateHasChanged();
+        return true;
     }
 
-    private Dictionary<string, object> GetParameters()
+    protected virtual Dictionary<string, object> GetParameters()
     {
-        var eventCallback = EventCallback.Factory.Create<ICommand>(this, (command) => OnComponentEvent(Component, command));
+        var eventCallback = EventCallback.Factory.Create<ICommand>(this, (command) => OnComponentEventInternal(Component, command));
         return new Dictionary<string, object>
             {
-                {"ViewModel", ViewModel},
-                {"GetViewModel", async () => await GetViewModel() },
-                {"OnComponentEvent", eventCallback}
+                { "ViewModel", ViewModel },
+                { "GetViewModel", async () => await GetViewModelInternal() },
+                { "OnComponentEvent", eventCallback }
             };
     }
 

@@ -9,8 +9,7 @@ public abstract class HttpRequestPipelineBehaviorBase<TRequest, TViewModel> : IP
     protected HttpClient Client { get; init; }
     protected ICommandProcessor CommandProcessor { get; init; }
 
-    protected HttpRequestPipelineBehaviorBase(HttpClient client,
-        ICommandProcessor commandProcessor)
+    protected HttpRequestPipelineBehaviorBase(HttpClient client, ICommandProcessor commandProcessor)
     {
         Client = client;
         CommandProcessor = commandProcessor;
@@ -23,16 +22,17 @@ public abstract class HttpRequestPipelineBehaviorBase<TRequest, TViewModel> : IP
         var urlAttribute = attributes.OfType<DataRefreshEndpointAttribute>().FirstOrDefault();
         var urlParameterAttributes = attributes.OfType<DataEndpointParameterAttribute>() ?? new List<DataEndpointParameterAttribute>();
         var requiresRefresh = GetRefreshPolicy(refreshPolicyAttribute);
-       
+
         if(requiresRefresh)
         {
-          //  var serverUrl = GetServerUrl(urlAttribute, urlParameterAttributes, request.Sender);
-         //   var viewModel = await Client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken: cancellationToken);
-            System.Console.WriteLine("Made it here, Adapting");
-     //       viewModel.Adapt(request.Sender.State);
+            var serverUrl = GetServerUrl(urlAttribute, urlParameterAttributes, request.Sender);
+            var viewModel = await Client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken: cancellationToken);
+            viewModel.Adapt(request.Sender.State);
+            refreshPolicyAttribute.InitialRequestOccured = true;
+            request.MarkAsServerCalled();
         }
 
-        System.Console.WriteLine("Made it here, Returning");
+
         return await next();
     }
 
@@ -46,18 +46,19 @@ public abstract class HttpRequestPipelineBehaviorBase<TRequest, TViewModel> : IP
         {
             DataEndpointRefreshPolicy.Never => false,
             DataEndpointRefreshPolicy.Always => true,
-            //DataEndpointRefreshPolicy.InitOnly => Adapter.IsEmpty,
+            DataEndpointRefreshPolicy.InitOnly => attribute.InitialRequestOccured,
             DataEndpointRefreshPolicy.Expired => throw new NotImplementedException(),
-            _ => throw new ArgumentException(),
+            _ => throw new ArgumentException("Unsupported DataEndpoint Refresh Policy"),
         };
     }
 
-    private string GetServerUrl(DataRefreshEndpointAttribute endpointAttribute,
+    private static string GetServerUrl(
+        DataRefreshEndpointAttribute endpointAttribute,
         IEnumerable<DataEndpointParameterAttribute> parameterAttributes,
         IDataWrapper sender)
     {
         if(endpointAttribute == null)
-            throw new InvalidOperationException();
+            throw new InvalidOperationException($"The {nameof(DataRefreshEndpointAttribute)} attribute is missing from the component");
 
         var result = endpointAttribute.Route;
 
@@ -68,7 +69,7 @@ public abstract class HttpRequestPipelineBehaviorBase<TRequest, TViewModel> : IP
             {
                 DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender.State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-                _ => throw new Exception(),
+                _ => throw new Exception("Unsupported DataEndpoint Parameter Type"),
             };
             result = result.Replace("{" + attribute.Name + "}", value);
         }

@@ -2,7 +2,7 @@
 
 public sealed class NavMenuViewModelRequestHandler : TestBedViewModelRequestHandler<NavMenuViewModel>
 {
-    public NavMenuViewModelRequestHandler(IViewModelStateFacade state) : base(state)
+    public NavMenuViewModelRequestHandler(IViewModelStateFacade state, ILogger<TestBedViewModelRequestHandler<NavMenuViewModel>> logger) : base(state, logger)
     {
     }
 }

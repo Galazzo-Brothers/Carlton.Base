@@ -12,7 +12,7 @@ public sealed class SourceViewerViewModelRequestHandler : IRequestHandler<ViewMo
     public async Task<SourceViewerViewModel> Handle(ViewModelRequest<SourceViewerViewModel> request, CancellationToken cancellationToken)
     {
         const string QuerySelector = ".component-viewer";
-        await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(typeof(SourceViewer)));
+        await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(typeof(Components.SourceViewer)));
         var markup = await module.InvokeAsync<string>(Carlton.Base.Components.SourceViewer.GetOutputSource, QuerySelector);
 
         return new SourceViewerViewModel(markup);

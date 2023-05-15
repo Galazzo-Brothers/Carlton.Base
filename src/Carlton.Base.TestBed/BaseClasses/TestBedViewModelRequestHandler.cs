@@ -2,7 +2,8 @@
 
 public class TestBedViewModelRequestHandler<TViewModel> : ViewModelRequestHandlerBase<TViewModel>
 {
-    public TestBedViewModelRequestHandler(IViewModelStateFacade state) : base(state)
+    public TestBedViewModelRequestHandler(IViewModelStateFacade state,
+        ILogger<TestBedViewModelRequestHandler<TViewModel>> logger) : base(state, logger)
     {
     }
 }
