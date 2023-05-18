@@ -2,7 +2,7 @@
 
 public sealed class NavItemSelectedCommandHandler : TestBedCommandRequestHandler<SelectMenuItemCommand>
 {
-    public NavItemSelectedCommandHandler(ICommandProcessor processor, ILogger<TestBedCommandRequestHandler<SelectMenuItemCommand>> logger) : base(processor, logger)
+    public NavItemSelectedCommandHandler(IStateProcessor processor, ILogger<TestBedCommandRequestHandler<SelectMenuItemCommand>> logger) : base(processor, logger)
     {
     }
 }

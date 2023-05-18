@@ -2,7 +2,7 @@
 
 public class TestBedViewModelStateFacade : ViewModelStateFacadeBase<TestBedState>
 {
-    public TestBedViewModelStateFacade(TestBedState state) : base(state)
+    public TestBedViewModelStateFacade(TestBedState state, ILogger<TestBedViewModelStateFacade> logger) : base(state, logger)
     {
     }
 }

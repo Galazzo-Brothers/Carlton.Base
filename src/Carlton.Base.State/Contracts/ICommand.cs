@@ -2,5 +2,5 @@
 
 public interface ICommand
 {
- 
+    public string CommandName => GetType().GetDisplayName();
 }

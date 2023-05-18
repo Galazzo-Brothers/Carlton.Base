@@ -14,14 +14,16 @@ public abstract class ViewModelRequestHandlerBase<TViewModel>
     {
         try
         {
-            _logger.LogInformation("Handling {RequestName} : {Request}", request.RequestName, request);
+            Log.ViewModelRequestHandlingStarted(_logger, request.RequestName, request);
             var response = Task.FromResult(State.GetViewModel<TViewModel>());
-            _logger.LogInformation("Handled {RequestName} : {Request}", request.RequestName, request);
+            request.MarkCompleted();
+            Log.ViewModelRequestHandlingCompleted(_logger, request.RequestName, request);
 
             return response;
         }
         catch(Exception ex)
         {
+            request.MarkErrored();
             throw new ViewModelRequestException<TViewModel>(request, ex);
         }
     }

@@ -2,7 +2,7 @@
 
 public sealed class UpdateParametersCommandHandler : TestBedCommandRequestHandler<UpdateParametersCommand>
 {
-    public UpdateParametersCommandHandler(ICommandProcessor processor, ILogger<TestBedCommandRequestHandler<UpdateParametersCommand>> logger) : base(processor, logger)
+    public UpdateParametersCommandHandler(IStateProcessor processor, ILogger<TestBedCommandRequestHandler<UpdateParametersCommand>> logger) : base(processor, logger)
     {
     }
 }

@@ -11,45 +11,47 @@
     [Parameter]
     public EventCallback<ICommand> OnComponentEvent { get; init; }
 
+    private string ComponentViewModelName { get => typeof(TViewModel).GetDisplayName(); }
+
     protected override void OnInitialized()
     {
-        Logger.LogDebug($"DataComponentBase OnInitalized Started");
+        Log.DataComponentOnInitializedStarted(Logger, ComponentViewModelName);
         base.OnInitialized();
-        Logger.LogDebug($"DataComponentBase OnInitalized Completed");
+        Log.DataComponentOnInitializedCompleted(Logger, ComponentViewModelName);
     }
 
     protected async override Task OnInitializedAsync()
     {
-        Logger.LogDebug($"DataComponentBase OnInitalizedAsync Started");
+        Log.DataComponentOnInitializedAsyncStarted(Logger, ComponentViewModelName);
         await base.OnInitializedAsync();
-        Logger.LogDebug($"DataComponentBase OnInitalizedAsync Completed");
+        Log.DataComponentOnInitializedAsyncCompleted(Logger, ComponentViewModelName);
     }
 
     protected override void OnParametersSet()
     {
-        Logger.LogDebug($"DataComponentBase OnParametersSet Started");
+        Log.DataComponentOnParametersSetStarted(Logger, ComponentViewModelName);
         base.OnParametersSet();
-        Logger.LogDebug($"DataComponentBase OnParametersSet Completed");
+        Log.DataComponentOnParametersSetCompleted(Logger, ComponentViewModelName);
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        Logger.LogDebug($"DataComponentBase OnParametersSetAsync Started");
+        Log.DataComponentOnParametersSetAsyncStarted(Logger, ComponentViewModelName);
         await base.OnParametersSetAsync();
-        Logger.LogDebug($"DataComponentBase OnParametersSetAsync Completed");
+        Log.DataComponentOnParametersSetAsyncCompleted(Logger, ComponentViewModelName);
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        Logger.LogDebug($"DataComponentBase OnAfterRender started");
+        Log.DataComponentOnAfterRenderStarted(Logger, ComponentViewModelName);
         base.OnAfterRender(firstRender);
-        Logger.LogDebug($"DataComponentBase OnAfterRender Completed");
+        Log.DataComponentOnAfterRenderCompleted(Logger, ComponentViewModelName);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Logger.LogDebug($"DataComponentBase OnAfterRenderAsync started");
+        Log.DataComponentOnAfterRenderAsyncStarted(Logger, ComponentViewModelName);
         await base.OnAfterRenderAsync(firstRender);
-        Logger.LogDebug($"DataComponentBase OnAfterRenderAsync Completed");
+        Log.DataComponentOnAfterRenderAsyncCompleted(Logger, ComponentViewModelName);
     }
 }

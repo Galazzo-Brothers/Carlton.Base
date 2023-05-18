@@ -18,29 +18,21 @@ public static class WebAssemblyHostBuilderExtensions
         builder.Services.AddSingleton<TestBedState>(state);
         builder.Services.AddSingleton<IStateStore<TestBedStateEvents>>(state);
 
-        var viewModelStateFacade = new TestBedViewModelStateFacade(state);
+        //var viewModelStateFacade = new TestBedViewModelStateFacade(state);
 
-        builder.Services.AddTransient(_ =>
-        DispatchProxyLoggingDecorator<IViewModelStateFacade>.Decorate
-            (
-                viewModelStateFacade,
-                _.GetService<ILogger<DispatchProxyLoggingDecorator<IViewModelStateFacade>>>()
-            )
-        );
+        builder.Services.AddTransient<IViewModelStateFacade, TestBedViewModelStateFacade>();
 
-        builder.Services.AddTransient(_ =>
-        DispatchProxyLoggingDecorator<ICommandProcessor>.Decorate
-            (
-                state,
-                _.GetService<ILogger<DispatchProxyLoggingDecorator<ICommandProcessor>>>()
-             )
-        );
+        builder.Services.AddSingleton<IStateProcessor<TestBedState>>(state);
+
+        builder.Services.AddTransient<IStateProcessor>(_ => 
+            new TransactionalStateProcessor<TestBedState>(
+                state, _.GetService<ILogger<TransactionalStateProcessor<TestBedState>>>()));
 
         builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assemblies);
-                //cfg.AddOpenBehavior(typeof(TestBedHttpRequestPipelineBehavior<,>));
-                // cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsViewModel>, TestResultsViewModel>, TestResultsViewModelHttpBehavior>();
+                cfg.AddOpenBehavior(typeof(TestBedHttpBehavior<,>));
+                //cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsViewModel>, TestResultsViewModel>, HttpRequestPipelineBehaviorBase<,>();
             });
 
         builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();

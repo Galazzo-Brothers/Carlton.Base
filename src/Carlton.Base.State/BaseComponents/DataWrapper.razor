@@ -16,6 +16,8 @@
 
     public Type WrappedComponentType { get => Component.GetType(); }
 
+    public string WrappedComponentDisplayName { get => WrappedComponentType.GetDisplayName(); }
+
     public TViewModel ViewModel { get; private set; }
 
     public IEnumerable<TStateEvents> ObserveableStateEvents { get; private set; } = new List<TStateEvents> { };

@@ -5,21 +5,23 @@ public abstract class CommandRequestHandlerBase<TCommand> : IRequestHandler<Comm
 {
     private readonly ILogger<CommandRequestHandlerBase<TCommand>> _logger;
 
-    protected ICommandProcessor Processor { get; init; }
+    protected IStateProcessor Processor { get; init; }
 
-    protected CommandRequestHandlerBase(ICommandProcessor processor, ILogger<CommandRequestHandlerBase<TCommand>> logger)
+    protected CommandRequestHandlerBase(IStateProcessor processor, ILogger<CommandRequestHandlerBase<TCommand>> logger)
         => (Processor, _logger) = (processor, logger);
 
     public async Task Handle(CommandRequest<TCommand> request, CancellationToken cancellationToken)
     {
         try
         {
-            _logger.LogInformation("Handling {RequestName}: {Request}", request.RequestName, request);
+            Log.CommandRequestHandlingStarted(_logger, request.RequestName, request);
             await Processor.ProcessCommand(request.Sender, request.Command);
-            _logger.LogInformation("Handled {RequestName}: {Request}", request.RequestName, request);
+            request.MarkCompleted();
+            Log.CommandRequestHandlingCompleted(_logger, request.RequestName, request);
         }
         catch(Exception ex)
         {
+            request.MarkErrored();
             throw new CommandException<TCommand>(request, ex);
         }
     }

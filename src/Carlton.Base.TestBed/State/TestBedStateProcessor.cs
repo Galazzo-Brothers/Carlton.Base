@@ -1,8 +1,7 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public class TestBedStateProcessor : TestBedState, ICommandProcessor
+public class TestBedStateProcessor : TestBedState, IStateProcessor<TestBedState>
 {
-
     public TestBedStateProcessor(IEnumerable<ComponentState> componentState, IDictionary<string, TestResultsReport> testResults) 
         : base(componentState, testResults)
     {
@@ -37,6 +36,16 @@ public class TestBedStateProcessor : TestBedState, ICommandProcessor
         SelectedComponentState = command.ComponentState;
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         await InvokeStateChanged(sender, TestBedStateEvents.MenuItemSelected);
+    }
+
+    public void RestoreState(Memento<TestBedState> memento)
+    {
+        memento.State.Adapt(this);
+    }
+
+    public Memento<TestBedState> SaveState()
+    {
+        return new Memento<TestBedState>(this);
     }
 }
 
