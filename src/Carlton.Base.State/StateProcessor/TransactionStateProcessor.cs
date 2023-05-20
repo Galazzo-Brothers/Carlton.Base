@@ -2,10 +2,10 @@
 
 public class TransactionalStateProcessor<TState> : IStateProcessor<TState>
 {
-    private Memento<TState> BeforeState { get; set; }
-
     private readonly IStateProcessor<TState> _decorated;
     private readonly ILogger<TransactionalStateProcessor<TState>> _logger;
+
+    private Memento<TState> BeforeState { get; set; }
 
     public TransactionalStateProcessor(IStateProcessor<TState> stateProcessor, ILogger<TransactionalStateProcessor<TState>> logger)
         => (_decorated, _logger) = (stateProcessor, logger);
