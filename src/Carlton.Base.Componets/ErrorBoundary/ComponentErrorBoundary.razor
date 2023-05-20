@@ -9,9 +9,9 @@
     </ChildContent>
     <ErrorContent>
         <ErrorPrompt 
-            ErrorHeader="Error.Header"
-            ErrorMessage="Error.Message"
-            IconClass="Error.IconCss"
+            ErrorHeader="@Error.Header"
+            ErrorMessage="@Error.Message"
+            IconClass="@Error.IconClass"
             OnClick="base.Recover" />
     </ErrorContent>
 </ErrorBoundary>
@@ -22,10 +22,15 @@
 
     private ExceptionErrorPrompt Error { get; set; }
 
-    protected override Task OnErrorAsync(Exception ex)
+    protected override void OnParametersSet()
     {
-        Error = ExceptionDisplayService.GetExceptionErrorPrompt(CurrentException);
+        Error = ExceptionDisplayService.GetExceptionErrorPrompt(base.CurrentException);
+        base.OnParametersSet();
+    }
+
+    protected async override Task OnErrorAsync(Exception ex)
+    {
         Logger.LogError(CurrentException, "ComponentErrorBounday caught an exception");
-        return Task.CompletedTask;
+        await base.OnErrorAsync(ex);
     }
 }
