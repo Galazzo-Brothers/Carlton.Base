@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class TestResultsViewModelRequestHandler : TestBedViewModelRequestHandler<TestResultsViewModel>
+public sealed class TestResultsViewModelRequestHandler : ViewModelHandler<TestResultsViewModel>
 {
-    public TestResultsViewModelRequestHandler(IViewModelStateFacade state, ILogger<TestBedViewModelRequestHandler<TestResultsViewModel>> logger) : base(state, logger)
+    public TestResultsViewModelRequestHandler(IViewModelStateFacade state) : base(state)
     {
     }
 }

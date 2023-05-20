@@ -15,14 +15,14 @@ public class TransactionalStateProcessor<TState> : IStateProcessor<TState>
         try
         {
             BeforeState = _decorated.SaveState();
-            Log.CommandRequestProcessingStarted(_logger, command.CommandName, command, BeforeState);
+            Log.CommandRequestProcessingStarted(_logger, typeof(TCommand).GetDisplayName(), command, BeforeState);
             await _decorated.ProcessCommand(sender, command);
             var afterState = _decorated.SaveState();
-            Log.CommandRequestProcessingCompleted(_logger, command.CommandName, command, afterState);
+            Log.CommandRequestProcessingCompleted(_logger, typeof(TCommand).GetDisplayName(), command, afterState);
         }
         catch(Exception ex)
         {
-            Log.CommandRequestProcessingError(_logger, ex, command.CommandName, command);
+            Log.CommandRequestProcessingError(_logger, ex, typeof(TCommand).GetDisplayName(), command);
             _decorated.RestoreState(BeforeState);
             throw;
         }

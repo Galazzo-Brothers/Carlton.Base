@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class SourceViewerViewModelRequestHandler : IRequestHandler<ViewModelRequest<SourceViewerViewModel>, SourceViewerViewModel>
+public sealed class SourceViewerViewModelRequestHandler 
 {
     private readonly IJSRuntime _jsRuntime;
 
@@ -13,7 +13,7 @@ public sealed class SourceViewerViewModelRequestHandler : IRequestHandler<ViewMo
     {
         const string QuerySelector = ".component-viewer";
         await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(typeof(Components.SourceViewer)));
-        var markup = await module.InvokeAsync<string>(Carlton.Base.Components.SourceViewer.GetOutputSource, QuerySelector);
+        var markup = await module.InvokeAsync<string>(Components.SourceViewer.GetOutputSource, QuerySelector);
 
         return new SourceViewerViewModel(markup);
     }

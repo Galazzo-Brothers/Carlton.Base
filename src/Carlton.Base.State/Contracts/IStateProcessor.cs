@@ -1,23 +1,13 @@
 ﻿namespace Carlton.Base.State;
 
-public interface IStateProcessor
+public interface IStateProcessor 
 {
     public Task ProcessCommand<TCommand>(object sender, TCommand command)
         where TCommand : ICommand;
 }
 
-public interface IStateProcessor<TState> : IStateProcessor
+public interface IStateProcessor<TState> : IStateMemento<TState>
 {
-    public void RestoreState(Memento<TState> memento);
-    public Memento<TState> SaveState();
-}
-
-public class Memento<TState>
-{
-    public TState State { get; init; }
-
-    public Memento(TState state)
-    {
-        State = state;
-    }
+    public Task ProcessCommand<TCommand>(object sender, TCommand command)
+        where TCommand : ICommand;
 }

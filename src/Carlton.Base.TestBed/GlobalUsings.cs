@@ -10,8 +10,6 @@ global using Microsoft.JSInterop;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using Mapster;
-global using MediatR;
-global using Carlton.Base.Infrastructure;
 global using Carlton.Base.Infrastructure.UnitTesting;
 global using Carlton.Base.Infrastructure.Extensions;
 global using Carlton.Base.Components;

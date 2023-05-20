@@ -1,11 +1,11 @@
 ﻿namespace Carlton.Base.State;
 
-public class ViewModelStateFacadeBase<TState> : IViewModelStateFacade
+public class ViewModelStateFacade<TState> : IViewModelStateFacade
 {
     private readonly TState _state;
-    private readonly ILogger<ViewModelStateFacadeBase<TState>> _logger;
+    private readonly ILogger<ViewModelStateFacade<TState>> _logger;
 
-    public ViewModelStateFacadeBase(TState state, ILogger<ViewModelStateFacadeBase<TState>> logger)
+    public ViewModelStateFacade(TState state, ILogger<ViewModelStateFacade<TState>> logger)
         => (_state, _logger) = (state, logger);
 
     public TViewModel GetViewModel<TViewModel>()
@@ -18,7 +18,7 @@ public class ViewModelStateFacadeBase<TState> : IViewModelStateFacade
             Log.ViewModelRequestRetrievingViewModelCompleted(_logger, viewModelName, result);
             return result;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.ViewModelRequestRetrievingViewModelError(_logger, ex, typeof(TViewModel).GetDisplayName());
             throw;

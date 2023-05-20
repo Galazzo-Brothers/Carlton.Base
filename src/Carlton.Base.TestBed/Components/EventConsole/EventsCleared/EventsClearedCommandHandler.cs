@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class EventsClearedCommandHandler : TestBedCommandRequestHandler<ClearEventsCommand>
+public sealed class EventsClearedCommandHandler : CommandHandler<ClearEventsCommand>
 {
-    public EventsClearedCommandHandler(IStateProcessor processor, ILogger<TestBedCommandRequestHandler<ClearEventsCommand>> logger) : base(processor, logger)
+    public EventsClearedCommandHandler(IStateProcessor processor) : base(processor)
     {
     }
 }

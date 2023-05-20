@@ -31,23 +31,24 @@ else
 
     protected override async Task<TViewModel> GetViewModel(ViewModelRequest<TViewModel> request)
     {
-        using(Logger.BeginScope(Log.ViewModelRequestScopeMessage, request.RequestName, request.RequestID))
+        using(Logger.BeginScope(Log.ViewModelRequestScopeMessage, request.DisplayName, request.RequestID))
         {
-            Log.ViewModelRequestStarted(Logger, request.RequestName, request.RequestID);
+            Log.ViewModelRequestStarted(Logger, request.DisplayName, request.RequestID);
             var viewModel = await base.GetViewModel(request);
-            Log.ViewModelRequestCompleted(Logger, request.RequestName, viewModel);
+            Log.ViewModelRequestCompleted(Logger, request.DisplayName, viewModel);
 
             return viewModel;
         }
     }
 
-    protected override async Task OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
+    protected override async Task<Unit> OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
     {
-        using(Logger.BeginScope(Log.CommandScopeMessage, request.RequestName, request.RequestID))
+        using(Logger.BeginScope(Log.CommandScopeMessage, request.DisplayName, request.RequestID))
         {
-            Log.CommandRequestStarted(Logger, request.RequestName, request.RequestID);
-            await base.OnComponentEvent<TCommand>(request);
-            Log.CommandRequestCompleted(Logger, request.RequestName, request.RequestID);
+            Log.CommandRequestStarted(Logger, request.DisplayName, request.RequestID);
+            var result = await base.OnComponentEvent<TCommand>(request);
+            Log.CommandRequestCompleted(Logger, request.DisplayName, request.RequestID);
+            return result;
         }
     }
 

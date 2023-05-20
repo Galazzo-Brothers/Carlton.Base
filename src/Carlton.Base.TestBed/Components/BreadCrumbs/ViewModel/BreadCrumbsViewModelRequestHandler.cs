@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public class BreadCrumbsViewModelRequestHandler : TestBedViewModelRequestHandler<BreadCrumbsViewModel>
+public class BreadCrumbsViewModelRequestHandler : ViewModelHandler<BreadCrumbsViewModel>
 {
-    public BreadCrumbsViewModelRequestHandler(IViewModelStateFacade state, ILogger<TestBedViewModelRequestHandler<BreadCrumbsViewModel>> logger) : base(state, logger)
+    public BreadCrumbsViewModelRequestHandler(IViewModelStateFacade state) : base(state)
     {
     }
 }

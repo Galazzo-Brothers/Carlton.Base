@@ -10,8 +10,31 @@ public static class ContainerExtensions
                     .AddClasses(classes => classes.AssignableTo(typeof(IDataComponent<>)))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
-
             });
+        services.AddTransient<HttpClient>();
+        services.AddSingleton<IViewModelDispatcher, ViewModelDispatcher>();
+        services.Decorate<IViewModelDispatcher, UtilityViewModelDecorator>();
+        services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator>();
+
+        services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
+        services.Decorate<ICommandDispatcher, UtilityCommandDecorator>();
+        services.Decorate<ICommandDispatcher, CommandHttpDecorator>();
+
+
+        services.Scan(selector =>
+        {
+            selector.FromAssemblies(assemblies)
+                    .AddClasses(classes => classes.AssignableTo(typeof(IViewModelHandler<>)))
+                    .AsImplementedInterfaces()
+                    .WithSingletonLifetime();
+        });
+        services.Scan(selector =>
+        {
+            selector.FromAssemblies(assemblies)
+                    .AddClasses(filter => filter.AssignableTo(typeof(ICommandHandler<>)))
+                    .AsImplementedInterfaces()
+                    .WithSingletonLifetime();
+        });
     }
 }
 

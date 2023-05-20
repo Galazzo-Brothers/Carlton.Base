@@ -15,16 +15,13 @@ global using System.Text;
 global using System.Text.Json;
 global using System.Text.Json.Serialization;
 global using System.Xml.Linq;
+global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.Logging;
 global using FluentValidation;
-global using MediatR;
 global using Polly;
 global using Polly.Wrap;
-global using Carlton.Base.Infrastructure.Caching;
 global using Carlton.Base.Infrastructure.Exceptions;
-global using Carlton.Base.Infrastructure.Resiliance;
-global using Carlton.Base.Infrastructure.Security;
 
 
 

@@ -4,7 +4,8 @@
 @typeparam TViewModel
 @typeparam TStateEvents where TStateEvents : Enum
 @inject IDataComponent<TViewModel> Component
-@inject IMediator Mediatr
+@inject IViewModelDispatcher QueryDispatcher
+@inject ICommandDispatcher CommandDispatcher
 @inject IStateStore<TStateEvents> StateStore
 @inject ILogger<DataWrapper<TViewModel, TStateEvents>> Logger
 
@@ -46,28 +47,28 @@
 
     protected async virtual Task<TViewModel> GetViewModel(ViewModelRequest<TViewModel> request)
     {
-        return await Mediatr.Send(request);
+       return await QueryDispatcher.Dispatch<TViewModel>(request, CancellationToken.None);
     }
 
-    protected async Task OnComponentEventInternal<TCommand>(object sender, TCommand command)
+    protected async Task<Unit> OnComponentEventInternal<TCommand>(object sender, TCommand command)
         where TCommand : ICommand
     {
         var commandType = command.GetType();
         var request = (dynamic) Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
-        await OnComponentEvent(request);
+        return await OnComponentEvent(request);
     }
 
-    protected async virtual Task OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
+    protected async virtual Task<Unit> OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
         where TCommand : ICommand
     {
-        await Mediatr.Send(request);
+        return await CommandDispatcher.Dispatch<TCommand>(request, CancellationToken.None);
     }
 
     protected virtual async Task<bool> OnStateChanged(object sender, TStateEvents stateEvent)
     {
         if(!ObserveableStateEvents.Contains(stateEvent))
             return false;
-
+  
         ViewModel = await GetViewModelInternal();
         StateHasChanged();
         return true;

@@ -11,6 +11,5 @@ global using Microsoft.AspNetCore.Components;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using Mapster;
-global using MediatR;
 global using Carlton.Base.Infrastructure.Extensions;
 

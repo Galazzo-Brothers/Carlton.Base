@@ -11,9 +11,7 @@ public static class WebAssemblyHostBuilderExtensions
         var NavMenuBuilder = new NavMenuViewModelBuilder();
         navTreeAct(NavMenuBuilder);
         var options = NavMenuBuilder.Build();
-
-
-
+     
         var state = new TestBedStateProcessor(options, testResults);
         builder.Services.AddSingleton<TestBedState>(state);
         builder.Services.AddSingleton<IStateStore<TestBedStateEvents>>(state);
@@ -22,21 +20,16 @@ public static class WebAssemblyHostBuilderExtensions
 
         builder.Services.AddTransient<IViewModelStateFacade, TestBedViewModelStateFacade>();
 
-        builder.Services.AddSingleton<IStateProcessor<TestBedState>>(state);
+        builder.Services.AddSingleton<IStateProcessor>(state);
 
-        builder.Services.AddTransient<IStateProcessor>(_ => 
-            new TransactionalStateProcessor<TestBedState>(
-                state, _.GetService<ILogger<TransactionalStateProcessor<TestBedState>>>()));
+        //builder.Services.AddTransient<IStateProcessor>(_ => 
+        //    new TransactionalStateProcessor<TestBedState>(
+        //        state, _.GetService<ILogger<TransactionalStateProcessor<TestBedState>>>()));
 
-        builder.Services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssemblies(assemblies);
-                cfg.AddOpenBehavior(typeof(TestBedHttpBehavior<,>));
-                //cfg.AddBehavior<IPipelineBehavior<ViewModelRequest<TestResultsViewModel>, TestResultsViewModel>, HttpRequestPipelineBehaviorBase<,>();
-            });
 
         builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();
         builder.Services.AddCarltonState(assemblies);
+
         builder.Services.RegisterMapsterConfiguration();
     }
 }

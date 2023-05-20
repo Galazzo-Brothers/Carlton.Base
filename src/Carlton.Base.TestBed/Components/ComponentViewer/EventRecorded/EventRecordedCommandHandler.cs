@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class EventRecordedCommandHandler : TestBedCommandRequestHandler<RecordEventCommand>
+public sealed class EventRecordedCommandHandler : CommandHandler<RecordEventCommand>
 {
-    public EventRecordedCommandHandler(IStateProcessor processor, ILogger<TestBedCommandRequestHandler<RecordEventCommand>> logger) : base(processor, logger)
+    public EventRecordedCommandHandler(IStateProcessor processor) : base(processor)
     {
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class NavMenuViewModelRequestHandler : TestBedViewModelRequestHandler<NavMenuViewModel>
+public sealed class NavMenuViewModelRequestHandler : ViewModelHandler<NavMenuViewModel>
 {
-    public NavMenuViewModelRequestHandler(IViewModelStateFacade state, ILogger<TestBedViewModelRequestHandler<NavMenuViewModel>> logger) : base(state, logger)
+    public NavMenuViewModelRequestHandler(IViewModelStateFacade state) : base(state)
     {
     }
 }

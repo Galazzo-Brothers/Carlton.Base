@@ -1,15 +1,16 @@
 ﻿namespace Carlton.Base.State;
 
-public abstract class RequestBase
+public abstract class RequestBase<T> : IRequest<T>
 {
+    public T WrappedType { get; init; }
     public Guid RequestID { get; init; }
-    public abstract string RequestName { get; }
+    public string DisplayName { get => $"{GetType().GetDisplayName()}_{typeof(T).GetDisplayName()}"; }
     public IDataWrapper Sender { get; init; }
     public Type SenderWrappedType { get => Sender.WrappedComponentType; }
     public object State { get => Sender.State; }
     public bool IsCompleted { get; private set; }
     public bool RequestErrored { get; private set; }
-        public bool ServerCalled { get; private set; }
+    public bool ServerCalled { get; private set; }
 
     public DateTime CreatedDateTime { get; }
     public DateTime CompletedDateTime { get; private set; }

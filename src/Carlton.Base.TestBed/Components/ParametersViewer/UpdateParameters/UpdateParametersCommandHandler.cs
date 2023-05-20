@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Base.TestBed;
 
-public sealed class UpdateParametersCommandHandler : TestBedCommandRequestHandler<UpdateParametersCommand>
+public sealed class UpdateParametersCommandHandler : CommandHandler<UpdateParametersCommand>
 {
-    public UpdateParametersCommandHandler(IStateProcessor processor, ILogger<TestBedCommandRequestHandler<UpdateParametersCommand>> logger) : base(processor, logger)
+    public UpdateParametersCommandHandler(IStateProcessor processor) : base(processor)
     {
     }
 }

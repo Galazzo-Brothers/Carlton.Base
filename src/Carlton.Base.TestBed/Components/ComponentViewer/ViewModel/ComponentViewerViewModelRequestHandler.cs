@@ -1,9 +1,9 @@
 ﻿
 namespace Carlton.Base.TestBed;
 
-public class ComponentViewerViewModelRequestHandler : TestBedViewModelRequestHandler<ComponentViewerViewModel>
+public class ComponentViewerViewModelRequestHandler : ViewModelHandler<ComponentViewerViewModel>
 {
-    public ComponentViewerViewModelRequestHandler(IViewModelStateFacade state, ILogger<TestBedViewModelRequestHandler<ComponentViewerViewModel>> logger) : base(state, logger)
+    public ComponentViewerViewModelRequestHandler(IViewModelStateFacade state) : base(state)
     {
     }
 }
