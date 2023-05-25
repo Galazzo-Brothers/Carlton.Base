@@ -22,10 +22,10 @@ public static class WebAssemblyHostBuilderExtensions
 
 
         builder.Services.AddTransient<IViewModelStateFacade, TestBedViewModelStateFacade>();
-
-        builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();
-        builder.Services.AddCarltonState(assemblies);
-
         builder.Services.RegisterMapsterConfiguration();
+        builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();
+        builder.Services.AddCarltonState<TestBedState>(assemblies);
+
+  
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace Carlton.Base.State;
+﻿using FluentValidation;
+
+namespace Carlton.Base.State;
 
 public static class ContainerExtensions
 {
-    public static void AddCarltonState(this IServiceCollection services, params Assembly[] assemblies)
+    public static void AddCarltonState<TState>(this IServiceCollection services, params Assembly[] assemblies)
     {
         services.Scan(_ =>
             {
@@ -11,14 +13,16 @@ public static class ContainerExtensions
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
             });
+
         services.AddTransient<HttpClient>();
         services.AddSingleton<IViewModelDispatcher, ViewModelDispatcher>();
         services.Decorate<IViewModelDispatcher, UtilityViewModelDecorator>();
-        services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator>();
+        services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
+        services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
         services.Decorate<ICommandDispatcher, UtilityCommandDecorator>();
-        services.Decorate<ICommandDispatcher, CommandHttpDecorator>();
+        services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
 
 
         services.Scan(selector =>
@@ -35,6 +39,24 @@ public static class ContainerExtensions
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime();
         });
+
+        assemblies.SelectMany(_ => _.DefinedTypes).Where(_ => _.Name.Contains("ViewModel"))
+            .ToList()    
+            .ForEach(_ =>
+                {
+                    var serviceType = typeof(IViewModelHandler<>).MakeGenericType(_);
+                    var implementationType = typeof(ViewModelHandler<>).MakeGenericType(_);
+                    services.AddSingleton(serviceType ,_ => ActivatorUtilities.CreateInstance(_, implementationType));
+                });
+
+        assemblies.SelectMany(_ => _.DefinedTypes).Where(_ => _.Name.Contains("Command"))//  && _.GetInterfaces().Contains(typeof(ICommand))); ;
+           .ToList()
+           .ForEach(_ =>
+           {
+               var serviceType = typeof(ICommandHandler<>).MakeGenericType(_);
+               var implementationType = typeof(CommandHandler<>).MakeGenericType(_);
+               services.AddSingleton(serviceType, _ => ActivatorUtilities.CreateInstance(_, implementationType));
+           });
     }
 }
 

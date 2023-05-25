@@ -10,6 +10,7 @@ global using System.Runtime.Serialization;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.JSInterop;
 global using Mapster;
 global using Carlton.Base.Infrastructure.Extensions;
 

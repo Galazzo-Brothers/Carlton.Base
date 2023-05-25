@@ -1,19 +1,19 @@
 ﻿namespace Carlton.Base.State;
 
-public class ViewModelHttpDecorator : IViewModelDispatcher
+public class ViewModelHttpDecorator<TState> : IViewModelDispatcher
 {
     private readonly IViewModelDispatcher _decorated;
     private readonly HttpClient _client;
-    private readonly ILogger<ViewModelHttpDecorator> _logger;
+    private readonly ILogger<ViewModelHttpDecorator<TState>> _logger;
 
-    public ViewModelHttpDecorator(IViewModelDispatcher decorated, HttpClient client, ILogger<ViewModelHttpDecorator> logger)
+    public ViewModelHttpDecorator(IViewModelDispatcher decorated, HttpClient client, ILogger<ViewModelHttpDecorator<TState>> logger)
         => (_decorated, _client, _logger) = (decorated, client, logger);
 
     public async Task<TViewModel> Dispatch<TViewModel>(ViewModelRequest<TViewModel> request, CancellationToken cancellationToken)
     {
         //Get RefreshPolicy Attribute
         var attributes = request.Sender.GetType().GetCustomAttributes();
-        var refreshPolicyAttribute = attributes.OfType<DataEndpointRefreshPolicyAttribute>().FirstOrDefault();
+        var refreshPolicyAttribute = attributes.OfType<ViewModelEndpointRefreshPolicyAttribute>().FirstOrDefault();
         var requiresRefresh = GetRefreshPolicy(refreshPolicyAttribute);
 
         if(requiresRefresh)
@@ -22,8 +22,8 @@ public class ViewModelHttpDecorator : IViewModelDispatcher
             Log.ViewModelRequestHttpRefreshStarting(_logger, request.DisplayName, request);
 
             //Construct Http Refresh URL
-            var urlAttribute = attributes.OfType<DataRefreshEndpointAttribute>().FirstOrDefault();
-            var urlParameterAttributes = attributes.OfType<DataEndpointParameterAttribute>() ?? new List<DataEndpointParameterAttribute>();
+            var urlAttribute = attributes.OfType<ViewModelEndpointAttribute>().FirstOrDefault();
+            var urlParameterAttributes = attributes.OfType<ViewModelEndpointParameterAttribute>() ?? new List<ViewModelEndpointParameterAttribute>();
             var serverUrl = GetServerUrlWrapperCall(request, urlAttribute, urlParameterAttributes, request.Sender);
 
             //Update State with Http Refresh
@@ -31,7 +31,7 @@ public class ViewModelHttpDecorator : IViewModelDispatcher
 
             //Logging and Auditing 
             refreshPolicyAttribute.InitialRequestOccurred = true;
-            request.MarkAsServerCalled();
+            request.MarkAsServerCalled(serverUrl);
             Log.ViewModelRequestHttpRefreshCompleted(_logger, request.DisplayName, request);
         }
         else
@@ -47,21 +47,23 @@ public class ViewModelHttpDecorator : IViewModelDispatcher
         try
         {
             var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
-            viewModel.Adapt(request.State);
+            viewModel.Adapt((TState) request.State);
         }
         catch(HttpRequestException ex)
         {
+            request.MarkErrored(LogEvents.ViewModelRequest_HttpRefresh_Http_Error);
             Log.ViewModelRequestHttpRefreshError(_logger, ex, request.DisplayName, request);
             throw;
         }
         catch(Exception ex)
         {
+            request.MarkErrored(LogEvents.ViewModelRequest_HttpRefresh_Mapping_Error);
             Log.ViewModelRequestHttpRefreshMappingError(_logger, ex, request.DisplayName, request);
             throw;
         }
     }
 
-    private static bool GetRefreshPolicy(DataEndpointRefreshPolicyAttribute attribute)
+    private static bool GetRefreshPolicy(ViewModelEndpointRefreshPolicyAttribute attribute)
     {
         return attribute?.DataEndpointRefreshPolicy switch
         {
@@ -74,8 +76,8 @@ public class ViewModelHttpDecorator : IViewModelDispatcher
 
     private string GetServerUrlWrapperCall<TViewModel>(
         ViewModelRequest<TViewModel> request,
-        DataRefreshEndpointAttribute endpointAttribute,
-        IEnumerable<DataEndpointParameterAttribute> parameterAttributes,
+        ViewModelEndpointAttribute endpointAttribute,
+        IEnumerable<ViewModelEndpointParameterAttribute> parameterAttributes,
         IDataWrapper sender)
     {
         try
@@ -84,19 +86,20 @@ public class ViewModelHttpDecorator : IViewModelDispatcher
         }
         catch(Exception ex)
         {
+            request.MarkErrored(LogEvents.ViewModelRequest_HttpRefresh_RouteConstruction_Error);
             Log.ViewModelRequestHttpRefreshRouteConstructionError(_logger, ex, request.DisplayName, request);
             throw;
         }
     }
 
     private static string GetServerUrl(
-        DataRefreshEndpointAttribute endpointAttribute,
-        IEnumerable<DataEndpointParameterAttribute> parameterAttributes,
+        ViewModelEndpointAttribute endpointAttribute,
+        IEnumerable<ViewModelEndpointParameterAttribute> parameterAttributes,
         IDataWrapper sender)
     {
 
         if(endpointAttribute == null)
-            throw new InvalidOperationException($"The {nameof(DataRefreshEndpointAttribute)} attribute is missing from the component");
+            throw new InvalidOperationException($"The {nameof(ViewModelEndpointAttribute)} attribute is missing from the component");
 
         var result = endpointAttribute.Route;
 

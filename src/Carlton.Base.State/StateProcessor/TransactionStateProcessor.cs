@@ -10,7 +10,7 @@ public class TransactionalStateProcessor<TState> : IStateProcessor<TState>
     public TransactionalStateProcessor(IStateProcessor<TState> stateProcessor, ILogger<TransactionalStateProcessor<TState>> logger)
         => (_decorated, _logger) = (stateProcessor, logger);
 
-    public async Task ProcessCommand<TCommand>(object sender, TCommand command) where TCommand : ICommand
+    public async Task ProcessCommand<TCommand>(object sender, TCommand command)
     {
         try
         {

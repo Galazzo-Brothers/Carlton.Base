@@ -33,7 +33,7 @@
 
         //Gather the StateEvents this component should be listening for
         var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>)WrappedComponentType.GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
-        ObserveableStateEvents = attributes.SelectMany(_ => _.StateEvents);
+        ObserveableStateEvents = attributes.Select(_ => _.StateEvent);
 
         //Continue initilization
         await base.OnInitializedAsync();
@@ -51,7 +51,6 @@
     }
 
     protected async Task<Unit> OnComponentEventInternal<TCommand>(object sender, TCommand command)
-        where TCommand : ICommand
     {
         var commandType = command.GetType();
         var request = (dynamic) Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
@@ -59,7 +58,6 @@
     }
 
     protected async virtual Task<Unit> OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
-        where TCommand : ICommand
     {
         return await CommandDispatcher.Dispatch<TCommand>(request, CancellationToken.None);
     }
@@ -76,7 +74,7 @@
 
     protected virtual Dictionary<string, object> GetParameters()
     {
-        var eventCallback = EventCallback.Factory.Create<ICommand>(this, (command) => OnComponentEventInternal(Component, command));
+        var eventCallback = EventCallback.Factory.Create<object>(this, (command) => OnComponentEventInternal(Component, command));
         return new Dictionary<string, object>
             {
                 { "ViewModel", ViewModel },

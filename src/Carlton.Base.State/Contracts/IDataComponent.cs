@@ -4,5 +4,5 @@ public interface IDataComponent<TViewModel>
 {
     TViewModel ViewModel { get; set; }
     Func<Task<TViewModel>> GetViewModel { get; init; }
-    EventCallback<ICommand> OnComponentEvent { get; init; }
+    EventCallback<object> OnComponentEvent { get; init; }
 }

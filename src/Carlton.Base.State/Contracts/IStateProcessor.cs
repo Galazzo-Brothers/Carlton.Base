@@ -2,8 +2,7 @@
 
 public interface IStateProcessor
 {
-    public Task ProcessCommand<TCommand>(object sender, TCommand command)
-        where TCommand : ICommand;
+    public Task ProcessCommand<TCommand>(object sender, TCommand command);
 }
 
 public interface IStateProcessor<TState> : IStateProcessor

@@ -56,7 +56,8 @@ public static class Program
                    .Build();
         },
         testResults,
-        typeof(TestBedLayout).Assembly);
+        typeof(TestBedLayout).Assembly,
+        typeof(ComponentState).Assembly);
 
 
         builder.RootComponents.Add<App>("app");

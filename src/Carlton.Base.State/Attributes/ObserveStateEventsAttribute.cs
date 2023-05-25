@@ -5,8 +5,8 @@ namespace Carlton.Base.State;
 public class ObserveStateEventsAttribute<TStateEvents> : Attribute
  where TStateEvents : Enum
 {
-    public IEnumerable<TStateEvents> StateEvents { get; }
+    public TStateEvents StateEvent { get; }
 
-    public ObserveStateEventsAttribute(params TStateEvents[] stateEvents)
-        => StateEvents = stateEvents;
+    public ObserveStateEventsAttribute(TStateEvents stateEvent)
+        => StateEvent = stateEvent;
 }

@@ -9,7 +9,7 @@
     [Parameter]
     public Func<Task<TViewModel>> GetViewModel { get; init; }
     [Parameter]
-    public EventCallback<ICommand> OnComponentEvent { get; init; }
+    public EventCallback<object> OnComponentEvent { get; init; }
 
     private string ComponentViewModelName { get => typeof(TViewModel).GetDisplayName(); }
 

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Carlton.Components.TestBed.Models\Carlton.Base.TestBed.Models.csproj" />
     <ProjectReference Include="..\Carlton.Base.Componets\Carlton.Base.Components.csproj" />
     <ProjectReference Include="..\Carlton.Base.State\Carlton.Base.State.csproj" />
   </ItemGroup>

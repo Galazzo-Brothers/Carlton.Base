@@ -9,7 +9,6 @@ public class UtilityCommandDecorator : ICommandDispatcher
         => (_decorated, _logger) = (decorated, logger);
 
     public async Task<Unit> Dispatch<TCommand>(CommandRequest<TCommand> request, CancellationToken cancellationToken)
-        where TCommand : ICommand
     {
         try
         {
@@ -21,7 +20,6 @@ public class UtilityCommandDecorator : ICommandDispatcher
         }
         catch(Exception ex)
         {
-            request.MarkErrored();
             throw new CommandException<TCommand>(request, ex);
         }
     }

@@ -8,8 +8,10 @@ public class ViewModelRequestException<TViewModel> : Exception
     public ViewModelRequest<TViewModel> Request { get; init; }
 
     public ViewModelRequestException(ViewModelRequest<TViewModel> request, Exception innerException) : base(ErrorMessage, innerException)
-    {
-        request.MarkErrored();
+    { 
+        if(!request.HasErrored)
+            request.MarkErrored();
+
         Request = request;
     }
 

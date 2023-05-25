@@ -9,6 +9,7 @@ public class TestBedState : IStateStore<TestBedStateEvents>
     public IEnumerable<ComponentState> ComponentStates { get; init; }
     public ComponentState SelectedComponentState { get; protected set; }
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
+    public string SelectedComponentMarkup { get; private set; }
     public ComponentParameters SelectedComponentParameters { get; protected set; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents { get { return _componentEvents; } }
     public IReadOnlyDictionary<string, TestResultsReport> ComponentTestResults { get; init; }

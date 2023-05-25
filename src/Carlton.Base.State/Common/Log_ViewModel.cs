@@ -17,6 +17,30 @@ public static partial class Log
     public static partial void ViewModelRequestHandlingStarted(ILogger logger, string requestName, object request);
 
     [LoggerMessage(
+       EventId = LogEvents.ViewModelRequest_JsInterop_Started,
+       Level = LogLevel.Information,
+       Message = "Started JS Interop Refresh {RequestName} : {Request}")]
+    public static partial void ViewModelRequestJsInteropRefreshStarting(ILogger logger, string requestName, object request);
+
+    [LoggerMessage(
+        EventId = LogEvents.ViewModelRequest_JsInterop_Completed,
+        Level = LogLevel.Information,
+        Message = "Completed JS Interop Refresh {RequestName} : {Request}")]
+    public static partial void ViewModelRequestJsInteropRefreshCompleted(ILogger logger, string requestName, object request);
+
+    [LoggerMessage(
+       EventId = LogEvents.ViewModelRequest_JsInterop_Skipping,
+       Level = LogLevel.Information,
+       Message = "Skipping Js Interop Refresh {RequestName} : {Request}")]
+    public static partial void ViewModelRequestSkippingJsInteropRefresh(ILogger logger, string requestName, object request);
+
+    [LoggerMessage(
+        EventId = LogEvents.ViewModelRequest_JsInterop_Error,
+        Level = LogLevel.Error,
+        Message = "An error occurred during Js Interop Refresh {RequestName} : {Request}")]
+    public static partial void ViewModelRequestJsInteropRefreshError(ILogger logger, Exception ex, string requestName, object request);
+
+    [LoggerMessage(
        EventId = LogEvents.ViewModelRequest_HttpRefresh_Started,
        Level = LogLevel.Information,
        Message = "Started Http Refresh {RequestName} : {Request}")]

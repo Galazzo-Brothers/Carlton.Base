@@ -7,7 +7,7 @@ public class CommandDispatcher : ICommandDispatcher
     public CommandDispatcher(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
-    public Task<Unit> Dispatch<TCommand>(CommandRequest<TCommand> request, CancellationToken cancellationToken) where TCommand : ICommand
+    public Task<Unit> Dispatch<TCommand>(CommandRequest<TCommand> request, CancellationToken cancellationToken)
     {
         var handler = _serviceProvider.GetRequiredService<ICommandHandler<TCommand>>();
         return handler.Handle(request, cancellationToken);

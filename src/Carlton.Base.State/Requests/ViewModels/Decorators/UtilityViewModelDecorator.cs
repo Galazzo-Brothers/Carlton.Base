@@ -21,7 +21,6 @@ public class UtilityViewModelDecorator : IViewModelDispatcher
         }
         catch(Exception ex)
         {
-            request.MarkErrored();
             throw new ViewModelRequestException<TViewModel>(request, ex);
         }
     }

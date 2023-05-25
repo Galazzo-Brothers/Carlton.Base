@@ -2,7 +2,6 @@
 
 [Serializable]
 public class CommandException<TCommand> : Exception
-    where TCommand : ICommand
 {
     private const string ErrorMessage = $"An exception occurred during a command of type {nameof(TCommand)}";
 
@@ -10,7 +9,9 @@ public class CommandException<TCommand> : Exception
 
     public CommandException(CommandRequest<TCommand> request, Exception innerException) : base(ErrorMessage, innerException)
     {
-        request.MarkErrored();
+        if(!request.HasErrored)
+            request.MarkErrored();
+
         Request = request;
     }
 

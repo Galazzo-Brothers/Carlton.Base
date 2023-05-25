@@ -4,6 +4,16 @@ export function highlightCodeBlock(selector) {
     hljs.highlightElement(block);
 };
 
+export function getSourceViewerViewModel(selector) {
+    let resultTemplate = {
+        componentSource: "some markup"
+    };
+
+    let result = Object.create(resultTemplate);
+    result.componentSource = getOutputSource(selector);
+    return result;
+}
+
 export function getOutputSource(selector) {
     let viewer = document.querySelector(selector);
     let markup = viewer.innerHTML;

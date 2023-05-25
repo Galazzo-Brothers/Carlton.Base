@@ -29,6 +29,11 @@ public static class MapsterConfig
         TypeAdapterConfig<TestBedState, TestResultsViewModel>
             .NewConfig()
             .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport));
+
+        TypeAdapterConfig<TestBedState, SourceViewerViewModel>
+            .NewConfig()
+            .TwoWays()
+            .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
     }
 
 }

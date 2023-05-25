@@ -7,8 +7,7 @@ public abstract class StateProcessorBase<TState> : IStateProcessor<TState>
     protected StateProcessorBase(TState state)
         => (State) = (state);
 
-    public abstract Task ProcessCommand<TCommand>(object sender, TCommand command)
-        where TCommand : ICommand;
+    public abstract Task ProcessCommand<TCommand>(object sender, TCommand command);
 
     public void RestoreState(Memento<TState> memento)
     {

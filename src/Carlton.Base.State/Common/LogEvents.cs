@@ -43,18 +43,22 @@ public static class LogEvents
     //ViewModel Requests
     public const int ViewModelRequest_Started = 1000;
     public const int ViewModelRequest_Handling_Started = 1002;
-    public const int ViewModelRequest_HttpRefresh_Started = 1004;
-    public const int ViewModelRequest_HttpRefresh_Completed = 1006;
-    public const int ViewModelRequest_HttpRefresh_Skipping = 1008;
-    public const int ViewModelRequest_RetrievingViewModel_Started = 1010;
-    public const int ViewModelRequest_RetrievingViewModel_Completed = 1012;
-    public const int ViewModelRequest_Handling_Completed = 1014;
-    public const int ViewModelRequest_Completed = 1016;
+    public const int ViewModelRequest_JsInterop_Started = 1004;
+    public const int ViewModelRequest_JsInterop_Completed = 1006;
+    public const int ViewModelRequest_JsInterop_Skipping = 1008;
+    public const int ViewModelRequest_HttpRefresh_Started = 1010;
+    public const int ViewModelRequest_HttpRefresh_Completed = 1012;
+    public const int ViewModelRequest_HttpRefresh_Skipping = 1014;
+    public const int ViewModelRequest_RetrievingViewModel_Started = 1016;
+    public const int ViewModelRequest_RetrievingViewModel_Completed = 1018;
+    public const int ViewModelRequest_Handling_Completed = 1020;
+    public const int ViewModelRequest_Completed = 1022;
 
     //ViewModel Request Errors
     public const int ViewModelRequest_HttpRefresh_Http_Error = 1102;
-    public const int ViewModelRequest_HttpRefresh_Mapping_Error = 1104;
-    public const int ViewModelRequest_HttpRefresh_RouteConstruction_Error = 1106;
+    public const int ViewModelRequest_JsInterop_Error = 1104;
+    public const int ViewModelRequest_HttpRefresh_Mapping_Error = 1106;
+    public const int ViewModelRequest_HttpRefresh_RouteConstruction_Error = 1108;
     public const int ViewModelRequest_RetrievingViewModel_Error = 1200;
 
     //Command Requests
