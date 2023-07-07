@@ -17,6 +17,24 @@ public static partial class Log
     public static partial void CommandRequestHandlingStarted(ILogger logger, string requestName, object request);
 
     [LoggerMessage(
+      EventId = LogEvents.Command_Validation_Started,
+      Level = LogLevel.Information,
+      Message = "Started Validating {RequestName}: {Request}")]
+    public static partial void CommandRequestValidationStarted(ILogger logger, string requestName, object request);
+
+    [LoggerMessage(
+      EventId = LogEvents.Command_Validation_Completed,
+      Level = LogLevel.Information,
+      Message = "Completed Validating {RequestName}: {Request}")]
+    public static partial void CommandRequestValidationCompleted(ILogger logger, string requestName, object request);
+
+    [LoggerMessage(
+     EventId = LogEvents.Command_Validation_Error,
+     Level = LogLevel.Error,
+     Message = "Completed Validating {RequestName}: {Request}")]
+    public static partial void CommandRequestValidationError(ILogger logger, Exception ex, string requestName, object request);
+
+    [LoggerMessage(
        EventId = LogEvents.Command_HttpCall_Started,
        Level = LogLevel.Information,
        Message = "Started Command Http call {RequestName}: {Request}")]

@@ -9,7 +9,9 @@ public interface IRequest<T>
     public object State { get => Sender.State; }
     public bool IsCompleted { get; }
     public bool ServerCalled { get; }
+    public bool RequestValidated { get; }
     public string ServerUrl { get; }
+
 
     public DateTime CreatedDateTime { get; }
     public DateTime CompletedDateTime { get; }
@@ -18,4 +20,5 @@ public interface IRequest<T>
     public void MarkCompleted();
     public void MarkErrored();
     public void MarkAsServerCalled(string serverUrl);
+    public void MarkAsValidated();
 }

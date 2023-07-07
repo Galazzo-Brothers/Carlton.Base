@@ -14,6 +14,7 @@ public abstract class RequestBase<T> : IRequest<T>
     public bool HasErrored { get; private set; }
     public bool JsInteropCalled { get; private set; }
     public bool ServerCalled { get; private set; }
+    public bool RequestValidated { get; private set; }
     public string ServerUrl { get; private set; }
     public string JsModuleName { get; private set; }
     public string JsFunctionName { get; private set; }
@@ -23,7 +24,6 @@ public abstract class RequestBase<T> : IRequest<T>
     public DateTime CreatedDateTime { get; }
     public DateTime CompletedDateTime { get; private set; }
     public DateTime ErroredDateTime { get; private set; }
-
 
 
     protected RequestBase(IDataWrapper sender)
@@ -75,5 +75,13 @@ public abstract class RequestBase<T> : IRequest<T>
         JsInteropCalled = true;
         JsModuleName = module;
         JsFunctionName = function;
+    }
+
+    public void MarkAsValidated()
+    {
+        if(IsCompleted)
+            throw new InvalidOperationException("The request has already completed.");
+
+        RequestValidated = true;
     }
 }

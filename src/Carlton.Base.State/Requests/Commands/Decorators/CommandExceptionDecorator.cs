@@ -1,11 +1,11 @@
 ﻿namespace Carlton.Base.State;
 
-public class UtilityCommandDecorator : ICommandDispatcher
+public class CommandExceptionDecorator : ICommandDispatcher
 {
     private readonly ICommandDispatcher _decorated;
-    private readonly ILogger<UtilityCommandDecorator> _logger;
+    private readonly ILogger<CommandExceptionDecorator> _logger;
 
-    public UtilityCommandDecorator(ICommandDispatcher decorated, ILogger<UtilityCommandDecorator> logger)
+    public CommandExceptionDecorator(ICommandDispatcher decorated, ILogger<CommandExceptionDecorator> logger)
         => (_decorated, _logger) = (decorated, logger);
 
     public async Task<Unit> Dispatch<TCommand>(CommandRequest<TCommand> request, CancellationToken cancellationToken)

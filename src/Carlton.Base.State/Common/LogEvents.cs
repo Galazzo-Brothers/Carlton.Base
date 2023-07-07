@@ -64,16 +64,19 @@ public static class LogEvents
     //Command Requests
     public const int Command_Started = 1001;
     public const int Command_Handling_Started = 1003;
-    public const int Command_HttpCall_Started = 1005;
-    public const int Command_HttpCall_Completed = 1009;
-    public const int Command_HttpCall_Skipped = 1011;
-    public const int Command_Processing_Started = 1013;
-    public const int Command_Processing_Completed = 1015;
-    public const int Command_Handling_Completed = 1017;
-    public const int Command_Completed = 1019;
+    public const int Command_Validation_Started = 1005;
+    public const int Command_Validation_Completed = 1007;
+    public const int Command_HttpCall_Started = 1009;
+    public const int Command_HttpCall_Completed = 1011;
+    public const int Command_HttpCall_Skipped = 1013;
+    public const int Command_Processing_Started = 1015;
+    public const int Command_Processing_Completed = 1017;
+    public const int Command_Handling_Completed = 1019;
+    public const int Command_Completed = 1021;
 
     //Command Request Errors
-    public const int Command_HttpCall_Error = 1101;
-    public const int Command_Processing_Error = 1201;
+    public const int Command_Validation_Error = 1101;
+    public const int Command_HttpCall_Error = 1201;
+    public const int Command_Processing_Error = 1301;
 
 }

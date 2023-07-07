@@ -21,7 +21,7 @@ public static class ContainerExtensions
         services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
-        services.Decorate<ICommandDispatcher, UtilityCommandDecorator>();
+        services.Decorate<ICommandDispatcher, CommandExceptionDecorator>();
         services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
 
 
