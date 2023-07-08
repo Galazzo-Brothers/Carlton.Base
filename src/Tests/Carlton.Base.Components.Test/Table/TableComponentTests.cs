@@ -16,7 +16,7 @@ public class TableComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(TableTestHelper.TableMarkup.Trim());
+        cut.MarkupMatches(TableTestHelper.TableMarkup);
     }
 
     [Theory(DisplayName = "Headings Parameter Test")]
@@ -185,7 +185,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, expected.items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString()))
             .Add(p => p.ShowPaginationRow, true)
             );
 
