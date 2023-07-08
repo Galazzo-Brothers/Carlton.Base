@@ -1,5 +1,6 @@
 ﻿namespace Carlton.Base.Components.Test;
 
+
 [Trait("Component", nameof(DropdownMenuElement<int>))]
 public class DropDownMenuElementComponentTests : TestContext
 {
