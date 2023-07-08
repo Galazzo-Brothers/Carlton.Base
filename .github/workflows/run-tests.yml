@@ -6,7 +6,7 @@ on:
       - master
       - 'release/**'
 jobs:
-  Explore-GitHub-Actions:
+  Execute-Project-Tests:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Checking out our code..."
