@@ -1,0 +1,14 @@
+﻿.carlton-actions {
+    display: flex;
+    gap: 10px;
+}
+
+    .carlton-actions .icon {
+        margin-top: auto;
+        margin-block: auto;
+        color: var(--icon-color);
+    }
+
+    .carlton-actions ::deep .vertical-spacer {
+        border-left-color: var(--icon-color);
+    }

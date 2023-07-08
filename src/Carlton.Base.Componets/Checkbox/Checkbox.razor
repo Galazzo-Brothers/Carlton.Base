@@ -1,0 +1,32 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="checkbox @CheckboxCss" @onclick="() => UserCheckChange(IsChecked ? false : true )"></div>
+
+@code {
+    [Parameter]
+    public EventCallback<bool> OnCheckboxChangeCallback { get; set; }
+
+    [Parameter]
+    public bool IsChecked { get; set; }
+
+    private string CheckboxCss
+    {
+        get => new CssBuilder()
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-check-circle", IsChecked)
+                .AddClass("mdi-checkbox-blank-circle-outline", !IsChecked)
+                .Build();
+    }
+
+    public void SetCheckBox(bool value)
+    {
+        IsChecked = value;
+        this.StateHasChanged();
+    }
+
+    private void UserCheckChange(bool value)
+    {
+        IsChecked = value;
+        OnCheckboxChangeCallback.InvokeAsync(value);
+    }
+}

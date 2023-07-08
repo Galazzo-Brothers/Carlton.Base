@@ -1,0 +1,40 @@
+﻿@namespace Carlton.Base.Components
+
+@inherits Card
+@typeparam TItem
+
+<Card CardTitle="@CardTitle">
+    <HeaderContent>
+        @HeaderContent
+    </HeaderContent>
+
+    <ActionBarContent>
+        <KebabMenu MenuItems="x" />
+    </ActionBarContent>
+
+    <PrimaryCardContent>
+        <div class="sub-title">@SubTitle</div>
+
+        <ul>
+            @foreach(var item in Items)
+            {
+                <li>
+                    @ItemTemplate(item)
+                </li>
+            }
+        </ul>
+    </PrimaryCardContent>
+</Card>
+
+@code {
+    [Parameter]
+    public string SubTitle { get; set; }
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+    [Parameter]
+    public IEnumerable<TItem> Items { get; set; }
+
+
+    IEnumerable<DropdownMenuItem<int>> x = new List<DropdownMenuItem<int>>(new List<DropdownMenuItem<int>>());
+}
+

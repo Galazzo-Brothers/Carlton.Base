@@ -1,0 +1,19 @@
+﻿@namespace Carlton.Base.Components
+
+<ResizablePanel>
+    <TopContent>
+        @MainContent
+    </TopContent>
+    <BottomContent>
+        <DesktopTabBar>
+            @Tabs
+        </DesktopTabBar>
+    </BottomContent>
+</ResizablePanel>
+
+@code {
+    [Parameter]
+    public RenderFragment MainContent { get; set; }
+    [Parameter]
+    public RenderFragment Tabs { get; set; }
+}

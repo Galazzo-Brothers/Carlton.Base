@@ -1,0 +1,128 @@
+﻿@namespace Carlton.Base.State
+@typeparam TViewModel
+@typeparam TStateEvents where TStateEvents : Enum
+@inherits DataWrapper<TViewModel, TStateEvents>
+@inject ILogger<UtilityDecoratedDataWrapper<TViewModel, TStateEvents>> Logger
+
+@if(IsLoading)
+{
+    @SpinnerContent
+}
+else
+{
+    //TODO add DataComponentErrorBoundary when it is available
+    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+}
+
+
+@code {
+    [Parameter]
+    public RenderFragment SpinnerContent { get; set; }
+
+    private bool IsLoading
+    {
+        get
+        {
+            var isLoading = ViewModel == null;
+            Log.DataWrapperIsLoadingChanged(Logger, base.WrappedComponentDisplayName, isLoading);
+            return isLoading;
+        }
+    }
+
+    protected override async Task<TViewModel> GetViewModel(ViewModelRequest<TViewModel> request)
+    {
+        using(Logger.BeginScope(Log.ViewModelRequestScopeMessage, request.DisplayName, request.RequestID))
+        {
+            Log.ViewModelRequestStarted(Logger, request.DisplayName, request.RequestID);
+            var viewModel = await base.GetViewModel(request);
+            Log.ViewModelRequestCompleted(Logger, request.DisplayName, viewModel);
+
+            return viewModel;
+        }
+    }
+
+    protected override async Task<Unit> OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
+    {
+        using(Logger.BeginScope(Log.CommandScopeMessage, request.DisplayName, request.RequestID))
+        {
+            Log.CommandRequestStarted(Logger, request.DisplayName, request.RequestID);
+            var result = await base.OnComponentEvent<TCommand>(request);
+            Log.CommandRequestCompleted(Logger, request.DisplayName, request.RequestID);
+            return result;
+        }
+    }
+
+    protected override async Task<bool> OnStateChanged(object sender, TStateEvents stateEvent)
+    {
+        try
+        {
+            Log.DataWrapperEventReceived(Logger, base.WrappedComponentDisplayName, stateEvent, ObserveableStateEvents.Select(_ => (object)_));
+            var result = await base.OnStateChanged(sender, stateEvent);
+            Log.DataWrapperEventCompleted(Logger, base.WrappedComponentDisplayName, stateEvent, result);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            Log.DataWrapperError(Logger, ex, base.WrappedComponentDisplayName);
+            throw DataComponentException<TViewModel, TStateEvents>.CreateStateEventException(this, ex);
+        }
+    }
+
+    protected override Dictionary<string, object> GetParameters()
+    {
+        try
+        {
+            Log.DataWrapperParametersSetting(Logger, base.WrappedComponentDisplayName, ViewModel);
+            var result = base.GetParameters();
+            Log.DataWrapperParametersSet(Logger, base.WrappedComponentDisplayName, ViewModel);
+            return result;
+        }
+        catch(Exception ex)
+        {
+            Log.DataWrapperError(Logger, ex, base.WrappedComponentDisplayName);
+            throw DataComponentException<TViewModel, TStateEvents>.CreateSettingComponentParametersException(this, ex);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        Log.DataWrapperOnInitializedStarted(Logger, base.WrappedComponentDisplayName);
+        base.OnInitialized();
+        Log.DataWrapperOnInitializedCompleted(Logger, base.WrappedComponentDisplayName);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Log.DataWrapperOnInitializedAsyncStarted(Logger, base.WrappedComponentDisplayName);
+        await base.OnInitializedAsync();
+        Log.DataWrapperOnInitializedAsyncCompleted(Logger, base.WrappedComponentDisplayName);
+    }
+
+    protected override void OnParametersSet()
+    {
+        Log.DataWrapperOnParametersSetStarted(Logger, base.WrappedComponentDisplayName);
+        base.OnParametersSet();
+        Log.DataWrapperOnParametersSetCompleted(Logger, base.WrappedComponentDisplayName);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Log.DataWrapperOnParametersSetAsyncStarted(Logger, base.WrappedComponentDisplayName);
+        await base.OnParametersSetAsync();
+        Log.DataWrapperOnParametersSetAsyncStarted(Logger, base.WrappedComponentDisplayName);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Log.DataWrapperOnAfterRenderStarted(Logger, base.WrappedComponentDisplayName);
+        base.OnAfterRender(firstRender);
+        Log.DataWrapperOnAfterRenderCompleted(Logger, base.WrappedComponentDisplayName);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Log.DataWrapperOnAfterRenderAsyncStarted(Logger, base.WrappedComponentDisplayName);
+        await base.OnAfterRenderAsync(firstRender);
+        Log.DataWrapperOnAfterRenderAsyncCompleted(Logger, base.WrappedComponentDisplayName);
+    }
+}

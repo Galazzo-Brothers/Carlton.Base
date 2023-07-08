@@ -1,0 +1,32 @@
+﻿@namespace Carlton.Base.TestBed
+@attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.EventRecorded)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.EventsCleared)]
+@inherits DataComponentBase<EventConsoleViewModel>
+
+<div class="event-console">
+    <Console IsReadOnly="true" Text="@RecordedEventsText" />
+    <FloatingActionButton Icon="delete"
+                          PositionRight="3"
+                          PositionBottom="5"
+                          OnClickCallback="() => base.OnComponentEvent.InvokeAsync(new ClearEventsCommand())" />
+</div>
+
+@code {
+
+    private string RecordedEventsText { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var consoleText = new StringBuilder();
+        foreach(var evt in ViewModel.RecordedEvents)
+        {
+            var args = (evt.EventObj == null) ? string.Empty : JsonSerializer.Serialize(evt.EventObj);
+            consoleText.AppendLine($"{evt.Name}: {args}");
+        }
+        RecordedEventsText = consoleText.ToString();
+        base.OnParametersSet();
+    }
+}
+
+

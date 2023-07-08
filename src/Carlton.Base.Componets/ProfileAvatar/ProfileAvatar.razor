@@ -1,0 +1,51 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="profile-avatar-container">
+    <DropdownMenu MenuItems="DropdownMenuItems" Style="Style">
+        <MenuTemplate Context="isActive">
+            <MediaQueryWrapper>
+                <DesktopContent>
+                    <div class="profile-avatar">
+                        <img class="avatar-img text-center" src="@AvatarImgUrl" />
+                        <span class="username">@Username</span>
+                        <span class="icon mdi mdi-24px mdi-chevron-down"></span>
+                    </div>
+                </DesktopContent>
+                <MobileContent>
+                    <div class="profile-avatar">
+                        <img class="avatar-img text-center" src="@AvatarImgUrl" />
+                    </div>
+                </MobileContent>
+            </MediaQueryWrapper>
+        </MenuTemplate>
+        <HeaderTemplate>
+            <div class="header">
+                <span class="user">Stephen Galazzo</span>
+                <span class="email">Admin User</span>
+                <Spacer WidthPercentage="85" />
+            </div>
+        </HeaderTemplate>
+        <MenuItemTemplate Context="item">
+            <DropdownMenuElement MenuItemName="@item.MenuItemName" Value="@item.Value" MenuIcon="@item.MenuIcon" AccentColorIndex="@item.AccentColorIndex" />
+        </MenuItemTemplate>
+    </DropdownMenu>
+</div>
+
+@code {
+    [Parameter]
+    public string AvatarImgUrl { get; set; }
+    [Parameter]
+    public string Username { get; set; }
+
+    public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; private set; } = new List<DropdownMenuItem<int>>
+    {
+        new DropdownMenuItem<int>("Profile", 1, "account", 1),
+        new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2),
+        new DropdownMenuItem<int>("Logout", 3, "logout", 3)
+    };
+
+    private DropdownMenuStyle Style
+    {
+        get => new DropdownMenuStyle(-56, 57, 75);
+    }
+}   

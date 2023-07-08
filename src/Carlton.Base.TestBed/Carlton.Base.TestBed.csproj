@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Authors>Nicholas Galazzo</Authors>
+    <Product>Base Components Carlton</Product>
+    <Company>Project Carlton</Company>
+    <Description>Contains blazor front end components used throughout the project.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
+    <nullable>disable</nullable>
+    <PackageVersion>1.0.1</PackageVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Carlton.Base.Componets\Carlton.Base.Components.csproj" />
+    <ProjectReference Include="..\Carlton.Base.State\Carlton.Base.State.csproj" />
+    <ProjectReference Include="..\Carlton.Components.TestBed.Models\Carlton.Base.TestBed.Models.csproj" />
+  </ItemGroup>
+</Project>

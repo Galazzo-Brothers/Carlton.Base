@@ -1,0 +1,32 @@
+﻿@namespace Carlton.Base.Components
+
+<MediaQueryWrapper>
+    <DesktopContent>
+       <DesktopTabPanelTemplate>
+           <MainContent>
+               @MainContent
+           </MainContent>
+           <Tabs>
+               @Tabs
+           </Tabs>
+       </DesktopTabPanelTemplate>
+    </DesktopContent>
+
+    <MobileContent>
+        <MobileTabContentTemplate>
+            <MainContent>
+                @MainContent
+            </MainContent>
+            <Tabs>
+                @Tabs
+            </Tabs>
+        </MobileTabContentTemplate>
+    </MobileContent>
+</MediaQueryWrapper>
+
+@code{
+    [Parameter]
+    public RenderFragment MainContent { get; set; }
+    [Parameter]
+    public RenderFragment Tabs { get; set; }
+}

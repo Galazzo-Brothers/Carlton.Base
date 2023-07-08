@@ -1,0 +1,62 @@
+﻿@namespace Carlton.Base.Components
+@typeparam TValue
+
+
+<div class="accordion-select-group">
+    @foreach(var (group, index) in Groups.WithIndex())
+    {
+        <AccordionSelect TValue="TValue"
+                     Title="@group.Name"
+                     Items="group.Items"
+                     SelectedValue="GetSelectedValue(index)"
+                     SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<SelectGroup<TValue>> Groups { get; set; }
+
+    [Parameter]
+    public TValue SelectedItem { get; set; }
+
+    [Parameter]
+    public EventCallback<SelectItemChangedEventArgs<TValue>> OnSelectedItemChanged { get; set; }
+
+    private int _selectedGroupIndex;
+
+    protected override void OnInitialized()
+    {
+        SetDefaultSelectedValues();
+        base.OnInitialized();
+    }
+
+    private void SetDefaultSelectedValues()
+    {
+        foreach(var group in Groups)
+        {
+            var selectedItem = group.Items.FirstOrDefault(_ => _.Value.Equals(SelectedItem));
+            if(selectedItem != null)
+            {
+                _selectedGroupIndex = group.Index;
+                break;
+            }
+        }
+    }
+
+    private TValue GetSelectedValue(int groupIndex)
+    {
+        if(groupIndex != _selectedGroupIndex)
+            return default(TValue);
+
+        return SelectedItem;
+    }
+
+    private async Task ChangeSelectedItem(int groupIndex, int itemIndex, TValue value)
+    {
+        _selectedGroupIndex = groupIndex;
+        SelectedItem = value;
+
+        await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEventArgs<TValue>(groupIndex, itemIndex, value));
+    }
+}

@@ -1,0 +1,112 @@
+﻿@namespace Carlton.Base.Components
+@typeparam TItem
+
+<div class="main-container">
+    <div class="table-container">
+        <div class="header-row table-row">
+            <TableHeader TItem="TItem"
+                         Headings="Headings"
+                         OrderColumn="@OrderColumn"
+                         OrderAscending="OrderAscending"
+                         OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
+        </div>
+        @foreach(var item in Items)
+        {
+            <div class="item-row table-row">
+                @RowTemplate(item)
+            </div>
+        }
+        @if(ShowPaginationRow)
+        {
+            <div class="pagination-row table-row">
+                <TablePaginationRow TItem="TItem"
+                                RowsPerPageOpts="RowsPerPageOpts"
+                                TotalItemCount="AllItems.Count()"
+                                CurrentPage="CurrentPage"
+                                SelectedRowsPerPageCount="SelectedRowsPerPageCount"
+                                OnPaginationChanged="(args)=>OnPaginationChanged(args)" />
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public IEnumerable<TableHeadingItem> Headings { get; set; }
+
+    [Parameter]
+    public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+
+    [Parameter]
+    public bool ShowPaginationRow { get; set; }
+
+    [Parameter]
+    public IEnumerable<int> RowsPerPageOpts { get; set; }
+
+    private int SelectedRowsPerPageCount { get; set; } = -1;
+
+    private int CurrentPage { get; set; } = 1;
+
+    private string OrderColumn { get; set; }
+
+    private bool OrderAscending { get; set; } = true;
+
+    private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
+
+    protected override void OnInitialized()
+    {
+        SelectedRowsPerPageCount = (SelectedRowsPerPageCount == -1) ? RowsPerPageOpts.FirstOrDefault() : SelectedRowsPerPageCount;
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        AllItems = Items;
+        ResetPaginationAndOrdering();
+        UpdatePagination();
+        UpdateOrdering();
+        base.OnParametersSet();
+    }
+
+    private void OnPaginationChanged(TablePaginationChangedArgs args)
+    {
+        CurrentPage = args.CurrentPage;
+        SelectedRowsPerPageCount = args.SelectedRowsPerPageCount;
+        UpdatePagination();
+        UpdateOrdering();
+    }
+
+    private void OnOrderingChanged(TableOrderingChangedArgs args)
+    {
+        OrderColumn = args.OrderColumn;
+        OrderAscending = args.OrderAscending;
+        UpdateOrdering();
+    }
+
+    private void UpdatePagination()
+    {
+        Items = AllItems.Skip((CurrentPage - 1) * SelectedRowsPerPageCount)
+                               .Take(SelectedRowsPerPageCount)
+                               .ToList();
+    }
+
+    private void UpdateOrdering()
+    {
+        if (string.IsNullOrEmpty(OrderColumn))
+            return;
+
+        var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
+        Items = Items.AsQueryable().OrderBy(orderString).ToList();
+    }
+
+    private void ResetPaginationAndOrdering()
+    {
+        CurrentPage = 1;
+        OrderColumn = string.Empty;
+        OrderAscending = true;
+    }
+}

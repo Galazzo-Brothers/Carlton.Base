@@ -1,0 +1,5 @@
+﻿i {
+    color: var(--primary-text-color);
+    transition: all 0.25s cubic-bezier(0.72, 1.2, 0.71, 0.72);
+    transform: scale(1);
+}

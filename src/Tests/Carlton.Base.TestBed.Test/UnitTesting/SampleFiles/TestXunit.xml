@@ -1,0 +1,36 @@
+﻿<assemblies timestamp="05/02/2023 22:57:51">
+  <assembly name="C:\Test\Assembly1.Test.dll" run-date="2023-05-02" run-time="22:57:51" total="335" passed="333" failed="2" skipped="0" time="7.446" errors="0">
+    <errors />
+    <collection total="4" passed="4" failed="0" skipped="0" name="Test Component 1" time="0.071">
+      <test name="Test Component1 Test 1" type="Assembly1.Test.Component1" method="Assembly1TestComponent1Test1" time="0.0162284" result="Pass">
+        <traits />
+      </test>
+      <test name="Test Component1 Test 2" type="Assembly1.Test.Component1" method="Assembly1TestComponent1Test1" time="0.0151508" result="Pass">
+        <traits />
+      </test>
+      <test name="Test Component1 Test 3" type="Assembly1.Test.Component1" method="Assembly1TestComponent1Test1" time="0.0056237" result="Pass">
+        <traits />
+      </test>
+      <test name="Test Component1 Test 4" type="Assembly1.Test.Component1" method="Assembly1TestComponent1Test1" time="0.0340880" result="Pass">
+        <traits />
+      </test>
+    </collection>
+    <collection total="2" passed="1" failed="1" skipped="0" name="Test Component 2" time="0.407">
+      <test name="Test Component 2 Test 1" type="Assembly1.Test.Component2" method="Assembly1TestComponent2Test1" time="0.1442009" result="Pass">
+        <traits />
+      </test>
+      <test name="Test Component 2 Test 2" type="Assembly1.Test.Component2" method="Assembly1TestComponent2Test2" time="0.0127423" result="Fail">
+        <failure>
+          <message>Some Error Message</message>
+          <stack-trace>Some Stack Trace</stack-trace>
+        </failure>
+        <traits />
+      </test>
+    </collection>
+    <collection total="1" passed="1" failed="0" skipped="0" name="Test Component 3" time="0.309">
+      <test name="Test Component3 Test 1" type="Assembly1.Test.Component3" method="Assembly1TestComponent3Test1" time="0.0405402" result="Pass">
+        <traits />
+      </test>
+    </collection>
+  </assembly>
+</assemblies>

@@ -1,0 +1,9 @@
+﻿.collapser{
+    text-align: center;
+}
+
+    .collapser span {
+        color: var(--icon-color);
+        font-size: 16pt;
+        vertical-align: middle;
+    }

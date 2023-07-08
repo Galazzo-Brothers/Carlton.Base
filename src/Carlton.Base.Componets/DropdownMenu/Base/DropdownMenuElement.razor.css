@@ -1,0 +1,25 @@
+﻿a {
+    width: 100%;
+    padding: 1em 18px;
+    display: inline-block;
+    white-space: pre;
+    box-sizing: border-box;
+    text-align: left;
+    color: var(--primary-text-color);
+}
+
+.accent-color-1 {
+    color: var(--accent-color-1);
+}
+
+.accent-color-2 {
+    color: var(--accent-color-2);
+}
+
+.accent-color-3 {
+    color: var(--accent-color-3);
+}
+
+.accent-color-4 {
+    color: var(--accent-color-4);
+}

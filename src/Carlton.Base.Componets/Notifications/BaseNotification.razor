@@ -1,0 +1,88 @@
+﻿@namespace Carlton.Base.Components
+@implements IAsyncDisposable
+
+<div class="@NotificationCss">
+    <div class="content">
+        <span class="@IconCss"></span>
+        <div class="message-container">
+            <span class="title">@Title</span>
+            <span class="message">@Message</span>
+        </div>
+        <span class="@DismissCss" @onclick="Dismiss"></span>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string IconClass { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Message { get; set; }
+
+    [Parameter]
+    public bool FadeOutEnabled { get; set; } = true;
+
+    [Parameter]
+    public EventCallback OnDismiss { get; set; }
+
+    @inject IJSRuntime JS;
+
+    private bool IsDismissed;
+    private IJSObjectReference _module;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.PROJECT_NAME}/Notifications/BaseNotification.razor.js");
+        await _module.InvokeAsync<Task>("applyTransitionedCallback");
+
+        if(FadeOutEnabled)
+        {
+            await Task.Delay(3000);
+            await Dismiss();
+            StateHasChanged();
+        }
+    }
+
+    private string IconCss
+    {
+        get => new CssBuilder("icon")
+                .AddClass("mdi mdi-24px")
+                .AddClass(IconClass)
+                .Build();
+
+    }
+
+    private string NotificationCss
+    {
+        get => new CssBuilder("carlton-notification")
+                .AddClass("dismissed", IsDismissed)
+                .Build();
+    }
+
+    private string DismissCss
+    {
+        get => new CssBuilder("dismiss")
+                .AddClass("mdi mdi-18px mdi-close")
+                .Build();
+    }
+
+    private async Task Dismiss()
+    {
+        IsDismissed = true;
+        var jsInvokeTask = _module.InvokeAsync<Task>("removeTransitionedCallback");
+        var onDismissInvokeTask = OnDismiss.InvokeAsync();
+        await Task.WhenAll(jsInvokeTask.AsTask(), onDismissInvokeTask);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _module.DisposeAsync();
+    }
+}

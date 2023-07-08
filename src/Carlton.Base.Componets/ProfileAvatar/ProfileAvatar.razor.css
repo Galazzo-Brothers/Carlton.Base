@@ -1,0 +1,83 @@
+﻿.header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    color: var(--primary-text-color);
+}
+
+    .header ::deep .horizontal-spacer::after {
+        width: 100%;
+    }
+
+    .header .user {
+        margin-left: 10px;
+        font-size: 15pt;
+    }
+
+    .header .email {
+        margin-left: 10px;
+        color: var(--primary-text-color);
+    }
+
+.profile-avatar {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+
+    .profile-avatar .avatar-img {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+    }
+
+    .profile-avatar .username {
+        font-size: 12pt;
+        margin-top: auto;
+        margin-bottom: auto;
+        color: var(--primary-text-color);
+    }
+
+    .profile-avatar .icon {
+        margin-top: auto;
+        margin-bottom: auto;
+        color: var(--primary-text-color);
+    }
+
+/*Deep Style Overrides*/
+::deep li span {
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+}
+
+::deep li a {
+    width: 100%;
+    padding-right: 18px;
+    padding-bottom: 1em;
+    padding-left: 9px;
+    display: inline-block;
+    white-space: pre;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+::deep li:hover {
+    background: var(--card-hover-background-color);
+    border-radius: 5px;
+}
+
+/*Media Queries*/
+@media (max-width: 768px) {
+    .profile-avatar .username span {
+        display: none;
+    }
+
+    ::deep .dropdown.active{
+        position: fixed;
+        left: 0;
+        width: 100vh;
+    }
+}

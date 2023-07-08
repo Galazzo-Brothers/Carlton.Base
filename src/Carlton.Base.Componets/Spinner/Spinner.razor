@@ -1,0 +1,16 @@
+﻿@namespace Carlton.Base.Components
+
+<div class="spinner-container">
+    <div class="spinner" style="@(SpinnerStyle)"></div>
+</div>
+
+@code {
+    private string SpinnerStyle
+    {
+        get => StyleBuilder.Empty()
+                .AddStyle("--spinner-dimensions", "75px")
+                .AddStyle("--spinner-color", "#21c1d6")
+                .Build();
+
+    }
+}

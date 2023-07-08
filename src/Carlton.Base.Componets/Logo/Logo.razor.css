@@ -1,0 +1,33 @@
+﻿.logo {
+    display: flex;
+    background-color: var(--logo-background-color);
+    height: 75px;
+    line-height: 75px;
+    margin-bottom: 0px;
+    justify-content: center;
+}
+
+    .logo .content {
+        flex-basis: 85%;
+    }
+
+        .logo .content .title {
+            vertical-align: middle;
+            font-size: var(--logo-font-size);
+            color: var(--logo-color);
+        }
+
+        .logo .content img {
+            height: 50px;
+            width: 50px;
+            margin-top: auto;
+            margin-bottom: auto;
+            vertical-align: middle;
+        }
+
+
+@media (min-width: 767.98px) {
+    .logo.collapsed span.title {
+        display: none;
+    }
+}

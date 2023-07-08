@@ -1,0 +1,41 @@
+﻿
+.content {
+    height: 100%;
+    display: flex;
+    gap: 5px;
+}
+
+    .content .external-urls {
+        flex-basis: 50%;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .content .contacts {
+        flex-basis: 50%;
+        gap: 10px;
+        display: flex;
+        justify-content: right;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 10px;
+        text-align: right;
+    }
+
+        .content .contacts .msg {
+            font-size: 10pt;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .content .contacts i {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+    .content .external-urls a {
+        color: var(--layout-footer-color);
+        text-decoration: none;
+        padding-left: 20px;
+        padding-right: 20px;
+    }

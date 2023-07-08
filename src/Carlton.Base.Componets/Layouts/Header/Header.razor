@@ -1,0 +1,44 @@
+﻿@namespace Carlton.Base.Components
+@using System.Diagnostics.CodeAnalysis;
+
+<MediaQueryWrapper>
+    <DesktopContent>
+        <DesktopHeaderTemplate>
+            <MenuContent>
+                <HamburgerCollapser />
+            </MenuContent>
+            <TitleContent>
+                @PageTitleContent
+            </TitleContent>
+            <ActionContent>
+              <HeaderActions />
+            </ActionContent>
+        </DesktopHeaderTemplate>
+    </DesktopContent>
+
+
+    <MobileContent>
+        <MobileHeaderTemplate>
+            <NavContent>
+                <MobileSlideOutNav NavMenuContent="NavMenuContent"/>
+            </NavContent>
+            <LogoCotentent>
+                <Logo Title="Carlton Test Bed" />
+            </LogoCotentent>
+            <TitleContent>
+                @PageTitleContent
+            </TitleContent>
+            <ActionContent>
+                <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Base.Components/images/avatar.jpg" />
+            </ActionContent>
+        </MobileHeaderTemplate>
+    </MobileContent>
+
+</MediaQueryWrapper>
+
+@code {
+    [Parameter]
+    public RenderFragment PageTitleContent { get; set; }
+    [Parameter, AllowNull]
+    public RenderFragment NavMenuContent { get; set; }
+}
