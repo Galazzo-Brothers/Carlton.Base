@@ -16,7 +16,7 @@ public class TableComponentTests : TestContext
             );
 
         //Assert
-        cut.MarkupMatches(TableTestHelper.TableMarkup);
+        cut.MarkupMatches(TableTestHelper.TableMarkup.Trim());
     }
 
     [Theory(DisplayName = "Headings Parameter Test")]
