@@ -7,6 +7,14 @@ public static class ContainerExtensions
     public static void AddCarltonState<TState>(this IServiceCollection services, params Assembly[] assemblies)
     {
         services.Scan(_ =>
+        {
+            _.FromAssemblies(assemblies)
+                .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime();
+        });
+
+        services.Scan(_ =>
             {
                 _.FromAssemblies(assemblies)
                     .AddClasses(classes => classes.AssignableTo(typeof(IDataComponent<>)))
@@ -21,6 +29,7 @@ public static class ContainerExtensions
         services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
+        services.Decorate<ICommandDispatcher, CommandValidationDecorator>();
         services.Decorate<ICommandDispatcher, CommandExceptionDecorator>();
         services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
 

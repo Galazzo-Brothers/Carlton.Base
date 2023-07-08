@@ -8,6 +8,5 @@ public class SelectMenuItemCommandValidator : AbstractValidator<SelectMenuItemCo
         RuleFor(command => command.ComponentState.DisplayName).NotNull().NotEmpty();
         RuleFor(command => command.ComponentState.Type).NotNull();
         RuleFor(command => command.ComponentState.ComponentParameters).NotNull();
-        RuleFor(command => command.ComponentState.ComponentParameters.ParameterObj).NotNull();
     }
 }
