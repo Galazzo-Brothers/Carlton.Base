@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Components.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.Infrastructure.Test", "src\Tests\Carlton.Base.TestBed.Test\Carlton.Base.Infrastructure.Test.csproj", "{E337791F-6E8D-42C2-9699-1F6C29D46933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Base.TestBed.Models", "Carlton.Components.TestBed.Models\Carlton.Base.TestBed.Models.csproj", "{057F835D-9EBB-40DC-ACA6-966470D7462A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Base.TestBed.Models", "src\Carlton.Components.TestBed.Models\Carlton.Base.TestBed.Models.csproj", "{E6125071-9C0A-4DFF-9545-F57884781CDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,10 @@ Global
 		{E337791F-6E8D-42C2-9699-1F6C29D46933}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E337791F-6E8D-42C2-9699-1F6C29D46933}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E337791F-6E8D-42C2-9699-1F6C29D46933}.Release|Any CPU.Build.0 = Release|Any CPU
-		{057F835D-9EBB-40DC-ACA6-966470D7462A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{057F835D-9EBB-40DC-ACA6-966470D7462A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{057F835D-9EBB-40DC-ACA6-966470D7462A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{057F835D-9EBB-40DC-ACA6-966470D7462A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6125071-9C0A-4DFF-9545-F57884781CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6125071-9C0A-4DFF-9545-F57884781CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6125071-9C0A-4DFF-9545-F57884781CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6125071-9C0A-4DFF-9545-F57884781CDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
