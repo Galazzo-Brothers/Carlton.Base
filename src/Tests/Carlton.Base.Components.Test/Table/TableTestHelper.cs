@@ -265,7 +265,7 @@ public static class TableTestHelper
                      {
                           new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
                      }.AsReadOnly(),
-               new List<string> { "ID:1", "Display Name:Item A", "Date:10/09/2023 12:00:00 AM" }.AsReadOnly()
+               new List<string> { "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM" }.AsReadOnly()
             )
         };
         yield return new object[]
@@ -278,7 +278,7 @@ public static class TableTestHelper
                  }.AsReadOnly(),
                  new List<string> 
                  {
-                     "ID:1", "Display Name:Item A", "Date:10/09/2023 12:00:00 AM",
+                     "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM",
                      "ID:2", "Display Name:Item B", "Date:2/3/2022 12:00:00 AM"
                  }.AsReadOnly()
             )

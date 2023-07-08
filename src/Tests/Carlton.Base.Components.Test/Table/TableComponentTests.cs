@@ -185,7 +185,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, expected.items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("MM/dd/yyyy h:mm tt")))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("M/d/yyyy h:mm:ss tt")))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -215,7 +215,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("M/d/yyyy h:mm:ss tt")))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -242,7 +242,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("M/d/yyyy h:mm:ss tt")))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -265,7 +265,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("M/d/yyyy h:mm:ss tt")))
             .Add(p => p.ShowPaginationRow, showPaginationRow)
             );
 
