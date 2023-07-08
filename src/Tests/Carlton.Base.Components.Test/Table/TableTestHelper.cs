@@ -265,7 +265,7 @@ public static class TableTestHelper
                      {
                           new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
                      }.AsReadOnly(),
-               new List<string> { "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM" }.AsReadOnly()
+               new List<string> { "ID:1", "Display Name:Item A", "Date:10/09/2023 12:00:00 AM" }.AsReadOnly()
             )
         };
         yield return new object[]

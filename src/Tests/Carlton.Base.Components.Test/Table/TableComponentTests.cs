@@ -185,7 +185,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, expected.items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString()))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("MM/dd/yyyy h:mm tt")))
             .Add(p => p.ShowPaginationRow, true)
             );
 
