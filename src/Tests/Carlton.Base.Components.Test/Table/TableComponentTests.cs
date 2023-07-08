@@ -206,9 +206,9 @@ public class TableComponentTests : TestContext
     public void Table_RowTemplateParam_RendersCorrectly(string rowTemplate)
     {
         //Arrange
-        var expectedRow1 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(0).ID, TableTestHelper.Items.ElementAt(0).DisplayName, TableTestHelper.Items.ElementAt(0).CreatedDate.ToString("MM/d/yyyy h:mm:ss tt"));
-        var expectedRow2 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(1).ID, TableTestHelper.Items.ElementAt(1).DisplayName, TableTestHelper.Items.ElementAt(1).CreatedDate.ToString("MM/d/yyyy h:mm:ss tt"));
-        var expectedRow3 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(2).ID, TableTestHelper.Items.ElementAt(2).DisplayName, TableTestHelper.Items.ElementAt(2).CreatedDate.ToString("MM/d/yyyy h:mm:ss tt"));
+        var expectedRow1 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(0).ID, TableTestHelper.Items.ElementAt(0).DisplayName, TableTestHelper.Items.ElementAt(0).CreatedDate.ToString("M/d/yyyy h:mm:ss tt"));
+        var expectedRow2 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(1).ID, TableTestHelper.Items.ElementAt(1).DisplayName, TableTestHelper.Items.ElementAt(1).CreatedDate.ToString("M/d/yyyy h:mm:ss tt"));
+        var expectedRow3 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(2).ID, TableTestHelper.Items.ElementAt(2).DisplayName, TableTestHelper.Items.ElementAt(2).CreatedDate.ToString("M/d/yyyy h:mm:ss tt"));
 
         //Act
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
