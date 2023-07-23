@@ -1,4 +1,4 @@
-name: Create NuGet Package after commit
+name: Create NuGet Package after commit (Manual)
 run-name:  ${{  github.actor  }} submitted a commit which will attempt to create a NuGet package...
 on: workflow_dispatch
 jobs:
