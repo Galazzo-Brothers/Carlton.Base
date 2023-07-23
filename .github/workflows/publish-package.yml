@@ -1,9 +1,6 @@
 name: Create NuGet Package after commit
 run-name:  ${{  github.actor  }} submitted a commit which will attempt to create a NuGet package...
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch
 jobs:
   publish-package-on-build:
     runs-on: ubuntu-latest
