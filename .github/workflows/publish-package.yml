@@ -1,24 +1,43 @@
-name: Create and publish a package
-on:
-  push:
-    branches:
-      - master
+name: Create NuGet Package after commit 
+run-name:  ${{  github.actor  }} submitted a commit which will attempt to create a NuGet package...
+on: workflow_dispatch
 jobs:
   publish-package-on-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkkout Files
+      - run: echo "Checking out our code..."
+
+      - name: Check out code
         uses: actions/checkout@v3
+
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '5.0.101'
-          source-url: https://nuget.pkg.github.com/nicholas.galazzo@gmail.com/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}   
+          dotnet-version: '7.x.x'
+
+      - run: echo "Attempting to build Cartlon.Base.Componets"
+
       - name: Build
-        run: dotnet build
+        run: |
+          cd ./src/Carlton.Base.Componets
+          dotnet build
+          
+      - name: Reconfigure dotnet for NuGet Package push
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x.x'
+
       - name: Package
-        run: dotnet pack --configuration Release
+        run: |
+          cd ./src/Carlton.Base.Componets
+          dotnet pack --configuration Release
+
+      - name: Prep
+        run: |
+          cd ./src/Carlton.Base.Componets
+          dotnet nuget add source --username ${{github.actor}} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Galazzo-Brothers/index.json"
+
       - name: Publish
-        run: dotnet nuget push bin/Release/${{ github.event.repository.name }}.*.nupkg
+        run: |
+          cd ./src/Carlton.Base.Componets
+          dotnet nuget push bin/Release/${{ github.event.repository.name }}*.nupkg --api-key  ${{ secrets.GITHUB_TOKEN }} --source "github"
