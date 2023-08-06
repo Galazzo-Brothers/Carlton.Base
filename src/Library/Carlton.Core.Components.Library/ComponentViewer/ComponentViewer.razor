@@ -1,0 +1,139 @@
+﻿@namespace Carlton.Core.Components.Library
+
+<div class="component-viewer">
+    <DynamicComponent @ref="CurrentComponent" Type="@ComponentType" Parameters="ComponentParameters" />
+</div>
+
+@code {
+    [Parameter]
+    public Type ComponentType { get; set; }
+
+    [Parameter]
+    public Object ParameterObject { get; set; }
+
+    [Parameter]
+    public Action<string, object> Act { get; set; }
+
+    private DynamicComponent CurrentComponent { get; set; }
+
+    private IDictionary<string, object> ComponentParameters { get; set; } = new Dictionary<string, object>();
+
+    protected override void OnParametersSet()
+    {
+        ComponentParameters.Clear();
+
+        if(!(typeof(ComponentBase).IsAssignableFrom(ComponentType)))
+            throw new InvalidOperationException($"{ComponentType} is not a valid component type.");
+
+        InitComponentParameterDictionary();
+        AssignEventCallbacks();
+        base.OnParametersSet();
+    }
+
+    private void InitComponentParameterDictionary()
+    {
+        //Find all public properties excluding EventCallbacks and RenderFragments
+        var props = ComponentType
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(prop => Attribute.IsDefined(prop, typeof(ParameterAttribute)))
+                .Where(prop => !Attribute.IsDefined(prop, typeof(CascadingParameterAttribute)))
+                .Where(prop => prop.PropertyType != typeof(EventCallback) || (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+                .Where(prop => prop.PropertyType != typeof(RenderFragment) || (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(RenderFragment<>)))
+                .ToList();
+
+        AssignComponentParameters(props);
+    }
+
+    private void AssignComponentParameters(IEnumerable<PropertyInfo> props)
+    {
+        //Create the parameter Dictionary<string,object>
+        //used to render the component dynamically
+        foreach(var prop in props)
+        {
+            var instance = ParameterObject;
+            var type = instance.GetType();
+            var instanceProp = type.GetProperty(prop.Name);
+
+            if(instanceProp == null)
+                continue;
+
+            var value = instanceProp.GetValue(ParameterObject);
+            if(value != null)
+                ComponentParameters.Add(prop.Name, value);
+        }
+    }
+
+    private void AssignEventCallbacks()
+    {
+        //Find all EventCallbacks and EventCallbacks<T>
+        var eventCallbacks = ComponentType
+                 .GetProperties()
+                 .Where(_ => _.PropertyType == typeof(EventCallback) || (_.PropertyType.IsGenericType && _.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+                 .ToList();
+
+        //Assign constructed lambda expression values
+        //Add the EventCallbacks to the parameter dictionary
+        foreach(var evtCallback in eventCallbacks)
+        {
+            var isGenericCallback = evtCallback.PropertyType.IsGenericType;
+            var lambda = (isGenericCallback) ? CreateGenericEventCallback(evtCallback) : CreateNonGenericEventCallback(evtCallback);
+            ComponentParameters.Add(evtCallback.Name, lambda);
+        };
+    }
+
+    private object CreateNonGenericEventCallback(PropertyInfo evtCallback)
+    {
+        return EventCallback.Factory.Create(CurrentComponent, () => Act(evtCallback.Name, null));
+    }
+
+    private object CreateGenericEventCallback(PropertyInfo evtCallback)
+    {
+        var genericTypeParam = evtCallback.PropertyType.GenericTypeArguments.First();
+        var lambda = CreateLambda(evtCallback.Name, genericTypeParam);
+
+        var invokeParams = new object[] { CurrentComponent, lambda };
+
+        return GetEvtCallbackFactoryCreateMethodInfo(genericTypeParam)
+                           .Invoke(EventCallback.Factory, invokeParams);
+    }
+
+    private Delegate CreateLambda(string evtCallbackName, Type genericTypeParam)
+    {
+        //Construct a dynamic Lambda Expression
+        //that passes the EventCallback name and object parameter
+        var nameParamaeter = Expression.Constant(evtCallbackName);
+        var objParameter = Expression.Parameter(genericTypeParam);
+
+        var methodInfo = this.GetType()
+                            .GetMethod(nameof(GenericCallback), BindingFlags.NonPublic | BindingFlags.Instance)
+                            .MakeGenericMethod(genericTypeParam);
+
+        var instance = Expression.Constant(this, typeof(ComponentViewer));
+        var methodCall = Expression.Call(instance, methodInfo, nameParamaeter, objParameter);
+        var lambda = Expression.Lambda(methodCall, objParameter);
+
+        return lambda.Compile();
+    }
+
+    private MethodInfo GetEvtCallbackFactoryCreateMethodInfo(Type genericTypeParam)
+    {
+        //Find the correct overload of EventcallbackFactory to create the correct generic Eventcallback
+        var method = typeof(EventCallbackFactory).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Where(_ => _.Name == nameof(EventCallbackFactory.Create))
+            .Where(_ => _.ContainsGenericParameters)
+            .Where(_ => !_.CustomAttributes.Any())
+            .First(_ => _.GetParameters().Count() == 2 &&
+                        _.GetParameters()[0].ParameterType == typeof(object) &&
+                        _.GetParameters()[1].ParameterType.IsGenericType &&
+                        _.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Action<>));
+
+
+        var methodInfo = method.MakeGenericMethod(genericTypeParam);
+        return methodInfo;
+    }
+
+    private void GenericCallback<T>(string callbackName, T obj)
+    {
+        Act(callbackName, obj);
+    }
+}

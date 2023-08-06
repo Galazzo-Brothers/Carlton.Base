@@ -1,8 +1,0 @@
-﻿@namespace Carlton.Base.TestBed
-@attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.MenuItemSelected)]
-@inherits DataComponentBase<TestResultsViewModel>
-
-<div class="test-results-report">
-    <TestResultsTable TestResults="ViewModel.TestResultsReport.TestResults" />
-</div>

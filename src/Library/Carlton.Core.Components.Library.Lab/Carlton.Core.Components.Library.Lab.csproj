@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Authors>Nicholas Galazzo</Authors>
+    <Product>Base Components Carlton</Product>
+    <Company>Project Carlton</Company>
+    <Description>Contains blazor front end components used throughout the project.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
+    <nullable>enable</nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\fade_out_animation.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\floating_action_button.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\notification.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\scrollbar.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\theme_defenitions.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\theme_utilities.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.dashboard.components\1.0.0\contentFiles\any\net5.0\vendor.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\fade_out_animation.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\floating_action_button.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\notification.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\scrollbar.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\theme_defenitions.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\theme_utilities.scss" />
+    <Content Remove="C:\Users\nicho\.nuget\packages\carlton.testbed\1.0.0\contentFiles\any\net5.0\vendor.scss" />
+    <Content Remove="wwwroot\UnitTestResults\ComponentTestResults.trx" />
+    <Content Remove="wwwroot\UnitTestResults\ComponentTestResults.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\UnitTestResults\ComponentTestResults.trx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\UnitTestResults\ComponentTestResults.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lab\Carlton.Core.Components.Lab\Carlton.Core.Components.Lab.csproj" />
+  </ItemGroup>
+
+</Project>

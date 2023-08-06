@@ -1,0 +1,34 @@
+﻿@namespace Carlton.Core.Components.Library
+
+<MediaQueryWrapper>
+    <DesktopContent>
+        <div class="content @(HideInMobile ? "hidden" : "")">
+            <div class="external-urls">
+                <a href="#">Dashboard</a>
+                <a href="#">Documentation</a>
+                <a href="#">About Us</a>
+            </div>
+            <div class="contacts">
+                <div class="msg">Coded and Designed by Galazzo Brothers.</div>
+                <i class="mdi mdi-24px mdi-github-circle" />
+                <i class="mdi mdi-24px mdi-twitter" />
+                <i class="mdi mdi-24px mdi-facebook" />
+            </div>
+        </div>
+    </DesktopContent>
+
+    <MobileContent>
+        @if(HideInMobile)
+        {
+            
+        }
+    </MobileContent>
+
+</MediaQueryWrapper>
+
+
+
+@code {
+    public bool HideInMobile { get; set; }
+}
+

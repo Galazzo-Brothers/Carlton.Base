@@ -1,0 +1,13 @@
+﻿@namespace Carlton.Core.Components.Lab
+@attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
+@attribute [ViewModelJsInteropAttribute(ModulePath, "getSourceViewerViewModel", ".component-viewer")]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.MenuItemSelected)]
+@inherits ConnectedComponentBase<SourceViewerViewModel>
+
+
+<SourceViewer Language="html" Source="@ViewModel.ComponentSource" />
+
+
+@code{
+    private const string ModulePath = "./_content/Carlton.Core.Components.Library/SourceViewer/SourceViewer.razor.js";
+}
