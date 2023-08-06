@@ -1,0 +1,76 @@
+﻿@namespace Carlton.Core.Components.Library
+
+
+<CascadingValue Value="@LayoutState">
+    <CascadingValue Value="@ThemeState">
+        <CascadingValue Value="@GenerateNotificationAct">
+            <div class="@LayoutContainerCss" data-theme="@ThemeState.ThemeString">
+                <header>
+                    <NotificationBar @ref="NotificationBarRef" IsTestMode="false" FadeOutEnabled="true" Top="10" Right="10" />
+                    @HeaderContent
+                </header>
+                <nav>
+                    @NavContent
+                </nav>
+                <main>
+                    @Body
+                </main>
+                <footer class="@LayoutFooterCss">
+                    @FooterContent
+                </footer>
+            </div>
+        </CascadingValue>
+    </CascadingValue>
+</CascadingValue>
+
+
+
+@code {
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; }
+    [Parameter]
+    public RenderFragment NavContent { get; set; }
+    [Parameter]
+    public RenderFragment Body { get; set; }
+    [Parameter]
+    public RenderFragment FooterContent { get; set; }
+    [Parameter]
+    public bool IsFixedFooter { get; set; }
+
+    private LayoutState LayoutState { get; set; }
+    private ThemeState ThemeState { get; set; }
+    private NotificationBar NotificationBarRef { get; set; }
+    private Action<string, string, NotificationType> GenerateNotificationAct { get; set; }
+
+    protected override void OnInitialized()
+    {
+        LayoutState = new LayoutState(false, StateHasChanged);
+        ThemeState = new ThemeState(Themes.light, StateHasChanged);
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+        {
+            GenerateNotificationAct = NotificationBarRef.GenerateNotification;
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    private string LayoutContainerCss
+    {
+        get => new CssBuilder("layout-container")
+                .AddClass("collapsed", LayoutState.IsCollapsed)
+                .Build();
+    }
+
+    private string LayoutFooterCss
+    {
+        get => new CssBuilder("footer")
+            .AddClass("fixed", IsFixedFooter)
+            .Build();
+    }
+}

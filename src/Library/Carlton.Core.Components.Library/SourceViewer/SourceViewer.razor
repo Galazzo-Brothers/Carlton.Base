@@ -1,0 +1,49 @@
+﻿@namespace Carlton.Core.Components.Library
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+
+<div class="test-component-output-source">
+    <pre>
+        <code class="@Language"></code>
+    </pre>
+</div>
+
+@code {
+    public const string HighlightCodeBlock = "highlightCodeBlock";
+    public const string GetOutputSource = "getOutputSource";
+    public const string SetCodeBlock = "setCodeBlock";
+    private const string Selector = "pre code";
+
+    private IJSObjectReference _module;
+
+    [Parameter]
+    public string Source { get; set; }
+
+    [Parameter]
+    public string Language { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        _module = await JSRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(typeof(SourceViewer)));
+        await base.OnInitializedAsync();
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await _module.InvokeAsync<Task>(SetCodeBlock, Selector, Source);
+        await base.OnParametersSetAsync();
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(_module != null)
+            await _module.InvokeAsync<Task>(SourceViewer.HighlightCodeBlock, Selector);
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _module.DisposeAsync();
+    }
+}

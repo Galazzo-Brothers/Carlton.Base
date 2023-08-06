@@ -1,0 +1,15 @@
+﻿@namespace Carlton.Core.Components.Library
+
+ <span class="horizontal-spacer"></span>
+
+@code {
+    [Parameter]
+    public int WidthPercentage { get; set; }
+
+    private string SpacerStyle
+    {
+        get => new StyleBuilder()
+                    .AddStyle("--spacer-width", $"{WidthPercentage}%")
+                    .Build();
+    }
+}

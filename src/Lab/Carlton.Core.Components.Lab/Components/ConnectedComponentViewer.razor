@@ -1,0 +1,13 @@
+﻿@namespace Carlton.Core.Components.Lab
+@attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.MenuItemSelected)]
+@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.ParametersUpdated)]
+@inherits ConnectedComponentBase<ComponentViewerViewModel>
+
+<ComponentViewer ComponentType="@ViewModel.ComponentType" 
+                 ParameterObject="@ViewModel.ComponentParameters.ParameterObj"
+                 Act="(name, obj) => base.OnComponentEvent.InvokeAsync(new RecordEventCommand(name, obj))" />
+
+
+
+

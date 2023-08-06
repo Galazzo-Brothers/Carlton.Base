@@ -1,0 +1,57 @@
+﻿@namespace Carlton.Core.Components.Flux
+@typeparam TViewModel
+@implements IConnectedComponent<TViewModel>
+@inject ILogger<ConnectedComponentBase<TViewModel>> Logger
+
+@code {
+    [Parameter]
+    public TViewModel ViewModel { get; set; }
+    [Parameter]
+    public Func<Task<TViewModel>> GetViewModel { get; init; }
+    [Parameter]
+    public EventCallback<object> OnComponentEvent { get; init; }
+
+    private string ComponentViewModelName { get => typeof(TViewModel).GetDisplayName(); }
+
+    protected override void OnInitialized()
+    {
+        Log.DataComponentOnInitializedStarted(Logger, ComponentViewModelName);
+        base.OnInitialized();
+        Log.DataComponentOnInitializedCompleted(Logger, ComponentViewModelName);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Log.DataComponentOnInitializedAsyncStarted(Logger, ComponentViewModelName);
+        await base.OnInitializedAsync();
+        Log.DataComponentOnInitializedAsyncCompleted(Logger, ComponentViewModelName);
+    }
+
+    protected override void OnParametersSet()
+    {
+        Log.DataComponentOnParametersSetStarted(Logger, ComponentViewModelName);
+        base.OnParametersSet();
+        Log.DataComponentOnParametersSetCompleted(Logger, ComponentViewModelName);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Log.DataComponentOnParametersSetAsyncStarted(Logger, ComponentViewModelName);
+        await base.OnParametersSetAsync();
+        Log.DataComponentOnParametersSetAsyncCompleted(Logger, ComponentViewModelName);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Log.DataComponentOnAfterRenderStarted(Logger, ComponentViewModelName);
+        base.OnAfterRender(firstRender);
+        Log.DataComponentOnAfterRenderCompleted(Logger, ComponentViewModelName);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Log.DataComponentOnAfterRenderAsyncStarted(Logger, ComponentViewModelName);
+        await base.OnAfterRenderAsync(firstRender);
+        Log.DataComponentOnAfterRenderAsyncCompleted(Logger, ComponentViewModelName);
+    }
+}

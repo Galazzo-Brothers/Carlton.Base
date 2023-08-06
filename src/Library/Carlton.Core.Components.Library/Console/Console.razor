@@ -1,0 +1,28 @@
+﻿@namespace Carlton.Core.Components.Library
+
+<div class="console">
+    <textarea rows="15"
+              disabled="@IsReadOnly"
+              class="@ConsoleCss"
+              value="@Text"
+              @onchange="(args) => OnChangeCallback.InvokeAsync(args.Value.ToString())">  
+    </textarea>
+</div>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+    [Parameter]
+    public bool IsReadOnly { get; set; }
+    [Parameter]
+    public bool IsValid { get; set; } = true;
+    [Parameter]
+    public EventCallback<string> OnChangeCallback { get; set; }
+
+    private string ConsoleCss
+    {
+        get => new CssBuilder()
+                .AddClass("error", !IsValid)
+                .Build();
+    }
+}

@@ -1,0 +1,40 @@
+﻿@namespace Carlton.Core.Components.Library
+
+<div class="@CountCardCss">
+    <div class="content">
+        <div class="@IconCss"></div>
+        <span class="count-message">@Message</span>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int Count { get; set; }
+    [Parameter]
+    public string MessageTemplate { get; set; }
+    [Parameter]
+    public string Icon { get; set; }
+    [Parameter]
+    public CountCardTheme Theme { get; set; }
+
+    public string Message
+    {
+        get => $"{Count} {MessageTemplate}";
+    }
+
+    private string CountCardCss
+    {
+        get => new CssBuilder("count-card")
+                .AddClass($"accent{(int)Theme}")
+                .Build();
+    }
+
+    private string IconCss
+    {
+        get => new CssBuilder("count-icon")
+                .AddClass($"mdi mdi-48px {Icon}")
+                .Build();
+    }
+}
+

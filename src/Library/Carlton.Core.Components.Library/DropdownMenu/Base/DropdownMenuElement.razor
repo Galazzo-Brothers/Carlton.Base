@@ -1,0 +1,27 @@
+﻿@namespace Carlton.Core.Components.Library
+@typeparam T
+
+<span class="@MenuElementCss"></span>
+<a href="#" @onclick:preventDefault="true" @onclick="() => OnMenuItemSelected.InvokeAsync(Value)">@MenuItemName</a>
+
+
+@code {
+    [Parameter]
+    public string MenuItemName { get; set; }
+    [Parameter]
+    public T Value { get; set; }
+    [Parameter]
+    public string MenuIcon { get; set; }
+    [Parameter]
+    public int AccentColorIndex { get; set; }
+    [Parameter]
+    public EventCallback<T> OnMenuItemSelected { get; set; }
+
+    private string MenuElementCss
+    {
+        get => new CssBuilder()
+                .AddClass($"mdi mdi-{MenuIcon}")
+                .AddClass($"accent-color-{AccentColorIndex}")
+                .Build();
+    }
+}
