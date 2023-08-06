@@ -36,21 +36,21 @@ public static class TableTestHelper
       <div class=""test-row"">
         <span>ID:1</span>
         <span>Display Name:Item A</span>
-        <span>Date:10/9/2023 12:00:00 AM</span>
+        <span>Date:10/09/2023</span>
       </div>
     </div>
     <div class=""item-row table-row"" b-rbixdumkuw>
       <div class=""test-row"">
         <span>ID:2</span>
         <span>Display Name:Item B</span>
-        <span>Date:2/3/2022 12:00:00 AM</span>
+        <span>Date:02/03/2022</span>
       </div>
     </div>
     <div class=""item-row table-row"" b-rbixdumkuw>
       <div class=""test-row"">
         <span>ID:3</span>
         <span>Display Name:Item C</span>
-        <span>Date:5/19/2021 12:00:00 AM</span>
+        <span>Date:05/19/2021</span>
       </div>
     </div>
     <div class=""pagination-row table-row"" b-rbixdumkuw>
@@ -265,7 +265,7 @@ public static class TableTestHelper
                      {
                           new TableTestObject(1, "Item A", new DateTime(2023, 10, 9))
                      }.AsReadOnly(),
-               new List<string> { "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM" }.AsReadOnly()
+               new List<string> { "ID:1", "Display Name:Item A", "Date:10/09/2023" }.AsReadOnly()
             )
         };
         yield return new object[]
@@ -278,8 +278,8 @@ public static class TableTestHelper
                  }.AsReadOnly(),
                  new List<string> 
                  {
-                     "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM",
-                     "ID:2", "Display Name:Item B", "Date:2/3/2022 12:00:00 AM"
+                     "ID:1", "Display Name:Item A", "Date:10/09/2023",
+                     "ID:2", "Display Name:Item B", "Date:02/03/2022"
                  }.AsReadOnly()
             )
         };
@@ -294,9 +294,9 @@ public static class TableTestHelper
                  }.AsReadOnly(),
                  new List<string>
                  {
-                     "ID:1", "Display Name:Item A", "Date:10/9/2023 12:00:00 AM",
-                     "ID:2", "Display Name:Item B", "Date:2/3/2022 12:00:00 AM",
-                     "ID:3", "Display Name:Item C", "Date:5/19/2021 12:00:00 AM" 
+                     "ID:1", "Display Name:Item A", "Date:10/09/2023",
+                     "ID:2", "Display Name:Item B", "Date:02/03/2022",
+                     "ID:3", "Display Name:Item C", "Date:05/19/2021" 
                 }.AsReadOnly()
             )
         };

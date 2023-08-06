@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using System.Globalization;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(Table<int>))]
 public class TableComponentTests : TestContext
@@ -11,7 +13,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -32,7 +34,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -54,7 +56,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -76,7 +78,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -101,7 +103,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -129,7 +131,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -157,7 +159,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -185,7 +187,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, expected.items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -206,16 +208,16 @@ public class TableComponentTests : TestContext
     public void Table_RowTemplateParam_RendersCorrectly(string rowTemplate)
     {
         //Arrange
-        var expectedRow1 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(0).ID, TableTestHelper.Items.ElementAt(0).DisplayName, TableTestHelper.Items.ElementAt(0).CreatedDate);
-        var expectedRow2 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(1).ID, TableTestHelper.Items.ElementAt(1).DisplayName, TableTestHelper.Items.ElementAt(1).CreatedDate);
-        var expectedRow3 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(2).ID, TableTestHelper.Items.ElementAt(2).DisplayName, TableTestHelper.Items.ElementAt(2).CreatedDate);
+        var expectedRow1 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(0).ID, TableTestHelper.Items.ElementAt(0).DisplayName, TableTestHelper.Items.ElementAt(0).CreatedDate.ToString("d", CultureInfo.InvariantCulture));
+        var expectedRow2 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(1).ID, TableTestHelper.Items.ElementAt(1).DisplayName, TableTestHelper.Items.ElementAt(1).CreatedDate.ToString("d", CultureInfo.InvariantCulture));
+        var expectedRow3 = string.Format(rowTemplate, TableTestHelper.Items.ElementAt(2).ID, TableTestHelper.Items.ElementAt(2).DisplayName, TableTestHelper.Items.ElementAt(2).CreatedDate.ToString("d", CultureInfo.InvariantCulture));
 
         //Act
         var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -242,7 +244,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true)
             );
 
@@ -265,7 +267,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.Headings, TableTestHelper.Headings)
             .Add(p => p.Items, TableTestHelper.Items)
             .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+            .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, showPaginationRow)
             );
 
@@ -294,7 +296,7 @@ public class TableComponentTests : TestContext
            .Add(p => p.Headings, TableTestHelper.Headings)
            .Add(p => p.Items, TableTestHelper.BigItemsList)
            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-           .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate))
+           .Add(p => p.RowTemplate, item => string.Format(TableTestHelper.RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
            .Add(p => p.ShowPaginationRow, true)
            );
 
