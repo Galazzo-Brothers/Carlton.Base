@@ -1,0 +1,19 @@
+name: Run tests after commit
+run-name:  ${{  github.actor  }} is runnings tests after commit
+on:
+  push:
+    branches:
+      - master
+      - 'feature/**'
+jobs:
+  Execute-Project-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Checking out our code..."
+      - name: Check out code
+        uses: actions/checkout@v3
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "This job's status is ${{ job.status }}."
+      - name: Run tests
+        run: |
+          dotnet test
