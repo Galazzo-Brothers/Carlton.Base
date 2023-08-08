@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Components.Lab;
 
-public enum TestBedStateEvents
+public enum LabStateEvents
 {
     MenuItemSelected,
     ParametersUpdated,
