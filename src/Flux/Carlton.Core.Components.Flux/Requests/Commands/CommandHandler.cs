@@ -1,15 +1,17 @@
-﻿namespace Carlton.Core.Components.Flux;
+﻿using Carlton.Core.Components.Flux.Mutations;
+
+namespace Carlton.Core.Components.Flux;
 
 public class CommandHandler<TCommand> : ICommandHandler<TCommand>
 {
-    private readonly IStateProcessor _processor;
+    private readonly IStateMutator _mutator;
 
-    public CommandHandler(IStateProcessor processor)
-        => _processor = processor;
+    public CommandHandler(IStateMutator mutator)
+        => _mutator = mutator;
 
     public async Task<Unit> Handle(CommandRequest<TCommand> request, CancellationToken cancellationToken)
     {
-        await _processor.ProcessCommand(request.Sender, request.Command);
+        await _mutator.Mutate(request.Sender, request.Command);
         return Unit.Value;
     }
 }

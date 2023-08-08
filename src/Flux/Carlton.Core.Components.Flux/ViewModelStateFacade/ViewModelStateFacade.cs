@@ -1,5 +1,4 @@
-﻿using Mapster;
-namespace Carlton.Core.Components.Flux;
+﻿namespace Carlton.Core.Components.Flux;
 
 public class ViewModelStateFacade<TState> : IViewModelStateFacade
 {

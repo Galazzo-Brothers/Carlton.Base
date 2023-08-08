@@ -4,3 +4,10 @@ public interface IStateStore<TStateEvents>
 {
     event Func<object, TStateEvents, Task> StateChanged;
 }
+
+public interface IStateStoreEventDispatcher<TStateEvents>
+{
+    Task InvokeStateChanged(object sender, TStateEvents evt);
+}
+
+

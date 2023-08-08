@@ -1,7 +1,11 @@
-﻿namespace Carlton.Core.Components.Flux;
+﻿using Carlton.Core.Components.Flux.Mutations;
+namespace Carlton.Core.Components.Flux;
 
 public static class ContainerExtensions
 {
+    public delegate decimal StateMutationProviderDelegate<TStateEvents>(TStateEvents stateEvent)
+        where TStateEvents : Enum;
+
     public static void AddCarltonState<TState>(this IServiceCollection services, params Assembly[] assemblies)
     {
         services.Scan(_ =>
@@ -19,6 +23,14 @@ public static class ContainerExtensions
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
             });
+
+        services.Scan(_ =>
+        {
+            _.FromAssemblies(assemblies)
+             .AddClasses(classes => classes.AssignableTo(typeof(IStateMutation<,,>)))
+             .AsImplementedInterfaces()
+             .WithTransientLifetime();
+        });
 
         services.AddTransient<HttpClient>();
         services.AddSingleton<IViewModelDispatcher, ViewModelDispatcher>();
