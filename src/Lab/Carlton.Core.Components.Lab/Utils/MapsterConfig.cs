@@ -4,33 +4,33 @@ public static class MapsterConfig
 {
     public static void RegisterMapsterConfiguration(this IServiceCollection services)
     {
-        TypeAdapterConfig<TestBedState, NavMenuViewModel>
+        TypeAdapterConfig<LabState, NavMenuViewModel>
             .NewConfig()
             .Map(dest => dest.SelectedItem, src => src.SelectedComponentState)
             .Map(dest => dest.MenuItems, src => src.ComponentStates);
 
-        TypeAdapterConfig<TestBedState, ComponentViewerViewModel>
+        TypeAdapterConfig<LabState, ComponentViewerViewModel>
             .NewConfig()
             .Map(dest => dest.ComponentType, src => src.SelectedComponentType)
             .Map(dest => dest.ComponentParameters, src => src.SelectedComponentParameters);
 
-        TypeAdapterConfig<TestBedState, EventConsoleViewModel>
+        TypeAdapterConfig<LabState, EventConsoleViewModel>
             .NewConfig()
             .Map(dest => dest.RecordedEvents, src => src.ComponentEvents);
 
-        TypeAdapterConfig<TestBedState, ParametersViewerViewModel>
+        TypeAdapterConfig<LabState, ParametersViewerViewModel>
             .NewConfig()
             .Map(dest => dest.ComponentParameters, src => src.SelectedComponentParameters);
 
-        TypeAdapterConfig<TestBedState, BreadCrumbsViewModel>
+        TypeAdapterConfig<LabState, BreadCrumbsViewModel>
             .NewConfig()
             .Map(dest => dest.SelectedComponentState, src => src.SelectedComponentState);
 
-        TypeAdapterConfig<TestBedState, TestResultsViewModel>
+        TypeAdapterConfig<LabState, TestResultsViewModel>
             .NewConfig()
             .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport));
 
-        TypeAdapterConfig<TestBedState, SourceViewerViewModel>
+        TypeAdapterConfig<LabState, SourceViewerViewModel>
             .NewConfig()
             .TwoWays()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);

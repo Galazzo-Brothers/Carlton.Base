@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Lab;
+﻿using Carlton.Core.Components.Flux.Mutations;
+
+namespace Carlton.Core.Components.Lab;
 
 public static class WebAssemblyHostBuilderExtensions
 {
@@ -12,19 +14,19 @@ public static class WebAssemblyHostBuilderExtensions
         navTreeAct(NavMenuBuilder);
         var options = NavMenuBuilder.Build();
      
-        var state = new TestBedStateMutationCommands(options, testResults);
-        builder.Services.AddSingleton<TestBedState>(state);
-        builder.Services.AddSingleton<IStateStore<TestBedStateEvents>>(state);
+        var state = new LabState(options, testResults);
+        builder.Services.AddSingleton<LabState>(state);
+        builder.Services.AddSingleton<IStateStore<LabStateEvents>>(state);
 
-        var stateProcessor = new TestBedStateProcessor(state);
-        builder.Services.AddSingleton<IStateProcessor>(stateProcessor);
-        builder.Services.AddSingleton<IStateProcessor<TestBedStateMutationCommands>>(stateProcessor);
+        builder.Services.AddTransient<IStateMutator, StateMutator<LabState, LabStateEvents>>();
+     //   builder.Services.AddSingleton<IStateProcessor>(stateProcessor);
+      //  builder.Services.AddSingleton<IStateProcessor<LabState>>(stateProcessor);
 
 
         builder.Services.AddTransient<IViewModelStateFacade, TestBedViewModelStateFacade>();
         builder.Services.RegisterMapsterConfiguration();
         builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();
-        builder.Services.AddCarltonState<TestBedState>(assemblies);
+        builder.Services.AddCarltonState<LabState>(assemblies);
 
   
     }
