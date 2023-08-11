@@ -1,0 +1,14 @@
+﻿@namespace Carlton.Core.Components.Flux
+@typeparam TViewModel
+@implements IConnectedComponent<TViewModel>
+@inject ILogger<BaseConnectedComponent<TViewModel>> Logger
+
+
+@code {
+    [Parameter]
+    public TViewModel ViewModel { get; set; }
+    [Parameter]
+    public Func<Task<TViewModel>> GetViewModel { get; init; }
+    [Parameter]
+    public EventCallback<MutationCommand> OnComponentEvent { get; init; }
+}

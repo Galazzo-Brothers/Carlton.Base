@@ -14,15 +14,17 @@ public static class Program
 
         builder.Services.AddScoped(sp => http);
 
-        var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
-        var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
+        //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
+        //var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
 
-        //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
-        //var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
+        var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
+        var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
 
+        
+        /*Other*/
+        builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();
 
-        //var x = builder.Logging;
-        builder.AddCarltonTestBed(builder =>
+        builder.AddCarltonTestLab(builder =>
         {
             //Base Components
             builder.AddParameterObjComponent<Card>(CardTestStates.DefaultState)

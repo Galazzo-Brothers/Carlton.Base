@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Lab
 @attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ObserveStateEvents<LabStateEvents>(LabStateEvents.MenuItemSelected)]
-@inherits ConnectedComponentBase<NavMenuViewModel>
+@attribute [ObserveStateEvents("MenuItemSelected")]
+@inherits BaseConnectedComponent<NavMenuViewModel>
 
 
 <AccordionSelectGroup TValue="ComponentState"

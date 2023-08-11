@@ -2,12 +2,12 @@
 @implements IDataWrapper
 @implements IDisposable
 @typeparam TViewModel
-@typeparam TStateEvents where TStateEvents : Enum
+@typeparam TState
 @inject IConnectedComponent<TViewModel> Component
-@inject IViewModelDispatcher QueryDispatcher
+@inject IQueryDispatcher QueryDispatcher
 @inject ICommandDispatcher CommandDispatcher
-@inject IStateStore<TStateEvents> StateStore
-@inject ILogger<ConnectedWrapper<TViewModel, TStateEvents>> Logger
+@inject IFluxStateObserver<TState> StateStore
+@inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
 <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 
@@ -21,7 +21,7 @@
 
     public TViewModel ViewModel { get; private set; }
 
-    public IEnumerable<TStateEvents> ObserveableStateEvents { get; private set; } = new List<TStateEvents> { };
+    public IEnumerable<string> ObserveableStateEvents { get; private set; } = new List<string>();
 
     protected async override Task OnInitializedAsync()
     {
@@ -29,56 +29,47 @@
         StateStore.StateChanged += OnStateChanged;
 
         //Get VM and initalize context for wrapped component
-        ViewModel = await GetViewModelInternal();
+        ViewModel = await GetViewModel();
+
+        System.Console.WriteLine(Component.GetType().GetDisplayName());
+        System.Console.WriteLine(ViewModel);
 
         //Gather the StateEvents this component should be listening for
-        var attributes = (IEnumerable<ObserveStateEventsAttribute<TStateEvents>>)WrappedComponentType.GetCustomAttributes(typeof(ObserveStateEventsAttribute<TStateEvents>));
+        var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
         ObserveableStateEvents = attributes.Select(_ => _.StateEvent);
 
         //Continue initilization
         await base.OnInitializedAsync();
     }
 
-    private async Task<TViewModel> GetViewModelInternal()
+    protected async virtual Task<TViewModel> GetViewModel()
     {
-        var request = new ViewModelRequest<TViewModel>(this);
-        return await GetViewModel(request);
+        var query = new ViewModelQuery();
+        return await QueryDispatcher.Dispatch<ViewModelQuery, TViewModel>(query, CancellationToken.None);
     }
 
-    protected async virtual Task<TViewModel> GetViewModel(ViewModelRequest<TViewModel> request)
+    protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-       return await QueryDispatcher.Dispatch<TViewModel>(request, CancellationToken.None);
+        await CommandDispatcher.Dispatch(command, CancellationToken.None);
     }
 
-    protected async Task<Unit> OnComponentEventInternal<TCommand>(object sender, TCommand command)
-    {
-        var commandType = command.GetType();
-        var request = (dynamic) Activator.CreateInstance(typeof(CommandRequest<>).MakeGenericType(command.GetType()), this, command);
-        return await OnComponentEvent(request);
-    }
-
-    protected async virtual Task<Unit> OnComponentEvent<TCommand>(CommandRequest<TCommand> request)
-    {
-        return await CommandDispatcher.Dispatch<TCommand>(request, CancellationToken.None);
-    }
-
-    protected virtual async Task<bool> OnStateChanged(object sender, TStateEvents stateEvent)
+    protected virtual async Task<bool> OnStateChanged(string stateEvent)
     {
         if(!ObserveableStateEvents.Contains(stateEvent))
             return false;
   
-        ViewModel = await GetViewModelInternal();
+        ViewModel = await GetViewModel();
         StateHasChanged();
         return true;
     }
 
     protected virtual Dictionary<string, object> GetParameters()
     {
-        var eventCallback = EventCallback.Factory.Create<object>(this, (command) => OnComponentEventInternal(Component, command));
+        var eventCallback = EventCallback.Factory.Create<MutationCommand>(this, (command) => OnComponentEvent(Component, command));
         return new Dictionary<string, object>
             {
                 { "ViewModel", ViewModel },
-                { "GetViewModel", async () => await GetViewModelInternal() },
+                { "GetViewModel", async () => await GetViewModel() },
                 { "OnComponentEvent", eventCallback }
             };
     }

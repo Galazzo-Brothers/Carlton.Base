@@ -1,12 +1,12 @@
-﻿using Carlton.Core.Components.Flux.Mutations;
+﻿using Carlton.Core.Components.Flux.State;
 
 namespace Carlton.Core.Components.Lab.State.Mutations;
 
-public class UpdateParametersMutation<TState, TCommand> : IStateMutation<LabState, LabStateEvents, UpdateParametersCommand>
+public class UpdateParametersMutation : IFluxStateMutation<LabState, UpdateParametersCommand>
 {
-    public LabStateEvents StateEvent => throw new NotImplementedException();
+    public string StateEvent => LabStateEvents.ParametersUpdated.ToString();
 
-    public IStateStore<LabStateEvents> Mutate(LabState currentState, object sender, UpdateParametersCommand command)
+    public LabState Mutate(LabState currentState, UpdateParametersCommand command)
     {
         var newComponentParameters = new ComponentParameters(command.ComponentParameters, ParameterObjectType.ParameterObject);
         return currentState with { SelectedComponentParameters = newComponentParameters };

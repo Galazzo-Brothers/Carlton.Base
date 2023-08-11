@@ -1,13 +1,17 @@
-﻿using Carlton.Core.Components.Flux.Mutations;
+﻿using Carlton.Core.Components.Flux.State;
 
 namespace Carlton.Core.Components.Lab.State.Mutations;
 
-public class SelectMenutItemMutation : IStateMutation<LabState, LabStateEvents, SelectMenuItemCommand>
+public class SelectMenutItemMutation : IFluxStateMutation<LabState, SelectMenuItemCommand>
 {
-    public LabStateEvents StateEvent => throw new NotImplementedException();
+    public string StateEvent => LabStateEvents.MenuItemSelected.ToString();
 
-    public IStateStore<LabStateEvents> Mutate(LabState currentState, object sender, SelectMenuItemCommand command)
+    public LabState Mutate(LabState currentState, SelectMenuItemCommand command)
     {
-        return currentState with { SelectedComponentState = command.ComponentState };
+        return currentState with
+        {
+            SelectedComponentState = command.ComponentState,
+            SelectedComponentParameters = command.ComponentState.ComponentParameters
+        };
     }
 }
