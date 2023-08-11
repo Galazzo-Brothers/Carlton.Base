@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Flux;
+﻿using Carlton.Core.Components.Flux.Attributes;
+
+namespace Carlton.Core.Components.Flux;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class ViewModelEndpointParameterAttribute : Attribute

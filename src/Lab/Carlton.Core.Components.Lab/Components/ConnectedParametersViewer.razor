@@ -1,8 +1,8 @@
 ﻿@namespace Carlton.Core.Components.Lab
 @attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ObserveStateEvents<LabStateEvents>(LabStateEvents.MenuItemSelected)]
-@attribute [ObserveStateEvents<LabStateEvents>(LabStateEvents.ParametersUpdated)]
-@inherits ConnectedComponentBase<ParametersViewerViewModel>
+@attribute [ObserveStateEvents("MenuItemSelected")]
+@attribute [ObserveStateEvents("ParametersUpdated")]
+@inherits BaseConnectedComponent<ParametersViewerViewModel>
 
 
 <div class="parameters-viewer">

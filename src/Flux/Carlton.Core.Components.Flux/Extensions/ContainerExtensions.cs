@@ -1,81 +1,82 @@
-﻿using Carlton.Core.Components.Flux.Mutations;
+﻿using Carlton.Core.Components.Flux.Handlers;
+using Carlton.Core.Components.Flux.State;
+using Carlton.Core.InProcessMessaging.Commands;
+using Carlton.Core.InProcessMessaging.Queries;
+
 namespace Carlton.Core.Components.Flux;
 
 public static class ContainerExtensions
 {
-    public delegate decimal StateMutationProviderDelegate<TStateEvents>(TStateEvents stateEvent)
-        where TStateEvents : Enum;
-
-    public static void AddCarltonState<TState>(this IServiceCollection services, params Assembly[] assemblies)
+    public static void AddCarltonFlux<TState>(this IServiceCollection services, params Assembly[] assemblies)
     {
-        services.Scan(_ =>
+        var stateEvents = new List<string>
         {
-            _.FromAssemblies(assemblies)
-                .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-                .AsImplementedInterfaces()
-                .WithTransientLifetime();
-        });
+            "MenuItemSelected",
+            "ParametersUpdated",
+            "EventRecorded",
+            "EventsCleared"
+        };
 
-        services.Scan(_ =>
-            {
-                _.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
-                    .AsImplementedInterfaces()
-                    .WithTransientLifetime();
-            });
+        /*Connected Components*/
+        services.Scan(scan => scan
+            .FromApplicationDependencies()
+            .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
 
-        services.Scan(_ =>
-        {
-            _.FromAssemblies(assemblies)
-             .AddClasses(classes => classes.AssignableTo(typeof(IStateMutation<,,>)))
-             .AsImplementedInterfaces()
-             .WithTransientLifetime();
-        });
-
-        services.AddTransient<HttpClient>();
-        services.AddSingleton<IViewModelDispatcher, ViewModelDispatcher>();
-        services.Decorate<IViewModelDispatcher, UtilityViewModelDecorator>();
-        services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
-        services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
-
+        /*Command Dispatchers*/
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
-        services.Decorate<ICommandDispatcher, CommandValidationDecorator>();
-        services.Decorate<ICommandDispatcher, CommandExceptionDecorator>();
-        services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
+        //services.Decorate<ICommandDispatcher, CommandValidationDecorator>();
+        //services.Decorate<ICommandDispatcher, CommandExceptionDecorator>();
+        //services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
 
+        /*Query Dispatchers*/
+        services.AddSingleton<IQueryDispatcher, QueryDispatcher>();
+        //services.Decorate<IViewModelDispatcher, UtilityViewModelDecorator>();
+        //services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
+        //services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
-        services.Scan(selector =>
-        {
-            selector.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IViewModelHandler<>)))
-                    .AsImplementedInterfaces()
-                    .WithSingletonLifetime();
-        });
-        services.Scan(selector =>
-        {
-            selector.FromAssemblies(assemblies)
-                    .AddClasses(filter => filter.AssignableTo(typeof(ICommandHandler<>)))
-                    .AsImplementedInterfaces()
-                    .WithSingletonLifetime();
-        });
+        /*Query Handlers*/
+        RegisterViewModelHandlers<TState>(services);
+        RegisterMutationCommandHandlers<TState>(services);
 
-        assemblies.SelectMany(_ => _.DefinedTypes).Where(_ => _.Name.Contains("ViewModel"))
-            .ToList()    
-            .ForEach(_ =>
-                {
-                    var serviceType = typeof(IViewModelHandler<>).MakeGenericType(_);
-                    var implementationType = typeof(ViewModelHandler<>).MakeGenericType(_);
-                    services.AddSingleton(serviceType ,_ => ActivatorUtilities.CreateInstance(_, implementationType));
-                });
+        services.Scan(_ => _
+            .FromApplicationDependencies()
+            .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
 
-        assemblies.SelectMany(_ => _.DefinedTypes).Where(_ => _.Name.Contains("Command"))//  && _.GetInterfaces().Contains(typeof(ICommand))); ;
-           .ToList()
-           .ForEach(_ =>
-           {
-               var serviceType = typeof(ICommandHandler<>).MakeGenericType(_);
-               var implementationType = typeof(CommandHandler<>).MakeGenericType(_);
-               services.AddSingleton(serviceType, _ => ActivatorUtilities.CreateInstance(_, implementationType));
-           });
+        /*State Mutations*/
+        services.AddSingleton(new StateMutationEvents<TState>(stateEvents));
+    }
+
+    private static void RegisterMutationCommandHandlers<TState>(IServiceCollection services)
+    {
+        AppDomain.CurrentDomain.GetAssemblies()
+                         .SelectMany(_ => _.DefinedTypes)
+                         .Where(_ => _.IsAssignableTo(typeof(MutationCommand)))
+                         .ToList().ForEach(_ =>
+                         {
+                             var interfaceType = typeof(ICommandHandler<,>).MakeGenericType(_, typeof(Unit));
+                             var implementationType = typeof(MutationCommandHandler<,>).MakeGenericType(typeof(TState), _);
+                             services.AddTransient(interfaceType, implementationType);
+                         });
+    }
+
+    private static void RegisterViewModelHandlers<TState>(IServiceCollection services)
+    {
+        AppDomain.CurrentDomain.GetAssemblies()
+               .SelectMany(_ => _.DefinedTypes)
+               .Where(_ => _.Namespace != null && _.Namespace.Contains("Carlton"))
+               .Where(_ => _.Name.EndsWith("ViewModel"))
+               //  .Where(_ => !_.Name.Contains("Mutation"))
+               .ToList().ForEach(_ =>
+               {
+                   var interfaceType = typeof(IQueryHandler<,>).MakeGenericType(typeof(ViewModelQuery), _);
+                   var implementationType = typeof(BaseViewModelQueryHandler<,>).MakeGenericType(typeof(TState), _);
+                   services.AddTransient(interfaceType, implementationType);
+               });
     }
 }
+
 

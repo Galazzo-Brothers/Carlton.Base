@@ -1,14 +1,14 @@
-﻿using Carlton.Core.Components.Flux.Mutations;
+﻿namespace Carlton.Core.Components.Lab.State.Mutations;
 
-namespace Carlton.Core.Components.Lab.State.Mutations;
-
-public class ClearEventsMutation : IStateMutation<LabState, LabStateEvents, ClearEventsCommand>
+public class ClearEventsMutation : IFluxStateMutation<LabState, ClearEventsCommand> 
 {
-    public LabStateEvents StateEvent => LabStateEvents.EventsCleared;
+    public string StateEvent => LabStateEvents.EventsCleared.ToString();
 
-
-    public IStateStore<LabStateEvents> Mutate(LabState currentState, object sender, ClearEventsCommand command)
+    public LabState Mutate(LabState originalState, ClearEventsCommand command)
     {
-        return currentState with { ComponentEvents = new List<ComponentRecordedEvent>() };
+        return originalState with { ComponentEvents = new List<ComponentRecordedEvent>() };
     }
 }
+
+
+ 

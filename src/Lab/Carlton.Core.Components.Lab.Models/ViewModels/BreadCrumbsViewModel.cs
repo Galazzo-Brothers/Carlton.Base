@@ -1,2 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models;
+﻿using Carlton.Core.InProcessMessaging.Queries;
+
+namespace Carlton.Core.Components.Lab.Models;
 public sealed record BreadCrumbsViewModel(ComponentState SelectedComponentState);

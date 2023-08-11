@@ -2,7 +2,7 @@
 
 public static class MapsterConfig
 {
-    public static void RegisterMapsterConfiguration(this IServiceCollection services)
+    public static void RegisterMapsterConfiguration()
     {
         TypeAdapterConfig<LabState, NavMenuViewModel>
             .NewConfig()
@@ -34,6 +34,10 @@ public static class MapsterConfig
             .NewConfig()
             .TwoWays()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
+
+        TypeAdapterConfig<LabState, LabState>
+         .NewConfig()
+          .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
     }
 
 }

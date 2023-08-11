@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux;
+﻿namespace Carlton.Core.Components.Flux.Contracts;
 
 public interface IDataWrapper
 {

@@ -1,9 +1,9 @@
-﻿namespace Carlton.Core.Components.Lab;
+﻿using System.Collections.Immutable;
 
-public record LabState : IStateStore<LabStateEvents>, IStateStoreEventDispatcher<LabStateEvents>
+namespace Carlton.Core.Components.Lab;
+
+public record LabState 
 {
-    public event Func<object, LabStateEvents, Task> StateChanged;
-
     protected readonly IList<ComponentRecordedEvent> _componentEvents = new List<ComponentRecordedEvent>();
 
     public IEnumerable<ComponentState> ComponentStates { get; init; }
@@ -16,7 +16,7 @@ public record LabState : IStateStore<LabStateEvents>, IStateStoreEventDispatcher
         get { return _componentEvents; }
         init { _componentEvents = value.ToList(); }
     }
-    public IReadOnlyDictionary<string, TestResultsReportModel> ComponentTestResults { get; init; }
+    public ImmutableDictionary<string, TestResultsReportModel> ComponentTestResults { get; init; }
     public TestResultsReportModel SelectedComponentTestReport
     {
         get => ComponentTestResults.ContainsKey(SelectedComponentType.GetDisplayName()) ?
@@ -29,14 +29,6 @@ public record LabState : IStateStore<LabStateEvents>, IStateStoreEventDispatcher
         ComponentStates = componentStates;
         SelectedComponentState = ComponentStates.First();
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
-        ComponentTestResults = testResults.AsReadOnly();
-    }
-
-    public async Task InvokeStateChanged(object sender, LabStateEvents evt)
-    {
-        var task = StateChanged?.Invoke(sender, evt);
-
-        if(task != null)
-            await task.ConfigureAwait(false);
+        ComponentTestResults = testResults.ToImmutableDictionary();
     }
 }

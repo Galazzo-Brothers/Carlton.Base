@@ -16,7 +16,7 @@ public class ConnectedComponentException<TViewModel, TStateEvents> : Exception
         : base(message, innerException)
     {
         WrappedComponentType = wrapper.WrappedComponentType;
-        ObservableStateEvents = wrapper.ObserveableStateEvents;
+     //   ObservableStateEvents = wrapper.ObserveableStateEvents;
         ViewModel = wrapper.ViewModel;
     }
 

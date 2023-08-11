@@ -1,8 +1,8 @@
 ﻿@namespace Carlton.Core.Components.Lab
 @attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ObserveStateEvents<LabStateEvents>(LabStateEvents.EventRecorded)]
-@attribute [ObserveStateEvents<LabStateEvents>(LabStateEvents.EventsCleared)]
-@inherits ConnectedComponentBase<EventConsoleViewModel>
+@attribute [ObserveStateEvents("EventRecorded")]
+@attribute [ObserveStateEvents("EventsCleared")]
+@inherits BaseConnectedComponent<EventConsoleViewModel>
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@RecordedEventsText" />

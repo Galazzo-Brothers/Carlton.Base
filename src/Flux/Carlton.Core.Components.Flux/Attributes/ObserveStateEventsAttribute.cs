@@ -1,11 +1,10 @@
-﻿namespace Carlton.Core.Components.Flux;
+﻿namespace Carlton.Core.Components.Flux.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class ObserveStateEventsAttribute<TStateEvents> : Attribute
- where TStateEvents : Enum
+public class ObserveStateEventsAttribute : Attribute
 {
-    public TStateEvents StateEvent { get; }
+    public string StateEvent { get; }
 
-    public ObserveStateEventsAttribute(TStateEvents stateEvent)
+    public ObserveStateEventsAttribute(string stateEvent)
         => StateEvent = stateEvent;
 }

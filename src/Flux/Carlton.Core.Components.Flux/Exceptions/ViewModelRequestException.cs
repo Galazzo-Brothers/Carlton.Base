@@ -5,14 +5,14 @@ public class ViewModelRequestException<TViewModel> : Exception
 {
     private const string ErrorMessage = $"An exception occurred during a request for ViewModel of type {nameof(TViewModel)}";
 
-    public ViewModelRequest<TViewModel> Request { get; init; }
+    public ViewModelQuery Request { get; init; }
 
-    public ViewModelRequestException(ViewModelRequest<TViewModel> request, Exception innerException) : base(ErrorMessage, innerException)
+    public ViewModelRequestException(ViewModelQuery request, Exception innerException) : base(ErrorMessage, innerException)
     { 
-        if(!request.HasErrored)
-            request.MarkErrored();
+        //if(!request.HasErrored)
+        //    request.MarkErrored();
 
-        Request = request;
+        //Request = request;
     }
 
     protected ViewModelRequestException(SerializationInfo info, StreamingContext context)
