@@ -15,7 +15,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
     {
         try
         {
-            using (_logger.BeginScope(string.Format(Log.ViewModelRequestScopeMessage, typeof(TViewModel).GetDisplayName(), query.QueryID)))
+            using (_logger.BeginScope(Log.ViewModelRequestScopeMessage, typeof(TViewModel).GetDisplayName(), query))
             Log.ViewModelStarted(_logger, typeof(TViewModel).GetDisplayName());
             var result = await _decorated.Dispatch<TViewModel>(query, cancellationToken);
             Log.ViewModelCompleted(_logger, typeof(TViewModel).GetDisplayName());

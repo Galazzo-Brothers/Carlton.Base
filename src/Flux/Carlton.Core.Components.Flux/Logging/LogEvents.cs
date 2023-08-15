@@ -57,7 +57,7 @@ public static class LogEvents
     //ViewModel Queries Errors
     public const int ViewModel_HttpRefresh_Http_Error = 1102;
     public const int ViewModel_JsInterop_Error = 1104;
-    public const int ViewModel_HttpRefresh_Error = 1106;
+    public const int ViewModel_HTTP_Error = 1106;
     public const int ViewModel_JSON_Error = 1108;
     public const int ViewModel_Validation_Error = 1110;
     public const int ViewModel_Unhandled_Error = 1200;
@@ -68,22 +68,32 @@ public static class LogEvents
     public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
     public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of ViewModel";
 
-    //Command Requests
-    public const int Command_Started = 1001;
-    public const int Command_Handling_Started = 1003;
-    public const int Command_Validation_Started = 1005;
-    public const int Command_Validation_Completed = 1007;
-    public const int Command_HttpCall_Started = 1009;
-    public const int Command_HttpCall_Completed = 1011;
-    public const int Command_HttpCall_Skipped = 1013;
-    public const int Command_Processing_Started = 1015;
-    public const int Command_Processing_Completed = 1017;
-    public const int Command_Handling_Completed = 1019;
-    public const int Command_Completed = 1021;
+    //MutationCommand Requests
+    public const int Mutation_Started = 1001;
+    public const int Mutation_Validation_Started = 1003;
+    public const int Mutation_Validation_Completed = 1005;
+    public const int Mutation_JsInterop_Started = 1007;
+    public const int Mutation_JsInterop_Completed = 1009;
+    public const int Mutation_JsInterop_Skipped = 1011;
+    public const int Mutation_HttpCall_Started = 1013;
+    public const int Mutation_HttpCall_Completed = 1015;
+    public const int Mutation_HttpCall_Skipped = 1017;
+    public const int Mutation_Processing_Started = 1015;
+    public const int Mutation_Processing_Completed = 1017;
+    public const int Mutation_Completed = 1019;
 
-    //Command Request Errors
-    public const int Command_Validation_Error = 1101;
-    public const int Command_HttpCall_Error = 1201;
-    public const int Command_Processing_Error = 1301;
+    //Mutation Errors
+    public const int Mutation_Validation_Error = 1101;
+    public const int Mutation_JSInterop_Error = 1103;
+    public const int Mutation_HTTP_Error = 1105;
+    public const int Mutation_Processing_Error = 1107;
+    public const int Mutation_JSON_Error = 1109;
+    public const int Mutation_Unhandled_Error = 1201;
+
+    //Mutation Error Messages
+    public const string Mutation_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a Mutation Command";
+    public const string Mutation_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a Mutation Command";
+    public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a Mutation Command";
+    public const string Mutation_Validation_ErrorMsg = "An error occurred during the validation of Mutation Command";
 
 }

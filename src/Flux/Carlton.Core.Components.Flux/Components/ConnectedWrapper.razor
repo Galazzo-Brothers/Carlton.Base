@@ -5,7 +5,7 @@
 @typeparam TState
 @inject IConnectedComponent<TViewModel> Component
 @inject IViewModelQueryDispatcher<TState> QueryDispatcher
-@inject ICommandMutationDispatcher<TState> CommandDispatcher
+@inject IMutationCommandDispatcher<TState> CommandDispatcher
 @inject IFluxStateObserver<TState> StateStore
 @inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
