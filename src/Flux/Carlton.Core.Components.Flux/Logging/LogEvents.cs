@@ -40,26 +40,33 @@ public static class LogEvents
     //DataComponent Errors
     public const int DataWrapper_Error = 110;
 
-    //ViewModel Requests
-    public const int ViewModelRequest_Started = 1000;
-    public const int ViewModelRequest_Handling_Started = 1002;
-    public const int ViewModelRequest_JsInterop_Started = 1004;
-    public const int ViewModelRequest_JsInterop_Completed = 1006;
-    public const int ViewModelRequest_JsInterop_Skipping = 1008;
-    public const int ViewModelRequest_HttpRefresh_Started = 1010;
-    public const int ViewModelRequest_HttpRefresh_Completed = 1012;
-    public const int ViewModelRequest_HttpRefresh_Skipping = 1014;
-    public const int ViewModelRequest_RetrievingViewModel_Started = 1016;
-    public const int ViewModelRequest_RetrievingViewModel_Completed = 1018;
-    public const int ViewModelRequest_Handling_Completed = 1020;
-    public const int ViewModelRequest_Completed = 1022;
+    //ViewModel Queries
+    public const int ViewModel_Started = 1000;
+    public const int ViewModel_JsInterop_Started = 1002;
+    public const int ViewModel_JsInterop_Completed = 1004;
+    public const int ViewModel_JsInterop_Skipped = 1008;
+    public const int ViewModel_HttpRefresh_Started = 1010;
+    public const int ViewModel_HttpRefresh_Completed = 1012;
+    public const int ViewModel_HttpRefresh_Skipped = 1014;
+    public const int ViewModel_Mapping_Started = 1016;
+    public const int ViewModel_Mapping_Completed = 1018;
+    public const int ViewModel_Validation_Started = 1020;
+    public const int ViewModel_Validation_Completed = 1022;
+    public const int ViewModel_Completed = 1024;
 
-    //ViewModel Request Errors
-    public const int ViewModelRequest_HttpRefresh_Http_Error = 1102;
-    public const int ViewModelRequest_JsInterop_Error = 1104;
-    public const int ViewModelRequest_HttpRefresh_Mapping_Error = 1106;
-    public const int ViewModelRequest_HttpRefresh_RouteConstruction_Error = 1108;
-    public const int ViewModelRequest_RetrievingViewModel_Error = 1200;
+    //ViewModel Queries Errors
+    public const int ViewModel_HttpRefresh_Http_Error = 1102;
+    public const int ViewModel_JsInterop_Error = 1104;
+    public const int ViewModel_HttpRefresh_Error = 1106;
+    public const int ViewModel_JSON_Error = 1108;
+    public const int ViewModel_Validation_Error = 1110;
+    public const int ViewModel_Unhandled_Error = 1200;
+
+    //ViewModel Query Error Messages
+    public const string ViewModel_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a ViewModel";
+    public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel";
+    public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
+    public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of ViewModel";
 
     //Command Requests
     public const int Command_Started = 1001;

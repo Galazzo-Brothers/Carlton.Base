@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Components.Flux.Dispatchers;
+﻿using Carlton.Core.Components.Flux.Decorators.Queries;
+using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.Handlers;
 
 namespace Carlton.Core.Components.Flux;
@@ -22,7 +23,8 @@ public static class ContainerExtensions
 
         /*Query Dispatchers*/
         services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
-        //services.Decorate<IViewModelDispatcher, UtilityViewModelDecorator>();
+        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
+        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
         //services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
         //services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
@@ -35,12 +37,11 @@ public static class ContainerExtensions
             .AsImplementedInterfaces()
             .WithTransientLifetime());
 
-
-        //services.Scan(_ =>  _.FromApplicationDependencies()
-        //    .FromApplicationDependencies()
-        //    .AddClasses(classes => classes.AssignableTo(typeof(IMutationCommandHandler<,>)))
-        //    .AsImplementedInterfaces()
-        //    .WithTransientLifetime());   
+        services.Scan(_ => 
+            _.FromApplicationDependencies()
+            .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
     }
 
     private static void RegisterFluxHandlers<TState>(IServiceCollection services)
