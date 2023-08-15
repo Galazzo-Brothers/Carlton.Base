@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Flux.State;
-using Carlton.Core.InProcessMessaging.Queries;
+
 
 namespace Carlton.Core.Components.Lab;
 
@@ -31,30 +31,3 @@ public static class WebAssemblyHostBuilderExtensions
     }
 }
 
-
-
-//typeof(TestBedLayout).Assembly.DefinedTypes.Where(_ => _.IsAssignableTo(typeof(IConnectedComponent<>))).ToList().ForEach(comp =>
-//{
-//    var interfaceType = typeof(IConnectedComponent<>).MakeGenericType(typeof(IConnectedComponent<>).MakeGenericType(vm), vm);
-//    var implementationType = typeof(ViewModelQueryHandler<,>).MakeGenericType(typeof(LabState), vm);
-//    builder.Services.AddTransient(interfaceType, implementationType);
-//});
-
-//builder.Services.Scan(_ =>
-//{
-//    _.FromAssembliesOf(typeof(TestBedLayout))
-//        .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
-//        .AsImplementedInterfaces()
-//        .WithTransientLifetime();
-//});
-
-//_.FromAssemblyOf<BreadCrumbsViewModel>
-//           SelectMany(_ => _.DefinedTypes).Where(_ => _.Name.Contains("ViewModel"))
-//            .ToList()
-//            .ForEach(vm =>
-//                {
-
-//    var serviceType = typeof(IQueryHandler<,>).MakeGenericType(typeof(IQuery<>).MakeGenericType(vm), vm);
-//    var implementationType = typeof(ViewModelQueryHandler<,>).MakeGenericType(typeof(TState), vm);
-//    services.AddSingleton(serviceType, _ => ActivatorUtilities.CreateInstance(_, implementationType));
-//});

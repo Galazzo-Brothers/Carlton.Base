@@ -1,7 +1,5 @@
-﻿using Carlton.Core.Components.Flux.Handlers;
-using Carlton.Core.Components.Flux.State;
-using Carlton.Core.InProcessMessaging.Commands;
-using Carlton.Core.InProcessMessaging.Queries;
+﻿using Carlton.Core.Components.Flux.Dispatchers;
+using Carlton.Core.Components.Flux.Handlers;
 
 namespace Carlton.Core.Components.Flux;
 
@@ -9,14 +7,6 @@ public static class ContainerExtensions
 {
     public static void AddCarltonFlux<TState>(this IServiceCollection services, params Assembly[] assemblies)
     {
-        var stateEvents = new List<string>
-        {
-            "MenuItemSelected",
-            "ParametersUpdated",
-            "EventRecorded",
-            "EventsCleared"
-        };
-
         /*Connected Components*/
         services.Scan(scan => scan
             .FromApplicationDependencies()
@@ -25,20 +15,19 @@ public static class ContainerExtensions
             .WithTransientLifetime());
 
         /*Command Dispatchers*/
-        services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
+        services.AddSingleton<ICommandMutationDispatcher<TState>, CommandMutationDispatcher<TState>>();
         //services.Decorate<ICommandDispatcher, CommandValidationDecorator>();
         //services.Decorate<ICommandDispatcher, CommandExceptionDecorator>();
         //services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
 
         /*Query Dispatchers*/
-        services.AddSingleton<IQueryDispatcher, QueryDispatcher>();
+        services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
         //services.Decorate<IViewModelDispatcher, UtilityViewModelDecorator>();
         //services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
         //services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
         /*Query Handlers*/
-        RegisterViewModelHandlers<TState>(services);
-        RegisterMutationCommandHandlers<TState>(services);
+        RegisterFluxHandlers<TState>(services);
 
         services.Scan(_ => _
             .FromApplicationDependencies()
@@ -46,36 +35,46 @@ public static class ContainerExtensions
             .AsImplementedInterfaces()
             .WithTransientLifetime());
 
-        /*State Mutations*/
-        services.AddSingleton(new StateMutationEvents<TState>(stateEvents));
+
+        //services.Scan(_ =>  _.FromApplicationDependencies()
+        //    .FromApplicationDependencies()
+        //    .AddClasses(classes => classes.AssignableTo(typeof(IMutationCommandHandler<,>)))
+        //    .AsImplementedInterfaces()
+        //    .WithTransientLifetime());   
     }
 
-    private static void RegisterMutationCommandHandlers<TState>(IServiceCollection services)
+    private static void RegisterFluxHandlers<TState>(IServiceCollection services)
     {
-        AppDomain.CurrentDomain.GetAssemblies()
-                         .SelectMany(_ => _.DefinedTypes)
-                         .Where(_ => _.IsAssignableTo(typeof(MutationCommand)))
-                         .ToList().ForEach(_ =>
-                         {
-                             var interfaceType = typeof(ICommandHandler<,>).MakeGenericType(_, typeof(Unit));
-                             var implementationType = typeof(MutationCommandHandler<,>).MakeGenericType(typeof(TState), _);
-                             services.AddTransient(interfaceType, implementationType);
-                         });
-    }
+        bool interfacePredicate(Type _) => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(IConnectedComponent<>);
+        bool baseConnComPredicate(Type _) => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(BaseConnectedComponent<>);
+        bool isCommandPredicate(Type _) => _.IsAssignableTo(typeof(MutationCommand));
+        bool isConnComPredicate(Type _) => _.GetInterfaces().Any(interfacePredicate) && !baseConnComPredicate(_);
 
-    private static void RegisterViewModelHandlers<TState>(IServiceCollection services)
-    {
         AppDomain.CurrentDomain.GetAssemblies()
-               .SelectMany(_ => _.DefinedTypes)
-               .Where(_ => _.Namespace != null && _.Namespace.Contains("Carlton"))
-               .Where(_ => _.Name.EndsWith("ViewModel"))
-               //  .Where(_ => !_.Name.Contains("Mutation"))
-               .ToList().ForEach(_ =>
-               {
-                   var interfaceType = typeof(IQueryHandler<,>).MakeGenericType(typeof(ViewModelQuery), _);
-                   var implementationType = typeof(BaseViewModelQueryHandler<,>).MakeGenericType(typeof(TState), _);
-                   services.AddTransient(interfaceType, implementationType);
-               });
+                        .SelectMany(_ => _.DefinedTypes)
+                        .Where(_ => _.IsClass && !_.IsAbstract)
+                        .Where(_ => isCommandPredicate(_) || isConnComPredicate(_))
+                        .ToList().ForEach(_ =>
+                        {
+                            var isMutationCommand = isCommandPredicate(_);
+                            var isConnectedComponent = isConnComPredicate(_);
+
+                            if (isConnectedComponent)
+                            {
+                                //Register ViewModel Queries
+                                var vmType = _.GetInterfaces().First(interfacePredicate).GetGenericArguments()[0];
+                                var interfaceType = typeof(IViewModelQueryHandler<,>).MakeGenericType(typeof(TState), vmType);
+                                var implementationType = typeof(ViewModelQueryHandler<,>).MakeGenericType(typeof(TState), vmType);
+                                services.AddTransient(interfaceType, implementationType);
+                            }
+                            else if (isMutationCommand)
+                            {
+                                //Register Mutation Commands
+                                var interfaceType = typeof(IMutationCommandHandler<,>).MakeGenericType(typeof(TState), _);
+                                var implementationType = typeof(MutationCommandHandler<,>).MakeGenericType(typeof(TState), _);
+                                services.AddTransient(interfaceType, implementationType);
+                            }
+                        });
     }
 }
 

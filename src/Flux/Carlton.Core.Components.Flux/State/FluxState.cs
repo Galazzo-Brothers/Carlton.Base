@@ -7,13 +7,12 @@ public class FluxState<TState> : IMutableFluxState<TState>
     private readonly ILogger<FluxState<TState>> _logger;
 
     public event Func<string, Task> StateChanged;
-    public StateMutationEvents<TState> StateMutationEvents { get; }
     public IReadOnlyList<string> RecordedEventStore { get => _recordedEventStore.AsReadOnly(); }
     public TState State { get; private set; }
     private TState RollbackState { get; set; }
 
-    public FluxState(TState state, MutationResolver<TState> mutationResolver, StateMutationEvents<TState> stateMutationEvents, ILogger<FluxState<TState>> logger)
-       => (State, _mutationResolver, StateMutationEvents, _logger) = (state, mutationResolver, stateMutationEvents, logger);
+    public FluxState(TState state, MutationResolver<TState> mutationResolver, ILogger<FluxState<TState>> logger)
+       => (State, _mutationResolver, _logger) = (state, mutationResolver, logger);
 
     public async Task MutateState<TCommand>(TCommand command)
     {

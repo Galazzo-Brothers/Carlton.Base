@@ -14,11 +14,11 @@ public static class Program
 
         builder.Services.AddScoped(sp => http);
 
-        //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
-        //var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
+        var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
+        var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
 
-        var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
-        var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
+        //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
+        //var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
 
         
         /*Other*/
