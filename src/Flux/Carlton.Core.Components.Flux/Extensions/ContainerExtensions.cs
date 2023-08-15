@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Components.Flux.Decorators.Queries;
+﻿using Carlton.Core.Components.Flux.Decorators.Commands;
+using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.Handlers;
 
@@ -6,42 +7,46 @@ namespace Carlton.Core.Components.Flux;
 
 public static class ContainerExtensions
 {
-    public static void AddCarltonFlux<TState>(this IServiceCollection services, params Assembly[] assemblies)
+    public static void AddCarltonFlux<TState>(this IServiceCollection services)
     {
         /*Connected Components*/
-        services.Scan(scan => scan
-            .FromApplicationDependencies()
-            .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
-            .AsImplementedInterfaces()
-            .WithTransientLifetime());
+        RegisterFluxConnectedComponents(services);
 
-        /*Command Dispatchers*/
-        services.AddSingleton<ICommandMutationDispatcher<TState>, CommandMutationDispatcher<TState>>();
-        //services.Decorate<ICommandDispatcher, CommandValidationDecorator>();
-        //services.Decorate<ICommandDispatcher, CommandExceptionDecorator>();
-        //services.Decorate<ICommandDispatcher, CommandHttpDecorator<TState>>();
+        /*Dispatchers*/
+        RegisterFluxDispatchers<TState>(services);
 
-        /*Query Dispatchers*/
+        /*Handlers*/
+        RegisterFluxHandlers<TState>(services);
+
+        /*State Mutations*/
+        RegisterFluxStateMutations(services);
+
+        /*Validators*/
+        RegisterValidators(services);
+    }
+
+    private static void RegisterFluxDispatchers<TState>(IServiceCollection services)
+    {
+        /*ViewModel Dispatchers*/
         services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
         services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
         services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
         //services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
         //services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
 
-        /*Query Handlers*/
-        RegisterFluxHandlers<TState>(services);
+        /*Mutation Dispatchers*/
+        services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
+        services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
+        services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
+    }
 
-        services.Scan(_ => _
-            .FromApplicationDependencies()
-            .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
-            .AsImplementedInterfaces()
-            .WithTransientLifetime());
-
-        services.Scan(_ => 
-            _.FromApplicationDependencies()
-            .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-            .AsImplementedInterfaces()
-            .WithTransientLifetime());
+    private static void RegisterFluxConnectedComponents(IServiceCollection services)
+    {
+        services.Scan(scan => scan
+                    .FromApplicationDependencies()
+                    .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime());
     }
 
     private static void RegisterFluxHandlers<TState>(IServiceCollection services)
@@ -76,6 +81,24 @@ public static class ContainerExtensions
                                 services.AddTransient(interfaceType, implementationType);
                             }
                         });
+    }
+
+    private static void RegisterFluxStateMutations(IServiceCollection services)
+    {
+        services.Scan(_ => _
+            .FromApplicationDependencies()
+            .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
+    }
+
+    private static void RegisterValidators(IServiceCollection services)
+    {
+        services.Scan(_ =>
+            _.FromApplicationDependencies()
+            .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime());
     }
 }
 
