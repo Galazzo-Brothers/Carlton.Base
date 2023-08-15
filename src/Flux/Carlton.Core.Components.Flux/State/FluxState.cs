@@ -16,10 +16,12 @@ public class FluxState<TState> : IMutableFluxState<TState>
 
     public async Task MutateState<TCommand>(TCommand command)
     {
+        var displayName = typeof(TCommand).GetDisplayName();
         try
         {
+            Log.MutationApplyStarted(_logger, displayName);
+
             //Find the correct mutations and save a rollback state
-           // Log.CommandRequestProcessingStarted(_logger, typeof(TCommand).GetDisplayName(), command, RollbackState);
             var mutation = _mutationResolver.Resolve<TCommand>();
             SetRollbackState();
 
@@ -31,11 +33,12 @@ public class FluxState<TState> : IMutableFluxState<TState>
             //Update EventStore and raise event
             _recordedEventStore.Add(mutation.StateEvent);
             await InvokeStateChanged(mutation.StateEvent);
-          //  Log.CommandRequestProcessingCompleted(_logger, typeof(TCommand).GetDisplayName(), command, State);
+
+            Log.MutationCompleted(_logger, displayName);
         }
         catch(Exception ex)
         {
-           // Log.CommandRequestProcessingError(_logger, ex, typeof(TCommand).GetDisplayName(), command);
+            Log.MutationApplyError(_logger, ex, displayName);
             Rollback();
             throw;
         }

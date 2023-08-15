@@ -1,6 +1,4 @@
-﻿using Carlton.Core.InProcessMessaging.Commands;
-
-namespace Carlton.Core.Components.Flux.Contracts;
+﻿namespace Carlton.Core.Components.Flux.Contracts;
 
 public interface IMutationCommandDispatcher<TState>
 {

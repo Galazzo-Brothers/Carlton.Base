@@ -1,5 +1,4 @@
-﻿using Carlton.Core.InProcessMessaging.Commands;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using System.Text.Json;
 
 namespace Carlton.Core.Components.Flux.Decorators.Commands;

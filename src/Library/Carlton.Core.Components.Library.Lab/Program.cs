@@ -57,9 +57,7 @@ public static class Program
                    .AddParameterObjComponent<ErrorNotification>(NotificationStates.ErrorState)
                    .Build();
         },
-        testResults,
-        typeof(TestBedLayout).Assembly,
-        typeof(ComponentState).Assembly);
+        testResults);
 
 
         builder.RootComponents.Add<App>("app");

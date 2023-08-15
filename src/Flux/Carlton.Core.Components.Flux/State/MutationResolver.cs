@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Components.Flux.Contracts;
-
-namespace Carlton.Core.Components.Flux.State;
+﻿namespace Carlton.Core.Components.Flux.State;
 
 
 public class MutationResolver<TState>
