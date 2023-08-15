@@ -1,6 +1,4 @@
-﻿using Carlton.Core.InProcessMessaging.Commands;
-
-namespace Carlton.Core.Components.Flux.Decorators.Commands;
+﻿namespace Carlton.Core.Components.Flux.Decorators.Commands;
 
 public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TState>
 {

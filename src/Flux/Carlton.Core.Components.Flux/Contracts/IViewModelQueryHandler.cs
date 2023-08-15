@@ -1,7 +1,6 @@
-﻿using Carlton.Core.InProcessMessaging.Queries;
+﻿namespace Carlton.Core.Components.Flux.Contracts;
 
-namespace Carlton.Core.Components.Flux.Contracts;
-
-public interface IViewModelQueryHandler<TState, TViewModel> : IQueryHandler<ViewModelQuery, TViewModel>
+public interface IViewModelQueryHandler<TState, TViewModel> 
 {
+    public Task<TViewModel> Handle(ViewModelQuery query, CancellationToken cancellationToken);
 }

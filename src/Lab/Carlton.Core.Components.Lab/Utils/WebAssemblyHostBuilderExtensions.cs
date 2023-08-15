@@ -7,8 +7,7 @@ public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestLab(this WebAssemblyHostBuilder builder,
         Action<NavMenuViewModelBuilder> navTreeAct,
-        IDictionary<string, TestResultsReportModel> testResults = null,
-        params Assembly[] assemblies)
+        IDictionary<string, TestResultsReportModel> testResults = null)
     {
         /*NavMenu Builder*/
         var NavMenuBuilder = new NavMenuViewModelBuilder();
@@ -27,7 +26,7 @@ public static class WebAssemblyHostBuilderExtensions
         MapsterConfig.RegisterMapsterConfiguration();
 
         /*Flux Registers*/
-        builder.Services.AddCarltonFlux<LabState>(assemblies);
+        builder.Services.AddCarltonFlux<LabState>();
     }
 }
 

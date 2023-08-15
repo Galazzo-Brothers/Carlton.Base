@@ -77,6 +77,24 @@ public static partial class Log
     public static partial void MutationHttpInterceptionError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
+      EventId = LogEvents.Mutation_Apply_Started,
+      Level = LogLevel.Information,
+      Message = "Started Applying Mutation {Type} to StateStore")]
+    public static partial void MutationApplyStarted(ILogger logger, string type);
+
+    [LoggerMessage(
+        EventId = LogEvents.Mutation_Apply_Completed,
+        Level = LogLevel.Information,
+        Message = "Completed Applying Mutation {Type} to StateStore")]
+    public static partial void MutationApplyCompleted(ILogger logger, string type);
+
+    [LoggerMessage(
+      EventId = LogEvents.Mutation_Apply_Error,
+      Level = LogLevel.Error,
+      Message = "Error Applying Mutation {Type} to StateStore, rolling StateStore back to previous state")]
+    public static partial void MutationApplyError(ILogger logger, Exception ex, string type);
+
+    [LoggerMessage(
        EventId = LogEvents.Mutation_Completed,
        Level = LogLevel.Information,
        Message = "Completed Mutation {Type}")]

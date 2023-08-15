@@ -1,9 +1,8 @@
-﻿using Carlton.Core.InProcessMessaging.Commands;
-
-namespace Carlton.Core.Components.Flux.Handlers;
+﻿namespace Carlton.Core.Components.Flux.Handlers;
 
 
 public class MutationCommandHandler<TState, TCommand> : IMutationCommandHandler<TState, TCommand>
+    where TCommand : MutationCommand
 {
     protected IMutableFluxState<TState> State { get; }
 
