@@ -4,8 +4,8 @@
 @typeparam TViewModel
 @typeparam TState
 @inject IConnectedComponent<TViewModel> Component
-@inject IQueryDispatcher QueryDispatcher
-@inject ICommandDispatcher CommandDispatcher
+@inject IViewModelQueryDispatcher<TState> QueryDispatcher
+@inject ICommandMutationDispatcher<TState> CommandDispatcher
 @inject IFluxStateObserver<TState> StateStore
 @inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
@@ -31,9 +31,6 @@
         //Get VM and initalize context for wrapped component
         ViewModel = await GetViewModel();
 
-        System.Console.WriteLine(Component.GetType().GetDisplayName());
-        System.Console.WriteLine(ViewModel);
-
         //Gather the StateEvents this component should be listening for
         var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
         ObserveableStateEvents = attributes.Select(_ => _.StateEvent);
@@ -45,12 +42,12 @@
     protected async virtual Task<TViewModel> GetViewModel()
     {
         var query = new ViewModelQuery();
-        return await QueryDispatcher.Dispatch<ViewModelQuery, TViewModel>(query, CancellationToken.None);
+        return await QueryDispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        await CommandDispatcher.Dispatch(command, CancellationToken.None);
+        await CommandDispatcher.Dispatch((dynamic) command, CancellationToken.None);
     }
 
     protected virtual async Task<bool> OnStateChanged(string stateEvent)
