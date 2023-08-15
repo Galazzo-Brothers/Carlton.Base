@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Carlton.Core.InProcessMessaging\Carlton.Core.InProcessMessaging.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Carlton.Core.Infrastructure\Carlton.Core.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Carlton.Core.Infrastructure\Carlton.Core.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
