@@ -9,10 +9,21 @@
 @inject IFluxStateObserver<TState> StateStore
 @inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
-<DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+@if (IsLoading)
+{
+    @SpinnerContent
+}
+else
+{
+    //TODO add DataComponentErrorBoundary when it is available
+    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+}
 
 
 @code {
+    [Parameter]
+    public RenderFragment SpinnerContent { get; set; }
+
     public Object State { get => StateStore; }
 
     public Type WrappedComponentType { get => Component.GetType(); }
@@ -23,8 +34,16 @@
 
     public IEnumerable<string> ObserveableStateEvents { get; private set; } = new List<string>();
 
+    public bool IsLoading { get; private set; }
+
     protected async override Task OnInitializedAsync()
     {
+        //Log Init Start
+        Log.DataWrapperOnInitializedStarted(Logger, WrappedComponentDisplayName);
+
+        //Set IsLoading to true
+        IsLoading = true;
+
         //Register State Changed Handler
         StateStore.StateChanged += OnStateChanged;
 
@@ -35,11 +54,17 @@
         var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
         ObserveableStateEvents = attributes.Select(_ => _.StateEvent);
 
+        //Set IsLoading to false
+        IsLoading = false;
+
         //Continue initilization
         await base.OnInitializedAsync();
+
+        //Log Init Completed
+        Log.DataWrapperOnInitializedCompleted(Logger, WrappedComponentDisplayName);
     }
 
-    protected async virtual Task<TViewModel> GetViewModel()
+    protected async Task<TViewModel> GetViewModel()
     {
         var query = new ViewModelQuery();
         return await QueryDispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
@@ -47,20 +72,35 @@
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        await CommandDispatcher.Dispatch((dynamic) command, CancellationToken.None);
+        await CommandDispatcher.Dispatch((dynamic)command, CancellationToken.None);
     }
 
-    protected virtual async Task<bool> OnStateChanged(string stateEvent)
+    protected async Task OnStateChanged(string stateEvent)
     {
-        if(!ObserveableStateEvents.Contains(stateEvent))
-            return false;
-  
-        ViewModel = await GetViewModel();
-        StateHasChanged();
-        return true;
+        var stateUpdated = false;
+        var observableStateEventsString = string.Join(',', ObserveableStateEvents);
+        Log.DataWrapperEventReceived(Logger, WrappedComponentDisplayName, stateEvent, observableStateEventsString);
+
+        if (ObserveableStateEvents.Contains(stateEvent))
+        {
+            //IsLoading true
+            IsLoading = true;
+
+            //Refresh ViewModel
+            ViewModel = await GetViewModel();
+            StateHasChanged();
+
+            //IsLoading flase
+            IsLoading = false;
+
+            //State was refreshed
+            stateUpdated = true;
+        }
+
+        Log.DataWrapperEventCompleted(Logger, WrappedComponentDisplayName, stateEvent, stateUpdated);
     }
 
-    protected virtual Dictionary<string, object> GetParameters()
+    protected Dictionary<string, object> GetParameters()
     {
         var eventCallback = EventCallback.Factory.Create<MutationCommand>(this, (command) => OnComponentEvent(Component, command));
         return new Dictionary<string, object>
