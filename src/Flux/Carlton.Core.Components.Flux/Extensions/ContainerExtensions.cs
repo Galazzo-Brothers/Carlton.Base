@@ -1,6 +1,7 @@
 ﻿using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Dispatchers;
+using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
 
 namespace Carlton.Core.Components.Flux;
@@ -23,6 +24,10 @@ public static class ContainerExtensions
 
         /*Validators*/
         RegisterValidators(services);
+
+        /*Exception Handling*/
+        RegisterExceptionHandling(services);
+
     }
 
     private static void RegisterFluxDispatchers<TState>(IServiceCollection services)
@@ -99,6 +104,12 @@ public static class ContainerExtensions
             .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
             .AsImplementedInterfaces()
             .WithTransientLifetime());
+    }
+
+    private static void RegisterExceptionHandling(IServiceCollection services)
+    {
+        services.AddSingleton<IExceptionDisplayService, FluxExceptionDisplayService>();
+        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
     }
 }
 

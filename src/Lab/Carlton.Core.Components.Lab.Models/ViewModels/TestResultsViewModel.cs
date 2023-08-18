@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Infrastructure.UnitTesting;
+﻿using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Lab.Models;
 

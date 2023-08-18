@@ -10,23 +10,36 @@
     <div class="error-body">
         <div class="content">
             <span class="message">@ErrorMessage</span>
-            <button class="retry-btn" onclick="@OnClick">Retry</button>
+            <button class="retry-btn" @onclick="OnClick">Retry</button>
         </div>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public string ErrorHeader { get; set; }
-
-    [Parameter]
-    public string ErrorMessage { get; set; }
-
-    [Parameter]
-    public string IconClass { get; set; }
+    public Exception Exception { get; set; }
 
     [Parameter]
     public EventCallback OnClick { get; set; }
+
+    [Parameter]
+    public Func<Exception, (string errorHeader, string errorMessage, string iconClass)> ExceptionDisplayFunc { get; set; }
+
+    [Parameter]
+    public Action<Exception> ExceptionLogAct { get; set; }
+
+    private string ErrorHeader { get; set; }
+
+    private string ErrorMessage { get; set; }
+
+    private string IconClass { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        (ErrorHeader, ErrorMessage, IconClass) = ExceptionDisplayFunc(Exception);
+        ExceptionLogAct(Exception);
+    }
 
     private string IconCss
     {
