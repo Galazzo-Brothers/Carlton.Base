@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Carlton.Core.Infrastructure.Test.UnitTesting.XUnit;
+namespace Carlton.Core.Utilities.Test.UnitTesting.XUnit;
 
 public class XUnitParserGroupedTestData : IEnumerable<object[]>
 {

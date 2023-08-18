@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Infrastructure.Extensions;
+﻿namespace Carlton.Core.Utilities.Extensions;
 
 public static class TypeExtensions
 {

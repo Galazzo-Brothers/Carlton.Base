@@ -1,5 +1,5 @@
 ﻿
-namespace CarltonCore.Infrastructure.Extensions;
+namespace Carlton.Core.Utilities.Extensions;
 
 public static class ObjectExtensions
 {

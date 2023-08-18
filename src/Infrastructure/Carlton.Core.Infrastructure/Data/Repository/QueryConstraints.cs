@@ -1,5 +1,5 @@
 ﻿
-namespace Carlton.Core.Infrastructure.Data;
+namespace Carlton.Core.Utilities.Data;
 
 public class QueryConstraints<T> : IQueryConstraints<T> where T : class
 {

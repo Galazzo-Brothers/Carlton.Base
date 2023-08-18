@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Infrastructure.UnitTesting;
+﻿namespace Carlton.Core.Utilities.UnitTesting;
 
 public record TestResultsReportModel
 {

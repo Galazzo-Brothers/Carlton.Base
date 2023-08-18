@@ -1,10 +1,10 @@
-﻿namespace Carlton.Core.Infrastructure.Resiliance;
+﻿namespace Carlton.Core.Utilities.Resilience;
 
-public class HttpResiliancePolicyHandler : IResiliancePolicyHandler<HttpResponseMessage>
+public class HttpResiliencePolicyHandler : IResiliencePolicyHandler<HttpResponseMessage>
 {
-    private readonly ILogger<HttpResiliancePolicyHandler> _logger;
+    private readonly ILogger<HttpResiliencePolicyHandler> _logger;
 
-    public HttpResiliancePolicyHandler(ILogger<HttpResiliancePolicyHandler> logger)
+    public HttpResiliencePolicyHandler(ILogger<HttpResiliencePolicyHandler> logger)
     {
         _logger = logger;
     }
@@ -38,8 +38,9 @@ public class HttpResiliancePolicyHandler : IResiliancePolicyHandler<HttpResponse
         if (policyResult.Outcome == OutcomeType.Failure)
         {
             var requestUrl = policyResult.Result.RequestMessage.RequestUri;
-            _logger.LogWarning($"Failed to reach remote server: {requestUrl} with resiliance policy, throwing exception");
-            throw new RemoteServerException(policyResult.Result, policyResult.FinalException);
+            var message = $"Failed to reach remote server: {requestUrl} with resilience policy";
+            _logger.LogWarning($"{message}, throwing exception");
+            throw new HttpRequestException(message, policyResult.FinalException, policyResult.Result.StatusCode);
         }
     }
 }

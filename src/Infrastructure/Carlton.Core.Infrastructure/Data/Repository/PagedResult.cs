@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Infrastructure.Data;
+﻿namespace Carlton.Core.Utilities.Data;
 
 public class PagedResult<T>
 {
