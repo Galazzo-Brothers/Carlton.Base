@@ -20,10 +20,6 @@ public static class Program
         //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
         //var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
 
-        
-        /*Other*/
-        builder.Services.AddTransient<IExceptionDisplayService, ExceptionDisplayService>();
-
         builder.AddCarltonTestLab(builder =>
         {
             //Base Components

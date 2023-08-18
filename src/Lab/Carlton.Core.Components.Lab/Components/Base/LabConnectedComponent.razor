@@ -1,0 +1,13 @@
+﻿@namespace Carlton.Core.Components.Lab
+@typeparam TViewModel
+
+
+<LabComponentErrorBoundary TComponent="IConnectedComponent<TViewModel>">
+    <ChildContent>
+        <ConnectedWrapper TViewModel="TViewModel" TState="LabState">
+            <SpinnerContent>
+                <Spinner />
+            </SpinnerContent>
+        </ConnectedWrapper>
+    </ChildContent>
+</LabComponentErrorBoundary>

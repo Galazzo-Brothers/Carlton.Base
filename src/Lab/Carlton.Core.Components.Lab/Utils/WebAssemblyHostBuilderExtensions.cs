@@ -1,6 +1,5 @@
 ﻿using Carlton.Core.Components.Flux.State;
 
-
 namespace Carlton.Core.Components.Lab;
 
 public static class WebAssemblyHostBuilderExtensions

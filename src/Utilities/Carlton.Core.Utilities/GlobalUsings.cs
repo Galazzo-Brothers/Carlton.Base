@@ -15,7 +15,6 @@ global using System.Text.Json.Serialization;
 global using System.Xml.Linq;
 global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.Logging;
-global using FluentValidation;
 global using Polly;
 global using Polly.Wrap;
 
