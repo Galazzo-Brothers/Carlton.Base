@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Infrastructure.Test.UnitTesting.Trx;
+﻿namespace Carlton.Core.Utilities.Test.UnitTesting.Trx;
 public static class TrxParserSampleSources
 {
     public const string ExceptionMessage = "Content is not a valid Trx file.";

@@ -2,7 +2,6 @@
 global using System.Collections.Generic;
 global using System.ComponentModel;
 global using System.Data;
-global using System.Diagnostics;
 global using System.Globalization;
 global using System.Linq;
 global using System.Linq.Expressions;
@@ -19,7 +18,6 @@ global using Microsoft.Extensions.Logging;
 global using FluentValidation;
 global using Polly;
 global using Polly.Wrap;
-global using Carlton.Core.Infrastructure.Exceptions;
 
 
 
