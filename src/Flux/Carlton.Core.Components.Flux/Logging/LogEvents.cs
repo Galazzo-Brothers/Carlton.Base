@@ -2,40 +2,11 @@
 
 public static class LogEvents
 {
-    //Debug Lifecycle Methods
-    public const int DataWrapper_IsLoadingChanged = 10;
-    public const int DataWrapper_OnInitialized_Started = 11;
-    public const int DataWrapper_OnInitialized_Completed = 12;
-    public const int DataWrapper_OnInitialized_Async_Started = 13;
-    public const int DataWrapper_OnInitialized_Async_Completed = 14;
-    public const int DataWrapper_OnParametersSet_Started = 15;
-    public const int DataWrapper_OnParametersSet_Completed = 16;
-    public const int DataWrapper_OnParametersSet_Async_Started = 17;
-    public const int DataWrapper_OnParametersSet_Async_Completed = 18;
-    public const int DataWrapper_OnAfterRender_Started = 19;
-    public const int DataWrapper_OnAfterRender_Completed = 20;
-    public const int DataWrapper_OnAfterRender_Async_Started = 21;
-    public const int DataWrapper_OnAfterRender_Async_Completed = 22;
-
-    public const int DataComponent_OnInitialized_Started = 23;
-    public const int DataComponent_OnInitialized_Completed = 24;
-    public const int DataComponent_OnInitialized_Async_Started = 25;
-    public const int DataComponent_OnInitialized_Async_Completed = 26;
-    public const int DataComponent_OnParametersSet_Started = 27;
-    public const int DataComponent_OnParametersSet_Completed = 28;
-    public const int DataComponent_OnParametersSet_Async_Started = 29;
-    public const int DataComponent_OnParametersSet_Async_Completed = 30;
-    public const int DataComponent_OnAfterRender_Started = 31;
-    public const int DataComponent_OnAfterRender_Completed = 32;
-    public const int DataComponent_OnAfterRender_Async_Started = 33;
-    public const int DataComponent_OnAfterRender_Async_Completed = 34;
-
-
     //DataComponent
-    public const int DataWrapper_Event_Received = 100;
-    public const int DataWrapper_Event_Completed = 101;
-    public const int DataWrapper_Parameters_Setting = 102;
-    public const int DataWrapper_Parameters_Set = 103;
+    public const int DataWrapper_OnInitialized_Started = 101;
+    public const int DataWrapper_OnInitialized_Completed = 102;
+    public const int DataWrapper_Event_Received = 103;
+    public const int DataWrapper_Event_Completed = 104;
 
     //DataComponent Errors
     public const int DataWrapper_Error = 110;
