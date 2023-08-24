@@ -1,8 +1,8 @@
 ﻿namespace Carlton.Core.Components.Flux.Models;
 
-public record ViewModelQuery(Guid QueryID)
+public record ViewModelQuery(object Sender, Guid QueryID)
 {
-    public ViewModelQuery() : this(Guid.NewGuid())
+    public ViewModelQuery(object sender) : this(sender, Guid.NewGuid())
     { 
     }   
 }

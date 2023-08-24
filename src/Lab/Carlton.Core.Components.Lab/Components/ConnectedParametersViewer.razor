@@ -8,7 +8,7 @@
 <div class="parameters-viewer">
     <JsonViewerConsole Obj="ViewModel.ComponentParameters.ParameterObj"
                        IsReadOnly="false"
-                       OnChangeCallback="obj => base.OnComponentEvent.InvokeAsync(new UpdateParametersCommand(obj))" />
+                       OnChangeCallback="obj => base.OnComponentEvent.InvokeAsync(new UpdateParametersCommand(this, obj))" />
 </div>
 
 
