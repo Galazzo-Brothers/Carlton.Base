@@ -1,47 +1,45 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Commands;
+﻿using System.Net.Http.Json;
 
-//public class CommandHttpDecorator<TState> : ICommandDispatcher
-//{
-//    private readonly ICommandDispatcher _decorated;
-//    private readonly HttpClient _client;
-//    private readonly ILogger<CommandHttpDecorator<TState>> _logger;
+namespace Carlton.Core.Components.Flux.Decorators.Mutations;
 
-//    public CommandHttpDecorator(ICommandDispatcher decorated, HttpClient client, ILogger<CommandHttpDecorator<TState>> logger)
-//        => (_decorated, _client, _logger) = (decorated, client, logger);
+public class CommandHttpDecorator<TState> : IMutationCommandDispatcher<TState>
+{
+    private readonly IMutationCommandDispatcher<TState> _decorated;
+    private readonly HttpClient _client;
+    private readonly ILogger<CommandHttpDecorator<TState>> _logger;
 
-//    public async Task<Unit> Dispatch<TCommand>(ComponentCommandRequest<TCommand> request, CancellationToken cancellationToken)
-//    {
-//        var attributes = request.Sender.GetType().GetCustomAttributes();
-//        var urlAttribute = attributes.OfType<CommandEndpointAttribute>().FirstOrDefault();
-//        var shouldCallSever = urlAttribute != null;
+    public CommandHttpDecorator(IMutationCommandDispatcher<TState> decorated, HttpClient client, ILogger<CommandHttpDecorator<TState>> logger)
+        => (_decorated, _client, _logger) = (decorated, client, logger);
 
-//        if (shouldCallSever)
-//            await CallServer(urlAttribute.Route, request, cancellationToken);
-//        else
-//            Log.CommandRequestHttpCallSkipped(_logger, request.DisplayName, request);
+    public async Task<Unit> Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+        where TCommand : MutationCommand
+    {
+        var attributes = command.Sender.GetType().GetCustomAttributes();
+        var urlAttribute = attributes.OfType<CommandEndpointAttribute>().FirstOrDefault();
+        var shouldCallSever = urlAttribute != null;
+        var commandType = typeof(TCommand).GetDisplayName();
 
-//        return await _decorated.Dispatch(request, cancellationToken);
-//    }
+        if(shouldCallSever)
+        {
+            //Start the Http Interception
+            Log.MutationHttpInterceptionStarted(_logger, commandType);
+            var response = await _client.PostAsJsonAsync(urlAttribute.Route, command, cancellationToken);
+            response.EnsureSuccessStatusCode();
 
-//    public async Task CallServer<TCommand>(string url, ComponentCommandRequest<TCommand> request, CancellationToken cancellationToken)
-//    {
-//        try
-//        {
-//            Log.CommandRequestHttpCallStarted(_logger, request.DisplayName, request);
-//            var response = await _client.PostAsJsonAsync(url, request, cancellationToken);
+            //Parse the Server Response and Update the command
+            var parsedResponse = await response.Content.ReadFromJsonAsync<TCommand>(cancellationToken: cancellationToken);
+            command.UpdateCommandWithExternalResponse(parsedResponse);
+            
+            //End the Http Interception
+            Log.MutationHttpInterceptionCompleted(_logger, commandType);
+        }
+        else
+        {
+            //Skip Http Interception
+            Log.MutationHttpInterceptionSkipped(_logger, commandType);
+        }
 
-//            //var responseCommand = await response.Content.ReadFromJsonAsync<TCommand>(cancellationToken: cancellationToken);
-//            //responseCommand.Adapt(request.Command);
-
-//            request.MarkAsServerCalled(url);
-//            response.EnsureSuccessStatusCode();
-//            Log.CommandRequestHttpCallCompleted(_logger, request.DisplayName, request);
-//        }
-//        catch (HttpRequestException ex)
-//        {
-//            request.MarkErrored(LogEvents.Command_HttpCall_Error);
-//            Log.CommandRequestHttpCallError(_logger, ex, request.DisplayName, request);
-//            throw;
-//        }
-//    }
-//}
+        //Continue the Dispatch Pipeline
+        return await _decorated.Dispatch(command, cancellationToken);
+    }
+}

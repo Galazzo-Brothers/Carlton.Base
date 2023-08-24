@@ -1,120 +1,89 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Queries;
+﻿using Carlton.Core.Components.Flux.Attributes;
+using Carlton.Core.Components.Flux.State;
+using System.Net.Http.Json;
 
-//public class ViewModelHttpDecorator<TState> : IViewModelDispatcher
-//{
-//    private readonly IViewModelDispatcher _decorated;
-//    private readonly HttpClient _client;
-//    private readonly ILogger<ViewModelHttpDecorator<TState>> _logger;
+namespace Carlton.Core.Components.Flux.Decorators.ViewModels;
 
-//    public ViewModelHttpDecorator(IViewModelDispatcher decorated, HttpClient client, ILogger<ViewModelHttpDecorator<TState>> logger)
-//        => (_decorated, _client, _logger) = (decorated, client, logger);
+public class ViewModelHttpDecorator<TState> : IViewModelQueryDispatcher<TState>
+{
+    private readonly IViewModelQueryDispatcher<TState> _decorated;
+    private readonly HttpClient _client;
+    private readonly IFluxState<TState> _fluxState;
+    private readonly ILogger<ViewModelHttpDecorator<TState>> _logger;
 
-//    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQueryRequest<TViewModel> request, CancellationToken cancellationToken)
-//    {
-//        //Get RefreshPolicy Attribute
-//        var attributes = request.Sender.GetType().GetCustomAttributes();
-//        var refreshPolicyAttribute = attributes.OfType<ViewModelEndpointRefreshPolicyAttribute>().FirstOrDefault();
-//        var requiresRefresh = GetRefreshPolicy(refreshPolicyAttribute);
+    public ViewModelHttpDecorator(IViewModelQueryDispatcher<TState> decorated, HttpClient client, IFluxState<TState> fluxState, ILogger<ViewModelHttpDecorator<TState>> logger)
+        => (_decorated, _client, _fluxState, _logger) = (decorated, client, fluxState, logger);
 
-//        if (requiresRefresh)
-//        {
-//            //Log HttpRefresh Process
-//            Log.ViewModelRequestHttpRefreshStarting(_logger, request.DisplayName, request);
+    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
+    {
+        //Get RefreshPolicy Attribute
+        var attributes = query.Sender.GetType().GetCustomAttributes();
+        var refreshPolicyAttribute = attributes.OfType<ViewModelEndpointRefreshPolicyAttribute>().FirstOrDefault();
+        var requiresRefresh = GetRefreshPolicy(refreshPolicyAttribute);
+        var vmType = typeof(TViewModel).GetDisplayName();
 
-//            //Construct Http Refresh URL
-//            var urlAttribute = attributes.OfType<ViewModelEndpointAttribute>().FirstOrDefault();
-//            var urlParameterAttributes = attributes.OfType<ViewModelEndpointParameterAttribute>() ?? new List<ViewModelEndpointParameterAttribute>();
-//            var serverUrl = GetServerUrlWrapperCall(request, urlAttribute, urlParameterAttributes, request.Sender);
+        if(requiresRefresh)
+        {
+            //Log HttpRefresh Process
+            Log.ViewModelHttpRefreshStarted(_logger, vmType);
 
-//            //Update State with Http Refresh
-//            await RefreshViewModel(request, serverUrl, cancellationToken);
+            //Construct Http Refresh URL
+            var urlAttribute = attributes.OfType<ViewModelEndpointAttribute>().FirstOrDefault();
+            var urlParameterAttributes = attributes.OfType<ViewModelEndpointParameterAttribute>() ?? new List<ViewModelEndpointParameterAttribute>();
+            var serverUrl = GetServerUrl(urlAttribute, urlParameterAttributes, query.Sender);
 
-//            //Logging and Auditing 
-//            refreshPolicyAttribute.InitialRequestOccurred = true;
-//            request.MarkAsServerCalled(serverUrl);
-//            Log.ViewModelRequestHttpRefreshCompleted(_logger, request.DisplayName, request);
-//        }
-//        else
-//        {
-//            Log.ViewModelRequestSkippingHttpRefresh(_logger, request.DisplayName, request);
-//        }
+            //Http Refresh ViewModel
+            var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
+            
+            //Update the StateStore
+            viewModel.Adapt(_fluxState.State);
 
-//        return await _decorated.Dispatch(request, cancellationToken);
-//    }
+            //Logging and Auditing 
+            refreshPolicyAttribute.InitialRequestOccurred = true;
+            Log.ViewModelHttpRefreshCompleted(_logger, vmType);
+        }
+        else
+        {
+            Log.ViewModelHttpRefreshSkipped(_logger, vmType);
+        }
 
-//    private async Task RefreshViewModel<TViewModel>(ViewModelQueryRequest<TViewModel> request, string serverUrl, CancellationToken cancellationToken)
-//    {
-//        try
-//        {
-//            var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
-//            viewModel.Adapt((TState)request.State);
-//        }
-//        catch (HttpRequestException ex)
-//        {
-//            request.MarkErrored(LogEvents.ViewModelRequest_HttpRefresh_Http_Error);
-//            Log.ViewModelRequestHttpRefreshError(_logger, ex, request.DisplayName, request);
-//            throw;
-//        }
-//        catch (Exception ex)
-//        {
-//            request.MarkErrored(LogEvents.ViewModelRequest_HttpRefresh_Mapping_Error);
-//            Log.ViewModelRequestHttpRefreshMappingError(_logger, ex, request.DisplayName, request);
-//            throw;
-//        }
-//    }
+        return await _decorated.Dispatch<TViewModel>(query, cancellationToken);
+    }
 
-//    private static bool GetRefreshPolicy(ViewModelEndpointRefreshPolicyAttribute attribute)
-//    {
-//        return attribute?.DataEndpointRefreshPolicy switch
-//        {
-//            DataEndpointRefreshPolicy.Never => false,
-//            DataEndpointRefreshPolicy.Always => true,
-//            DataEndpointRefreshPolicy.InitOnly => attribute.InitialRequestOccurred,
-//            _ => false
-//        };
-//    }
+    private static bool GetRefreshPolicy(ViewModelEndpointRefreshPolicyAttribute attribute)
+    {
+        return attribute?.DataEndpointRefreshPolicy switch
+        {
+            DataEndpointRefreshPolicy.Never => false,
+            DataEndpointRefreshPolicy.Always => true,
+            DataEndpointRefreshPolicy.InitOnly => attribute.InitialRequestOccurred,
+            _ => false
+        };
+    }
 
-//    private string GetServerUrlWrapperCall<TViewModel>(
-//        ViewModelQueryRequest<TViewModel> request,
-//        ViewModelEndpointAttribute endpointAttribute,
-//        IEnumerable<ViewModelEndpointParameterAttribute> parameterAttributes,
-//        IDataWrapper sender)
-//    {
-//        try
-//        {
-//            return GetServerUrl(endpointAttribute, parameterAttributes, sender);
-//        }
-//        catch (Exception ex)
-//        {
-//            request.MarkErrored(LogEvents.ViewModelRequest_HttpRefresh_RouteConstruction_Error);
-//            Log.ViewModelRequestHttpRefreshRouteConstructionError(_logger, ex, request.DisplayName, request);
-//            throw;
-//        }
-//    }
+    private static string GetServerUrl(
+        ViewModelEndpointAttribute endpointAttribute,
+        IEnumerable<ViewModelEndpointParameterAttribute> parameterAttributes,
+        object sender)
+    {
 
-//    private static string GetServerUrl(
-//        ViewModelEndpointAttribute endpointAttribute,
-//        IEnumerable<ViewModelEndpointParameterAttribute> parameterAttributes,
-//        IDataWrapper sender)
-//    {
+        if(endpointAttribute == null)
+            throw new InvalidOperationException($"The {nameof(ViewModelEndpointAttribute)} attribute is missing from the component");
 
-//        if (endpointAttribute == null)
-//            throw new InvalidOperationException($"The {nameof(ViewModelEndpointAttribute)} attribute is missing from the component");
+        var result = endpointAttribute.Route;
 
-//        var result = endpointAttribute.Route;
+        foreach(var attribute in parameterAttributes)
+        {
+            var value = string.Empty;
+            value = attribute.ParameterType switch
+            {
+               // DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender.State).ToString(),
+                DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
+                _ => throw new Exception("Unsupported DataEndpoint Parameter Type"),
+            };
+            result = result.Replace("{" + attribute.Name + "}", value);
+        }
 
-//        foreach (var attribute in parameterAttributes)
-//        {
-//            var value = string.Empty;
-//            value = attribute.ParameterType switch
-//            {
-//                DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender.State).ToString(),
-//                DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-//                _ => throw new Exception("Unsupported DataEndpoint Parameter Type"),
-//            };
-//            result = result.Replace("{" + attribute.Name + "}", value);
-//        }
-
-//        return result;
-//    }
-//}
+        return result;
+    }
+}

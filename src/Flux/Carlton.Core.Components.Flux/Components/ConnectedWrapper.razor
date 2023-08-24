@@ -1,5 +1,4 @@
 ﻿@namespace Carlton.Core.Components.Flux
-@implements IDataWrapper
 @implements IDisposable
 @typeparam TViewModel
 @typeparam TState
@@ -22,8 +21,6 @@ else
 @code {
     [Parameter]
     public RenderFragment SpinnerContent { get; set; }
-
-    public Object State { get => StateStore; }
 
     public Type WrappedComponentType { get => Component.GetType(); }
 
@@ -65,7 +62,7 @@ else
 
     protected async Task<TViewModel> GetViewModel()
     {
-        var query = new ViewModelQuery();
+        var query = new ViewModelQuery(Component);
         return await QueryDispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
     }
 
