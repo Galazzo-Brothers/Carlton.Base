@@ -16,7 +16,5 @@ public enum HttpVerb
 public enum DataEndpointRefreshPolicy
 {
     Never,
-    Always,
-    InitOnly,
-    Expired
+    Always
 }

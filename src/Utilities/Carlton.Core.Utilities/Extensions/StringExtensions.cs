@@ -22,5 +22,12 @@ public static class StringExtensions
 
         return newStr;
     }
+
+    public static string TrimTrailingComma(this string str)
+    {
+        char[] charsToTrim = { ' ', ',' };
+
+        return str.TrimEnd(charsToTrim);
+    }
 }
 
