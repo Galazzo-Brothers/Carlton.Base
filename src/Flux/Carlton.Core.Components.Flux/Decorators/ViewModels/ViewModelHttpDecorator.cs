@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Flux.Attributes;
-using Carlton.Core.Components.Flux.State;
 using System.Net.Http.Json;
+using System.Text.RegularExpressions;
 
 namespace Carlton.Core.Components.Flux.Decorators.ViewModels;
 
@@ -18,8 +18,8 @@ public class ViewModelHttpDecorator<TState> : IViewModelQueryDispatcher<TState>
     {
         //Get RefreshPolicy Attribute
         var attributes = query.Sender.GetType().GetCustomAttributes();
-        var refreshPolicyAttribute = attributes.OfType<ViewModelEndpointRefreshPolicyAttribute>().FirstOrDefault();
-        var requiresRefresh = GetRefreshPolicy(refreshPolicyAttribute);
+        var httpRefreshAttribute = attributes.OfType<ViewModelHttpRefreshAttribute>().FirstOrDefault();
+        var requiresRefresh =  GetRefreshPolicy<TViewModel>(httpRefreshAttribute);
         var vmType = typeof(TViewModel).GetDisplayName();
 
         if(requiresRefresh)
@@ -28,18 +28,16 @@ public class ViewModelHttpDecorator<TState> : IViewModelQueryDispatcher<TState>
             Log.ViewModelHttpRefreshStarted(_logger, vmType);
 
             //Construct Http Refresh URL
-            var urlAttribute = attributes.OfType<ViewModelEndpointAttribute>().FirstOrDefault();
-            var urlParameterAttributes = attributes.OfType<ViewModelEndpointParameterAttribute>() ?? new List<ViewModelEndpointParameterAttribute>();
-            var serverUrl = GetServerUrl(urlAttribute, urlParameterAttributes, query.Sender);
+            var urlParameterAttributes = attributes.OfType<ViewModelHttpRefreshParameterAttribute>() ?? new List<ViewModelHttpRefreshParameterAttribute>();
+            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, query.Sender);
 
             //Http Refresh ViewModel
             var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
-            
+
             //Update the StateStore
             viewModel.Adapt(_fluxState.State);
 
             //Logging and Auditing 
-            refreshPolicyAttribute.InitialRequestOccurred = true;
             Log.ViewModelHttpRefreshCompleted(_logger, vmType);
         }
         else
@@ -50,26 +48,21 @@ public class ViewModelHttpDecorator<TState> : IViewModelQueryDispatcher<TState>
         return await _decorated.Dispatch<TViewModel>(query, cancellationToken);
     }
 
-    private static bool GetRefreshPolicy(ViewModelEndpointRefreshPolicyAttribute attribute)
+    private static bool GetRefreshPolicy<TViewModel>(ViewModelHttpRefreshAttribute attribute)
     {
-        return attribute?.DataEndpointRefreshPolicy switch
+        return attribute?.DataRefreshPolicy switch
         {
             DataEndpointRefreshPolicy.Never => false,
             DataEndpointRefreshPolicy.Always => true,
-            DataEndpointRefreshPolicy.InitOnly => attribute.InitialRequestOccurred,
             _ => false
         };
     }
 
-    private static string GetServerUrl(
-        ViewModelEndpointAttribute endpointAttribute,
-        IEnumerable<ViewModelEndpointParameterAttribute> parameterAttributes,
+    private string GetServerUrl(
+        ViewModelHttpRefreshAttribute endpointAttribute,
+        IEnumerable<ViewModelHttpRefreshParameterAttribute> parameterAttributes,
         object sender)
     {
-
-        if(endpointAttribute == null)
-            throw new InvalidOperationException($"The {nameof(ViewModelEndpointAttribute)} attribute is missing from the component");
-
         var result = endpointAttribute.Route;
 
         foreach(var attribute in parameterAttributes)
@@ -77,13 +70,40 @@ public class ViewModelHttpDecorator<TState> : IViewModelQueryDispatcher<TState>
             var value = string.Empty;
             value = attribute.ParameterType switch
             {
-               // DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender.State).ToString(),
+                DataEndpointParameterType.StateStoreParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_fluxState.State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
                 _ => throw new Exception("Unsupported DataEndpoint Parameter Type"),
             };
             result = result.Replace("{" + attribute.Name + "}", value);
         }
 
+        VerifyUrlParameters(result);
+
+       
+
         return result;
+    }
+
+    private static void VerifyUrlParameters(string url)
+    {
+        var message = "The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: ";
+     
+        //Check for any unreplaced parameters
+        var match = new Regex("\\{[^}]+\\}").Match(url);
+
+        //If there are none continue
+        if (!match.Success)
+            return;
+
+        while(match.Success)
+        {
+            message += match.Value + ", ";
+
+            match = match.NextMatch();
+        }
+
+        message = message.TrimTrailingComma();
+
+        throw new InvalidOperationException(message);
     }
 }
