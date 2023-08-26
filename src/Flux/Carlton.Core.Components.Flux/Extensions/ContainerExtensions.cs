@@ -3,13 +3,18 @@ using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
+using Carlton.Core.Components.Flux.State;
 
 namespace Carlton.Core.Components.Flux;
 
 public static class ContainerExtensions
 {
-    public static void AddCarltonFlux<TState>(this IServiceCollection services)
+    public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state)
+        where TState : class
     {
+        /*Flux State*/
+        RegisterFluxState(services, state);
+
         /*Connected Components*/
         RegisterFluxConnectedComponents(services);
 
@@ -28,6 +33,18 @@ public static class ContainerExtensions
         /*Exception Handling*/
         RegisterExceptionHandling(services);
 
+    }
+
+    private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
+        where TState : class
+    {
+        /*LabState*/
+        services.AddSingleton(state);
+
+        services.AddSingleton<IMutableFluxState<TState>, FluxState<TState>>();
+        services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
+        services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
+        services.AddSingleton<MutationResolver<TState>>();
     }
 
     private static void RegisterFluxDispatchers<TState>(IServiceCollection services)
