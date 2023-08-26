@@ -49,7 +49,7 @@ public class ViewModelHttpDecoratorTests
             );
 
         var httpClient = new HttpClient(mockHttp);
-
+        _state.Setup(_ => _.State).Returns(new TestState());
         _dispatcher = new ViewModelHttpDecorator<TestState>(_decorated.Object, httpClient, _state.Object, _logger.Object);
     }
 
@@ -73,7 +73,7 @@ public class ViewModelHttpDecoratorTests
     public async Task Dispatch_WithComponentUrlParameters_DispatchAndHttpRefreshCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
-        var query = new ViewModelQuery(new HttpRefreshWithParametersCaller());
+        var query = new ViewModelQuery(new HttpRefreshWithComponentParametersCaller());
 
         //Act 
         await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
@@ -102,7 +102,7 @@ public class ViewModelHttpDecoratorTests
     public async Task Dispatch_WithStateUrlParameters_DispatchAndHttpRefreshCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
-        var query = new ViewModelQuery(new HttpRefreshWithParametersCaller());
+        var query = new ViewModelQuery(new HttpRefreshWithStateParametersCaller());
 
         //Act 
         await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
@@ -122,9 +122,7 @@ public class ViewModelHttpDecoratorTests
         await _dispatcher.Dispatch<TestViewModel1>(query, CancellationToken.None);
 
         //Assert
-        await mockHttp.VerifyAsync(matching => matching
-                                                  .Method("GET")
-                                                  .RequestUri("http://test.carlton.com/clients/5/users/10"), IsSent.Exactly(0));
+        Assert.False(mockHttp.InvokedRequests.Any());
         _decorated.VerifyDispatchCalled<TestViewModel1>(query);
     }
 
@@ -138,9 +136,7 @@ public class ViewModelHttpDecoratorTests
         await _dispatcher.Dispatch<TestViewModel1>(query, CancellationToken.None);
 
         //Assert
-        await mockHttp.VerifyAsync(matching => matching
-                                                  .Method("GET")
-                                                  .RequestUri("http://test.carlton.com/clients/5/users/10"), IsSent.Exactly(0));
+        Assert.False(mockHttp.InvokedRequests.Any());
         _decorated.VerifyDispatchCalled<TestViewModel1>(query);
     }
 

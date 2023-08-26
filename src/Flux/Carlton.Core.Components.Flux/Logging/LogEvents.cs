@@ -67,5 +67,6 @@ public static class LogEvents
     public const string Mutation_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a Mutation Command";
     public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a Mutation Command";
     public const string Mutation_Validation_ErrorMsg = "An error occurred during the validation of Mutation Command";
+    public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during a MutationCommand";
 
 }
