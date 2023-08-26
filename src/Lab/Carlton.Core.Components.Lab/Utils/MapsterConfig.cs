@@ -1,9 +1,14 @@
-﻿namespace Carlton.Core.Components.Lab;
+﻿using System.Collections.Immutable;
+
+namespace Carlton.Core.Components.Lab;
 
 public static class MapsterConfig
 {
     public static void RegisterMapsterConfiguration()
     {
+        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
+        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
+
         TypeAdapterConfig<LabState, NavMenuViewModel>
             .NewConfig()
             .Map(dest => dest.SelectedItem, src => src.SelectedComponentState)
@@ -32,12 +37,34 @@ public static class MapsterConfig
 
         TypeAdapterConfig<LabState, SourceViewerViewModel>
             .NewConfig()
-            .TwoWays()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
 
         TypeAdapterConfig<LabState, LabState>
-         .NewConfig()
+          .NewConfig()
+          .Ignore(_ => _.ComponentTestResults)
           .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
+
+        TypeAdapterConfig<ComponentRecordedEvent, ComponentRecordedEvent>
+           .NewConfig();
+
+        TypeAdapterConfig<ComponentParameters, ComponentParameters>
+            .NewConfig();
+
+        TypeAdapterConfig<ComponentState, ComponentState>
+            .NewConfig();
+
+        TypeAdapterConfig<TestResultsSummaryModel, TestResultsSummaryModel>
+            .NewConfig()
+            .ConstructUsing(_ => new TestResultsSummaryModel(_.Total, _.Passed, _.Failed, _.Duration));
+
+        TypeAdapterConfig<TestResultModel, TestResultModel>
+            .NewConfig();
+
+        TypeAdapterConfig<TestResultsReportModel, TestResultsReportModel>
+            .NewConfig()
+            .ConstructUsing(_ => new TestResultsReportModel(_.TestResults));
+
+        TypeAdapterConfig.GlobalSettings.Compile();
     }
 
 }
