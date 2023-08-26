@@ -1,7 +1,5 @@
-﻿using Carlton.Core.Components.Flux.Contracts;
-using Carlton.Core.Components.Flux.Decorators.Commands;
+﻿using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Decorators.Queries;
-using Carlton.Core.Components.Flux.Decorators.ViewModels;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
