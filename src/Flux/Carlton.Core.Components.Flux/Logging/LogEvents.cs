@@ -38,6 +38,7 @@ public static class LogEvents
     public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel";
     public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
     public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of ViewModel";
+    public const string ViewModel_Unhandled_ErrorMsg = $"An unhandled exception occurred during a ViewModelQuery";
 
     //MutationCommand Requests
     public const int Mutation_Started = 2000;
@@ -66,5 +67,6 @@ public static class LogEvents
     public const string Mutation_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a Mutation Command";
     public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a Mutation Command";
     public const string Mutation_Validation_ErrorMsg = "An error occurred during the validation of Mutation Command";
+    public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during a MutationCommand";
 
 }

@@ -7,12 +7,10 @@ namespace Carlton.Core.Components.Flux;
 
 public class MutationCommandFluxException<TState, TCommand> : FluxException
 {
-    private const string ErrorMessage = $"An exception occurred during a MutationCommand of type {nameof(TCommand)}";
-
     public MutationCommand Command { get; init; }
 
     public MutationCommandFluxException(MutationCommand command, Exception innerException) 
-        : this(LogEvents.Mutation_Unhandled_Error, ErrorMessage, command, innerException)
+        : this(LogEvents.Mutation_Unhandled_Error, LogEvents.Mutation_Unhandled_ErrorMsg, command, innerException)
     {
     }
 
@@ -34,7 +32,7 @@ public class MutationCommandFluxException<TState, TCommand> : FluxException
 
     public static MutationCommandFluxException<TState, TCommand> HttpError(MutationCommand command, HttpRequestException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_Error, LogEvents.ViewModel_HTTP_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_Error, LogEvents.Mutation_HTTP_ErrorMsg, command, innerException);
     }
 
     public static MutationCommandFluxException<TState, TCommand> JSInteropError(MutationCommand command, JSException innerException) 
@@ -44,7 +42,7 @@ public class MutationCommandFluxException<TState, TCommand> : FluxException
 
     public override string ToString()
     {
-        return $"{ErrorMessage}" +
+        return $"{Message}" +
             $"{Environment.NewLine}" +
             $"CommandID: {Command.CommandID}" +
             $"Parameters: {JsonSerializer.Serialize(Command)}" +

@@ -1,6 +1,5 @@
 ﻿@namespace Carlton.Core.Components.Lab
-@attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ViewModelJsInteropAttribute(ModulePath, "getSourceViewerViewModel", ".component-viewer")]
+@attribute [ViewModelJsInteropRefreshAttribute(ModulePath, "getSourceViewerViewModel", ".component-viewer")]
 @attribute [ObserveStateEvents("MenuItemSelected")]
 @inherits BaseConnectedComponent<SourceViewerViewModel>
 

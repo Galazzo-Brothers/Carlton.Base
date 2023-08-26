@@ -17,7 +17,7 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
     {
         //Get RefreshPolicy Attribute
         var attributes = query.Sender.GetType().GetCustomAttributes();
-        var jsInteropAttribute = attributes.OfType<ViewModelJsInteropAttribute>().FirstOrDefault();
+        var jsInteropAttribute = attributes.OfType<ViewModelJsInteropRefreshAttribute>().FirstOrDefault();
         var requiresRefresh = jsInteropAttribute != null;
         var vmType = typeof(TViewModel).GetDisplayName();
 

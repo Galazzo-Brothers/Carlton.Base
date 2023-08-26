@@ -1,5 +1,7 @@
-﻿using Carlton.Core.Components.Flux.Decorators.Commands;
+﻿using Carlton.Core.Components.Flux.Contracts;
+using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Decorators.Queries;
+using Carlton.Core.Components.Flux.Decorators.ViewModels;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
@@ -53,8 +55,8 @@ public static class ContainerExtensions
         services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
         services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
         services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
-        //services.Decorate<IViewModelDispatcher, ViewModelHttpDecorator<TState>>();
-        //services.Decorate<IViewModelDispatcher, ViewModelJsDecorator<TState>>();
+        //services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelHttpDecorator<TState>>();
+        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelJsDecorator<TState>>();
 
         /*Mutation Dispatchers*/
         services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();

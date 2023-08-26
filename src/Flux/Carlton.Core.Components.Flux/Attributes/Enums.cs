@@ -10,13 +10,13 @@ public enum HttpVerb
 {
     GET,
     POST,
-    PUT
+    PUT,
+    PATCH,
+    DELETE
 }
 
 public enum DataEndpointRefreshPolicy
 {
     Never,
-    Always,
-    InitOnly,
-    Expired
+    Always
 }

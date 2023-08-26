@@ -6,12 +6,10 @@ namespace Carlton.Core.Components.Flux;
 
 public class ViewModelFluxException<TState, TViewModel> : FluxException
 {
-    private const string ErrorMessage = $"An exception occurred during a ViewModelQuery of type {nameof(TViewModel)}";
-
     public ViewModelQuery Query { get; init; }
 
     public ViewModelFluxException(ViewModelQuery query, Exception innerException)
-       : this(LogEvents.ViewModel_Unhandled_Error, ErrorMessage, query, innerException)
+       : this(LogEvents.ViewModel_Unhandled_Error, LogEvents.ViewModel_Unhandled_ErrorMsg, query, innerException)
     {
     }
 
@@ -43,7 +41,7 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
 
     public override string ToString()
     {
-        return $"{ErrorMessage}" +
+        return $"{Message}" +
             $"{Environment.NewLine}" +
             $"ViewModelQueryID: {Query.QueryID}" +
             $"{base.ToString()}";
