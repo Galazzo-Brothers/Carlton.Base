@@ -4,8 +4,8 @@
 @typeparam TState
 @inject IConnectedComponent<TViewModel> Component
 @inject IViewModelQueryDispatcher<TState> QueryDispatcher
-@inject IMutationCommandDispatcher<TState> CommandDispatcher
-@inject IFluxStateObserver<TState> StateStore
+@inject IMutationCommandDispatcher<TState> MutationDispatcher
+@inject IFluxStateObserver<TState> StateObserver
 @inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
 @if (IsLoading)
@@ -41,7 +41,7 @@ else
         IsLoading = true;
 
         //Register State Changed Handler
-        StateStore.StateChanged += OnStateChanged;
+        StateObserver.StateChanged += OnStateChanged;
 
         //Get VM and initalize context for wrapped component
         ViewModel = await GetViewModel();
@@ -68,7 +68,7 @@ else
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        await CommandDispatcher.Dispatch((dynamic)command, CancellationToken.None);
+        await MutationDispatcher.Dispatch((dynamic)command, CancellationToken.None);
     }
 
     protected async Task OnStateChanged(string stateEvent)
@@ -109,6 +109,6 @@ else
 
     public void Dispose()
     {
-        StateStore.StateChanged -= OnStateChanged;
+        StateObserver.StateChanged -= OnStateChanged;
     }
 }
