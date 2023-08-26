@@ -16,9 +16,9 @@ public static class WebAssemblyHostBuilderExtensions
         /*LabState*/
         var state = new LabState(options, testResults);
         builder.Services.AddSingleton(state);
-        builder.Services.AddSingleton<FluxState<LabState>>();
-        builder.Services.AddSingleton<IFluxStateObserver<LabState>>(_ => _.GetService<FluxState<LabState>>());
-        builder.Services.AddSingleton<IMutableFluxState<LabState>>(_ => _.GetService<FluxState<LabState>>());
+        builder.Services.AddSingleton<IMutableFluxState<LabState>, FluxState<LabState>>();
+        builder.Services.AddSingleton<IFluxState<LabState>>(_ => _.GetService<IMutableFluxState<LabState>>());
+        builder.Services.AddSingleton<IFluxStateObserver<LabState>>(_ => _.GetService<IFluxState<LabState>>());
         builder.Services.AddSingleton<MutationResolver<LabState>>();
 
         /*Mapster Extensions*/
