@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Flux\Carlton.Core.Components.Flux\Carlton.Core.Components.Flux.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ComponentTests\" />
+  </ItemGroup>
+
 </Project>

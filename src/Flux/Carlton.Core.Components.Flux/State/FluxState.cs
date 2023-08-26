@@ -36,7 +36,7 @@ public class FluxState<TState> : IMutableFluxState<TState>
 
             Log.MutationCompleted(_logger, displayName);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Log.MutationApplyError(_logger, ex, displayName);
             Rollback();
@@ -56,6 +56,7 @@ public class FluxState<TState> : IMutableFluxState<TState>
 
     private async Task InvokeStateChanged(string evt)
     {
-        await StateChanged.Invoke(evt);
+        if (StateChanged != null)
+            await StateChanged?.Invoke(evt);
     }
 }
