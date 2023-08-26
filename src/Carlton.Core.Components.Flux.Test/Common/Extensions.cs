@@ -10,4 +10,10 @@ public static class Extensions
     {
         dispatcher.Verify(mock => mock.Dispatch<TViewModel>(query, It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    public static void VerifyDispatchCalled<TCommand>(this Mock<IMutationCommandDispatcher<TestState>> dispatcher, TCommand command)
+        where TCommand : MutationCommand
+    {
+        dispatcher.Verify(mock => mock.Dispatch<TCommand>(command, It.IsAny<CancellationToken>()), Times.Once);
+    }
 }
