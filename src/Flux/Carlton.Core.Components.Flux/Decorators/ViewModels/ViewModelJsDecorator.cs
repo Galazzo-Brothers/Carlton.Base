@@ -7,10 +7,10 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
 
     private readonly IViewModelQueryDispatcher<TState> _decorated;
     private readonly IJSRuntime _jsRuntime;
-    private readonly IFluxState<TState> _fluxState;
+    private readonly IMutableFluxState<TState> _fluxState;
     private readonly ILogger<ViewModelJsDecorator<TState>> _logger;
 
-    public ViewModelJsDecorator(IViewModelQueryDispatcher<TState> decorated, IJSRuntime jsRuntime, IFluxState<TState> fluxState, ILogger<ViewModelJsDecorator<TState>> logger)
+    public ViewModelJsDecorator(IViewModelQueryDispatcher<TState> decorated, IJSRuntime jsRuntime, IMutableFluxState<TState> fluxState, ILogger<ViewModelJsDecorator<TState>> logger)
         => (_decorated, _jsRuntime, _fluxState, _logger) = (decorated, jsRuntime, fluxState, logger);
 
     public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
             Log.ViewModelJsInteropRefreshStarted(_logger, vmType);
             await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(Import, jsInteropAttribute.Module);
             var result = await module.InvokeAsync<TViewModel>(jsInteropAttribute.Function, cancellationToken, jsInteropAttribute.Parameters);
-            result.Adapt(_fluxState.State);
+            await _fluxState.MutateState(result);
             Log.ViewModelJsInteropRefreshCompleted(_logger, vmType);
         }
         else

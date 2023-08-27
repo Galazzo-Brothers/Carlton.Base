@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Components.Flux.State;
-
-namespace Carlton.Core.Components.Lab;
+﻿namespace Carlton.Core.Components.Lab;
 
 public static class WebAssemblyHostBuilderExtensions
 {
@@ -13,12 +11,12 @@ public static class WebAssemblyHostBuilderExtensions
         navTreeAct(NavMenuBuilder);
         var options = NavMenuBuilder.Build();
 
-        /*Mapster Extensions*/
-        MapsterConfig.RegisterMapsterConfiguration();
+        /*Mapster Configuration*/
+        var typeAdapterConfig = MapsterConfig.BuildMapsterConfig();
 
         /*Flux Registers*/
         var state = new LabState(options, testResults);
-        builder.Services.AddCarltonFlux(state);
+        builder.Services.AddCarltonFlux(state, typeAdapterConfig);
     }
 }
 

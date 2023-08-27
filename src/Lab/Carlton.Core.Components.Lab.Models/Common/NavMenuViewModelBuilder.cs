@@ -11,6 +11,11 @@ public sealed class NavMenuViewModelBuilder
         _internalState = new List<NavMenuBuilderItemState>();
     }
 
+    public NavMenuViewModelBuilder AddParameterObjComponent<T>()
+    {
+        return AddComponent<T>("Default", new object(), false);
+    }
+
     public NavMenuViewModelBuilder AddParameterObjComponent<T>(object parameters)
     {
         return AddComponent<T>("Default", parameters, false);

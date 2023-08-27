@@ -4,14 +4,19 @@ using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
 using Carlton.Core.Components.Flux.State;
+using Mapster;
+using MapsterMapper;
 
 namespace Carlton.Core.Components.Flux;
 
 public static class ContainerExtensions
 {
-    public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state)
+    public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state, TypeAdapterConfig typeAdapterConfig)
         where TState : class
     {
+        /*Mapster*/
+        RegisterMapster(services, typeAdapterConfig);
+
         /*Flux State*/
         RegisterFluxState(services, state);
 
@@ -33,6 +38,12 @@ public static class ContainerExtensions
         /*Exception Handling*/
         RegisterExceptionHandling(services);
 
+    }
+
+    private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)
+    {
+        services.AddSingleton(config);
+        services.AddSingleton<IMapper, ServiceMapper>();
     }
 
     private static void RegisterFluxState<TState>(IServiceCollection services, TState state)

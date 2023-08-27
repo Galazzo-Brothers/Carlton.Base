@@ -9,7 +9,7 @@ public record LabState
     public IEnumerable<ComponentState> ComponentStates { get; init; }
     public ComponentState SelectedComponentState { get; init; }
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
-    public string SelectedComponentMarkup { get; private set; }
+    public string SelectedComponentMarkup { get; init; }
     public ComponentParameters SelectedComponentParameters { get; init; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents 
     {

@@ -1,10 +1,9 @@
-﻿using Carlton.Core.Components.Flux.State;
-
-namespace Carlton.Core.Components.Lab.State.Mutations;
+﻿namespace Carlton.Core.Components.Lab.State.Mutations;
 
 
 public class RecordEventMutation : IFluxStateMutation<LabState, RecordEventCommand>
 {
+    public bool IsRefreshMutation => false;
     public string StateEvent => LabStateEvents.EventRecorded.ToString();
 
     public LabState Mutate(LabState currentState, RecordEventCommand command)

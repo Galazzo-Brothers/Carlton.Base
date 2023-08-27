@@ -1,4 +1,5 @@
 ﻿using Carlton.Core.Components.Flux.Attributes;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Carlton.Core.Components.Flux.Decorators.Base;
@@ -6,9 +7,9 @@ namespace Carlton.Core.Components.Flux.Decorators.Base;
 public abstract class BaseHttpDecorator<TState>
 {
     protected readonly HttpClient _client;
-    protected readonly IFluxState<TState> _fluxState;
+    protected readonly IMutableFluxState<TState> _fluxState;
 
-    public BaseHttpDecorator(HttpClient client, IFluxState<TState> fluxState)
+    protected BaseHttpDecorator(HttpClient client, IMutableFluxState<TState> fluxState)
         => (_client, _fluxState) = (client, fluxState);
 
     protected static bool GetRefreshPolicy(HttpRefreshAttribute attribute)
@@ -49,7 +50,7 @@ public abstract class BaseHttpDecorator<TState>
 
     protected static void VerifyUrlParameters(string url)
     {
-        var message = "The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: ";
+        var msgBuilder = new StringBuilder("The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: ");
 
         //Check for any unreplaced parameters
         var match = new Regex("\\{[^}]+\\}").Match(url);
@@ -60,13 +61,11 @@ public abstract class BaseHttpDecorator<TState>
 
         while (match.Success)
         {
-            message += match.Value + ", ";
-
+            msgBuilder.Append($"{match.Value}, ");
             match = match.NextMatch();
         }
 
-        message = message.TrimTrailingComma();
-
-        throw new InvalidOperationException(message);
+        var exMessage = msgBuilder.ToString().TrimTrailingComma();
+        throw new InvalidOperationException(exMessage);
     }
 }

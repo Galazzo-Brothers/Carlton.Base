@@ -2,6 +2,7 @@
 
 public class SelectMenuItemMutation : IFluxStateMutation<LabState, SelectMenuItemCommand>
 {
+    public bool IsRefreshMutation => false;
     public string StateEvent => LabStateEvents.MenuItemSelected.ToString();
 
     public LabState Mutate(LabState currentState, SelectMenuItemCommand command)

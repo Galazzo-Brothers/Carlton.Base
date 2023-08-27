@@ -9,7 +9,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
     private readonly IMutationCommandDispatcher<TState> _decorated;
     private readonly ILogger<MutationHttpDecorator<TState>> _logger;
 
-    public MutationHttpDecorator(IMutationCommandDispatcher<TState> decorated, HttpClient client, IFluxState<TState> fluxState, ILogger<MutationHttpDecorator<TState>> logger)
+    public MutationHttpDecorator(IMutationCommandDispatcher<TState> decorated, HttpClient client, IMutableFluxState<TState> fluxState, ILogger<MutationHttpDecorator<TState>> logger)
         : base(client, fluxState)
         => (_decorated, _logger) = (decorated, logger);
 

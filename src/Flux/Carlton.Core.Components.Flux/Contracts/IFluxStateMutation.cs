@@ -1,8 +1,9 @@
 ﻿namespace Carlton.Core.Components.Flux.Contracts;
 
-public interface IFluxStateMutation<TState, in TCommand> 
+public interface IFluxStateMutation<TState, in TInput> 
 {
+    public bool IsRefreshMutation { get; }
     public string StateEvent { get; }
-    public TState Mutate(TState state, TCommand command);
+    public TState Mutate(TState state, TInput input);
 }
 

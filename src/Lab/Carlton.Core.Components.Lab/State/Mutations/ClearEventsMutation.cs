@@ -2,6 +2,7 @@
 
 public class ClearEventsMutation : IFluxStateMutation<LabState, ClearEventsCommand> 
 {
+    public bool IsRefreshMutation => false;
     public string StateEvent => LabStateEvents.EventsCleared.ToString();
 
     public LabState Mutate(LabState originalState, ClearEventsCommand command)

@@ -1,70 +1,53 @@
-﻿using System.Collections.Immutable;
-
-namespace Carlton.Core.Components.Lab;
+﻿namespace Carlton.Core.Components.Lab;
 
 public static class MapsterConfig
 {
-    public static void RegisterMapsterConfiguration()
+    public static TypeAdapterConfig BuildMapsterConfig()
     {
-        TypeAdapterConfig.GlobalSettings.RequireExplicitMapping = true;
-        TypeAdapterConfig.GlobalSettings.RequireDestinationMemberSource = true;
+        var config = new TypeAdapterConfig
+        {
+            RequireExplicitMapping = true,
+            RequireDestinationMemberSource = true
+        };
 
-        TypeAdapterConfig<LabState, NavMenuViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, LabState>()
+            .Ignore(_ => _.ComponentTestResults)
+            .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
+
+        config.NewConfig<LabState, NavMenuViewModel>()
             .Map(dest => dest.SelectedItem, src => src.SelectedComponentState)
             .Map(dest => dest.MenuItems, src => src.ComponentStates);
 
-        TypeAdapterConfig<LabState, ComponentViewerViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, ComponentViewerViewModel>()
             .Map(dest => dest.ComponentType, src => src.SelectedComponentType)
             .Map(dest => dest.ComponentParameters, src => src.SelectedComponentParameters);
 
-        TypeAdapterConfig<LabState, EventConsoleViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, EventConsoleViewModel>()
             .Map(dest => dest.RecordedEvents, src => src.ComponentEvents);
 
-        TypeAdapterConfig<LabState, ParametersViewerViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, ParametersViewerViewModel>()
             .Map(dest => dest.ComponentParameters, src => src.SelectedComponentParameters);
 
-        TypeAdapterConfig<LabState, BreadCrumbsViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, BreadCrumbsViewModel>()
             .Map(dest => dest.SelectedComponentState, src => src.SelectedComponentState);
 
-        TypeAdapterConfig<LabState, TestResultsViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, TestResultsViewModel>()
             .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport));
 
-        TypeAdapterConfig<LabState, SourceViewerViewModel>
-            .NewConfig()
+        config.NewConfig<LabState, SourceViewerViewModel>()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
 
-        TypeAdapterConfig<LabState, LabState>
-          .NewConfig()
-          .Ignore(_ => _.ComponentTestResults)
-          .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
+        config.NewConfig<ComponentRecordedEvent, ComponentRecordedEvent>();
 
-        TypeAdapterConfig<ComponentRecordedEvent, ComponentRecordedEvent>
-           .NewConfig();
+        config.NewConfig<ComponentParameters, ComponentParameters>();
 
-        TypeAdapterConfig<ComponentParameters, ComponentParameters>
-            .NewConfig();
+        config.NewConfig<ComponentState, ComponentState>();
 
-        TypeAdapterConfig<ComponentState, ComponentState>
-            .NewConfig();
+        config.NewConfig<TestResultModel, TestResultModel>();
 
-        TypeAdapterConfig<TestResultsSummaryModel, TestResultsSummaryModel>
-            .NewConfig()
-            .ConstructUsing(_ => new TestResultsSummaryModel(_.Total, _.Passed, _.Failed, _.Duration));
+        config.Compile();
 
-        TypeAdapterConfig<TestResultModel, TestResultModel>
-            .NewConfig();
-
-        TypeAdapterConfig<TestResultsReportModel, TestResultsReportModel>
-            .NewConfig()
-            .ConstructUsing(_ => new TestResultsReportModel(_.TestResults));
-
-        TypeAdapterConfig.GlobalSettings.Compile();
+        return config;
     }
 
 }
