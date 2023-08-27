@@ -11,10 +11,9 @@ namespace Carlton.Core.Components.Flux.Test.DecoratorTests.ViewModels;
 
 public class ViewModelHttpDecoratorTests
 {
-    private readonly Mock<IServiceProvider> _mockServiceProvider = new();
     private readonly Mock<IViewModelQueryDispatcher<TestState>> _decorated = new();
     private readonly MockHttpHandler mockHttp = new();
-    private readonly Mock<IFluxState<TestState>> _state = new();
+    private readonly Mock<IMutableFluxState<TestState>> _state = new();
     private readonly Mock<ILogger<ViewModelHttpDecorator<TestState>>> _logger = new();
     private readonly ViewModelHttpDecorator<TestState> _dispatcher;
 
@@ -29,24 +28,9 @@ public class ViewModelHttpDecoratorTests
 
     public ViewModelHttpDecoratorTests()
     {
-        mockHttp
-            .When(matching => matching
-                .Method("GET")
-                .RequestUri("http://test.carlton.com/")
-            )
-            .Respond(with => with
-                .StatusCode(200)
-                .JsonBody(TestDataGenerator.ExpectedViewModel_1)
-            );
+        SetupMockHttpEndpoint(TestDataGenerator.ExpectedViewModel_1);
 
-        mockHttp.When(matching => matching
-            .Method("GET")
-            .RequestUri("http://test.carlton.com/clients/5/users/10")
-            )
-            .Respond(with => with
-                .StatusCode(200)
-                .JsonBody(TestDataGenerator.ExpectedViewModel_1)
-            );
+        SetupMockHttpParameterizedEndpoint(TestDataGenerator.ExpectedViewModel_1);
 
         var httpClient = new HttpClient(mockHttp);
         _state.Setup(_ => _.State).Returns(new TestState());
@@ -55,32 +39,53 @@ public class ViewModelHttpDecoratorTests
 
     [Theory]
     [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndHttpRefreshCalled<TViewModel>(TViewModel vm)
+    public async Task Dispatch_DispatchAndHttpRefreshAndMutateStateCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
+        SetupMockHttpEndpoint(vm);
         var query = new ViewModelQuery(new HttpRefreshCaller());
 
         //Act 
         await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
 
         //Assert
-        await mockHttp.VerifyAsync(HttpHandlerVerifyBaseUrlAction, IsSent.Exactly(1));
-        _decorated.VerifyDispatchCalled<TViewModel>(query);
+        VerifyHttpCall();
+        VerifyDispatch<TViewModel>(query);
+        VerifyStateMutation(vm);
     }
 
     [Theory]
     [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_WithComponentUrlParameters_DispatchAndHttpRefreshCalled<TViewModel>(TViewModel vm)
+    public async Task Dispatch_WithComponentUrlParameters_DispatchAndHttpRefreshAndMutateStateCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
+        SetupMockHttpParameterizedEndpoint(vm);
         var query = new ViewModelQuery(new HttpRefreshWithComponentParametersCaller());
 
         //Act 
         await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
 
         //Assert
-        await mockHttp.VerifyAsync(HttpHandlerVerifyParameterUrlAction, IsSent.Exactly(1));
-        _decorated.VerifyDispatchCalled<TViewModel>(query);
+        VerifyParameterizedHttpCall();
+        VerifyDispatch<TViewModel>(query);
+        VerifyStateMutation(vm);
+    }
+
+    [Theory]
+    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
+    public async Task Dispatch_WithStateUrlParameters_DispatchAndHttpRefreshAndMutateStateCalled<TViewModel>(TViewModel vm)
+    {
+        //Arrange
+        SetupMockHttpParameterizedEndpoint(vm);
+        var query = new ViewModelQuery(new HttpRefreshWithStateParametersCaller());
+
+        //Act 
+        await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+
+        //Assert
+        VerifyParameterizedHttpCall();
+        VerifyDispatch<TViewModel>(query);
+        VerifyStateMutation(vm);
     }
 
     [Fact]
@@ -97,21 +102,6 @@ public class ViewModelHttpDecoratorTests
         Assert.Equal(expectedMessage, ex.Message);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_WithStateUrlParameters_DispatchAndHttpRefreshCalled<TViewModel>(TViewModel vm)
-    {
-        //Arrange
-        var query = new ViewModelQuery(new HttpRefreshWithStateParametersCaller());
-
-        //Act 
-        await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
-
-        //Assert
-        await mockHttp.VerifyAsync(HttpHandlerVerifyParameterUrlAction, IsSent.Exactly(1));
-        _decorated.VerifyDispatchCalled<TViewModel>(query);
-    }
-
     [Fact]
     public async Task Dispatch_NoAttribute_HttpRefreshNotCalled()
     {
@@ -123,7 +113,8 @@ public class ViewModelHttpDecoratorTests
 
         //Assert
         Assert.False(mockHttp.InvokedRequests.Any());
-        _decorated.VerifyDispatchCalled<TestViewModel1>(query);
+        VerifyDispatch<TestViewModel1>(query);
+        VerifyStateMutationNotCalled<TestViewModel1>();
     }
 
     [Fact]
@@ -138,6 +129,7 @@ public class ViewModelHttpDecoratorTests
         //Assert
         Assert.False(mockHttp.InvokedRequests.Any());
         _decorated.VerifyDispatchCalled<TestViewModel1>(query);
+        _state.Verify(_ => _.MutateState(It.IsAny<TestViewModel1>()), Times.Never());
     }
 
     [Theory]
@@ -162,6 +154,56 @@ public class ViewModelHttpDecoratorTests
 
         //Assert
         Assert.Equal(expectedViewModel, actualViewModel);
+    }
+
+    private void SetupMockHttpEndpoint<T>(T response)
+    {
+        mockHttp
+            .When(matching => matching
+                .Method("GET")
+                .RequestUri("http://test.carlton.com/")
+            )
+            .Respond(with => with
+                .StatusCode(200)
+                .JsonBody(response)
+            );
+    }
+
+    private void SetupMockHttpParameterizedEndpoint<T>(T response)
+    {
+        mockHttp.When(matching => matching
+            .Method("GET")
+            .RequestUri("http://test.carlton.com/clients/5/users/10")
+            )
+            .Respond(with => with
+                .StatusCode(200)
+                .JsonBody(response)
+            );
+    }
+
+    private void VerifyStateMutation<TViewModel>(TViewModel vm)
+    {
+        _state.Verify(_ => _.MutateState(vm));
+    }
+
+    private void VerifyStateMutationNotCalled<TViewModel>()
+    {
+        _state.Verify(_ => _.MutateState<TViewModel>(It.IsAny<TViewModel>()), Times.Never());
+    }
+
+    private void VerifyDispatch<TViewModel>(ViewModelQuery query)
+    {
+        _decorated.VerifyDispatchCalled<TViewModel>(query);
+    }
+
+    private void VerifyHttpCall()
+    {
+        mockHttp.Verify(HttpHandlerVerifyBaseUrlAction, IsSent.Exactly(1));
+    }
+
+    private void VerifyParameterizedHttpCall()
+    {
+        mockHttp.Verify(HttpHandlerVerifyParameterUrlAction, IsSent.Exactly(1));
     }
 }
 

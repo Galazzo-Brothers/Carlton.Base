@@ -11,11 +11,10 @@ namespace Carlton.Core.Components.Flux.Test.DecoratorTests.ViewModels;
 
 public class ViewModelJsDecoratorTests
 {
-    private readonly Mock<IServiceProvider> _mockServiceProvider = new();
     private readonly Mock<IViewModelQueryDispatcher<TestState>> _decorated = new();
     private readonly Mock<IJSRuntime> _js = new();
     private readonly Mock<IJSObjectReference> _jsObject = new();
-    private readonly Mock<IFluxState<TestState>> _state = new();
+    private readonly Mock<IMutableFluxState<TestState>> _state = new();
     private readonly Mock<ILogger<ViewModelJsDecorator<TestState>>> _logger = new();
     private readonly ViewModelJsDecorator<TestState> _dispatcher;
 
