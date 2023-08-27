@@ -3,5 +3,5 @@
 
 public interface IMutableFluxState<TState> : IFluxState<TState>
 {
-    public Task MutateState<TCommand>(TCommand command);
+    public Task MutateState<TInput>(TInput input);
 }

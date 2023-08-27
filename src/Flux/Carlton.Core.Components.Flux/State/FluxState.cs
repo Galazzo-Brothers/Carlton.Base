@@ -1,9 +1,12 @@
-﻿namespace Carlton.Core.Components.Flux.State;
+﻿using MapsterMapper;
+
+namespace Carlton.Core.Components.Flux.State;
 
 public class FluxState<TState> : IMutableFluxState<TState>
 {
     private readonly IList<string> _recordedEventStore = new List<string>();
     private readonly MutationResolver<TState> _mutationResolver;
+    private readonly IMapper _mapper;
     private readonly ILogger<FluxState<TState>> _logger;
 
     public event Func<string, Task> StateChanged;
@@ -11,47 +14,40 @@ public class FluxState<TState> : IMutableFluxState<TState>
     public TState State { get; private set; }
     private TState RollbackState { get; set; }
 
-    public FluxState(TState state, MutationResolver<TState> mutationResolver, ILogger<FluxState<TState>> logger)
-       => (State, _mutationResolver, _logger) = (state, mutationResolver, logger);
+    public FluxState(TState state, MutationResolver<TState> mutationResolver, IMapper mapper, ILogger<FluxState<TState>> logger)
+       => (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
 
-    public async Task MutateState<TCommand>(TCommand command)
+    public async Task MutateState<TInput>(TInput input)
     {
-        var displayName = typeof(TCommand).GetDisplayName();
+        var displayName = typeof(TInput).GetDisplayName();
         try
         {
             Log.MutationApplyStarted(_logger, displayName);
 
             //Find the correct mutations and save a rollback state
-            var mutation = _mutationResolver.Resolve<TCommand>();
-            SetRollbackState();
+            var mutation = _mutationResolver.Resolve<TInput>();
+            _mapper.Map(State, RollbackState);
 
             //Run the non-destructive mutation to generate a new state from the old, 
             //and replace the old state with the new
-            var mutatedState = mutation.Mutate(State, command);
-            mutatedState.Adapt(State);
+            var mutatedState = mutation.Mutate(State, input);
+            _mapper.Map(mutatedState, State);
 
-            //Update EventStore and raise event
+            //Update EventStore 
             _recordedEventStore.Add(mutation.StateEvent);
-            await InvokeStateChanged(mutation.StateEvent);
+
+            //Raise Event if it was a command mutation
+            if(!mutation.IsRefreshMutation)
+                await InvokeStateChanged(mutation.StateEvent);
 
             Log.MutationCompleted(_logger, displayName);
         }
         catch (Exception ex)
         {
             Log.MutationApplyError(_logger, ex, displayName);
-            Rollback();
+            _mapper.Map(RollbackState, State);
             throw;
         }
-    }
-
-    private void SetRollbackState()
-    {
-        State.Adapt(RollbackState);
-    }
-
-    private void Rollback()
-    {
-        RollbackState.Adapt(State);
     }
 
     private async Task InvokeStateChanged(string evt)

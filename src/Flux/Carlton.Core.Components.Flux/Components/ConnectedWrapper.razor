@@ -8,7 +8,7 @@
 @inject IFluxStateObserver<TState> StateObserver
 @inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
-@if (IsLoading)
+@if(IsLoading)
 {
     @SpinnerContent
 }
@@ -77,20 +77,20 @@ else
         var observableStateEventsString = string.Join(',', ObserveableStateEvents);
         Log.DataWrapperEventReceived(Logger, WrappedComponentDisplayName, stateEvent, observableStateEventsString);
 
-        if (ObserveableStateEvents.Contains(stateEvent))
+        if(ObserveableStateEvents.Contains(stateEvent))
         {
             //IsLoading true
             IsLoading = true;
 
             //Refresh ViewModel
             ViewModel = await GetViewModel();
-            StateHasChanged();
 
             //IsLoading flase
             IsLoading = false;
 
             //State was refreshed
             stateUpdated = true;
+            StateHasChanged();
         }
 
         Log.DataWrapperEventCompleted(Logger, WrappedComponentDisplayName, stateEvent, stateUpdated);

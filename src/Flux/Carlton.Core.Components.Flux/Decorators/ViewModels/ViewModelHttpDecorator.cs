@@ -8,8 +8,11 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
     private readonly IViewModelQueryDispatcher<TState> _decorated;
     private readonly ILogger<ViewModelHttpDecorator<TState>> _logger;
 
-    public ViewModelHttpDecorator(IViewModelQueryDispatcher<TState> decorated, HttpClient client, IFluxState<TState> fluxState, ILogger<ViewModelHttpDecorator<TState>> logger)
-        :base(client, fluxState)
+    public ViewModelHttpDecorator(
+        IViewModelQueryDispatcher<TState> decorated,
+        HttpClient client,
+        IMutableFluxState<TState> fluxState,
+        ILogger<ViewModelHttpDecorator<TState>> logger) :base(client, fluxState)
         => (_decorated, _logger) = (decorated, logger);
 
     public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
@@ -33,7 +36,7 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
             var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
 
             //Update the StateStore
-            viewModel.Adapt(_fluxState.State);
+            await _fluxState.MutateState(viewModel);
 
             //Logging and Auditing 
             Log.ViewModelHttpRefreshCompleted(_logger, vmType);
