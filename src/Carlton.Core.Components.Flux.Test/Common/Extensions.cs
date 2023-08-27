@@ -11,6 +11,11 @@ public static class Extensions
         dispatcher.Verify(mock => mock.Dispatch<TViewModel>(query, It.IsAny<CancellationToken>()), Times.Once);
     }
 
+    public static void VerifyMapperCalled<TViewModel>(this Mock<IViewModelQueryDispatcher<TestState>> dispatcher, ViewModelQuery query)
+    {
+        dispatcher.Verify(mock => mock.Dispatch<TViewModel>(query, It.IsAny<CancellationToken>()), Times.Once);
+    }
+
     public static void VerifyDispatchCalled<TCommand>(this Mock<IMutationCommandDispatcher<TestState>> dispatcher, TCommand command)
         where TCommand : MutationCommand
     {

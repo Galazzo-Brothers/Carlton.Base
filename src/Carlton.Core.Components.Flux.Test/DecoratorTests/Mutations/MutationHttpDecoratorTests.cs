@@ -11,10 +11,9 @@ namespace Carlton.Core.Components.Flux.Test.DecoratorTests.Mutations;
 
 public class MutationHttpDecoratorTests
 {
-    private readonly Mock<IServiceProvider> _mockServiceProvider = new();
     private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated = new();
     private readonly MockHttpHandler mockHttp = new();
-    private readonly Mock<IFluxState<TestState>> _state = new();
+    private readonly Mock<IMutableFluxState<TestState>> _state = new();
     private readonly Mock<ILogger<MutationHttpDecorator<TestState>>> _logger = new();
     private readonly MutationHttpDecorator<TestState> _dispatcher;
 
@@ -67,6 +66,20 @@ public class MutationHttpDecoratorTests
     }
 
     [Theory]
+    [MemberData(nameof(TestDataGenerator.GetCommandDataWithComponentParametersCallers), MemberType = typeof(TestDataGenerator))]
+    [MemberData(nameof(TestDataGenerator.GetCommandDataWithStateParametersCallers), MemberType = typeof(TestDataGenerator))]
+    public async Task Dispatch_DispatchAndHttpRefreshWithParametersCalled<TCommand>(TCommand command)
+      where TCommand : MutationCommand
+    {
+        //Act 
+        await _dispatcher.Dispatch(command, CancellationToken.None);
+
+        //Assert
+        await mockHttp.VerifyAsync(HttpHandlerVerifyParameterUrlAction, IsSent.Exactly(1));
+        _decorated.VerifyDispatchCalled(command);
+    }
+
+    [Theory]
     [InlineData(1)]
     [InlineData(5)]
     [InlineData(7)]
@@ -93,19 +106,6 @@ public class MutationHttpDecoratorTests
         Assert.Equal(serverID, command.SourceSystemID);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandDataWithComponentParametersCallers), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_WithComponentUrlParameters_DispatchAndHttpRefreshCalled<TCommand>(TCommand command)
-        where TCommand : MutationCommand
-    {
-        //Act 
-        await _dispatcher.Dispatch(command, CancellationToken.None);
-
-        //Assert
-        await mockHttp.VerifyAsync(HttpHandlerVerifyParameterUrlAction, IsSent.Exactly(1));
-        _decorated.VerifyDispatchCalled(command);
-    }
-
     [Fact]
     public async Task Dispatch_WithInvalidComponentUrlParameters_ThrowsInvalidOperationException()
     {
@@ -119,20 +119,6 @@ public class MutationHttpDecoratorTests
         //Assert
         Assert.Equal(expectedMessage, ex.Message);
     }
-
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandDataWithStateParametersCallers), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_WithStateUrlParameters_DispatchAndHttpRefreshCalled<TCommand>(TCommand command)
-        where TCommand : MutationCommand
-    {
-        //Act 
-        await _dispatcher.Dispatch(command, CancellationToken.None);
-
-        //Assert
-        await mockHttp.VerifyAsync(HttpHandlerVerifyParameterUrlAction, IsSent.Exactly(1));
-        _decorated.VerifyDispatchCalled(command);
-    }
-
 
     [Fact]
     public async Task Dispatch_NoAttribute_HttpRefreshNotCalled()
