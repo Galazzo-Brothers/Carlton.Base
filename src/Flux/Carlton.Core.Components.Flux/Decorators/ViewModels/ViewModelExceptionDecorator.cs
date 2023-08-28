@@ -11,13 +11,13 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
     public ViewModelExceptionDecorator(IViewModelQueryDispatcher<TState> decorated, ILogger<ViewModelExceptionDecorator<TState>> logger)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
         try
         {
             using(_logger.BeginScope(Log.ViewModelRequestScopeMessage, typeof(TViewModel).GetDisplayName(), query))
             Log.ViewModelStarted(_logger, typeof(TViewModel).GetDisplayName());
-            var result = await _decorated.Dispatch<TViewModel>(query, cancellationToken);
+            var result = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
             Log.ViewModelCompleted(_logger, typeof(TViewModel).GetDisplayName());
             return result;
         }

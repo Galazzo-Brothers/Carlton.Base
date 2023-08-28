@@ -2,18 +2,16 @@
 
 public record class MutationCommand
 {
-    public object Sender { get; }
     public Guid CommandID { get; }
     public int SourceSystemID { get; private set; }
 
-    public MutationCommand(object sender)
-     : this(sender, -1)
+    public MutationCommand()
+     : this(-1)
     {
     }
 
-    public MutationCommand(object sender, int sourceSystemID)
+    public MutationCommand(int sourceSystemID)
     {
-        Sender = sender;
         SourceSystemID = sourceSystemID;
         CommandID = Guid.NewGuid();
     }

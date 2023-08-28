@@ -23,13 +23,14 @@ public class ViewModelExceptionDecoratorTests
     public async Task Dispatch_DispatchCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
-        var query = new ViewModelQuery(new JsRefreshCaller());
+        var sender = new JsRefreshCaller();
+        var query = new ViewModelQuery();
 
         //Act 
-        await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        await _dispatcher.Dispatch<TViewModel>(sender, query, CancellationToken.None);
 
         //Assert
-        _decorated.VerifyDispatchCalled<TViewModel>(query);
+        _decorated.VerifyDispatch<TViewModel>(query);
     }
 
     [Theory]
@@ -37,11 +38,12 @@ public class ViewModelExceptionDecoratorTests
     public async Task Dispatch_AssertViewModels<TViewModel>(TViewModel expectedViewModel)
     {
         //Arrange
-        _decorated.Setup(_ => _.Dispatch<TViewModel>(It.IsAny<ViewModelQuery>(), CancellationToken.None)).Returns(Task.FromResult(expectedViewModel));
-        var query = new ViewModelQuery(this);
+        var sender = new object();
+        var query = new ViewModelQuery();
+        _decorated.Setup(_ => _.Dispatch<TViewModel>(It.IsAny<object>(), It.IsAny<ViewModelQuery>(), CancellationToken.None)).Returns(Task.FromResult(expectedViewModel));
 
         //Act 
-        var actualViewModel = await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        var actualViewModel = await _dispatcher.Dispatch<TViewModel>(sender,query, CancellationToken.None);
 
         //Assert
         Assert.Equal(expectedViewModel, actualViewModel);
@@ -53,13 +55,12 @@ public class ViewModelExceptionDecoratorTests
         where TException : Exception
     {
         //Arrange
-        _decorated.Setup(_ => _.Dispatch<TestViewModel1>(It.IsAny<ViewModelQuery>(), CancellationToken.None))
-                  .ThrowsAsync(ex);
-
-        var query = new ViewModelQuery(this);
+        var sender = new object();
+        _decorated.Setup(_ => _.Dispatch<TestViewModel1>(It.IsAny<object>(), It.IsAny<ViewModelQuery>(), CancellationToken.None)).ThrowsAsync(ex);
+        var query = new ViewModelQuery();
 
         //Act
-        var thrownEx = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel1>>(async () => await _dispatcher.Dispatch<TestViewModel1>(query, CancellationToken.None));
+        var thrownEx = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel1>>(async () => await _dispatcher.Dispatch<TestViewModel1>(sender, query, CancellationToken.None));
 
         //Assert
         Assert.Equivalent(expectedMessage, thrownEx.Message);

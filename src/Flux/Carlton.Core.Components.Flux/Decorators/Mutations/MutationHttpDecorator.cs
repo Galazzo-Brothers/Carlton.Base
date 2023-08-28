@@ -13,10 +13,10 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
         : base(client, fluxState)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<Unit> Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
-        var attributes = command.Sender.GetType().GetCustomAttributes();
+        var attributes = sender.GetType().GetCustomAttributes();
         var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
         var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
         var commandType = typeof(TCommand).GetDisplayName();
@@ -28,7 +28,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
 
             //Construct Http Refresh URL
             var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, command.Sender);
+            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
             
             //Send Request
             var response = await SendRequest(httpRefreshAttribute.HttpVerb, serverUrl, command, cancellationToken);
@@ -48,7 +48,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
         }
 
         //Continue the Dispatch Pipeline
-        return await _decorated.Dispatch(command, cancellationToken);
+        return await _decorated.Dispatch(sender, command, cancellationToken);
     }
 
     protected async Task<HttpResponseMessage> SendRequest<TPayload>(HttpVerb httpVerb, string serverUrl, TPayload payload, CancellationToken cancellation)

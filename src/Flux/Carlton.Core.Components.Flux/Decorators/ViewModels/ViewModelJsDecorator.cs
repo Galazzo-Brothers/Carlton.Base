@@ -13,10 +13,10 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
     public ViewModelJsDecorator(IViewModelQueryDispatcher<TState> decorated, IJSRuntime jsRuntime, IMutableFluxState<TState> fluxState, ILogger<ViewModelJsDecorator<TState>> logger)
         => (_decorated, _jsRuntime, _fluxState, _logger) = (decorated, jsRuntime, fluxState, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
         //Get RefreshPolicy Attribute
-        var attributes = query.Sender.GetType().GetCustomAttributes();
+        var attributes = sender.GetType().GetCustomAttributes();
         var jsInteropAttribute = attributes.OfType<ViewModelJsInteropRefreshAttribute>().FirstOrDefault();
         var requiresRefresh = jsInteropAttribute != null;
         var vmType = typeof(TViewModel).GetDisplayName();
@@ -34,7 +34,7 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
             Log.ViewModelJsInteropRefreshSkipped(_logger, vmType);
         }
 
-        return await _decorated.Dispatch<TViewModel>(query, cancellationToken);
+        return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
     }
 }
 

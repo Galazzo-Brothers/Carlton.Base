@@ -5,7 +5,7 @@
 
 <ComponentViewer ComponentType="@ViewModel.ComponentType" 
                  ParameterObject="@ViewModel.ComponentParameters.ParameterObj"
-                 Act="(name, obj) => base.OnComponentEvent.InvokeAsync(new RecordEventCommand(this, name, obj))" />
+                 Act="(name, obj) => base.OnComponentEvent.InvokeAsync(new RecordEventCommand(name, obj))" />
 
 
 

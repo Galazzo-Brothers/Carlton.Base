@@ -62,13 +62,13 @@ else
 
     protected async Task<TViewModel> GetViewModel()
     {
-        var query = new ViewModelQuery(Component);
-        return await QueryDispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        var query = new ViewModelQuery();
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        await MutationDispatcher.Dispatch((dynamic)command, CancellationToken.None);
+        await MutationDispatcher.Dispatch(Component, (dynamic)command, CancellationToken.None);
     }
 
     protected async Task OnStateChanged(string stateEvent)

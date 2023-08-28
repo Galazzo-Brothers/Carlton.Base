@@ -11,7 +11,7 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
     public MutationExceptionDecorator(IMutationCommandDispatcher<TState> decorated, ILogger<MutationExceptionDecorator<TState>> logger)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<Unit> Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         var displayName = typeof(TCommand).GetDisplayName();
@@ -20,7 +20,7 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
         {
             using (_logger.BeginScope(Log.MutationScopeMessage, displayName, command.CommandID))
             Log.MutationStarted(_logger, displayName, command);
-            await _decorated.Dispatch(command, cancellationToken);
+            await _decorated.Dispatch(sender,command, cancellationToken);
             Log.MutationCompleted(_logger, displayName);
             return Unit.Value;
         }

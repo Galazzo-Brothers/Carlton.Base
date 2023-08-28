@@ -9,11 +9,11 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
     public ViewModelValidationDecorator(IViewModelQueryDispatcher<TState> decorated, IServiceProvider provider, ILogger<ViewModelValidationDecorator<TState>> logger)
         => (_decorated, _provider, _logger) = (decorated, provider, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
         Log.ViewModelValidationStarted(_logger, typeof(TViewModel).GetDisplayName());
         var validator = _provider.GetService<IValidator<TViewModel>>();
-        var vm = await _decorated.Dispatch<TViewModel>(query, cancellationToken);
+        var vm = await _decorated.Dispatch<TViewModel>(sender,query, cancellationToken);
         validator.ValidateAndThrow(vm);
         Log.ViewModelValidationCompleted(_logger, typeof(TViewModel).GetDisplayName());
         return vm;
