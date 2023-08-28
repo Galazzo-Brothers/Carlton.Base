@@ -15,10 +15,10 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
         ILogger<ViewModelHttpDecorator<TState>> logger) :base(client, fluxState)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
         //Get RefreshPolicy Attribute
-        var attributes = query.Sender.GetType().GetCustomAttributes();
+        var attributes = sender.GetType().GetCustomAttributes();
         var httpRefreshAttribute = attributes.OfType<ViewModelHttpRefreshAttribute>().FirstOrDefault();
         var requiresRefresh =  GetRefreshPolicy(httpRefreshAttribute);
         var vmType = typeof(TViewModel).GetDisplayName();
@@ -30,7 +30,7 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
 
             //Construct Http Refresh URL
             var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, query.Sender);
+            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
 
             //Http Refresh ViewModel
             var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
@@ -46,6 +46,6 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
             Log.ViewModelHttpRefreshSkipped(_logger, vmType);
         }
 
-        return await _decorated.Dispatch<TViewModel>(query, cancellationToken);
+        return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
     }
 }

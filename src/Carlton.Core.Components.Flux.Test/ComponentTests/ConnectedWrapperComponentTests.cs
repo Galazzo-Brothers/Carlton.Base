@@ -1,6 +1,5 @@
 ﻿using Bunit;
 using Carlton.Core.Components.Flux.Contracts;
-using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +27,7 @@ public class ConnectedWrapperComponentTests : TestContext
 
         var vm = new TestViewModel1(7, "TestViewModel", "this is a crazy test");
 
-        _vmDispatcher.Setup(_ => _.Dispatch<TestViewModel1>(It.IsAny<ViewModelQuery>(), It.IsAny<CancellationToken>()))
-                                     .Returns(Task.FromResult(vm));
+        _vmDispatcher.SetupDispatcher(vm);
     }
 
     [Fact]
@@ -55,10 +53,10 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapperInitializesCorrectly()
     {
         // Act
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        _ = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
 
         // Assert
-        _vmDispatcher.Verify(_ => _.Dispatch<TestViewModel1>(It.IsAny<ViewModelQuery>(), It.IsAny<CancellationToken>()), Times.Once());
+        _vmDispatcher.VerifyDispatcher<TestViewModel1>(1);
     }
 
 
@@ -73,7 +71,7 @@ public class ConnectedWrapperComponentTests : TestContext
         buttonElement.Click();
 
         // Assert
-        _mutationDispatcher.Verify(_ => _.Dispatch(It.IsAny<TestCommand1>(), It.IsAny<CancellationToken>()), Times.Once());
+        _mutationDispatcher.VerifyDispatcher<TestCommand1>();
     }
 
     [Fact]
@@ -95,13 +93,13 @@ public class ConnectedWrapperComponentTests : TestContext
     {
         // Arrange
         var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
-        var times = Times.Exactly(2); //Once for the component init and once again for the state change
+        var times = 2; //Once for the component init and once again for the state change
 
         //Act
         _observer.Raise(_ => _.StateChanged += null, new object[] { "TestEvent" });
 
         // Assert
-        _vmDispatcher.Verify(_ => _.Dispatch<TestViewModel1>(It.IsAny<ViewModelQuery>(), It.IsAny<CancellationToken>()), times);
+        _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
     }
 
     [Fact]
@@ -109,13 +107,13 @@ public class ConnectedWrapperComponentTests : TestContext
     {
         // Arrange
         var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
-        var times = Times.Once(); //One and only time for the component init
+        var times = 1; //One and only time for the component init
 
         //Act
         _observer.Raise(_ => _.StateChanged += null, new object[] { "TestState4" });
 
         // Assert
-        _vmDispatcher.Verify(_ => _.Dispatch<TestViewModel1>(It.IsAny<ViewModelQuery>(), It.IsAny<CancellationToken>()), times);
+        _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
     }
 
     [Fact]
@@ -123,14 +121,14 @@ public class ConnectedWrapperComponentTests : TestContext
     {
         //Arrange
         var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
-        var times = Times.Once(); //One and only time for the component init, event handler removed correctly during dispose
+        var times = 1; //One and only time for the component init, event handler removed correctly during dispose
         DisposeComponents();
 
         //Act
         _observer.Raise(_ => _.StateChanged += null, new object[] { "TestEvent" });
 
         // Assert
-        _vmDispatcher.Verify(_ => _.Dispatch<TestViewModel1>(It.IsAny<ViewModelQuery>(), It.IsAny<CancellationToken>()), times);
+        _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
     }
 
     [Fact]

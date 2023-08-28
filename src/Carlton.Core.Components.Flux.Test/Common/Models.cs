@@ -14,7 +14,7 @@ public record TestCommand1 : MutationCommand
     public string Description { get; private set; }
 
 
-    public TestCommand1(object sender, int sourceSystemID, string name, string description) : base(sender, sourceSystemID)
+    public TestCommand1(int sourceSystemID, string name, string description) : base(sourceSystemID)
         => (Name, Description) = (name, description);
 }
 
@@ -24,7 +24,7 @@ public record TestCommand2 : MutationCommand
     public string Name { get; private set; }    
     public int SomeNumber { get; private set; }
 
-    public TestCommand2(object sender, int id, string name, int someNumber) : base(sender)
+    public TestCommand2(int id, string name, int someNumber) 
         => (ID, Name, SomeNumber) = (id, name, someNumber);
 }
 
@@ -34,12 +34,8 @@ public static class TestDataGenerator
     public readonly static TestViewModel1 ExpectedViewModel_1 = new(1, "Testing", "This is a test");
     public readonly static TestViewModel2 ExpectedViewModel_2 = new(2, "Testing Again", 17);
 
-    public readonly static TestCommand1 ExpectedCommand_1 = new(new HttpRefreshCaller(), 1, "Testing", "This is a test");
-    public readonly static TestCommand2 ExpectedCommand_2 = new(new HttpRefreshCaller(), 2, "Testing Again", 17);
-    public readonly static TestCommand1 ExpectedCommand_3 = new(new HttpRefreshWithComponentParametersCaller(), 1, "Testing", "This is a test");
-    public readonly static TestCommand2 ExpectedCommand_4 = new(new HttpRefreshWithComponentParametersCaller(), 2, "Testing Again", 17);
-    public readonly static TestCommand1 ExpectedCommand_5 = new(new HttpRefreshWithStateParametersCaller(), 1, "Testing", "This is a test");
-    public readonly static TestCommand2 ExpectedCommand_6 = new(new HttpRefreshWithStateParametersCaller(), 2, "Testing Again", 17);
+    public readonly static TestCommand1 ExpectedCommand_1 = new(1, "Testing", "This is a test");
+    public readonly static TestCommand2 ExpectedCommand_2 = new(2, "Testing Again", 17);
 
     public static IEnumerable<object[]> GetViewModelData()
     {
@@ -58,28 +54,6 @@ public static class TestDataGenerator
         {
             new object[] { ExpectedCommand_1  },
             new object[] { ExpectedCommand_2 },
-        };
-
-        return testData;
-    }
-
-    public static IEnumerable<object[]> GetCommandDataWithComponentParametersCallers()
-    {
-        var testData = new List<object[]>
-        {
-            new object[] { ExpectedCommand_3  },
-            new object[] { ExpectedCommand_4 },
-        };
-
-        return testData;
-    }
-
-    public static IEnumerable<object[]> GetCommandDataWithStateParametersCallers()
-    {
-        var testData = new List<object[]>
-        {
-            new object[] { ExpectedCommand_5  },
-            new object[] { ExpectedCommand_6 },
         };
 
         return testData;

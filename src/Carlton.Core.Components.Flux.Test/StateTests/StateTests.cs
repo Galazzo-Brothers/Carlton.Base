@@ -16,14 +16,13 @@ public class StateTests
     private readonly Mock<ILogger<FluxState<TestState>>> _logger = new();
     private readonly FluxState<TestState> _fluxState;
     private readonly Mock<IFluxStateMutation<TestState, TestCommand1>> _mutation = new();
-    private readonly TestCommand1 _command = new(new object(), 2, "test command", "this is a test");
+    private readonly TestCommand1 _command = new(2, "test command", "this is a test");
 
     public StateTests()
     {
         _mutationResolver = new MutationResolver<TestState>(_serviceProvider.Object);
         _fluxState = new FluxState<TestState>(_state, _mutationResolver, _mapper.Object, _logger.Object);
-        _mutation.Setup(_ => _.StateEvent).Returns("TestStateEvent");
-        _serviceProvider.Setup(_ => _.GetService(typeof(IFluxStateMutation<TestState, TestCommand1>))).Returns(_mutation.Object);
+        _serviceProvider.SetupServiceProvider<IFluxStateMutation<TestState, TestCommand1>>(_mutation.Object);
     }
 
     [Fact]
@@ -40,8 +39,7 @@ public class StateTests
     public async Task FluxState_MutateState_RecordsStateEvents()
     {
         //Arrange
-        _mutation.Setup(_ => _.StateEvent).Returns("TestStateEvent");
-        _serviceProvider.Setup(_ => _.GetService(typeof(IFluxStateMutation<TestState, TestCommand1>))).Returns(_mutation.Object);
+        _mutation.SetUpMutation("TestStateEvent", false);
 
         //Act
         await _fluxState.MutateState(_command);
@@ -58,15 +56,14 @@ public class StateTests
         await _fluxState.MutateState(_command);
 
         //Assert
-        _mapper.Verify(_ => _.Map(It.IsAny<TestState>(), It.IsAny<TestState>()), Times.Exactly(2));
+        _mapper.VerifyMapper();
     }
 
     [Fact]
     public async Task FluxState_MutateState_WithRefreshMutation_DoesNotRaiseStateChangedEvents()
     {
         //Arrange
-        _mutation.Setup(_ => _.StateEvent).Returns("TestRefreshStateEvent");
-        _mutation.Setup(_ => _.IsRefreshMutation).Returns(true);
+        _mutation.SetUpMutation("TestRefreshStateEvent", true);
         var stateChangedEventRaised = false;
         var raisedEvent = string.Empty;
         _fluxState.StateChanged += evt =>
@@ -88,6 +85,7 @@ public class StateTests
     public async Task FluxState_MutateState_WithNonRefreshMutation_RaisesStateChangedEvents()
     {
         //Arrange
+        _mutation.SetUpMutation("TestStateEvent", false);
         var stateChangedEventRaised = false;
         var raisedEvent = string.Empty;
         _fluxState.StateChanged += evt =>

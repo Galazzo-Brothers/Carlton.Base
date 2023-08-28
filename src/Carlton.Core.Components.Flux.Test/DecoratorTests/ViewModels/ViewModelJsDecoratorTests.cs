@@ -5,7 +5,7 @@ using Carlton.Core.Components.Flux.Test.Common;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using Moq;
-using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Carlton.Core.Components.Flux.Test.DecoratorTests.ViewModels;
 
@@ -18,12 +18,9 @@ public class ViewModelJsDecoratorTests
     private readonly Mock<ILogger<ViewModelJsDecorator<TestState>>> _logger = new();
     private readonly ViewModelJsDecorator<TestState> _dispatcher;
 
-    private readonly Expression<Func<IJSRuntime, ValueTask<IJSObjectReference>>> jsModuleVerifyExpression
-        = mock => mock.InvokeAsync<IJSObjectReference>("import", new object[] { "test_module" });
-
     public ViewModelJsDecoratorTests()
     {
-        _js.Setup(_ => _.InvokeAsync<IJSObjectReference>("import", new object[] { "test_module" })).Returns(ValueTask.FromResult(_jsObject.Object));
+        _js.SetupIJsRuntime("test_module", _jsObject.Object);
         _dispatcher = new ViewModelJsDecorator<TestState>(_decorated.Object, _js.Object, _state.Object, _logger.Object);
     }
 
@@ -32,42 +29,45 @@ public class ViewModelJsDecoratorTests
     public async Task Dispatch_DispatchAndJsModuleCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
-        var query = new ViewModelQuery(new JsRefreshCaller());
+        var sender = new JsRefreshCaller();
+        var query = new ViewModelQuery();
 
         //Act 
-        await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        await _dispatcher.Dispatch<TViewModel>(sender, query, CancellationToken.None);
 
         //Assert
-        _js.Verify(jsModuleVerifyExpression, Times.Once);
-        _decorated.VerifyDispatchCalled<TViewModel>(query);
+        _js.VerifyJsRuntime(1);
+        _decorated.VerifyDispatch<TViewModel>(query);
     }
 
     [Theory]
     [MemberData(nameof(TestDataGenerator.GetJsCallersData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_JsObjectCalled( object jsCaller)
+    public async Task Dispatch_JsObjectCalled(object jsCaller)
     {
         //Arrange
-        var query = new ViewModelQuery(jsCaller);
+        var attribute = jsCaller.GetType().GetCustomAttribute<ViewModelJsInteropRefreshAttribute>();
+        var query = new ViewModelQuery();
 
         //Act 
-        await _dispatcher.Dispatch<TestViewModel1>(query, CancellationToken.None);
+        await _dispatcher.Dispatch<TestViewModel1>(jsCaller, query, CancellationToken.None);
 
         //Assert
-        _jsObject.VerifyAll();
+        _jsObject.VerifyJsObjectReference<TestViewModel1>(attribute.Function, attribute.Parameters);
     }
 
     [Fact]
     public async Task Dispatch_JsModuleNotCalled()
     {
         //Arrange
-        var query = new ViewModelQuery(new NoRefreshCaller());
+        var sender = new NoRefreshCaller();
+        var query = new ViewModelQuery();
 
         //Act 
-        await _dispatcher.Dispatch<TestViewModel1>(query, CancellationToken.None);
+        await _dispatcher.Dispatch<TestViewModel1>(sender, query, CancellationToken.None);
 
         //Assert
-        _js.Verify(jsModuleVerifyExpression, Times.Never);
-        _decorated.VerifyDispatchCalled<TestViewModel1>(query);
+        _js.VerifyJsRuntime(0);
+        _decorated.VerifyDispatch<TestViewModel1>(query);
     }
 
     [Theory]
@@ -75,11 +75,12 @@ public class ViewModelJsDecoratorTests
     public async Task Dispatch_AssertViewModels<TViewModel>(TViewModel expectedViewModel)
     {
         //Arrange
-        _decorated.Setup(_ => _.Dispatch<TViewModel>(It.IsAny<ViewModelQuery>(), CancellationToken.None)).Returns(Task.FromResult(expectedViewModel));
-        var query = new ViewModelQuery(this);
+        var sender = new object();
+        var query = new ViewModelQuery();
+        _decorated.SetupDispatcher(expectedViewModel);
 
         //Act 
-        var actualViewModel = await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        var actualViewModel = await _dispatcher.Dispatch<TViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         Assert.Equal(expectedViewModel, actualViewModel);

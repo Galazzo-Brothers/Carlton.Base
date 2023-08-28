@@ -8,7 +8,7 @@ public class ViewModelQueryDispatcher<TState> : IViewModelQueryDispatcher<TState
         => _serviceProvider = serviceProvider;
 
 
-    public async Task<TViewModel> Dispatch<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
         var handler = _serviceProvider.GetRequiredService<IViewModelQueryHandler<TState, TViewModel>>();
         return await handler.Handle(query, cancellationToken);

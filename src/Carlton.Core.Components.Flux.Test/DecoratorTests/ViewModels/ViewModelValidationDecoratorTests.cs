@@ -3,11 +3,9 @@ using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Linq.Expressions;
 
 namespace Carlton.Core.Components.Flux.Test.DecoratorTests.ViewModels;
 
@@ -34,15 +32,16 @@ public class ViewModelValidationDecoratorTests
     public async Task Dispatch_DispatchAndValidatorCalled<TViewModel>(TViewModel vm)
     {
         //Arrange
+        var sender = new object();
+        var query = new ViewModelQuery();
         var validator = _mockServiceProvider.Object.GetRequiredService<Mock<IValidator<TViewModel>>>();
-        var query = new ViewModelQuery(this);
 
         //Act 
-        await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        await _dispatcher.Dispatch<TViewModel>(sender,query, CancellationToken.None);
 
         //Assert
-        validator.Verify(GetValidationExpression<TViewModel>(), Times.Once);
-        _decorated.VerifyDispatchCalled<TViewModel>(query);
+        validator.VerifyValidator();
+        _decorated.VerifyDispatch<TViewModel>(query);
     }
 
     [Theory]
@@ -50,21 +49,14 @@ public class ViewModelValidationDecoratorTests
     public async Task Dispatch_AssertViewModels<TViewModel>(TViewModel expectedViewModel)
     {
         //Arrange
-        _decorated.Setup(_ => _.Dispatch<TViewModel>(It.IsAny<ViewModelQuery>(), CancellationToken.None)).Returns(Task.FromResult(expectedViewModel));
-        var query = new ViewModelQuery(this);
+        var sender = new object();
+        var query = new ViewModelQuery();
+        _decorated.SetupDispatcher(expectedViewModel);
 
         //Act 
-        var actualViewModel = await _dispatcher.Dispatch<TViewModel>(query, CancellationToken.None);
+        var actualViewModel = await _dispatcher.Dispatch<TViewModel>(sender,query, CancellationToken.None);
 
         //Assert
         Assert.Equal(expectedViewModel, actualViewModel);
-    }
-
-    private static Expression<Func<IValidator<TViewModel>, ValidationResult>> GetValidationExpression<TViewModel>()
-    {
-        Expression<Func<IValidator<TViewModel>, ValidationResult>> result =
-            mock => mock.Validate(It.IsAny<ValidationContext<TViewModel>>());
-
-        return result;
     }
 }

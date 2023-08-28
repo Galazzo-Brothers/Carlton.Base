@@ -8,7 +8,7 @@ public class MutationCommandDispatcher<TState> : IMutationCommandDispatcher<TSta
         => _serviceProvider = serviceProvider;
 
 
-    public async Task<Unit> Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         var handler = _serviceProvider.GetRequiredService<IMutationCommandHandler<TState, TCommand>>();

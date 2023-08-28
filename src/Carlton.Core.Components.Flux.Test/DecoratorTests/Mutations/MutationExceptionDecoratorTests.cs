@@ -23,8 +23,11 @@ public class MutationExceptionDecoratorTests
     public async Task Dispatch_DispatchCalled<TCommand>(TCommand command)
         where TCommand : MutationCommand
     {
+        //Arrange
+        var sender = new object();
+
         //Act 
-        await _dispatcher.Dispatch(command, CancellationToken.None);
+        await _dispatcher.Dispatch(sender, command, CancellationToken.None);
 
         //Assert
         _decorated.VerifyDispatchCalled(command);
@@ -36,11 +39,12 @@ public class MutationExceptionDecoratorTests
         where TException : Exception
     {
         //Arrange
-        _decorated.Setup(_ => _.Dispatch(It.IsAny<MutationCommand>(), CancellationToken.None)).ThrowsAsync(ex);
-        var command = new TestCommand2(new HttpNeverRefreshCaller(), 2, "Testing Again", 17);
+        var sender = new object();
+        _decorated.Setup(_ => _.Dispatch(It.IsAny<object>(), It.IsAny<MutationCommand>(), CancellationToken.None)).ThrowsAsync(ex);
+        var command = new TestCommand2(2, "Testing Again", 17);
 
         //Act
-        var thrownEx = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await _dispatcher.Dispatch(command, CancellationToken.None));
+        var thrownEx = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await _dispatcher.Dispatch(sender, command, CancellationToken.None));
 
         //Assert
         Assert.Equivalent(expectedMessage, thrownEx.Message);

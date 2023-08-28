@@ -9,7 +9,7 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
     public MutationValidationDecorator(IMutationCommandDispatcher<TState> decorated, IServiceProvider provider, ILogger<MutationValidationDecorator<TState>> logger)
         => (_decorated, _provider, _logger) = (decorated, provider, logger);
 
-    public async Task<Unit> Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         var displayName = typeof(TCommand).GetDisplayName();
@@ -17,6 +17,6 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
         var validator = _provider.GetService<IValidator<TCommand>>();
         validator.ValidateAndThrow(command);
         Log.MutationValidationCompleted(_logger, displayName);
-        return await _decorated.Dispatch(command, cancellationToken);
+        return await _decorated.Dispatch(sender, command, cancellationToken);
     }
 }

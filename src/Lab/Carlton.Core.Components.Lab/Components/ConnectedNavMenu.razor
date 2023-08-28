@@ -6,7 +6,7 @@
 <AccordionSelectGroup TValue="ComponentState"
                       Groups="ComponentStateGroups"
                       SelectedItem="ViewModel.SelectedItem"
-                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(this, args.Item))" />
+                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(args.Item))" />
 
 
 @code{
