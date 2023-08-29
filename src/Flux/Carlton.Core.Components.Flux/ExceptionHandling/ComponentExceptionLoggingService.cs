@@ -17,7 +17,8 @@ public class ComponentExceptionLoggingService : IComponentExceptionLoggingServic
                 //Do nothing, it has already been logged by the flux library
                 break;
             case Exception ex:
-                //This is not a flux related error that has occurred during rendering 
+                //This is not a flux related error.
+                //It is an error that has occurred during rendering 
                 Log.DataWrapperUnhandledException(logger, erroredComponentType.GetDisplayName(), ex);
                 break;
         }

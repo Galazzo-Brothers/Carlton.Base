@@ -1,0 +1,50 @@
+﻿@namespace Carlton.Core.Components.Lab.Components.ConnectedComponents
+@attribute [ObserveStateEvents("MenuItemSelected")]
+@inherits BaseConnectedComponent<TestResultsViewModel>
+
+<div class="test-results-viewer">
+    <Table Headings="Headings" Items="@ViewModel.TestResults" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+        <RowTemplate Context="item">
+            <div class="test-row">
+                <div class="test-outcome-column">
+                    @switch (item?.TestResultOutcome)
+                    {
+                        case TestResultOutcomes.Passed:
+                            <div class="test-outcome-icon">
+                                <span class="test-passed-icon mdi mdi-18px mdi-check-circle"></span>
+                                <span>Passed</span>
+                            </div>
+                            break;
+                        case TestResultOutcomes.Failed:
+                            <div class="test-outcome-item">
+                                <span class="test-failed-icon mdi mdi-18px mdi-close-circle"></span>
+                                <span>Failed</span>
+                            </div>
+                            break;
+                    }
+                </div>
+                <div class="test-name-column">@item?.TestName</div>
+                <div class="test-duration-column">@item?.TestDuration</div>
+            </div>
+        </RowTemplate>
+    </Table>
+</div>
+
+
+@code {
+    private IEnumerable<TableHeadingItem> Headings
+    {
+        get => new List<TableHeadingItem>
+        {
+            new TableHeadingItem("Result", "TestResultStatus"),
+            new TableHeadingItem("Test Name", "TestName"),
+            new TableHeadingItem("Duration (Milliseconds )", "TestDuration")
+        };
+    }
+
+    private IEnumerable<int> RowsPerPageInts = new List<int>
+    {
+        5, 10, 25
+    };
+}
+

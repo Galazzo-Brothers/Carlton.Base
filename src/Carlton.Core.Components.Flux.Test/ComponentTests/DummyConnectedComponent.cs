@@ -37,7 +37,7 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel1>
         builder.OpenElement(11, "button");
         builder.AddAttribute(12, "onclick", eventCallback);
         builder.AddContent(13, "Command Event Test");
-        builder.CloseComponent();
+        builder.CloseElement();
         //Close Wrapper Div
         builder.CloseElement();
     }

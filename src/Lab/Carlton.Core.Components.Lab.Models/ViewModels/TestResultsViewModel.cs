@@ -2,4 +2,4 @@
 
 namespace Carlton.Core.Components.Lab.Models;
 
-public record TestResultsViewModel(TestResultsReportModel TestResultsReport);
+public record TestResultsViewModel(IEnumerable<TestResult> TestResults);

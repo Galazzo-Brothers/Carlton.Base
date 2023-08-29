@@ -12,7 +12,7 @@ public class XUnitParserTests
 
     [Theory]
     [ClassData(typeof(XUnitParserTestData))]
-    public void XUnitParser_ParsingTestReport_Success(string content, TestResultsReportModel expectedResult)
+    public void XUnitParser_ParsingTestReport_Success(string content, TestResultsReport expectedResult)
     {
         //Act
         var actual = _parser.ParseTestResults(content);
@@ -24,7 +24,7 @@ public class XUnitParserTests
 
     [Theory]
     [ClassData(typeof(XUnitParserGroupedTestData))]
-    public void XUnitParser_ParsingTestReportByGroup_Success(string content, IDictionary<string, TestResultsReportModel> expectedResults)
+    public void XUnitParser_ParsingTestReportByGroup_Success(string content, IDictionary<string, TestResultsReport> expectedResults)
     {
         //Act
         var actual = _parser.ParseTestResultsByGroup(content, "Category");

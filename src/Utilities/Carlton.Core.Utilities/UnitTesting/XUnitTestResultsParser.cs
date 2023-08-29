@@ -17,13 +17,13 @@ public class XUnitTestResultsParser : ITestResultsParser
     private const string Default = "default";
     private const string TestCategory = "TestCategory";
 
-    public TestResultsReportModel ParseTestResults(string content)
+    public TestResultsReport ParseTestResults(string content)
     {
         try
         {
             var document = XDocument.Parse(content);
             var results = ParseDocument(document).Select(_ => ParseTestResult(_).First().Value);
-            return new TestResultsReportModel(results);
+            return new TestResultsReport(results);
         }
         catch(Exception)
         {
@@ -31,16 +31,16 @@ public class XUnitTestResultsParser : ITestResultsParser
         }
     }
 
-    public IDictionary<string, TestResultsReportModel> ParseTestResultsByGroup(string content)
+    public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content)
     {
         return ParseTestResultsByGroup(content, TestCategory);
     }
 
-    public IDictionary<string, TestResultsReportModel> ParseTestResultsByGroup(string content, string groupKey)
+    public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content, string groupKey)
     {
         try
         {
-            var results = new Dictionary<string, TestResultsReportModel>();
+            var results = new Dictionary<string, TestResultsReport>();
 
             var document = XDocument.Parse(content);
             var tests = ParseDocument(document).SelectMany(_ => ParseTestResult(_, groupKey));
@@ -49,7 +49,7 @@ public class XUnitTestResultsParser : ITestResultsParser
                            .ToList()
                            .ForEach(group =>
                            {
-                               var report = new TestResultsReportModel(group);
+                               var report = new TestResultsReport(group);
                                results.Add(group.Key, report);
                            });
 
@@ -73,7 +73,7 @@ public class XUnitTestResultsParser : ITestResultsParser
                        .Where(_ => _.Name == Test);
     }
 
-    private static IEnumerable<KeyValuePair<string, TestResultModel>> ParseTestResult(XElement testElement, string groupingTrait = null)
+    private static IEnumerable<KeyValuePair<string, TestResult>> ParseTestResult(XElement testElement, string groupingTrait = null)
     {
         //Find all traits
         var traitsElements = testElement.Elements()
@@ -90,23 +90,23 @@ public class XUnitTestResultsParser : ITestResultsParser
         var testResult = ParseTestResult(resultAttributes);
 
         //Handle Groups
-        var result = new List<KeyValuePair<string, TestResultModel>>();
+        var result = new List<KeyValuePair<string, TestResult>>();
         if(groupingTraits.Any())
         {
             //Create a resulting key/value pair for each group
             foreach(var groupingKey in groupingTraits.Select(_ => _.Attribute(Value).Value))
-                result.Add(new KeyValuePair<string, TestResultModel>(groupingKey, testResult));
+                result.Add(new KeyValuePair<string, TestResult>(groupingKey, testResult));
         }
         else
         {
             //Add the test result to the default grouping
-            result.Add(new KeyValuePair<string, TestResultModel>(Default, testResult));
+            result.Add(new KeyValuePair<string, TestResult>(Default, testResult));
         }
 
         return result;
     }
 
-    private static TestResultModel ParseTestResult(Dictionary<XName, string> resultAttributes)
+    private static TestResult ParseTestResult(Dictionary<XName, string> resultAttributes)
     {
         var outcome = resultAttributes[Result];
         var parsedOutcome = outcome switch
@@ -118,7 +118,7 @@ public class XUnitTestResultsParser : ITestResultsParser
         var duration = double.Parse(resultAttributes[Time]);
         var testName = resultAttributes[Name];
 
-        var testResult = new TestResultModel(testName, parsedOutcome, duration);
+        var testResult = new TestResult(testName, parsedOutcome, duration);
         return testResult;
     }
 }

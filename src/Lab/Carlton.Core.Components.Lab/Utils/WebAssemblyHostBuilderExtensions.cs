@@ -4,7 +4,7 @@ public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestLab(this WebAssemblyHostBuilder builder,
         Action<NavMenuViewModelBuilder> navTreeAct,
-        IDictionary<string, TestResultsReportModel> testResults = null)
+        IDictionary<string, TestResultsReport> testResults = null)
     {
         /*NavMenu Builder*/
         var NavMenuBuilder = new NavMenuViewModelBuilder();

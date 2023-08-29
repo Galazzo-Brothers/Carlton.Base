@@ -22,12 +22,13 @@
     {
         ComponentParameters.Clear();
 
-        if(!(typeof(ComponentBase).IsAssignableFrom(ComponentType)))
+        if (!(typeof(ComponentBase).IsAssignableFrom(ComponentType)))
             throw new InvalidOperationException($"{ComponentType} is not a valid component type.");
+
+        base.OnParametersSet();
 
         InitComponentParameterDictionary();
         AssignEventCallbacks();
-        base.OnParametersSet();
     }
 
     private void InitComponentParameterDictionary()
@@ -48,23 +49,27 @@
     {
         //Create the parameter Dictionary<string,object>
         //used to render the component dynamically
-        foreach(var prop in props)
+        foreach (var prop in props)
         {
             var instance = ParameterObject;
             var type = instance.GetType();
             var instanceProp = type.GetProperty(prop.Name);
 
-            if(instanceProp == null)
+            if (instanceProp == null)
                 continue;
 
             var value = instanceProp.GetValue(ParameterObject);
-            if(value != null)
+            if (value != null)
                 ComponentParameters.Add(prop.Name, value);
         }
     }
 
     private void AssignEventCallbacks()
     {
+        //First render component not set
+        if (CurrentComponent == null)
+            return;
+
         //Find all EventCallbacks and EventCallbacks<T>
         var eventCallbacks = ComponentType
                  .GetProperties()
@@ -73,7 +78,7 @@
 
         //Assign constructed lambda expression values
         //Add the EventCallbacks to the parameter dictionary
-        foreach(var evtCallback in eventCallbacks)
+        foreach (var evtCallback in eventCallbacks)
         {
             var isGenericCallback = evtCallback.PropertyType.IsGenericType;
             var lambda = (isGenericCallback) ? CreateGenericEventCallback(evtCallback) : CreateNonGenericEventCallback(evtCallback);
@@ -94,7 +99,7 @@
         var invokeParams = new object[] { CurrentComponent, lambda };
 
         return GetEvtCallbackFactoryCreateMethodInfo(genericTypeParam)
-                           .Invoke(EventCallback.Factory, invokeParams);
+                    .Invoke(EventCallback.Factory, invokeParams);
     }
 
     private Delegate CreateLambda(string evtCallbackName, Type genericTypeParam)

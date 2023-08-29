@@ -19,7 +19,7 @@ public class TrxTestResultsParser : ITestResultsParser
     private const string Default = "default";
 
 
-    public TestResultsReportModel ParseTestResults(string content)
+    public TestResultsReport ParseTestResults(string content)
     {
         try
         {
@@ -37,13 +37,13 @@ public class TrxTestResultsParser : ITestResultsParser
                                        var testResult = (TestResultOutcomes)Enum.Parse(typeof(TestResultOutcomes), resultAttributes[Outcome]);
                                        var duration = Math.Round(TimeSpan.Parse(resultAttributes[Duration]).TotalMilliseconds, 2);
 
-                                       return new TestResultModel(testName, testResult, duration);
+                                       return new TestResult(testName, testResult, duration);
 
                                    }).ToList();
 
 
 
-            return new TestResultsReportModel(results);
+            return new TestResultsReport(results);
         }
         catch(Exception)
         {
@@ -51,9 +51,9 @@ public class TrxTestResultsParser : ITestResultsParser
         }
     }
 
-    public IDictionary<string, TestResultsReportModel> ParseTestResultsByGroup(string content)
+    public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content)
     {
-        var groupedTestResults = new Dictionary<string, List<TestResultModel>>();
+        var groupedTestResults = new Dictionary<string, List<TestResult>>();
 
         //Parse the TRX file for a complete list of test results
         //Create a look up of tests to categories
@@ -65,7 +65,7 @@ public class TrxTestResultsParser : ITestResultsParser
 
         //Create a grouping of distinct categories to test results
         foreach(var category in distinctCategories)
-            groupedTestResults.Add(category, new List<TestResultModel>());
+            groupedTestResults.Add(category, new List<TestResult>());
 
         //Add each test into its respective group
         //a test can appear in multiple groups
@@ -81,19 +81,19 @@ public class TrxTestResultsParser : ITestResultsParser
         }
 
         //Parse the final response into a <string, TestResultsReport Dictionary
-        return groupedTestResults.ToDictionary(_ => _.Key, _ => new TestResultsReportModel(_.Value));
+        return groupedTestResults.ToDictionary(_ => _.Key, _ => new TestResultsReport(_.Value));
     }
 
-    public IDictionary<string, TestResultsReportModel> ParseTestResultsByGroup(string content, string groupKey)
+    public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content, string groupKey)
     {
         throw new NotImplementedException();
     }
 
-    private static void AddToDefaultGroup(Dictionary<string, List<TestResultModel>> groupedTestResults, TestResultModel testResult)
+    private static void AddToDefaultGroup(Dictionary<string, List<TestResult>> groupedTestResults, TestResult testResult)
     {
         if(!groupedTestResults.ContainsKey(Default))
         {
-            groupedTestResults.Add(Default, new List<TestResultModel>());
+            groupedTestResults.Add(Default, new List<TestResult>());
         }
 
         groupedTestResults[Default].Add(testResult);
