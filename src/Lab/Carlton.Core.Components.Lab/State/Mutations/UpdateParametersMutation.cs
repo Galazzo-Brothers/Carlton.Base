@@ -9,7 +9,7 @@ public class UpdateParametersMutation : IFluxStateMutation<LabState, UpdateParam
 
     public LabState Mutate(LabState currentState, UpdateParametersCommand command)
     {
-        var newComponentParameters = new ComponentParameters(command.ComponentParameters, ParameterObjectType.ParameterObject);        
+        var newComponentParameters = new ComponentParameters(command.Parameters, ParameterObjectType.ParameterObject);        
         return currentState with { SelectedComponentParameters = newComponentParameters };
     }
 }

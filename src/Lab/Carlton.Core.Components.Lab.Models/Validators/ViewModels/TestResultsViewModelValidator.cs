@@ -1,8 +1,8 @@
-﻿namespace Carlton.Core.Components.Lab.Models.Validators;
+﻿namespace Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 
 public class TestResultsViewModelValidator : AbstractValidator<TestResultsViewModel>
 {
-    public TestResultsViewModelValidator() 
+    public TestResultsViewModelValidator()
     {
         RuleFor(_ => _.TestResults).NotNull();
     }

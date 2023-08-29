@@ -7,6 +7,9 @@ public class SelectMenuItemMutation : IFluxStateMutation<LabState, SelectMenuIte
 
     public LabState Mutate(LabState currentState, SelectMenuItemCommand command)
     {
+        if (!currentState.ComponentStates.Any(_ => _.Equals(command.ComponentState)))
+            throw new InvalidOperationException("Only a previously existing NavMenutItem can be selected.");
+
         return currentState with
         {
             SelectedComponentState = command.ComponentState,

@@ -2,12 +2,12 @@
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Lab.Models;
 
-namespace Carlton.Core.Components.Lab.Test;
+namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedEventConsoleTests : TestContext
 {
     [Fact]
-    public void ConnectedEventConsoleComponentRendersCorrectly()
+    public void ConnectedEventViewerComponentRendersCorrectly()
     {
         //Arrange
         var vm = new EventConsoleViewModel(new List<ComponentRecordedEvent>
@@ -16,7 +16,7 @@ public class ConnectedEventConsoleTests : TestContext
             new ComponentRecordedEvent("Event 2", new {Prop1 =  7.77 }),
             new ComponentRecordedEvent("Event 3", new {Prop1 = true})
         });
-        
+
         //Act
         var cut = RenderComponent<ConnectedEventConsole>(parameters => parameters
                 .Add(p => p.ViewModel, vm));
@@ -39,7 +39,7 @@ Event 3: {&quot;Prop1&quot;:true}"">
     public void ConnectedEventViewerComponent_EventCallback()
     {
         //Arrange
-        var  command = new MutationCommand();
+        var command = new MutationCommand();
         var onComponentEventCalled = false;
         var vm = new EventConsoleViewModel(new List<ComponentRecordedEvent>
         {

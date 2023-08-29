@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+﻿namespace Carlton.Core.Components.Lab.Models.Validators.Base;
 
 public class ComponentParametersValidator : AbstractValidator<ComponentParameters>
 {

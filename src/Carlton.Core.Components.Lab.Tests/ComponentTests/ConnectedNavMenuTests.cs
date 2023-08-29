@@ -1,10 +1,9 @@
 ﻿using Bunit;
 using Carlton.Core.Components.Flux.Models;
-using Carlton.Core.Components.Lab.Models;
 using Carlton.Core.Components.Lab.Test.Common;
 using Carlton.Core.Components.Lab.Test.Mocks;
 
-namespace Carlton.Core.Components.Lab.Test;
+namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedNavMenuTests : TestContext
 {

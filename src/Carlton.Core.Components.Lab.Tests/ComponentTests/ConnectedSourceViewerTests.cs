@@ -1,8 +1,7 @@
 ﻿using Bunit;
-using Carlton.Core.Components.Lab.Models;
 using Carlton.Core.Components.Library;
 
-namespace Carlton.Core.Components.Lab.Test;
+namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedSourceViewerTests : TestContext
 {

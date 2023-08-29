@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lab\Carlton.Core.Components.Lab.Models\Carlton.Core.Components.Lab.Models.csproj" />
     <ProjectReference Include="..\Lab\Carlton.Core.Components.Lab\Carlton.Core.Components.Lab.csproj" />
   </ItemGroup>
 
