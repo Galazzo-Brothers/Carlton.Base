@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
-namespace Carlton.Core.Components.Lab.Test;
+namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedParametersViewerTests : TestContext
 {
     [Fact]
-    public void ConnectedEventConsoleComponentRendersCorrectly()
+    public void ConnectedParametersViewerComponentRendersCorrectly()
     {
         //Arrange
         var vm = new ParametersViewerViewModel(new ComponentParameters(
@@ -72,16 +72,16 @@ public class ConnectedParametersViewerTests : TestContext
             Param2 = 17,
             Param3 = false
         };
-        
+
         var newJson = JsonSerializer.Serialize(newValue);
 
         //Act
-        txt.Change(new ChangeEventArgs() { Value = newJson } );
+        txt.Change(new ChangeEventArgs() { Value = newJson });
 
         //Assert
         Assert.True(onComponentEventCalled);
         Assert.IsType<UpdateParametersCommand>(command);
-        Assert.Equal(newValue, command.Cast<UpdateParametersCommand>().ComponentParameters);
+        Assert.Equal(newValue, command.Cast<UpdateParametersCommand>().Parameters);
     }
 }
 

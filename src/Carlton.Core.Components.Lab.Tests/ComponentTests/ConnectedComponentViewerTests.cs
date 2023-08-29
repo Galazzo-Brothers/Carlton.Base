@@ -4,7 +4,7 @@ using Carlton.Core.Components.Lab.Models;
 using Carlton.Core.Components.Lab.Test.Common;
 using Carlton.Core.Components.Lab.Test.Mocks;
 
-namespace Carlton.Core.Components.Lab.Test;
+namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedComponentViewerTests : TestContext
 {
@@ -14,7 +14,7 @@ public class ConnectedComponentViewerTests : TestContext
         //Arrange
         var componentParameters = new ComponentParameters(new { TestText = "Hello World!" }, ParameterObjectType.ParameterObject);
         var vm = new ComponentViewerViewModel(typeof(DummyComponent), componentParameters);
-        
+
         //Act
         var cut = RenderComponent<ConnectedComponentViewer>(parameters => parameters
                 .Add(p => p.ViewModel, vm));

@@ -1,7 +1,7 @@
 using Bunit;
 
 
-namespace Carlton.Core.Components.Lab.Tests;
+namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedBreadCrumbsTests : TestContext
 {
@@ -10,7 +10,7 @@ public class ConnectedBreadCrumbsTests : TestContext
     {
         //Arrange
         var vm = new BreadCrumbsViewModel("TestComponent", "TestComponent > Test State 1");
-        
+
         //ACt
         var cut = RenderComponent<ConnectedBreadCrumbs>(parameters => parameters
                     .Add(p => p.ViewModel, vm));
