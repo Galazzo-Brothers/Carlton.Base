@@ -7,7 +7,7 @@ public class TrxParserTests
 
     [Theory]
     [ClassData(typeof(TrxParserTestData))]
-    public void TrxParser_ParsingTestResults_Success(string content, TestResultsReportModel expectedOutput)
+    public void TrxParser_ParsingTestResults_Success(string content, TestResultsReport expectedOutput)
     {
         //Act
         var actual = _parser.ParseTestResults(content);
@@ -19,7 +19,7 @@ public class TrxParserTests
 
     [Theory]
     [ClassData(typeof(TrxParserGroupedTestData))]
-    public void TrxParser_ParsingTestByGroupResults_Success(string content, IDictionary<string, TestResultsReportModel> expected)
+    public void TrxParser_ParsingTestByGroupResults_Success(string content, IDictionary<string, TestResultsReport> expected)
     {
         //Act
         var actual = _parser.ParseTestResultsByGroup(content);

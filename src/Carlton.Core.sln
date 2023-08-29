@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.InProcessMessaging", "InProcessMessaging\Carlton.Core.InProcessMessaging\Carlton.Core.InProcessMessaging.csproj", "{384453ED-C9F9-4046-BA5C-FF1FC133A02F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Core.Components.Flux.Test", "Carlton.Core.Components.Flux.Test\Carlton.Core.Components.Flux.Test.csproj", "{FAAA8532-4D71-45D4-95CE-924A9F604982}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flux.Test", "Carlton.Core.Components.Flux.Test\Carlton.Core.Components.Flux.Test.csproj", "{FAAA8532-4D71-45D4-95CE-924A9F604982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Core.Components.Lab.Test", "Carlton.Core.Components.Lab.Tests\Carlton.Core.Components.Lab.Test.csproj", "{FDA60BD8-F986-4F00-88EE-51DB455B1346}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{FAAA8532-4D71-45D4-95CE-924A9F604982}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAAA8532-4D71-45D4-95CE-924A9F604982}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAAA8532-4D71-45D4-95CE-924A9F604982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{56F926C0-9AA8-43C5-86C6-A63A2FCADF56} = {9CFF0826-620F-48A3-B255-2D817DCBBFB8}
 		{384453ED-C9F9-4046-BA5C-FF1FC133A02F} = {4CDC27F1-7FC7-4CAF-A466-4181E01C4E73}
 		{FAAA8532-4D71-45D4-95CE-924A9F604982} = {30A02A52-86DC-457F-BAFF-10EB6B1ED1AC}
+		{FDA60BD8-F986-4F00-88EE-51DB455B1346} = {4BF087BD-FC47-4D3E-BAD5-051FCC8858AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}

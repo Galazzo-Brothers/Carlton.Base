@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components.Lab
+﻿@namespace Carlton.Core.Components.Lab.Components.ConnectedComponents
 @attribute [ObserveStateEvents("EventRecorded")]
 @attribute [ObserveStateEvents("EventsCleared")]
 @inherits BaseConnectedComponent<EventConsoleViewModel>
@@ -23,7 +23,7 @@
             var args = (evt.EventObj == null) ? string.Empty : JsonSerializer.Serialize(evt.EventObj);
             consoleText.AppendLine($"{evt.Name}: {args}");
         }
-        RecordedEventsText = consoleText.ToString();
+        RecordedEventsText = consoleText.ToString().Trim();
         base.OnParametersSet();
     }
 }

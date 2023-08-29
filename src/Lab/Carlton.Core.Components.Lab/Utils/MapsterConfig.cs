@@ -29,10 +29,11 @@ public static class MapsterConfig
             .Map(dest => dest.ComponentParameters, src => src.SelectedComponentParameters);
 
         config.NewConfig<LabState, BreadCrumbsViewModel>()
-            .Map(dest => dest.SelectedComponentState, src => src.SelectedComponentState);
+            .Map(dest => dest.SelectedComponent, src => src.SelectedComponentType.GetDisplayName())
+            .Map(dest => dest.SelectedComponentState, src => src.SelectedComponentState.DisplayName);
 
         config.NewConfig<LabState, TestResultsViewModel>()
-            .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport));
+            .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport.TestResults));
 
         config.NewConfig<LabState, SourceViewerViewModel>()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
@@ -43,7 +44,7 @@ public static class MapsterConfig
 
         config.NewConfig<ComponentState, ComponentState>();
 
-        config.NewConfig<TestResultModel, TestResultModel>();
+        config.NewConfig<TestResult, TestResult>();
 
         config.Compile();
 

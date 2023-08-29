@@ -4,6 +4,7 @@ public class BreadCrumbsViewModelValidator : AbstractValidator<BreadCrumbsViewMo
 {
     public BreadCrumbsViewModelValidator()
     {
-        RuleFor(vm => vm.SelectedComponentState).NotNull().SetValidator(new ComponentStateValidator());
+        RuleFor(vm => vm.SelectedComponent).NotNull().NotEmpty();
+        RuleFor(vm => vm.SelectedComponentState).NotNull().NotEmpty();
     }
 }

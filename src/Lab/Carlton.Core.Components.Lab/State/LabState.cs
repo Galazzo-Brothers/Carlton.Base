@@ -16,15 +16,15 @@ public record LabState
         get { return _componentEvents; }
         init { _componentEvents = value.ToList(); }
     }
-    public ImmutableDictionary<string, TestResultsReportModel> ComponentTestResults { get; init; }
-    public TestResultsReportModel SelectedComponentTestReport
+    public ImmutableDictionary<string, TestResultsReport> ComponentTestResults { get; init; }
+    public TestResultsReport SelectedComponentTestReport
     {
         get => ComponentTestResults.ContainsKey(SelectedComponentType.GetDisplayName()) ?
              ComponentTestResults[SelectedComponentType.GetDisplayName()]
-            : new TestResultsReportModel();
+            : new TestResultsReport();
     }
 
-    public LabState(IEnumerable<ComponentState> componentStates, IDictionary<string, TestResultsReportModel> testResults)
+    public LabState(IEnumerable<ComponentState> componentStates, IDictionary<string, TestResultsReport> testResults)
     {
         ComponentStates = componentStates;
         SelectedComponentState = ComponentStates.First();

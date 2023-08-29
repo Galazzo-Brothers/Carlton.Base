@@ -1,0 +1,7 @@
+﻿@namespace Carlton.Core.Components.Lab.Components.ConnectedComponents
+@attribute [ObserveStateEvents("MenuItemSelected")]
+@inherits BaseConnectedComponent<BreadCrumbsViewModel>
+
+
+<BreadCrumbs Title="@ViewModel.SelectedComponent" BreadCrumbItems="@(new string[] {ViewModel.SelectedComponentState})" Separator=">" />
+
