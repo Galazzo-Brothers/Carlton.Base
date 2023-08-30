@@ -45,10 +45,10 @@ public static class AccordionSelectTestHelper
     <div class=""accordion-select"" b-6835cu0hu3>
         <div class=""content"" b-6835cu0hu3>
             <div class=""accordion-header"" blazor:onclick=""1"" b-6835cu0hu3>
-                <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline"" b-6835cu0hu3></span>
+                <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline"" b-6835cu0hu3></span>
                 <span class=""item-group-name"" b-6835cu0hu3>Group 1</span>
             </div>
-            <div class=""item-container collapsed"" b-6835cu0hu3>
+            <div class=""item-container"" b-6835cu0hu3>
                 <div class=""item"" blazor:onclick=""2"" b-6835cu0hu3>
                     <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark"" b-6835cu0hu3></span>
                     <span class=""item-name"" b-6835cu0hu3>Item 1</span>

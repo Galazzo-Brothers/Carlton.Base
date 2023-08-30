@@ -19,7 +19,7 @@ public class ConnectedNavMenuTests : TestContext
         };
 
 
-        var vm = new NavMenuViewModel(componentStates, componentStates.First());
+        var vm = new NavMenuViewModel(componentStates, 0);
 
         //Act
         var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
@@ -31,10 +31,10 @@ public class ConnectedNavMenuTests : TestContext
    <div class="" accordion-select"">
      <div class="" content"">
        <div class="" accordion-header selected"">
-         <span class="" accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline""></span>
+         <span class="" accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline""></span>
          <span class="" item-group-name"">DummyComponent</span>
        </div>
-       <div class="" item-container collapsed"">
+       <div class="" item-container"">
          <div class="" item selected"">
            <span class="" icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
            <span class="" item-name"">Test Component 1</span>
@@ -68,7 +68,7 @@ public class ConnectedNavMenuTests : TestContext
         };
 
         var expectedState = componentStates[1];
-        var vm = new NavMenuViewModel(componentStates, componentStates.First());
+        var vm = new NavMenuViewModel(componentStates, 1);
 
         var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
                 .Add(p => p.ViewModel, vm)

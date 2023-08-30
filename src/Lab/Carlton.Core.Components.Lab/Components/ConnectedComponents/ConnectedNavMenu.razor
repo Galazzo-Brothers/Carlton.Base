@@ -5,12 +5,14 @@
 
 <AccordionSelectGroup TValue="ComponentState"
                       Groups="ComponentStateGroups"
-                      SelectedItem="ViewModel.SelectedItem"
+                      SelectedItem="SelectedComponentState"
                       OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(args.Item))" />
 
 
 @code{
     private IEnumerable<SelectGroup<ComponentState>> ComponentStateGroups { get; set; }
+
+    private ComponentState SelectedComponentState { get => ViewModel.MenuItems.ElementAt(ViewModel.SelectedIndex); }
 
     protected override void OnParametersSet()
     {

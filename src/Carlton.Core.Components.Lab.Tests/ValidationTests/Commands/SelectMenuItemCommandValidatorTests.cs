@@ -1,9 +1,8 @@
-﻿
-using Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿using Carlton.Core.Components.Lab.Models.Validators.Commands;
 using Carlton.Core.Components.Lab.Test.Mocks;
 using FluentValidation.TestHelper;
 
-namespace Carlton.Core.Components.Lab.Test.ValidationTests;
+namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class SelectMenuItemCommandValidatorTests
 {

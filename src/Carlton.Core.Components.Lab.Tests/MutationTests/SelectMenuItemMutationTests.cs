@@ -20,7 +20,7 @@ public class SelectMenuItemMutationTests
                 }
         };
 
-        var expectedComponentState = labState.ComponentStates.Last();
+        var expectedComponentState = labState.ComponentStates[labState.ComponentStates.Count - 1];
         var mutation = new SelectMenuItemMutation();
         var command = new SelectMenuItemCommand(expectedComponentState);
 

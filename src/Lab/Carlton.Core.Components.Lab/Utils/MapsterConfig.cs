@@ -15,7 +15,7 @@ public static class MapsterConfig
             .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
 
         config.NewConfig<LabState, NavMenuViewModel>()
-            .Map(dest => dest.SelectedItem, src => src.SelectedComponentState)
+            .Map(dest => dest.SelectedIndex, src => src.SelectedComponentIndex)
             .Map(dest => dest.MenuItems, src => src.ComponentStates);
 
         config.NewConfig<LabState, ComponentViewerViewModel>()
