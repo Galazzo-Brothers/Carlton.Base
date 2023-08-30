@@ -3,13 +3,14 @@
 
 
 <div class="accordion-select-group">
-    @foreach(var (group, index) in Groups.WithIndex())
+    @foreach (var (group, index) in Groups.WithIndex())
     {
         <AccordionSelect TValue="TValue"
-                     Title="@group.Name"
-                     Items="group.Items"
-                     SelectedValue="GetSelectedValue(index)"
-                     SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
+                         Title="@group.Name"
+                         Items="group.Items"
+                         SelectedValue="GetSelectedValue(index)"
+                         IsExpanded="IsDefaultExpanded(index)"
+                         SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
     }
 </div>
 
@@ -33,10 +34,10 @@
 
     private void SetDefaultSelectedValues()
     {
-        foreach(var group in Groups)
+        foreach (var group in Groups)
         {
             var selectedItem = group.Items.FirstOrDefault(_ => _.Value.Equals(SelectedItem));
-            if(selectedItem != null)
+            if (selectedItem != null)
             {
                 _selectedGroupIndex = group.Index;
                 break;
@@ -44,9 +45,14 @@
         }
     }
 
+    private bool IsDefaultExpanded(int groupIndex)
+    {
+        return groupIndex == _selectedGroupIndex;
+    }
+
     private TValue GetSelectedValue(int groupIndex)
     {
-        if(groupIndex != _selectedGroupIndex)
+        if (groupIndex != _selectedGroupIndex)
             return default(TValue);
 
         return SelectedItem;

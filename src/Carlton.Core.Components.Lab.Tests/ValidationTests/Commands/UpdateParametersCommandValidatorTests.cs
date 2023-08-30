@@ -2,7 +2,7 @@
 using FluentValidation.TestHelper;
 
 
-namespace Carlton.Core.Components.Lab.Test.ValidationTests;
+namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class UpdateParametersCommandValidatorTests
 {

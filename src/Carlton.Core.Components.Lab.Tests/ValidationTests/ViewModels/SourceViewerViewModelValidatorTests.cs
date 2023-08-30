@@ -1,15 +1,15 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using FluentValidation.TestHelper;
 
-namespace Carlton.Core.Components.Lab.Test.ValidationTests;
+namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
-public class SourceViewerViewModelRefreshValidatorTests
+public class SourceViewerViewModelValidatorTests
 {
     [Fact]
-    public void ValidSourceViewerViewModelRefresh_ShouldPassValidation()
+    public void ValidSourceViewerViewModel_ShouldPassValidation()
     {
         // Arrange
-        var validator = new SourceViewerViewModelRefreshValidator();
+        var validator = new SourceViewerViewModelValidator();
         var vm = new SourceViewerViewModel("<div class='test'>Hello World!</div>");
 
         // Act
@@ -20,10 +20,10 @@ public class SourceViewerViewModelRefreshValidatorTests
     }
 
     [Fact]
-    public void InvalidSourceViewerViewModelRefresh_NullSource_ShouldFailValidation()
+    public void InvalidSourceViewerViewModel_NullSource_ShouldFailValidation()
     {
         // Arrange
-        var validator = new SourceViewerViewModelRefreshValidator();
+        var validator = new SourceViewerViewModelValidator();
         var vm = new SourceViewerViewModel(null);
 
         // Act
@@ -34,10 +34,10 @@ public class SourceViewerViewModelRefreshValidatorTests
     }
 
     [Fact]
-    public void InvalidSourceViewerViewModelRefresh_EmptySource_ShouldFailValidation()
+    public void InvalidSourceViewerViewModel_EmptySource_ShouldFailValidation()
     {
         // Arrange
-        var validator = new SourceViewerViewModelRefreshValidator();
+        var validator = new SourceViewerViewModelValidator();
         var vm = new SourceViewerViewModel(string.Empty);
 
         // Act

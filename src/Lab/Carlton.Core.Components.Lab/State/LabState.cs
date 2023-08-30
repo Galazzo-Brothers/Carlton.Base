@@ -6,8 +6,9 @@ public record LabState
 {
     protected readonly IList<ComponentRecordedEvent> _componentEvents = new List<ComponentRecordedEvent>();
 
-    public IEnumerable<ComponentState> ComponentStates { get; init; }
-    public ComponentState SelectedComponentState { get; init; }
+    public IReadOnlyList<ComponentState> ComponentStates { get; init; }
+    public int SelectedComponentIndex { get; init; }
+    public ComponentState SelectedComponentState { get => ComponentStates.ElementAt(SelectedComponentIndex); }
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
     public string SelectedComponentMarkup { get; init; }
     public ComponentParameters SelectedComponentParameters { get; init; }
@@ -26,8 +27,8 @@ public record LabState
 
     public LabState(IEnumerable<ComponentState> componentStates, IDictionary<string, TestResultsReport> testResults)
     {
-        ComponentStates = componentStates;
-        SelectedComponentState = ComponentStates.First();
+        ComponentStates = componentStates.ToList();
+        SelectedComponentIndex = 0; //Default to the first item
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         ComponentTestResults = testResults.ToImmutableDictionary();
     }
