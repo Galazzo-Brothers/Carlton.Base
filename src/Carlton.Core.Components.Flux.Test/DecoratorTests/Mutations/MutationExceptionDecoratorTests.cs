@@ -1,21 +1,24 @@
-﻿using Carlton.Core.Components.Flux.Contracts;
+﻿using AutoFixture.AutoMoq;
+using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
+using Carlton.Core.Components.Flux.Test.Common.Extensions;
 using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace Carlton.Core.Components.Flux.Test.DecoratorTests.Mutations;
 
 public class MutationExceptionDecoratorTests
 {
-    private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated = new();
-    private readonly Mock<ILogger<MutationExceptionDecorator<TestState>>> _logger = new();
-    private readonly MutationExceptionDecorator<TestState> _dispatcher;
+    private readonly IFixture _fixture;
+    private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated;
+    private readonly Mock<ILogger<MutationExceptionDecorator<TestState>>> _logger;
 
     public MutationExceptionDecoratorTests()
     {
-        _dispatcher = new MutationExceptionDecorator<TestState>(_decorated.Object, _logger.Object);
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
+        _decorated = _fixture.Freeze<Mock<IMutationCommandDispatcher<TestState>>>();
+        _logger = _fixture.Freeze<Mock<ILogger<MutationExceptionDecorator<TestState>>>>();
     }
 
     [Theory]
@@ -25,9 +28,10 @@ public class MutationExceptionDecoratorTests
     {
         //Arrange
         var sender = new object();
+        var sut = _fixture.Create<MutationExceptionDecorator<TestState>>();
 
         //Act 
-        await _dispatcher.Dispatch(sender, command, CancellationToken.None);
+        await sut.Dispatch(sender, command, CancellationToken.None);
 
         //Assert
         _decorated.VerifyDispatchCalled(command);
@@ -40,11 +44,12 @@ public class MutationExceptionDecoratorTests
     {
         //Arrange
         var sender = new object();
-        _decorated.Setup(_ => _.Dispatch(It.IsAny<object>(), It.IsAny<MutationCommand>(), CancellationToken.None)).ThrowsAsync(ex);
-        var command = new TestCommand2(2, "Testing Again", 17);
+        var command = _fixture.Create<TestCommand2>();
+        var sut = _fixture.Create<MutationExceptionDecorator<TestState>>();
+        _decorated.SetupDispatcherException(ex);
 
         //Act
-        var thrownEx = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await _dispatcher.Dispatch(sender, command, CancellationToken.None));
+        var thrownEx = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await sut.Dispatch(sender, command, CancellationToken.None));
 
         //Assert
         Assert.Equivalent(expectedMessage, thrownEx.Message);

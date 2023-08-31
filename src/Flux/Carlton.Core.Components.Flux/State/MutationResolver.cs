@@ -1,7 +1,7 @@
 ﻿namespace Carlton.Core.Components.Flux.State;
 
 
-public class MutationResolver<TState>
+public class MutationResolver<TState> : IMutationResolver<TState>
 {
     private readonly IServiceProvider _serviceProvider;
 

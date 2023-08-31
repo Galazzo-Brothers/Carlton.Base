@@ -1,20 +1,19 @@
-﻿using Carlton.Core.Components.Flux.Contracts;
+﻿using AutoFixture.AutoMoq;
+using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
-using Moq;
+using Carlton.Core.Components.Flux.Test.Common.Extensions;
 
 namespace Carlton.Core.Components.Flux.Test.DispatcherTests;
 
 public class MutationCommandDispatcherTests
 {
-
-    private readonly IMutationCommandDispatcher<TestState> _dispatcher;
-    private readonly Mock<IServiceProvider> _mockServiceProvider = new();
+    private readonly IFixture _fixture;
 
     public MutationCommandDispatcherTests()
     {
-        _dispatcher = new MutationCommandDispatcher<TestState>(_mockServiceProvider.Object);
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
     }
 
     [Theory]
@@ -23,13 +22,17 @@ public class MutationCommandDispatcherTests
         where TCommand : MutationCommand
     {
         //Arrange
-        var sender = new object();
-        var handler = new Mock<IMutationCommandHandler<TestState, TCommand>>();
+        var serviceProvider = _fixture.Freeze<Mock<IServiceProvider>>();
+        var handler = _fixture.Freeze<Mock<IMutationCommandHandler<TestState, TCommand>>>();
+        var sender = _fixture.Create<object>();
+        var sut = _fixture.Create<MutationCommandDispatcher<TestState>>();
+
+        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState, TCommand>>(handler.Object);
         handler.SetupHandler();
-        _mockServiceProvider.SetupServiceProvider<IMutationCommandHandler<TestState, TCommand>>(handler.Object);
+      
 
         //Act
-        await _dispatcher.Dispatch(sender, command, CancellationToken.None);
+        await sut.Dispatch(sender, command, CancellationToken.None);
 
         //Assert
         handler.VerifyHandler();

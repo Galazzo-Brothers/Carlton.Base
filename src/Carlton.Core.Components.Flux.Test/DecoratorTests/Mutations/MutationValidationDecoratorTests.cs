@@ -1,23 +1,27 @@
-﻿using Carlton.Core.Components.Flux.Contracts;
+﻿using AutoFixture.AutoMoq;
+using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
+using Carlton.Core.Components.Flux.Test.Common.Extensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace Carlton.Core.Components.Flux.Test.DecoratorTests.Mutations;
 
 public class MutationValidationDecoratorTests
 {
-    private readonly Mock<IServiceProvider> _mockServiceProvider = new();
-    private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated = new();
-    private readonly Mock<ILogger<MutationValidationDecorator<TestState>>> _logger = new();
-    private readonly MutationValidationDecorator<TestState> _dispatcher;
+    private readonly IFixture _fixture;
+    private readonly Mock<IServiceProvider> _serviceProvider;
+    private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated;
+    private readonly Mock<ILogger<MutationValidationDecorator<TestState>>> _logger;
 
     public MutationValidationDecoratorTests()
     {
-        _dispatcher = new MutationValidationDecorator<TestState>(_decorated.Object, _mockServiceProvider.Object, _logger.Object);
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
+        _serviceProvider = _fixture.Freeze<Mock<IServiceProvider>>();
+        _decorated = _fixture.Freeze<Mock<IMutationCommandDispatcher<TestState>>>();
+        _logger = _fixture.Freeze<Mock<ILogger<MutationValidationDecorator<TestState>>>>();
     }
 
     [Theory]
@@ -27,11 +31,13 @@ public class MutationValidationDecoratorTests
     {
         //Arrange
         var sender = new object();
-        var validator =new Mock<IValidator<TCommand>>();
-        _mockServiceProvider.SetupServiceProvider<IValidator<TCommand>>(validator.Object);
+        var validator = _fixture.Create<Mock<IValidator<TCommand>>>();
+        var sut = _fixture.Create<MutationValidationDecorator<TestState>>();
+
+        _serviceProvider.SetupServiceProvider<IValidator<TCommand>>(validator.Object);
 
         //Act 
-        await _dispatcher.Dispatch(sender,command, CancellationToken.None);
+        await sut.Dispatch(sender,command, CancellationToken.None);
 
         //Assert
         validator.VerifyValidator();
