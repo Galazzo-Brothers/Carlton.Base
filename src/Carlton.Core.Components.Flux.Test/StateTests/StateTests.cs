@@ -1,72 +1,91 @@
-﻿using Carlton.Core.Components.Flux.Contracts;
+﻿using AutoFixture.AutoMoq;
+using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.State;
 using Carlton.Core.Components.Flux.Test.Common;
+using Carlton.Core.Components.Flux.Test.Common.Extensions;
 using MapsterMapper;
 using Microsoft.Extensions.Logging;
-using Moq;
+
 
 namespace Carlton.Core.Components.Flux.Test.StateTests;
 
 public class StateTests
 {
-    private readonly TestState _state = new();
-    private readonly Mock<IServiceProvider> _serviceProvider = new();
-    private readonly MutationResolver<TestState> _mutationResolver;
-    private readonly Mock<IMapper> _mapper = new();
-    private readonly Mock<ILogger<FluxState<TestState>>> _logger = new();
-    private readonly FluxState<TestState> _fluxState;
-    private readonly Mock<IFluxStateMutation<TestState, TestCommand1>> _mutation = new();
-    private readonly TestCommand1 _command = new(2, "test command", "this is a test");
+    private readonly IFixture _fixture;
+    private readonly TestState _state;
+    private readonly Mock<IFluxStateMutation<TestState, TestCommand1>> _mutation;
+    private readonly Mock<IMapper> _mapper;
+    private readonly Mock<ILogger<FluxState<TestState>>> _logger;
 
     public StateTests()
     {
-        _mutationResolver = new MutationResolver<TestState>(_serviceProvider.Object);
-        _fluxState = new FluxState<TestState>(_state, _mutationResolver, _mapper.Object, _logger.Object);
-        _serviceProvider.SetupServiceProvider<IFluxStateMutation<TestState, TestCommand1>>(_mutation.Object);
+        //Setup the fixure with Moq
+        _fixture = new Fixture().Customize(new AutoMoqCustomization());
+
+        //Setup mocked dependencies
+        _state = _fixture.Freeze<TestState>();
+        _mutation = _fixture.Freeze<Mock<IFluxStateMutation<TestState, TestCommand1>>>();
+        _mapper = _fixture.Freeze<Mock<IMapper>>();
+        _logger = _fixture.Freeze<Mock<ILogger<FluxState<TestState>>>>();
+
+        //configure the service provider 
+        _fixture.Freeze<Mock<IMutationResolver<TestState>>>().SetUpMutationResolver(_mutation.Object);
     }
 
     [Fact]
     public async Task FluxState_MutateState_CallsMutation()
     {
+        //Arrange
+        var command = _fixture.Create<TestCommand1>();
+        var sut = _fixture.Create<FluxState<TestState>>();
+
         //Act
-        await _fluxState.MutateState(_command);
+        await sut.MutateState(command);
 
         //Assert
-        _mutation.Verify(_ => _.Mutate(_state, _command));
+        _mutation.VerifyMutation(_state, command);
     }
 
-    [Fact]
-    public async Task FluxState_MutateState_RecordsStateEvents()
+    [Theory, AutoData]
+    public async Task FluxState_MutateState_RecordsStateEvents(string stateEvent)
     {
         //Arrange
-        _mutation.SetUpMutation("TestStateEvent", false);
+        _mutation.SetUpMutation(stateEvent, false);
+        var command = _fixture.Create<TestCommand1>();
+        var sut = _fixture.Create<FluxState<TestState>>();
 
         //Act
-        await _fluxState.MutateState(_command);
+        await sut.MutateState(command);
 
         //Assert
-        Assert.NotEmpty(_fluxState.RecordedEventStore);
-        Assert.Contains("TestStateEvent", _fluxState.RecordedEventStore);
+        Assert.NotEmpty(sut.RecordedEventStore);
+        Assert.Contains(stateEvent, sut.RecordedEventStore);
     }
 
     [Fact]
     public async Task FluxState_MutateState_CallsMapper()
     {
+        //Arrange
+        var command = _fixture.Create<TestCommand1>();
+        var sut = _fixture.Create<FluxState<TestState>>();
+
         //Act
-        await _fluxState.MutateState(_command);
+        await sut.MutateState(command);
 
         //Assert
-        _mapper.VerifyMapper();
+        _mapper.VerifyMapper(2);
     }
 
-    [Fact]
-    public async Task FluxState_MutateState_WithRefreshMutation_DoesNotRaiseStateChangedEvents()
+    [Theory, AutoData]
+    public async Task FluxState_MutateState_WithRefreshMutation_DoesNotRaiseStateChangedEvents(string stateEvent)
     {
         //Arrange
-        _mutation.SetUpMutation("TestRefreshStateEvent", true);
         var stateChangedEventRaised = false;
         var raisedEvent = string.Empty;
-        _fluxState.StateChanged += evt =>
+        var command = _fixture.Create<TestCommand1>();
+        var sut = _fixture.Create<FluxState<TestState>>();
+        _mutation.SetUpMutation(stateEvent, true);
+        sut.StateChanged += evt =>
         {
             raisedEvent = evt;
             stateChangedEventRaised = true;
@@ -74,21 +93,23 @@ public class StateTests
         };
 
         //Act
-        await _fluxState.MutateState(_command);
+        await sut.MutateState(command);
 
         //Assert
         Assert.False(stateChangedEventRaised);
-        Assert.Contains("TestRefreshStateEvent", _fluxState.RecordedEventStore);
+        Assert.Contains(stateEvent, sut.RecordedEventStore);
     }
 
-    [Fact]
-    public async Task FluxState_MutateState_WithNonRefreshMutation_RaisesStateChangedEvents()
+    [Theory, AutoData]
+    public async Task FluxState_MutateState_WithNonRefreshMutation_RaisesStateChangedEvents(string stateEvent)
     {
         //Arrange
-        _mutation.SetUpMutation("TestStateEvent", false);
         var stateChangedEventRaised = false;
         var raisedEvent = string.Empty;
-        _fluxState.StateChanged += evt =>
+        var command = _fixture.Create<TestCommand1>();
+        var sut = _fixture.Create<FluxState<TestState>>();
+        _mutation.SetUpMutation(stateEvent, false);
+        sut.StateChanged += evt =>
         {
             raisedEvent = evt;
             stateChangedEventRaised = true;
@@ -96,10 +117,10 @@ public class StateTests
         };
 
         //Act
-        await _fluxState.MutateState(_command);
+        await sut.MutateState(command);
 
         //Assert
         Assert.True(stateChangedEventRaised);
-        Assert.Equal("TestStateEvent", raisedEvent);
+        Assert.Equal(stateEvent, raisedEvent);
     }
 }

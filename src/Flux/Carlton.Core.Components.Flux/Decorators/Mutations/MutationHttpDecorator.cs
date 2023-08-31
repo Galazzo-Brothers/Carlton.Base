@@ -60,7 +60,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
             HttpVerb.PUT => await _client.PutAsJsonAsync(serverUrl, payload, cancellation),
             HttpVerb.PATCH => await _client.PatchAsJsonAsync(serverUrl, payload, cancellation),
             HttpVerb.DELETE => await _client.DeleteAsync(serverUrl, cancellation),
-            _ => throw new InvalidOperationException("This HTTP verb is not supported here."),
+            _ => throw new NotSupportedException("This HTTP verb is not supported here."),
         };
     }
 }

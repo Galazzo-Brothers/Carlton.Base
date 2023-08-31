@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Carlton.Core.Components.Flux.Decorators.Base;
 
-public abstract class BaseHttpDecorator<TState>
+public abstract partial class BaseHttpDecorator<TState>
 {
     protected readonly HttpClient _client;
     protected readonly IMutableFluxState<TState> _fluxState;
@@ -36,15 +36,12 @@ public abstract class BaseHttpDecorator<TState>
             {
                 DataEndpointParameterType.StateStoreParameter => _fluxState.State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_fluxState.State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-                _ => throw new Exception("Unsupported DataEndpoint Parameter Type"),
+                _ => throw new NotSupportedException("Unsupported DataEndpoint Parameter Type"),
             };
             result = result.Replace("{" + attribute.Name + "}", value);
         }
 
         VerifyUrlParameters(result);
-
-
-
         return result;
     }
 
@@ -53,7 +50,7 @@ public abstract class BaseHttpDecorator<TState>
         var msgBuilder = new StringBuilder("The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: ");
 
         //Check for any unreplaced parameters
-        var match = new Regex("\\{[^}]+\\}").Match(url);
+        var match = UrlParameterTokenRegex().Match(url);
 
         //If there are none continue
         if (!match.Success)
@@ -66,6 +63,9 @@ public abstract class BaseHttpDecorator<TState>
         }
 
         var exMessage = msgBuilder.ToString().TrimTrailingComma();
-        throw new InvalidOperationException(exMessage);
+        throw new ArgumentException(exMessage);
     }
+
+    [GeneratedRegex("\\{[^}]+\\}")]
+    private static partial Regex UrlParameterTokenRegex();
 }

@@ -5,7 +5,7 @@ namespace Carlton.Core.Components.Flux.State;
 public class FluxState<TState> : IMutableFluxState<TState>
 {
     private readonly IList<string> _recordedEventStore = new List<string>();
-    private readonly MutationResolver<TState> _mutationResolver;
+    private readonly IMutationResolver<TState> _mutationResolver;
     private readonly IMapper _mapper;
     private readonly ILogger<FluxState<TState>> _logger;
 
@@ -14,7 +14,7 @@ public class FluxState<TState> : IMutableFluxState<TState>
     public TState State { get; private set; }
     private TState RollbackState { get; set; }
 
-    public FluxState(TState state, MutationResolver<TState> mutationResolver, IMapper mapper, ILogger<FluxState<TState>> logger)
+    public FluxState(TState state, IMutationResolver<TState> mutationResolver, IMapper mapper, ILogger<FluxState<TState>> logger)
        => (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
 
     public async Task MutateState<TInput>(TInput input)

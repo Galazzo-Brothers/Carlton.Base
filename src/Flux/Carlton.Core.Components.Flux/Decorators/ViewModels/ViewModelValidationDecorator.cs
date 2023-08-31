@@ -13,7 +13,7 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
     {
         Log.ViewModelValidationStarted(_logger, typeof(TViewModel).GetDisplayName());
         var validator = _provider.GetService<IValidator<TViewModel>>();
-        var vm = await _decorated.Dispatch<TViewModel>(sender,query, cancellationToken);
+        var vm = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
         validator.ValidateAndThrow(vm);
         Log.ViewModelValidationCompleted(_logger, typeof(TViewModel).GetDisplayName());
         return vm;
