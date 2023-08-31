@@ -30,7 +30,7 @@ public static class ContainerExtensions
         RegisterFluxHandlers<TState>(services);
 
         /*State Mutations*/
-        RegisterFluxStateMutations(services);
+        RegisterFluxStateMutations<TState>(services);
 
         /*Validators*/
         RegisterValidators(services);
@@ -116,8 +116,10 @@ public static class ContainerExtensions
                         });
     }
 
-    private static void RegisterFluxStateMutations(IServiceCollection services)
+    private static void RegisterFluxStateMutations<TState>(IServiceCollection services)
     {
+        services.AddSingleton<IMutationResolver<TState>, MutationResolver<TState>>();
+
         services.Scan(_ => _
             .FromApplicationDependencies()
             .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
