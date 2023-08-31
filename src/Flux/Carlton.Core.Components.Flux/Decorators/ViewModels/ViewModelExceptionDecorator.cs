@@ -41,7 +41,13 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             Log.ViewModelValidationError(_logger, ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.ValidationError(query, ex);
         }
-        catch(Exception ex)
+        catch(ArgumentException ex) when (ex.ParamName == nameof(HttpRefreshAttribute) || ex.ParamName == nameof(HttpRefreshParameterAttribute)) 
+        {
+            //URL Construction Errors
+            Log.ViewModelHttpUrlError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(query, ex);
+        }
+        catch (Exception ex)
         {
             Log.ViewModelUnhandledError(_logger, ex, typeof(TViewModel).GetDisplayName());
             throw new ViewModelFluxException<TState, TViewModel>(query, ex);

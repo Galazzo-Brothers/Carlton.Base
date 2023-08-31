@@ -36,7 +36,7 @@ public abstract partial class BaseHttpDecorator<TState>
             {
                 DataEndpointParameterType.StateStoreParameter => _fluxState.State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_fluxState.State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-                _ => throw new NotSupportedException("Unsupported DataEndpoint Parameter Type"),
+                _ => throw new ArgumentException("Unexpected enum value", nameof(value))
             };
             result = result.Replace("{" + attribute.Name + "}", value);
         }
@@ -45,17 +45,25 @@ public abstract partial class BaseHttpDecorator<TState>
         return result;
     }
 
-    protected static void VerifyUrlParameters(string url)
+    private static void VerifyUrlParameters(string url)
     {
-        var msgBuilder = new StringBuilder("The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: ");
+        var isUrlWellFormed = Uri.IsWellFormedUriString(url, UriKind.Absolute);
+        var msgBuilder = new StringBuilder("The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ");
 
         //Check for any unreplaced parameters
         var match = UrlParameterTokenRegex().Match(url);
+        var unreplacedTokens = match.Success;
 
-        //If there are none continue
-        if (!match.Success)
+
+        //If the URL is well formed return
+        if (isUrlWellFormed)
             return;
 
+        //If there are no unreplaced tokens throw an exception for HttpRefreshAttribute
+        if (!unreplacedTokens)
+            throw new ArgumentException("The HTTP refresh endpoint is invalid", nameof(HttpRefreshAttribute));
+
+        //If there are unreplaced tokens throw an exception for HttpRefreshParameterAttribute
         while (match.Success)
         {
             msgBuilder.Append($"{match.Value}, ");
@@ -63,7 +71,7 @@ public abstract partial class BaseHttpDecorator<TState>
         }
 
         var exMessage = msgBuilder.ToString().TrimTrailingComma();
-        throw new ArgumentException(exMessage);
+        throw new ArgumentException(exMessage, nameof(HttpRefreshParameterAttribute));
     }
 
     [GeneratedRegex("\\{[^}]+\\}")]

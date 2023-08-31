@@ -88,10 +88,27 @@ public class ViewModelHttpDecoratorTests
     }
 
     [Fact]
-    public async Task Dispatch_WithInvalidComponentUrlParameters_ThrowsInvalidOperationException()
+    public async Task Dispatch_WithInvalidHttpUrl_ThrowsInvalidArgumentException()
     {
         //Arrange
-        var expectedMessage = "The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: {ClientID}, {UserID}";
+        var expectedMessage = "The HTTP refresh endpoint is invalid (Parameter 'HttpRefreshAttribute')";
+        var sender = new HttpRefreshWithInvalidHttpUrlCaller();
+        var query = new ViewModelQuery();
+        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(expectedMessage, ex.Message);
+        Assert.Equal(nameof(HttpRefreshAttribute), ex.ParamName);
+    }
+
+    [Fact]
+    public async Task Dispatch_WithInvalidComponentUrlParameters_ThrowsInvalidArgumentException()
+    {
+        //Arrange
+        var expectedMessage = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: {ClientID}, {UserID} (Parameter 'HttpRefreshParameterAttribute')";
         var sender = new HttpRefreshWithInvalidParametersCaller();
         var query = new ViewModelQuery();
         var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
@@ -101,6 +118,7 @@ public class ViewModelHttpDecoratorTests
 
         //Assert
         Assert.Equal(expectedMessage, ex.Message);
+        Assert.Equal(nameof(HttpRefreshParameterAttribute), ex.ParamName);
     }
 
     [Fact]

@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Carlton.Core.Components.Flux.Attributes;
+using Microsoft.JSInterop;
 using System.Text.Json;
 
 namespace Carlton.Core.Components.Flux.Decorators.Commands;
@@ -43,6 +44,18 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
         {
             Log.MutationValidationError(_logger, ex, displayName);
             throw MutationCommandFluxException<TState, TCommand>.ValidationError(command, ex);
+        }
+        catch (ArgumentException ex) when (ex.ParamName == nameof(HttpRefreshAttribute) || ex.ParamName == nameof(HttpRefreshParameterAttribute))
+        {
+            //URL Construction Errors
+            Log.MutationHttpUrlError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpUrlError(command, ex);
+        }
+        catch (ArgumentException ex) when (ex.ParamName == typeof(HttpResponseTypeAttribute<>).GetDisplayName() || ex.ParamName == nameof(HttpResponsePropertyAttribute))
+        {
+            //Response Update Errors
+            Log.MutationHttpResponseUpdateError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpResponseUpdateError(command, ex);
         }
         catch (Exception ex)
         {

@@ -1,4 +1,6 @@
 ﻿using AutoFixture.AutoMoq;
+using Carlton.Core.Components.Flux.Attributes;
+using Carlton.Core.Utilities.Extensions;
 using FluentValidation;
 using Microsoft.JSInterop;
 using System.Text.Json;
@@ -48,6 +50,8 @@ public static class TestDataGenerator
             new object[] { new HttpRequestException(), LogEvents.ViewModel_HTTP_ErrorMsg },
             new object[] { new JSException("There was a JS error."), LogEvents.ViewModel_JSInterop_ErrorMsg },
             new object[] { new ValidationException("There was a validation error."), LogEvents.ViewModel_Validation_ErrorMsg },
+            new object[] { new ArgumentException("Error building http url.", nameof(HttpRefreshAttribute)), LogEvents.ViewModel_HTTP_URL_ErrorMsg },
+            new object[] { new ArgumentException("Error building http url.", nameof(HttpRefreshParameterAttribute)), LogEvents.ViewModel_HTTP_URL_ErrorMsg },
             new object[] { new Exception(), LogEvents.ViewModel_Unhandled_ErrorMsg }
         };
 
@@ -62,6 +66,10 @@ public static class TestDataGenerator
             new object[] { new HttpRequestException(), LogEvents.Mutation_HTTP_ErrorMsg },
             new object[] { new JSException("There was a JS error."), LogEvents.Mutation_JSInterop_ErrorMsg },
             new object[] { new ValidationException("There was a validation error."), LogEvents.Mutation_Validation_ErrorMsg },
+            new object[] { new ArgumentException("Error building http url.", nameof(HttpRefreshAttribute)), LogEvents.Mutation_HTTP_URL_ErrorMsg },
+            new object[] { new ArgumentException("Error building http url.", nameof(HttpRefreshParameterAttribute)), LogEvents.Mutation_HTTP_URL_ErrorMsg },
+            new object[] { new ArgumentException("Error building http url.", typeof(HttpResponseTypeAttribute<>).GetDisplayName()), LogEvents.Mutation_HTTP_Response_Update_ErrorMsg },
+            new object[] { new ArgumentException("Error building http url.", nameof(HttpResponsePropertyAttribute)), LogEvents.Mutation_HTTP_Response_Update_ErrorMsg },
             new object[] { new Exception(), LogEvents.Mutation_Unhandled_ErrorMsg }
         };
 
