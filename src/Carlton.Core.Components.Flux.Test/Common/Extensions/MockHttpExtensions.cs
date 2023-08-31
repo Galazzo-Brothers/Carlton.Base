@@ -1,5 +1,6 @@
 ﻿using MockHttp;
 using MockHttp.Json.SystemTextJson;
+using System.Text.Json;
 
 namespace Carlton.Core.Components.Flux.Test.Common.Extensions;
 
@@ -24,11 +25,11 @@ public static class MockHttpExtensions
            .When(matching => matching
                .Method(httpVerb)
                .RequestUri(url)
-               .JsonBody(request, new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web))
+               .JsonBody(request, new JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web))
            )
            .Respond(with => with
                .StatusCode(statusCode)
-               .JsonBody(response)
+               .JsonBody(response, System.Text.Encoding.Default, new JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web))
            );
     }
 

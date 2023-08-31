@@ -32,7 +32,7 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel1>
         builder.AddContent(10, ViewModel.Description);
         builder.CloseElement();
         // Add event callback
-        var command = new TestCommand1(1, "Test Command", "This is a test");
+        var command = new TestCommand1("Test Command", "This is a test");
         var eventCallback = EventCallback.Factory.Create(this, () => base.OnComponentEvent.InvokeAsync(command));
         builder.OpenElement(11, "button");
         builder.AddAttribute(12, "onclick", eventCallback);

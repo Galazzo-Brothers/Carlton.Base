@@ -1,4 +1,5 @@
 ﻿using AutoFixture.AutoMoq;
+using Carlton.Core.Components.Flux.Attributes;
 using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.Decorators.Mutations;
 using Carlton.Core.Components.Flux.Models;
@@ -82,37 +83,126 @@ public class MutationHttpDecoratorTests
         _decorated.VerifyDispatchCalled(command);
     }
 
-    [Theory, AutoData]
-    public async Task Dispatch_UpdateCommandWithExternalResponseCalled(int sourceSystemID)
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithExternalResponse_ProcessSkipped()
     {
         //Arrange
         var caller = new HttpRefreshCaller();
-        var command = _fixture.Create<TestCommand1>();
-        var responseCommand = _fixture.Create<TestCommand1>();
+        var command = _fixture.Create<TestCommand2>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
         var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
 
-        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, responseCommand);
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
 
         //Act 
         await sut.Dispatch(caller, command, CancellationToken.None);
 
         //Assert
-        Assert.Equal(sourceSystemID, command.SourceSystemID);
+        Assert.Equal(initialCommand, command);
     }
 
     [Fact]
-    public async Task Dispatch_WithInvalidComponentUrlParameters_ThrowsInvalidOperationException()
+    public async Task Dispatch_UpdateCommandWithExternalResponse_ProcessCompleted()
     {
         //Arrange
-        var expectedMessage = "The HTTP ViewModel refresh endpoint is invalid, following URL parameters were not replaced: {ClientID}, {UserID}";
-        var caller = new HttpRefreshWithInvalidParametersCaller();
+        var caller = new HttpRefreshCaller();
         var command = _fixture.Create<TestCommand1>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
         var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
 
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
         //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await cut.Dispatch(caller, command, CancellationToken.None));
+        await sut.Dispatch(caller, command, CancellationToken.None);
 
         //Assert
+        Assert.NotEqual(initialCommand, command);
+        Assert.Equal(serverResponse.ServerName, command.Name);
+        Assert.Equal(serverResponse.ServerDescription, command.Description);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidJsonParse_ShouldThrowArgumentException()
+    {
+        //Arrange
+        var caller = new HttpRefreshCaller();
+        var command = _fixture.Create<TestCommand3>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+        var expected = "HttpResponseTypeAttribute";
+
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(expected, ex.ParamName);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidHttpUrl_ShouldThrowArgumentException()
+    {
+        //Arrange
+        var expectedMessage = "The HTTP refresh endpoint is invalid (Parameter 'HttpRefreshAttribute')";
+        var caller = new HttpRefreshWithInvalidHttpUrlCaller();
+        var command = _fixture.Create<TestCommand3>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(nameof(HttpRefreshAttribute), ex.ParamName);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidHttpParameter_ShouldThrowArgumentException()
+    {
+        //Arrange
+        var expectedMessage = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: {ClientID}, {UserID} (Parameter 'HttpRefreshParameterAttribute')";
+        var caller = new HttpRefreshWithInvalidParametersCaller();
+        var command = _fixture.Create<TestCommand1>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(nameof(HttpRefreshParameterAttribute), ex.ParamName);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidHttpResponseProperty_ShouldThrowArgumentException()
+    {
+        //Arrange
+        var expectedMessage = "An error occured updating the command with the server response (Parameter 'HttpResponsePropertyAttribute')";
+        var caller = new HttpRefreshCaller();
+        var command = _fixture.Create<TestCommand4>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(nameof(HttpResponsePropertyAttribute), ex.ParamName);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -125,7 +215,7 @@ public class MutationHttpDecoratorTests
         var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
 
         //Act 
-        await cut.Dispatch(caller, command, CancellationToken.None);
+        await sut.Dispatch(caller, command, CancellationToken.None);
 
         //Assert
         Assert.False(mockHttp.InvokedRequests.Any());

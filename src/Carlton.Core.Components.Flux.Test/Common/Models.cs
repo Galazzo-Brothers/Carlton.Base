@@ -1,30 +1,24 @@
-﻿using Carlton.Core.Components.Flux.Models;
+﻿using Carlton.Core.Components.Flux.Attributes;
+using Carlton.Core.Components.Flux.Models;
 
 namespace Carlton.Core.Components.Flux.Test.Common;
 
 public record TestViewModel1(int ID, string Name, string Description);
 public record TestViewModel2(int ID, string SomeOtherProperty, int YetAnotherProperty);
 
-public record TestCommand1 : MutationCommand
-{
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+[HttpResponseType<MockServerResponse>]
+public record TestCommand1([property: HttpResponseProperty("ServerName")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description) : MutationCommand;
+
+public record TestCommand2(int ID, string Name, int SomeNumber) : MutationCommand;
+
+[HttpResponseType<string>]
+public record TestCommand3([property: HttpResponseProperty("ServerName")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description) : MutationCommand;
+
+[HttpResponseType<MockServerResponse>]
+public record TestCommand4([property: HttpResponseProperty("ServerNameXXX")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description) : MutationCommand;
 
 
-    public TestCommand1(int sourceSystemID, string name, string description) : base(sourceSystemID)
-        => (Name, Description) = (name, description);
-}
-
-public record TestCommand2 : MutationCommand
-{
-    public int ID { get; private set; }
-    public string Name { get; private set; }    
-    public int SomeNumber { get; private set; }
-
-    public TestCommand2(int id, string name, int someNumber) 
-        => (ID, Name, SomeNumber) = (id, name, someNumber);
-}
-
+public record MockServerResponse(string ServerName, string ServerDescription);
 
 
 
@@ -76,6 +70,14 @@ public class HttpRefreshWithStateParametersCaller
 [ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
 [MutationHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
 public class HttpRefreshWithInvalidParametersCaller
+{
+    public int ClientID { get; set; } = 5;
+    public int UserID { get; set; } = 10;
+}
+
+[ViewModelHttpRefresh("http://test.#%$@#carlton.com/clients/")]
+[MutationHttpRefresh("http://test.#%$@#carlton.com/clients/")]
+public class HttpRefreshWithInvalidHttpUrlCaller
 {
     public int ClientID { get; set; } = 5;
     public int UserID { get; set; } = 10;

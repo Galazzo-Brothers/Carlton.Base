@@ -40,6 +40,16 @@ public class MutationCommandFluxException<TState, TCommand> : FluxException
         return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_JSInterop_Error, LogEvents.Mutation_JSInterop_ErrorMsg, command, innerException);
     }
 
+    public static MutationCommandFluxException<TState, TCommand> HttpUrlError(MutationCommand command, ArgumentException innerException)
+    {
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_URL_Error, LogEvents.Mutation_HTTP_URL_ErrorMsg, command, innerException);
+    }
+
+    public static MutationCommandFluxException<TState, TCommand> HttpResponseUpdateError(MutationCommand command, ArgumentException innerException)
+    {
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_Response_Update_Error, LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, command, innerException);
+    }
+
     public override string ToString()
     {
         return $"{Message}" +
