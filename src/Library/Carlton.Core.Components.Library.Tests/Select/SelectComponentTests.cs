@@ -1,35 +1,86 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(Select))]
 public class SelectComponentTests : TestContext
 {
-    [Fact(DisplayName = "Markup Test")]
-    public void Select_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void Select_Markup_RendersCorrectly(
+        IFixture fixture,
+        string labelText)
     {
+        //Arrange
+        var selectedIndex = new Random().Next(0, 2);
+        var kvp = fixture.CreateMany<KeyValuePair<string, int>>(3);
+        var items = new Dictionary<string, int>(kvp).AsReadOnly();
+        var selectedItem = kvp.ElementAt(selectedIndex).Key;
+        var selectedValue = kvp.ElementAt(selectedIndex).Value;
+        var expectedMarkup =
+@$"<div class=""select""><input readonly placeholder="" "" value=""{selectedItem}"" />
+    <div class=""label"">{labelText}</div>
+    <div class=""options"">
+        <div class=""option"">{kvp.ElementAt(0).Key}</div>
+        <div class=""option"">{kvp.ElementAt(1).Key}</div>
+        <div class=""option"">{kvp.ElementAt(2).Key}</div>
+    </div>
+</div>";
+
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
-            .Add(p => p.Label, "Test Select")
+            .Add(p => p.Options, items)
+            .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, 2)
+            .Add(p => p.SelectedValue, selectedValue)
             );
 
         //Assert
-        cut.MarkupMatches(SelectTestHelper.SelectMarkup);
+        cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "Label Parameter Test")]
-    [InlineData("Test Label")]
-    [InlineData("Another Test Label")]
-    [InlineData("Yet Another Label")]
-    public void Select_LabelParam_RendersCorrectly(string labelText)
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void Select_Disabled_Markup_RendersCorrectly(
+       IFixture fixture,
+       string labelText)
+    {
+        //Arrange
+        var selectedIndex = new Random().Next(0, 2);
+        var kvp = fixture.CreateMany<KeyValuePair<string, int>>(3);
+        var items = new Dictionary<string, int>(kvp).AsReadOnly();
+        var selectedItem = kvp.ElementAt(selectedIndex).Key;
+        var selectedValue = kvp.ElementAt(selectedIndex).Value;
+        var expectedMarkup =
+@$"<div class=""select""><input readonly placeholder="" "" value=""{selectedItem}"" />
+    <div class=""label"">{labelText}</div>
+    <div disabled="""" class=""options""></div>
+</div>";
+
+        //Act
+        var cut = RenderComponent<Select>(parameters => parameters
+            .Add(p => p.Options, items)
+            .Add(p => p.Label, labelText)
+            .Add(p => p.IsDisabled, true)
+            .Add(p => p.SelectedValue, selectedValue)
+            );
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Theory(DisplayName = "Label Parameter Test"), AutoData]
+    public void Select_LabelParam_RendersCorrectly(
+        IReadOnlyDictionary<string, int> items,
+        string labelText,
+        bool isDisabled,
+        int selectedValue)
     {
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
+            .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
-            .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, 2)
+            .Add(p => p.IsDisabled, isDisabled)
+            .Add(p => p.SelectedValue, selectedValue)
             );
 
         var labelContent = cut.Find(".label").TextContent;
@@ -39,16 +90,20 @@ public class SelectComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Disabled Parameter Test")]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Select_DisabledParam_RendersCorrectly(bool isDisabled)
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
+    public void Select_DisabledParam_RendersCorrectly(
+        bool isDisabled,
+        IReadOnlyDictionary<string, int> items,
+        string labelText,
+        int selectedValue)
     {
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
-            .Add(p => p.Label, "Test Label")
+            .Add(p => p.Options, items)
+            .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, isDisabled)
-            .Add(p => p.SelectedValue, 2)
+            .Add(p => p.SelectedValue, selectedValue)
             );
 
         var optionsElement = cut.Find(".options");
@@ -58,64 +113,72 @@ public class SelectComponentTests : TestContext
         Assert.Equal(isDisabled, containsDisabledAttribute);
     }
 
-    [Theory(DisplayName = "Options Parameter Tests")]
-    [MemberData(nameof(SelectTestHelper.GetOptions), MemberType = typeof(SelectTestHelper))]
-    public void Select_OptionsParam_OptsCount_RendersCorrectly(IReadOnlyDictionary<string, int> opts)
+    [Theory(DisplayName = "Options Parameter Tests"), AutoData]
+    public void Select_OptionsParam_OptsCount_RendersCorrectly(
+        IReadOnlyDictionary<string, int> items,
+        string labelText,
+        int selectedValue)
     {
         //Arrange
-        var expectedCount = opts.Count;
-        var expectedOptionNames = opts.Keys;
-        var expectedValues = opts.Values;
+        var expectedCount = items.Count;
+        var expectedOptionNames = items.Keys;
 
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, opts)
-            .Add(p => p.Label, "some label text")
+            .Add(p => p.Options, items)
+            .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, 2)
+            .Add(p => p.SelectedValue, selectedValue)
             );
 
         var optionsElements = cut.FindAll(".option");
         var actualCount = optionsElements.Count;
         var actualOptionNames = optionsElements.Select(_ => _.TextContent);
-        var actualValues = optionsElements.Select(_ => int.Parse(_.Attributes.First(attribute => attribute.Name == "blazor:onclick").Value));
 
         //Assert
         Assert.Equal(expectedCount, actualCount);
         Assert.Equal(expectedOptionNames, actualOptionNames);
-        Assert.Equal(expectedValues, actualValues);
     }
 
-    [Fact(DisplayName = "Selected Options Parameter Render Test")]
-    public void Select_OptionsParam_RendersCorrectly()
+    [Theory(DisplayName = "Selected Options Parameter Render Test"), AutoData]
+    public void Select_OptionsParam_RendersCorrectly(
+        IReadOnlyDictionary<string, int> items,
+        string labelText,
+        int selectedValue)
     {
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
-            .Add(p => p.Label, "some label text")
+            .Add(p => p.Options, items)
+            .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, 2)
+            .Add(p => p.SelectedValue, selectedValue)
             );
 
         var optionsElements = cut.FindAll(".option");
 
         //Assert
-        Assert.Collection(optionsElements,
-                   item => Assert.Equal("Option 1", item.TextContent),
-                   item => Assert.Equal("Option 2", item.TextContent),
-                   item => Assert.Equal("Option 3", item.TextContent));
+        Assert.Equal(items.Count, optionsElements.Count);
+        Assert.All(optionsElements, (item, i) =>
+        {
+            Assert.Equal(items.ElementAt(i).Key, item.TextContent);
+        });
     }
 
-    [Theory(DisplayName = "SelectedValue Parameter Test")]
-    [InlineData(1, "Option 1")]
-    [InlineData(2, "Option 2")]
-    [InlineData(3, "Option 3")]
-    public void Select_SelectedValueParam_RendersCorrectly(int selectedValue, string expectedLabel)
+    [Theory(DisplayName = "SelectedValue Parameter Test"), AutoData]
+ 
+    public void Select_SelectedValueParam_RendersCorrectly(
+        IReadOnlyDictionary<string, int> items,
+        string labelText)
     {
+        //Arrange
+        var selectedIndex = new Random().Next(0, items.Count);
+        var selectedKey = items.Keys.ElementAt(selectedIndex);
+        var selectedValue = items.Values.ElementAt(selectedIndex);
+
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
-            .Add(p => p.Label, "some label text")
+            .Add(p => p.Options, items)
+            .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
             .Add(p => p.SelectedValue, selectedValue)
             );
@@ -124,19 +187,21 @@ public class SelectComponentTests : TestContext
         var valueDisplay = inputElement?.Attributes["value"]?.TextContent;
 
         //Assert
-        Assert.Equal(expectedLabel, valueDisplay);
+        Assert.Equal(selectedKey, valueDisplay);
     }
 
-    [Fact(DisplayName = "Default Selected Value Parameter Test")]
-    public void Select_SelectedValueParam_InvalidDefaultValue_RendersCorrectly()
+    [Theory(DisplayName = "Default Selected Value Parameter Test"), AutoData]
+    public void Select_SelectedValueParam_InvalidDefaultValue_RendersCorrectly(
+        IReadOnlyDictionary<string, int> items,
+        string labelText)
     {
         //Act
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
-            .Add(p => p.Label, "some label text")
-            .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, -1)
-            );
+              .Add(p => p.Options, items)
+              .Add(p => p.Label, labelText)
+              .Add(p => p.IsDisabled, false)
+              .Add(p => p.SelectedValue, -1)
+          );
 
         var inputElement = cut.Find("input");
         var containsValueAttribute = inputElement.Attributes.Any(_ => _.Name == "value");
@@ -145,37 +210,36 @@ public class SelectComponentTests : TestContext
         Assert.False(containsValueAttribute);
     }
 
-    [Theory(DisplayName = "ValueChangedCallback Parameter Test")]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    public void Select_ValueChangedCallbackParam_FiresCallback(int index)
+    [Theory(DisplayName = "ValueChangedCallback Parameter Test"), AutoData]
+    public void Select_ValueChangedCallbackParam_FiresCallback(
+        IReadOnlyDictionary<string, int> items,
+        string labelText,
+        int selectedValue)
     {
         //Arrange
+        var index = new Random().Next(0, items.Count);
         var eventFired = false;
         var eventKey = string.Empty;
         var eventValue = -1;
 
-        var expectedKey = SelectTestHelper.Options.Keys.ElementAt(index);
-        var expectedValue = SelectTestHelper.Options.Values.ElementAt(index);
+        var expectedKey = items.Keys.ElementAt(index);
+        var expectedValue = items.Values.ElementAt(index);
 
         var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, SelectTestHelper.Options)
-            .Add(p => p.Label, "some label text")
-            .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, -1)
-            .Add(p => p.ValueChangedCallback, (kvp) => 
+           .Add(p => p.Options, items)
+           .Add(p => p.Label, labelText)
+           .Add(p => p.IsDisabled, false)
+           .Add(p => p.SelectedValue, selectedValue)
+           .Add(p => p.ValueChangedCallback, (kvp) =>
                 {
                     eventFired = true;
                     eventKey = kvp.Key;
                     eventValue = kvp.Value;
                 })
-            );
+           );
 
         //Act
         cut.FindAll(".option")[index].Click();
-
-
 
         //Assert
         Assert.True(eventFired);

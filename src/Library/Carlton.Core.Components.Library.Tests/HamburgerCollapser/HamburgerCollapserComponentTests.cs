@@ -1,25 +1,23 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(HamburgerCollapser))]
 public class HamburgerCollapserComponentTests : TestContext
 {
-    private static readonly string HamburgerCollapserMarkup =
-    @"<div class=""collapser"" b-uskw0t9tqy><a href=""#"" blazor:onclick=""1"" b-uskw0t9tqy><span class=""mdi mdi-24px mdi-menu"" b-uskw0t9tqy></span></a></div>";
-
-
-    [Fact(DisplayName = "Markup Test")]
-    public void HamburgerCollapser_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void HamburgerCollapser_Markup_RendersCorrectly(bool isCollapsed)
     {
         //Arrange
-        var layoutState = new LayoutState(false, () => { });
+        var expectedMarkup = @"<div class=""collapser""><a href=""#""><span class=""mdi mdi-24px mdi-menu""></span></a></div>";
+        var layoutState = new LayoutState(isCollapsed, () => { });
 
         //Act
         var cut = RenderComponent<HamburgerCollapser>(parameters => parameters
-            .AddCascadingValue(layoutState));
+                    .AddCascadingValue(layoutState));
 
         //Assert
-        cut.MarkupMatches(HamburgerCollapserMarkup);
-
+        cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "Collapser Click Event Test")]
@@ -31,7 +29,7 @@ public class HamburgerCollapserComponentTests : TestContext
         var layoutState = new LayoutState(isCollapsed, () => { });
 
         var cut = RenderComponent<HamburgerCollapser>(parameters => parameters
-            .AddCascadingValue(layoutState));
+                    .AddCascadingValue(layoutState));
 
         var element = cut.Find(".collapser a");
         var expectedResult = !isCollapsed;

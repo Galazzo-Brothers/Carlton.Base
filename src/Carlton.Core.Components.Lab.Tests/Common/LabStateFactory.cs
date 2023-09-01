@@ -66,7 +66,7 @@ internal class LabStateFactory
         
         //Set a random but allowable selected index
         var random = new Random();
-        var selectedIndex = random.Next(0, componentStates.Count() - 1);
+        var selectedIndex = random.Next(0, componentStates.Count());
 
         //Set component events
         var componentEvents = fixture.CreateMany<ComponentRecordedEvent>();

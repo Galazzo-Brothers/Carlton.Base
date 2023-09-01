@@ -1,40 +1,46 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(DropdownMenuElement<int>))]
 public class DropDownMenuElementComponentTests : TestContext
 {
-    private static readonly string DropDownMenuElementMarkup = @"
-<span class=""mdi mdi-mdi-delete accent-color-2"" b-7gb23ut1dh></span>
-<a href=""#"" blazor:onclick:preventDefault blazor:onclick=""1"" b-7gb23ut1dh>Test Menu Item</a>";
-
-    [Fact(DisplayName = "Markup Test")]
-    public void DropDownMenuElement_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void DropDownMenuElement_Markup_RendersCorrectly(
+        string menuItemName,
+        int menuItemValue,
+        string menuIcon,
+        int accentColorIndex)
     {
+        //Arrange
+        var expectedMarkup = @$"
+<span class=""mdi mdi-{menuIcon} accent-color-{accentColorIndex}""></span>
+    <a href=""#"">{menuItemName}</a>";
+
         //Act
         var cut = RenderComponent<DropdownMenuElement<int>>(parameters => parameters
-                .Add(p => p.MenuItemName, "Test Menu Item")
-                .Add(p => p.Value, 1)
-                .Add(p => p.MenuIcon, "mdi-delete")
-                .Add(p => p.AccentColorIndex, 2)
-                );
+                         .Add(p => p.MenuItemName, menuItemName)
+                         .Add(p => p.Value, menuItemValue)
+                         .Add(p => p.MenuIcon, menuIcon)
+                         .Add(p => p.AccentColorIndex, accentColorIndex));
 
         //Assert
-        cut.MarkupMatches(DropDownMenuElementMarkup);
+        cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "MenuItemName Parameter Test")]
-    [InlineData("Test Menu Item")]
-    [InlineData("Test Menu Item Again")]
-    [InlineData("Test Menu Items Yet Another Time")]
-    public void DropDownMenuElement_MenuItemNameParam_RendersCorrectly(string menuItemName)
+    [Theory(DisplayName = "MenuItemName Parameter Test"), AutoData]
+    public void DropDownMenuElement_MenuItemNameParam_RendersCorrectly(
+        string menuItemName,
+        int menuItemValue,
+        string menuIcon,
+        int accentColorIndex)
     {
         //Act
         var cut = RenderComponent<DropdownMenuElement<int>>(parameters => parameters
-                .Add(p => p.MenuItemName, menuItemName)
-                .Add(p => p.Value, 1)
-                .Add(p => p.MenuIcon, "mdi-delete")
-                .Add(p => p.AccentColorIndex, 2)
-                );
+                         .Add(p => p.MenuItemName, menuItemName)
+                         .Add(p => p.Value, menuItemValue)
+                         .Add(p => p.MenuIcon, menuIcon)
+                         .Add(p => p.AccentColorIndex, accentColorIndex));
 
         var itemName = cut.Find("a").TextContent;
 
@@ -42,86 +48,89 @@ public class DropDownMenuElementComponentTests : TestContext
         Assert.Equal(menuItemName, itemName);
     }
 
-    [Theory(DisplayName = "MenuItemValue Parameter Test")]
-    [InlineData(5)]
-    [InlineData(10)]
-    [InlineData(12)]
-    public void DropDownMenuElement_MenuItemValueParam_RendersCorrectly(int value)
+    [Theory(DisplayName = "MenuItemValue Parameter Test"), AutoData]
+    public void DropDownMenuElement_MenuItemValueParam_RendersCorrectly(
+        string menuItemName,
+        int menuItemValue,
+        string menuIcon,
+        int accentColorIndex)
     {
         //Act
         var cut = RenderComponent<DropdownMenuElement<int>>(parameters => parameters
-                .Add(p => p.MenuItemName, "Test Menu Item")
-                .Add(p => p.Value, value)
-                .Add(p => p.MenuIcon, "mdi-delete")
-                .Add(p => p.AccentColorIndex, 2)
-                );
+                          .Add(p => p.MenuItemName, menuItemName)
+                          .Add(p => p.Value, menuItemValue)
+                          .Add(p => p.MenuIcon, menuIcon)
+                          .Add(p => p.AccentColorIndex, accentColorIndex));
 
         var item = cut.Instance;
 
         //Assert
-        Assert.Equal(value, item.Value);
+        Assert.Equal(menuItemValue, item.Value);
     }
 
-    [Theory(DisplayName = "MenutItemIcon Parameter Test")]
-    [InlineData("icon-1")]
-    [InlineData("icon-2")]
-    [InlineData("icon-3")]
-    public void DropDownMenuElement_MenuItemIconParam_RendersCorrectly(string icon)
+    [Theory(DisplayName = "MenutItemIcon Parameter Test"), AutoData]
+    public void DropDownMenuElement_MenuItemIconParam_RendersCorrectly(
+        string menuItemName,
+        int menuItemValue,
+        string menuIcon,
+        int accentColorIndex)
     {
         //Act
         var cut = RenderComponent<DropdownMenuElement<int>>(parameters => parameters
-                        .Add(p => p.MenuItemName, "Test Menu Item")
-                        .Add(p => p.Value, 1)
-                        .Add(p => p.MenuIcon, icon)
-                        .Add(p => p.AccentColorIndex, 3)
-                        );
+                        .Add(p => p.MenuItemName, menuItemName)
+                        .Add(p => p.Value, menuItemValue)
+                        .Add(p => p.MenuIcon, menuIcon)
+                        .Add(p => p.AccentColorIndex, accentColorIndex));
 
 
         var spanElement = cut.Find("span");
-        var expectedResult = $"mdi-{icon}";
+        var expectedResult = $"mdi-{menuIcon}";
 
         //Assert
         Assert.Contains(expectedResult, spanElement.ClassList);
     }
 
-    [Theory(DisplayName = "MenuItemAccentColorIndex Parameter Test")]
-    [InlineData(1, "accent-color-1")]
-    [InlineData(2, "accent-color-2")]
-    [InlineData(3, "accent-color-3")]
-    public void DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(int accentColorIndex, string expectedValue)
+    [Theory(DisplayName = "MenuItemAccentColorIndex Parameter Test"), AutoData]
+    public void DropDownMenuElement_MenuItemAccentColorIndexParam_RendersCorrectly(
+        string menuItemName,
+        int menuItemValue,
+        string menuIcon,
+        int accentColorIndex)
     {
+        //Arrange
+        var expectedAccentClass = $"accent-color-{accentColorIndex}";
+
         //Act
         var cut = RenderComponent<DropdownMenuElement<int>>(parameters => parameters
-                        .Add(p => p.MenuItemName, "Test Menu Item")
-                        .Add(p => p.Value, 1)
-                        .Add(p => p.MenuIcon, "mdi-delete")
-                        .Add(p => p.AccentColorIndex, accentColorIndex)
-                        );
+                        .Add(p => p.MenuItemName, menuItemName)
+                        .Add(p => p.Value, menuItemValue)
+                        .Add(p => p.MenuIcon, menuIcon)
+                        .Add(p => p.AccentColorIndex, accentColorIndex));
 
 
         var spanElement = cut.Find("span");
 
         //Assert
-        Assert.Contains(expectedValue, spanElement.ClassList);
+        Assert.Contains(expectedAccentClass, spanElement.ClassList);
     }
 
-    [Theory(DisplayName = "OnMenuItemSelected Parameter Test")]
-    [InlineData(7)]
-    [InlineData(8)]
-    [InlineData(1)]
-    public void DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(int value)
+    [Theory(DisplayName = "OnMenuItemSelected Parameter Test"), AutoData]
+    public void DropDownMenuElement_OnMenuItemSelectedParam_RendersCorrectly(
+        string menuItemName,
+        int menuItemValue,
+        string menuIcon,
+        int accentColorIndex)
     {
         //Arrange
         var eventCalled = false;
         var eventCalledValue = 0;
 
         var cut = RenderComponent<DropdownMenuElement<int>>(parameters => parameters
-                        .Add(p => p.MenuItemName, "Test Menu Item")
-                        .Add(p => p.Value, value)
-                        .Add(p => p.MenuIcon, "mdi-delete")
-                        .Add(p => p.AccentColorIndex, 3)
-                        .Add(p => p.OnMenuItemSelected, (_) => { eventCalled = true; eventCalledValue = _; })
-                        );
+                        .Add(p => p.MenuItemName, menuItemName)
+                        .Add(p => p.Value, menuItemValue)
+                        .Add(p => p.MenuIcon, menuIcon)
+                        .Add(p => p.AccentColorIndex, accentColorIndex)
+                        .Add(p => p.OnMenuItemSelected, (_) => { eventCalled = true; eventCalledValue = _; }));
 
         
         var aElement = cut.Find("a");
@@ -131,6 +140,6 @@ public class DropDownMenuElementComponentTests : TestContext
 
         //Assert
         Assert.True(eventCalled);
-        Assert.Equal(value, eventCalledValue);
+        Assert.Equal(menuItemValue, eventCalledValue);
     }
 }
