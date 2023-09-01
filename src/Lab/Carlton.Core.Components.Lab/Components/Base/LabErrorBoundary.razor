@@ -1,0 +1,40 @@
+﻿@using Microsoft.Extensions.Logging
+@typeparam TComponent
+@namespace Carlton.Core.Components.Lab
+@inject ILogger<LabErrorBoundary<TComponent>> Logger
+@inject IExceptionDisplayService ExceptionDisplayService
+@inject IComponentExceptionLoggingService ComponentExceptionLoggingService
+@inherits ErrorBoundary
+
+@if (ShowErrorContent)
+{
+    <ErrorPrompt ErrorHeader="@ErrorPrompt.Header" ErrorIconClass="@ErrorPrompt.IconClass" ErrorMessage="@ErrorPrompt.Message" OnClick="base.Recover" />
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    private bool ShowErrorContent { get => base.CurrentException != null; }
+
+    private Flux.Models.ExceptionErrorPrompt ErrorPrompt {get;set;}
+
+    protected override void OnParametersSet()
+    {
+        ComponentExceptionLoggingService.LogException(Logger, base.CurrentException, typeof(TComponent));
+        base.OnParametersSet();
+    }
+
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        ErrorPrompt = ExceptionDisplayService.GetExceptionErrorPrompt(exception, base.Recover);
+        ComponentExceptionLoggingService.LogException(Logger, exception, typeof(TComponent));
+        return base.OnErrorAsync(exception);
+    }
+}
+
+
+
+
+

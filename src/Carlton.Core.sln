@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.InProcessMessa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flux.Test", "Carlton.Core.Components.Flux.Test\Carlton.Core.Components.Flux.Test.csproj", "{FAAA8532-4D71-45D4-95CE-924A9F604982}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Core.Components.Lab.Test", "Carlton.Core.Components.Lab.Tests\Carlton.Core.Components.Lab.Test.csproj", "{FDA60BD8-F986-4F00-88EE-51DB455B1346}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lab.Test", "Carlton.Core.Components.Lab.Tests\Carlton.Core.Components.Lab.Test.csproj", "{FDA60BD8-F986-4F00-88EE-51DB455B1346}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
