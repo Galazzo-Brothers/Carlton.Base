@@ -1,4 +1,8 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
+using System.Text.RegularExpressions;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(AccordionSelectGroup<int>))]
 public class AccordionSelectGroupComponentTests : TestContext
@@ -15,8 +19,7 @@ public class AccordionSelectGroupComponentTests : TestContext
         cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectGroupMarkup);
     }
 
-    [Theory(DisplayName = "Groups Parameter Test")]
-    [MemberData(nameof(AccordionSelectTestHelper.GetGroups), MemberType = typeof(AccordionSelectTestHelper))]
+    [Theory(DisplayName = "Groups Parameter Test"), AutoData]
     public void AccordionSelectGroup_GroupsParam_RendersCorrectly(ReadOnlyCollection<SelectGroup<int>> groups)
     {
         //Arrange
@@ -25,8 +28,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 
         //Act
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, groups)
-            );
+            .Add(p => p.Groups, groups));
 
         var actualCount = cut.FindAll(".accordion-select").Count;
         var actualGroupNames = cut.FindAll(".item-group-name").Select(_ => _.TextContent);
@@ -36,18 +38,21 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.Equal(expectedGroupNames, actualGroupNames);
     }
 
-    [Theory(DisplayName = "SelectedItem Parameter Test")]
-    [InlineData(0, 0, 1)]
-    [InlineData(0, 1, 2)]
-    [InlineData(1, 2, 3)]
-    [InlineData(1, 3, 4)]
-    public void AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(int groupIndex, int itemIndex, int itemValue)
+    [Theory(DisplayName = "SelectedItem Parameter Test"), AutoData]
+    public void AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(IEnumerable<SelectGroup<int>> templateGroups)
     {
+        //Arrange
+        var groups = FixIndexes(templateGroups);
+
+        var random = new Random();
+        var groupIndex = random.Next(0, groups.Count());
+        var itemIndex = random.Next(0, groups.ElementAt(groupIndex).Items.Count());
+        var itemValue = groups.ElementAt(groupIndex).Items.ElementAt(itemIndex).Value;
+
         //Act
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, AccordionSelectTestHelper.Groups)
-            .Add(p => p.SelectedItem, itemValue)
-            );
+            .Add(p => p.Groups, groups)
+            .Add(p => p.SelectedItem, itemValue));
 
         var headers = cut.FindAll(".accordion-header").ToList();
         var items = cut.FindAll(".item").ToList();
@@ -62,10 +67,8 @@ public class AccordionSelectGroupComponentTests : TestContext
 
         //Assert
         Assert.Equal(itemValue, cut.Instance.SelectedItem);
-
         Assert.Contains("selected", selectedHeader.ClassList);
         Assert.DoesNotContain("selected", unselectedHeaders.SelectMany(_ => _.ClassList));
-
         Assert.Contains("selected", selectedItem.ClassList);
         Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
@@ -129,5 +132,22 @@ public class AccordionSelectGroupComponentTests : TestContext
 
         Assert.Contains("selected", selectedItem.ClassList);
         Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
+    }
+
+    private static IEnumerable<SelectGroup<int>> FixIndexes(IEnumerable<SelectGroup<int>> templateGroups)
+    {
+        var groups = new List<SelectGroup<int>>();
+
+        foreach (var (group, groupIndex) in templateGroups.WithIndex())
+        {
+            var groupItems = new List<SelectItem<int>>();
+            foreach (var (item, itemIndex) in group.Items.WithIndex())
+            {
+                groupItems.Add(item with { Index = itemIndex });
+            }
+            groups.Add(new SelectGroup<int>(group.Name, groupIndex, groupItems));
+        }
+
+        return groups;
     }
 }
