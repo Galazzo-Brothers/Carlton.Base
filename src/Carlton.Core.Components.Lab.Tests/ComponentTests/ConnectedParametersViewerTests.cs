@@ -1,9 +1,8 @@
-﻿using Bunit;
+﻿using AutoFixture.Xunit2;
+using Bunit;
 using Carlton.Core.Components.Flux.Models;
-using Carlton.Core.Components.Lab.Models;
 using Carlton.Core.Components.Lab.Test.Common;
 using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
 namespace Carlton.Core.Components.Lab.Test.ComponentTests;
@@ -42,19 +41,19 @@ public class ConnectedParametersViewerTests : TestContext
 </div>");
     }
 
-    [Fact]
-    public void ConnectedParameterViewerComponent_EventCallback()
+    [Theory, AutoData]
+    public void ConnectedParameterViewerComponent_EventCallback(string param1, int param2, bool param3)
     {
         //Arrange
+        var newValue = new
+        {
+            Param1 = param1,
+            Param2 = param2,
+            Param3 = param3
+        };
         var command = new MutationCommand();
         var onComponentEventCalled = false;
-        var vm = new ParametersViewerViewModel(new ComponentParameters(
-           new
-           {
-               Param1 = "Testing",
-               Param2 = 17,
-               Param3 = false
-           }, ParameterObjectType.ParameterObject));
+        var vm = new ParametersViewerViewModel(new ComponentParameters(newValue, ParameterObjectType.ParameterObject));
 
         var cut = RenderComponent<ConnectedParametersViewer>(parameters => parameters
                 .Add(p => p.ViewModel, vm)
@@ -65,14 +64,6 @@ public class ConnectedParametersViewerTests : TestContext
                 }));
 
         var txt = cut.Find("textarea");
-
-        var newValue = new
-        {
-            Param1 = "Testing",
-            Param2 = 17,
-            Param3 = false
-        };
-
         var newJson = JsonSerializer.Serialize(newValue);
 
         //Act

@@ -1,27 +1,31 @@
-﻿using Bunit;
+﻿using AutoFixture;
+using Bunit;
 using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedTestResultsComponentTests : TestContext
 {
+    private readonly IFixture _fixture;
+
+    public ConnectedTestResultsComponentTests()
+    {
+        _fixture = new Fixture();
+    }
+
     [Fact]
     public void ConnectedTestResultsViewerComponentRendersCorrectly()
     {
         //Arrange
-        var vm = new TestResultsViewModel(new List<TestResult>
-        {
-            new TestResult("Test 1", TestResultOutcomes.Passed, 1.22),
-            new TestResult("Test 2", TestResultOutcomes.Passed, 1.55),
-            new TestResult("Test 3", TestResultOutcomes.Failed, 15.22),
-        });
+        var testResults = _fixture.CreateMany<TestResult>(3).ToList();
+        var vm = new TestResultsViewModel(testResults);
 
         //Act
         var cut = RenderComponent<ConnectedTestResultsViewer>(parameters => parameters
                 .Add(p => p.ViewModel, vm));
 
         //Assert
-        cut.MarkupMatches(@"
+        cut.MarkupMatches(@$"
 <div class=""test-results-viewer"">
 <div class=""main-container"">
     <div class=""table-container"">
@@ -54,36 +58,36 @@ public class ConnectedTestResultsComponentTests : TestContext
         <div class=""test-row"">
         <div class=""test-outcome-column"">
             <div class=""test-outcome-icon"">
-            <span class=""test-passed-icon mdi mdi-18px mdi-check-circle""></span>
-            <span>Passed</span>
+            <span class=""test-{testResults[0].TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(testResults[0].TestResultOutcome)}-circle""></span>
+            <span>{testResults[0].TestResultOutcome}</span>
             </div>
         </div>
-        <div class=""test-name-column"">Test 1</div>
-        <div class=""test-duration-column"">1220</div>
+        <div class=""test-name-column"">{testResults[0].TestName}</div>
+        <div class=""test-duration-column"">{testResults[0].TestDuration}</div>
         </div>
     </div>
     <div class=""item-row table-row"">
         <div class=""test-row"">
         <div class=""test-outcome-column"">
             <div class=""test-outcome-icon"">
-            <span class=""test-passed-icon mdi mdi-18px mdi-check-circle""></span>
-            <span>Passed</span>
+            <span class=""test-{testResults[1].TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(testResults[1].TestResultOutcome)}-circle""></span>
+            <span>{testResults[1].TestResultOutcome}</span>
             </div>
         </div>
-        <div class=""test-name-column"">Test 2</div>
-        <div class=""test-duration-column"">1550</div>
+        <div class=""test-name-column"">{testResults[1].TestName}</div>
+        <div class=""test-duration-column"">{testResults[1].TestDuration}</div>
         </div>
     </div>
     <div class=""item-row table-row"">
         <div class=""test-row"">
         <div class=""test-outcome-column"">
-            <div class=""test-outcome-item"">
-            <span class=""test-failed-icon mdi mdi-18px mdi-close-circle""></span>
-            <span>Failed</span>
+            <div class=""test-outcome-icon"">
+            <span class=""test-{testResults[2].TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(testResults[2].TestResultOutcome)}-circle""></span>
+            <span>{testResults[2].TestResultOutcome}</span>
             </div>
         </div>
-        <div class=""test-name-column"">Test 3</div>
-        <div class=""test-duration-column"">15220</div>
+        <div class=""test-name-column"">{testResults[2].TestName}</div>
+        <div class=""test-duration-column"">{testResults[2].TestDuration}</div>
         </div>
     </div>
     <div class=""pagination-row table-row"">
@@ -114,5 +118,15 @@ public class ConnectedTestResultsComponentTests : TestContext
     </div>
 </div>
 </div>");
+    }
+
+    private static string GetTestIcon(TestResultOutcomes outcome)
+    {
+        return outcome switch
+        {
+            TestResultOutcomes.Passed => "check",
+            TestResultOutcomes.Failed => "close",
+            _ => "help",
+        };
     }
 }

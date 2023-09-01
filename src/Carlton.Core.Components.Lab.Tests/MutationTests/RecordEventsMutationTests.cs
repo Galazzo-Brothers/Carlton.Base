@@ -1,11 +1,18 @@
-﻿using Carlton.Core.Components.Lab.State.Mutations;
+﻿using AutoFixture;
+using Carlton.Core.Components.Lab.State.Mutations;
 using Carlton.Core.Components.Lab.Test.Common;
-using System.Net.Http.Headers;
 
 namespace Carlton.Core.Components.Lab.Test.MutationTests;
 
 public class RecordEventsMutationTests
 {
+    private readonly IFixture _fixture;
+
+    public RecordEventsMutationTests()
+    {
+        _fixture = new Fixture();
+    }
+
     [Fact]
     public void RecordEventMutation_MutatesCorrectly()
     {
@@ -20,17 +27,15 @@ public class RecordEventsMutationTests
                 }
         };
 
-        var expectedEventName = "Some New Event";
-        var expectedEventArgs = new { Param1 = "Test Param", Param2 = false };
         var mutation = new RecordEventMutation();
-        var command = new RecordEventCommand(expectedEventName, expectedEventArgs);
+        var command = _fixture.Create<RecordEventCommand>();
 
         //Act
         var mutatedState = mutation.Mutate(labState, command);
 
         //Assert
         Assert.Equal(4, mutatedState.ComponentEvents.Count());
-        Assert.Equal(expectedEventName, mutatedState.ComponentEvents.Last().Name);
-        Assert.Equal(expectedEventArgs, mutatedState.ComponentEvents.Last().EventObj);
+        Assert.Equal(command.RecordedEventName, mutatedState.ComponentEvents.Last().Name);
+        Assert.Equal(command.EventArgs, mutatedState.ComponentEvents.Last().EventObj);
     }
 }

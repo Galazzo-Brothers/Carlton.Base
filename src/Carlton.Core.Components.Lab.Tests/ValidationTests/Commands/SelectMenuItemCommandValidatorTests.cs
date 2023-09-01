@@ -1,4 +1,6 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
+using Carlton.Core.Components.Lab.Models.Validators.Commands;
 using Carlton.Core.Components.Lab.Test.Mocks;
 using FluentValidation.TestHelper;
 
@@ -6,14 +8,19 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class SelectMenuItemCommandValidatorTests
 {
+    private readonly IFixture _fixture;
+
+    public SelectMenuItemCommandValidatorTests()
+    {
+        _fixture = new Fixture();
+    }
+
     [Fact]
     public void ValidSelectMenuItemCommandCommand_ShouldPassValidation()
     {
         // Arrange
-        var componentState = new ComponentState("Test Display Name", typeof(DummyComponent),
-            new ComponentParameters(new { Param1 = "Testing" }, ParameterObjectType.ParameterObject));
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(componentState);
+        var command = _fixture.Create<SelectMenuItemCommand>();
 
         // Act
         var result = validator.TestValidate(command);
@@ -40,8 +47,7 @@ public class SelectMenuItemCommandValidatorTests
     public void InvalidSelectMenuItemCommand_NullComponentStateDisplayName_ShouldFailValidation()
     {
         // Arrange
-        var componentState = new ComponentState(null, typeof(DummyComponent),
-            new ComponentParameters(new { Param1 = "Testing" }, ParameterObjectType.ParameterObject));
+        var componentState = new ComponentState(null, typeof(DummyComponent), _fixture.Create<ComponentParameters>());
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(componentState);
 
@@ -56,8 +62,7 @@ public class SelectMenuItemCommandValidatorTests
     public void InvalidSelectMenuItemCommand_EmptyComponentStateDisplayName_ShouldFailValidation()
     {
         // Arrange
-        var componentState = new ComponentState(string.Empty, typeof(DummyComponent),
-            new ComponentParameters(new { Param1 = "Testing" }, ParameterObjectType.ParameterObject));
+        var componentState = new ComponentState(string.Empty, typeof(DummyComponent), _fixture.Create<ComponentParameters>());
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(componentState);
 
@@ -68,12 +73,11 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.ComponentState.DisplayName);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NullComponentStateType_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_NullComponentStateType_ShouldFailValidation(string displayName)
     {
         // Arrange
-        var componentState = new ComponentState("Testing", null,
-            new ComponentParameters(new { Param1 = "Testing" }, ParameterObjectType.ParameterObject));
+        var componentState = new ComponentState(displayName, null, _fixture.Create<ComponentParameters>());
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(componentState);
 
@@ -84,11 +88,11 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.ComponentState.Type);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation(string displayName)
     {
         // Arrange
-        var componentState = new ComponentState("Testing", typeof(DummyComponent), null);
+        var componentState = new ComponentState(displayName, typeof(DummyComponent), null);
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(componentState);
 

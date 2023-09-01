@@ -1,6 +1,6 @@
-﻿using Bunit;
+﻿using AutoFixture.Xunit2;
+using Bunit;
 using Carlton.Core.Components.Flux.Models;
-using Carlton.Core.Components.Lab.Models;
 using Carlton.Core.Components.Lab.Test.Common;
 using Carlton.Core.Components.Lab.Test.Mocks;
 
@@ -8,11 +8,11 @@ namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedComponentViewerTests : TestContext
 {
-    [Fact]
-    public void ConnectedComponentViewerComponentRendersCorrectly()
+    [Theory, AutoData]
+    public void ConnectedComponentViewerComponentRendersCorrectly(string testText)
     {
         //Arrange
-        var componentParameters = new ComponentParameters(new { TestText = "Hello World!" }, ParameterObjectType.ParameterObject);
+        var componentParameters = new ComponentParameters(new { TestText = testText }, ParameterObjectType.ParameterObject);
         var vm = new ComponentViewerViewModel(typeof(DummyComponent), componentParameters);
 
         //Act
@@ -20,10 +20,10 @@ public class ConnectedComponentViewerTests : TestContext
                 .Add(p => p.ViewModel, vm));
 
         //Assert
-        cut.MarkupMatches(@"
+        cut.MarkupMatches(@$"
 <div class=""component-viewer"" >
     <div class=""vm-props"">
-        <span class=""test-text"">Hello World!</span>
+        <span class=""test-text"">{testText}</span>
         <button class=""event-callback-test"">EventCallback Test</button>
         <button class=""generic-event-callback-test"" >EventCallback Test</button>
     </div>

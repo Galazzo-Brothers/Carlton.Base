@@ -1,4 +1,6 @@
-﻿using Carlton.Core.Components.Lab.Test.Mocks;
+﻿using AutoFixture;
+using Carlton.Core.Components.Lab.Test.Mocks;
+using Carlton.Core.Utilities.Extensions;
 using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Lab.Test.Common;
@@ -7,37 +9,76 @@ internal class LabStateFactory
 {
     public static LabState BuildLabState()
     {
-        var componentStates = new List<ComponentState>
+        //Setup Fixture
+        var fixture = new Fixture();
+
+        //Register Types
+        fixture.Register(() =>
         {
-            new ComponentState("Component State 1", typeof(DummyComponent), BuildParameters("Test", 1, true)),
-            new ComponentState("Component State 2", typeof(DummyComponent), BuildParameters("Test 2", 2, true)),
-            new ComponentState("Component State 3", typeof(DummyComponent), BuildParameters("Test 3", 3, false))
-        };
+            var types = new List<Type>
+            {
+               typeof(DummyComponent),
+               typeof(ConnectedBreadCrumbs),
+               typeof(ConnectedEventConsole)
+            };
 
-        var testResults = new TestResultsReport
-           (
-               new List<TestResult>
-               {
-                    new TestResult("Test 1", TestResultOutcomes.Passed, 2.3),
-                    new TestResult("Test 2", TestResultOutcomes.Passed, 4.3),
-                    new TestResult("Test 3", TestResultOutcomes.Failed, 7.3),
-               }
-           );
+            var random = new Random();
+            var randomIndex = random.Next(types.Count);
+            return types[randomIndex];
+        });
 
-        var dictionary = new Dictionary<string, TestResultsReport>
+        //Register Objects
+        fixture.Register(() =>
         {
-            { nameof(DummyComponent), testResults }
+            var objects = new List<object>
+            {
+                new { Param1 = "Testing", Param2 = 7, Param3 = false},
+                new { Param1 = "Hello World", Param2 = 2.2 },
+                new { Param1 = new List<int> { 1, 2, 3, 77 } }
+            };
+
+            var random = new Random();
+            var randomIndex = random.Next(objects.Count);
+            return objects[randomIndex];
+        });
+
+        //Create base LabState
+        var componentStates = fixture.CreateMany<ComponentState>();
+
+        //Register Test Dictionary
+        fixture.Register(() =>
+        {
+            var random = new Random();
+            var kvp = new List<KeyValuePair<string, TestResultsReport>>();
+
+            foreach(var type in componentStates.Select(_ => _.Type).Distinct())
+            {
+                kvp.Add(new KeyValuePair<string, TestResultsReport>(
+                  type.GetDisplayName(),
+                  fixture.Create<TestResultsReport>()));
+            }
+
+            return new Dictionary<string, TestResultsReport>(kvp);
+        });
+      
+      
+        var dictionary = fixture.Create<Dictionary<string, TestResultsReport>>();
+        
+        //Set a random but allowable selected index
+        var random = new Random();
+        var selectedIndex = random.Next(0, componentStates.Count() - 1);
+
+        //Set component events
+        var componentEvents = fixture.CreateMany<ComponentRecordedEvent>();
+
+        //Setup Markup
+        var markup = fixture.Create<string>();
+
+        return new LabState(componentStates, dictionary) with 
+        {
+            SelectedComponentIndex = selectedIndex,
+            ComponentEvents = componentEvents,
+            SelectedComponentMarkup = markup
         };
-
-
-        return new LabState(componentStates, dictionary);
-    }
-
-    public static ComponentParameters BuildParameters(string param1, int param2, bool param3)
-    {
-        return new ComponentParameters
-            (
-                new { Param1 = param1, Param2 = param2, Param3 = param3 }
-            , ParameterObjectType.ParameterObject);
     }
 }
