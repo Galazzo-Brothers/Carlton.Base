@@ -2,7 +2,7 @@
 
 public interface IExceptionDisplayService
 {
-    public ExceptionErrorPrompt GetExceptionErrorPrompt(Exception ex);
+    public ExceptionErrorPrompt GetExceptionErrorPrompt(Exception ex, Action recoverAct);
 }
 
 

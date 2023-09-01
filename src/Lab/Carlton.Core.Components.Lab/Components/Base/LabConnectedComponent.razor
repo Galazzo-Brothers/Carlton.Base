@@ -2,7 +2,7 @@
 @typeparam TViewModel
 
 
-<LabComponentErrorBoundary TComponent="IConnectedComponent<TViewModel>">
+<LabErrorBoundary TComponent="IConnectedComponent<TViewModel>">
     <ChildContent>
         <ConnectedWrapper TViewModel="TViewModel" TState="LabState">
             <SpinnerContent>
@@ -10,4 +10,4 @@
             </SpinnerContent>
         </ConnectedWrapper>
     </ChildContent>
-</LabComponentErrorBoundary>
+</LabErrorBoundary>

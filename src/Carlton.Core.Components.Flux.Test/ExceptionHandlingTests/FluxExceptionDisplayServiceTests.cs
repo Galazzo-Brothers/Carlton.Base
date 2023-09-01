@@ -18,17 +18,19 @@ public class FluxExceptionDisplayServiceTests
     public void LogException_UnhandledException_ShouldBeLogged()
     {
         //Arrange
+        var action = () => { };
         var expectedResult = new ExceptionErrorPrompt
                             (
                                "Error",
                                "Oops! We are sorry an error has occurred. Please try again.",
-                               "mdi-alert-circle-outline"
+                               "mdi-alert-circle-outline",
+                               action
                             );
         var exception = new Exception();
         var sut = _fixture.Create<FluxExceptionDisplayService>();
 
         //Act
-        var actualResult = sut.GetExceptionErrorPrompt(exception);
+        var actualResult = sut.GetExceptionErrorPrompt(exception, action);
 
 
         //Assert
@@ -39,17 +41,19 @@ public class FluxExceptionDisplayServiceTests
     public void LogException_FluxException_ShouldNotBeLogged()
     {
         //Arrange
+        var action = () => { };
         var exception = _fixture.Create<FluxException>();
         var expectedResult = new ExceptionErrorPrompt
                     (
                         "Error",
                          exception.Message,
-                         "mdi-alert-circle-outline"
+                         "mdi-alert-circle-outline",
+                         action
                     );
         var sut = _fixture.Create<FluxExceptionDisplayService>();
 
         //Act
-        var actualResult = sut.GetExceptionErrorPrompt(exception);
+        var actualResult = sut.GetExceptionErrorPrompt(exception, action);
 
 
         //Assert
