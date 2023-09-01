@@ -1,75 +1,85 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(Card))]
 public class CardComponentTests : TestContext
 {
-    [Fact(DisplayName = "Markup Test")]
-    public void Card_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void Card_Markup_RendersCorrectly(string cardTitle, string actionBarContent, string headerContent, string primaryCardContent)
     {
+        //Arrange
+        var expectedMarkup =
+@$"<div class=""card"">
+    <div class=""content"">
+        <div class=""title-content"">
+            <span class=""card-title"">{cardTitle}</span>
+            <div class=""status-icon"">{actionBarContent}</div>
+        </div>
+        <div class=""header-content"">
+            {headerContent}
+        </div>
+        <div class=""primary-content"">
+            {primaryCardContent}
+        </div>
+    </div>
+</div>";
+
         //Act
         var cut = RenderComponent<Card>(parameters => parameters
-            .Add(p => p.CardTitle, "Test Title")
-            .Add(p => p.ActionBarContent, "Test ActionBar Content")
-            .Add(p => p.HeaderContent, "<span>Test Header</span>")
-            .Add(p => p.PrimaryCardContent, "<span>Test Primary Content</span>")
+            .Add(p => p.CardTitle, cardTitle)
+            .Add(p => p.ActionBarContent, actionBarContent)
+            .Add(p => p.HeaderContent, headerContent)
+            .Add(p => p.PrimaryCardContent, primaryCardContent)
             );
 
         //Assert
-        cut.MarkupMatches(CardTestHelper.CardMarkup);
+        cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "Title Parameter Test")]
-    [InlineData("Test Title 1")]
-    [InlineData("Test Title 2")]
-    [InlineData("Test Title 3")]
-    public void Card_CardTitleParam_RendersCorrectly(string expectedTitle)
+    [Theory(DisplayName = "Title Parameter Test"), AutoData]
+    public void Card_CardTitleParam_RendersCorrectly(string title, string actionBarContent, string headerContent, string primaryCardContent)
     {
         //Act
         var cut = RenderComponent<Card>(parameters => parameters
-            .Add(p => p.CardTitle, expectedTitle)
-            .Add(p => p.ActionBarContent, "Test ActionBar Content")
-            .Add(p => p.HeaderContent, "<span>Test Header</span>")
-            .Add(p => p.PrimaryCardContent, "<span>Test Primary Content</span>")
+            .Add(p => p.CardTitle, title)
+            .Add(p => p.ActionBarContent, actionBarContent)
+            .Add(p => p.HeaderContent, headerContent)
+            .Add(p => p.PrimaryCardContent, primaryCardContent)
             );
 
         var cardTitle = cut.Find(".card-title").TextContent;
 
         //Assert
-        Assert.Equal(expectedTitle, cardTitle);
+        Assert.Equal(title, cardTitle);
     }
 
-    [Theory(DisplayName = "ActionBarContentChild Parameter Test")]
-    [InlineData("ActionBar Testing Content 1")]
-    [InlineData("ActionBar Testing Content 2")]
-    [InlineData("ActionBar Testing Content 3")]
-    public void Card_ActionBarContentChildParam_RendersCorrectly(string expectedActionBarContent)
+    [Theory(DisplayName = "ActionBarContentChild Parameter Test"), AutoData]
+    public void Card_ActionBarContentChildParam_RendersCorrectly(string title, string actionBarContent, string headerContent, string primaryCardContent)
     {
         //Act
         var cut = RenderComponent<Card>(parameters => parameters
-            .Add(p => p.CardTitle, "Some Test Title")
-            .Add(p => p.ActionBarContent, expectedActionBarContent)
-            .Add(p => p.HeaderContent, "<span>Test Header</span>")
-            .Add(p => p.PrimaryCardContent, "<span>Primary Testing Content</span>")
+            .Add(p => p.CardTitle, title)
+            .Add(p => p.ActionBarContent, actionBarContent)
+            .Add(p => p.HeaderContent, headerContent)
+            .Add(p => p.PrimaryCardContent, primaryCardContent)
             );
 
-        var actionBarContent = cut.Find(".status-icon").InnerHtml;
+        var actualActionBarContent = cut.Find(".status-icon").InnerHtml;
 
         //Assert
-        Assert.Equal(expectedActionBarContent, actionBarContent);
+        Assert.Equal(actionBarContent, actualActionBarContent);
     }
 
-    [Theory(DisplayName = "HeaderContentChild Parameter Test")]
-    [InlineData("<span>Header Testing Content 1</span>")]
-    [InlineData("<span>Header Testing Content 2</span>")]
-    [InlineData("<span>Header Testing Content 3</span>")]
-    public void Card_HeaderContentChildParam_RendersCorrectly(string expectedHeaderContent)
+    [Theory(DisplayName = "HeaderContentChild Parameter Test"), AutoData]
+    public void Card_HeaderContentChildParam_RendersCorrectly(string title, string expectedActionBarContent, string expectedHeaderContent, string primaryCardContent)
     {
         //Act
         var cut = RenderComponent<Card>(parameters => parameters
-            .Add(p => p.CardTitle, "Some Test Title")
-            .Add(p => p.ActionBarContent, "ActionBar Content")
+            .Add(p => p.CardTitle, title)
+            .Add(p => p.ActionBarContent, expectedActionBarContent)
             .Add(p => p.HeaderContent, expectedHeaderContent)
-            .Add(p => p.PrimaryCardContent, "<span>Test Primary Content</span>")
+            .Add(p => p.PrimaryCardContent, primaryCardContent)
             );
 
         var headerContent = cut.Find(".header-content").InnerHtml;
@@ -78,23 +88,20 @@ public class CardComponentTests : TestContext
         Assert.Equal(expectedHeaderContent, headerContent);
     }
 
-    [Theory(DisplayName = "PrimaryContentChild Parameter Test")]
-    [InlineData("<span>Primary Testing Content 1</span>")]
-    [InlineData("<span>Primary Testing Content 2</span>")]
-    [InlineData("<span>Primary Testing Content 3</span>")]
-    public void Card_PrimaryContentChildParam_RendersCorrectly(string expectedPrimaryCardContent)
+    [Theory(DisplayName = "PrimaryContentChild Parameter Test"), AutoData]
+    public void Card_PrimaryContentChildParam_RendersCorrectly(string title, string actionBarContent, string headerContent, string primaryCardContent)
     {
         //Act
         var cut = RenderComponent<Card>(parameters => parameters
-            .Add(p => p.CardTitle, "Some Test Title")
-            .Add(p => p.ActionBarContent, "ActionBar Content")
-            .Add(p => p.HeaderContent, "<span>Header Content</span>")
-            .Add(p => p.PrimaryCardContent, expectedPrimaryCardContent)
+            .Add(p => p.CardTitle, title)
+            .Add(p => p.ActionBarContent, actionBarContent)
+            .Add(p => p.HeaderContent, headerContent)
+            .Add(p => p.PrimaryCardContent, primaryCardContent)
             );
 
-        var primaryContent = cut.Find(".primary-content").InnerHtml;
+        var actualPrimaryContent = cut.Find(".primary-content").InnerHtml;
 
         //Assert
-        Assert.Equal(expectedPrimaryCardContent, primaryContent);
+        Assert.Equal(primaryCardContent, actualPrimaryContent);
     }
 }

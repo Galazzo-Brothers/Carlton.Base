@@ -1,37 +1,61 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 
 [Trait("Component", nameof(Console))]
 public class ConsoleComponentTests : TestContext
 {
-    private static readonly string ConsoleMarkup = @"
-<div class=""console"" b-26bfns5jah>
-    <textarea rows=""15"" class="""" value=""this is some dummy text"" blazor:onchange=""1"" b-26bfns5jah></textarea>
+    [Theory(DisplayName = "Markup Test")]
+    [InlineAutoData(false)]
+    public void Console_Markup_RendersCorrectly(bool isReadOnly, string text)
+    {
+        //Arrange
+        var expectedMarkup = @$"
+<div class=""console"">
+    <textarea rows=""15"" class="""" value=""{text}""></textarea>
 </div>";
 
 
-    [Fact(DisplayName = "Markup Test")]
-    public void Console_Markup_RendersCorrectly()
-    {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
-            .Add(p => p.IsReadOnly, false)
-            .Add(p => p.Text, "this is some dummy text")
-            );
+                .Add(p => p.IsReadOnly, isReadOnly)
+                .Add(p => p.Text, text)
+                );
 
         //Assert
-        cut.MarkupMatches(ConsoleMarkup);
+        cut.MarkupMatches(string.Format(expectedMarkup, text));
+    }
+
+    [Theory(DisplayName = "Markup Test")]
+    [InlineAutoData(true)]
+    public void Console_Disabled_Markup_RendersCorrectly(bool isReadOnly, string text)
+    {
+        //Arrange
+        var expectedMarkup = @$"
+<div class=""console"">
+    <textarea rows=""15"" disabled="""" class="""" value=""{text}""></textarea>
+</div>";
+
+        //Act
+        var cut = RenderComponent<Console>(parameters => parameters
+                .Add(p => p.IsReadOnly, isReadOnly)
+                .Add(p => p.Text, text)
+                );
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "ReadOnly Parameter Test")]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Console_ReadOnlyParam_RendersCorrectly(bool isReadOnly)
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
+    public void Console_ReadOnlyParam_RendersCorrectly(bool isReadOnly, string text)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, isReadOnly)
-            .Add(p => p.Text, "this is some dummy text")
+            .Add(p => p.Text, text)
             );
 
         var consoleElement = cut.Find("textarea");
@@ -41,10 +65,7 @@ public class ConsoleComponentTests : TestContext
         Assert.Equal(isReadOnly, actualIsDisabled);
     }
 
-    [Theory(DisplayName = "Text Parameter Test")]
-    [InlineData("here is some super special test text")]
-    [InlineData("here is some more super special test text")]
-    [InlineData("here is event more super special test text")]
+    [Theory(DisplayName = "Text Parameter Test"), AutoData]
     public void Console_TextParam_RendersCorrectly(string expectedText)
     {
         //Act
@@ -62,14 +83,14 @@ public class ConsoleComponentTests : TestContext
 
 
     [Theory(DisplayName = "IsValid Parameter Test")]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void Console_IsValidParam_RendersCorrectly(bool expectedIsValid)
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
+    public void Console_IsValidParam_RendersCorrectly(bool expectedIsValid, string text)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
-            .Add(p => p.Text, "Some random text")
+            .Add(p => p.Text, text)
             .Add(p => p.IsValid, expectedIsValid)
             );
 
@@ -80,11 +101,8 @@ public class ConsoleComponentTests : TestContext
         Assert.Equal(expectedIsValid, !errorClassExists);
     }
 
-    [Theory(DisplayName = "OnChangeCallback Parameter Test")]
-    [InlineData("new text")]
-    [InlineData("some more new text")]
-    [InlineData("even more new text")]
-    public void Console_OnChangeCallbackParam_FiresCallback(string expectedText)
+    [Theory(DisplayName = "OnChangeCallback Parameter Test"), AutoData]
+    public void Console_OnChangeCallbackParam_FiresCallback(string expectedText, string text)
     {
         //Arrange
         var eventCalled = false;
@@ -92,14 +110,14 @@ public class ConsoleComponentTests : TestContext
 
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
-            .Add(p => p.Text, "some original text")
+            .Add(p => p.Text, text)
             .Add(p => p.OnChangeCallback, (str) => { eventCalled = true; actualText = str; })
             );
 
         var consoleElement = cut.Find("textarea");
 
         //Act
-       consoleElement.Change(new ChangeEventArgs { Value = expectedText });
+        consoleElement.Change(new ChangeEventArgs { Value = expectedText });
 
         //Assert
         Assert.True(eventCalled);

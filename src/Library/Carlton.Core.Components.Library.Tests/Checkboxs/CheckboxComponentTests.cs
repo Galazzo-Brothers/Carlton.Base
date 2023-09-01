@@ -3,20 +3,25 @@
 [Trait("Component", nameof(Checkbox))]
 public class CheckboxComponentTests : TestContext
 {
-    private static readonly string CheckboxMarkup =
-    @"<div class=""checkbox mdi mdi-24px mdi-check-circle"" blazor:onclick=""1""></div>";
+    private const string CheckboxCheckedMarkup =
+        @"<div class=""checkbox mdi mdi-24px mdi-check-circle""></div>";
 
+    private const string CheckboxUncheckedMarkup =
+        @"<div class=""checkbox mdi mdi-24px mdi-checkbox-blank-circle-outline""></div>";
 
-    [Fact(DisplayName = "Markup Test")]
-    public void Checkbox_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test")]
+    [InlineData(true, CheckboxCheckedMarkup)]
+    [InlineData(false, CheckboxUncheckedMarkup)]
+
+    public void Checkbox_Markup_RendersCorrectly(bool isChecked, string expectedMarkup)
     {
         //Act
         var cut = RenderComponent<Checkbox>(parameters => parameters
-            .Add(p => p.IsChecked, true)
+            .Add(p => p.IsChecked, isChecked)
             );
 
         //Assert
-        cut.MarkupMatches(CheckboxMarkup);
+        cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "IsChecked Parameter Test")]

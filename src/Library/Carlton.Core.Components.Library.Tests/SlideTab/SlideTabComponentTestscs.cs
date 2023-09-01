@@ -1,89 +1,130 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(SlideTab))]
 public class SlideTabComponentTests : TestContext
 {
-    private static readonly string SlideTabMarkup = @"
-<div class=""slide-tab"" style=""--slide-tab-bottom:50px;"" b-wxqrrervve>
-    <button class=""slide-button"" blazor:onclick=""1"" b-wxqrrervve>Test Title</button>
-    <div class=""slide-container "" b-wxqrrervve>
-        <span class=""test-content"">Here is some test content</span>
+    private const string ContentTemplate = "<span class=\"content\">{0}</span>";
+
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void SlideTab_Collapsed_Markup_RendersCorrectly(
+        string title,
+        int positionBottom,
+        string content)
+    {
+        //Arrange
+        var expectedMarkup = 
+@$"<div class=""slide-tab"" style=""--slide-tab-bottom:{positionBottom}px;"">
+    <button class=""slide-button"">{title}</button>
+    <div class=""slide-container"">
+        <span class=""content"">{content}</span>
     </div>
 </div>";
 
-
-    [Fact(DisplayName = "Markup Test")]
-    public void SlideTab_Markup_RendersCorrectly()
-    {
         //Act
         var cut = RenderComponent<SlideTab>(parameters => parameters
-            .Add(p => p.Title, "Test Title")
+            .Add(p => p.Title, title)
             .Add(p => p.IsExpanded, false)
-            .Add(p => p.PositionBottom, 50)
-            .Add(p => p.Content, "<span class=\"test-content\">Here is some test content</span>")
+            .Add(p => p.PositionBottom, positionBottom)
+            .Add(p => p.Content, string.Format(ContentTemplate, content))
             );
 
         //Assert
-        cut.MarkupMatches(SlideTabMarkup);
+        cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "Title Parameter Test")]
-    [InlineData("Test Title")]
-    [InlineData("Another Test Title")]
-    [InlineData("One Final Test Title")]
-    public void SlideTab_TitleParam_RendersCorrectly(string expectedTitle)
+
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void SlideTab_Expanded_Markup_RendersCorrectly(
+        string title,
+        int positionBottom,
+        string content)
+    {
+        //Arrange
+        var expectedMarkup =
+@$"<div class=""slide-tab"" style=""--slide-tab-bottom:{positionBottom}px;"">
+    <button class=""slide-button"">{title}</button>
+    <div class=""slide-container expanded"">
+        <span class=""content"">{content}</span>
+    </div>
+</div>";
+
+        //Act
+        var cut = RenderComponent<SlideTab>(parameters => parameters
+            .Add(p => p.Title, title)
+            .Add(p => p.IsExpanded, true)
+            .Add(p => p.PositionBottom, positionBottom)
+            .Add(p => p.Content, string.Format(ContentTemplate, content))
+            );
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Theory(DisplayName = "Title Parameter Test"), AutoData]
+    public void SlideTab_TitleParam_RendersCorrectly(
+        string title,
+        bool isExpanded,
+        int positionBottom,
+        string content)
     {
         //Act
         var cut = RenderComponent<SlideTab>(parameters => parameters
-            .Add(p => p.Title, expectedTitle)
-            .Add(p => p.IsExpanded, false)
-            .Add(p => p.PositionBottom, 50)
-            .Add(p => p.Content, "<span class=\"test-content\">Here is some test content</span>")
+            .Add(p => p.Title, title)
+            .Add(p => p.IsExpanded, isExpanded)
+            .Add(p => p.PositionBottom, positionBottom)
+            .Add(p => p.Content, string.Format(ContentTemplate, content))
             );
 
         var btn = cut.Find("button");
         var actualTitle = btn.TextContent;
 
         //Assert
-        Assert.Equal(expectedTitle, actualTitle);
+        Assert.Equal(title, actualTitle);
     }
 
     [Theory(DisplayName = "IsExpanded Parameter Test")]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void SlideTab_IsExpandedParam_RendersCorrectly(bool expectedIsExpanded)
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
+    public void SlideTab_IsExpandedParam_RendersCorrectly(
+        bool isExpanded,
+        string title,
+        int positionBottom,
+        string content)
     {
         //Act
         var cut = RenderComponent<SlideTab>(parameters => parameters
-            .Add(p => p.Title, "test title")
-            .Add(p => p.IsExpanded, expectedIsExpanded)
-            .Add(p => p.PositionBottom, 50)
-            .Add(p => p.Content, "<span class=\"test-content\">Here is some test content</span>")
-            );
+           .Add(p => p.Title, title)
+           .Add(p => p.IsExpanded, isExpanded)
+           .Add(p => p.PositionBottom, positionBottom)
+           .Add(p => p.Content, string.Format(ContentTemplate, content))
+           );
 
         var slideContainer = cut.Find(".slide-container");
         var actualIsExpanded = slideContainer.ClassList.Contains("expanded");
 
         //Assert
-        Assert.Equal(expectedIsExpanded, actualIsExpanded);
+        Assert.Equal(isExpanded, actualIsExpanded);
     }
 
-    [Theory(DisplayName = "PositionBottom Parameter Test")]
-    [InlineData(5)]
-    [InlineData(50)]
-    [InlineData(500)]
-    public void SlideTab_PositionBottomParam_RendersCorrectly(int expectedPositionBottom)
+    [Theory(DisplayName = "PositionBottom Parameter Test"), AutoData]
+    public void SlideTab_PositionBottomParam_RendersCorrectly(
+        string title,
+        bool isExpanded,
+        int positionBottom,
+        string content)
     {
         //Arrange
-        var expectedStyleValue = $"--slide-tab-bottom:{expectedPositionBottom}px;";
+        var expectedStyleValue = $"--slide-tab-bottom:{positionBottom}px;";
 
         //Act
         var cut = RenderComponent<SlideTab>(parameters => parameters
-            .Add(p => p.Title, "test title")
-            .Add(p => p.IsExpanded, false)
-            .Add(p => p.PositionBottom, expectedPositionBottom)
-            .Add(p => p.Content, "<span class=\"test-content\">Here is some test content</span>")
-            );
+          .Add(p => p.Title, title)
+          .Add(p => p.IsExpanded, isExpanded)
+          .Add(p => p.PositionBottom, positionBottom)
+          .Add(p => p.Content, string.Format(ContentTemplate, content))
+          );
 
         var slideTab = cut.Find(".slide-tab");
         var actualStyleValue = slideTab.Attributes.First(_ => _.Name == "style").Value;
@@ -92,19 +133,23 @@ public class SlideTabComponentTests : TestContext
         Assert.Equal(expectedStyleValue, actualStyleValue);
     }
 
-    [Theory(DisplayName = "Content Parameter Test")]
-    [InlineData("<span class=\"test-content\">Here is some test content</span>")]
-    [InlineData("<button class=\"test-content\">Here is some test content</button>")]
-    [InlineData("<div class=\"test-content\">Here is some test content</div>")]
-    public void SlideTab_ContentParam_RendersCorrectly(string expectedContent)
+    [Theory(DisplayName = "Content Parameter Test"), AutoData]
+    public void SlideTab_ContentParam_RendersCorrectly(
+        string title,
+        bool isExpanded,
+        int positionBottom,
+        string content)
     {
+        //Arrange
+        var expectedContent = string.Format(ContentTemplate, content);
+
         //Act
         var cut = RenderComponent<SlideTab>(parameters => parameters
-            .Add(p => p.Title, "test title")
-            .Add(p => p.IsExpanded, false)
-            .Add(p => p.PositionBottom, 50)
-            .Add(p => p.Content, expectedContent)
-            );
+         .Add(p => p.Title, title)
+         .Add(p => p.IsExpanded, isExpanded)
+         .Add(p => p.PositionBottom, positionBottom)
+         .Add(p => p.Content, string.Format(ContentTemplate, content))
+         );
 
         var slideContainer = cut.Find(".slide-container");
         var actualContent= slideContainer.InnerHtml;

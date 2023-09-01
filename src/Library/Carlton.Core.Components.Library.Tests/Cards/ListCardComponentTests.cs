@@ -1,39 +1,137 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(ListCard<int>))]
 public class ListCardComponentTests : TestContext
 {
-    [Fact(DisplayName = "Markup Test")]
-    public void ListCard_Markup_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<ListCard<int>>(parameters => parameters
-            .Add(p => p.CardTitle, "List Card Title")
-            .Add(p => p.SubTitle, "Some Test Subtitle")
-            .Add(p => p.HeaderContent, "<span>Header Content</span>")
-            .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, CardTestHelper.Items)
-            );
-
-        //Assert
-        cut.MarkupMatches(CardTestHelper.ListCardMarkup);
-    }
-
-    [Theory(DisplayName = "Items Parameter Test")]
-    [MemberData(nameof(CardTestHelper.GetItems), MemberType = typeof(CardTestHelper))]
-    public void ListCard_ItemsParam_RendersCorrectly(ReadOnlyCollection<int> expectedItems)
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void ListCard_Markup_RendersCorrectly(
+        Fixture fixture,
+        string title,
+        string subtitle,
+        string headerContent)
     {
         //Arrange
-        var expectedCount = expectedItems.Count;
+        var items = fixture.CreateMany<int>(3);
+        var expectedMarkup =
+@$"<div class=""card"">
+  <div class=""content"">
+    <div class=""title-content"">
+      <span class=""card-title"">{title}</span>
+      <div class=""status-icon"">
+        <div class=""dropdown-menu"">
+          <div class=""menu"">
+            <i class=""mdi mdi-24px mdi-dots-vertical""></i>
+          </div>
+          <div class=""dropdown "" style=""--dropdown-left:10px;--dropdown-top:10px;--dropdown-top-mobile:10px;"">
+            <ul>
+                 <div class=""header""></div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=""header-content"">
+      {headerContent}
+    </div>
+    <div class=""primary-content"">
+      <div class=""sub-title"">{subtitle}</div>
+      <ul>
+        <li>
+          <span>{items.ElementAt(0)}</span>
+        </li>
+        <li>
+          <span>{items.ElementAt(1)}</span>
+        </li>
+        <li>
+          <span>{items.ElementAt(2)}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>";
 
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-            .Add(p => p.CardTitle, "List Card Title")
-            .Add(p => p.SubTitle, "Some Test Subtitle")
-            .Add(p => p.HeaderContent, "<span>Header Content</span>")
-            .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, expectedItems)
-            );
+          .Add(p => p.CardTitle, title)
+          .Add(p => p.SubTitle, subtitle)
+          .Add(p => p.HeaderContent, headerContent)
+          .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
+          .Add(p => p.Items, items));
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void ListCard_EmptyList_Markup_RendersCorrectly(
+        Fixture fixture,
+        string title,
+        string subtitle,
+        string headerContent)
+    {
+        //Arrange
+        var items = fixture.CreateMany<int>(0);
+        var expectedMarkup =
+@$"<div class=""card"">
+  <div class=""content"">
+    <div class=""title-content"">
+      <span class=""card-title"">{title}</span>
+      <div class=""status-icon"">
+        <div class=""dropdown-menu"">
+          <div class=""menu"">
+            <i class=""mdi mdi-24px mdi-dots-vertical""></i>
+          </div>
+          <div class=""dropdown "" style=""--dropdown-left:10px;--dropdown-top:10px;--dropdown-top-mobile:10px;"">
+            <ul>
+                 <div class=""header""></div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=""header-content"">
+      {headerContent}
+    </div>
+    <div class=""primary-content"">
+      <div class=""sub-title"">{subtitle}</div>
+      <ul>
+      </ul>
+    </div>
+  </div>
+</div>";
+
+        //Act
+        var cut = RenderComponent<ListCard<int>>(parameters => parameters
+         .Add(p => p.CardTitle, title)
+         .Add(p => p.SubTitle, subtitle)
+         .Add(p => p.HeaderContent, headerContent)
+         .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
+         .Add(p => p.Items, items));
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Theory(DisplayName = "Items Parameter Test"), AutoData]
+    public void ListCard_ItemsParam_RendersCorrectly(
+        string title,
+        string subtitle,
+        string headerContent,
+        IReadOnlyCollection<int> items)
+    {
+        //Arrange
+        var expectedCount = items.Count;
+
+        //Act
+        var cut = RenderComponent<ListCard<int>>(parameters => parameters
+         .Add(p => p.CardTitle, title)
+         .Add(p => p.SubTitle, subtitle)
+         .Add(p => p.HeaderContent, headerContent)
+         .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
+         .Add(p => p.Items, items));
 
         var liElements = cut.FindAll(".primary-content li");
         var actualCount = liElements.Count;
@@ -41,23 +139,23 @@ public class ListCardComponentTests : TestContext
 
         //Assert
         Assert.Equal(expectedCount, actualCount);
-        Assert.Equal(expectedItems, actualItems);
+        Assert.Equal(items, actualItems);
     }
 
-    [Theory(DisplayName = "CardTitle Parameter Test")]
-    [InlineData("Test Title 1")]
-    [InlineData("Test Title 2")]
-    [InlineData("Test Title 3")]
-    public void ListCard_CardTitleParam_RendersCorrectly(string title)
+    [Theory(DisplayName = "CardTitle Parameter Test"), AutoData]
+    public void ListCard_CardTitleParam_RendersCorrectly(
+        string title,
+        string subtitle,
+        string headerContent,
+        IReadOnlyCollection<int> items)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
             .Add(p => p.CardTitle, title)
-            .Add(p => p.SubTitle, "Some Test Subtitle")
-            .Add(p => p.HeaderContent, "<span>Header Content</span>")
+            .Add(p => p.SubTitle, subtitle)
+            .Add(p => p.HeaderContent, headerContent)
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, CardTestHelper.Items)
-            );
+            .Add(p => p.Items, items));
 
         var cardTitle = cut.Find(".card-title").TextContent;
 
@@ -65,20 +163,16 @@ public class ListCardComponentTests : TestContext
         Assert.Equal(title, cardTitle);
     }
 
-    [Theory(DisplayName = "CardSubTitle Parameter Test")]
-    [InlineData("Test Subtitle 1")]
-    [InlineData("Test Subtitle 2")]
-    [InlineData("Test Subtitle 3")]
-    public void ListCard_CardSubTitleParam_RendersCorrectly(string subtitle)
+    [Theory(DisplayName = "CardSubTitle Parameter Test"), AutoData]
+    public void ListCard_CardSubTitleParam_RendersCorrectly(string title, string subtitle, string headerContent, IReadOnlyCollection<int> items)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-            .Add(p => p.CardTitle, "List Card Test Title")
-            .Add(p => p.SubTitle, subtitle)
-            .Add(p => p.HeaderContent, "<span>Header Content</span>")
-            .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, CardTestHelper.Items)
-            );
+          .Add(p => p.CardTitle, title)
+          .Add(p => p.SubTitle, subtitle)
+          .Add(p => p.HeaderContent, headerContent)
+          .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
+          .Add(p => p.Items, items));
 
         var cardTitle = cut.Find(".sub-title").TextContent;
 
@@ -86,24 +180,24 @@ public class ListCardComponentTests : TestContext
         Assert.Equal(subtitle, cardTitle);
     }
 
-    [Theory(DisplayName = "HeaderContentChild Parameter Test")]
-    [InlineData("<span>Header Testing Content</span>")]
-    [InlineData("<span>More Header Testing Content</span>")]
-    [InlineData("<span>Event More Header Testing Content</span>")]
-    public void ListCard_HeaderContentChildParam_RendersCorrectly(string expectedHeaderContent)
+    [Theory(DisplayName = "HeaderContentChild Parameter Test"), AutoData]
+    public void ListCard_HeaderContentChildParam_RendersCorrectly(
+        string title,
+        string subtitle,
+        string headerContent,
+        IReadOnlyCollection<int> items)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-            .Add(p => p.CardTitle, "List Card Test Title")
-            .Add(p => p.SubTitle, "List Card Test Subtitle")
-            .Add(p => p.HeaderContent, expectedHeaderContent)
-            .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, CardTestHelper.Items)
-            );
+         .Add(p => p.CardTitle, title)
+         .Add(p => p.SubTitle, subtitle)
+         .Add(p => p.HeaderContent, headerContent)
+         .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
+         .Add(p => p.Items, items));
 
-        var headerContent = cut.Find(".header-content").InnerHtml;
+        var actualHeaderContent = cut.Find(".header-content").InnerHtml;
 
         //Assert
-        Assert.Equal(expectedHeaderContent, headerContent);
+        Assert.Equal(actualHeaderContent, headerContent);
     }
 }

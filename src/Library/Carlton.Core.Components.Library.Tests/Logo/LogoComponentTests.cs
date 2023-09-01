@@ -3,27 +3,46 @@
 [Trait("Component", nameof(Logo))]
 public class LogoComponentTests : TestContext
 {
-    private static readonly string LogoMarkup =
-  @"<div class=""logo"" b-2psdcgopyx>
-        <div class=""content"" b-2psdcgopyx>
-            <img src=""_content/Carlton.Core.Components.Library/images/CarltonLogo.png"" b-2psdcgopyx>
-            <span class=""title"" b-2psdcgopyx></span>
-        </div>
-    </div>";
-
-
     [Fact(DisplayName = "Markup Test")]
-    public void Logo_Markup_RendersCorrectly()
+    public void Logo_Collapsed_Markup_RendersCorrectly()
     {
         //Arrange
-        var layoutState = new LayoutState(false, () => { });
+        var layoutState = new LayoutState(true, () => { });
+        var expectedMarkup = 
+@"<div class=""logo collapsed"">
+    <div class=""content"">
+        <img src=""_content/Carlton.Core.Components.Library/images/CarltonLogo.png"">
+        <span class=""title""></span>
+    </div>
+</div>";
 
-        //Act
-        var cut = RenderComponent<Logo>(parameters => parameters
+    //Act
+    var cut = RenderComponent<Logo>(parameters => parameters
             .AddCascadingValue(layoutState));
 
         //Assert
-        cut.MarkupMatches(LogoMarkup);
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Fact(DisplayName = "Markup Test")]
+    public void Logo_Expanded_Markup_RendersCorrectly()
+    {
+        //Arrange
+        var layoutState = new LayoutState(false, () => { });
+        var expectedMarkup =
+@"<div class=""logo"">
+    <div class=""content"">
+        <img src=""_content/Carlton.Core.Components.Library/images/CarltonLogo.png"">
+        <span class=""title""></span>
+    </div>
+</div>";
+
+        //Act
+        var cut = RenderComponent<Logo>(parameters => parameters
+                .AddCascadingValue(layoutState));
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "IsCollapsed Parameter Test")]
