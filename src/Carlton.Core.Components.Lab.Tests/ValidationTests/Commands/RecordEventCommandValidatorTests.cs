@@ -1,16 +1,24 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿using AutoFixture;
+using Carlton.Core.Components.Lab.Models.Validators.Commands;
 using FluentValidation.TestHelper;
 
 namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class RecordEventCommandValidatorTests
 {
+    private readonly IFixture _fixture;
+
+    public RecordEventCommandValidatorTests()
+    {
+        _fixture = new Fixture();
+    }
+
     [Fact]
     public void ValidRecordEventsCommand_ShouldPassValidation()
     {
         // Arrange
         var validator = new RecordEventCommandValidator();
-        var command = new RecordEventCommand("Test Event", new { Param1 = "Test", Param2 = false });
+        var command = _fixture.Create<RecordEventCommand>();
 
         // Act
         var result = validator.TestValidate(command);
@@ -24,7 +32,7 @@ public class RecordEventCommandValidatorTests
     {
         // Arrange
         var validator = new RecordEventCommandValidator();
-        var command = new RecordEventCommand(null, new { Param1 = "Test", Param2 = false });
+        var command = new RecordEventCommand(null, new object());
 
         // Act
         var result = validator.TestValidate(command);
@@ -38,7 +46,7 @@ public class RecordEventCommandValidatorTests
     {
         // Arrange
         var validator = new RecordEventCommandValidator();
-        var command = new RecordEventCommand(string.Empty, new { Param1 = "Test", Param2 = false });
+        var command = new RecordEventCommand(string.Empty, new object());
 
         // Act
         var result = validator.TestValidate(command);

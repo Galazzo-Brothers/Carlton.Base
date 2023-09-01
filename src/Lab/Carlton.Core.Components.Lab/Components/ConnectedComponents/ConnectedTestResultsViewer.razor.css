@@ -44,6 +44,10 @@
 		color: var(--accent-color-3);
 	}
 
+	.test-row .test-outcome-column .test-not-run-icon {
+		color: var(--accent-color-5);
+	}
+
 .test-row .test-name-column {
 	display: flex;
 	margin-top: auto;

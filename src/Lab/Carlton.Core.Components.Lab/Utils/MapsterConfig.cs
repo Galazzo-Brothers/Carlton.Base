@@ -32,11 +32,11 @@ public static class MapsterConfig
             .Map(dest => dest.SelectedComponent, src => src.SelectedComponentType.GetDisplayName())
             .Map(dest => dest.SelectedComponentState, src => src.SelectedComponentState.DisplayName);
 
-        config.NewConfig<LabState, TestResultsViewModel>()
-            .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport.TestResults));
-
         config.NewConfig<LabState, SourceViewerViewModel>()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
+
+        config.NewConfig<LabState, TestResultsViewModel>()
+            .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport.TestResults));
 
         config.NewConfig<ComponentRecordedEvent, ComponentRecordedEvent>();
 

@@ -1,4 +1,6 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
+using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using Carlton.Core.Components.Lab.Test.Mocks;
 using FluentValidation.TestHelper;
 
@@ -6,17 +8,20 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
 public class NavMenuViewModelValidatorTests
 {
+    private readonly IFixture _fixture;
+
+    public NavMenuViewModelValidatorTests()
+    {
+        _fixture = new Fixture();
+    }
+
     [Fact]
     public void NavMenuViewModelValidatorTests_ShouldPassValidation()
     {
         // Arrange
-        var menuItems = new List<ComponentState>
-        {
-            new ComponentState("Component 1", typeof(DummyComponent),
-                new ComponentParameters(new { Prop1 = "Testing", Prop2 = false}, ParameterObjectType.ParameterObject))
-        };
+        var vm = _fixture.Create<NavMenuViewModel>();
         var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(menuItems, 1);
+
 
         // Act
         var result = validator.TestValidate(vm);
@@ -59,8 +64,7 @@ public class NavMenuViewModelValidatorTests
         // Arrange
         var menuItems = new List<ComponentState>
         {
-            new ComponentState(null, typeof(DummyComponent),
-                new ComponentParameters(new { Prop1 = "Testing", Prop2 = false}, ParameterObjectType.ParameterObject))
+                new ComponentState(null, typeof(DummyComponent), _fixture.Create<ComponentParameters>())
         };
         var validator = new NavMenuViewModelValidator();
         var vm = new NavMenuViewModel(menuItems);
@@ -77,10 +81,9 @@ public class NavMenuViewModelValidatorTests
     {
         //Arrange
         var menuItems = new List<ComponentState>
-       {
-            new ComponentState(string.Empty, typeof(DummyComponent),
-                new ComponentParameters(new { Prop1 = "Testing", Prop2 = false}, ParameterObjectType.ParameterObject))
-       };
+        {
+            new ComponentState(string.Empty, typeof(DummyComponent), _fixture.Create<ComponentParameters>())
+        };
         var validator = new NavMenuViewModelValidator();
         var vm = new NavMenuViewModel(menuItems);
 
@@ -91,15 +94,14 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor("MenuItems[0].DisplayName");
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesType_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesType_ShouldFailValidation(string displayName)
     {
         //Arrange
         var menuItems = new List<ComponentState>
-       {
-            new ComponentState("Test State", null,
-                new ComponentParameters(new { Prop1 = "Testing", Prop2 = false}, ParameterObjectType.ParameterObject))
-       };
+        {
+            new ComponentState(displayName, null, _fixture.Create<ComponentParameters>())
+        };
         var validator = new NavMenuViewModelValidator();
         var vm = new NavMenuViewModel(menuItems);
 
@@ -110,14 +112,14 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor("MenuItems[0].Type");
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameter_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameter_ShouldFailValidation(string displayName)
     {
         //Arrange
         var menuItems = new List<ComponentState>
-       {
-            new ComponentState("Test State", typeof(DummyComponent), null)
-       };
+        {
+            new ComponentState(displayName, typeof(DummyComponent), null)
+        };
         var validator = new NavMenuViewModelValidator();
         var vm = new NavMenuViewModel(menuItems);
 
@@ -128,13 +130,13 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor("MenuItems[0].ComponentParameters");
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameterObject_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameterObject_ShouldFailValidation(string displayName)
     {
         //Arrange
         var menuItems = new List<ComponentState>
        {
-            new ComponentState("Test State", typeof(DummyComponent),
+            new ComponentState(displayName, typeof(DummyComponent),
                 new ComponentParameters(null, ParameterObjectType.ParameterObject))
        };
         var validator = new NavMenuViewModelValidator();

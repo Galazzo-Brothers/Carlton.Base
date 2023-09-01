@@ -16,9 +16,15 @@
                             </div>
                             break;
                         case TestResultOutcomes.Failed:
-                            <div class="test-outcome-item">
+                            <div class="test-outcome-icon">
                                 <span class="test-failed-icon mdi mdi-18px mdi-close-circle"></span>
                                 <span>Failed</span>
+                            </div>
+                            break;
+                        case TestResultOutcomes.NotRun:
+                            <div class="test-outcome-icon">
+                                <span class="test-notrun-icon mdi mdi-18px mdi-help-circle"></span>
+                                <span>NotRun</span>
                             </div>
                             break;
                     }
