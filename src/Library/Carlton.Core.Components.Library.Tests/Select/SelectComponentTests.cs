@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
+using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Library.Tests;
 
@@ -12,7 +13,7 @@ public class SelectComponentTests : TestContext
         string labelText)
     {
         //Arrange
-        var selectedIndex = new Random().Next(0, 2);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(2);
         var kvp = fixture.CreateMany<KeyValuePair<string, int>>(3);
         var items = new Dictionary<string, int>(kvp).AsReadOnly();
         var selectedItem = kvp.ElementAt(selectedIndex).Key;
@@ -45,7 +46,7 @@ public class SelectComponentTests : TestContext
        string labelText)
     {
         //Arrange
-        var selectedIndex = new Random().Next(0, 2);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(2);
         var kvp = fixture.CreateMany<KeyValuePair<string, int>>(3);
         var items = new Dictionary<string, int>(kvp).AsReadOnly();
         var selectedItem = kvp.ElementAt(selectedIndex).Key;
@@ -171,7 +172,7 @@ public class SelectComponentTests : TestContext
         string labelText)
     {
         //Arrange
-        var selectedIndex = new Random().Next(0, items.Count);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count);
         var selectedKey = items.Keys.ElementAt(selectedIndex);
         var selectedValue = items.Values.ElementAt(selectedIndex);
 
@@ -217,7 +218,7 @@ public class SelectComponentTests : TestContext
         int selectedValue)
     {
         //Arrange
-        var index = new Random().Next(0, items.Count);
+        var index = TestingRndUtilities.GetRandomActiveIndex(items.Count);
         var eventFired = false;
         var eventKey = string.Empty;
         var eventValue = -1;

@@ -1,7 +1,6 @@
-﻿
-namespace Carlton.Core.Components.Library.Tests.Common;
+﻿namespace Carlton.Core.Utilities.UnitTesting;
 
-public static class Utilities
+public static class TestingRndUtilities
 {
     public static int GetRandomActiveIndex(int count)
     {

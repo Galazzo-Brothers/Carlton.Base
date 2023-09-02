@@ -22,8 +22,7 @@ internal class LabStateFactory
                typeof(ConnectedEventConsole)
             };
 
-            var random = new Random();
-            var randomIndex = random.Next(types.Count);
+            var randomIndex = TestingRndUtilities.GetRandomActiveIndex(types.Count);
             return types[randomIndex];
         });
 
@@ -37,8 +36,7 @@ internal class LabStateFactory
                 new { Param1 = new List<int> { 1, 2, 3, 77 } }
             };
 
-            var random = new Random();
-            var randomIndex = random.Next(objects.Count);
+            var randomIndex = TestingRndUtilities.GetRandomActiveIndex(objects.Count);
             return objects[randomIndex];
         });
 
@@ -48,7 +46,6 @@ internal class LabStateFactory
         //Register Test Dictionary
         fixture.Register(() =>
         {
-            var random = new Random();
             var kvp = new List<KeyValuePair<string, TestResultsReport>>();
 
             foreach(var type in componentStates.Select(_ => _.Type).Distinct())
@@ -65,8 +62,7 @@ internal class LabStateFactory
         var dictionary = fixture.Create<Dictionary<string, TestResultsReport>>();
         
         //Set a random but allowable selected index
-        var random = new Random();
-        var selectedIndex = random.Next(0, componentStates.Count());
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(componentStates.Count());
 
         //Set component events
         var componentEvents = fixture.CreateMany<ComponentRecordedEvent>();
