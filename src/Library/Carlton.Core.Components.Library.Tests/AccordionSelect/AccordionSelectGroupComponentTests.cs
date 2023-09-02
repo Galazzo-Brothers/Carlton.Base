@@ -1,5 +1,7 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
+using Carlton.Core.Components.Library.Tests.Common;
+using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Library.Tests;
 
@@ -115,9 +117,8 @@ public class AccordionSelectGroupComponentTests : TestContext
         //Arrange
         var groups = FixIndexes(templateGroups);
 
-        var random = new Random();
-        var groupIndex = random.Next(0, groups.Count());
-        var itemIndex = random.Next(0, groups.ElementAt(groupIndex).Items.Count());
+        var groupIndex = TestingRndUtilities.GetRandomActiveIndex(groups.Count());
+        var itemIndex = TestingRndUtilities.GetRandomActiveIndex(groups.ElementAt(groupIndex).Items.Count());
         var itemValue = groups.ElementAt(groupIndex).Items.ElementAt(itemIndex).Value;
 
         //Act
@@ -147,10 +148,9 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback(IEnumerable<SelectGroup<int>> groupTemplates)
     {
         //Arrange
-        var random = new Random();
         var groups = FixIndexes(groupTemplates);
-        var selectedGroupIndex = random.Next(0, groups.Count());
-        var selectedItemIndex = random.Next(0, groups.ElementAt(selectedGroupIndex).Items.Count());
+        var selectedGroupIndex = TestingRndUtilities.GetRandomActiveIndex(groups.Count());
+        var selectedItemIndex = TestingRndUtilities.GetRandomActiveIndex(groups.ElementAt(selectedGroupIndex).Items.Count());
         
         var eventCalled = false;
         SelectItemChangedEventArgs<int>? evt = null;
@@ -173,10 +173,9 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_ClickEvent_RendersCorrectly(IEnumerable<SelectGroup<int>> groupTemplates)
     {
         //Arrange
-        var random = new Random();
         var groups = FixIndexes(groupTemplates);
-        var selectedGroupIndex = random.Next(0, groups.Count());
-        var selectedItemIndex = random.Next(0, groups.ElementAt(selectedGroupIndex).Items.Count());
+        var selectedGroupIndex = TestingRndUtilities.GetRandomActiveIndex(groups.Count());
+        var selectedItemIndex = TestingRndUtilities.GetRandomActiveIndex(groups.ElementAt(selectedGroupIndex).Items.Count());
         var expectedValue = groups.ElementAt(selectedGroupIndex).Items.ElementAt(selectedItemIndex).Value;
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
             .Add(p => p.Groups, groups));

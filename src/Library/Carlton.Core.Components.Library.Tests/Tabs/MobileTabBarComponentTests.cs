@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using Carlton.Core.Components.Library.Tests.Common;
+using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Library.Tests;
 
@@ -14,7 +15,7 @@ public class MobileTabBarComponentTests : TestContext
         var displayText = fixture.CreateMany<string>(3).ToList();
         var icon = fixture.CreateMany<string>(3).ToList();
         var childContent = fixture.CreateMany<string>(3).ToList();
-        var selectedIndex = Utilities.GetRandomActiveIndex(3);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(3);
 
         var expectedMarkup = 
 @$"
@@ -106,7 +107,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ActiveTabClass_RendersCorrectly(int tabCount)
     {
         //Arrange
-        var activeTabIndex = Utilities.GetRandomActiveIndex(tabCount);
+        var activeTabIndex = TestingRndUtilities.GetRandomActiveIndex(tabCount);
 
         //Act
         var cut = RenderComponent<MobileTabBar>(parameters => parameters
@@ -128,7 +129,7 @@ public class MobileTabBarComponentTests : TestContext
     public void MobileTabBar_ActiveTab_RendersCorrectly(int tabCount)
     {
         //Arrange
-        var activeTabIndex = Utilities.GetRandomActiveIndex(tabCount);
+        var activeTabIndex = TestingRndUtilities.GetRandomActiveIndex(tabCount);
         var expectedContent = string.Empty;
 
         var cut = RenderComponent<MobileTabBar>(parameters => parameters

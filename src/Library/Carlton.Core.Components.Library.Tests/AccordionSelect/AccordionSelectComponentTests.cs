@@ -1,5 +1,7 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
+using Carlton.Core.Components.Library.Tests.Common;
+using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Library.Tests;
 
@@ -198,7 +200,7 @@ public class AccordionSelectComponentTests : TestContext
         //Arrange
         var eventCalled = false;
         SelectItem<int>? selectedItem = null;
-        var selectedIndex = new Random().Next(0, items.Count);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count);
         var expectedValue = items.ElementAt(selectedIndex).Value;
 
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -223,7 +225,7 @@ public class AccordionSelectComponentTests : TestContext
     public void AccordionSelect_SelectedValueParam_RendersCorrectly(string title, ReadOnlyCollection<SelectItem<int>> items)
     {
         //Arrange
-        var selectedIndex = new Random().Next(0, items.Count);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count);
         var selectedValue = items.ElementAt(selectedIndex).Value;
 
         //Act
@@ -267,7 +269,7 @@ public class AccordionSelectComponentTests : TestContext
         ReadOnlyCollection<SelectItem<int>> items)
     {
         //Arrange
-        var selectedIndex = new Random().Next(0, items.Count);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count);
         var selectedValue = items.ElementAt(selectedIndex).Value;
 
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
