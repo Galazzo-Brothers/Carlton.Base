@@ -175,7 +175,6 @@ public static class TableTestHelper
 
     public static readonly IReadOnlyCollection<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
 
-
     public static IEnumerable<object[]> GetFilteredItemsAsc()
     {
         yield return new object[]
