@@ -1,22 +1,93 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
-using System.Text.RegularExpressions;
 
 namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(AccordionSelectGroup<int>))]
 public class AccordionSelectGroupComponentTests : TestContext
 {
-    [Fact(DisplayName = "Markup Test")]
-    public void AccordionSelectGroup_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void AccordionSelectGroup_Markup_RendersCorrectly(Fixture fixture)
     {
+        //Arrange
+        var groups = new List<SelectGroup<int>>
+        {
+            new SelectGroup<int>(fixture.Create<string>(), 0,
+                new List<SelectItem<int>>
+                {
+                    new SelectItem<int>(fixture.Create<string>(), 0, fixture.Create<int>()),
+                    new SelectItem<int>(fixture.Create<string>(), 1, fixture.Create<int>())
+                }),
+             new SelectGroup<int>(fixture.Create<string>(), 1,
+                new List<SelectItem<int>>
+                {
+                    new SelectItem<int>(fixture.Create<string>(), 0, fixture.Create<int>()),
+                    new SelectItem<int>(fixture.Create<string>(), 1, fixture.Create<int>())
+                })
+        };
+
+        var expectedMarkup = @$"
+<div class=""accordion-select-group"">
+    <div class=""accordion-select"">
+        <div class=""content"">
+            <div class=""accordion-header"">
+                <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline""></span>
+                <span class=""item-group-name"">{groups.ElementAt(0).Name}</span>
+            </div>
+        <div class=""item-container"">
+            <div class=""item"">
+                <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
+                <span class=""item-name"">{groups.ElementAt(0).Items.ElementAt(0).Name}</span>
+            </div>
+            <div class=""item"">
+                <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
+                <span class=""item-name"">{groups.ElementAt(0).Items.ElementAt(1).Name}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class=""accordion-select"">
+    <div class=""content"">
+        <div class=""accordion-header"">
+            <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline""></span>
+            <span class=""item-group-name"">{groups.ElementAt(1).Name}</span>
+        </div>
+        <div class=""item-container collapsed"">
+            <div class=""item"">
+                <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
+                <span class=""item-name"">{groups.ElementAt(1).Items.ElementAt(0).Name}</span>
+            </div>
+            <div class=""item"">
+                <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
+                <span class=""item-name"">{groups.ElementAt(1).Items.ElementAt(1).Name}</span>
+            </div>
+        </div>
+    </div>
+</div>";
+      
+
         //Act
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, AccordionSelectTestHelper.Groups)
-            );
+            .Add(p => p.Groups, groups));
 
         //Assert
-        cut.MarkupMatches(AccordionSelectTestHelper.AccordionSelectGroupMarkup);
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Theory(DisplayName = "Markup Test, No Groups"), AutoData]
+    public void AccordionSelectGroup_EmptyGroups_Markup_RendersCorrectly(Fixture fixture)
+    {
+        //Arrange
+        var groups = new List<SelectGroup<int>>();
+        var expectedMarkup = @$"
+<div class=""accordion-select-group""></div>";
+
+        //Act
+        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
+            .Add(p => p.Groups, groups));
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "Groups Parameter Test"), AutoData]
@@ -55,15 +126,14 @@ public class AccordionSelectGroupComponentTests : TestContext
             .Add(p => p.SelectedItem, itemValue));
 
         var headers = cut.FindAll(".accordion-header").ToList();
-        var items = cut.FindAll(".item").ToList();
-
+        var allItems = cut.FindAll(".item").ToList();
+       
         var selectedHeader = headers.ElementAt(groupIndex);
         headers.RemoveAt(groupIndex);
         var unselectedHeaders = headers;
 
-        var selectedItem = items.ElementAt(itemIndex);
-        items.RemoveAt(itemIndex);
-        var unselectedItems = items;
+        var selectedItem = cut.Find(".item.selected");
+        var unselectedItems = allItems.Where(_ => !_.Equals(selectedItem));
 
         //Assert
         Assert.Equal(itemValue, cut.Instance.SelectedItem);
@@ -73,63 +143,64 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
 
-    [Fact(DisplayName = "OnSelectedItemChanged Callback Parameter Test")]
-    public void AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback()
+    [Theory(DisplayName = "OnSelectedItemChanged Callback Parameter Test"), AutoData]
+    public void AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback(IEnumerable<SelectGroup<int>> groupTemplates)
     {
         //Arrange
+        var random = new Random();
+        var groups = FixIndexes(groupTemplates);
+        var selectedGroupIndex = random.Next(0, groups.Count());
+        var selectedItemIndex = random.Next(0, groups.ElementAt(selectedGroupIndex).Items.Count());
+        
         var eventCalled = false;
         SelectItemChangedEventArgs<int>? evt = null;
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, AccordionSelectTestHelper.Groups)
-            .Add(p => p.OnSelectedItemChanged, (_) => { eventCalled = true; evt = _; })
-            );
+            .Add(p => p.Groups, groups)
+            .Add(p => p.OnSelectedItemChanged, (_) => { eventCalled = true; evt = _; }));
 
-        var itemToClick = cut.FindAll(".item")[3];
+        var itemToClick = cut.Find($".accordion-select-group > .accordion-select:nth-child({selectedGroupIndex + 1}) > .content > .item-container > .item:nth-child({selectedItemIndex + 1})");
 
         //Act
         itemToClick.Click();
 
         //Assert
         Assert.True(eventCalled);
-        Assert.Equal(1, evt?.GroupIndexID);
-        Assert.Equal(1, evt?.ItemIndexID);
+        Assert.Equal(selectedGroupIndex, evt?.GroupIndexID);
+        Assert.Equal(selectedItemIndex, evt?.ItemIndexID);
     }
 
-    [Theory(DisplayName = "Group Click Event Test")]
-    [InlineData(0, 0, 1)]
-    [InlineData(0, 1, 2)]
-    [InlineData(1, 2, 3)]
-    [InlineData(1, 3, 4)]
-    public void AccordionSelectGroup_ClickEvent_RendersCorrectly(int groupIndex, int itemIndex, int expectedValue)
+    [Theory(DisplayName = "Group Click Event Test"), AutoData]
+    public void AccordionSelectGroup_ClickEvent_RendersCorrectly(IEnumerable<SelectGroup<int>> groupTemplates)
     {
         //Arrange
+        var random = new Random();
+        var groups = FixIndexes(groupTemplates);
+        var selectedGroupIndex = random.Next(0, groups.Count());
+        var selectedItemIndex = random.Next(0, groups.ElementAt(selectedGroupIndex).Items.Count());
+        var expectedValue = groups.ElementAt(selectedGroupIndex).Items.ElementAt(selectedItemIndex).Value;
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, AccordionSelectTestHelper.Groups)
-            );
+            .Add(p => p.Groups, groups));
 
-        var itemToClick = cut.FindAll(".item")[itemIndex];
+        var itemToClick = cut.Find($".accordion-select-group > .accordion-select:nth-child({selectedGroupIndex + 1}) > .content > .item-container > .item:nth-child({selectedItemIndex + 1})");
 
         //Act
         itemToClick.Click();
 
         var value = cut.Instance.SelectedItem;
         var headers = cut.FindAll(".accordion-header").ToList();
-        var items = cut.FindAll(".item").ToList();
+        var allItems = cut.FindAll(".item").ToList();
 
-        var selectedHeader = headers.ElementAt(groupIndex);
-        headers.RemoveAt(groupIndex);
+        var selectedHeader = headers.ElementAt(selectedGroupIndex);
+        headers.RemoveAt(selectedGroupIndex);
         var unselectedHeaders = headers;
 
-        var selectedItem = items.ElementAt(itemIndex);
-        items.RemoveAt(itemIndex);
-        var unselectedItems = items;
+        var selectedItem = cut.Find(".item.selected");
+        var unselectedItems = allItems.Where(_ => !_.Equals(selectedItem));
 
         //Assert
         Assert.Equal(expectedValue, value);
-
         Assert.Contains("selected", selectedHeader.ClassList);
         Assert.DoesNotContain("selected", unselectedHeaders.SelectMany(_ => _.ClassList));
-
         Assert.Contains("selected", selectedItem.ClassList);
         Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
