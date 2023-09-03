@@ -19,27 +19,25 @@ public class MobileTabBarComponentTests : TestContext
 
         var expectedMarkup = 
 @$"
-<div class="" tab"">
-  {childContent[selectedIndex]}
-</div>
-<div class="" tab""></div>
-<div class="" tab""></div>
+<div class="" tab"">{(selectedIndex == 0 ? childContent[selectedIndex] : string.Empty)}</div>
+<div class="" tab"">{(selectedIndex == 1 ? childContent[selectedIndex] : string.Empty)}</div>
+<div class="" tab"">{(selectedIndex == 2 ? childContent[selectedIndex] : string.Empty)}</div>
 <div class="" mobile-tab-bar"">
   <div class="" content"">
     <div class="" mobile-tabs"">
-      <div class="" mobile-tab active"">
+      <div class="" mobile-tab {(selectedIndex == 0 ? "active" : string.Empty)}"">
         <div class="" mobile-tab-link"">
           <i class="" mdi mdi-24px {icon[0]}""></i>
           <span>{displayText[0]}</span>
         </div>
       </div>
-      <div class="" mobile-tab "">
+      <div class="" mobile-tab {(selectedIndex == 1 ? "active" : string.Empty)}"">
         <div class="" mobile-tab-link"">
           <i class="" mdi mdi-24px {icon[1]}""></i>
           <span>{displayText[1]}</span>
         </div>
       </div>
-      <div class="" mobile-tab "">
+      <div class="" mobile-tab {(selectedIndex == 2 ? "active" : string.Empty)}"">
         <div class="" mobile-tab-link"">
           <i class="" mdi mdi-24px {icon[2]}""></i>
           <span>{displayText[2]}</span>
@@ -66,6 +64,9 @@ public class MobileTabBarComponentTests : TestContext
                 .Add(p => p.Icon, icon[2])
                 .Add(p => p.ChildContent, childContent[2]))
             );
+
+        var tabs = cut.FindAll(".mobile-tab");
+        tabs[selectedIndex].Children.First().Click();
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
