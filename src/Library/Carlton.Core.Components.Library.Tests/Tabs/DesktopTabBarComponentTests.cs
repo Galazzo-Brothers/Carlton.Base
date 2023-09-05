@@ -62,6 +62,7 @@ public class DesktopTabBarComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Tab Count Test, Render Test"), AutoData]
+    [InlineData(0)]
     public void DesktopTabBar_WithThreeTabs_RendersCorrectly(int numOfTabs)
     {
         //Act

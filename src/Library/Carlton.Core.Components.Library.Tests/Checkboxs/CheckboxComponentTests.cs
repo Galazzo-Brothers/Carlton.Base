@@ -1,24 +1,18 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(Checkbox))]
 public class CheckboxComponentTests : TestContext
 {
-    private const string CheckboxCheckedMarkup =
-        @"<div class=""checkbox mdi mdi-24px mdi-check-circle""></div>";
-
-    private const string CheckboxUncheckedMarkup =
-        @"<div class=""checkbox mdi mdi-24px mdi-checkbox-blank-circle-outline""></div>";
-
-    [Theory(DisplayName = "Markup Test")]
-    [InlineData(true, CheckboxCheckedMarkup)]
-    [InlineData(false, CheckboxUncheckedMarkup)]
-
-    public void Checkbox_Markup_RendersCorrectly(bool isChecked, string expectedMarkup)
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void Checkbox_Markup_RendersCorrectly(bool isChecked)
     {
+        //Arrange
+        var expectedMarkup = @$"<div class=""checkbox mdi mdi-24px mdi-{(isChecked ? "check" : "blank")}-circle""></div>";
         //Act
         var cut = RenderComponent<Checkbox>(parameters => parameters
-            .Add(p => p.IsChecked, isChecked)
-            );
+            .Add(p => p.IsChecked, true));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);

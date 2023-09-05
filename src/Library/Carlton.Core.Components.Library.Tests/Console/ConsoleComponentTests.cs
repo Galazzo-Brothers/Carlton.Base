@@ -20,8 +20,7 @@ public class ConsoleComponentTests : TestContext
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
                 .Add(p => p.IsReadOnly, isReadOnly)
-                .Add(p => p.Text, text)
-                );
+                .Add(p => p.Text, text));
 
         //Assert
         cut.MarkupMatches(string.Format(expectedMarkup, text));
@@ -34,14 +33,13 @@ public class ConsoleComponentTests : TestContext
         //Arrange
         var expectedMarkup = @$"
 <div class=""console"">
-    <textarea rows=""15"" disabled="""" class="""" value=""{text}""></textarea>
+    <textarea rows=""15"" {(isReadOnly ? "disabled=\"\"" : string.Empty)} class="""" value=""{text}""></textarea>
 </div>";
 
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
                 .Add(p => p.IsReadOnly, isReadOnly)
-                .Add(p => p.Text, text)
-                );
+                .Add(p => p.Text, text));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
@@ -55,8 +53,7 @@ public class ConsoleComponentTests : TestContext
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, isReadOnly)
-            .Add(p => p.Text, text)
-            );
+            .Add(p => p.Text, text));
 
         var consoleElement = cut.Find("textarea");
         var actualIsDisabled = consoleElement.Attributes.Any(_ => _.Name == "disabled");
@@ -71,8 +68,7 @@ public class ConsoleComponentTests : TestContext
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
-            .Add(p => p.Text, expectedText)
-            );
+            .Add(p => p.Text, expectedText));
 
         var consoleElement = cut.Find("textarea");
         var actualText = consoleElement.Attributes.First(_ => _.Name == "value").Value;
@@ -91,8 +87,7 @@ public class ConsoleComponentTests : TestContext
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
             .Add(p => p.Text, text)
-            .Add(p => p.IsValid, expectedIsValid)
-            );
+            .Add(p => p.IsValid, expectedIsValid));
 
         var consoleElement = cut.Find("textarea");
         var errorClassExists = consoleElement.ClassList.Contains("error");
@@ -111,8 +106,7 @@ public class ConsoleComponentTests : TestContext
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
             .Add(p => p.Text, text)
-            .Add(p => p.OnChangeCallback, (str) => { eventCalled = true; actualText = str; })
-            );
+            .Add(p => p.OnChangeCallback, (str) => { eventCalled = true; actualText = str; }));
 
         var consoleElement = cut.Find("textarea");
 

@@ -6,6 +6,8 @@ namespace Carlton.Core.Components.Library.Tests;
 public class CardComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test"), AutoData]
+    [InlineData("", "", "", "")]
+    [InlineData(null, null, null, null)]
     public void Card_Markup_RendersCorrectly(string cardTitle, string actionBarContent, string headerContent, string primaryCardContent)
     {
         //Arrange
@@ -30,8 +32,7 @@ public class CardComponentTests : TestContext
             .Add(p => p.CardTitle, cardTitle)
             .Add(p => p.ActionBarContent, actionBarContent)
             .Add(p => p.HeaderContent, headerContent)
-            .Add(p => p.PrimaryCardContent, primaryCardContent)
-            );
+            .Add(p => p.PrimaryCardContent, primaryCardContent));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
@@ -45,8 +46,7 @@ public class CardComponentTests : TestContext
             .Add(p => p.CardTitle, title)
             .Add(p => p.ActionBarContent, actionBarContent)
             .Add(p => p.HeaderContent, headerContent)
-            .Add(p => p.PrimaryCardContent, primaryCardContent)
-            );
+            .Add(p => p.PrimaryCardContent, primaryCardContent));
 
         var cardTitle = cut.Find(".card-title").TextContent;
 
@@ -62,8 +62,7 @@ public class CardComponentTests : TestContext
             .Add(p => p.CardTitle, title)
             .Add(p => p.ActionBarContent, actionBarContent)
             .Add(p => p.HeaderContent, headerContent)
-            .Add(p => p.PrimaryCardContent, primaryCardContent)
-            );
+            .Add(p => p.PrimaryCardContent, primaryCardContent));
 
         var actualActionBarContent = cut.Find(".status-icon").InnerHtml;
 
@@ -79,8 +78,7 @@ public class CardComponentTests : TestContext
             .Add(p => p.CardTitle, title)
             .Add(p => p.ActionBarContent, expectedActionBarContent)
             .Add(p => p.HeaderContent, expectedHeaderContent)
-            .Add(p => p.PrimaryCardContent, primaryCardContent)
-            );
+            .Add(p => p.PrimaryCardContent, primaryCardContent));
 
         var headerContent = cut.Find(".header-content").InnerHtml;
 
@@ -96,8 +94,7 @@ public class CardComponentTests : TestContext
             .Add(p => p.CardTitle, title)
             .Add(p => p.ActionBarContent, actionBarContent)
             .Add(p => p.HeaderContent, headerContent)
-            .Add(p => p.PrimaryCardContent, primaryCardContent)
-            );
+            .Add(p => p.PrimaryCardContent, primaryCardContent));
 
         var actualPrimaryContent = cut.Find(".primary-content").InnerHtml;
 

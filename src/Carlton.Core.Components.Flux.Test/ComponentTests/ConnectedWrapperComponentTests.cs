@@ -107,11 +107,11 @@ public class ConnectedWrapperComponentTests : TestContext
         var vm = _fixture.Create<TestViewModel1>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
         var times = 2; //Once for the component init and once again for the state change
 
         //Act
-        _observer.Raise(_ => _.StateChanged += null, new object[] { "TestEvent" });
+        _observer.Raise(_ => _.StateChanged += null, "TestEvent");
 
         // Assert
         _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
@@ -124,11 +124,11 @@ public class ConnectedWrapperComponentTests : TestContext
         var vm = _fixture.Create<TestViewModel1>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
         var times = 1; //One and only time for the component init
 
         //Act
-        _observer.Raise(_ => _.StateChanged += null, new object[] { stateEventName });
+        _observer.Raise(_ => _.StateChanged += null, stateEventName);
 
         // Assert
         _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
@@ -141,12 +141,12 @@ public class ConnectedWrapperComponentTests : TestContext
         var vm = _fixture.Create<TestViewModel1>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
         var times = 1; //One and only time for the component init, event handler removed correctly during dispose
         DisposeComponents();
 
         //Act
-        _observer.Raise(_ => _.StateChanged += null, new object[] { "TestEvent" });
+        _observer.Raise(_ => _.StateChanged += null, "TestEvent");
 
         // Assert
         _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);

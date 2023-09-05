@@ -1,6 +1,5 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
-using Carlton.Core.Components.Library.Tests.Common;
 using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Library.Tests;
@@ -8,137 +7,31 @@ namespace Carlton.Core.Components.Library.Tests;
 [Trait("Component", nameof(AccordionSelect<int>))]
 public class AccordionSelectComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test, Collapsed No Items"), AutoData]
-    public void AccordionSelect_MarkupCollapsedWithNoItems_RendersCorrectly(string title)
+    [Theory(DisplayName = "Markup Test")]
+    [AutoData]
+    [InlineAutoData(true)]
+    [InlineAutoData(true)]
+    [InlineAutoData(true, 0)]
+    [InlineAutoData(true, 0)]
+    public void AccordionSelect_Markup_RendersCorrectly(bool isExpanded, int numOfItems, Fixture fixture, string title)
     {
         //Arrange
-        var expectedMarkup = 
-@$"
-<div class=""accordion-select"">
-    <div class=""content"">
-    <div class=""accordion-header"">
-        <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline""></span>
-        <span class=""item-group-name"">{title}</span>
-    </div>        
-<div class=""item-container collapsed""></div>
-    </div>
-    </div>";
-
-    //Act
-    var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
-            .Add(p => p.Title, title)
-            .Add(p => p.IsExpanded, false));
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
-    [Theory(DisplayName = "Markup Test, Collapsed No Items"), AutoData]
-    public void AccordionSelect_MarkupExpandedWithNoItems_RendersCorrectly(string title)
-    {
-        //Arrange
-        var expectedMarkup =
-@$"
-<div class=""accordion-select"">
-    <div class=""content"">
-    <div class=""accordion-header"">
-        <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline""></span>
-        <span class=""item-group-name"">{title}</span>
-    </div>        
-<div class=""item-container""></div>
-    </div>
-    </div>";
-
-        //Act
-        var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
-                .Add(p => p.Title, title)
-                .Add(p => p.IsExpanded, true));
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
-    [Theory(DisplayName = "Markup Test, Collapsed With Items"), AutoData]
-    public void AccordionSelect_MarkupCollapsedWithItems_RendersCorrectly(Fixture fixture, string title)
-    {
-        //Arrange
-        var items = fixture.CreateMany<SelectItem<int>>(3);
-        var expectedMarkup =
-@$"
-<div class=""accordion-select"">
-    <div class=""content"">
-    <div class=""accordion-header"">
-        <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline""></span>
-        <span class=""item-group-name"">{title}</span>
-    </div>
-    <div class=""item-container collapsed"">
-        <div class=""item"">
-            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-            <span class=""item-name"">{items.ElementAt(0).Name}</span>
-        </div>
-        <div class=""item"" >
-        <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-        <span class=""item-name"">{items.ElementAt(1).Name}</span>
-        </div>
-        <div class=""item"">
-        <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-        <span class=""item-name"">{items.ElementAt(2).Name}</span>
-        </div>
-    </div>
-    </div>
-</div>";
+        var items = fixture.CreateMany<SelectItem<int>>(numOfItems);
 
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, title)
-            .Add(p => p.IsExpanded, false)
+            .Add(p => p.IsExpanded, isExpanded)
             .Add(p => p.Items, items));
 
         //Assert
-        cut.MarkupMatches(expectedMarkup);
+        cut.MarkupMatches(GenerateExpectedMarkup(title, isExpanded, items));
     }
 
-    [Theory(DisplayName = "Markup Test, Expanded With Items"), AutoData]
-    public void AccordionSelect_MarkupExpandedWithItems_RendersCorrectly(Fixture fixture, string title)
-    {
-        //Arrange
-        var items = fixture.CreateMany<SelectItem<int>>(3);
-        var expectedMarkup =
-@$"
-<div class=""accordion-select"">
-    <div class=""content"">
-    <div class=""accordion-header"">
-        <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline""></span>
-        <span class=""item-group-name"">{title}</span>
-    </div>
-    <div class=""item-container"">
-        <div class=""item"">
-            <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-            <span class=""item-name"">{items.ElementAt(0).Name}</span>
-        </div>
-        <div class=""item"" >
-        <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-        <span class=""item-name"">{items.ElementAt(1).Name}</span>
-        </div>
-        <div class=""item"">
-        <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-        <span class=""item-name"">{items.ElementAt(2).Name}</span>
-        </div>
-    </div>
-    </div>
-</div>";
-
-        //Act
-        var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
-            .Add(p => p.Title, title)
-            .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, items));
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
-    [Theory(DisplayName = "Title Parameter Test"), AutoData]
+    [Theory(DisplayName = "Title Parameter Test")]
+    [AutoData]
+    [InlineData("")]
+    [InlineData(null)]
     public void AccordionSelect_TitleParam_RendersCorrectly(string title)
     {
         //Act
@@ -195,12 +88,12 @@ public class AccordionSelectComponentTests : TestContext
     [Theory(DisplayName = "SelectedItemChanged Callback Parameter Test"), AutoData]
     public void AccordionSelect_SelectedItemChangedParam_FiresCallback(
         string title,
-        ReadOnlyCollection<SelectItem<int>> items)
+        IEnumerable<SelectItem<int>> items)
     {
         //Arrange
         var eventCalled = false;
         SelectItem<int>? selectedItem = null;
-        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count());
         var expectedValue = items.ElementAt(selectedIndex).Value;
 
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -233,8 +126,7 @@ public class AccordionSelectComponentTests : TestContext
             .Add(p => p.Title, title)
             .Add(p => p.IsExpanded, true)
             .Add(p => p.Items, items)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.SelectedValue, selectedValue));
 
         var itemElms = cut.FindAll(".item");
         var selectedItem = itemElms[selectedIndex];
@@ -247,15 +139,14 @@ public class AccordionSelectComponentTests : TestContext
     public void AccordionSelect_SelectedValueParamDoesNotExist_RendersCorrectly(
         string title,
         bool isExpanded,
-        ReadOnlyCollection<SelectItem<int>> items)
+        IEnumerable<SelectItem<int>> items)
     {
         //Act
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, title)
             .Add(p => p.IsExpanded, isExpanded)
             .Add(p => p.Items, items)
-            .Add(p => p.SelectedValue, -1)
-            );
+            .Add(p => p.SelectedValue, -1));
 
         var itemElms = cut.FindAll(".accordion-header");
 
@@ -266,17 +157,16 @@ public class AccordionSelectComponentTests : TestContext
     [Theory(DisplayName = "Item Click Test"), AutoData]
     public void AccordionSelect_ItemClick_SetsValueCorrectly(
         string title,
-        ReadOnlyCollection<SelectItem<int>> items)
+        IEnumerable<SelectItem<int>> items)
     {
         //Arrange
-        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count);
+        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(items.Count());
         var selectedValue = items.ElementAt(selectedIndex).Value;
 
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
             .Add(p => p.Title, title)
             .Add(p => p.IsExpanded, true)
-            .Add(p => p.Items, items)
-            );
+            .Add(p => p.Items, items));
 
         var itemElms = cut.FindAll(".item");
         var selectedItem = itemElms[selectedIndex];
@@ -286,5 +176,31 @@ public class AccordionSelectComponentTests : TestContext
 
         //Assert
         Assert.Equal(selectedValue, cut.Instance.SelectedValue);
+    }
+
+    private static string GenerateExpectedMarkup(string title, bool isExpanded, IEnumerable<SelectItem<int>> items)
+    {
+        var iconType = isExpanded ? "minus" : "plus";
+        var itemMarkup = string.Join(Environment.NewLine, items
+            .Select(item => $@"
+                <div class=""item"">
+                    <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
+                    <span class=""item-name"">{item.Name}</span>
+                </div>
+            "));
+
+        return $@"
+            <div class=""accordion-select"">
+                <div class=""content"">
+                    <div class=""accordion-header"">
+                        <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-{iconType}-box-outline""></span>
+                        <span class=""item-group-name"">{title}</span>
+                    </div>
+                    <div class=""item-container {(isExpanded ? string.Empty : "collapsed")}"">
+                        {itemMarkup}
+                    </div>
+                </div>
+            </div>
+        ";
     }
 }

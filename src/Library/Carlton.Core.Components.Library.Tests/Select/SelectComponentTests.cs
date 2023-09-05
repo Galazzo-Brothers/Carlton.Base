@@ -10,7 +10,8 @@ public class SelectComponentTests : TestContext
     [Theory(DisplayName = "Markup Test"), AutoData]
     public void Select_Markup_RendersCorrectly(
         IFixture fixture,
-        string labelText)
+        string labelText,
+        bool isDisabled)
     {
         //Arrange
         var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(2);
@@ -18,13 +19,18 @@ public class SelectComponentTests : TestContext
         var items = new Dictionary<string, int>(kvp).AsReadOnly();
         var selectedItem = kvp.ElementAt(selectedIndex).Key;
         var selectedValue = kvp.ElementAt(selectedIndex).Value;
+
+        var optionsMarkup = isDisabled ? string.Empty : 
+$@"
+<div class=""option"">{kvp.ElementAt(0).Key}</div>
+<div class=""option"">{kvp.ElementAt(1).Key}</div>
+<div class=""option"">{kvp.ElementAt(2).Key}</div>";
+
         var expectedMarkup =
 @$"<div class=""select""><input readonly placeholder="" "" value=""{selectedItem}"" />
     <div class=""label"">{labelText}</div>
-    <div class=""options"">
-        <div class=""option"">{kvp.ElementAt(0).Key}</div>
-        <div class=""option"">{kvp.ElementAt(1).Key}</div>
-        <div class=""option"">{kvp.ElementAt(2).Key}</div>
+    <div {(isDisabled ? "disabled = \"\"" : string.Empty)} class=""options"">
+        {optionsMarkup}
     </div>
 </div>";
 
@@ -32,38 +38,8 @@ public class SelectComponentTests : TestContext
         var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
-            .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void Select_Disabled_Markup_RendersCorrectly(
-       IFixture fixture,
-       string labelText)
-    {
-        //Arrange
-        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(2);
-        var kvp = fixture.CreateMany<KeyValuePair<string, int>>(3);
-        var items = new Dictionary<string, int>(kvp).AsReadOnly();
-        var selectedItem = kvp.ElementAt(selectedIndex).Key;
-        var selectedValue = kvp.ElementAt(selectedIndex).Value;
-        var expectedMarkup =
-@$"<div class=""select""><input readonly placeholder="" "" value=""{selectedItem}"" />
-    <div class=""label"">{labelText}</div>
-    <div disabled="""" class=""options""></div>
-</div>";
-
-        //Act
-        var cut = RenderComponent<Select>(parameters => parameters
-            .Add(p => p.Options, items)
-            .Add(p => p.Label, labelText)
-            .Add(p => p.IsDisabled, true)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.IsDisabled, isDisabled)
+            .Add(p => p.SelectedValue, selectedValue));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
@@ -81,8 +57,7 @@ public class SelectComponentTests : TestContext
             .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, isDisabled)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.SelectedValue, selectedValue));
 
         var labelContent = cut.Find(".label").TextContent;
 
@@ -90,9 +65,7 @@ public class SelectComponentTests : TestContext
         Assert.Equal(labelText, labelContent);
     }
 
-    [Theory(DisplayName = "Disabled Parameter Test")]
-    [InlineAutoData(true)]
-    [InlineAutoData(false)]
+    [Theory(DisplayName = "Disabled Parameter Test"), AutoData]
     public void Select_DisabledParam_RendersCorrectly(
         bool isDisabled,
         IReadOnlyDictionary<string, int> items,
@@ -104,8 +77,7 @@ public class SelectComponentTests : TestContext
             .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, isDisabled)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.SelectedValue, selectedValue));
 
         var optionsElement = cut.Find(".options");
         var containsDisabledAttribute = optionsElement.Attributes.Select(_ => _.Name).Contains("disabled");
@@ -129,8 +101,7 @@ public class SelectComponentTests : TestContext
             .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.SelectedValue, selectedValue));
 
         var optionsElements = cut.FindAll(".option");
         var actualCount = optionsElements.Count;
@@ -152,8 +123,7 @@ public class SelectComponentTests : TestContext
             .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.SelectedValue, selectedValue));
 
         var optionsElements = cut.FindAll(".option");
 
@@ -166,7 +136,7 @@ public class SelectComponentTests : TestContext
     }
 
     [Theory(DisplayName = "SelectedValue Parameter Test"), AutoData]
- 
+
     public void Select_SelectedValueParam_RendersCorrectly(
         IReadOnlyDictionary<string, int> items,
         string labelText)
@@ -181,8 +151,7 @@ public class SelectComponentTests : TestContext
             .Add(p => p.Options, items)
             .Add(p => p.Label, labelText)
             .Add(p => p.IsDisabled, false)
-            .Add(p => p.SelectedValue, selectedValue)
-            );
+            .Add(p => p.SelectedValue, selectedValue));
 
         var inputElement = cut.Find("input");
         var valueDisplay = inputElement?.Attributes["value"]?.TextContent;
@@ -201,8 +170,7 @@ public class SelectComponentTests : TestContext
               .Add(p => p.Options, items)
               .Add(p => p.Label, labelText)
               .Add(p => p.IsDisabled, false)
-              .Add(p => p.SelectedValue, -1)
-          );
+              .Add(p => p.SelectedValue, -1));
 
         var inputElement = cut.Find("input");
         var containsValueAttribute = inputElement.Attributes.Any(_ => _.Name == "value");
@@ -236,8 +204,7 @@ public class SelectComponentTests : TestContext
                     eventFired = true;
                     eventKey = kvp.Key;
                     eventValue = kvp.Value;
-                })
-           );
+                }));
 
         //Act
         cut.FindAll(".option")[index].Click();
