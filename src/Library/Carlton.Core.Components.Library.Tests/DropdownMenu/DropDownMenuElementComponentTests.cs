@@ -68,7 +68,7 @@ public class DropDownMenuElementComponentTests : TestContext
         Assert.Equal(menuItemValue, item.Value);
     }
 
-    [Theory(DisplayName = "MenutItemIcon Parameter Test"), AutoData]
+    [Theory(DisplayName = "MenuItemIcon Parameter Test"), AutoData]
     public void DropDownMenuElement_MenuItemIconParam_RendersCorrectly(
         string menuItemName,
         int menuItemValue,

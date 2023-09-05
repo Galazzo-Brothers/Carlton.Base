@@ -58,39 +58,6 @@ public class DropDownMenuComponentTests : TestContext
         cut.MarkupMatches(expectedMarkup);
     }
 
-    public void DropDownMenuElement_EmptyList_Markup_RendersCorrectly(IFixture fixture,
-      string headerMarkup, DropdownMenuStyle style)
-    {
-        //Arrange
-        var items = fixture.CreateMany<DropdownMenuItem<int>>(0);
-        var expectedMarkup =
-@$"
-<div class=""dropdown-menu"">
-    <div class=""menu"" >
-        <span class=""menu-template""></span>
-    </div>
-    <div class=""dropdown"" style=""--dropdown-left:{style.Left}px;--dropdown-top:{style.Top}px;--dropdown-top-mobile:{style.Top_Mobile}px;"">
-    <ul>
-      <div class=""header"">
-        <span>{headerMarkup}</span>
-      </div>
-    </ul>
-  </div>
-</div>";
-
-        //Act
-        var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
-                .Add(p => p.HeaderTemplate, string.Format(HeaderTemplate, headerMarkup))
-                .Add(p => p.MenuItemTemplate, item => string.Format(MenuItemTemplate, item.MenuItemName, item.Value, item.MenuIcon))
-                .Add(p => p.MenuTemplate, isActive => GetMenuTemplate(isActive))
-                .Add(p => p.MenuItems, items)
-                .Add(p => p.Style, style)
-                );
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
     [Theory(DisplayName = "MenuItems Parameter Test"), AutoData]
     public void DropDownMenuElement_MenuItemsParams_RendersCorrectly(IEnumerable<DropdownMenuItem<int>> items, string headerMarkup, DropdownMenuStyle style)
     {
@@ -166,7 +133,7 @@ public class DropDownMenuComponentTests : TestContext
     public void DropDownMenuElement_MenuTemplateParam_RendersCorrectly(IEnumerable<DropdownMenuItem<int>> items, string headerMarkup, DropdownMenuStyle style)
     {
         //Arrange
-        var expectedMenutTemplate = GetMenuTemplate(false);
+        var expectedMenuTemplate = GetMenuTemplate(false);
 
         //Act
         var cut = RenderComponent<DropdownMenu<int>>(parameters => parameters
@@ -179,7 +146,7 @@ public class DropDownMenuComponentTests : TestContext
         var menuTemplateMarkup = cut.Find(".menu").InnerHtml;
 
         //Assert
-        Assert.Equal(expectedMenutTemplate, menuTemplateMarkup);
+        Assert.Equal(expectedMenuTemplate, menuTemplateMarkup);
     }
 
     [Theory(DisplayName = "Style Parameter Test"), AutoData]

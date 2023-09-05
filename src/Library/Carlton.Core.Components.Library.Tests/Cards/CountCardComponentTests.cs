@@ -22,8 +22,7 @@ public class CountCardComponentTests : TestContext
             .Add(p => p.Count, count)
             .Add(p => p.Icon, icon)
             .Add(p => p.MessageTemplate, messageTemplate)
-            .Add(p => p.Theme, theme)
-            );
+            .Add(p => p.Theme, theme));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);

@@ -4,7 +4,6 @@ using Carlton.Core.Components.Flux.State;
 using Carlton.Core.Components.Flux.Test.Common;
 using Carlton.Core.Components.Flux.Test.Common.Extensions;
 using MapsterMapper;
-using Microsoft.Extensions.Logging;
 
 
 namespace Carlton.Core.Components.Flux.Test.StateTests;
@@ -15,18 +14,16 @@ public class StateTests
     private readonly TestState _state;
     private readonly Mock<IFluxStateMutation<TestState, TestCommand1>> _mutation;
     private readonly Mock<IMapper> _mapper;
-    private readonly Mock<ILogger<FluxState<TestState>>> _logger;
 
     public StateTests()
     {
-        //Setup the fixure with Moq
+        //Setup the fixture with Moq
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
 
         //Setup mocked dependencies
         _state = _fixture.Freeze<TestState>();
         _mutation = _fixture.Freeze<Mock<IFluxStateMutation<TestState, TestCommand1>>>();
         _mapper = _fixture.Freeze<Mock<IMapper>>();
-        _logger = _fixture.Freeze<Mock<ILogger<FluxState<TestState>>>>();
 
         //configure the service provider 
         _fixture.Freeze<Mock<IMutationResolver<TestState>>>().SetUpMutationResolver(_mutation.Object);

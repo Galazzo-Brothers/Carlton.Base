@@ -33,8 +33,7 @@ public class FloatingActionButtonComponentTests : TestContext
             .Add(p => p.Icon, icon)
             .Add(p => p.PositionBottom, positionBottom)
             .Add(p => p.PositionRight, positionRight)
-            .Add(p => p.OnClickCallback, () => { eventCalled = true; })
-        );
+            .Add(p => p.OnClickCallback, () => { eventCalled = true; }));
 
         //Act
         cut.Find(".fab").Click();

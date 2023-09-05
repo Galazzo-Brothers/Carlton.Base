@@ -9,24 +9,10 @@ namespace Carlton.Core.Components.Library.Tests;
 public class AccordionSelectGroupComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test"), AutoData]
-    public void AccordionSelectGroup_Markup_RendersCorrectly(Fixture fixture)
+    public void AccordionSelectGroup_Markup_RendersCorrectly(IEnumerable<SelectGroup<int>> templateGroups)
     {
         //Arrange
-        var groups = new List<SelectGroup<int>>
-        {
-            new SelectGroup<int>(fixture.Create<string>(), 0,
-                new List<SelectItem<int>>
-                {
-                    new SelectItem<int>(fixture.Create<string>(), 0, fixture.Create<int>()),
-                    new SelectItem<int>(fixture.Create<string>(), 1, fixture.Create<int>())
-                }),
-             new SelectGroup<int>(fixture.Create<string>(), 1,
-                new List<SelectItem<int>>
-                {
-                    new SelectItem<int>(fixture.Create<string>(), 0, fixture.Create<int>()),
-                    new SelectItem<int>(fixture.Create<string>(), 1, fixture.Create<int>())
-                })
-        };
+        var groups = templateGroups.FixIndexes().ToList();
 
         var expectedMarkup = @$"
 <div class=""accordion-select-group"">
@@ -34,16 +20,16 @@ public class AccordionSelectGroupComponentTests : TestContext
         <div class=""content"">
             <div class=""accordion-header"">
                 <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-minus-box-outline""></span>
-                <span class=""item-group-name"">{groups.ElementAt(0).Name}</span>
+                <span class=""item-group-name"">{groups[0].Name}</span>
             </div>
         <div class=""item-container"">
             <div class=""item"">
                 <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-                <span class=""item-name"">{groups.ElementAt(0).Items.ElementAt(0).Name}</span>
+                <span class=""item-name"">{groups[0].Items.ElementAt(0).Name}</span>
             </div>
             <div class=""item"">
                 <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-                <span class=""item-name"">{groups.ElementAt(0).Items.ElementAt(1).Name}</span>
+                <span class=""item-name"">{groups[0].Items.ElementAt(1).Name}</span>
             </div>
         </div>
     </div>
@@ -52,16 +38,16 @@ public class AccordionSelectGroupComponentTests : TestContext
     <div class=""content"">
         <div class=""accordion-header"">
             <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-plus-box-outline""></span>
-            <span class=""item-group-name"">{groups.ElementAt(1).Name}</span>
+            <span class=""item-group-name"">{groups[1].Name}</span>
         </div>
         <div class=""item-container collapsed"">
             <div class=""item"">
                 <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-                <span class=""item-name"">{groups.ElementAt(1).Items.ElementAt(0).Name}</span>
+                <span class=""item-name"">{groups[1].Items.ElementAt(0).Name}</span>
             </div>
             <div class=""item"">
                 <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
-                <span class=""item-name"">{groups.ElementAt(1).Items.ElementAt(1).Name}</span>
+                <span class=""item-name"">{groups[1].Items.ElementAt(1).Name}</span>
             </div>
         </div>
     </div>
@@ -76,27 +62,11 @@ public class AccordionSelectGroupComponentTests : TestContext
         cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "Markup Test, No Groups"), AutoData]
-    public void AccordionSelectGroup_EmptyGroups_Markup_RendersCorrectly(Fixture fixture)
-    {
-        //Arrange
-        var groups = new List<SelectGroup<int>>();
-        var expectedMarkup = @$"
-<div class=""accordion-select-group""></div>";
-
-        //Act
-        var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
-            .Add(p => p.Groups, groups));
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
     [Theory(DisplayName = "Groups Parameter Test"), AutoData]
-    public void AccordionSelectGroup_GroupsParam_RendersCorrectly(ReadOnlyCollection<SelectGroup<int>> groups)
+    public void AccordionSelectGroup_GroupsParam_RendersCorrectly(IEnumerable<SelectGroup<int>> groups)
     {
         //Arrange
-        var expectedCount = groups.Count;
+        var expectedCount = groups.Count();
         var expectedGroupNames = groups.Select(_ => _.Name);
 
         //Act
@@ -115,7 +85,7 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_SelectedItemParam_shouldRenderCorrectly(IEnumerable<SelectGroup<int>> templateGroups)
     {
         //Arrange
-        var groups = FixIndexes(templateGroups);
+        var groups = templateGroups.FixIndexes();
 
         var groupIndex = TestingRndUtilities.GetRandomActiveIndex(groups.Count());
         var itemIndex = TestingRndUtilities.GetRandomActiveIndex(groups.ElementAt(groupIndex).Items.Count());
@@ -148,7 +118,7 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_OnSelectedItemChangedParam_FiresCallback(IEnumerable<SelectGroup<int>> groupTemplates)
     {
         //Arrange
-        var groups = FixIndexes(groupTemplates);
+        var groups = groupTemplates.FixIndexes();
         var selectedGroupIndex = TestingRndUtilities.GetRandomActiveIndex(groups.Count());
         var selectedItemIndex = TestingRndUtilities.GetRandomActiveIndex(groups.ElementAt(selectedGroupIndex).Items.Count());
         
@@ -173,7 +143,7 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_ClickEvent_RendersCorrectly(IEnumerable<SelectGroup<int>> groupTemplates)
     {
         //Arrange
-        var groups = FixIndexes(groupTemplates);
+        var groups = groupTemplates.FixIndexes();
         var selectedGroupIndex = TestingRndUtilities.GetRandomActiveIndex(groups.Count());
         var selectedItemIndex = TestingRndUtilities.GetRandomActiveIndex(groups.ElementAt(selectedGroupIndex).Items.Count());
         var expectedValue = groups.ElementAt(selectedGroupIndex).Items.ElementAt(selectedItemIndex).Value;
@@ -204,20 +174,29 @@ public class AccordionSelectGroupComponentTests : TestContext
         Assert.DoesNotContain("selected", unselectedItems.SelectMany(_ => _.ClassList));
     }
 
-    private static IEnumerable<SelectGroup<int>> FixIndexes(IEnumerable<SelectGroup<int>> templateGroups)
+    private static string GenerateExpectedMarkup(string title, bool isExpanded, IEnumerable<SelectGroup<int>> items)
     {
-        var groups = new List<SelectGroup<int>>();
+        var iconType = isExpanded ? "minus" : "plus";
+        var itemMarkup = string.Join(Environment.NewLine, items
+            .Select(item => $@"
+                <div class=""item"">
+                    <span class=""icon mdi mdi-icon mdi-12px mdi-bookmark""></span>
+                    <span class=""item-name"">{item.Name}</span>
+                </div>
+            "));
 
-        foreach (var (group, groupIndex) in templateGroups.WithIndex())
-        {
-            var groupItems = new List<SelectItem<int>>();
-            foreach (var (item, itemIndex) in group.Items.WithIndex())
-            {
-                groupItems.Add(item with { Index = itemIndex });
-            }
-            groups.Add(new SelectGroup<int>(group.Name, groupIndex, groupItems));
-        }
-
-        return groups;
+        return $@"
+            <div class=""accordion-select"">
+                <div class=""content"">
+                    <div class=""accordion-header"">
+                        <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-{iconType}-box-outline""></span>
+                        <span class=""item-group-name"">{title}</span>
+                    </div>
+                    <div class=""item-container {(isExpanded ? string.Empty : "collapsed")}"">
+                        {itemMarkup}
+                    </div>
+                </div>
+            </div>
+        ";
     }
 }

@@ -18,7 +18,7 @@ public class ConnectedNavMenuTests : TestContext
     public void ConnectedNavMenuComponentRendersCorrectly()
     {
         //Arrange
-        var vm = _fixture.Create<NavMenuViewModel>();
+        var vm = _fixture.Create<NavMenuViewModel>() with { SelectedIndex = 1 };
         ComponentFactories.AddStub(type => type != typeof(ConnectedNavMenu)); //shallow render
 
         //Act

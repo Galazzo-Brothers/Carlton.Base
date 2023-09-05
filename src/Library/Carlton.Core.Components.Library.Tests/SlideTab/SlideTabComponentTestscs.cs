@@ -10,6 +10,7 @@ public class SlideTabComponentTests : TestContext
     [Theory(DisplayName = "Markup Test"), AutoData]
     public void SlideTab_Collapsed_Markup_RendersCorrectly(
         string title,
+        bool isExpanded,
         int positionBottom,
         string content)
     {
@@ -17,7 +18,7 @@ public class SlideTabComponentTests : TestContext
         var expectedMarkup = 
 @$"<div class=""slide-tab"" style=""--slide-tab-bottom:{positionBottom}px;"">
     <button class=""slide-button"">{title}</button>
-    <div class=""slide-container"">
+    <div class=""slide-container {(isExpanded ? "expanded" : string.Empty)}"">
         <span class=""content"">{content}</span>
     </div>
 </div>";
@@ -25,35 +26,7 @@ public class SlideTabComponentTests : TestContext
         //Act
         var cut = RenderComponent<SlideTab>(parameters => parameters
             .Add(p => p.Title, title)
-            .Add(p => p.IsExpanded, false)
-            .Add(p => p.PositionBottom, positionBottom)
-            .Add(p => p.Content, string.Format(ContentTemplate, content))
-            );
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
-
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void SlideTab_Expanded_Markup_RendersCorrectly(
-        string title,
-        int positionBottom,
-        string content)
-    {
-        //Arrange
-        var expectedMarkup =
-@$"<div class=""slide-tab"" style=""--slide-tab-bottom:{positionBottom}px;"">
-    <button class=""slide-button"">{title}</button>
-    <div class=""slide-container expanded"">
-        <span class=""content"">{content}</span>
-    </div>
-</div>";
-
-        //Act
-        var cut = RenderComponent<SlideTab>(parameters => parameters
-            .Add(p => p.Title, title)
-            .Add(p => p.IsExpanded, true)
+            .Add(p => p.IsExpanded, isExpanded)
             .Add(p => p.PositionBottom, positionBottom)
             .Add(p => p.Content, string.Format(ContentTemplate, content))
             );
@@ -74,8 +47,7 @@ public class SlideTabComponentTests : TestContext
             .Add(p => p.Title, title)
             .Add(p => p.IsExpanded, isExpanded)
             .Add(p => p.PositionBottom, positionBottom)
-            .Add(p => p.Content, string.Format(ContentTemplate, content))
-            );
+            .Add(p => p.Content, string.Format(ContentTemplate, content)));
 
         var btn = cut.Find("button");
         var actualTitle = btn.TextContent;
@@ -98,8 +70,7 @@ public class SlideTabComponentTests : TestContext
            .Add(p => p.Title, title)
            .Add(p => p.IsExpanded, isExpanded)
            .Add(p => p.PositionBottom, positionBottom)
-           .Add(p => p.Content, string.Format(ContentTemplate, content))
-           );
+           .Add(p => p.Content, string.Format(ContentTemplate, content)));
 
         var slideContainer = cut.Find(".slide-container");
         var actualIsExpanded = slideContainer.ClassList.Contains("expanded");
@@ -123,8 +94,7 @@ public class SlideTabComponentTests : TestContext
           .Add(p => p.Title, title)
           .Add(p => p.IsExpanded, isExpanded)
           .Add(p => p.PositionBottom, positionBottom)
-          .Add(p => p.Content, string.Format(ContentTemplate, content))
-          );
+          .Add(p => p.Content, string.Format(ContentTemplate, content)));
 
         var slideTab = cut.Find(".slide-tab");
         var actualStyleValue = slideTab.Attributes.First(_ => _.Name == "style").Value;
@@ -148,8 +118,7 @@ public class SlideTabComponentTests : TestContext
          .Add(p => p.Title, title)
          .Add(p => p.IsExpanded, isExpanded)
          .Add(p => p.PositionBottom, positionBottom)
-         .Add(p => p.Content, string.Format(ContentTemplate, content))
-         );
+         .Add(p => p.Content, string.Format(ContentTemplate, content)));
 
         var slideContainer = cut.Find(".slide-container");
         var actualContent= slideContainer.InnerHtml;
