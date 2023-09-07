@@ -78,8 +78,12 @@ public class CountCardComponentTests : TestContext
         Assert.Contains(icon, iconElm.ClassList);
     }
 
-    [Theory(DisplayName = "Theme Parameter Test"), AutoData]
-    public void CountCard_ThemeParam_RendersCorrectly(int count, string icon, string messageTemplate, CountCardTheme theme)
+    [Theory(DisplayName = "Theme Parameter Test")]
+    [InlineAutoData(CountCardTheme.Red)]
+    [InlineAutoData(CountCardTheme.Blue)]
+    [InlineAutoData(CountCardTheme.Green)]
+    [InlineAutoData(CountCardTheme.Purple)]
+    public void CountCard_ThemeParam_RendersCorrectly(CountCardTheme theme, int count, string icon, string messageTemplate)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters

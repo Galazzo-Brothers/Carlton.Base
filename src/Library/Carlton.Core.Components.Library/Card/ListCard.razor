@@ -9,7 +9,7 @@
     </HeaderContent>
 
     <ActionBarContent>
-        <KebabMenu MenuItems="x" />
+        <KebabMenu MenuItems="new List<DropdownMenuItem<string>>()" />
     </ActionBarContent>
 
     <PrimaryCardContent>
@@ -33,8 +33,5 @@
     public RenderFragment<TItem> ItemTemplate { get; set; }
     [Parameter]
     public IEnumerable<TItem> Items { get; set; }
-
-
-    IEnumerable<DropdownMenuItem<int>> x = new List<DropdownMenuItem<int>>(new List<DropdownMenuItem<int>>());
 }
 

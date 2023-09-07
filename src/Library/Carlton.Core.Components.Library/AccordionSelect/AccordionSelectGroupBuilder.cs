@@ -52,7 +52,18 @@ public class AccordionSelectItemBuilder<TValue>
         return this;
     }
 
-    internal IEnumerable<SelectItem<TValue>> Build()
+    public AccordionSelectItemBuilder<TValue> AddItems(Dictionary<string, TValue> items)
+    {
+        foreach (var item in items)
+        {
+            _items.Add(new SelectItem<TValue>(item.Key, item.Value, _itemIndex));
+            _itemIndex++;
+        }
+        ;
+        return this;
+    }
+
+    public IEnumerable<SelectItem<TValue>> Build()
     {
         return _items;
     }
