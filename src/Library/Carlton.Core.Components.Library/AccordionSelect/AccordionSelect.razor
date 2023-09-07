@@ -12,7 +12,7 @@
         <div class="@ItemContainerCssClass">
             @foreach (var item in Items)
             {
-                <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item)">
+                <div class="@ItemCss(item.Index)" @onclick="() => OnItemSelected(item)">
                     <span class="@ItemIconCss"></span>
                     <span class="item-name">
                         @item.Name
@@ -31,7 +31,7 @@
     public IEnumerable<SelectItem<TValue>> Items { get; set; } = new List<SelectItem<TValue>>();
 
     [Parameter]
-    public TValue SelectedValue { get; set; }
+    public int SelectedIndex { get; set; } = -1;
 
     [Parameter]
     public bool IsExpanded { get; set; }
@@ -39,18 +39,21 @@
     [Parameter]
     public EventCallback<SelectItem<TValue>> SelectedItemChanged { get; set; }
 
-
     [Parameter]
     public EventCallback<bool> OnExpandedStateChanged { get; set; }
 
+    public TValue SelectedValue { get => SelectedIndex == -1 ? default(TValue) : Items.ElementAt(SelectedIndex).Value; }
+
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        var indiciesAreInvalid = SelectedIndex < -1 || //Index less than -1 not allowed
+                                 (!Items.Any() && SelectedIndex != -1) || //Empty items must have index -1
+                                 (Items.Any() && SelectedIndex > Items.Count() - 1); //Non-Empty items must have index within group count
 
-        //If initalized with a selected value
-        //should be expanded
-        if (SelectedValue != null)
-            IsExpanded = true;
+        if (indiciesAreInvalid)
+            throw new ArgumentException("The SelectedIndex parameter value is invalid.");
+
+        base.OnInitialized();
     }
 
     private async Task OnAccordionClick()
@@ -61,14 +64,14 @@
 
     private async Task OnItemSelected(SelectItem<TValue> item)
     {
-        SelectedValue = item.Value;
+        SelectedIndex = item.Index;
         await SelectedItemChanged.InvokeAsync(item);
     }
 
     private string AccordionHeaderCssClass
     {
         get => new CssBuilder("accordion-header")
-                .AddClass("selected", ValueExists(SelectedValue))
+                .AddClass("selected", SelectedIndex != -1)
                 .Build();
     }
 
@@ -88,10 +91,10 @@
                  .Build();
     }
 
-    private Func<TValue, string> ItemCss
+    private Func<int, string> ItemCss
     {
-        get => (value) => new CssBuilder("item")
-            .AddClass("selected", value.Equals(SelectedValue))
+        get => (index) => new CssBuilder("item")
+            .AddClass("selected", SelectedIndex == index)
             .Build();
     }
 
@@ -100,10 +103,5 @@
         get => new CssBuilder("icon")
                .AddClass("mdi mdi-icon mdi-12px mdi-bookmark")
                .Build();
-    }
-
-    private bool ValueExists(TValue value)
-    {
-        return Items.Any(_ => _.Value.Equals(value));
     }
 }

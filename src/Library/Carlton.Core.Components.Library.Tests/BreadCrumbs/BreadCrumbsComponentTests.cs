@@ -7,10 +7,9 @@ namespace Carlton.Core.Components.Library.Tests;
 public class BreadCrumbsComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test"), AutoData]
-    public void BreadCrumbs_Markup_RendersCorrectly(Fixture fixture, string title, char separator)
+    public void BreadCrumbs_Markup_RendersCorrectly(string title, char separator, IEnumerable<string> items)
     {
         //Arrange
-        var items = fixture.CreateMany<string>(3);
         var expectedMarkup =
 @$"<div class=""page-title"">
     <span class=""title"">{title}</span>
@@ -21,8 +20,7 @@ public class BreadCrumbsComponentTests : TestContext
         var cut = RenderComponent<BreadCrumbs>(parameters => parameters
             .Add(p => p.Title, title)
             .Add(p => p.Separator, separator)
-            .Add(p => p.BreadCrumbItems, items)
-            );
+            .Add(p => p.BreadCrumbItems, items));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
@@ -35,8 +33,7 @@ public class BreadCrumbsComponentTests : TestContext
         var cut = RenderComponent<BreadCrumbs>(parameters => parameters
             .Add(p => p.Title, title)
             .Add(p => p.Separator, separator)
-            .Add(p => p.BreadCrumbItems, items)
-            );
+            .Add(p => p.BreadCrumbItems, items));
 
         var titleElement = cut.Find(".title");
 
@@ -51,8 +48,7 @@ public class BreadCrumbsComponentTests : TestContext
         var cut = RenderComponent<BreadCrumbs>(parameters => parameters
             .Add(p => p.Title, title)
             .Add(p => p.Separator, separator)
-            .Add(p => p.BreadCrumbItems, items)
-            );
+            .Add(p => p.BreadCrumbItems, items));
 
         var element = cut.Find(".bread-crumbs");
         var separatorExists = HttpUtility.HtmlDecode(element.InnerHtml).IndexOf(separator) > -1;
@@ -62,17 +58,17 @@ public class BreadCrumbsComponentTests : TestContext
     }
 
     [Theory(DisplayName = "BreadCrumbItems Parameter Test"), AutoData]
-    public void BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly(string title, char separator, IEnumerable<string> items)
+    public void BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly(int numOfItems, string title, char separator)
     {
         //Arrange
+        var items = new Fixture().CreateMany<string>(numOfItems);
         var expected = string.Join($" {separator} ", items);
 
         //Act
         var cut = RenderComponent<BreadCrumbs>(parameters => parameters
           .Add(p => p.Title, title)
           .Add(p => p.Separator, separator)
-          .Add(p => p.BreadCrumbItems, items)
-          );
+          .Add(p => p.BreadCrumbItems, items));
 
         var titleElement = cut.Find(".bread-crumbs");
         var actualString = HttpUtility.HtmlDecode(titleElement.InnerHtml);

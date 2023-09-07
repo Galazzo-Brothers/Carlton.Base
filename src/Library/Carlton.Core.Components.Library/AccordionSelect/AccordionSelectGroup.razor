@@ -9,7 +9,7 @@
                          Title="@group.Name"
                          Items="group.Items"
                          IsExpanded="@group.IsExpanded"
-                         SelectedValue="GetSelectedValue(index)"
+                         SelectedIndex="GetSelectedItemIndex(index)"
                          OnExpandedStateChanged="(isExpanded) => ChangeExpandedState(index, isExpanded)"
                          SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
     }
@@ -20,24 +20,38 @@
     public IEnumerable<SelectGroup<TValue>> Groups { get; set; }
 
     [Parameter]
-    public TValue SelectedItem { get; set; }
-
-    [Parameter]
     public EventCallback<ExpandedStateChangedEventArgs> OnExpandedStateChanged { get; set; }
 
     [Parameter]
     public EventCallback<SelectItemChangedEventArgs<TValue>> OnSelectedItemChanged { get; set; }
 
-    private bool IsDefaultExpanded(int groupIndex) => groupIndex == 0;
+    [Parameter]
+    public int SelectedGroupIndex { get; set; } = 0;
 
-    private int _selectedGroupIndex;
+    [Parameter]
+    public int SelectedItemIndex { get; set; } = 0;
 
-    private TValue GetSelectedValue(int groupIndex)
+    public TValue SelectedValue { get => (SelectedGroupIndex == -1 || SelectedItemIndex == -1) ? default  :
+        Groups.ElementAt(SelectedGroupIndex).Items.ElementAt(SelectedItemIndex).Value; }
+
+    protected override void OnInitialized()
     {
-        if (groupIndex != _selectedGroupIndex)
-            return default(TValue);
+        var indiciesAreInvalid = SelectedGroupIndex < -1 || //Index less than -1 not allowed
+                                 SelectedItemIndex < -1 || //Index less than -1 not allowed
+                                 (!Groups.Any() && SelectedGroupIndex != -1) || //Empty groups must have index -1
+                                 (Groups.Any() && SelectedGroupIndex > Groups.Count() - 1) || //Non-Empty groups must have index within group count
+                                 (Groups.Any() && !Groups.ElementAt(SelectedGroupIndex).Items.Any() && SelectedItemIndex != -1) || //Empty items must have index -1
+                                 (Groups.Any() && Groups.ElementAt(SelectedGroupIndex).Items.Any()  && SelectedItemIndex > Groups.ElementAt(SelectedGroupIndex).Items.Count() - 1); //Non-Empty items must have index withi items count
 
-        return SelectedItem;
+        if (indiciesAreInvalid)
+            throw new ArgumentException("The provided index parameters are not valid.");
+
+        base.OnInitialized();
+    }
+
+    private int GetSelectedItemIndex(int groupIndex)
+    {
+        return groupIndex == SelectedGroupIndex ? SelectedItemIndex : -1;
     }
 
     private async Task ChangeExpandedState(int groupIndex, bool isExpanded)
@@ -47,8 +61,8 @@
 
     private async Task ChangeSelectedItem(int groupIndex, int itemIndex, TValue value)
     {
-        _selectedGroupIndex = groupIndex;
-        SelectedItem = value;
+        SelectedGroupIndex = groupIndex;
+        SelectedItemIndex = itemIndex;
         await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEventArgs<TValue>(groupIndex, itemIndex, value));
     }
 }

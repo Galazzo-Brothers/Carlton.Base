@@ -1,12 +1,23 @@
 ﻿using AutoFixture;
+using Carlton.Core.Components.Library.AccordionSelect;
+
 namespace Carlton.Core.Components.Library.Tests.Common;
 
 public class TestAccordionSelectGroupBuilder<TValue>
 {
     private readonly IFixture _fixture = new Fixture();
 
+    public IEnumerable<SelectGroup<TValue>> BuildTestSelectGroup(int numOfGroups, int[] numOfItems)
+    {
+        var isExpanded = new List<bool>();
 
-    public IEnumerable<SelectGroup<TValue>> BuildRandom(int numOfGroups, int[] numOfItems, bool[] isExpanded)
+        for (var i = 0; i < numOfGroups; i++)
+            isExpanded.Add(false);
+
+        return BuildTestSelectGroup(numOfGroups, numOfItems, isExpanded.ToArray());
+    }
+
+    public IEnumerable<SelectGroup<TValue>> BuildTestSelectGroup(int numOfGroups, int[] numOfItems, bool[] isExpanded)
     {  
         var builder = new AccordionSelectGroupBuilder<TValue>();
 
