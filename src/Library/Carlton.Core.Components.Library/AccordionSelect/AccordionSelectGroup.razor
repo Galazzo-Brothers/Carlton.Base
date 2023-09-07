@@ -8,8 +8,9 @@
         <AccordionSelect TValue="TValue"
                          Title="@group.Name"
                          Items="group.Items"
+                         IsExpanded="@group.IsExpanded"
                          SelectedValue="GetSelectedValue(index)"
-                         IsExpanded="IsDefaultExpanded(index)"
+                         OnExpandedStateChanged="(isExpanded) => ChangeExpandedState(index, isExpanded)"
                          SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
     }
 </div>
@@ -22,33 +23,14 @@
     public TValue SelectedItem { get; set; }
 
     [Parameter]
+    public EventCallback<ExpandedStateChangedEventArgs> OnExpandedStateChanged { get; set; }
+
+    [Parameter]
     public EventCallback<SelectItemChangedEventArgs<TValue>> OnSelectedItemChanged { get; set; }
 
+    private bool IsDefaultExpanded(int groupIndex) => groupIndex == 0;
+
     private int _selectedGroupIndex;
-
-    protected override void OnInitialized()
-    {
-        SetDefaultSelectedValues();
-        base.OnInitialized();
-    }
-
-    private void SetDefaultSelectedValues()
-    {
-        foreach (var group in Groups)
-        {
-            var selectedItem = group.Items.FirstOrDefault(_ => _.Value.Equals(SelectedItem));
-            if (selectedItem != null)
-            {
-                _selectedGroupIndex = group.Index;
-                break;
-            }
-        }
-    }
-
-    private bool IsDefaultExpanded(int groupIndex)
-    {
-        return groupIndex == _selectedGroupIndex;
-    }
 
     private TValue GetSelectedValue(int groupIndex)
     {
@@ -58,11 +40,15 @@
         return SelectedItem;
     }
 
+    private async Task ChangeExpandedState(int groupIndex, bool isExpanded)
+    {
+        await OnExpandedStateChanged.InvokeAsync(new ExpandedStateChangedEventArgs(groupIndex, isExpanded));
+    }
+
     private async Task ChangeSelectedItem(int groupIndex, int itemIndex, TValue value)
     {
         _selectedGroupIndex = groupIndex;
         SelectedItem = value;
-
         await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEventArgs<TValue>(groupIndex, itemIndex, value));
     }
 }

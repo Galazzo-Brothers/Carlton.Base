@@ -1,18 +1,26 @@
 ﻿@namespace Carlton.Core.Components.Lab.Components.ConnectedComponents
 @attribute [ObserveStateEvents("MenuItemSelected")]
+@attribute [ObserveStateEvents("MenuItemExpandedStateChanged")]
 @inherits BaseConnectedComponent<NavMenuViewModel>
 
 
 <AccordionSelectGroup TValue="ComponentState"
                       Groups="ComponentStateGroups"
                       SelectedItem="SelectedComponentState"
-                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(args.Item))" />
+                      OnExpandedStateChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuExpandedCommand(args.GroupIndexID, args.IsExpanded))"
+                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(args.GroupIndexID, args.ItemIndexID, args.Item))" />
 
 
 @code{
     private IEnumerable<SelectGroup<ComponentState>> ComponentStateGroups { get; set; }
 
-    private ComponentState SelectedComponentState { get => ViewModel.MenuItems.ElementAt(ViewModel.SelectedIndex); }
+    private ComponentState SelectedComponentState 
+    {
+        get => ViewModel.MenuItems
+                        .ElementAt(ViewModel.SelectedComponentIndex)
+                        .ComponentStates
+                        .ElementAt(ViewModel.SelectedStateIndex);
+    }
 
     protected override void OnParametersSet()
     {
@@ -22,18 +30,17 @@
 
     private void ParseComponentStatesIntoAccordionGroups()
     {
-        var resultGroups = new List<SelectGroup<ComponentState>>();
+        var components = ViewModel.MenuItems;
 
-        var groups = ViewModel.MenuItems.GroupBy(_ => _.Type);
+        var builder = new AccordionSelectGroupBuilder<ComponentState>();
 
-        var groupIndex = 0;
-        foreach(var group in groups)
-        {
-            var selectItems = group.WithIndex().Select(_ => new SelectItem<ComponentState>(_.item.DisplayName, _.index, _.item));
-            resultGroups.Add(new SelectGroup<ComponentState>(group.Key.GetDisplayName(), groupIndex, selectItems));
-            groupIndex++;
+        foreach(var component in components)
+        {            
+            var dictionary = component.ComponentStates
+                                      .ToDictionary(_ => _.DisplayName, _ => _);    
+            builder.AddGroup(component.ComponentType.GetDisplayName(), component.IsExpanded, dictionary);
         }
 
-        ComponentStateGroups = resultGroups;
+        ComponentStateGroups = builder.Build();
     }
 }

@@ -3,6 +3,7 @@
 public enum LabStateEvents
 {
     MenuItemSelected,
+    MenuItemExpandedStateChanged,
     ParametersUpdated,
     EventRecorded,
     EventsCleared

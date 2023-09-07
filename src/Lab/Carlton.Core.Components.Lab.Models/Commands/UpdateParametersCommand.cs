@@ -1,3 +1,3 @@
-﻿namespace Carlton.Core.Components.Lab.Models;
+﻿namespace Carlton.Core.Components.Lab.Models.Commands;
 
-public record UpdateParametersCommand(object Parameters) : MutationCommand;
+public sealed record UpdateParametersCommand(object Parameters) : MutationCommand;
