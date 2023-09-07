@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Carlton.Core.Components.Lab.Models.Common;
 using Carlton.Core.Components.Lab.Test.Mocks;
 using Carlton.Core.Utilities.Extensions;
 using Carlton.Core.Utilities.UnitTesting;
@@ -41,14 +42,14 @@ internal class LabStateFactory
         });
 
         //Create base LabState
-        var componentStates = fixture.CreateMany<ComponentState>();
+        var componentStates = fixture.CreateMany<ComponentAvailableStates>();
 
         //Register Test Dictionary
         fixture.Register(() =>
         {
             var kvp = new List<KeyValuePair<string, TestResultsReport>>();
 
-            foreach(var type in componentStates.Select(_ => _.Type).Distinct())
+            foreach(var type in componentStates.Select(_ => _.ComponentType).Distinct())
             {
                 kvp.Add(new KeyValuePair<string, TestResultsReport>(
                   type.GetDisplayName(),

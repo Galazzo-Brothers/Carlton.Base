@@ -8,5 +8,6 @@ global using Carlton.Core.Utilities.UnitTesting;
 global using Carlton.Core.Components.Flux;
 global using Carlton.Core.Components.Flux.Contracts;
 global using Carlton.Core.Components.Lab.Models;
-
+global using Carlton.Core.Components.Lab.Models.Commands;
+global using Carlton.Core.Components.Lab.Models.ViewModels;
 

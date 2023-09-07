@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Lab;
+﻿using Carlton.Core.Components.Lab.Models.Common;
+
+namespace Carlton.Core.Components.Lab;
 
 public static class MapsterConfig
 {
@@ -15,8 +17,9 @@ public static class MapsterConfig
             .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
 
         config.NewConfig<LabState, NavMenuViewModel>()
-            .Map(dest => dest.SelectedIndex, src => src.SelectedComponentIndex)
-            .Map(dest => dest.MenuItems, src => src.ComponentStates);
+            .Map(dest => dest.MenuItems, src => src.ComponentStates)
+            .Map(dest => dest.SelectedComponentIndex, src => src.SelectedComponentIndex)
+            .Map(dest => dest.SelectedStateIndex, src => src.SelectedComponentStateIndex);
 
         config.NewConfig<LabState, ComponentViewerViewModel>()
             .Map(dest => dest.ComponentType, src => src.SelectedComponentType)
@@ -43,6 +46,8 @@ public static class MapsterConfig
         config.NewConfig<ComponentParameters, ComponentParameters>();
 
         config.NewConfig<ComponentState, ComponentState>();
+
+        config.NewConfig<ComponentAvailableStates, ComponentAvailableStates>();
 
         config.NewConfig<TestResult, TestResult>();
 

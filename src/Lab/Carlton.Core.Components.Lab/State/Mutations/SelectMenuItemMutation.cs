@@ -7,15 +7,21 @@ public class SelectMenuItemMutation : IFluxStateMutation<LabState, SelectMenuIte
 
     public LabState Mutate(LabState currentState, SelectMenuItemCommand command)
     {
-        var index = currentState.ComponentStates.ToList().FindIndex(_ => _.Equals(command.ComponentState));
+        var selectedState = currentState.ComponentStates.ToList()
+                                        .ElementAtOrDefault(command.ComponentIndex)
+                                        ?.ComponentStates
+                                        ?.ElementAtOrDefault(command.ComponentStateIndex);
 
-        if (index == -1)
+        var isValidState = command.SelectedComponentState.Equals(selectedState);
+
+        if (!isValidState)
             throw new InvalidOperationException("Only a previously existing NavMenutItem can be selected.");
 
         return currentState with
         {
-            SelectedComponentIndex = index,
-            SelectedComponentParameters = command.ComponentState.ComponentParameters
+            SelectedComponentIndex = command.ComponentIndex,
+            SelectedComponentStateIndex = command.ComponentStateIndex,
+            SelectedComponentParameters = command.SelectedComponentState.ComponentParameters,
         };
     }
 }

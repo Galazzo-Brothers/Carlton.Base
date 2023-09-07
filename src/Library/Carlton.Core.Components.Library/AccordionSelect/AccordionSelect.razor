@@ -3,14 +3,14 @@
 
 <div class="accordion-select">
     <div class="content">
-        <div class="@AccordionHeaderCssClass" @onclick="() => IsExpanded = !IsExpanded">
+        <div class="@AccordionHeaderCssClass" @onclick="() => OnAccordionClick()">
             <span class="@AccordionIconBtnCssClass"></span>
             <span class="item-group-name">
                 @Title
             </span>
         </div>
         <div class="@ItemContainerCssClass">
-            @foreach(var item in Items)
+            @foreach (var item in Items)
             {
                 <div class="@ItemCss(item.Value)" @onclick="() => OnItemSelected(item)">
                     <span class="@ItemIconCss"></span>
@@ -38,6 +38,32 @@
 
     [Parameter]
     public EventCallback<SelectItem<TValue>> SelectedItemChanged { get; set; }
+
+
+    [Parameter]
+    public EventCallback<bool> OnExpandedStateChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        //If initalized with a selected value
+        //should be expanded
+        if (SelectedValue != null)
+            IsExpanded = true;
+    }
+
+    private async Task OnAccordionClick()
+    {
+        IsExpanded = !IsExpanded;
+        await OnExpandedStateChanged.InvokeAsync(IsExpanded);
+    }
+
+    private async Task OnItemSelected(SelectItem<TValue> item)
+    {
+        SelectedValue = item.Value;
+        await SelectedItemChanged.InvokeAsync(item);
+    }
 
     private string AccordionHeaderCssClass
     {
@@ -79,11 +105,5 @@
     private bool ValueExists(TValue value)
     {
         return Items.Any(_ => _.Value.Equals(value));
-    }
-
-    private async Task OnItemSelected(SelectItem<TValue> item)
-    {
-        SelectedValue = item.Value;
-        await SelectedItemChanged.InvokeAsync(item);
     }
 }

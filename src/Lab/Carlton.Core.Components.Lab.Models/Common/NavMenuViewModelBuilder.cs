@@ -44,10 +44,14 @@ public sealed class NavMenuViewModelBuilder
         return this;
     }
 
-    public IEnumerable<ComponentState> Build()
+    public IEnumerable<ComponentAvailableStates> Build()
     {
-        return _internalState.Select(BuildComponentState);
+        return _internalState.GroupBy(_ => _.ComponentType)
+                      .Select(group => new ComponentAvailableStates(group.Key, IsExpanded(group.Key), group.Select(BuildComponentState)));
 
+
+        bool IsExpanded(Type type)
+            => type == _internalState[0].ComponentType;
 
         static ComponentState BuildComponentState(NavMenuBuilderItemState state)
         {

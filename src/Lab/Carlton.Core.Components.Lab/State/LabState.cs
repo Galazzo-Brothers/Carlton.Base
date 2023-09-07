@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using Carlton.Core.Components.Lab.Models.Common;
+using System.Collections.Immutable;
 
 namespace Carlton.Core.Components.Lab;
 
@@ -6,9 +7,10 @@ public record LabState
 {
     protected readonly IList<ComponentRecordedEvent> _componentEvents = new List<ComponentRecordedEvent>();
 
-    public IReadOnlyList<ComponentState> ComponentStates { get; init; }
+    public IReadOnlyList<ComponentAvailableStates> ComponentStates { get; init; }
     public int SelectedComponentIndex { get; init; }
-    public ComponentState SelectedComponentState { get => ComponentStates.ElementAt(SelectedComponentIndex); }
+    public int SelectedComponentStateIndex { get; init; }
+    public ComponentState SelectedComponentState { get => ComponentStates.ElementAt(SelectedComponentIndex).ComponentStates.ElementAt(SelectedComponentStateIndex); }
     public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
     public string SelectedComponentMarkup { get; init; }
     public ComponentParameters SelectedComponentParameters { get; init; }
@@ -25,10 +27,11 @@ public record LabState
             : new TestResultsReport();
     }
 
-    public LabState(IEnumerable<ComponentState> componentStates, IDictionary<string, TestResultsReport> testResults)
+    public LabState(IEnumerable<ComponentAvailableStates> componentStates, IDictionary<string, TestResultsReport> testResults)
     {
         ComponentStates = componentStates.ToList();
         SelectedComponentIndex = 0; //Default to the first item
+        SelectedComponentStateIndex = 0; //Default to the first item
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
         ComponentTestResults = testResults.ToImmutableDictionary();
     }

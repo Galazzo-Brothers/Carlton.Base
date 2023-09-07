@@ -6,8 +6,8 @@ public class SelectMenuItemCommandValidator : AbstractValidator<SelectMenuItemCo
 {
     public SelectMenuItemCommandValidator()
     {
-        RuleFor(command => command.ComponentState).NotNull();
-        RuleFor(command => command.ComponentState).SetValidator(new ComponentStateValidator());
+        RuleFor(command => command.SelectedComponentState).NotNull();
+        RuleFor(command => command.SelectedComponentState).SetValidator(new ComponentStateValidator());
     }
 }
 
