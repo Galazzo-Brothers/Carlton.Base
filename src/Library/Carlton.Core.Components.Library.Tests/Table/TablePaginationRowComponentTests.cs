@@ -1,23 +1,28 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+using static Carlton.Core.Components.Library.Tests.TableTestHelper;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(TablePaginationRow<int>))]
 public class TablePaginationRowComponentTests : TestContext
 {
     private const int ItemsCount = 3;
 
-    [Fact(DisplayName = "Markup Test")]
-    public void TablePaginationRow_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"),AutoData]
+    public void TablePaginationRow_Markup_RendersCorrectly(int itemsCount, IEnumerable<int> rowsPerPage)
     {
+        //Arrange
+        var expected = TableTestHelper.BuildExpectedPaginationRow(rowsPerPage, itemsCount);
+
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, ItemsCount)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, itemsCount)
+            .Add(p => p.RowsPerPageOpts, rowsPerPage)
             .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, 5)
-            );
+            .Add(p => p.SelectedRowsPerPageCount, rowsPerPage.First()));
 
         //Assert
-        cut.MarkupMatches(TableTestHelper.TablePaginationRowMarkup);
+        cut.MarkupMatches(expected);
     }
 
     [Theory(DisplayName = "RowsPerPageOpts Parameter Test")]

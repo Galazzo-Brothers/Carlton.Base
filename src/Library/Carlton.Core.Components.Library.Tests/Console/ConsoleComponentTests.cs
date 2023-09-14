@@ -7,13 +7,14 @@ namespace Carlton.Core.Components.Library.Tests;
 public class ConsoleComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test")]
+    [InlineAutoData(true)]
     [InlineAutoData(false)]
     public void Console_Markup_RendersCorrectly(bool isReadOnly, string text)
     {
         //Arrange
         var expectedMarkup = @$"
 <div class=""console"">
-    <textarea rows=""15"" class="""" value=""{text}""></textarea>
+    <textarea rows=""15"" {(isReadOnly ? "disabled=\"\"" : string.Empty)} class="""" value=""{text}""></textarea>
 </div>";
 
 
@@ -24,25 +25,6 @@ public class ConsoleComponentTests : TestContext
 
         //Assert
         cut.MarkupMatches(string.Format(expectedMarkup, text));
-    }
-
-    [Theory(DisplayName = "Markup Test")]
-    [InlineAutoData(true)]
-    public void Console_Disabled_Markup_RendersCorrectly(bool isReadOnly, string text)
-    {
-        //Arrange
-        var expectedMarkup = @$"
-<div class=""console"">
-    <textarea rows=""15"" {(isReadOnly ? "disabled=\"\"" : string.Empty)} class="""" value=""{text}""></textarea>
-</div>";
-
-        //Act
-        var cut = RenderComponent<Console>(parameters => parameters
-                .Add(p => p.IsReadOnly, isReadOnly)
-                .Add(p => p.Text, text));
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "ReadOnly Parameter Test")]

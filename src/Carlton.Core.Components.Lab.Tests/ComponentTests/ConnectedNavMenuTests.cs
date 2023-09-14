@@ -55,6 +55,6 @@ public class ConnectedNavMenuTests : TestContext
         //Assert
         Assert.True(onComponentEventCalled);
         Assert.IsType<SelectMenuItemCommand>(command);
-        Assert.Equal(expectedState, command.Cast<SelectMenuItemCommand>().ComponentState);
+        Assert.Equal(expectedState, command.Cast<SelectMenuItemCommand>().SelectedComponentState);
     }
 }

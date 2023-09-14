@@ -132,7 +132,6 @@ public class AccordionSelectGroupComponentTests : TestContext
             .Add(p => p.SelectedGroupIndex, selectedGroupIndex)
             .Add(p => p.SelectedItemIndex, selectedItemIndex));
 
-        var headers = cut.FindAll(".accordion-header").ToList();
         var allItems = cut.FindAll(".item").ToList();
 
         //Assert
@@ -281,7 +280,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 
     private static string BuildExpectedGroupsMarkup(IEnumerable<SelectGroup<int>> groups , int selectedGroupIndex, int selectedItemIndex)
     {
-        var groupMakerup = string.Join(Environment.NewLine, groups
+        var groupMarkup = string.Join(Environment.NewLine, groups
             .Select((group, i) => $@"
 <div class=""accordion-select"">
     <div class=""content"">
@@ -297,7 +296,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 
         return $@"
 <div class=""accordion-select-group"">
-    {groupMakerup}
+    {groupMarkup}
 </div>";
     }
 

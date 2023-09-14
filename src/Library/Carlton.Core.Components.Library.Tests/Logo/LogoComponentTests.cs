@@ -5,12 +5,14 @@ namespace Carlton.Core.Components.Library.Tests;
 [Trait("Component", nameof(Logo))]
 public class LogoComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
+    [Theory(DisplayName = "Markup Test")]
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
     public void Logo_Collapsed_Markup_RendersCorrectly(bool isCollapsed, string title)
     {
         //Arrange
         var layoutState = new LayoutState(isCollapsed, () => { });
-        var expectedMarkup = 
+        var expectedMarkup =
 @$"<div class=""logo {(isCollapsed ? "collapsed" : string.Empty)}"">
     <div class=""content"">
         <img src=""_content/Carlton.Core.Components.Library/images/CarltonLogo.png"">
@@ -18,16 +20,18 @@ public class LogoComponentTests : TestContext
     </div>
 </div>";
 
-    //Act
-    var cut = RenderComponent<Logo>(parameters => parameters
-            .AddCascadingValue(layoutState)
-            .Add(p => p.Title, title));
+        //Act
+        var cut = RenderComponent<Logo>(parameters => parameters
+                .AddCascadingValue(layoutState)
+                .Add(p => p.Title, title));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "IsCollapsed Parameter Test"), AutoData]
+    [Theory(DisplayName = "IsCollapsed Parameter Test")]
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
     public void Logo_IsCollapsedParam_RendersCorrectly(bool isCollapsed, string title)
     {
         //Arrange
@@ -44,7 +48,9 @@ public class LogoComponentTests : TestContext
         Assert.Equal(hasCollapsedClass, layoutState.IsCollapsed);
     }
 
-    [Theory(DisplayName = "Title Parameter Test"), AutoData]
+    [Theory(DisplayName = "Title Parameter Test")]
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
     public void Logo_TitleParameterRendersCorrectly(bool isCollapsed, string title)
     {
         //Arrange
