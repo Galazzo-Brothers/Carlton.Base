@@ -1,144 +1,84 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using System.Globalization;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 public static class TableTestHelper
 {
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 
-    public const string TableMarkup =
-    @"<div class=""main-container"" b-rbixdumkuw>
-  <div class=""table-container"" b-rbixdumkuw>
-    <div class=""header-row table-row"" b-rbixdumkuw>
-      <div class=""table-header-row"" b-ydzvi9l03d>
-        <div class=""header-row-item row-item ascending heading-0"" blazor:onclick=""1"" b-ydzvi9l03d>
-          <span class=""heading-text"" b-ydzvi9l03d>ID</span>
-          <div class=""sort-arrows"" b-ydzvi9l03d>
-            <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-            <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
-          </div>
-        </div>
-        <div class=""header-row-item row-item ascending heading-1"" blazor:onclick=""2"" b-ydzvi9l03d>
-          <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
-          <div class=""sort-arrows"" b-ydzvi9l03d>
-            <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-            <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
-          </div>
-        </div>
-        <div class=""header-row-item row-item ascending heading-2"" blazor:onclick=""3"" b-ydzvi9l03d>
-          <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
-          <div class=""sort-arrows"" b-ydzvi9l03d>
-            <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-            <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class=""item-row table-row"" b-rbixdumkuw>
-      <div class=""test-row"">
-        <span>ID:1</span>
-        <span>Display Name:Item A</span>
-        <span>Date:10/09/2023</span>
-      </div>
-    </div>
-    <div class=""item-row table-row"" b-rbixdumkuw>
-      <div class=""test-row"">
-        <span>ID:2</span>
-        <span>Display Name:Item B</span>
-        <span>Date:02/03/2022</span>
-      </div>
-    </div>
-    <div class=""item-row table-row"" b-rbixdumkuw>
-      <div class=""test-row"">
-        <span>ID:3</span>
-        <span>Display Name:Item C</span>
-        <span>Date:05/19/2021</span>
-      </div>
-    </div>
-    <div class=""pagination-row table-row"" b-rbixdumkuw>
-      <div class=""pagination-row-item"" b-hp2nj7a13h>
-        <div class=""rows-per-page"" b-hp2nj7a13h>
-          <span class=""rows-per-page-label"" b-hp2nj7a13h>Rows Per Page</span>
-          <div class=""select"" b-b4t7b28hd7>
-            <input readonly placeholder="" "" value=""5"" b-b4t7b28hd7 />
-            <div class=""label"" b-b4t7b28hd7></div>
-            <div class=""options"" b-b4t7b28hd7>
-              <div class=""option"" blazor:onclick=""8"" b-b4t7b28hd7>5</div>
-              <div class=""option"" blazor:onclick=""9"" b-b4t7b28hd7>10</div>
-              <div class=""option"" blazor:onclick=""10"" b-b4t7b28hd7>15</div>
-            </div>
-          </div>
-        </div>
-        <div class=""page-number"" b-hp2nj7a13h>
-          <span class=""pagination-label"" b-hp2nj7a13h>1-3 of 3</span>
-        </div>
-        <div class=""page-chevrons"" b-hp2nj7a13h>
-          <span class=""mdi mdi-18px mdi-page-first disabled"" blazor:onclick=""4"" b-hp2nj7a13h></span>
-          <span class=""mdi mdi-18px mdi-chevron-left disabled"" blazor:onclick=""5"" b-hp2nj7a13h></span>
-          <span class=""mdi mdi-18px mdi-chevron-right disabled"" blazor:onclick=""6"" b-hp2nj7a13h></span>
-          <span class=""mdi mdi-18px mdi-page-last disabled"" blazor:onclick=""7"" b-hp2nj7a13h></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>";
-
     public const string RowTemplate =
-    @"
-        <div class=""test-row"">
-            <span>ID:{0}</span>
-            <span>Display Name:{1}</span>
-            <span>Date:{2}</span>
-        </div>";
-
-    public const string TableHeaderMarkup =
-    @"<div class=""table-header-row"" b-ydzvi9l03d>
-  <div class=""header-row-item row-item ascending heading-0"" blazor:onclick=""1"" b-ydzvi9l03d>
-    <span class=""heading-text"" b-ydzvi9l03d>ID</span>
-    <div class=""sort-arrows"" b-ydzvi9l03d>
-      <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-      <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
-    </div>
-  </div>
-  <div class=""header-row-item row-item ascending heading-1"" blazor:onclick=""2"" b-ydzvi9l03d>
-    <span class=""heading-text"" b-ydzvi9l03d>DisplayName</span>
-    <div class=""sort-arrows"" b-ydzvi9l03d>
-      <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-      <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
-    </div>
-  </div>
-  <div class=""header-row-item row-item ascending heading-2"" blazor:onclick=""3"" b-ydzvi9l03d>
-    <span class=""heading-text"" b-ydzvi9l03d>CreatedDate</span>
-    <div class=""sort-arrows"" b-ydzvi9l03d>
-      <span class=""arrow-ascending mdi mdi-arrow-up"" b-ydzvi9l03d></span>
-      <span class=""arrow-descending mdi mdi-arrow-down"" b-ydzvi9l03d></span>
-    </div>
-  </div>
+@"
+<div class=""test-row"">
+    <span>{0}</span>
+    <span>{1}</span>
+    <span>{2}</span>
 </div>";
 
-    public const string TablePaginationRowMarkup =
-    @"<div class=""pagination-row-item"" b-hp2nj7a13h>
-  <div class=""rows-per-page"" b-hp2nj7a13h>
-    <span class=""rows-per-page-label"" b-hp2nj7a13h>Rows Per Page</span>
-    <div class=""select"" b-b4t7b28hd7>
-      <input readonly placeholder="" "" value=""5"" b-b4t7b28hd7 />
-      <div class=""label"" b-b4t7b28hd7></div>
-      <div class=""options"" b-b4t7b28hd7>
-        <div class=""option"" blazor:onclick=""5"" b-b4t7b28hd7>5</div>
-        <div class=""option"" blazor:onclick=""6"" b-b4t7b28hd7>10</div>
-        <div class=""option"" blazor:onclick=""7"" b-b4t7b28hd7>15</div>
-      </div>
-    </div>
-  </div>
-  <div class=""page-number"" b-hp2nj7a13h>
-    <span class=""pagination-label"" b-hp2nj7a13h>1-3 of 3</span>
-  </div>
-  <div class=""page-chevrons"" b-hp2nj7a13h>
-    <span class=""mdi mdi-18px mdi-page-first disabled"" blazor:onclick=""1"" b-hp2nj7a13h></span>
-    <span class=""mdi mdi-18px mdi-chevron-left disabled"" blazor:onclick=""2"" b-hp2nj7a13h></span>
-    <span class=""mdi mdi-18px mdi-chevron-right disabled"" blazor:onclick=""3"" b-hp2nj7a13h></span>
-    <span class=""mdi mdi-18px mdi-page-last disabled"" blazor:onclick=""4"" b-hp2nj7a13h></span>
-  </div>
-</div>";
+    public const string RowTemplate2 = "{0}_{1}_{2}";
 
+    public static string BuildExpectedMarkup(IEnumerable<TableHeadingItem> headings, string rowTemplate, IEnumerable<TableTestObject> items, bool includePaginationRow, IEnumerable<int> rowsPerPageOpts)
+    {
+        return @$"<div class=""main-container"">
+  <div class=""table-container"">
+    <div class=""header-row table-row"">
+      {BuildExpectedHeaderMarkup(headings)}
+    </div>
+    {BuildExpectedItemRows(rowTemplate, items)}
+    {(includePaginationRow ? 
+        @$"<div class=""pagination-row table-row""> 
+            {BuildExpectedPaginationRow(rowsPerPageOpts, items.Count())}
+          </div>" : string.Empty)}
+</div>";
+    }
+
+    public static string BuildExpectedHeaderMarkup(IEnumerable<TableHeadingItem> headings)
+    {
+        var headingsMarkup = string.Join(Environment.NewLine, headings.Select((item, i) =>
+        @$"
+<div class=""header-row-item row-item ascending heading-{i}"">
+    <span class=""heading-text"">{item.DisplayName}</span>
+        <div class=""sort-arrows"">
+            <span class=""arrow-ascending mdi mdi-arrow-up""></span>
+            <span class=""arrow-descending mdi mdi-arrow-down""></span>
+        </div>
+</div>"));
+
+        return @$"<div class=""table-header-row"">{headingsMarkup}</div>";
+    }
+
+    public static string BuildExpectedItemRows(string rowTemplate, IEnumerable<TableTestObject> items)
+    {
+        return string.Join(Environment.NewLine, items.Select(item => string.Format(@$"<div class=""item-row table-row"">{rowTemplate}</div>", item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
+    }
+
+    public static string BuildExpectedPaginationRow(IEnumerable<int> rowsPerPage, int itemTotal)
+    {
+        var optionsMarkup = string.Join(Environment.NewLine, rowsPerPage.Select(_ => $@"<div class=""option"">{_}</div>"));
+        var defaultOption = rowsPerPage.ElementAt(0);
+        return
+@$"
+    <div class=""pagination-row-item"">
+        <div class=""rows-per-page"">
+            <span class=""rows-per-page-label"">Rows Per Page</span>
+            <div class=""select"">
+                <input readonly placeholder="" "" value=""{defaultOption}"" />
+                <div class=""label""></div>
+                <div class=""options"">
+                {optionsMarkup}
+            </div>
+        </div>
+    </div>
+    <div class=""page-number"">
+        <span class=""pagination-label"">1-{Math.Min(defaultOption, itemTotal)} of {itemTotal}</span>
+    </div>
+        <div class=""page-chevrons"">
+          <span class=""mdi mdi-18px mdi-page-first disabled""></span>
+          <span class=""mdi mdi-18px mdi-chevron-left disabled""></span>
+          <span class=""mdi mdi-18px mdi-chevron-right disabled""></span>
+          <span class=""mdi mdi-18px mdi-page-last disabled""></span>
+        </div>
+    </div>";
+    }
 
     public static readonly IReadOnlyCollection<TableHeadingItem> Headings = new List<TableHeadingItem>
     {

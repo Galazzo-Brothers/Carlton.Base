@@ -1,23 +1,27 @@
-﻿namespace Carlton.Core.Components.Library.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(TableHeader<int>))]
 public class TableHeaderComponentTests : TestContext
 {
-    [Fact(DisplayName = "Markup Test")]
-    public void TableHeader_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void TableHeader_Markup_RendersCorrectly(IEnumerable<TableHeadingItem> headings)
     {
+        //Arrange
+        var expected = TableTestHelper.BuildExpectedHeaderMarkup(headings);
+
         //Act
         var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+            .Add(p => p.Headings, headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
         //Assert
-        cut.MarkupMatches(TableTestHelper.TableHeaderMarkup);
+        cut.MarkupMatches(expected);
     }
 
-    [Theory(DisplayName = "Headings Parameter Test")]
-    [MemberData(nameof(TableTestHelper.GetHeadings), MemberType = typeof(TableTestHelper))]
+    [Theory(DisplayName = "Headings Parameter Test"), AutoData]
     public void TableHeader_HeadingsParam_RendersCorrectly(IEnumerable<TableHeadingItem> headings)
     {
         //Arrange

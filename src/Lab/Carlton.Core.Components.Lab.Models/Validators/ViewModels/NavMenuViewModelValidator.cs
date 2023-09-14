@@ -9,7 +9,7 @@ public class NavMenuViewModelValidator : AbstractValidator<NavMenuViewModel>
         RuleFor(vm => vm.MenuItems)
             .NotNull()
             .NotEmpty();
-        RuleForEach(vm => vm.MenuItems)
-            .SetValidator(new ComponentStateValidator());
+        //RuleForEach(vm => vm.MenuItems)
+        //    .SetValidator(new ComponentStateValidator());
     }
 }

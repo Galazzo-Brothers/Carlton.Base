@@ -18,7 +18,7 @@ public class LabStateMappingTests
 
 
         //Assert
-        Assert.Equal(labState.SelectedComponentIndex, result.SelectedIndex);
+        Assert.Equal(labState.SelectedComponentIndex, result.SelectedComponentIndex);
         Assert.Equal(labState.ComponentStates, result.MenuItems);
     }
 

@@ -5,7 +5,9 @@ namespace Carlton.Core.Components.Library.Tests;
 [Trait("Component", nameof(HamburgerCollapser))]
 public class HamburgerCollapserComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
+    [Theory(DisplayName = "Markup Test")]
+    [InlineData(true)]
+    [InlineData(false)]
     public void HamburgerCollapser_Markup_RendersCorrectly(bool isCollapsed)
     {
         //Arrange
