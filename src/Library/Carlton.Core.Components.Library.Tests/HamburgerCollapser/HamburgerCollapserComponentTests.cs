@@ -1,6 +1,4 @@
-﻿using AutoFixture.Xunit2;
-
-namespace Carlton.Core.Components.Library.Tests;
+﻿namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(HamburgerCollapser))]
 public class HamburgerCollapserComponentTests : TestContext

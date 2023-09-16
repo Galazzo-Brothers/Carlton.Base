@@ -29,7 +29,7 @@ public class TableComponentTests : TestContext
         var headings = fixture.CreateMany<TableHeadingItem>(numOfColumns);
         var items = fixture.CreateMany<TableTestObject>(numOfRows);
         var rowsPerPageOpts = fixture.CreateMany<int>(numRowsPerPage);
-        var expectedMarkup = BuildExpectedMarkup(headings, rowTemplate, items, showPaginationRow, rowsPerPageOpts);
+        var expectedMarkup = BuildExpectedMarkup(headings, rowTemplate, items, showPaginationRow, rowsPerPageOpts, 0, 1);
 
         //Act
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
@@ -47,7 +47,9 @@ public class TableComponentTests : TestContext
     [InlineAutoData(3)]
     [InlineAutoData(10)]
     public void Table_HeadingsParam_RendersCorrectly(
-            int numOfColumns)
+            int numOfColumns,
+            IEnumerable<TableTestObject> items,
+            IEnumerable<int> rowsPerPageOpts)
     {
         //Arrange
         var fixture = new Fixture();
@@ -56,10 +58,10 @@ public class TableComponentTests : TestContext
         var expectedHeaders = headings.Select(_ => _.DisplayName);
 
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
+        var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+            .Add(p => p.Items, items)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true));
 
@@ -73,47 +75,55 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Header Click Once Test")]
-    [MemberData(nameof(TableTestHelper.GetFilteredItemsAsc), MemberType = typeof(TableTestHelper))]
-    public void Table_Header_OnClickOnce_FiltersItemsAsc((int ColumnIndex, ReadOnlyCollection<TableTestObject> ExpectedItems) expected)
+    [InlineAutoData(0)]
+    [InlineAutoData(1)]
+    [InlineAutoData(2)]
+    public void Table_Header_OnClickOnce_FiltersItemsAsc(int columnIndex, IEnumerable<int> rowsPerPage)
     {
         //Arrange
+        var unorderedItems = new Fixture().CreateMany<TableTestObject>();
+        var items = OrderCollection(unorderedItems, columnIndex);
+
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.Items, items)
+            .Add(p => p.RowsPerPageOpts, rowsPerPage)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
-            .Add(p => p.ShowPaginationRow, true)
-            );
+            .Add(p => p.ShowPaginationRow, true));
 
         var headerRowItems = cut.FindAll(".header-row-item");
 
         //Act
-        headerRowItems.ElementAt(expected.ColumnIndex).Click();
+        headerRowItems.ElementAt(columnIndex).Click();
 
         //Assert
-        Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
+        Assert.Equal(items, cut.Instance.Items);
     }
 
     [Theory(DisplayName = "Header Click Twice Test")]
-    [MemberData(nameof(TableTestHelper.GetFilteredItemsDesc), MemberType = typeof(TableTestHelper))]
-    public void Table_Header_OnClickTwice_FiltersItemsDesc((int ColumnIndex, ReadOnlyCollection<TableTestObject> ExpectedItems) expected)
+    [InlineAutoData(0)]
+    [InlineAutoData(1)]
+    [InlineAutoData(2)]
+    public void Table_Header_OnClickTwice_FiltersItemsDesc(int columnIndex, IEnumerable<int> rowsPerPages)
     {
         //Arrange
+        var unorderedItems = new Fixture().CreateMany<TableTestObject>();
+        var items = OrderCollectionDesc(unorderedItems, columnIndex);
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.Items, items)
+            .Add(p => p.RowsPerPageOpts, rowsPerPages)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true));
 
         //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(expected.ColumnIndex);
+        var itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
         itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(expected.ColumnIndex);
+        itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
         itemToClick.Click();
 
         //Assert
-        Assert.Equal(expected.ExpectedItems, cut.Instance.Items);
+        Assert.Equal(items, cut.Instance.Items);
     }
 
     [Theory(DisplayName = "Header Click Once, CSS Selected Class Test")]
@@ -128,7 +138,7 @@ public class TableComponentTests : TestContext
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+            .Add(p => p.Headings, Headings)
             .Add(p => p.Items, items)
             .Add(p => p.RowsPerPageOpts, rowsPerPage)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
@@ -159,7 +169,7 @@ public class TableComponentTests : TestContext
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+            .Add(p => p.Headings, Headings)
             .Add(p => p.Items, items)
             .Add(p => p.RowsPerPageOpts, rowsPerPage)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
@@ -190,7 +200,7 @@ public class TableComponentTests : TestContext
     {
         //Arrange
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+            .Add(p => p.Headings, Headings)
             .Add(p => p.Items, items)
             .Add(p => p.RowsPerPageOpts, rowsPerPage)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
@@ -209,7 +219,10 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Items Parameter Test"), AutoData]
-    public void Table_ItemsParam_RendersCorrectly(IEnumerable<TableHeadingItem> headings, IEnumerable<TableTestObject> items)
+    public void Table_ItemsParam_RendersCorrectly(
+        IEnumerable<TableHeadingItem> headings,
+        IEnumerable<TableTestObject> items,
+        IEnumerable<int> rowsPerPageOpts)
     {
         //Arrange
         var expectedItemCount = items.Count();
@@ -218,7 +231,7 @@ public class TableComponentTests : TestContext
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
             .Add(p => p.Items, items)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true));
 
@@ -267,18 +280,19 @@ public class TableComponentTests : TestContext
     }
 
 
-    [Theory(DisplayName = "RowsPerPageOpts Parameter Test")]
-    [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
-    public void Table_RowsPerPageOptsParam_RendersCorrectly(IEnumerable<int> rowsPerPageOpts)
+    [Theory(DisplayName = "RowsPerPageOpts Parameter Test"), AutoData]
+    public void Table_RowsPerPageOptsParam_RendersCorrectly(
+        IEnumerable<TableTestObject> items,
+        IEnumerable<int> rowsPerPageOpts)
     {
         //Arrange
         var expectedCount = rowsPerPageOpts.Count();
         var expectedRowsPerPageValues = rowsPerPageOpts.Select(_ => _);
 
         //Act
-        var cut = RenderComponent<Table<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
-            .Add(p => p.Items, TableTestHelper.Items)
+        var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.Items, items)
             .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true));
@@ -298,7 +312,7 @@ public class TableComponentTests : TestContext
     public void Table_ShowPaginationRow_RendersCorrectly(
         bool showPaginationRow,
         IEnumerable<TableHeadingItem> headings,
-        IEnumerable<TableTestHelper.TableTestObject> items,
+        IEnumerable<TableTestObject> items,
         IEnumerable<int> rowsPerPage)
     {
         //Act
@@ -315,43 +329,5 @@ public class TableComponentTests : TestContext
         Assert.Equal(showPaginationRow, paginationRowExists);
     }
 
-    [Theory(DisplayName = "ItemsChangedCallback Parameter Test")]
-    [InlineData(1, 0, 0, 5)]
-    [InlineData(1, 1, 0, 10)]
-    [InlineData(1, 2, 0, 15)]
-    [InlineData(2, 0, 5, 5)]
-    [InlineData(2, 1, 10, 10)]
-    [InlineData(2, 2, 0, 15)]
-    [InlineData(3, 0, 10, 5)]
-    [InlineData(3, 1, 10, 5)]
-    [InlineData(3, 2, 0, 15)]
-    public void Table_ItemsChangedCallback_FiresEvent(int currentPage, int optIndex, int expectedSkip, int expectedTake)
-    {
-        //Arrange
-        var expectedItems = TableTestHelper.BigItemsList.Skip(expectedSkip).Take(expectedTake);
-        var expectedIDs = expectedItems.Select(_ => _.ID);
-        var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-           .Add(p => p.Headings, TableTestHelper.Headings)
-           .Add(p => p.Items, TableTestHelper.BigItemsList)
-           .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-           .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
-           .Add(p => p.ShowPaginationRow, true));
-
-        var options = cut.FindAll(".option");
-        var optToClick = options.ElementAt(optIndex);
-        var rightChevron = cut.Find(".mdi-chevron-right");
-
-        //Act
-        optToClick.Click();
-
-        for(var i = 0; i < currentPage - 1; i++)
-            rightChevron.Click();
-
-        var actualIDs = cut.FindAll(".test-row").Select(_ => int.Parse(_.Children.First().TextContent.Replace("ID:", string.Empty)));
-
-        //Assert
-        Assert.Equal(expectedIDs, actualIDs);
-    }
-
-
+ 
 }

@@ -6,62 +6,76 @@ namespace Carlton.Core.Components.Library.Tests;
 [Trait("Component", nameof(TablePaginationRow<int>))]
 public class TablePaginationRowComponentTests : TestContext
 {
-    private const int ItemsCount = 3;
-
-    [Theory(DisplayName = "Markup Test"),AutoData]
-    public void TablePaginationRow_Markup_RendersCorrectly(int itemsCount, IEnumerable<int> rowsPerPage)
+    [Theory(DisplayName = "Markup Test")]
+    [InlineData(1, new int[] { 5, 10, 15 }, 0, 1)]
+    [InlineData(50, new int[] { 5, 10, 15 }, 0, 2)]
+    [InlineData(100, new int[] { 5, 10, 15 }, 0, 3)]
+    [InlineData(1, new int[] { 5, 10, 15 }, 1, 1)]
+    [InlineData(50, new int[] { 5, 10, 15 }, 1, 2)]
+    [InlineData(100, new int[] { 5, 10, 15 }, 1, 3)]
+    [InlineData(1, new int[] { 5, 10, 15 }, 2, 1)]
+    [InlineData(50, new int[] { 5, 10, 15 }, 2, 2)]
+    [InlineData(100, new int[] { 5, 10, 15 }, 2, 3)]
+    public void TablePaginationRow_Markup_RendersCorrectly(
+        int itemsCount,
+        IEnumerable<int> rowsPerPageOpts,
+        int selectedRowsPerPageIndex,
+        int currentPage)
     {
         //Arrange
-        var expected = TableTestHelper.BuildExpectedPaginationRow(rowsPerPage, itemsCount);
+        var expected = BuildExpectedPaginationRow(itemsCount, rowsPerPageOpts, selectedRowsPerPageIndex, currentPage);
 
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, itemsCount)
-            .Add(p => p.RowsPerPageOpts, rowsPerPage)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, rowsPerPage.First()));
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+            .Add(p => p.CurrentPage, currentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, selectedRowsPerPageIndex));
 
         //Assert
         cut.MarkupMatches(expected);
     }
 
-    [Theory(DisplayName = "RowsPerPageOpts Parameter Test")]
-    [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
-    public void TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption_RendersCorrectly(IEnumerable<int> opts)
+    [Theory(DisplayName = "RowsPerPageOpts Parameter Test"), AutoData]
+    public void TablePaginationRow_RowsPerPageOptsParam_DefaultsToFirstOption(int itemCount, IEnumerable<int> opts)
     {
-        //Arrange
-        var expectedValue = opts.First();
-
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, ItemsCount)
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, itemCount)
             .Add(p => p.RowsPerPageOpts, opts)
             .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, expectedValue)
-            );
+            .Add(p => p.SelectedRowsPerPageIndex, 0));
 
         var select = cut.FindComponent<Select>();
         var actualValue = select.Instance.SelectedValue;
+        var expectedValue = opts.First();
 
         //Assert
         Assert.Equal(expectedValue, actualValue);
     }
 
     [Theory(DisplayName = "RowsPerPageOpts Parameter Render Test")]
-    [MemberData(nameof(TableTestHelper.GetRowsPerPageOptions), MemberType = typeof(TableTestHelper))]
-    public void TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly(IEnumerable<int> opts)
+    [InlineAutoData(15, 1, 0, new int[] { 5, 10, 15 })]
+    [InlineAutoData(15, 2, 0, new int[] { 5, 10, 15 })]
+    [InlineAutoData(15, 2, 0, new int[] { 5, 10, 15 })]
+    [InlineAutoData(15, 1, 1, new int[] { 5, 10, 15 })]
+    [InlineAutoData(15, 2, 1, new int[] { 5, 10, 15 })]
+    [InlineAutoData(15, 1, 2, new int[] { 5, 10, 15 })]
+    public void TablePaginationRow_RowsPerPageOptsParam_RendersCorrectly(
+        int itemCount,
+        int currentPage,
+        int selectedRowsPerPageIndex,
+        IEnumerable<int> rowsPerPageOpts)
     {
         //Arrange
-        var expectedCount = opts.Count();
-        var initialRowsPerPageCount = opts.First();
-      
+        var expectedCount = rowsPerPageOpts.Count();
+
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, ItemsCount)
-            .Add(p => p.RowsPerPageOpts, opts)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, initialRowsPerPageCount)
-            );
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, itemCount)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+            .Add(p => p.CurrentPage, currentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, selectedRowsPerPageIndex));
 
         var options = cut.FindAll(".option");
         var actualCount = options.Count;
@@ -69,38 +83,39 @@ public class TablePaginationRowComponentTests : TestContext
 
         //Assert
         Assert.Equal(expectedCount, actualCount);
-        Assert.Equal(opts, actualOptions);
+        Assert.Equal(rowsPerPageOpts, actualOptions);
     }
 
     [Theory(DisplayName = "PaginationLabel Parameter Test")]
-    [InlineData(1, 5, "1-5 of 15")]
-    [InlineData(1, 10, "1-10 of 15")]
-    [InlineData(1, 15, "1-15 of 15")]
-    [InlineData(2, 5, "6-10 of 15")]
-    [InlineData(2, 10, "11-15 of 15")]
-    [InlineData(2, 15, "1-15 of 15")]
-    [InlineData(3, 5, "11-15 of 15")]
-    [InlineData(3, 10, "11-15 of 15")]
-    [InlineData(3, 15, "1-15 of 15")]
-    public void TablePaginationRow_PaginationLabel_RendersCorrectly(int currentPage, int currentRowsPerPage, string expectedText)
+    [InlineAutoData(1, 0, new int[] { 5, 10, 15 }, "1-5 of 15")]
+    [InlineAutoData(2, 0, new int[] { 5, 10, 15 }, "6-10 of 15")]
+    [InlineAutoData(3, 0, new int[] { 5, 10, 15 }, "11-15 of 15")]
+    [InlineAutoData(1, 1, new int[] { 5, 10, 15 }, "1-10 of 15")]
+    [InlineAutoData(2, 1, new int[] { 5, 10, 15 }, "11-15 of 15")]
+    [InlineAutoData(1, 2, new int[] { 5, 10, 15 }, "1-15 of 15")]
+    public void TablePaginationRow_PaginationLabel_RendersCorrectly(
+        int currentPage,
+        int selectedRowsPerPageIndex,
+        IEnumerable<int> rowsPerPageOpts,
+        string expectedText)
     {
         //Arrange
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
+        var selectedRowsPerPage = rowsPerPageOpts.ElementAt(selectedRowsPerPageIndex);
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, 15)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
             .Add(p => p.CurrentPage, currentPage)
-            .Add(p => p.SelectedRowsPerPageCount, currentRowsPerPage)
-            );
+            .Add(p => p.SelectedRowsPerPageIndex, selectedRowsPerPageIndex));
 
         var options = cut.FindAll(".option");
-        var optToClick = options.First(_ => int.Parse(_.TextContent) == currentRowsPerPage);
+        var optToClick = options.First(_ => int.Parse(_.TextContent) == selectedRowsPerPage);
         var paginationLabel = cut.Find(".pagination-label");
         var rightChevron = cut.Find(".mdi-chevron-right");
 
         //Act
         optToClick.Click();
 
-        for(var i = 0; i < currentPage - 1; i++)
+        for (var i = 0; i < currentPage - 1; i++)
             rightChevron.Click();
 
         //Assert
@@ -108,163 +123,204 @@ public class TablePaginationRowComponentTests : TestContext
     }
 
     [Theory(DisplayName = "PaginationLabel Parameter, Item Count Less Than Page Count Test")]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    public void TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(int optIndex)
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 1, "1-5 of 15")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 2, "6-10 of 15")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 3, "11-15 of 15")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1, 1, "1-10 of 15")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1, 2, "11-15 of 15")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 2, 1, "1-15 of 15")]
+    public void TablePaginationRow_PaginationLabel_ItemCountLessThanItemsPerPage_RendersCorrectly(
+        int itemCount,
+        IEnumerable<int> rowsPerPageOpts,
+        int optIndex,
+        int currentPage,
+        string expectedText)
     {
-        //Arrange
-        var expectedText = "1-3 of 3";
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, ItemsCount)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, 5)
-            );
+        //Act
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, itemCount)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+            .Add(p => p.CurrentPage, currentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, optIndex));
 
         var options = cut.FindAll(".option");
         var optToClick = options.ElementAt(optIndex);
         var paginationLabel = cut.Find(".pagination-label");
-
-        //Act
-        optToClick.Click();
 
         //Assert
         Assert.Equal(expectedText, paginationLabel.TextContent);
     }
 
 
-    [Theory(DisplayName = "Item Count, Right Chevron Disabled Test")]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    public void TablePaginationRow_ItemCountLessThanItemsPerPage_RightChevronsDisabled_RendersCorrectly(int itemCount)
+    [Theory(DisplayName = "Right Chevron Disabled Test")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 1, false)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 2, false)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 3, true)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1, 1, false)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1, 2, true)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 2, 1, true)]
+    public void TablePaginationRow_RightChevrons_RendersCorrectly(
+        int itemCount,
+        IEnumerable<int> rowsPerPageOpts,
+        int selectedRowsPerPageIndex,
+        int currentPage,
+        bool expectedChevronDisabled)
     {
         //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
             .Add(p => p.TotalItemCount, itemCount)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, 5)
-            );
-
-        var chevronRightDisabled = cut.Find(".mdi-chevron-right").ClassList.Contains("disabled");
-        var chevronLastPageDisabled = cut.Find(".mdi-page-last").ClassList.Contains("disabled");
-
-        //Assert
-        Assert.True(chevronRightDisabled);
-        Assert.True(chevronLastPageDisabled);
-    }
-
-    [Theory(DisplayName = "Item Count, Right Chevron Enabled Test")]
-    [InlineData(10)]
-    [InlineData(50)]
-    [InlineData(100)]
-    public void TablePaginationRow_ItemCountGreaterThanItemsPerPage_RightChevronsEnabled_RendersCorrectly(int itemCount)
-    {
-        //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, itemCount)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, 5)
-            );
-
-        var chevronRightDisabled = cut.Find(".mdi-chevron-right").ClassList.Contains("disabled");
-        var chevronLastPageDisabled = cut.Find(".mdi-page-last").ClassList.Contains("disabled");
-
-        //Assert
-        Assert.False(chevronRightDisabled);
-        Assert.False(chevronLastPageDisabled);
-    }
-
-    [Fact(DisplayName = "Page One, Left Chevron Disabled Test")]
-    public void TablePaginationRow_PageOne_LeftChevronsDisabled_RendersCorrectly()
-    {
-        //Act
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, ItemsCount)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageCount, 5)
-            );
-
-        var chevronLeftDisabled = cut.Find(".mdi-chevron-left").ClassList.Contains("disabled");
-        var chevronFirstPageDisabled = cut.Find(".mdi-page-first").ClassList.Contains("disabled");
-
-        //Assert
-        Assert.True(chevronLeftDisabled);
-        Assert.True(chevronFirstPageDisabled);
-    }
-
-    [Theory(DisplayName = "Page Greater Than One, Left Chevron Enabled Test")]
-    [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(5)]
-    public void TablePaginationRow_PageGreaterThanOne_LeftChevronsEnabled_RendersCorrectly(int currentPage)
-    {
-        //Arrange
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, ItemsCount)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
             .Add(p => p.CurrentPage, currentPage)
-            .Add(p => p.SelectedRowsPerPageCount, 5)
-            );
+            .Add(p => p.SelectedRowsPerPageIndex, selectedRowsPerPageIndex));
 
-        var chevronRight = cut.Find(".mdi-chevron-right");
+        var chevronRightDisabled = cut.Find(".mdi-chevron-right").ClassList.Contains("disabled");
+        var chevronLastPageDisabled = cut.Find(".mdi-page-last").ClassList.Contains("disabled");
 
+        //Assert
+        Assert.Equal(expectedChevronDisabled, chevronRightDisabled);
+        Assert.Equal(expectedChevronDisabled, chevronLastPageDisabled);
+    }
+
+    [Theory(DisplayName = "Left Chevron Disabled Test")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 1, true)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 2, false)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 3, false)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1, 1, true)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1, 2, false)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 2, 1, true)]
+    public void TablePaginationRow_LeftChevronsDisabled_RendersCorrectly(
+        int itemCount,
+        IEnumerable<int> rowsPerPageOpts,
+        int selectedRowsPerPageIndex,
+        int currentPage,
+        bool expectedChevronDisabled)
+    {
         //Act
-        chevronRight.Click();
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, itemCount)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+            .Add(p => p.CurrentPage, currentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, selectedRowsPerPageIndex));
+
         var chevronLeftDisabled = cut.Find(".mdi-chevron-left").ClassList.Contains("disabled");
         var chevronFirstPageDisabled = cut.Find(".mdi-page-first").ClassList.Contains("disabled");
 
         //Assert
-        Assert.False(chevronLeftDisabled);
-        Assert.False(chevronFirstPageDisabled);
+        Assert.Equal(expectedChevronDisabled, chevronLeftDisabled);
+        Assert.Equal(expectedChevronDisabled, chevronFirstPageDisabled);
     }
 
-    [Theory(DisplayName = "OnPaginationChangedCallback Parameter Test")]
-    [InlineData(1, 5, 1)]
-    [InlineData(1, 10, 1)]
-    [InlineData(1, 15, 1)]
-    [InlineData(2, 5, 2)]
-    [InlineData(2, 10, 2)]
-    [InlineData(2, 15, 1)]
-    [InlineData(3, 5, 3)]
-    [InlineData(3, 10, 2)]
-    [InlineData(3, 15, 1)]
-    public void TablePaginationRow_OnPaginationChangedCallback_FiresEvent(int selectedPage, int selectedRowsPerPage, int expectedPage)
+    [Theory(DisplayName = "OnRowsPerPageChangedCallback Parameter Test")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 1)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 2)]
+    public void TablePaginationRow_OnRowsPerPageChangedCallback_FiresEvent(
+        int numOfItems,
+        IEnumerable<int> rowsPerPageOpts,
+        int indexToSelect)
     {
         //Arrange
         var eventFired = false;
-        var actualCurrentPage = -1;
-        var actualSelectedRowsPerPageCount = -1;
-        var cut = RenderComponent<TablePaginationRow<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, 15)
-            .Add(p => p.RowsPerPageOpts, TableTestHelper.RowsPerPageOpts)
-            .Add(p => p.CurrentPage, selectedPage)
-            .Add(p => p.SelectedRowsPerPageCount, selectedRowsPerPage)
-            .Add(p => p.OnPaginationChanged, args =>
+        var actualSelectedRowsPerPageIndex = -1;
+        var selectedRowsPerPageCount = rowsPerPageOpts.ElementAt(indexToSelect);
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, numOfItems)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+            .Add(p => p.CurrentPage, 1)
+            .Add(p => p.SelectedRowsPerPageIndex, 0)
+            .Add(p => p.OnRowsPerPageChanged, args =>
             {
                 eventFired = true;
-                actualCurrentPage = args.CurrentPage;
-                actualSelectedRowsPerPageCount = args.SelectedRowsPerPageCount;
+                actualSelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
             }));
 
         var options = cut.FindAll(".option");
-        var optToClick = options.First(_ => int.Parse(_.TextContent) == selectedRowsPerPage);
-        var rightChevron = cut.Find(".mdi-chevron-right");
+        var optToClick = options.First(_ => int.Parse(_.TextContent) == selectedRowsPerPageCount);
 
         //Act
         optToClick.Click();
 
-        for(var i = 0; i < selectedPage - 1; i++)
+        //Assert
+        Assert.True(eventFired);
+        Assert.Equal(indexToSelect, actualSelectedRowsPerPageIndex);
+    }
+
+    [Theory(DisplayName = "OnPageChangedCallback Parameter Test")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 2)]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 3)]
+    public void TablePaginationRow_OnPageChangedCallback_FiresEvent(
+     int numOfItems,
+     IEnumerable<int> rowsPerPageOpts,
+     int selectedIndex,
+     int pageNumberToSelect)
+    {
+        //Arrange
+        var eventFired = false;
+        var actualPage = 1;
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, numOfItems)
+            .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+            .Add(p => p.CurrentPage, 1)
+            .Add(p => p.SelectedRowsPerPageIndex, selectedIndex)
+            .Add(p => p.OnPageChanged, args =>
+            {
+                eventFired = true;
+                actualPage = args.CurrentPage;
+            }));
+
+        var rightChevron = cut.Find(".mdi-chevron-right");
+
+        //Act
+        for (var i = 0; i < pageNumberToSelect - 1; i++)
             rightChevron.Click();
 
         //Assert
         Assert.True(eventFired);
-        Assert.Equal(expectedPage, actualCurrentPage);
-        Assert.Equal(selectedRowsPerPage, actualSelectedRowsPerPageCount);
+        Assert.Equal(pageNumberToSelect, actualPage);
+    }
+
+    [Theory(DisplayName = "Invalid SelectedRowsPerPageIndexParam Test")]
+    [InlineAutoData(-1, new int[] { 5, 10, 15 }, "Selected index cannot be less than 0.")]
+    [InlineAutoData(5, new int[] { 5, 10, 15 }, "Selected index cannot be greater than RowsPerPageOpts count.")]
+    public void TablePaginationRow_Invalid_SelectedRowsPerPageIndexParam_ShouldThrowArgumentException(
+        int selectedIndex,
+        IEnumerable<int> rowsPerPageOpts,
+        string expectedMessage,
+        int numOfItems)
+    {
+        //Arrange
+        var ex = Assert.Throws<ArgumentException>(() =>
+            RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+                .Add(p => p.TotalItemCount, numOfItems)
+                .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+                .Add(p => p.CurrentPage, 1)
+                .Add(p => p.SelectedRowsPerPageIndex, selectedIndex)));
+
+
+        //Assert
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    [Theory(DisplayName = "Invalid CurrentPageParam Test")]
+    [InlineAutoData(15, new int[] { 5, 10, 15 }, 0, 10, "Current page cannot be greater than the max page.")]
+    public void TablePaginationRow_Invalid_CurrentPageParam_ShouldThrowArgumentException(
+      int numOfItems,
+      IEnumerable<int> rowsPerPageOpts,
+      int rowsPerPageIndex,
+      int currentPage, 
+      string expectedMessage)
+    {
+        //Arrange
+        var ex = Assert.Throws<ArgumentException>(() =>
+            RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+                .Add(p => p.TotalItemCount, numOfItems)
+                .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+                .Add(p => p.CurrentPage, currentPage)
+                .Add(p => p.SelectedRowsPerPageIndex, rowsPerPageIndex)));
+
+
+        //Assert
+        Assert.Equal(expectedMessage, ex.Message);
     }
 }
 

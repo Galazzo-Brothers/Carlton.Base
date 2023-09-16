@@ -1,4 +1,5 @@
 ﻿using AutoFixture.Xunit2;
+using static Carlton.Core.Components.Library.Tests.TableTestHelper;
 
 namespace Carlton.Core.Components.Library.Tests;
 
@@ -9,10 +10,10 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_Markup_RendersCorrectly(IEnumerable<TableHeadingItem> headings)
     {
         //Arrange
-        var expected = TableTestHelper.BuildExpectedHeaderMarkup(headings);
+        var expected = BuildExpectedHeaderMarkup(headings);
 
         //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
@@ -29,7 +30,7 @@ public class TableHeaderComponentTests : TestContext
         var expectedHeadings = headings.Select(_ => _.DisplayName);
 
         //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
@@ -53,8 +54,8 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(string columnName, int columnIndex, bool orderAscending)
     {
         //Act
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, columnName)
             .Add(p => p.OrderAscending, orderAscending));
 
@@ -77,8 +78,8 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_InvalidOrderColumnParam_RendersCorrectly(string columnName)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, columnName)
             .Add(p => p.OrderAscending, true));
 
@@ -96,8 +97,8 @@ public class TableHeaderComponentTests : TestContext
         var eventFired = false;
         var actualOrderAscending = false;
         var actualOrderColumn = string.Empty;
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
@@ -123,8 +124,8 @@ public class TableHeaderComponentTests : TestContext
         var eventFired = false;
         var actualOrderAscending = true;
         var actualOrderColumn = string.Empty;
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
@@ -148,8 +149,8 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_OnClick_SelectedClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
@@ -173,8 +174,8 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_OnClick_AscendingClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
@@ -198,8 +199,8 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_OnClick_DescendingClass_RendersCorrectly(int selectedIndex)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestHelper.TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, TableTestHelper.Headings)
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
