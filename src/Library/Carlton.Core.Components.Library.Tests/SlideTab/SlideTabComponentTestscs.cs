@@ -22,7 +22,7 @@ public class SlideTabComponentTests : TestContext
 @$"<div class=""slide-tab"" style=""--slide-tab-bottom:{positionBottom}px;"">
     <button class=""slide-button"">{title}</button>
     <div class=""slide-container {(isExpanded ? "expanded" : string.Empty)}"">
-        <span class=""content"">{string.Format(contentTemplate, content)}</span>
+        {string.Format(contentTemplate, content)}
     </div>
 </div>";
 

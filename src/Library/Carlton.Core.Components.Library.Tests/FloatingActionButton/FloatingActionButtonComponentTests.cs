@@ -17,8 +17,7 @@ public class FloatingActionButtonComponentTests : TestContext
         var cut = RenderComponent<FloatingActionButton>(parameters => parameters
            .Add(p => p.Icon, icon)
            .Add(p => p.PositionBottom, positionBottom)
-           .Add(p => p.PositionRight, positionRight)
-       );
+           .Add(p => p.PositionRight, positionRight));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);

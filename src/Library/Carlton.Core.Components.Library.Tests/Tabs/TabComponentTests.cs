@@ -23,31 +23,23 @@ public class TabComponentTests : TestContext
         Assert.Throws<ArgumentNullException>(act);
     }
 
-    [Fact(DisplayName = "Markup Test")]
-    public void Tab_Markup_RendersCorrectly()
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void Tab_Markup_RendersCorrectly(string expectedContent, string displayText)
     {
         //Arrange
-        var expectedMarkup =
-@$"<div class=""tab"">
-    <div>
-        <span class=""message"">This is some test content under this tab</span>
-        <div class=""main"">
-            <button>Click Me!</button>
-        </div>
-    </div>
-</div>";
+        var expectedMarkup = $@"<div class=""tab"">{expectedContent}</div>";
 
         //Act
         var cut = RenderComponent<Tab>(parameters => parameters
                 .AddCascadingValue(parent.Instance)
-                .Add(p => p.DisplayText, "Test Tab")
-                .AddChildContent("<div><span class=\"message\">This is some test content under this tab</span><div class=\"main\"><button>Click Me!</button></div></div>"));
+                .Add(p => p.DisplayText, displayText)
+                .AddChildContent(expectedContent));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "Parent Active False, Render Test"), AutoData]
+    [Theory(DisplayName = "Parent ActiveParam Render Test"), AutoData]
     public void Tab_Parent_ActiveParam_False_RendersCorrectly(string displayText, string childContent)
     {
         //Arrange

@@ -1,59 +1,28 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using Carlton.Core.Components.Library.Tests.Common;
-using Carlton.Core.Utilities.UnitTesting;
 
 namespace Carlton.Core.Components.Library.Tests;
 
 [Trait("Component", nameof(DesktopTabBar))]
 public class DesktopTabBarComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void DesktopTabBar_Markup_RendersCorrectly(Fixture fixture)
+    [Theory(DisplayName = "Markup Test")]
+    [InlineAutoData(3, 0)]
+    [InlineAutoData(3, 1)]
+    [InlineAutoData(3, 2)]
+    public void DesktopTabBar_Markup_RendersCorrectly(int numOfTabs, int selectedIndex)
     {
         //Arrange
-        var displayText = fixture.CreateMany<string>(3).ToList();
-        var childContent = fixture.CreateMany<string>(3).ToList();
-        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(3);
-        var expectedMarkup =
-@$"
-<div class=""tabs"">
-    <div class=""content"">
-        <div class=""carlton-tab {(selectedIndex == 0 ? "active" : string.Empty)}"">
-            <a class="""" href=""#"">{displayText[0]}</a>
-            <span class=""tab-selected-bar""></span>
-        </div>
-        <div class=""carlton-tab {(selectedIndex == 1 ? "active" : string.Empty)}"">
-            <a class="""" href=""#"">{displayText[1]}</a>
-            <span class=""tab-selected-bar""></span>
-        </div>
-        <div class=""carlton-tab {(selectedIndex == 2 ? "active" : string.Empty)}"">
-            <a class="""" href=""#"">{displayText[2]}</a>
-            <span class=""tab-selected-bar""></span>
-        </div>
-    </div>
-</div>
-<div class=""tab"">
-{(selectedIndex == 0 ? childContent[0] : string.Empty)}
-</div>
-<div class=""tab"">
-{(selectedIndex == 1 ? childContent[1] : string.Empty)}
-</div>
-<div class=""tab"">
-{(selectedIndex == 2 ? childContent[2] : string.Empty)}
-</div>";
+        var fixture = new Fixture();
+        var displayText = fixture.CreateMany<string>(numOfTabs).ToList();
+        var icons = fixture.CreateMany<string>(numOfTabs).ToList();
+        var childContent = fixture.CreateMany<string>(numOfTabs).ToList();
+        var expectedMarkup = BuildExpectedMarkup(displayText, childContent, selectedIndex);
 
         //Act
-        var cut = RenderComponent<DesktopTabBar>(parameters => parameters
-            .AddChildContent<Tab>(parameters => parameters
-                .Add(p => p.DisplayText, displayText[0])
-                .Add(p => p.ChildContent, childContent[0]))
-            .AddChildContent<Tab>(parameters => parameters
-                .Add(p => p.DisplayText, displayText[1])
-                .Add(p => p.ChildContent, childContent[1]))
-             .AddChildContent<Tab>(parameters => parameters
-                .Add(p => p.DisplayText, displayText[2])
-                .Add(p => p.ChildContent, childContent[2])));
+        var cut = RenderComponent<DesktopTabBar>(parameters =>
+            parameters.AddTabs(numOfTabs, selectedIndex, displayText, icons, childContent));
         var tabs = cut.FindAll(".carlton-tab");
         tabs[selectedIndex].Children.First().Click();
 
@@ -61,12 +30,18 @@ public class DesktopTabBarComponentTests : TestContext
         cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory(DisplayName = "Tab Count Test, Render Test"), AutoData]
-    [InlineData(0)]
+    [Theory(DisplayName = "Tab Count Test, Render Test")]
+    [InlineData(3)]
     public void DesktopTabBar_WithThreeTabs_RendersCorrectly(int numOfTabs)
     {
+        //Arrange
+        var fixture = new Fixture();
+        var displayText = fixture.CreateMany<string>(numOfTabs).ToList();
+        var icons = fixture.CreateMany<string>(numOfTabs).ToList();
+        var childContent = fixture.CreateMany<string>(numOfTabs).ToList();
+
         //Act
-        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs));
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs, 0, displayText, icons, childContent));
         var tabs = cut.FindAll(".carlton-tab");
         var count = tabs.Count;
 
@@ -74,11 +49,18 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.Equal(numOfTabs, count);
     }
 
-    [Theory(DisplayName = "Default Active Tab Test"), AutoData]
+    [Theory(DisplayName = "Default Active Tab Test")]
+    [InlineData(3)]
     public void DesktopTabBar_DefaultActiveTab_RendersCorrectly(int numOfTabs)
     {
+        //Arrange
+        var fixture = new Fixture();
+        var displayText = fixture.CreateMany<string>(numOfTabs).ToList();
+        var icons = fixture.CreateMany<string>(numOfTabs).ToList();
+        var childContent = fixture.CreateMany<string>(numOfTabs).ToList();
+
         //Act
-        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs));
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs, 0, displayText, icons, childContent));
 
         var defaultTab = cut.FindAll(".carlton-tab")[0];
         var isActive = defaultTab.ClassList.Contains("active");
@@ -87,14 +69,20 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.True(isActive);
     }
 
-    [Theory(DisplayName = "Default Active Tab, CSS Active Class Test"), AutoData]
-    public void DesktopTabBar_ActiveTabClass_RendersCorrectly(int numOfTabs)
+    [Theory(DisplayName = "Default Active Tab, CSS Active Class Test")]
+    [InlineAutoData(3, 0)]
+    [InlineAutoData(3, 1)]
+    [InlineAutoData(3, 2)]
+    public void DesktopTabBar_ActiveTabClass_RendersCorrectly(int numOfTabs, int activeTabIndex)
     {
         //Arrange
-        var activeTabIndex = TestingRndUtilities.GetRandomActiveIndex(numOfTabs);
+        var fixture = new Fixture();
+        var displayText = fixture.CreateMany<string>(numOfTabs).ToList();
+        var icons = fixture.CreateMany<string>(numOfTabs).ToList();
+        var childContent = fixture.CreateMany<string>(numOfTabs).ToList();
 
         //Act
-        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs));
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs, activeTabIndex, displayText, icons, childContent));
         var tabs = cut.FindAll(".carlton-tab", true);
         var selectedTab = tabs.ElementAt(activeTabIndex);
         var anchor = selectedTab.Children.First();
@@ -105,15 +93,21 @@ public class DesktopTabBarComponentTests : TestContext
         Assert.True(isActive);
     }
 
-    [Theory(DisplayName = "Active Tab, Render Test"), AutoData]
-    public void DesktopTabBar_ActiveTab_RendersCorrectly(int numOfTabs)
+    [Theory(DisplayName = "Active Tab, Render Test")]
+    [InlineAutoData(3, 0)]
+    [InlineAutoData(3, 1)]
+    [InlineAutoData(3, 2)]
+    public void DesktopTabBar_ActiveTab_RendersCorrectly(int numOfTabs, int activeTabIndex)
     {
         //Arrange
-        var activeTabIndex = TestingRndUtilities.GetRandomActiveIndex(numOfTabs);
-        var expectedContent = string.Empty;
+        var fixture = new Fixture();
+        var displayText = fixture.CreateMany<string>(numOfTabs).ToList();
+        var icons = fixture.CreateMany<string>(numOfTabs).ToList();
+        var childContent = fixture.CreateMany<string>(numOfTabs).ToList();
+        var expectedContent = childContent.ElementAt(activeTabIndex);
 
         //Act
-        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs, activeTabIndex, ref expectedContent));
+        var cut = RenderComponent<DesktopTabBar>(parameters => parameters.AddTabs(numOfTabs, activeTabIndex, displayText, icons, childContent));
         var tabs = cut.FindAll(".carlton-tab");
         var selectedTab = tabs.ElementAt(activeTabIndex);
         var anchor = selectedTab.Children.First();
@@ -139,5 +133,28 @@ public class DesktopTabBarComponentTests : TestContext
 
         //Assert
         Assert.Equal(displayText, actualText);
+    }
+
+    private static string BuildExpectedMarkup(List<string> displayText, List<string> childContent, int selectedIndex)
+    {
+        var tabHeadings = string.Join(Environment.NewLine, displayText.Select((text, i) =>
+             @$"<div class=""carlton-tab {(selectedIndex == i ? "active" : string.Empty)}"">
+                <a class="""" href=""#"">{text}</a>
+                <span class=""tab-selected-bar""></span>
+            </div>"
+        ));
+
+        var tabs = string.Join(Environment.NewLine, childContent.Select((text, i) =>
+        $@"<div class= ""tab"">
+            {(selectedIndex == i ? childContent[i] : string.Empty)}
+        </div>"));
+
+        return
+@$"<div class=""tabs"">
+    <div class=""content"">
+       {tabHeadings}
+    </div>
+</div>
+{tabs}";
     }
 }
