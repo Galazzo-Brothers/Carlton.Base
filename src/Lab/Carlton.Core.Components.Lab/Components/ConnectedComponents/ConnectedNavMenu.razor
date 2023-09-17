@@ -1,4 +1,5 @@
 ﻿@namespace Carlton.Core.Components.Lab.Components.ConnectedComponents
+@using Carlton.Core.Components.Lab.Models.Common;
 @using Carlton.Core.Components.Library.AccordionSelect;
 @attribute [ObserveStateEvents("MenuItemSelected")]
 @attribute [ObserveStateEvents("MenuItemExpandedStateChanged")]
@@ -7,21 +8,14 @@
 
 <AccordionSelectGroup TValue="ComponentState"
                       Groups="ComponentStateGroups"
-                      SelectedItem="SelectedComponentState"
+                      SelectedGroupIndex="ViewModel.SelectedComponentIndex"
+                      SelectedItemIndex="ViewModel.SelectedStateIndex"
                       OnExpandedStateChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuExpandedCommand(args.GroupIndexID, args.IsExpanded))"
                       OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(args.GroupIndexID, args.ItemIndexID, args.Item))" />
 
 
 @code{
     private IEnumerable<SelectGroup<ComponentState>> ComponentStateGroups { get; set; }
-
-    private ComponentState SelectedComponentState 
-    {
-        get => ViewModel.MenuItems
-                        .ElementAt(ViewModel.SelectedComponentIndex)
-                        .ComponentStates
-                        .ElementAt(ViewModel.SelectedStateIndex);
-    }
 
     protected override void OnParametersSet()
     {
