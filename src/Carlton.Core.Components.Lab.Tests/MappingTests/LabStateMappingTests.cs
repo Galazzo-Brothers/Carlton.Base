@@ -19,7 +19,9 @@ public class LabStateMappingTests
 
         //Assert
         Assert.Equal(labState.SelectedComponentIndex, result.SelectedComponentIndex);
-        Assert.Equal(labState.ComponentStates, result.MenuItems);
+        Assert.Equal(labState.SelectedComponentStateIndex, result.SelectedStateIndex);
+        Assert.All(labState.ComponentStates, (state, i) =>
+            Assert.Equal(labState.ComponentStates.ElementAt(i), state));
     }
 
     [Fact]
@@ -126,14 +128,17 @@ public class LabStateMappingTests
 
 
         //Assert
-        Assert.Equal(labState.ComponentStates, result.ComponentStates);
-        Assert.Equal(labState.ComponentTestResults, result.ComponentTestResults);
-        Assert.Equal(labState.ComponentEvents, result.ComponentEvents);
-        Assert.Equal(labState.SelectedComponentState, result.SelectedComponentState);
         Assert.Equal(labState.SelectedComponentIndex, result.SelectedComponentIndex);
-        Assert.Equal(labState.SelectedComponentMarkup, result.SelectedComponentMarkup);
-        Assert.Equal(labState.SelectedComponentTestReport, result.SelectedComponentTestReport);
+        Assert.Equal(labState.SelectedComponentStateIndex, result.SelectedComponentStateIndex);
+        Assert.Equal(labState.SelectedComponentState, result.SelectedComponentState);
         Assert.Equal(labState.SelectedComponentType, result.SelectedComponentType);
+        Assert.Equal(labState.SelectedComponentMarkup, result.SelectedComponentMarkup);
         Assert.Equal(labState.SelectedComponentParameters, result.SelectedComponentParameters);
+        Assert.Equal(labState.ComponentEvents, result.ComponentEvents);
+        Assert.Equal(labState.ComponentTestResults, result.ComponentTestResults);
+        Assert.Equal(labState.SelectedComponentTestReport.Summary, result.SelectedComponentTestReport.Summary);
+        Assert.Equal(labState.SelectedComponentTestReport.TestResults, result.SelectedComponentTestReport.TestResults);
+        Assert.All(labState.ComponentStates, (state, i) =>
+           Assert.Equal(labState.ComponentStates.ElementAt(i), state));
     }
 }

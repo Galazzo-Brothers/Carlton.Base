@@ -1,105 +1,134 @@
-﻿//using AutoFixture;
-//using AutoFixture.Xunit2;
-//using Carlton.Core.Components.Lab.Models.Validators.Commands;
-//using Carlton.Core.Components.Lab.Test.Mocks;
-//using FluentValidation.TestHelper;
+﻿using AutoFixture.Xunit2;
+using Carlton.Core.Components.Lab.Models.Validators.Commands;
+using Carlton.Core.Components.Lab.Test.Mocks;
+using FluentValidation.TestHelper;
 
-//namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
+namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
-//public class SelectMenuItemCommandValidatorTests
-//{
-//    private readonly IFixture _fixture;
+public class SelectMenuItemCommandValidatorTests
+{
+    [Fact]
+    public void ValidSelectMenuItemCommandCommand_ShouldPassValidation()
+    {
+        // Arrange
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(0, 0,
+            new ComponentState("Display Name", typeof(DummyComponent), 
+            new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
 
-//    public SelectMenuItemCommandValidatorTests()
-//    {
-//        _fixture = new Fixture();
-//    }
+        // Act
+        var result = validator.TestValidate(command);
 
-//    [Fact]
-//    public void ValidSelectMenuItemCommandCommand_ShouldPassValidation()
-//    {
-//        // Arrange
-//        var validator = new SelectMenuItemCommandValidator();
-//        var command = _fixture.Create<SelectMenuItemCommand>();
+        // Assert
+        result.ShouldNotHaveAnyValidationErrors();
+    }
 
-//        // Act
-//        var result = validator.TestValidate(command);
+    [Fact]
+    public void InvalidSelectMenuItemCommand_NegativeComponentIndex_ShouldFailValidation()
+    {
+        // Arrange
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(-5, 0,
+                  new ComponentState("Display Name", typeof(DummyComponent),
+                  new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
 
-//        // Assert
-//        result.ShouldNotHaveAnyValidationErrors();
-//    }
+        // Act
+        var result = validator.TestValidate(command);
 
-//    [Fact]
-//    public void InvalidSelectMenuItemCommand_NullComponentState_ShouldFailValidation()
-//    {
-//        // Arrange
-//        var validator = new SelectMenuItemCommandValidator();
-//        var command = new SelectMenuItemCommand(null);
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.ComponentIndex);
+    }
 
-//        // Act
-//        var result = validator.TestValidate(command);
+    [Fact]
+    public void InvalidSelectMenuItemCommand_NegativeComponentStateIndex_ShouldFailValidation()
+    {
+        // Arrange
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(1, -5,
+                  new ComponentState("Display Name", typeof(DummyComponent),
+                  new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
 
-//        // Assert
-//        result.ShouldHaveValidationErrorFor(_ => _.ComponentState);
-//    }
+        // Act
+        var result = validator.TestValidate(command);
 
-//    [Fact]
-//    public void InvalidSelectMenuItemCommand_NullComponentStateDisplayName_ShouldFailValidation()
-//    {
-//        // Arrange
-//        var componentState = new ComponentState(null, typeof(DummyComponent), _fixture.Create<ComponentParameters>());
-//        var validator = new SelectMenuItemCommandValidator();
-//        var command = new SelectMenuItemCommand(componentState);
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.ComponentStateIndex);
+    }
 
-//        // Act
-//        var result = validator.TestValidate(command);
+    [Fact]
+    public void InvalidSelectMenuItemCommand_NullComponentState_ShouldFailValidation()
+    {
+        // Arrange
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(0, 0, null);
 
-//        // Assert
-//        result.ShouldHaveValidationErrorFor(_ => _.ComponentState.DisplayName);
-//    }
+        // Act
+        var result = validator.TestValidate(command);
 
-//    [Fact]
-//    public void InvalidSelectMenuItemCommand_EmptyComponentStateDisplayName_ShouldFailValidation()
-//    {
-//        // Arrange
-//        var componentState = new ComponentState(string.Empty, typeof(DummyComponent), _fixture.Create<ComponentParameters>());
-//        var validator = new SelectMenuItemCommandValidator();
-//        var command = new SelectMenuItemCommand(componentState);
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState);
+    }
 
-//        // Act
-//        var result = validator.TestValidate(command);
+    [Fact]
+    public void InvalidSelectMenuItemCommand_NullComponentStateDisplayName_ShouldFailValidation()
+    {
+        // Arrange
+        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
+        var componentState = new ComponentState(null, typeof(DummyComponent), componentParameters);
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(0, 0, componentState);
 
-//        // Assert
-//        result.ShouldHaveValidationErrorFor(_ => _.ComponentState.DisplayName);
-//    }
+        // Act
+        var result = validator.TestValidate(command);
 
-//    [Theory, AutoData]
-//    public void InvalidSelectMenuItemCommand_NullComponentStateType_ShouldFailValidation(string displayName)
-//    {
-//        // Arrange
-//        var componentState = new ComponentState(displayName, null, _fixture.Create<ComponentParameters>());
-//        var validator = new SelectMenuItemCommandValidator();
-//        var command = new SelectMenuItemCommand(componentState);
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.DisplayName);
+    }
 
-//        // Act
-//        var result = validator.TestValidate(command);
+    [Fact]
+    public void InvalidSelectMenuItemCommand_EmptyComponentStateDisplayName_ShouldFailValidation()
+    {
+        // Arrange
+        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
+        var componentState = new ComponentState(string.Empty, typeof(DummyComponent), componentParameters);
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(0, 0, componentState);
 
-//        // Assert
-//        result.ShouldHaveValidationErrorFor(_ => _.ComponentState.Type);
-//    }
+        // Act
+        var result = validator.TestValidate(command);
 
-//    [Theory, AutoData]
-//    public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation(string displayName)
-//    {
-//        // Arrange
-//        var componentState = new ComponentState(displayName, typeof(DummyComponent), null);
-//        var validator = new SelectMenuItemCommandValidator();
-//        var command = new SelectMenuItemCommand(componentState);
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.DisplayName);
+    }
 
-//        // Act
-//        var result = validator.TestValidate(command);
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_NullComponentStateType_ShouldFailValidation(string displayName)
+    {
+        // Arrange
+        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
+        var componentState = new ComponentState(displayName, null, componentParameters);
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(0, 0, componentState);
 
-//        // Assert
-//        result.ShouldHaveValidationErrorFor(_ => _.ComponentState.ComponentParameters);
-//    }
-//}
+        // Act
+        var result = validator.TestValidate(command);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.Type);
+    }
+
+    [Fact]
+    public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation()
+    {
+        // Arrange
+        var componentState = new ComponentState("Display Name", typeof(DummyComponent), null);
+        var validator = new SelectMenuItemCommandValidator();
+        var command = new SelectMenuItemCommand(0, 0, componentState);
+
+        // Act
+        var result = validator.TestValidate(command);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.ComponentParameters);
+    }
+}

@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using FluentValidation.TestHelper;
 
@@ -7,19 +6,12 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
 public class BreadCrumbsViewModelValidatorTests
 {
-    private readonly IFixture _fixture;
-
-    public BreadCrumbsViewModelValidatorTests()
-    {
-        _fixture = new Fixture();
-    }
-
-    [Fact]
-    public void BreadCrumbsViewModelValidator_ShouldPassValidation()
+    [Theory, AutoData]
+    public void ValidBreadCrumbsViewModelValidator_ShouldPassValidation(string selectedComponent, string selectedComponentState)
     {
         // Arrange
         var validator = new BreadCrumbsViewModelValidator();
-        var vm = _fixture.Create<BreadCrumbsViewModel>();
+        var vm = new BreadCrumbsViewModel(selectedComponent, selectedComponentState);
 
         // Act
         var result = validator.TestValidate(vm);

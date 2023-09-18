@@ -1,25 +1,17 @@
-﻿using AutoFixture;
-using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+﻿using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using FluentValidation.TestHelper;
 
 namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
 public class ParameterViewerViewModelValidatorTests
 {
-    private readonly IFixture _fixture;
-
-    public ParameterViewerViewModelValidatorTests()
-    {
-        _fixture = new Fixture();
-    }
-
     [Fact]
     public void ParameterViewerViewModelValidator_ShouldPassValidation()
     {
         // Arrange
-        var paramter = _fixture.Create<ComponentParameters>();
+        var parameter = new ComponentParameters(new object(), ParameterObjectType.ParameterObject);
         var validator = new ParametersViewerViewModelValidator();
-        var vm = new ParametersViewerViewModel(paramter);
+        var vm = new ParametersViewerViewModel(parameter);
 
         // Act
         var result = validator.TestValidate(vm);
@@ -46,9 +38,9 @@ public class ParameterViewerViewModelValidatorTests
     public void InvalidParameterViewerViewModelValidator_NullParameterObj_ShouldFailValidation()
     {
         // Arrange
-        var paramter = new ComponentParameters(null, ParameterObjectType.ParameterObject);
+        var parameter = new ComponentParameters(null, ParameterObjectType.ParameterObject);
         var validator = new ParametersViewerViewModelValidator();
-        var vm = new ParametersViewerViewModel(paramter);
+        var vm = new ParametersViewerViewModel(parameter);
 
         // Act
         var result = validator.TestValidate(vm);

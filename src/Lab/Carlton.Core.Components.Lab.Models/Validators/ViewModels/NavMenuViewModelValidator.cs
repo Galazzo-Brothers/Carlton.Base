@@ -6,6 +6,8 @@ public class NavMenuViewModelValidator : AbstractValidator<NavMenuViewModel>
 {
     public NavMenuViewModelValidator()
     {
+        RuleFor(vm => vm.SelectedComponentIndex).GreaterThanOrEqualTo(0);
+        RuleFor(vm => vm.SelectedStateIndex).GreaterThanOrEqualTo(0);
         RuleFor(vm => vm.MenuItems)
             .NotNull()
             .NotEmpty();

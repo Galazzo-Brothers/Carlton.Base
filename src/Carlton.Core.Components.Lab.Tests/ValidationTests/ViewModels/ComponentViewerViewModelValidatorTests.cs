@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using AutoFixture.Xunit2;
 using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using Carlton.Core.Components.Lab.Test.Mocks;
 using FluentValidation.TestHelper;
@@ -8,18 +7,12 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
 public class ComponentViewerViewModelValidatorTests
 {
-    private readonly IFixture _fixture;
-
-    public ComponentViewerViewModelValidatorTests()
-    {
-        _fixture = new Fixture();
-    }
-
     [Fact]
-    public void ComponentViewerViewModelValidator_ShouldPassValidation()
+    public void ValidComponentViewerViewModelValidator_ShouldPassValidation()
     {
         // Arrange
-        var vm =_fixture.Create<ComponentViewerViewModel>();
+        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ParameterObject);
+        var vm = new ComponentViewerViewModel(typeof(DummyComponent), componentParameters);
         var validator = new ComponentViewerViewModelValidator();
 
         // Act
@@ -33,7 +26,7 @@ public class ComponentViewerViewModelValidatorTests
     public void InvalidComponentViewerViewModelValidator_NullComponentType_ShouldFailValidation()
     {
         // Arrange
-        var componentParameters = _fixture.Create<ComponentParameters>();
+        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ParameterObject);
         var validator = new ComponentViewerViewModelValidator();
         var vm = new ComponentViewerViewModel(null, componentParameters);
 

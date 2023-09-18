@@ -45,9 +45,9 @@ public static class MapsterConfig
 
         config.NewConfig<ComponentParameters, ComponentParameters>();
 
-        config.NewConfig<ComponentState, ComponentState>();
-
         config.NewConfig<ComponentAvailableStates, ComponentAvailableStates>();
+
+        config.NewConfig<ComponentState, ComponentState>();
 
         config.NewConfig<TestResult, TestResult>();
 
