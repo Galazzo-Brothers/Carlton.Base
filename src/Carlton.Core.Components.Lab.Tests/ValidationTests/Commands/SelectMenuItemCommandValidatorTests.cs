@@ -1,20 +1,23 @@
 ﻿using AutoFixture.Xunit2;
 using Carlton.Core.Components.Lab.Models.Validators.Commands;
-using Carlton.Core.Components.Lab.Test.Mocks;
 using FluentValidation.TestHelper;
 
 namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class SelectMenuItemCommandValidatorTests
 {
-    [Fact]
-    public void ValidSelectMenuItemCommandCommand_ShouldPassValidation()
+    [Theory, AutoData]
+    public void ValidSelectMenuItemCommandCommand_ShouldPassValidation(
+        int componentIndex,
+        int stateIndex,
+        string displayName,
+        object parameterObj)
     {
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(0, 0,
-            new ComponentState("Display Name",
-            new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex,
+            new ComponentState(displayName,
+            new ComponentParameters(parameterObj, ParameterObjectType.ViewModel)));
 
         // Act
         var result = validator.TestValidate(command);
@@ -23,14 +26,19 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldNotHaveAnyValidationErrors();
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NegativeComponentIndex_ShouldFailValidation()
+    [Theory]
+    [InlineAutoData(-5, 0)]
+    public void InvalidSelectMenuItemCommand_NegativeComponentIndex_ShouldFailValidation(
+        int componentIndex,
+        int stateIndex,
+        string displayName,
+        object parameterObj)
     {
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(-5, 0,
-                  new ComponentState("Display Name",
-                  new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex,
+                  new ComponentState(displayName,
+                  new ComponentParameters(parameterObj, ParameterObjectType.ViewModel)));
 
         // Act
         var result = validator.TestValidate(command);
@@ -39,14 +47,19 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.ComponentIndex);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NegativeComponentStateIndex_ShouldFailValidation()
+    [Theory]
+    [InlineAutoData(0, -5)]
+    public void InvalidSelectMenuItemCommand_NegativeComponentStateIndex_ShouldFailValidation(
+        int componentIndex,
+        int stateIndex,
+        string displayName,
+        object parameterObj)
     {
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(1, -5,
-                  new ComponentState("Display Name",
-                  new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex,
+                  new ComponentState(displayName,
+                  new ComponentParameters(parameterObj, ParameterObjectType.ViewModel)));
 
         // Act
         var result = validator.TestValidate(command);
@@ -55,12 +68,13 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.ComponentStateIndex);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NullComponentState_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_NullComponentState_ShouldFailValidation(
+        int componentIndex, int stateIndex)
     {
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(0, 0, null);
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex, null);
 
         // Act
         var result = validator.TestValidate(command);
@@ -69,14 +83,15 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NullComponentStateDisplayName_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_NullComponentStateDisplayName_ShouldFailValidation(
+        int componentIndex, int stateIndex, object parameterObject)
     {
         // Arrange
-        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
+        var componentParameters = new ComponentParameters(parameterObject, ParameterObjectType.ViewModel);
         var componentState = new ComponentState(null, componentParameters);
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(0, 0, componentState);
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex, componentState);
 
         // Act
         var result = validator.TestValidate(command);
@@ -85,14 +100,15 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.DisplayName);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_EmptyComponentStateDisplayName_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_EmptyComponentStateDisplayName_ShouldFailValidation(
+        int componentIndex, int stateIndex, object parameterObject)
     {
         // Arrange
-        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
+        var componentParameters = new ComponentParameters(parameterObject, ParameterObjectType.ViewModel);
         var componentState = new ComponentState(string.Empty, componentParameters);
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(0, 0, componentState);
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex, componentState);
 
         // Act
         var result = validator.TestValidate(command);
@@ -101,13 +117,16 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.DisplayName);
     }
 
-    [Fact]
-    public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation(
+        string displayName,
+        int componentIndex,
+        int stateIndex)
     {
         // Arrange
-        var componentState = new ComponentState("Display Name", null);
+        var componentState = new ComponentState(displayName, null);
         var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(0, 0, componentState);
+        var command = new SelectMenuItemCommand(componentIndex, stateIndex, componentState);
 
         // Act
         var result = validator.TestValidate(command);

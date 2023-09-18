@@ -9,10 +9,13 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 public class NavMenuViewModelValidatorTests
 {
     [Theory, AutoData]
-    public void ValidNavMenuViewModelValidator_ShouldPassValidation(IEnumerable<ComponentAvailableStates> availableStates)
+    public void ValidNavMenuViewModelValidator_ShouldPassValidation(
+        int selectedComponentIndex,
+        int selectedStateIndex,
+        IEnumerable<ComponentAvailableStates> availableStates)
     {
         // Arrange
-        var vm = new NavMenuViewModel(availableStates, 0, 0);
+        var vm = new NavMenuViewModel(availableStates, selectedComponentIndex, selectedStateIndex);
         var validator = new NavMenuViewModelValidator();
 
         // Act
@@ -22,11 +25,15 @@ public class NavMenuViewModelValidatorTests
         result.ShouldNotHaveAnyValidationErrors();
     }
 
-    [Theory, AutoData]
-    public void InvalidNavMenuViewModelValidator_NegativeSelectedComponentIndex_ShouldPassValidation(IEnumerable<ComponentAvailableStates> availableStates)
+    [Theory]
+    [InlineAutoData(-5, 2)]
+    public void InvalidNavMenuViewModelValidator_NegativeSelectedComponentIndex_ShouldPassValidation(
+        int selectedComponentIndex,
+        int selectedStateIndex,
+        IEnumerable<ComponentAvailableStates> availableStates)
     {
         // Arrange
-        var vm = new NavMenuViewModel(availableStates, -5, 0);
+        var vm = new NavMenuViewModel(availableStates, selectedComponentIndex, selectedStateIndex);
         var validator = new NavMenuViewModelValidator();
 
         // Act
@@ -36,11 +43,15 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentIndex);
     }
 
-    [Theory, AutoData]
-    public void InvalidNavMenuViewModelValidator_NegativeSelectedStateIndex_ShouldPassValidation(IEnumerable<ComponentAvailableStates> availableStates)
+    [Theory]
+    [InlineAutoData(2, -5)]
+    public void InvalidNavMenuViewModelValidator_NegativeSelectedStateIndex_ShouldPassValidation(
+        int selectedComponentIndex,
+        int selectedStateIndex,
+        IEnumerable<ComponentAvailableStates> availableStates)
     {
         // Arrange
-        var vm = new NavMenuViewModel(availableStates, 0, -5);
+        var vm = new NavMenuViewModel(availableStates, selectedComponentIndex, selectedStateIndex);
         var validator = new NavMenuViewModelValidator();
 
         // Act
@@ -50,12 +61,14 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.SelectedStateIndex);
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStates_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_NullComponentStates_ShouldFailValidation(
+        int selectedComponentIndex,
+        int selectedStateIndex)
     {
         // Arrange
         var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(null, 0, 0);
+        var vm = new NavMenuViewModel(null, selectedComponentIndex, selectedStateIndex);
 
         // Act
         var result = validator.TestValidate(vm);
@@ -64,12 +77,14 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.MenuItems);
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_EmptyComponentStates_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_EmptyComponentStates_ShouldFailValidation(
+        int selectedComponentIndex,
+        int selectedStateIndex)
     {
         // Arrange
         var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(new List<ComponentAvailableStates>(), 0, 0);
+        var vm = new NavMenuViewModel(new List<ComponentAvailableStates>(), selectedComponentIndex, selectedStateIndex);
 
         // Act
         var result = validator.TestValidate(vm);
@@ -78,13 +93,16 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.MenuItems);
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesDisplayName_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesDisplayName_ShouldFailValidation(
+        bool isExpanded,
+        int selectedComponentIndex,
+        int selectedStateIndex)
     {
         // Arrange
         var menuItems = new List<ComponentAvailableStates>
         {
-                new ComponentAvailableStates(typeof(DummyComponent), true,
+                new ComponentAvailableStates(typeof(DummyComponent), isExpanded,
                     new List<ComponentState>
                     {
                         new ComponentState(null,
@@ -92,7 +110,7 @@ public class NavMenuViewModelValidatorTests
                     })
         };
         var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(menuItems, 0, 0);
+        var vm = new NavMenuViewModel(menuItems, selectedComponentIndex, selectedStateIndex);
 
         // Act
         var result = validator.TestValidate(vm);
@@ -101,13 +119,16 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor("MenuItems[0].ComponentStates[0].DisplayName");
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_EmptyComponentStatesDisplayName_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_EmptyComponentStatesDisplayName_ShouldFailValidation(
+        bool isExpanded,
+        int selectedComponentIndex,
+        int selectedStateIndex)
     {
         // Arrange
         var menuItems = new List<ComponentAvailableStates>
         {
-                new ComponentAvailableStates(typeof(DummyComponent), true,
+                new ComponentAvailableStates(typeof(DummyComponent), isExpanded,
                     new List<ComponentState>
                     {
                         new ComponentState(string.Empty,
@@ -115,7 +136,7 @@ public class NavMenuViewModelValidatorTests
                     })
         };
         var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(menuItems, 0, 0);
+        var vm = new NavMenuViewModel(menuItems, selectedComponentIndex, selectedStateIndex);
 
         // Act
         var result = validator.TestValidate(vm);
@@ -124,20 +145,24 @@ public class NavMenuViewModelValidatorTests
         result.ShouldHaveValidationErrorFor("MenuItems[0].ComponentStates[0].DisplayName");
     }
 
-    [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameter_ShouldFailValidation()
+    [Theory, AutoData]
+    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameter_ShouldFailValidation(
+        bool isExpanded,
+        int selectedComponentIndex,
+        int selectedStateIndex,
+        string displayName)
     {
         // Arrange
         var menuItems = new List<ComponentAvailableStates>
         {
-                new ComponentAvailableStates(typeof(DummyComponent), true,
+                new ComponentAvailableStates(typeof(DummyComponent), isExpanded,
                     new List<ComponentState>
                     {
-                        new ComponentState("Display Name", null)
+                        new ComponentState(displayName, null)
                     })
         };
         var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(menuItems, 0, 0);
+        var vm = new NavMenuViewModel(menuItems, selectedComponentIndex, selectedStateIndex);
 
         // Act
         var result = validator.TestValidate(vm);
