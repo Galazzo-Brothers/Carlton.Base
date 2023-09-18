@@ -13,7 +13,7 @@ public class SelectMenuItemCommandValidatorTests
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(0, 0,
-            new ComponentState("Display Name", typeof(DummyComponent), 
+            new ComponentState("Display Name",
             new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
 
         // Act
@@ -29,7 +29,7 @@ public class SelectMenuItemCommandValidatorTests
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(-5, 0,
-                  new ComponentState("Display Name", typeof(DummyComponent),
+                  new ComponentState("Display Name",
                   new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
 
         // Act
@@ -45,7 +45,7 @@ public class SelectMenuItemCommandValidatorTests
         // Arrange
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(1, -5,
-                  new ComponentState("Display Name", typeof(DummyComponent),
+                  new ComponentState("Display Name",
                   new ComponentParameters(new object(), ParameterObjectType.ViewModel)));
 
         // Act
@@ -74,7 +74,7 @@ public class SelectMenuItemCommandValidatorTests
     {
         // Arrange
         var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
-        var componentState = new ComponentState(null, typeof(DummyComponent), componentParameters);
+        var componentState = new ComponentState(null, componentParameters);
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(0, 0, componentState);
 
@@ -90,7 +90,7 @@ public class SelectMenuItemCommandValidatorTests
     {
         // Arrange
         var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
-        var componentState = new ComponentState(string.Empty, typeof(DummyComponent), componentParameters);
+        var componentState = new ComponentState(string.Empty, componentParameters);
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(0, 0, componentState);
 
@@ -101,27 +101,11 @@ public class SelectMenuItemCommandValidatorTests
         result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.DisplayName);
     }
 
-    [Theory, AutoData]
-    public void InvalidSelectMenuItemCommand_NullComponentStateType_ShouldFailValidation(string displayName)
-    {
-        // Arrange
-        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ViewModel);
-        var componentState = new ComponentState(displayName, null, componentParameters);
-        var validator = new SelectMenuItemCommandValidator();
-        var command = new SelectMenuItemCommand(0, 0, componentState);
-
-        // Act
-        var result = validator.TestValidate(command);
-
-        // Assert
-        result.ShouldHaveValidationErrorFor(_ => _.SelectedComponentState.Type);
-    }
-
     [Fact]
     public void InvalidSelectMenuItemCommand_NullComponentStateComponentParameters_ShouldFailValidation()
     {
         // Arrange
-        var componentState = new ComponentState("Display Name", typeof(DummyComponent), null);
+        var componentState = new ComponentState("Display Name", null);
         var validator = new SelectMenuItemCommandValidator();
         var command = new SelectMenuItemCommand(0, 0, componentState);
 

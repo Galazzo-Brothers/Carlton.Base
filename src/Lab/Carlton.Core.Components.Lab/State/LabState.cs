@@ -11,7 +11,7 @@ public record LabState
     public int SelectedComponentIndex { get; init; }
     public int SelectedComponentStateIndex { get; init; }
     public ComponentState SelectedComponentState { get => ComponentStates.ElementAt(SelectedComponentIndex).ComponentStates.ElementAt(SelectedComponentStateIndex); }
-    public Type SelectedComponentType { get { return SelectedComponentState.Type; } }
+    public Type SelectedComponentType { get { return ComponentStates.ElementAt(SelectedComponentIndex).ComponentType; } }
     public string SelectedComponentMarkup { get; init; }
     public ComponentParameters SelectedComponentParameters { get; init; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents 
