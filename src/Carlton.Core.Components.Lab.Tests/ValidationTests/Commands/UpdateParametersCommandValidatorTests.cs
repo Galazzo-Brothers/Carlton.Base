@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿using Carlton.Core.Components.Lab.Models.Validators.Commands;
 using FluentValidation.TestHelper;
 
 
@@ -7,19 +6,13 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class UpdateParametersCommandValidatorTests
 {
-    private readonly IFixture _fixture;
-
-    public UpdateParametersCommandValidatorTests()
-    {
-        _fixture = new Fixture();
-    }
-
     [Fact]
     public void ValidUpdateParametersCommandValidator_ShouldPassValidation()
     {
         // Arrange
+        var componentParameters = new ComponentParameters(new object(), ParameterObjectType.ParameterObject);
         var validator = new UpdateParametersCommandValidator();
-        var command = _fixture.Create<UpdateParametersCommand>();
+        var command = new UpdateParametersCommand(componentParameters);
 
         // Act
         var result = validator.TestValidate(command);

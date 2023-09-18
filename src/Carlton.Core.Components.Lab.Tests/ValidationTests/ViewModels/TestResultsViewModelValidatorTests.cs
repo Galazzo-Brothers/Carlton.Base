@@ -1,4 +1,4 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using Carlton.Core.Utilities.UnitTesting;
 using FluentValidation.TestHelper;
@@ -7,20 +7,12 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
 public class TestResultsViewModelValidationTests
 {
-    private readonly IFixture _fixture;
-
-    public TestResultsViewModelValidationTests()
-    {
-        _fixture = new Fixture();
-    }
-
-    [Fact]
-    public void ValidTestResultsViewModelValidationTests_ShouldPassValidation()
+    [Theory, AutoData]
+    public void ValidTestResultsViewModelValidationTests_ShouldPassValidation(IEnumerable<TestResult> testResults)
     {
         // Arrange
-        var tests = _fixture.CreateMany<TestResult>();
         var validator = new TestResultsViewModelValidator();
-        var vm = new TestResultsViewModel(tests);
+        var vm = new TestResultsViewModel(testResults);
 
         // Act
         var result = validator.TestValidate(vm);
