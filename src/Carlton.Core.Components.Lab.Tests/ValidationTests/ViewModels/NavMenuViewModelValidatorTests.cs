@@ -87,7 +87,7 @@ public class NavMenuViewModelValidatorTests
                 new ComponentAvailableStates(typeof(DummyComponent), true,
                     new List<ComponentState>
                     {
-                        new ComponentState(null, typeof(DummyComponent),
+                        new ComponentState(null,
                             new ComponentParameters(new object(), ParameterObjectType.ParameterObject))
                     })
         };
@@ -110,7 +110,7 @@ public class NavMenuViewModelValidatorTests
                 new ComponentAvailableStates(typeof(DummyComponent), true,
                     new List<ComponentState>
                     {
-                        new ComponentState(string.Empty, typeof(DummyComponent),
+                        new ComponentState(string.Empty,
                             new ComponentParameters(new object(), ParameterObjectType.ParameterObject))
                     })
         };
@@ -125,29 +125,6 @@ public class NavMenuViewModelValidatorTests
     }
 
     [Fact]
-    public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesType_ShouldFailValidation()
-    {
-        // Arrange
-        var menuItems = new List<ComponentAvailableStates>
-        {
-                new ComponentAvailableStates(typeof(DummyComponent), true,
-                    new List<ComponentState>
-                    {
-                        new ComponentState("Display Name", null,
-                            new ComponentParameters(new object(), ParameterObjectType.ParameterObject))
-                    })
-        };
-        var validator = new NavMenuViewModelValidator();
-        var vm = new NavMenuViewModel(menuItems, 0, 0);
-
-        // Act
-        var result = validator.TestValidate(vm);
-
-        // Assert
-        result.ShouldHaveValidationErrorFor("MenuItems[0].ComponentStates[0].Type");
-    }
-
-    [Fact]
     public void InvalidNavMenuViewModelValidatorTests_NullComponentStatesComponentParameter_ShouldFailValidation()
     {
         // Arrange
@@ -156,7 +133,7 @@ public class NavMenuViewModelValidatorTests
                 new ComponentAvailableStates(typeof(DummyComponent), true,
                     new List<ComponentState>
                     {
-                        new ComponentState("Display Name", typeof(DummyComponent), null)
+                        new ComponentState("Display Name", null)
                     })
         };
         var validator = new NavMenuViewModelValidator();

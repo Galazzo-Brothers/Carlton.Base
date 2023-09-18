@@ -57,7 +57,7 @@ public sealed class NavMenuViewModelBuilder
         {
             var paramObjType = state.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
             var compParams = new ComponentParameters(state.ComponentParameters, paramObjType);
-            return new ComponentState(state.DisplayName, state.ComponentType, compParams);
+            return new ComponentState(state.DisplayName, compParams);
         }
     }
 }
