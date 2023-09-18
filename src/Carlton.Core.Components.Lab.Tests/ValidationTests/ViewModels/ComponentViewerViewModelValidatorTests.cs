@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+﻿using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using Carlton.Core.Components.Lab.Test.Mocks;
 using FluentValidation.TestHelper;
 

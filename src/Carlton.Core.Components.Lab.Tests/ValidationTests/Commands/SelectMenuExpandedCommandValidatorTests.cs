@@ -1,16 +1,17 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿using AutoFixture.Xunit2;
+using Carlton.Core.Components.Lab.Models.Validators.Commands;
 using FluentValidation.TestHelper;
 
 namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class SelectMenuExpandedCommandValidatorTests
 {
-    [Fact]
-    public void ValidSelectMenuExpandedCommand_ShouldPassValidation()
+    [Theory, AutoData]
+    public void ValidSelectMenuExpandedCommand_ShouldPassValidation(int index, bool isExpanded)
     {
         // Arrange
         var validator = new SelectMenuExpandedCommandValidator();
-        var command = new SelectMenuExpandedCommand(0, false);
+        var command = new SelectMenuExpandedCommand(index, isExpanded);
 
         // Act
         var result = validator.TestValidate(command);
@@ -19,12 +20,13 @@ public class SelectMenuExpandedCommandValidatorTests
         result.ShouldNotHaveAnyValidationErrors();
     }
 
-    [Fact]
-    public void InvalidSelectMenuExpandedCommand_NegativeSelectedComponentIndex_ShouldFailValidation()
+    [Theory]
+    [InlineAutoData(-5)]
+    public void InvalidSelectMenuExpandedCommand_NegativeSelectedComponentIndex_ShouldFailValidation(int index, bool isExpanded)
     {
         // Arrange
         var validator = new SelectMenuExpandedCommandValidator();
-        var command = new SelectMenuExpandedCommand(-5, false);
+        var command = new SelectMenuExpandedCommand(index, isExpanded);
 
         // Act
         var result = validator.TestValidate(command);

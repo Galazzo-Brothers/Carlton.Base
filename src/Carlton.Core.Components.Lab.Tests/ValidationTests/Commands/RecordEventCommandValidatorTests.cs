@@ -1,4 +1,4 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using Carlton.Core.Components.Lab.Models.Validators.Commands;
 using FluentValidation.TestHelper;
 
@@ -6,19 +6,12 @@ namespace Carlton.Core.Components.Lab.Test.ValidationTests.Commands;
 
 public class RecordEventCommandValidatorTests
 {
-    private readonly IFixture _fixture;
-
-    public RecordEventCommandValidatorTests()
-    {
-        _fixture = new Fixture();
-    }
-
-    [Fact]
-    public void ValidRecordEventsCommand_ShouldPassValidation()
+    [Theory, AutoData]
+    public void ValidRecordEventsCommand_ShouldPassValidation(string recordedEventName, object eventArgs)
     {
         // Arrange
         var validator = new RecordEventCommandValidator();
-        var command = _fixture.Create<RecordEventCommand>();
+        var command = new RecordEventCommand(recordedEventName, eventArgs);
 
         // Act
         var result = validator.TestValidate(command);

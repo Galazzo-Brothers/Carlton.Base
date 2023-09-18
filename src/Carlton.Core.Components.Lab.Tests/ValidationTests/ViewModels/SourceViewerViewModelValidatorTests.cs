@@ -1,16 +1,17 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+﻿using AutoFixture.Xunit2;
+using Carlton.Core.Components.Lab.Models.Validators.ViewModels;
 using FluentValidation.TestHelper;
 
 namespace Carlton.Core.Components.Lab.Test.ValidationTests.ViewModels;
 
 public class SourceViewerViewModelValidatorTests
 {
-    [Fact]
-    public void ValidSourceViewerViewModel_ShouldPassValidation()
+    [Theory, AutoData]
+    public void ValidSourceViewerViewModel_ShouldPassValidation(string componentSource)
     {
         // Arrange
         var validator = new SourceViewerViewModelValidator();
-        var vm = new SourceViewerViewModel("<div class='test'>Hello World!</div>");
+        var vm = new SourceViewerViewModel(componentSource);
 
         // Act
         var result = validator.TestValidate(vm);
