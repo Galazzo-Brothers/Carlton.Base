@@ -1,15 +1,15 @@
-﻿using Bunit;
+﻿using AutoFixture.Xunit2;
+using Bunit;
 using Carlton.Core.Components.Library;
 
 namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedSourceViewerTests : TestContext
 {
-    [Fact]
-    public void ConnectedSourceViewerComponentRendersCorrectly()
+    [Theory, AutoData]
+    public void ConnectedSourceViewerComponentRendersCorrectly(string source)
     {
         //Arrange
-        var source = "<div>Hello World!</div>";
         var moduleInterop = JSInterop.SetupModule(JavaScriptHelper.GetImportPath(typeof(SourceViewer)));
         moduleInterop.Setup<Task>(SourceViewer.SetCodeBlock, SourceViewer.Selector, source);
         moduleInterop.Setup<Task>(SourceViewer.HighlightCodeBlock, SourceViewer.Selector);

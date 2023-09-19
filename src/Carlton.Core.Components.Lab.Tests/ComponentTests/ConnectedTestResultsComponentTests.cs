@@ -6,26 +6,41 @@ namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedTestResultsComponentTests : TestContext
 {
-    private readonly IFixture _fixture;
-
-    public ConnectedTestResultsComponentTests()
-    {
-        _fixture = new Fixture();
-    }
-
-    [Fact]
-    public void ConnectedTestResultsViewerComponentRendersCorrectly()
+    [Theory]
+    [InlineData(3)]
+    public void ConnectedTestResultsViewerComponentRendersCorrectly(int numOfItems)
     {
         //Arrange
-        var testResults = _fixture.CreateMany<TestResult>(3).ToList();
+        var testResults = new Fixture().CreateMany<TestResult>(numOfItems).ToList();
         var vm = new TestResultsViewModel(testResults);
+        var expectedMarkup = BuildExpectedMarkup(testResults);
 
         //Act
         var cut = RenderComponent<ConnectedTestResultsViewer>(parameters => parameters
                 .Add(p => p.ViewModel, vm));
 
         //Assert
-        cut.MarkupMatches(@$"
+        cut.MarkupMatches(expectedMarkup);
+    }
+
+    private static string BuildExpectedMarkup(IEnumerable<TestResult> testResults)
+    {
+        var tests = string.Join(Environment.NewLine, testResults.Select(_ =>
+             $@"<div class=""item-row table-row"">
+                    <div class=""test-row"">
+                        <div class=""test-outcome-column"">
+                            <div class=""test-outcome-icon"">
+                                <span class=""test-{_.TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(_.TestResultOutcome)}-circle""></span>
+                                <span>{_.TestResultOutcome}</span>
+                            </div>
+                        </div>
+                        <div class=""test-name-column"">{_.TestName}</div>
+                        <div class=""test-duration-column"">{_.TestDuration}</div>
+                    </div>
+                </div>"));
+
+
+        return @$"
 <div class=""test-results-viewer"">
 <div class=""main-container"">
     <div class=""table-container"">
@@ -54,42 +69,7 @@ public class ConnectedTestResultsComponentTests : TestContext
         </div>
         </div>
     </div>
-    <div class=""item-row table-row"">
-        <div class=""test-row"">
-        <div class=""test-outcome-column"">
-            <div class=""test-outcome-icon"">
-            <span class=""test-{testResults[0].TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(testResults[0].TestResultOutcome)}-circle""></span>
-            <span>{testResults[0].TestResultOutcome}</span>
-            </div>
-        </div>
-        <div class=""test-name-column"">{testResults[0].TestName}</div>
-        <div class=""test-duration-column"">{testResults[0].TestDuration}</div>
-        </div>
-    </div>
-    <div class=""item-row table-row"">
-        <div class=""test-row"">
-        <div class=""test-outcome-column"">
-            <div class=""test-outcome-icon"">
-            <span class=""test-{testResults[1].TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(testResults[1].TestResultOutcome)}-circle""></span>
-            <span>{testResults[1].TestResultOutcome}</span>
-            </div>
-        </div>
-        <div class=""test-name-column"">{testResults[1].TestName}</div>
-        <div class=""test-duration-column"">{testResults[1].TestDuration}</div>
-        </div>
-    </div>
-    <div class=""item-row table-row"">
-        <div class=""test-row"">
-        <div class=""test-outcome-column"">
-            <div class=""test-outcome-icon"">
-            <span class=""test-{testResults[2].TestResultOutcome.ToString().ToLower()}-icon mdi mdi-18px mdi-{GetTestIcon(testResults[2].TestResultOutcome)}-circle""></span>
-            <span>{testResults[2].TestResultOutcome}</span>
-            </div>
-        </div>
-        <div class=""test-name-column"">{testResults[2].TestName}</div>
-        <div class=""test-duration-column"">{testResults[2].TestDuration}</div>
-        </div>
-    </div>
+    {tests}
     <div class=""pagination-row table-row"">
         <div class=""pagination-row-item"">
         <div class=""rows-per-page"">
@@ -117,7 +97,7 @@ public class ConnectedTestResultsComponentTests : TestContext
     </div>
     </div>
 </div>
-</div>");
+</div>";
     }
 
     private static string GetTestIcon(TestResultOutcomes outcome)

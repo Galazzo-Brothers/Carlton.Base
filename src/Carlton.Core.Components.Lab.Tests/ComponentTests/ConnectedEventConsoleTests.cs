@@ -1,55 +1,41 @@
 ﻿using AutoFixture;
 using Bunit;
 using Carlton.Core.Components.Flux.Models;
+using Carlton.Core.Components.Lab.Test.Mocks;
+using System.Text.Json;
+using System.Web;
 
 namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedEventConsoleTests : TestContext
 {
-    private readonly IFixture _fixture;
-
-    public ConnectedEventConsoleTests()
-    {
-        _fixture = new Fixture();
-    }
-
-    [Fact]
-    public void ConnectedEventViewerComponentRendersCorrectly()
+    [Theory]
+    [InlineData(3)]
+    [InlineData(5)]
+    public void ConnectedEventViewerComponentRendersCorrectly(int numOfEvents)
     {
         //Arrange
-        var vm = new EventConsoleViewModel(new List<ComponentRecordedEvent>
-        {
-            new ComponentRecordedEvent("Event 1", new {Prop1 = "test", Prop2 = 7, Prop3 = false}),
-            new ComponentRecordedEvent("Event 2", new {Prop1 =  7.77 }),
-            new ComponentRecordedEvent("Event 3", new {Prop1 = true})
-        });
+        var vm = BuildViewModel(numOfEvents);
+        var expectedMarkup = BuildExpectedMarkup(vm.RecordedEvents);
 
         //Act
         var cut = RenderComponent<ConnectedEventConsole>(parameters => parameters
                 .Add(p => p.ViewModel, vm));
 
+
         //Assert
-        cut.MarkupMatches(@"
- <div class=""event-console"" >
-      <div class=""console"" >
-        <textarea rows=""15"" disabled="""" class="""" value=
-""Event 1: {&quot;Prop1&quot;:&quot;test&quot;,&quot;Prop2&quot;:7,&quot;Prop3&quot;:false}
-Event 2: {&quot;Prop1&quot;:7.77}
-Event 3: {&quot;Prop1&quot;:true}"">
-        </textarea>
-      </div>
-    <div class=""fab mdi mdi-24px mdi-delete"" style=""--fab-bottom:5%;--fab-right:3%;"" ></div>
-</div>");
+        cut.MarkupMatches(expectedMarkup);
     }
 
-    [Fact]
-    public void ConnectedEventViewerComponent_EventCallback()
+    [Theory]
+    [InlineData(3)]
+    [InlineData(5)]
+    public void ConnectedEventViewerComponent_EventCallback(int numOfEvents)
     {
         //Arrange
         var command = new MutationCommand();
         var onComponentEventCalled = false;
-        var vm = new EventConsoleViewModel(_fixture.CreateMany<ComponentRecordedEvent>());
-
+        var vm = BuildViewModel(numOfEvents);
         var cut = RenderComponent<ConnectedEventConsole>(parameters => parameters
                 .Add(p => p.ViewModel, vm)
                 .Add(p => p.OnComponentEvent, cmd =>
@@ -66,5 +52,29 @@ Event 3: {&quot;Prop1&quot;:true}"">
         //Assert
         Assert.True(onComponentEventCalled);
         Assert.IsType<ClearEventsCommand>(command);
+    }
+
+    private static EventConsoleViewModel BuildViewModel(int numOfEvents)
+    {
+        var fixture = new Fixture();
+        var recordedEvents = new List<ComponentRecordedEvent>();
+        var events = fixture.CreateMany<MockObject>(numOfEvents);
+        events.ToList().ForEach(_ => recordedEvents.Add(new ComponentRecordedEvent(fixture.Create<string>(), _)));
+        return new EventConsoleViewModel(recordedEvents);
+    }
+
+    private static string BuildExpectedMarkup(IEnumerable<ComponentRecordedEvent> recordedEvents)
+    {
+        var recordedEventsText = string.Join(Environment.NewLine, recordedEvents.Select(evt =>
+          $"{evt.Name}: {JsonSerializer.Serialize(evt.EventObj)}"));
+
+        //Assert
+        return @$"
+ <div class=""event-console"" >
+      <div class=""console"" >
+        <textarea rows=""15"" disabled="""" class="""" value=""{HttpUtility.HtmlEncode(recordedEventsText)}""></textarea>
+      </div>
+    <div class=""fab mdi mdi-24px mdi-delete"" style=""--fab-bottom:5%;--fab-right:3%;"" ></div>
+</div>";
     }
 }

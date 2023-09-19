@@ -31,8 +31,7 @@
 
         foreach(var component in components)
         {            
-            var dictionary = component.ComponentStates
-                                      .ToDictionary(_ => _.DisplayName, _ => _);    
+            var dictionary = component.ComponentStates.ToDictionary(_ => _.DisplayName, _ => _);    
             builder.AddGroup(component.ComponentType.GetDisplayName(), component.IsExpanded, dictionary);
         }
 

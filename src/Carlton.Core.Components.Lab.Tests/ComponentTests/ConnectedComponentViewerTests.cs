@@ -30,14 +30,14 @@ public class ConnectedComponentViewerTests : TestContext
 </div>");
     }
 
-    [Fact]
-    public void ConnectedComponentViewerComponent_EventCallback()
+    [Theory, AutoData]
+    public void ConnectedComponentViewerComponent_EventCallback(string text)
     {
         //Arrange
         var command = new MutationCommand();
         var onComponentEventCalled = false;
         var castedCommand = command as RecordEventCommand;
-        var componentParameters = new ComponentParameters(new { TestText = "Hello World!" }, ParameterObjectType.ParameterObject);
+        var componentParameters = new ComponentParameters(new { TestText = text }, ParameterObjectType.ParameterObject);
         var vm = new ComponentViewerViewModel(typeof(DummyComponent), componentParameters);
 
         var cut = RenderComponent<ConnectedComponentViewer>(parameters => parameters
@@ -61,13 +61,13 @@ public class ConnectedComponentViewerTests : TestContext
         Assert.Null(command.Cast<RecordEventCommand>().EventArgs);
     }
 
-    [Fact]
-    public void ConnectedComponentViewerComponent_EventCallbackGeneric()
+    [Theory, AutoData]
+    public void ConnectedComponentViewerComponent_EventCallbackGeneric(string text)
     {
         //Arrange
         var command = new MutationCommand();
         var onComponentEventCalled = false;
-        var componentParameters = new ComponentParameters(new { TestText = "Hello World!" }, ParameterObjectType.ParameterObject);
+        var componentParameters = new ComponentParameters(new { TestText = text }, ParameterObjectType.ParameterObject);
         var vm = new ComponentViewerViewModel(typeof(DummyComponent), componentParameters);
 
         var cut = RenderComponent<ConnectedComponentViewer>(parameters => parameters

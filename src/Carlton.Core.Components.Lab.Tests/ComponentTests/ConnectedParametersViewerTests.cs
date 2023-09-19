@@ -2,58 +2,39 @@
 using Bunit;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Lab.Test.Common;
+using Carlton.Core.Components.Lab.Test.Mocks;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
+using System.Web;
 
 namespace Carlton.Core.Components.Lab.Test.ComponentTests;
 
 public class ConnectedParametersViewerTests : TestContext
 {
-    [Fact]
-    public void ConnectedParametersViewerComponentRendersCorrectly()
+    [Theory, AutoData]
+    public void ConnectedParametersViewerComponentRendersCorrectly(MockObject obj)
     {
         //Arrange
-        var vm = new ParametersViewerViewModel(new ComponentParameters(
-            new
-            {
-                Param1 = "Testing",
-                Param2 = 17,
-                Param3 = false
-            }, ParameterObjectType.ParameterObject));
+        var expectedMarkup = BuildExpectedMarkup(obj);
+        var vm = new ParametersViewerViewModel(new ComponentParameters(obj, ParameterObjectType.ParameterObject));
 
         //Act
         var cut = RenderComponent<ConnectedParametersViewer>(parameters => parameters
                     .Add(p => p.ViewModel, vm));
 
+
         //Assert
-        cut.MarkupMatches(@"
-<div class=""parameters-viewer"">
-    <div class=""json-viewer-console"">
-        <div class=""console"">
-            <textarea rows = ""15"" class="""" value=""{
-  &quot;Param1&quot;: &quot;Testing&quot;,
-  &quot;Param2&quot;: 17,
-  &quot;Param3&quot;: false
-}"">
-            </textarea>
-        </div>
-    </div>
-</div>");
+        cut.MarkupMatches(expectedMarkup);
     }
 
+
     [Theory, AutoData]
-    public void ConnectedParameterViewerComponent_EventCallback(string param1, int param2, bool param3)
+    public void ConnectedParameterViewerComponent_EventCallback(MockObject obj)
     {
         //Arrange
-        var newValue = new
-        {
-            Param1 = param1,
-            Param2 = param2,
-            Param3 = param3
-        };
         var command = new MutationCommand();
         var onComponentEventCalled = false;
-        var vm = new ParametersViewerViewModel(new ComponentParameters(newValue, ParameterObjectType.ParameterObject));
+        var vm = new ParametersViewerViewModel(new ComponentParameters(obj, ParameterObjectType.ParameterObject));
 
         var cut = RenderComponent<ConnectedParametersViewer>(parameters => parameters
                 .Add(p => p.ViewModel, vm)
@@ -64,7 +45,7 @@ public class ConnectedParametersViewerTests : TestContext
                 }));
 
         var txt = cut.Find("textarea");
-        var newJson = JsonSerializer.Serialize(newValue);
+        var newJson = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
 
         //Act
         txt.Change(new ChangeEventArgs() { Value = newJson });
@@ -72,7 +53,21 @@ public class ConnectedParametersViewerTests : TestContext
         //Assert
         Assert.True(onComponentEventCalled);
         Assert.IsType<UpdateParametersCommand>(command);
-        Assert.Equal(newValue, command.Cast<UpdateParametersCommand>().Parameters);
+        Assert.Equal(obj, command.Cast<UpdateParametersCommand>().Parameters);
+    }
+
+    private static string BuildExpectedMarkup(object obj)
+    {
+        var parameterString = HttpUtility.HtmlEncode(JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true }));
+
+        return @$"
+<div class=""parameters-viewer"">
+    <div class=""json-viewer-console"">
+        <div class=""console"">
+            <textarea rows = ""15"" class="""" value=""{parameterString}""></textarea>
+        </div>
+    </div>
+</div>";
     }
 }
 
