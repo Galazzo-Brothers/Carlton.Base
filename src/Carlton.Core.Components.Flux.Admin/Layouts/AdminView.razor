@@ -1,0 +1,22 @@
+﻿@namespace Carlton.Core.Components.Flux.Admin
+@inject NavigationManager Navigation
+
+@if(IsAdmin)
+{
+    @AdminContent
+}
+else
+{
+    @ApplicationContent
+}
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment AdminContent { get; set; }
+    [Parameter]
+    public RenderFragment ApplicationContent { get; set; }
+
+    private bool IsAdmin { get => Navigation.Uri.Contains("/admin"); }
+}

@@ -1,13 +1,21 @@
 ﻿@namespace Carlton.Core.Components.Library.Lab
+@using Carlton.Core.Components.Flux.Admin;
+@using Carlton.Core.Components.Lab.Pages;
 
-<Router AppAssembly="@typeof(Program).Assembly">
+<Router AppAssembly="@typeof(Program).Assembly" 
+    AdditionalAssemblies="new[] { typeof(LabPage).Assembly, typeof(FluxAdminLayout).Assembly }">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(TestBedLayout)" />
+        <AdminView>
+            <AdminContent>
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(FluxAdminLayout)" />
+            </AdminContent>
+            <ApplicationContent>
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(ComponentLabLayout)" />
+            </ApplicationContent>
+        </AdminView>
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(TestBedLayout)">
-            <p>Sorry, there's nothing at this address.</p>
-        </LayoutView>
+        <p>Sorry, there's nothing at this address.</p>
     </NotFound>
 </Router>
 
