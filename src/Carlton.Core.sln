@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lab.Test", "Carlton.Core.Components.Lab.Tests\Carlton.Core.Components.Lab.Test.csproj", "{FDA60BD8-F986-4F00-88EE-51DB455B1346}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flux.Admin", "Carlton.Core.Components.Flux.Admin\Carlton.Core.Components.Flux.Admin.csproj", "{43A999CD-0440-42F7-B0BA-87961AA4E0A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDA60BD8-F986-4F00-88EE-51DB455B1346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43A999CD-0440-42F7-B0BA-87961AA4E0A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43A999CD-0440-42F7-B0BA-87961AA4E0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43A999CD-0440-42F7-B0BA-87961AA4E0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43A999CD-0440-42F7-B0BA-87961AA4E0A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{384453ED-C9F9-4046-BA5C-FF1FC133A02F} = {4CDC27F1-7FC7-4CAF-A466-4181E01C4E73}
 		{FAAA8532-4D71-45D4-95CE-924A9F604982} = {30A02A52-86DC-457F-BAFF-10EB6B1ED1AC}
 		{FDA60BD8-F986-4F00-88EE-51DB455B1346} = {4BF087BD-FC47-4D3E-BAD5-051FCC8858AF}
+		{43A999CD-0440-42F7-B0BA-87961AA4E0A4} = {30A02A52-86DC-457F-BAFF-10EB6B1ED1AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}
