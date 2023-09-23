@@ -81,10 +81,10 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
                 return;
 
             //Find HttpResponseProperty attributes
-            var replacmentProperties = command.GetType().GetProperties().Where(predicate);
+            var replacementProperties = command.GetType().GetProperties().Where(predicate);
 
             //Exit if response property attributes not present
-            if (!replacmentProperties.Any())
+            if (!replacementProperties.Any())
                 return;
 
             //Parse the server json response
@@ -92,7 +92,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
             var parsedResponse = JsonSerializer.Deserialize(json, serverResponseType, new JsonSerializerOptions(JsonSerializerDefaults.Web));
 
             //iterate through properties
-            foreach (var prop in replacmentProperties)
+            foreach (var prop in replacementProperties)
             {
                 //Get the property attribute
                 var attribute = prop.GetCustomAttribute<HttpResponsePropertyAttribute>();
@@ -106,11 +106,11 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
         }
         catch(JsonException ex)
         {
-            throw new ArgumentException("An error occured updating the command with the server response", typeof(HttpResponseTypeAttribute<>).GetDisplayName(), ex);
+            throw new ArgumentException("An error occurred updating the command with the server response", typeof(HttpResponseTypeAttribute<>).GetDisplayName(), ex);
         }
         catch(Exception ex)
         {
-            throw new ArgumentException("An error occured updating the command with the server response", nameof(HttpResponsePropertyAttribute), ex);
+            throw new ArgumentException("An error occurred updating the command with the server response", nameof(HttpResponsePropertyAttribute), ex);
         }
     }
 }

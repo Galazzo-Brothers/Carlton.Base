@@ -5,20 +5,22 @@
 @page "/admin/logs"
 
 <div class="log-viewer">
-    Hello World!
-   @* <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+    <Table Headings="Headings"Items="LogMessages"
+        ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" >
         <RowTemplate Context="item">
-            <div class="test-row">
-               
+            <div class="row">
+               <span>@item.Timestamp</span>
+               <span>@item.Message</span>
+               <span>@item.LogLevel</span>
             </div>
         </RowTemplate>
-    </Table>*@
+    </Table>
 </div>
 
 
 @code {
 
-    //private IEnumerable<LogMessage> LogMessages => Logger.GetLogMessages();
+    private IEnumerable<LogMessage> LogMessages => Logger.GetLogMessages();
 
     private IEnumerable<TableHeadingItem> Headings
     {

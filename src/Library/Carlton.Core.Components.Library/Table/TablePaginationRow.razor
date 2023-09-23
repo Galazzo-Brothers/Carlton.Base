@@ -42,7 +42,7 @@
 
     private IReadOnlyDictionary<string, int> RowsPerPageSelectOpts { get; set; }
 
-    private int MaxPage { get => (int)Math.Ceiling((decimal)TotalItemCount / SelectedRowsPerPageValue); }
+    private int MaxPage { get => Math.Max(1, (int)Math.Ceiling((decimal)TotalItemCount / SelectedRowsPerPageValue)); }
 
     private string PaginationLabel 
     {

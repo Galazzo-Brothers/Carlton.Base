@@ -1,30 +1,38 @@
-﻿using Carlton.Core.Components.Flux.Decorators.Commands;
+﻿using Blazored.LocalStorage;
+using Carlton.Core.Components.Flux.Decorators.Commands;
+using Carlton.Core.Components.Flux.Decorators.Mutations;
 using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
 using Carlton.Core.Components.Flux.State;
-using Mapster;
 using MapsterMapper;
 
 namespace Carlton.Core.Components.Flux;
 
 public static class ContainerExtensions
 {
-    public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state, TypeAdapterConfig typeAdapterConfig)
+    public static void AddCarltonFlux<TState>(
+        this IServiceCollection services,
+        TState state,
+        TypeAdapterConfig typeAdapterConfig,
+        bool usesLocalStorage)
         where TState : class
     {
+        /*Local Storage*/
+        RegisterLocalStorage(services);
+
         /*Mapster*/
         RegisterMapster(services, typeAdapterConfig);
 
         /*Flux State*/
-        RegisterFluxState(services, state);
+        RegisterFluxState(services, state, usesLocalStorage);
 
         /*Connected Components*/
         RegisterFluxConnectedComponents(services);
 
         /*Dispatchers*/
-        RegisterFluxDispatchers<TState>(services);
+        RegisterFluxDispatchers<TState>(services, usesLocalStorage);
 
         /*Handlers*/
         RegisterFluxHandlers<TState>(services);
@@ -37,7 +45,11 @@ public static class ContainerExtensions
 
         /*Exception Handling*/
         RegisterExceptionHandling(services);
+    }
 
+    private static void RegisterLocalStorage(IServiceCollection services)
+    {
+        services.AddBlazoredLocalStorageAsSingleton();
     }
 
     private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)
@@ -46,19 +58,18 @@ public static class ContainerExtensions
         services.AddSingleton<IMapper, ServiceMapper>();
     }
 
-    private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
+    private static void RegisterFluxState<TState>(IServiceCollection services, TState state, bool usesLocalStorage)
         where TState : class
     {
         /*LabState*/
-        services.AddSingleton(state);
-
+        services.AddSingleton(provider => CheckLocalStorageState(state, provider, usesLocalStorage));
         services.AddSingleton<IMutableFluxState<TState>, FluxState<TState>>();
         services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
         services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
         services.AddSingleton<MutationResolver<TState>>();
     }
 
-    private static void RegisterFluxDispatchers<TState>(IServiceCollection services)
+    private static void RegisterFluxDispatchers<TState>(IServiceCollection services, bool usesLocalStorage)
     {
         /*ViewModel Dispatchers*/
         services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
@@ -70,6 +81,8 @@ public static class ContainerExtensions
         /*Mutation Dispatchers*/
         services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
         services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
+        if(usesLocalStorage)
+            services.Decorate<IMutationCommandDispatcher<TState>, MutationLocalStorageDecorator<TState>>();
         services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
     }
 
@@ -140,6 +153,15 @@ public static class ContainerExtensions
     {
         services.AddSingleton<IExceptionDisplayService, FluxExceptionDisplayService>();
         services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
+    }
+
+    private static TState CheckLocalStorageState<TState>(TState state, IServiceProvider provider, bool usesLocalStorage)
+        where TState : class
+    {
+        if (usesLocalStorage)
+            return state;
+        else
+            return provider.GetService<ISyncLocalStorageService>().GetItem<TState>("carltonFluxState") ?? state;
     }
 }
 
