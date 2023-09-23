@@ -1,5 +1,4 @@
 ﻿using MapsterMapper;
-
 namespace Carlton.Core.Components.Flux.State;
 
 public class FluxState<TState> : IMutableFluxState<TState>
@@ -14,9 +13,10 @@ public class FluxState<TState> : IMutableFluxState<TState>
     public TState State { get; private set; }
     private TState RollbackState { get; set; }
 
-    public FluxState(TState state, IMutationResolver<TState> mutationResolver, IMapper mapper, ILogger<FluxState<TState>> logger)
-       => (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
-
+    public FluxState(TState state, IMutationResolver<TState> mutationResolver,
+        IMapper mapper, ILogger<FluxState<TState>> logger) =>
+            (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
+    
     public async Task MutateState<TInput>(TInput input)
     {
         var displayName = typeof(TInput).GetDisplayName();
