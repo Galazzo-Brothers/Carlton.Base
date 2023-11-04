@@ -189,10 +189,9 @@ public class MutationHttpDecoratorTests
     public async Task Dispatch_UpdateCommandWithInvalidHttpResponseProperty_ShouldThrowArgumentException()
     {
         //Arrange
-        var expectedMessage = "An error occured updating the command with the server response (Parameter 'HttpResponsePropertyAttribute')";
+        var expectedMessage = "An error occurred updating the command with the server response (Parameter 'HttpResponsePropertyAttribute')";
         var caller = new HttpRefreshCaller();
         var command = _fixture.Create<TestCommand4>();
-        var initialCommand = command with { };
         var serverResponse = _fixture.Create<MockServerResponse>();
         var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
 
