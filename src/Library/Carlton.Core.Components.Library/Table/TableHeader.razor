@@ -1,18 +1,19 @@
 ﻿@namespace Carlton.Core.Components.Library
 @typeparam TItem
 
-<div class="table-header-row">
-    @foreach(var (heading, i) in Headings.WithIndex())
-    {
-        <div class="@HeaderRowItemCss(heading.OrderColumn, i)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
-            <span class="heading-text">@heading.DisplayName</span>
-            <div class="sort-arrows">
-                <span class="arrow-ascending mdi mdi-arrow-up"></span>
-                <span class="arrow-descending mdi mdi-arrow-down"></span>
-            </div>
+
+@foreach (var (heading, i) in Headings.WithIndex())
+{
+    <div class="@HeaderCellCss(heading.OrderColumn, i)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
+        <span class="heading-text">@heading.DisplayName</span>
+        <div class="sort-arrows">
+            <span class="arrow-ascending mdi mdi-arrow-up"></span>
+            <span class="arrow-descending mdi mdi-arrow-down"></span>
         </div>
-    }
-</div>
+    </div>
+}
+
+
 
 
 @code {
@@ -28,10 +29,10 @@
     [Parameter]
     public EventCallback<TableOrderingChangedArgs> OnItemsOrdered { get; set; }
 
-    private string HeaderRowItemCss(string selectedOrderColumn, int index)
+    private string HeaderCellCss(string selectedOrderColumn, int index)
     {
-        return new CssBuilder("header-row-item")
-                .AddClass("row-item")
+        return new CssBuilder("header-cell")
+                .AddClass("table-cell")
                 .AddClass("selected", OrderColumn == selectedOrderColumn)
                 .AddClass("ascending", OrderAscending)
                 .AddClass("descending", !OrderAscending)
@@ -48,7 +49,7 @@
 
     private async Task OrderItems()
     {
-        if(string.IsNullOrEmpty(OrderColumn))
+        if (string.IsNullOrEmpty(OrderColumn))
             return;
 
         await OnItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(OrderColumn, OrderAscending));
