@@ -28,31 +28,17 @@ public static class TableTestStates
 
     public static object LargeItemList
     {
-        get => new TableTestDate(Headings, BigList, RowTemplate, true, new List<int> { 5, 10, 15 });
+        get => new TableTestDate(Headings, BigList, RowTemplate, true, RowsPerPageTemplate);
     }
 
     public static object SmallItemList
     {
-        get => new
-        {
-            Headings,
-            Items=SmallList ,
-            RowTemplate,
-            ShowPaginationRow=true ,
-            RowsPerPageOpts=new List<int> {5, 10, 15} 
-        };
+        get => new TableTestDate(Headings, SmallList, RowTemplate, true, RowsPerPageTemplate);
     }
 
     public static object WithOutPaginationRow
     {
-        get => new
-        {
-            Headings,
-            Items=SmallList,
-            RowTemplate,
-            ShowPaginationRow=false ,
-            RowsPerPageOpts = new List<int> {5, 10, 15} 
-        };
+        get => new TableTestDate(Headings, SmallList, RowTemplate, false, RowsPerPageTemplate);
     }
 
     private static readonly List<TableHeadingItem> Headings =
@@ -95,16 +81,19 @@ public static class TableTestStates
             builder =>
             {
                 builder.AddMarkupContent(0,
-                 $@"<div class=""row-item"">
+                 $@"
+                 <div class=""table-cell"">
                     <span>{item.ID}</span>
-              </div>
-             <div class= ""row-item"">
-                <span>{item.DisplayName}</span>
-            </div>
-            <div class=""row-item"">
-                <span>{item.CreatedDate}</span>
-            </div>");
+                 </div>
+                 <div class= ""table-cell"">
+                    <span>{item.DisplayName}</span>
+                 </div>
+                 <div class=""table-cell"">
+                    <span>{item.CreatedDate}</span>
+                 </div>");
             };
+
+    private static readonly List<int> RowsPerPageTemplate = new() { 5, 10, 15 };
 
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 }
