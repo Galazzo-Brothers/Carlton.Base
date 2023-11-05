@@ -6,6 +6,7 @@ using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
 using Carlton.Core.Components.Flux.State;
+using Carlton.Core.Utilities.TypeUtilities;
 using MapsterMapper;
 
 namespace Carlton.Core.Components.Flux;
@@ -49,7 +50,8 @@ public static class ContainerExtensions
 
     private static void RegisterLocalStorage(IServiceCollection services)
     {
-        services.AddBlazoredLocalStorageAsSingleton();
+        services.AddBlazoredLocalStorageAsSingleton(
+            config => config.JsonSerializerOptions.Converters.Add(new JsonTypeConverter()));
     }
 
     private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)
