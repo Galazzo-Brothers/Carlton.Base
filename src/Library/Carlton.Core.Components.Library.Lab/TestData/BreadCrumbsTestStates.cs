@@ -7,7 +7,7 @@ internal static class BreadCrumbsTestStates
         get => new
         {
             Title = "Home Page",
-            Separator = ">",
+            Separator = '>',
             BreadCrumbItems = new List<string> { "Home" }
         };
     }
@@ -17,7 +17,7 @@ internal static class BreadCrumbsTestStates
         get => new
         {
             Title = "Test Page",
-            Separator = ">",
+            Separator = '>',
             BreadCrumbItems = new List<string> { "Home", "Test" }
         };
     }
@@ -27,7 +27,7 @@ internal static class BreadCrumbsTestStates
         get => new
         {
             Title = "Home Page",
-            Separator = "/",
+            Separator = '/',
             BreadCrumbItems = new List<string> { "Home" }
         };
     }
@@ -37,7 +37,7 @@ internal static class BreadCrumbsTestStates
         get => new
         {
             Title = "Home Page",
-            Separator = "/",
+            Separator = '/',
             BreadCrumbItems = new List<string> { "Home", "Test" }
         };
     }
