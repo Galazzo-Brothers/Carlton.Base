@@ -1,35 +1,34 @@
 ﻿@namespace Carlton.Core.Components.Library
 @typeparam TItem
 
-<div class="main-container">
-    <div class="table-container">
-        <div class="header-row table-row">
-            <TableHeader TItem="TItem"
-                         Headings="Headings"
-                         OrderColumn="@OrderColumn"
-                         OrderAscending="OrderAscending"
-                         OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
+<div class="table-container">
+    <div class="table-row">
+        <TableHeader TItem="TItem"
+                     Headings="Headings"
+                     OrderColumn="@OrderColumn"
+                     OrderAscending="OrderAscending"
+                     OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
+    </div>
+    @foreach (var item in Items)
+    {
+        <div class="table-row">
+            @RowTemplate(item)
         </div>
-        @foreach(var item in Items)
-        {
-            <div class="item-row table-row">
-                @RowTemplate(item)
-            </div>
-        }
-        @if(ShowPaginationRow)
-        {
-            <div class="pagination-row table-row">
-                <TablePaginationRow TItem="TItem"
+    }
+    @if (ShowPaginationRow)
+    {
+        <div class="table-row">
+            <TablePaginationRow TItem="TItem"
                                 RowsPerPageOpts="RowsPerPageOpts"
                                 TotalItemCount="AllItems.Count()"
                                 CurrentPage="CurrentPage"
                                 SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
                                 OnPageChanged="OnPageChanged"
-                                OnRowsPerPageChanged="OnRowsPerPageChanged"/>
-            </div>
-        }
-    </div>
+                                OnRowsPerPageChanged="OnRowsPerPageChanged" />
+        </div>
+    }
 </div>
+
 
 
 @code {
