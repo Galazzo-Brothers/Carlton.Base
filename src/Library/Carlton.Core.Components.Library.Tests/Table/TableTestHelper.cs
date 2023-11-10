@@ -8,11 +8,9 @@ public static class TableTestHelper
 
     public const string RowTemplate =
 @"
-<div class=""test-row"">
-    <span>{0}</span>
-    <span>{1}</span>
-    <span>{2}</span>
-</div>";
+<span class=""table-cell"">{0}</span>
+<span class=""table-cell"">{1}</span>
+<span class=""table-cell"">{2}</span>";
 
     public const string RowTemplate2 = "{0}_{1}_{2}";
 
@@ -25,37 +23,34 @@ public static class TableTestHelper
         int selectedRowsPerPageIndex,
         int currentPage)
     {
-        return @$"<div class=""main-container"">
+        return @$"
   <div class=""table-container"">
-    <div class=""header-row table-row"">
+    <div class=""table-row"">
       {BuildExpectedHeaderMarkup(headings)}
     </div>
     {BuildExpectedItemRows(rowTemplate, items)}
     {(includePaginationRow ? 
-        @$"<div class=""pagination-row table-row""> 
+        @$"<div class=""table-row""> 
             {BuildExpectedPaginationRow(items.Count(), rowsPerPageOpts, selectedRowsPerPageIndex, currentPage)}
-          </div>" : string.Empty)}
-</div>";
+          </div>" : string.Empty)}";
     }
 
     public static string BuildExpectedHeaderMarkup(IEnumerable<TableHeadingItem> headings)
     {
-        var headingsMarkup = string.Join(Environment.NewLine, headings.Select((item, i) =>
+        return string.Join(Environment.NewLine, headings.Select((item, i) =>
         @$"
-<div class=""header-row-item row-item ascending heading-{i}"">
+<div class=""header-cell table-cell ascending heading-{i}"">
     <span class=""heading-text"">{item.DisplayName}</span>
         <div class=""sort-arrows"">
             <span class=""arrow-ascending mdi mdi-arrow-up""></span>
             <span class=""arrow-descending mdi mdi-arrow-down""></span>
         </div>
 </div>"));
-
-        return @$"<div class=""table-header-row"">{headingsMarkup}</div>";
     }
 
     public static string BuildExpectedItemRows(string rowTemplate, IEnumerable<TableTestObject> items)
     {
-        return string.Join(Environment.NewLine, items.Select(item => string.Format(@$"<div class=""item-row table-row"">{rowTemplate}</div>", item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
+        return string.Join(Environment.NewLine, items.Select(item => string.Format(@$"<div class=""table-row"">{rowTemplate}</div>", item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
     }
 
     public static string BuildExpectedPaginationRow(int itemTotal, IEnumerable<int> rowsPerPage, int selectedRowsPerPageIndex, int currentPage)
@@ -72,27 +67,28 @@ public static class TableTestHelper
 
         return
 @$"
-    <div class=""pagination-row-item"">
+    <div class=""pagination-row"">
         <div class=""rows-per-page"">
             <span class=""rows-per-page-label"">Rows Per Page</span>
             <div class=""select"">
                 <input readonly placeholder="" "" value=""{selectedRowsPerPage}"" />
                 <div class=""label""></div>
                 <div class=""options"">
-                {optionsMarkup}
+                    {optionsMarkup}
+                </div>
             </div>
         </div>
-    </div>
-    <div class=""page-number"">
-        <span class=""pagination-label"">{startPageCount}-{endPageCount} of {itemTotal}</span>
-    </div>
+        <div class=""page-number"">
+            <span class=""pagination-label"">{startPageCount}-{endPageCount} of {itemTotal}</span>
+        </div>
         <div class=""page-chevrons"">
           <span class=""mdi mdi-18px mdi-page-first {(leftDisabled ? "disabled" : string.Empty)}""></span>
           <span class=""mdi mdi-18px mdi-chevron-left {(leftDisabled ? "disabled" : string.Empty)}""></span>
           <span class=""mdi mdi-18px mdi-chevron-right {(rightDisabled ? "disabled" : string.Empty)}""></span>
           <span class=""mdi mdi-18px mdi-page-last {(rightDisabled ? "disabled" : string.Empty)}""></span>
         </div>
-    </div>";
+    </div>
+    ";
     }
 
     public static readonly IReadOnlyCollection<TableHeadingItem> Headings = new List<TableHeadingItem>
