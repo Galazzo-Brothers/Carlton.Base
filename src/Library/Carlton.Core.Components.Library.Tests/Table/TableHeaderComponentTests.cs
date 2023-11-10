@@ -35,7 +35,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
-        var headerRowItems = cut.FindAll(".header-row-item");
+        var headerRowItems = cut.FindAll(".header-cell");
         var actualCount = headerRowItems.Count;
         var actualHeadings = cut.FindAll(".heading-text").Select(_ => _.TextContent);
 
@@ -59,7 +59,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderColumn, columnName)
             .Add(p => p.OrderAscending, orderAscending));
 
-        var headerRowItems = cut.FindAll(".header-row-item");
+        var headerRowItems = cut.FindAll(".header-cell");
         var selectedItem = headerRowItems.ElementAt(columnIndex);
         var hasSelectedClass = selectedItem.ClassList.Contains("selected");
         var hasAscendingClass = selectedItem.ClassList.Contains("ascending");
@@ -103,7 +103,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderAscending, true)
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
-        var headerRowItems = cut.FindAll(".header-row-item");
+        var headerRowItems = cut.FindAll(".header-cell");
 
         //Act
         headerRowItems.ElementAt(columnIndex).Click();
@@ -131,9 +131,9 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
         //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
+        var itemToClick = cut.FindAll(".header-cell").ElementAt(columnIndex);
         itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
+        itemToClick = cut.FindAll(".header-cell").ElementAt(columnIndex);
         itemToClick.Click();
 
         //Assert
@@ -154,7 +154,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
-        var headerRowItems = cut.FindAll(".header-row-item", true);
+        var headerRowItems = cut.FindAll(".header-cell", true);
         var selectedItem = headerRowItems.ElementAt(selectedIndex);
 
         //Act
@@ -179,7 +179,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
-        var headerRowItems = cut.FindAll(".header-row-item", true);
+        var headerRowItems = cut.FindAll(".header-cell", true);
         var selectedItem = headerRowItems.ElementAt(selectedIndex);
 
         //Act
@@ -206,9 +206,9 @@ public class TableHeaderComponentTests : TestContext
 
 
         //Act
-        cut.FindAll(".header-row-item").ElementAt(selectedIndex).Click();
-        cut.FindAll(".header-row-item").ElementAt(selectedIndex).Click();
-        var selectedItem = cut.FindAll(".header-row-item").ElementAt(selectedIndex);
+        cut.FindAll(".header-cell").ElementAt(selectedIndex).Click();
+        cut.FindAll(".header-cell").ElementAt(selectedIndex).Click();
+        var selectedItem = cut.FindAll(".header-cell").ElementAt(selectedIndex);
         var containsDescendingClass = selectedItem.ClassList.Contains("descending");
 
         //Assert

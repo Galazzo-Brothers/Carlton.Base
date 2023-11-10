@@ -65,7 +65,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true));
 
-        var headerRowItems = cut.FindAll(".header-row-item");
+        var headerRowItems = cut.FindAll(".header-cell");
         var actualCount = headerRowItems.Count;
         var actualHeaders = cut.FindAll(".heading-text").Select(_ => _.TextContent);
 
@@ -91,7 +91,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, true));
 
-        var headerRowItems = cut.FindAll(".header-row-item");
+        var headerRowItems = cut.FindAll(".header-cell");
 
         //Act
         headerRowItems.ElementAt(columnIndex).Click();
@@ -117,9 +117,9 @@ public class TableComponentTests : TestContext
             .Add(p => p.ShowPaginationRow, true));
 
         //Act
-        var itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
+        var itemToClick = cut.FindAll(".header-cell").ElementAt(columnIndex);
         itemToClick.Click();
-        itemToClick = cut.FindAll(".header-row-item").ElementAt(columnIndex);
+        itemToClick = cut.FindAll(".header-cell").ElementAt(columnIndex);
         itemToClick.Click();
 
         //Assert
@@ -144,7 +144,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, showPaginationRow));
 
-        var headerRowItems = cut.FindAll(".header-row-item", true);
+        var headerRowItems = cut.FindAll(".header-cell", true);
         var selectedItem = headerRowItems.ElementAt(selectedIndex);
 
         //Act
@@ -175,7 +175,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
             .Add(p => p.ShowPaginationRow, showPaginationRow));
 
-        var headerRowItems = cut.FindAll(".header-row-item", true);
+        var headerRowItems = cut.FindAll(".header-cell", true);
         var selectedItem = headerRowItems.ElementAt(selectedIndex);
 
         //Act
@@ -208,9 +208,9 @@ public class TableComponentTests : TestContext
 
 
         //Act
-        cut.FindAll(".header-row-item").ElementAt(selectedIndex).Click();
-        cut.FindAll(".header-row-item").ElementAt(selectedIndex).Click();
-        var selectedItem = cut.FindAll(".header-row-item").ElementAt(selectedIndex);
+        cut.FindAll(".header-cell").ElementAt(selectedIndex).Click();
+        cut.FindAll(".header-cell").ElementAt(selectedIndex).Click();
+        var selectedItem = cut.FindAll(".header-cell").ElementAt(selectedIndex);
         var containsDescendingClass = selectedItem.ClassList.Contains("descending");
 
 
@@ -244,7 +244,7 @@ public class TableComponentTests : TestContext
             expectedDisplayValues.Add(item.DisplayName);
             expectedDisplayValues.Add(item.CreatedDate.ToString("d", CultureInfo.InvariantCulture));
         });
-        var actualDisplayValues = cut.FindAll(".item-row span").Select(_ => _.TextContent);
+        var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
 
         //Assert
         Assert.Equal(expectedItemCount, actualItemCount);
