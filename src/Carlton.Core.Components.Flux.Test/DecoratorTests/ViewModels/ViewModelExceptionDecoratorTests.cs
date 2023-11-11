@@ -12,13 +12,12 @@ public class ViewModelExceptionDecoratorTests
 {
     private readonly IFixture _fixture;
     private readonly Mock<IViewModelQueryDispatcher<TestState>> _decorated;
-    private readonly Mock<ILogger<ViewModelExceptionDecorator<TestState>>> _logger;
 
     public ViewModelExceptionDecoratorTests()
     {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _decorated = _fixture.Freeze<Mock<IViewModelQueryDispatcher<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<ViewModelExceptionDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<ViewModelExceptionDecorator<TestState>>>>();
     }
 
     [Theory, AutoData]

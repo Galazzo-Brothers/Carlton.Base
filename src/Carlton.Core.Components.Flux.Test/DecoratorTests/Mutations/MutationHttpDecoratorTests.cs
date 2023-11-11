@@ -14,7 +14,6 @@ public class MutationHttpDecoratorTests
     private readonly IFixture _fixture;
     private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated;
     private readonly Mock<IMutableFluxState<TestState>> _state;
-    private readonly Mock<ILogger<MutationHttpDecorator<TestState>>> _logger;
     private readonly MockHttpHandler mockHttp = new();
 
     public MutationHttpDecoratorTests()
@@ -22,7 +21,7 @@ public class MutationHttpDecoratorTests
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _decorated = _fixture.Freeze<Mock<IMutationCommandDispatcher<TestState>>>();
         _state = _fixture.Freeze<Mock<IMutableFluxState<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<MutationHttpDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<MutationHttpDecorator<TestState>>>>();
         _fixture.Register(() => new HttpClient(mockHttp));
         _state.Setup(_ => _.State).Returns(new TestState());
     }

@@ -14,14 +14,13 @@ public class ViewModelValidationDecoratorTests
     private readonly IFixture _fixture;
     private readonly Mock<IServiceProvider> _mockServiceProvider;
     private readonly Mock<IViewModelQueryDispatcher<TestState>> _decorated;
-    private readonly Mock<ILogger<ViewModelValidationDecorator<TestState>>> _logger = new();
 
     public ViewModelValidationDecoratorTests()
     {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _mockServiceProvider = _fixture.Freeze<Mock<IServiceProvider>>(); 
         _decorated = _fixture.Freeze<Mock<IViewModelQueryDispatcher<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<ViewModelValidationDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<ViewModelValidationDecorator<TestState>>>>();
     }
 
     [Theory, AutoData]

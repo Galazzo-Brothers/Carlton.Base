@@ -7,6 +7,6 @@ internal static class Extensions
     public static TComand Cast<TComand>(this MutationCommand command)
         where TComand : MutationCommand
     {
-        return command as TComand;
+        return (TComand)command;
     }
 }
