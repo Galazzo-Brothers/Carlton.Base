@@ -7,7 +7,7 @@ namespace Carlton.Core.Components.Lab.Test.Mocks;
 public class DummyComponent : ComponentBase
 {
     [Parameter]
-    public string TestText { get; set; }
+    public string TestText { get; set; } = string.Empty;
 
     [Parameter]
     public EventCallback TestCallback { get; set; }

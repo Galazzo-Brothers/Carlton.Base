@@ -31,7 +31,7 @@ public static partial class Log
     [LoggerMessage(
         EventId = LogEvents.ViewModel_JsInterop_Error,
         Level = LogLevel.Error,
-        Message = "An error occurred during JSInterop refresh for ViewModel of type {Type}, Error Details: {ex}.")]
+        Message = "An error occurred during JSInterop refresh for ViewModel of type {Type}.")]
     public static partial void ViewModelJsInteropRefreshError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
@@ -55,13 +55,13 @@ public static partial class Log
     [LoggerMessage(
        EventId = LogEvents.ViewModel_HTTP_URL_Error,
        Level = LogLevel.Error,
-       Message = "An error occurred during the creation of an Http Refresh URL for ViewModel of type {Type}, Error Details: {ex}.")]
+       Message = "An error occurred during the creation of an Http Refresh URL for ViewModel of type {Type}.")]
     public static partial void ViewModelHttpUrlError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
         EventId = LogEvents.ViewModel_HTTP_Error,
         Level = LogLevel.Error,
-        Message = "An error occurred during the Http refresh for ViewModel of type {Type}, Error Details: {ex}.")]
+        Message = "An error occurred during the Http refresh for ViewModel of type {Type}.")]
     public static partial void ViewModelHttpRefreshError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
@@ -97,18 +97,18 @@ public static partial class Log
     [LoggerMessage(
         EventId = LogEvents.ViewModel_JSON_Error,
         Level = LogLevel.Error,
-        Message = "An error occurred parsing, serializing or de-serializing JSON for ViewModel of type {Type}, Error Details: {ex}.")]
+        Message = "An error occurred parsing, serializing or de-serializing JSON for ViewModel of type {Type}.")]
     public static partial void ViewModelJsonError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
       EventId = LogEvents.ViewModel_Validation_Error,
       Level = LogLevel.Error,
-      Message = "An error occurred validating ViewModel of type {Type}, Error Details: {ex}.")]
+      Message = "An error occurred validating ViewModel of type {Type}.")]
     public static partial void ViewModelValidationError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
          EventId = LogEvents.ViewModel_Unhandled_Error,
          Level = LogLevel.Error,
-         Message = "An unhandled error occurred while processing a query for  ViewModel of type {Type}, Error Details: {ex}.")]
+         Message = "An unhandled error occurred while processing a query for  ViewModel of type {Type}.")]
     public static partial void ViewModelUnhandledError(ILogger logger, Exception ex, string type);
 }

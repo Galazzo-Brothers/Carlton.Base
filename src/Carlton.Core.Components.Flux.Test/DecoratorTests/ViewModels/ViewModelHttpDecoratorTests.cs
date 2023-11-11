@@ -14,7 +14,6 @@ public class ViewModelHttpDecoratorTests
     private readonly IFixture _fixture;
     private readonly Mock<IViewModelQueryDispatcher<TestState>> _decorated;
     private readonly Mock<IMutableFluxState<TestState>> _fluxState;
-    private readonly Mock<ILogger<ViewModelHttpDecorator<TestState>>> _logger;
     private readonly MockHttpHandler mockHttp = new();
 
     public ViewModelHttpDecoratorTests()
@@ -22,7 +21,7 @@ public class ViewModelHttpDecoratorTests
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _decorated = _fixture.Freeze<Mock<IViewModelQueryDispatcher<TestState>>>();
         _fluxState = _fixture.Freeze<Mock<IMutableFluxState<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<ViewModelHttpDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<ViewModelHttpDecorator<TestState>>>>();
         _fixture.Register(() => new HttpClient(mockHttp));
         _fluxState.Setup(_ => _.State).Returns(new TestState { ClientID = 50, UserID = 107 });
     }

@@ -17,7 +17,7 @@ public record TestCommand3([property: HttpResponseProperty("ServerName")] string
 public record TestCommand4([property: HttpResponseProperty("ServerNameXXX")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description) : MutationCommand;
 
 [HttpResponseType<string>]
-public record TestCommand5([property: HttpResponseProperty("ServerNameXXX")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description, Type willNotSerialize) : MutationCommand;
+public record TestCommand5([property: HttpResponseProperty("ServerNameXXX")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description, Type WillNotSerialize) : MutationCommand;
 
 public record MockServerResponse(string ServerName, string ServerDescription);
 
