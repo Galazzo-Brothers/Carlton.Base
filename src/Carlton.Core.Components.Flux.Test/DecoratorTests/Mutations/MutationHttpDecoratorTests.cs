@@ -1,5 +1,4 @@
 ﻿using AutoFixture.AutoMoq;
-using Carlton.Core.Components.Flux.Attributes;
 using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.Decorators.Mutations;
 using Carlton.Core.Components.Flux.Models;
@@ -28,15 +27,12 @@ public class MutationHttpDecoratorTests
         _state.Setup(_ => _.State).Returns(new TestState());
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndHttpRefreshCalled<TCommand>(TCommand command)
-        where TCommand : MutationCommand
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndHttpRefreshCalled(MutationCommand command)
     {
         //Arrange
         var sender = new HttpRefreshCaller();
-        var sut =  _fixture.Create<MutationHttpDecorator<TestState>>();
-
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
         mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, command);
 
         //Act 
@@ -47,10 +43,8 @@ public class MutationHttpDecoratorTests
         _decorated.VerifyDispatchCalled(command);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndHttpRefreshWithComponentParametersCalled<TCommand>(TCommand command)
-      where TCommand : MutationCommand
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndHttpRefreshWithComponentParametersCalled(MutationCommand command)
     {
         //Arrange
         var sender = new HttpRefreshWithComponentParametersCaller();
@@ -65,10 +59,8 @@ public class MutationHttpDecoratorTests
         _decorated.VerifyDispatchCalled(command);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndHttpRefreshWithStateParametersCalled<TCommand>(TCommand command)
-      where TCommand : MutationCommand
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndHttpRefreshWithStateParametersCalled(MutationCommand command)
     {
         //Arrange
         var sender = new HttpRefreshWithStateParametersCaller();
@@ -92,7 +84,6 @@ public class MutationHttpDecoratorTests
         var initialCommand = command with { };
         var serverResponse = _fixture.Create<MockServerResponse>();
         var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
-
         mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
 
         //Act 
@@ -111,7 +102,6 @@ public class MutationHttpDecoratorTests
         var initialCommand = command with { };
         var serverResponse = _fixture.Create<MockServerResponse>();
         var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
-
         mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
 
         //Act 
@@ -121,88 +111,6 @@ public class MutationHttpDecoratorTests
         Assert.NotEqual(initialCommand, command);
         Assert.Equal(serverResponse.ServerName, command.Name);
         Assert.Equal(serverResponse.ServerDescription, command.Description);
-    }
-
-    [Fact]
-    public async Task Dispatch_UpdateCommandWithInvalidJsonParse_ShouldThrowArgumentException()
-    {
-        //Arrange
-        var caller = new HttpRefreshCaller();
-        var command = _fixture.Create<TestCommand3>();
-        var initialCommand = command with { };
-        var serverResponse = _fixture.Create<MockServerResponse>();
-        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
-        var expected = "HttpResponseTypeAttribute";
-
-        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
-
-        //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
-
-        //Assert
-        Assert.Equal(expected, ex.ParamName);
-    }
-
-    [Fact]
-    public async Task Dispatch_UpdateCommandWithInvalidHttpUrl_ShouldThrowArgumentException()
-    {
-        //Arrange
-        var expectedMessage = "The HTTP refresh endpoint is invalid (Parameter 'HttpRefreshAttribute')";
-        var caller = new HttpRefreshWithInvalidHttpUrlCaller();
-        var command = _fixture.Create<TestCommand3>();
-        var initialCommand = command with { };
-        var serverResponse = _fixture.Create<MockServerResponse>();
-        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
-
-        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
-
-        //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
-
-        //Assert
-        Assert.Equal(nameof(HttpRefreshAttribute), ex.ParamName);
-        Assert.Equal(expectedMessage, ex.Message);
-    }
-
-    [Fact]
-    public async Task Dispatch_UpdateCommandWithInvalidHttpParameter_ShouldThrowArgumentException()
-    {
-        //Arrange
-        var expectedMessage = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: {ClientID}, {UserID} (Parameter 'HttpRefreshParameterAttribute')";
-        var caller = new HttpRefreshWithInvalidParametersCaller();
-        var command = _fixture.Create<TestCommand1>();
-        var initialCommand = command with { };
-        var serverResponse = _fixture.Create<MockServerResponse>();
-        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
-
-        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
-
-        //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
-
-        //Assert
-        Assert.Equal(nameof(HttpRefreshParameterAttribute), ex.ParamName);
-        Assert.Equal(expectedMessage, ex.Message);
-    }
-
-    [Fact]
-    public async Task Dispatch_UpdateCommandWithInvalidHttpResponseProperty_ShouldThrowArgumentException()
-    {
-        //Arrange
-        var expectedMessage = "An error occurred updating the command with the server response (Parameter 'HttpResponsePropertyAttribute')";
-        var caller = new HttpRefreshCaller();
-        var command = _fixture.Create<TestCommand4>();
-        var serverResponse = _fixture.Create<MockServerResponse>();
-        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
-
-        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
-
-        //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
-
-        //Assert
-        Assert.Equal(nameof(HttpResponsePropertyAttribute), ex.ParamName);
-        Assert.Equal(expectedMessage, ex.Message);
     }
 
     [Fact]
@@ -235,6 +143,100 @@ public class MutationHttpDecoratorTests
         //Assert
         Assert.False(mockHttp.InvokedRequests.Any());
         _decorated.VerifyDispatchCalled(command);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithJsonParseError_ShouldThrowMutationCommandException()
+    {
+        //Arrange
+        var caller = new HttpRefreshCaller();
+        var command = _fixture.Create<TestCommand5>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand5>>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.Mutation_HTTP_JSON_Error, ex.EventID);
+        Assert.Equal(LogEvents.Mutation_HTTP_JSON_ErrorMsg, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidHttpUrl_ShouldThrowMutationCommandException()
+    {
+        //Arrange
+        var caller = new HttpRefreshWithInvalidHttpUrlCaller();
+        var command = _fixture.Create<TestCommand3>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand3>>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.Mutation_HTTP_URL_Error, ex.EventID);
+        Assert.Equal(LogEvents.Mutation_HTTP_URL_ErrorMsg, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidHttpParameter_ShouldThrowMutationCommandException()
+    {
+        //Arrange
+        var caller = new HttpRefreshWithInvalidParametersCaller();
+        var command = _fixture.Create<TestCommand1>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand1>>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.Mutation_HTTP_URL_Error, ex.EventID);
+        Assert.Equal(LogEvents.Mutation_HTTP_URL_ErrorMsg, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithInvalidHttpResponseProperty_ShouldThrowMutationCommandException()
+    {
+        //Arrange
+        var caller = new HttpRefreshCaller();
+        var command = _fixture.Create<TestCommand4>();
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 200, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand4>>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.Mutation_HTTP_Response_Update_Error, ex.EventID);
+        Assert.Equal(LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, ex.Message); ;
+    }
+
+    [Fact]
+    public async Task Dispatch_UpdateCommandWithHttpError_ShouldThrowMutationCommandException()
+    {
+        //Arrange
+        var caller = new HttpRefreshCaller();
+        var command = _fixture.Create<TestCommand3>();
+        var initialCommand = command with { };
+        var serverResponse = _fixture.Create<MockServerResponse>();
+        var sut = _fixture.Create<MutationHttpDecorator<TestState>>();
+        mockHttp.SetupMockHttpHandler("POST", "http://test.carlton.com/", 500, command, serverResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand3>>(async () => await sut.Dispatch(caller, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.Mutation_HTTP_Error, ex.EventID);
+        Assert.Equal(LogEvents.Mutation_HTTP_ErrorMsg, ex.Message);
     }
 }
 

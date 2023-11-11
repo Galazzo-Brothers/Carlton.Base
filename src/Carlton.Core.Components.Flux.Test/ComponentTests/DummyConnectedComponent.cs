@@ -8,7 +8,7 @@ namespace Carlton.Core.Components.Flux.Test.ComponentTests;
 [ObserveStateEvents("TestEvent")]
 [ObserveStateEvents("TestEvent2")]
 [ObserveStateEvents("TestEvent3")]
-public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel1>
+public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

@@ -25,7 +25,7 @@ public static partial class Log
     [LoggerMessage(
      EventId = LogEvents.Mutation_Validation_Error,
      Level = LogLevel.Error,
-     Message = "An error occured while validating mutation command of {Type}, Error Details: {ex}.")]
+     Message = "An error occurred while validating mutation command of {Type}, Error Details: {ex}.")]
     public static partial void MutationValidationError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
@@ -49,7 +49,7 @@ public static partial class Log
     [LoggerMessage(
         EventId = LogEvents.Mutation_JSInterop_Error,
         Level = LogLevel.Error,
-        Message = "An error occured during JSInterop Interception for mutation command of {Type}, Error Details: {ex}.")]
+        Message = "An error occurred during JSInterop Interception for mutation command of {Type}, Error Details: {ex}.")]
     public static partial void MutationJSInteropInterceptionError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
@@ -75,6 +75,12 @@ public static partial class Log
         Level = LogLevel.Error,
         Message = "An error occurred while constructing the Http interception URL for the mutation command of {type}, Error Details: {ex},")]
     public static partial void MutationHttpUrlError(ILogger logger, Exception ex, string type);
+
+    [LoggerMessage(
+     EventId = LogEvents.Mutation_HTTP_JSON_Error,
+     Level = LogLevel.Error,
+     Message = "An error occurred during the serialization phase of the Http interception for the mutation command of {type}, Error Details: {ex}.")]
+    public static partial void MutationHttpInterceptionJsonParseError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_HTTP_Error,
@@ -103,7 +109,7 @@ public static partial class Log
     [LoggerMessage(
       EventId = LogEvents.Mutation_Apply_Error,
       Level = LogLevel.Error,
-      Message = "An error occured while mutating the state store with mutation command of type {Type}, rolling back state store to it's previous state. Error Details: {ex}.")]
+      Message = "An error occurred while mutating the state store with mutation command of type {Type}, rolling back state store to it's previous state. Error Details: {ex}.")]
     public static partial void MutationApplyError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
@@ -113,9 +119,21 @@ public static partial class Log
     public static partial void MutationCompleted(ILogger logger, string type);
 
     [LoggerMessage(
-    EventId = LogEvents.Mutation_JSON_Error,
-    Level = LogLevel.Error,
-    Message = "An error occurred parsing, serializing or de-serializing JSON for muration command of type {Type}, Error Details: {ex}.")]
+       EventId = LogEvents.Mutation_LocalStorage_Started,
+       Level = LogLevel.Information,
+       Message = "Started updating local storage for mutation command of type {Type}.")]
+    public static partial void MutationLocalStorageStarted(ILogger logger, string type);
+
+    [LoggerMessage(
+        EventId = LogEvents.Mutation_LocalStorage_Completed,
+        Level = LogLevel.Information,
+        Message = "Completed updating local storage mutation command of type {Type}.")]
+    public static partial void MutationLocalStorageCompleted(ILogger logger, string type);
+
+    [LoggerMessage(
+        EventId = LogEvents.Mutation_LocalStorage_JSON_Error,
+        Level = LogLevel.Error,
+        Message = "An error occurred serializing mutation command of type {Type} for local storage, Error Details: {ex}.")]
     public static partial void MutationJsonError(ILogger logger, Exception ex, string type);
 
     [LoggerMessage(

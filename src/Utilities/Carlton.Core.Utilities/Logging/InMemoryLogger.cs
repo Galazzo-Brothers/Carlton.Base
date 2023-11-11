@@ -57,6 +57,13 @@ public class InMemoryLogger : ILogger
         while (logMessages.TryDequeue(out _)) { }
     }
 
+    public void ClearAllButMostRecent(int keepCount)
+    {
+        while (logMessages.Count > keepCount)
+            logMessages.TryDequeue(out _);   
+    }
+
+
     internal string GetCurrentScopes()
     {
         lock (scopeLock)

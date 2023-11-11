@@ -16,18 +16,16 @@ public class MutationCommandDispatcherTests
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_AssertHandlerCalled<TCommand>(TCommand command)
-        where TCommand : MutationCommand
+    [Theory, AutoData]
+    public async Task Dispatch_AssertHandlerCalled(MutationCommand command)
     {
         //Arrange
         var serviceProvider = _fixture.Freeze<Mock<IServiceProvider>>();
-        var handler = _fixture.Freeze<Mock<IMutationCommandHandler<TestState, TCommand>>>();
+        var handler = _fixture.Freeze<Mock<IMutationCommandHandler<TestState, MutationCommand>>>();
         var sender = _fixture.Create<object>();
         var sut = _fixture.Create<MutationCommandDispatcher<TestState>>();
 
-        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState, TCommand>>(handler.Object);
+        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState, MutationCommand>>(handler.Object);
         handler.SetupHandler();
       
 

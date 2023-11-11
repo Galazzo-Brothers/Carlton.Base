@@ -15,15 +15,14 @@ public class ViewModelExceptionDecoratorTests
     private readonly Mock<ILogger<ViewModelExceptionDecorator<TestState>>> _logger;
 
     public ViewModelExceptionDecoratorTests()
-    { 
+    {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _decorated = _fixture.Freeze<Mock<IViewModelQueryDispatcher<TestState>>>();
         _logger = _fixture.Freeze<Mock<ILogger<ViewModelExceptionDecorator<TestState>>>>();
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchCalled_AssertViewModels<TViewModel>(TViewModel expectedResult)
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchCalled_AssertViewModels(TestViewModel expectedResult)
     {
         //Arrange
         var sender = new JsRefreshCaller();
@@ -33,28 +32,27 @@ public class ViewModelExceptionDecoratorTests
         _decorated.SetupDispatcher(expectedResult);
 
         //Act 
-        var actualResult = await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        var actualResult = await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
-        _decorated.VerifyDispatch<TViewModel>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         Assert.Equal(expectedResult, actualResult);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelExceptionData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_ThrowsException<TException>(TException ex, string expectedMessage)
-        where TException : Exception
+    [Fact]
+    public async Task Dispatch_Errors_ThrowsViewModelFluxException()
     {
         //Arrange
         var sender = new object();
-        _decorated.Setup(_ => _.Dispatch<TestViewModel1>(It.IsAny<object>(), It.IsAny<ViewModelQuery>(), CancellationToken.None)).ThrowsAsync(ex);
+        _decorated.SetupDispatcherException<TestViewModel, Exception>(new Exception());
         var query = new ViewModelQuery();
         var sut = _fixture.Create<ViewModelExceptionDecorator<TestState>>();
 
         //Act
-        var thrownEx = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel1>>(async () => await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None));
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
 
         //Assert
-        Assert.Equivalent(expectedMessage, thrownEx.Message);
+        Assert.Equal(LogEvents.ViewModel_Unhandled_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_Unhandled_ErrorMsg, ex.Message);
     }
 }

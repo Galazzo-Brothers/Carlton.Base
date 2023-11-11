@@ -16,22 +16,20 @@ public class ViewModelQueryDispatcherTests
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_AssertHandlerCalled_AssertViewModelResponse<TViewModel>(TViewModel expectedViewModel)
+    [Theory, AutoData]
+    public async Task Dispatch_AssertHandlerCalled_AssertViewModelResponse(TestViewModel expectedViewModel)
     {
         //Arrange
         var provider = _fixture.Freeze<Mock<IServiceProvider>>();
-        var handler = _fixture.Freeze<Mock<IViewModelQueryHandler<TestState, TViewModel>>>();
+        var handler = _fixture.Freeze<Mock<IViewModelQueryHandler<TestState, TestViewModel>>>();
         var sender = _fixture.Create<object>();
         var query = _fixture.Create<ViewModelQuery>();
         var sut = _fixture.Create<ViewModelQueryDispatcher<TestState>>();
-
-        provider.SetupServiceProvider<IViewModelQueryHandler<TestState, TViewModel>>(handler.Object);
+        provider.SetupServiceProvider<IViewModelQueryHandler<TestState, TestViewModel>>(handler.Object);
         handler.SetupHandler(expectedViewModel);
 
         //Act
-        var result = await sut.Dispatch<TViewModel>(sender,query, CancellationToken.None);
+        var result = await sut.Dispatch<TestViewModel>(sender,query, CancellationToken.None);
 
         //Assert
         handler.VerifyHandler();

@@ -9,14 +9,14 @@ namespace Carlton.Core.Components.Library.Tests;
 public class TableComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test")]
-    [InlineAutoData(10, 2, RowTemplate, 5, false)]
-    [InlineAutoData(5, 7, RowTemplate, 3, false)]
-    [InlineAutoData(3, 1, RowTemplate, 3, true)]
-    [InlineAutoData(10, 3, RowTemplate, 4, true)]
-    [InlineAutoData(10, 2, RowTemplate2, 5, false)]
-    [InlineAutoData(5, 7, RowTemplate2, 3, false)]
-    [InlineAutoData(3, 1, RowTemplate2, 3, true)]
-    [InlineAutoData(10, 3, RowTemplate2, 4, true)]
+    [InlineData(10, 2, RowTemplate, 5, false)]
+    [InlineData(5, 7, RowTemplate, 3, false)]
+    [InlineData(3, 1, RowTemplate, 3, true)]
+    [InlineData(10, 3, RowTemplate, 4, true)]
+    [InlineData(10, 2, RowTemplate2, 5, false)]
+    [InlineData(5, 7, RowTemplate2, 3, false)]
+    [InlineData(3, 1, RowTemplate2, 3, true)]
+    [InlineData(10, 3, RowTemplate2, 4, true)]
     public void Table_Markup_RendersCorrectly(
         int numOfColumns,
         int numOfRows,

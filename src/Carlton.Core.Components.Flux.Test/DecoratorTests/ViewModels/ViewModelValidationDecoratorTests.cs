@@ -24,25 +24,43 @@ public class ViewModelValidationDecoratorTests
         _logger = _fixture.Freeze<Mock<ILogger<ViewModelValidationDecorator<TestState>>>>();
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndValidatorCalled_AssertViewModels<TViewModel>(TViewModel expectedResult)
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndValidatorCalled_AssertViewModels(TestViewModel expectedResult)
     {
         //Arrange
         var sender = new object();
         var query = new ViewModelQuery();
-        var validator = _fixture.Create<Mock<IValidator<TViewModel>>>();
+        var validator = _fixture.Create<Mock<IValidator<TestViewModel>>>();
         var sut = _fixture.Create<ViewModelValidationDecorator<TestState>>();
-
-        _mockServiceProvider.Setup(_ => _.GetService(typeof(IValidator<TViewModel>))).Returns(validator.Object);
+        _mockServiceProvider.Setup(_ => _.GetService(typeof(IValidator<TestViewModel>))).Returns(validator.Object);
         _decorated.SetupDispatcher(expectedResult);
 
         //Act 
-        var actualResult = await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        var actualResult = await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         validator.VerifyValidator();
-        _decorated.VerifyDispatch<TViewModel>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         Assert.Equal(expectedResult, actualResult);
+    }
+
+    [Fact]
+    public async Task Dispatch_ValidationFailure_ShouldThrowViewModelFluxException()
+    {
+        //Arrange
+        var sender = new object();
+        var query = new ViewModelQuery();
+        var validator = _fixture.Create<Mock<IValidator<TestViewModel>>>();
+        var sut = _fixture.Create<ViewModelValidationDecorator<TestState>>();
+        _mockServiceProvider.Setup(_ => _.GetService(typeof(IValidator<TestViewModel>))).Returns(validator.Object);
+        _decorated.SetupDispatcher(_fixture.Create<TestViewModel>());
+        validator.SetupValidationFailure();
+ 
+        //Act 
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.ViewModel_Validation_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_Validation_ErrorMsg, ex.Message);
     }
 }
