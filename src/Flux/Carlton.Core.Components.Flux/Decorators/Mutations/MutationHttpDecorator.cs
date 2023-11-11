@@ -1,5 +1,6 @@
 ﻿using Carlton.Core.Components.Flux.Attributes;
 using Carlton.Core.Components.Flux.Decorators.Base;
+using Carlton.Core.Components.Flux.Exceptions;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -17,39 +18,72 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
     public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
-        var attributes = sender.GetType().GetCustomAttributes();
-        var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
-        var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
-        var commandType = typeof(TCommand).GetDisplayName();
-
-        if (requiresRefresh)
+        try
         {
-            //Start the Http Interception
-            Log.MutationHttpInterceptionStarted(_logger, commandType);
+            var attributes = sender.GetType().GetCustomAttributes();
+            var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
+            var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
+            var commandType = typeof(TCommand).GetDisplayName();
 
-            //Construct Http Refresh URL
-            var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
+            if (requiresRefresh)
+            {
+                //Start the Http Interception
+                Log.MutationHttpInterceptionStarted(_logger, commandType);
 
-            //Send Request
-            var response = await SendRequest(httpRefreshAttribute.HttpVerb, serverUrl, command, cancellationToken);
-            response.EnsureSuccessStatusCode();
+                //Construct Http Refresh URL
+                var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
+                var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
 
-            //Parse the Server Response and Update the command
-            var json = await response.Content.ReadAsStringAsync(cancellationToken);
-            UpdateCommandWithServerResponse(command, json);
+                //Send Request
+                var response = await SendRequest(httpRefreshAttribute.HttpVerb, serverUrl, command, cancellationToken);
+                response.EnsureSuccessStatusCode();
 
-            //End the Http Interception
-            Log.MutationHttpInterceptionCompleted(_logger, commandType);
+                //Parse the Server Response and Update the command
+                var json = await response.Content.ReadAsStringAsync(cancellationToken);
+                UpdateCommandWithServerResponse(command, json);
+
+                //End the Http Interception
+                Log.MutationHttpInterceptionCompleted(_logger, commandType);
+            }
+            else
+            {
+                //Skip Http Interception
+                Log.MutationHttpInterceptionSkipped(_logger, commandType);
+            }
+
+            //Continue the Dispatch Pipeline
+            return await _decorated.Dispatch(sender, command, cancellationToken);
         }
-        else
+        catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
-            //Skip Http Interception
-            Log.MutationHttpInterceptionSkipped(_logger, commandType);
+            //URL Construction Errors
+            Log.MutationHttpUrlError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpUrlError(command, ex);
         }
-
-        //Continue the Dispatch Pipeline
-        return await _decorated.Dispatch(sender, command, cancellationToken);
+        catch (JsonException ex)
+        {
+            //Error Serializing JSON
+            Log.MutationJsonError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(command, ex);
+        }
+        catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
+        {
+            //Error Serializing JSON
+            Log.MutationJsonError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(command, ex);
+        }
+        catch (HttpRequestException ex)
+        {
+            //HTTP Operation Exceptions
+            Log.MutationHttpInterceptionError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpError(command, ex);
+        }
+        catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.ErrorUpdatingCommandFromServerResponseMsg))
+        {
+            //Response Update Errors
+            Log.MutationHttpResponseUpdateError(_logger, ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.HttpResponseUpdateError(command, ex);
+        }
     }
 
     protected async Task<HttpResponseMessage> SendRequest<TPayload>(HttpVerb httpVerb, string serverUrl, TPayload payload, CancellationToken cancellation)
@@ -104,13 +138,9 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
                 prop.SetValue(command, serverResponseValue);
             }
         }
-        catch(JsonException ex)
-        {
-            throw new ArgumentException("An error occurred updating the command with the server response", typeof(HttpResponseTypeAttribute<>).GetDisplayName(), ex);
-        }
         catch(Exception ex)
         {
-            throw new ArgumentException("An error occurred updating the command with the server response", nameof(HttpResponsePropertyAttribute), ex);
+            throw new InvalidOperationException($"{LogEvents.ErrorUpdatingCommandFromServerResponseMsg} {typeof(HttpResponseTypeAttribute<>).GetDisplayName()}", ex);
         }
     }
 }

@@ -17,7 +17,6 @@ public class ViewModelJsDecoratorTests
     private readonly Mock<IJSRuntime> _js;
     private readonly Mock<IJSObjectReference> _jsObject;
     private readonly Mock<IMutableFluxState<TestState>> _state;
-    private readonly Mock<ILogger<ViewModelJsDecorator<TestState>>> _logger;
 
     public ViewModelJsDecoratorTests()
     {
@@ -26,70 +25,83 @@ public class ViewModelJsDecoratorTests
         _js = _fixture.Freeze<Mock<IJSRuntime>>();
         _jsObject = _fixture.Freeze<Mock<IJSObjectReference>>();
         _state = _fixture.Freeze<Mock<IMutableFluxState<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<ViewModelJsDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<ViewModelJsDecorator<TestState>>>>();
         _js.SetupIJSRuntime("test_module", _jsObject.Object);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndJsModuleAndStateMutationCalled_And_AssertViewModels<TViewModel>(TViewModel expectedViewModel)
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndJsModuleAndStateMutationCalled_And_AssertViewModels(TestViewModel expectedViewModel)
     {
         //Arrange
         var sender = new JsRefreshCaller();
         var query = new ViewModelQuery();
         var attribute = sender.GetType().GetCustomAttribute<ViewModelJsInteropRefreshAttribute>();
         var sut = _fixture.Create<ViewModelJsDecorator<TestState>>();
-
         _decorated.SetupDispatcher(expectedViewModel);
         _jsObject.SetupIJSObjectReference(attribute.Function, attribute.Parameters, expectedViewModel);
 
         //Act 
-        var actualViewModel = await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        var actualViewModel = await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         _js.VerifyJSRuntime(1);
-        _decorated.VerifyDispatch<TViewModel>(query);
-        _jsObject.VerifyJSObjectReference<TViewModel>(attribute.Function, attribute.Parameters);
+        _decorated.VerifyDispatch<TestViewModel>(query);
+        _jsObject.VerifyJSObjectReference<TestViewModel>(attribute.Function, attribute.Parameters);
         _state.VerifyStateMutation(expectedViewModel, 1);
         Assert.Equal(expectedViewModel, actualViewModel);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetJsCallersData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_JsObjectCalled(object jsCaller)
+    [Theory, AutoData]
+    public async Task Dispatch_JsObjectCalled(JsRefreshCaller jsCaller)
     {
         //Arrange
-        var expectedViewModel = _fixture.Create<TestViewModel1>();
+        var expectedViewModel = _fixture.Create<TestViewModel>();
         var attribute = jsCaller.GetType().GetCustomAttribute<ViewModelJsInteropRefreshAttribute>();
         var query = new ViewModelQuery();
         var sut = _fixture.Create<ViewModelJsDecorator<TestState>>();
-
         _decorated.SetupDispatcher(expectedViewModel);
         _jsObject.SetupIJSObjectReference(attribute.Function, attribute.Parameters, expectedViewModel);
 
         //Act 
-        await sut.Dispatch<TestViewModel1>(jsCaller, query, CancellationToken.None);
+        await sut.Dispatch<TestViewModel>(jsCaller, query, CancellationToken.None);
 
         //Assert
-        _jsObject.VerifyJSObjectReference<TestViewModel1>(attribute.Function, attribute.Parameters);
+        _jsObject.VerifyJSObjectReference<TestViewModel>(attribute.Function, attribute.Parameters);
     }
 
     [Fact]
     public async Task Dispatch_JsModuleNotCalled()
     {
         //Arrange
-        var expectedViewModel = _fixture.Create<TestViewModel1>();
+        var expectedViewModel = _fixture.Create<TestViewModel>();
         var sender = new NoRefreshCaller();
         var query = new ViewModelQuery();
-        var sut = _fixture.Create<ViewModelJsDecorator<TestState>>();
-       
+        var sut = _fixture.Create<ViewModelJsDecorator<TestState>>();    
         _decorated.SetupDispatcher(expectedViewModel);
 
         //Act 
-        await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None);
+        await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         _js.VerifyJSRuntime(0);
-        _decorated.VerifyDispatch<TestViewModel1>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
+    }
+
+    [Fact]
+    public async Task Dispatch_Errored_ShouldThrowViewModelFluxException()
+    {
+        //Arrange
+        var expectedViewModel = _fixture.Create<TestViewModel>();
+        var sender = new JsRefreshCaller();
+        var query = new ViewModelQuery();
+        var sut = _fixture.Create<ViewModelJsDecorator<TestState>>();
+        _js.SetupIJSRuntimeException(new JSException("js error"));
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.ViewModel_JsInterop_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_JSInterop_ErrorMsg, ex.Message);
     }
 }

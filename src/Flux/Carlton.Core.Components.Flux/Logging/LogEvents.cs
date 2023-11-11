@@ -54,25 +54,34 @@ public static class LogEvents
     public const int Mutation_HttpCall_Skipped = 2008;
     public const int Mutation_Apply_Started = 2009;
     public const int Mutation_Apply_Completed = 2010;
+    public const int Mutation_LocalStorage_Started = 2011;
+    public const int Mutation_LocalStorage_Completed = 2012;
     public const int Mutation_Completed = 2100;
 
     //Mutation Errors
     public const int Mutation_Validation_Error = 2101;
     public const int Mutation_JSInterop_Error = 2102;
     public const int Mutation_HTTP_URL_Error = 2103;
-    public const int Mutation_HTTP_Error = 2104;
-    public const int Mutation_HTTP_Response_Update_Error = 2105;
-    public const int Mutation_Apply_Error = 2106;
-    public const int Mutation_JSON_Error = 2107;
+    public const int Mutation_HTTP_JSON_Error = 2104;
+    public const int Mutation_HTTP_Error = 2105;
+    public const int Mutation_HTTP_Response_Update_Error = 2106;
+    public const int Mutation_Apply_Error = 2107;
+    public const int Mutation_LocalStorage_JSON_Error = 2108;
     public const int Mutation_Unhandled_Error = 2050;
 
     //Mutation Error Messages
-    public const string Mutation_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a Mutation Command";
     public const string Mutation_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a Mutation Command";
     public const string Mutation_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a Mutation Command";
+    public const string Mutation_HTTP_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing a Mutation Command for an HTTP call";
     public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a Mutation Command";
     public const string Mutation_HTTP_Response_Update_ErrorMsg = "An error occurred while updating the command with values from the server response for a Mutation Command";
     public const string Mutation_Validation_ErrorMsg = "An error occurred during the validation of Mutation Command";
+    public const string Mutation_LocalStorage_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing a Mutation Command for saving to local storage";
     public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during a MutationCommand";
 
+    //Specific Http Errors
+    public const string InvalidRefreshUrlParametersMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ";
+    public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
+    public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
+    public const string ErrorUpdatingCommandFromServerResponseMsg = "An error occurred updating the command with the server response of type";
 }

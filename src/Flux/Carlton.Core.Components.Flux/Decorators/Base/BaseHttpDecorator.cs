@@ -36,7 +36,7 @@ public abstract partial class BaseHttpDecorator<TState>
             {
                 DataEndpointParameterType.StateStoreParameter => _fluxState.State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_fluxState.State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-                _ => throw new ArgumentException("Unexpected enum value", nameof(value))
+                _ => throw new InvalidOperationException(LogEvents.InvalidRefreshUrlCreationEnumValueMsg)
             };
             result = result.Replace("{" + attribute.Name + "}", value);
         }
@@ -48,7 +48,7 @@ public abstract partial class BaseHttpDecorator<TState>
     private static void VerifyUrlParameters(string url)
     {
         var isUrlWellFormed = Uri.IsWellFormedUriString(url, UriKind.Absolute);
-        var msgBuilder = new StringBuilder("The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ");
+        var msgBuilder = new StringBuilder(LogEvents.InvalidRefreshUrlParametersMsg);
 
         //Check for any unreplaced parameters
         var match = UrlParameterTokenRegex().Match(url);
@@ -61,7 +61,7 @@ public abstract partial class BaseHttpDecorator<TState>
 
         //If there are no unreplaced tokens throw an exception for HttpRefreshAttribute
         if (!unreplacedTokens)
-            throw new ArgumentException("The HTTP refresh endpoint is invalid", nameof(HttpRefreshAttribute));
+            throw new InvalidOperationException(LogEvents.InvalidRefreshUrlMsg);
 
         //If there are unreplaced tokens throw an exception for HttpRefreshParameterAttribute
         while (match.Success)
@@ -71,7 +71,7 @@ public abstract partial class BaseHttpDecorator<TState>
         }
 
         var exMessage = msgBuilder.ToString().TrimTrailingComma();
-        throw new ArgumentException(exMessage, nameof(HttpRefreshParameterAttribute));
+        throw new InvalidOperationException(exMessage);
     }
 
     [GeneratedRegex("\\{[^}]+\\}")]

@@ -10,6 +10,12 @@ public static class MockJSExtensions
                  .Returns(ValueTask.FromResult(result));
     }
 
+    public static void SetupIJSRuntimeException<TException>(this Mock<IJSRuntime> jsRuntime, TException exception)
+        where TException : Exception
+    {
+        jsRuntime.Setup(_ => _.InvokeAsync<IJSObjectReference>(It.IsAny<string>(), It.IsAny<object[]>()))
+                 .ThrowsAsync(exception);
+    }
     public static void SetupIJSObjectReference<TResult>(this Mock<IJSObjectReference> jsObject, string funcName, object[] parameters, TResult result)
     {
         jsObject.Setup(_ => _.InvokeAsync<TResult>(funcName, It.IsAny<CancellationToken>(), parameters)).Returns(ValueTask.FromResult(result));

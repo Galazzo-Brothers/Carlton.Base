@@ -15,14 +15,14 @@ public class ConnectedWrapperComponentTests : TestContext
     private readonly Mock<IViewModelQueryDispatcher<TestState>> _vmDispatcher = new();
     private readonly Mock<IMutationCommandDispatcher<TestState>> _mutationDispatcher = new();
     private readonly Mock<IFluxStateObserver<TestState>> _observer = new();
-    private readonly Mock<ILogger<ConnectedWrapper<TestViewModel1, TestState>>> _logger = new();
+    private readonly Mock<ILogger<ConnectedWrapper<TestViewModel, TestState>>> _logger = new();
 
 
     public ConnectedWrapperComponentTests() 
     {
         //Arrange
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
-        Services.AddSingleton<IConnectedComponent<TestViewModel1>>(new DummyConnectedComponent());
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
         Services.AddSingleton(_vmDispatcher.Object);
         Services.AddSingleton(_mutationDispatcher.Object);
         Services.AddSingleton(_observer.Object);
@@ -33,7 +33,7 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapperRendersCorrectly()
     {
         //Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         var expectedMarkup = @$"
 <div class=""vm-props"">
   <span class=""id"">{vm.ID}</span>
@@ -44,7 +44,7 @@ public class ConnectedWrapperComponentTests : TestContext
         _vmDispatcher.SetupDispatcher(vm);
 
         // Act
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        var cut = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
 
         // Assert
         cut.MarkupMatches(expectedMarkup);
@@ -54,14 +54,14 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapperInitializesCorrectly()
     {
         //Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
         // Act
-        _ = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        _ = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
 
         // Assert
-        _vmDispatcher.VerifyDispatcher<TestViewModel1>(1);
+        _vmDispatcher.VerifyDispatcher<TestViewModel>(1);
     }
 
 
@@ -69,10 +69,10 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapper_OnComponentEvent_CallsMutationDispatcher()
     {
         //Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        var cut = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
         var buttonElement = cut.Find("button");
 
         // Act
@@ -86,11 +86,11 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapper_ObservableStateEvents_InitializeCorrectly()
     {
         //Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
         // Act
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        var cut = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
 
         // Assert
         Assert.Collection(cut.Instance.ObserveableStateEvents,
@@ -104,44 +104,44 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapper_OnStateChangeTestEvent_CallsViewModelDispatcher()
     {
         // Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
         var times = 2; //Once for the component init and once again for the state change
 
         //Act
         _observer.Raise(_ => _.StateChanged += null, "TestEvent");
 
         // Assert
-        _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
+        _vmDispatcher.VerifyDispatcher<TestViewModel>(times);
     }
 
     [Theory, AutoData]
     public void ConnectedWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(string stateEventName)
     {
         // Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
         var times = 1; //One and only time for the component init
 
         //Act
         _observer.Raise(_ => _.StateChanged += null, stateEventName);
 
         // Assert
-        _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
+        _vmDispatcher.VerifyDispatcher<TestViewModel>(times);
     }
 
     [Fact]
     public void ConnectedWrapperDisposesCorrectly()
     {
         //Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
-        RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>();
+        RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
         var times = 1; //One and only time for the component init, event handler removed correctly during dispose
         DisposeComponents();
 
@@ -149,14 +149,14 @@ public class ConnectedWrapperComponentTests : TestContext
         _observer.Raise(_ => _.StateChanged += null, "TestEvent");
 
         // Assert
-        _vmDispatcher.VerifyDispatcher<TestViewModel1>(times);
+        _vmDispatcher.VerifyDispatcher<TestViewModel>(times);
     }
 
     [Fact]
     public void ConnectedWrapper_LoadingContent()
     {
         //Arrange
-        var vm = _fixture.Create<TestViewModel1>();
+        var vm = _fixture.Create<TestViewModel>();
         _vmDispatcher.SetupDispatcher(vm);
 
         var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
@@ -165,10 +165,10 @@ public class ConnectedWrapperComponentTests : TestContext
             builder.AddMarkupContent(0, spinnerMarkup);
         });
 
-        var propInfo = typeof(ConnectedWrapper<TestViewModel1, TestState>)
+        var propInfo = typeof(ConnectedWrapper<TestViewModel, TestState>)
             .GetProperty("IsLoading");
 
-        var cut = RenderComponent<ConnectedWrapper<TestViewModel1, TestState>>(parameters => parameters
+        var cut = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>(parameters => parameters
             .Add(p => p.SpinnerContent, renderFragment));
 
         //Act

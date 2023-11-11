@@ -3,8 +3,7 @@ using Carlton.Core.Components.Flux.Models;
 
 namespace Carlton.Core.Components.Flux.Test.Common;
 
-public record TestViewModel1(int ID, string Name, string Description);
-public record TestViewModel2(int ID, string SomeOtherProperty, int YetAnotherProperty);
+public record TestViewModel(int ID, string Name, string Description);
 
 [HttpResponseType<MockServerResponse>]
 public record TestCommand1([property: HttpResponseProperty("ServerName")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description) : MutationCommand;
@@ -17,6 +16,8 @@ public record TestCommand3([property: HttpResponseProperty("ServerName")] string
 [HttpResponseType<MockServerResponse>]
 public record TestCommand4([property: HttpResponseProperty("ServerNameXXX")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description) : MutationCommand;
 
+[HttpResponseType<string>]
+public record TestCommand5([property: HttpResponseProperty("ServerNameXXX")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description, Type willNotSerialize) : MutationCommand;
 
 public record MockServerResponse(string ServerName, string ServerDescription);
 
@@ -28,11 +29,6 @@ public class JsRefreshCaller
 
 }
 
-[ViewModelJsInteropRefresh("test_module", "test_function_2", "param2", 177, true)]
-public class JsRefreshCaller2
-{
-
-}
 
 [ViewModelHttpRefresh("http://test.carlton.com/")]
 [MutationHttpRefresh("http://test.carlton.com/")]

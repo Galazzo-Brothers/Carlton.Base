@@ -25,9 +25,14 @@ public class MutationCommandFluxException<TState, TCommand> : FluxException
         return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_Validation_Error, LogEvents.Mutation_Validation_ErrorMsg, command, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> JsonError(MutationCommand command, JsonException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpJsonError(MutationCommand command, JsonException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_JSON_Error, LogEvents.Mutation_JSON_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_JSON_Error, LogEvents.Mutation_HTTP_JSON_ErrorMsg, command, innerException);
+    }
+
+    public static MutationCommandFluxException<TState, TCommand> HttpJsonError(MutationCommand command, NotSupportedException innerException)
+    {
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_JSON_Error, LogEvents.Mutation_HTTP_JSON_ErrorMsg, command, innerException);
     }
 
     public static MutationCommandFluxException<TState, TCommand> HttpError(MutationCommand command, HttpRequestException innerException)
@@ -40,14 +45,24 @@ public class MutationCommandFluxException<TState, TCommand> : FluxException
         return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_JSInterop_Error, LogEvents.Mutation_JSInterop_ErrorMsg, command, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpUrlError(MutationCommand command, ArgumentException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpUrlError(MutationCommand command, InvalidOperationException innerException)
     {
         return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_URL_Error, LogEvents.Mutation_HTTP_URL_ErrorMsg, command, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpResponseUpdateError(MutationCommand command, ArgumentException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpResponseUpdateError(MutationCommand command, InvalidOperationException innerException)
     {
         return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_Response_Update_Error, LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, command, innerException);
+    }
+
+    public static MutationCommandFluxException<TState, TCommand> LocalStorageJsonError(MutationCommand command, JsonException innerException)
+    {
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_LocalStorage_JSON_Error, LogEvents.Mutation_LocalStorage_JSON_ErrorMsg, command, innerException);
+    }
+
+    public static MutationCommandFluxException<TState, TCommand> LocalStorageJsonError(MutationCommand command, NotSupportedException innerException)
+    {
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_LocalStorage_JSON_Error, LogEvents.Mutation_LocalStorage_JSON_ErrorMsg, command, innerException);
     }
 
     public override string ToString()

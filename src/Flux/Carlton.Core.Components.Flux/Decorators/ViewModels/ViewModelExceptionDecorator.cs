@@ -1,7 +1,4 @@
-﻿using Microsoft.JSInterop;
-using System.Text.Json;
-
-namespace Carlton.Core.Components.Flux.Decorators.Queries;
+﻿namespace Carlton.Core.Components.Flux.Decorators.Queries;
 
 public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TState>
 {
@@ -21,34 +18,14 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             Log.ViewModelCompleted(_logger, typeof(TViewModel).GetDisplayName());
             return result;
         }
-        catch(JsonException ex)
+        catch(ViewModelFluxException<TState, TViewModel>)
         {
-            Log.ViewModelJsonError(_logger, ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.JsonError(query, ex);
-        }
-        catch(HttpRequestException ex)
-        {
-            Log.ViewModelHttpRefreshError(_logger, ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.HttpError(query, ex);
-        }
-        catch(JSException ex)
-        {
-            Log.ViewModelJsInteropRefreshError(_logger, ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.JSInteropError(query, ex);
-        }
-        catch(ValidationException ex)
-        {
-            Log.ViewModelValidationError(_logger, ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.ValidationError(query, ex);
-        }
-        catch(ArgumentException ex) when (ex.ParamName == nameof(HttpRefreshAttribute) || ex.ParamName == nameof(HttpRefreshParameterAttribute)) 
-        {
-            //URL Construction Errors
-            Log.ViewModelHttpUrlError(_logger, ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(query, ex);
+            //Exception was already caught, logged and wrapped by other middleware decorators
+            throw;
         }
         catch (Exception ex)
         {
+            //Unhandled Exception
             Log.ViewModelUnhandledError(_logger, ex, typeof(TViewModel).GetDisplayName());
             throw new ViewModelFluxException<TState, TViewModel>(query, ex);
         }

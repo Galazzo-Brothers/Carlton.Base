@@ -15,26 +15,34 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
-        //Get RefreshPolicy Attribute
-        var attributes = sender.GetType().GetCustomAttributes();
-        var jsInteropAttribute = attributes.OfType<ViewModelJsInteropRefreshAttribute>().FirstOrDefault();
-        var requiresRefresh = jsInteropAttribute != null;
-        var vmType = typeof(TViewModel).GetDisplayName();
-
-        if(requiresRefresh)
+        try
         {
-            Log.ViewModelJsInteropRefreshStarted(_logger, vmType);
-            await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(Import, jsInteropAttribute.Module);
-            var result = await module.InvokeAsync<TViewModel>(jsInteropAttribute.Function, cancellationToken, jsInteropAttribute.Parameters);
-            await _fluxState.MutateState(result);
-            Log.ViewModelJsInteropRefreshCompleted(_logger, vmType);
-        }
-        else
-        {
-            Log.ViewModelJsInteropRefreshSkipped(_logger, vmType);
-        }
+            //Get RefreshPolicy Attribute
+            var attributes = sender.GetType().GetCustomAttributes();
+            var jsInteropAttribute = attributes.OfType<ViewModelJsInteropRefreshAttribute>().FirstOrDefault();
+            var requiresRefresh = jsInteropAttribute != null;
+            var vmType = typeof(TViewModel).GetDisplayName();
 
-        return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
+            if (requiresRefresh)
+            {
+                Log.ViewModelJsInteropRefreshStarted(_logger, vmType);
+                await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(Import, jsInteropAttribute.Module);
+                var result = await module.InvokeAsync<TViewModel>(jsInteropAttribute.Function, cancellationToken, jsInteropAttribute.Parameters);
+                await _fluxState.MutateState(result);
+                Log.ViewModelJsInteropRefreshCompleted(_logger, vmType);
+            }
+            else
+            {
+                Log.ViewModelJsInteropRefreshSkipped(_logger, vmType);
+            }
+
+            return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
+        }
+        catch (JSException ex)
+        {
+            Log.ViewModelJsInteropRefreshError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            throw ViewModelFluxException<TState, TViewModel>.JSInteropError(query, ex);
+        }
     }
 }
 

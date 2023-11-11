@@ -12,19 +12,16 @@ public class MutationExceptionDecoratorTests
 {
     private readonly IFixture _fixture;
     private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated;
-    private readonly Mock<ILogger<MutationExceptionDecorator<TestState>>> _logger;
-
+ 
     public MutationExceptionDecoratorTests()
     {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _decorated = _fixture.Freeze<Mock<IMutationCommandDispatcher<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<MutationExceptionDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<MutationExceptionDecorator<TestState>>>>();
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchCalled<TCommand>(TCommand command)
-        where TCommand : MutationCommand
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchCalled(MutationCommand command)
     {
         //Arrange
         var sender = new object();
@@ -37,21 +34,20 @@ public class MutationExceptionDecoratorTests
         _decorated.VerifyDispatchCalled(command);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetMutationExceptionData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_ThrowsException<TException>(TException ex, string expectedMessage)
-        where TException : Exception
+    [Fact]
+    public async Task Dispatch_ThrowsMutationCommandFluxExceptionException()
     {
         //Arrange
         var sender = new object();
         var command = _fixture.Create<TestCommand2>();
         var sut = _fixture.Create<MutationExceptionDecorator<TestState>>();
-        _decorated.SetupDispatcherException(ex);
+        _decorated.SetupDispatcherException(new Exception());
 
         //Act
-        var thrownEx = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await sut.Dispatch(sender, command, CancellationToken.None));
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await sut.Dispatch(sender, command, CancellationToken.None));
 
         //Assert
-        Assert.Equivalent(expectedMessage, thrownEx.Message);
+        Assert.Equal(LogEvents.Mutation_Unhandled_Error, ex.EventID);
+        Assert.Equal(LogEvents.Mutation_Unhandled_ErrorMsg, ex.Message);
     }
 }

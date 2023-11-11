@@ -34,12 +34,17 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JSON_Error, LogEvents.ViewModel_JSON_ErrorMsg, query, innerException);
     }
 
+    public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQuery query, NotSupportedException innerException)
+    {
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JSON_Error, LogEvents.ViewModel_JSON_ErrorMsg, query, innerException);
+    }
+
     public static ViewModelFluxException<TState, TViewModel> HttpError(ViewModelQuery query, HttpRequestException innerException)
     {
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_Error, LogEvents.ViewModel_HTTP_ErrorMsg, query, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> HttpUrlError(ViewModelQuery query, ArgumentException innerException)
+    public static ViewModelFluxException<TState, TViewModel> HttpUrlError(ViewModelQuery query, InvalidOperationException innerException)
     {
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_URL_Error, LogEvents.ViewModel_HTTP_URL_ErrorMsg, query, innerException);
     }

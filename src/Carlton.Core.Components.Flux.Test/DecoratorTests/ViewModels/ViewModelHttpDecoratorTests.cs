@@ -27,9 +27,8 @@ public class ViewModelHttpDecoratorTests
         _fluxState.Setup(_ => _.State).Returns(new TestState { ClientID = 50, UserID = 107 });
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndHttpRefreshAndMutateStateCalled<TViewModel>(TViewModel vm)
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndHttpRefreshAndMutateStateCalled(TestViewModel vm)
     {
         //Arrange
         var sender = new HttpRefreshCaller();
@@ -39,17 +38,16 @@ public class ViewModelHttpDecoratorTests
         mockHttp.SetupMockHttpHandler("GET", "http://test.carlton.com/", 200, vm);
 
         //Act 
-        await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
-        _decorated.VerifyDispatch<TViewModel>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         _fluxState.VerifyStateMutation(vm, 1);
         mockHttp.VerifyMockHttpHandler("GET", "http://test.carlton.com/");
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_WithComponentUrlParameters_DispatchAndHttpRefreshAndMutateStateCalled<TViewModel>(TViewModel vm)
+    [Theory, AutoData]
+    public async Task Dispatch_WithComponentUrlParameters_DispatchAndHttpRefreshAndMutateStateCalled(TestViewModel vm)
     {
         //Arrange
         var sender = new HttpRefreshWithComponentParametersCaller();
@@ -59,17 +57,16 @@ public class ViewModelHttpDecoratorTests
         mockHttp.SetupMockHttpHandler("GET", "http://test.carlton.com/clients/5/users/10", 200, vm);
 
         //Act 
-        await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
-        _decorated.VerifyDispatch<TViewModel>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         _fluxState.VerifyStateMutation(vm, 1);
         mockHttp.VerifyMockHttpHandler("GET", "http://test.carlton.com/clients/5/users/10");
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_WithStateUrlParameters_DispatchAndHttpRefreshAndMutateStateCalled<TViewModel>(TViewModel vm)
+    [Theory, AutoData]
+    public async Task Dispatch_WithStateUrlParameters_DispatchAndHttpRefreshAndMutateStateCalled(TestViewModel vm)
     {
         //Arrange
         var sender = new HttpRefreshWithStateParametersCaller();
@@ -79,46 +76,12 @@ public class ViewModelHttpDecoratorTests
         mockHttp.SetupMockHttpHandler("GET", $"http://test.carlton.com/clients/50/users/107", 200, vm);
 
         //Act 
-        await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
-        _decorated.VerifyDispatch<TViewModel>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         _fluxState.VerifyStateMutation(vm, 1);
         mockHttp.VerifyMockHttpHandler("GET", "http://test.carlton.com/clients/50/users/107");
-    }
-
-    [Fact]
-    public async Task Dispatch_WithInvalidHttpUrl_ThrowsInvalidArgumentException()
-    {
-        //Arrange
-        var expectedMessage = "The HTTP refresh endpoint is invalid (Parameter 'HttpRefreshAttribute')";
-        var sender = new HttpRefreshWithInvalidHttpUrlCaller();
-        var query = new ViewModelQuery();
-        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
-
-        //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None));
-
-        //Assert
-        Assert.Equal(expectedMessage, ex.Message);
-        Assert.Equal(nameof(HttpRefreshAttribute), ex.ParamName);
-    }
-
-    [Fact]
-    public async Task Dispatch_WithInvalidComponentUrlParameters_ThrowsInvalidArgumentException()
-    {
-        //Arrange
-        var expectedMessage = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: {ClientID}, {UserID} (Parameter 'HttpRefreshParameterAttribute')";
-        var sender = new HttpRefreshWithInvalidParametersCaller();
-        var query = new ViewModelQuery();
-        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
-
-        //Act 
-        var ex = await Assert.ThrowsAsync<ArgumentException>(async () => await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None));
-
-        //Assert
-        Assert.Equal(expectedMessage, ex.Message);
-        Assert.Equal(nameof(HttpRefreshParameterAttribute), ex.ParamName);
     }
 
     [Fact]
@@ -127,17 +90,17 @@ public class ViewModelHttpDecoratorTests
         //Arrange
         var sender = new NoRefreshCaller();
         var query = new ViewModelQuery();
-        var expextedResult = _fixture.Create<TestViewModel1>();
+        var expextedResult = _fixture.Create<TestViewModel>();
         var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
         _decorated.SetupDispatcher(expextedResult);
 
         //Act 
-        var actualResult = await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None);
+        var actualResult = await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         Assert.False(mockHttp.InvokedRequests.Any());
         Assert.Equal(expextedResult, actualResult);
-        _decorated.VerifyDispatch<TestViewModel1>(query);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         _fluxState.VerifyStateMutation(query, 0);
     }
 
@@ -147,23 +110,22 @@ public class ViewModelHttpDecoratorTests
         //Arrange
         var sender = new HttpNeverRefreshCaller();
         var query = new ViewModelQuery();
-        var expextedResult = _fixture.Create<TestViewModel1>();
+        var expectedResult = _fixture.Create<TestViewModel>();
         var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
-        _decorated.SetupDispatcher(expextedResult);
+        _decorated.SetupDispatcher(expectedResult);
 
         //Act 
-        var actualResult = await sut.Dispatch<TestViewModel1>(sender, query, CancellationToken.None);
+        var actualResult = await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         Assert.False(mockHttp.InvokedRequests.Any());
-        Assert.Equal(expextedResult, actualResult);
-        _decorated.VerifyDispatch<TestViewModel1>(query);
+        Assert.Equal(expectedResult, actualResult);
+        _decorated.VerifyDispatch<TestViewModel>(query);
         _fluxState.VerifyStateMutation(query, 0);
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetViewModelData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_AssertViewModels<TViewModel>(TViewModel expectedViewModel)
+    [Theory, AutoData]
+    public async Task Dispatch_AssertViewModels(TestViewModel expectedViewModel)
     {
         //Arrange
         mockHttp.SetupMockHttpHandler("GET", "http://test.carlton.com/", 200, expectedViewModel);
@@ -173,10 +135,78 @@ public class ViewModelHttpDecoratorTests
         _decorated.SetupDispatcher(expectedViewModel);
 
         //Act 
-        var actualViewModel = await sut.Dispatch<TViewModel>(sender, query, CancellationToken.None);
+        var actualViewModel = await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None);
 
         //Assert
         Assert.Equal(expectedViewModel, actualViewModel);
+    }
+
+    [Fact]
+    public async Task Dispatch_WithInvalidHttpUrl_ThrowsViewModelFluxException()
+    {
+        //Arrange
+        var sender = new HttpRefreshWithInvalidHttpUrlCaller();
+        var query = new ViewModelQuery();
+        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.ViewModel_HTTP_URL_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_HTTP_URL_ErrorMsg, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_WithInvalidComponentUrlParameters_ThrowsViewModelFluxException()
+    {
+        //Arrange
+        var sender = new HttpRefreshWithInvalidParametersCaller();
+        var query = new ViewModelQuery();
+        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.ViewModel_HTTP_URL_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_HTTP_URL_ErrorMsg, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_WithInvalidJsonParseError_ShouldThrowViewModelFluxException()
+    {
+        //Arrange
+        var sender = new HttpRefreshCaller();
+        var query = new ViewModelQuery();
+        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
+        var unserializableResponse = new { Param1 = 1, Param2 = "Test", WillNotSerialize = typeof(HttpClient) };
+        mockHttp.SetupMockHttpHandler("GET", $"http://test.carlton.com/", 200, unserializableResponse);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.ViewModel_JSON_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_JSON_ErrorMsg, ex.Message);
+    }
+
+    [Fact]
+    public async Task Dispatch_WithHttpError_ShouldThrowViewModelFluxException()
+    {
+        //Arrange
+        var sender = new HttpRefreshCaller();
+        var query = new ViewModelQuery();
+        var sut = _fixture.Create<ViewModelHttpDecorator<TestState>>();
+        var vm = new TestViewModel(1, "Test", "Testing");
+        mockHttp.SetupMockHttpHandler("GET", $"http://test.carlton.com/", 500, vm);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<ViewModelFluxException<TestState, TestViewModel>>(async () => await sut.Dispatch<TestViewModel>(sender, query, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.ViewModel_HTTP_Error, ex.EventID);
+        Assert.Equal(LogEvents.ViewModel_HTTP_ErrorMsg, ex.Message);
     }
 }
 

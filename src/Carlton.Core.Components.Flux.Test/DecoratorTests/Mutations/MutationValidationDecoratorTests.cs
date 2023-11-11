@@ -13,34 +13,48 @@ public class MutationValidationDecoratorTests
 {
     private readonly IFixture _fixture;
     private readonly Mock<IServiceProvider> _serviceProvider;
+    private readonly Mock<IValidator<MutationCommand>> _validator;
     private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated;
-    private readonly Mock<ILogger<MutationValidationDecorator<TestState>>> _logger;
 
     public MutationValidationDecoratorTests()
     {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
         _serviceProvider = _fixture.Freeze<Mock<IServiceProvider>>();
+        _validator = _fixture.Freeze<Mock<IValidator<MutationCommand>>>();
         _decorated = _fixture.Freeze<Mock<IMutationCommandDispatcher<TestState>>>();
-        _logger = _fixture.Freeze<Mock<ILogger<MutationValidationDecorator<TestState>>>>();
+        _fixture.Freeze<Mock<ILogger<MutationValidationDecorator<TestState>>>>();
     }
 
-    [Theory]
-    [MemberData(nameof(TestDataGenerator.GetCommandData), MemberType = typeof(TestDataGenerator))]
-    public async Task Dispatch_DispatchAndValidateCalled<TCommand>(TCommand command)
-        where TCommand : MutationCommand
+    [Theory, AutoData]
+    public async Task Dispatch_DispatchAndValidateCalled(MutationCommand command)
     {
         //Arrange
         var sender = new object();
-        var validator = _fixture.Create<Mock<IValidator<TCommand>>>();
         var sut = _fixture.Create<MutationValidationDecorator<TestState>>();
-
-        _serviceProvider.SetupServiceProvider<IValidator<TCommand>>(validator.Object);
+        _serviceProvider.SetupServiceProvider<IValidator<MutationCommand>>(_validator.Object);
 
         //Act 
-        await sut.Dispatch(sender,command, CancellationToken.None);
+        await sut.Dispatch(sender, command, CancellationToken.None);
 
         //Assert
-        validator.VerifyValidator();
+        _validator.VerifyValidator();
         _decorated.VerifyDispatchCalled(command);
+    }
+
+    [Theory, AutoData]
+    public async Task Dispatch_InvalidQuery_ThrowsMutationCommandFluxExceptionException(MutationCommand command)
+    {
+        //Arrange
+        var sender = new object();
+        var sut = _fixture.Create<MutationValidationDecorator<TestState>>();
+        _validator.SetupValidationFailure();
+        _serviceProvider.SetupServiceProvider<IValidator<MutationCommand>>(_validator.Object);
+
+        //Act 
+        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, MutationCommand>>(async () => await sut.Dispatch(sender, command, CancellationToken.None));
+
+        //Assert
+        Assert.Equal(LogEvents.Mutation_Validation_ErrorMsg, ex.Message);
+        Assert.Equal(LogEvents.Mutation_Validation_Error, ex.EventID);
     }
 }
