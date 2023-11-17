@@ -12,25 +12,26 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
         where TCommand : MutationCommand
     {
         var displayName = typeof(TCommand).GetDisplayName();
-       
-        try
+        using (_logger.BeginScope(Log.MutationScopeMessage, displayName, command.CommandID))
         {
-            using (_logger.BeginScope(Log.MutationScopeMessage, displayName, command.CommandID))
-            Log.MutationStarted(_logger, displayName, command);
-            await _decorated.Dispatch(sender,command, cancellationToken);
-            Log.MutationCompleted(_logger, displayName);
-            return Unit.Value;
-        }
-        catch (MutationCommandFluxException<TState, TCommand>)
-        {
-            //Exception was already caught, logged and wrapped by other middleware decorators
-            throw;
-        }
-        catch (Exception ex)
-        {
-            //Unhandled Exceptions
-            Log.MutationUnhandledError(_logger, ex, displayName);
-            throw new MutationCommandFluxException<TState, TCommand>(command, ex);
+            try
+            {
+                Log.MutationStarted(_logger, displayName, command);
+                await _decorated.Dispatch(sender, command, cancellationToken);
+                Log.MutationCompleted(_logger, displayName);
+                return Unit.Value;
+            }
+            catch (MutationCommandFluxException<TState, TCommand>)
+            {
+                //Exception was already caught, logged and wrapped by other middleware decorators
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //Unhandled Exceptions
+                Log.MutationUnhandledError(_logger, ex, displayName);
+                throw new MutationCommandFluxException<TState, TCommand>(command, ex);
+            }
         }
     }
 }
