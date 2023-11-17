@@ -1,0 +1,36 @@
+﻿@using Carlton.Core.Utilities.Logging;
+
+<div class="log-table">
+    <Table Headings="Headings" Items="LogMessages"
+           ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+        <RowTemplate Context="item">
+            <div class="table-cell">@item.Timestamp</div>
+            <div class="table-cell">@item.Message</div>
+            <div class="table-cell"><span class="pill @(item.LogLevel.ToString().ToLower())">@item.LogLevel</span></div>
+            <div class="table-cell">@item.EventId.Id</div>
+            <div class="table-cell">@item.EventId.Name</div>
+        </RowTemplate>
+    </Table>
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+
+    private IEnumerable<TableHeadingItem> Headings
+    {
+        get => new List<TableHeadingItem>
+        {
+            new TableHeadingItem("Timestamp"),
+            new TableHeadingItem("Message"),
+            new TableHeadingItem("Log Level", "Log Level"),
+            new TableHeadingItem("Event ID", "EventId.Id"),
+            new TableHeadingItem("Event Name", "EventId.Name"),
+        };
+    }
+
+    private IEnumerable<int> RowsPerPageInts = new List<int>
+    {
+        5, 10, 25
+    };
+}

@@ -1,65 +1,13 @@
-﻿/*Deep Style Overrides*/
-.test-results-viewer ::deep .table-container {
-	width: 85%;
-}
-
-.test-results-viewer ::deep .heading-0 {
-	flex-basis: 100px;
-}
-
-.test-results-viewer ::deep .heading-1 {
-	flex-basis: 50%;
-}
-
-.test-results-viewer ::deep .heading-2 {
-
-}
-
-
-.test-row {
-	width: 100%;
+﻿
+.log-filters {
 	display: flex;
-	padding: 5px;
-	color: var(--primary-text-color);
+	flex-direction: row;
+	gap: 10px;
+	margin-bottom: 20px;
 }
 
-.test-row .test-outcome-column {
-	margin-top: auto;
-	margin-bottom: auto;
-	flex-basis: 250px;
-	justify-content: left;
-	margin-left: 10px;
+::deep .log-text-filter {
+	margin-left: 50px;
 }
 
-	.test-row .test-outcome-column .test-outomce-icon {
-		display: flex;
-		gap: 10px;
-	}
 
-	.test-row .test-outcome-column .test-passed-icon {
-		color: var(--accent-color-2);
-	}
-
-	.test-row .test-outcome-column .test-failed-icon {
-		color: var(--accent-color-3);
-	}
-
-	.test-row .test-outcome-column .test-not-run-icon {
-		color: var(--accent-color-5);
-	}
-
-.test-row .test-name-column {
-	display: flex;
-	margin-top: auto;
-	margin-bottom: auto;
-	flex-grow: 1;
-	justify-content: left;
-	font-size: 10pt;
-	line-height: 10pt;
-}
-
-	.test-row .test-duration-column {
-		flex-basis: 170px;
-		flex-shrink: 1;
-		justify-content: left;
-	}

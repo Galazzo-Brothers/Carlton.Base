@@ -1,0 +1,8 @@
+﻿<div class="log-text-filter">
+    <input class="search-text" type="text" @onchange="(args) => OnTextChanged.InvokeAsync(args.Value.ToString())" />
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnTextChanged { get; set; }
+}

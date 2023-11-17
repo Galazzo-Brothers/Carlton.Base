@@ -1,41 +1,65 @@
-﻿@using Carlton.Core.Components.Library
+﻿@using Carlton.Core.Components.Flux.Admin.Components.Logging
+@using Carlton.Core.Components.Library
 @using Carlton.Core.Utilities.Logging;
+@using Blazored.LocalStorage;
+@using Carlton.Core.Components.Flux.Admin.Components;
+@using Microsoft.Extensions.Logging;
+@using static Carlton.Core.Components.Flux.Admin.Components.Logging.LogLevelFilter;
 @namespace Carlton.Core.Components.Flux.Admin
 @inject InMemoryLogger Logger
+@inject ILocalStorageService LocalStorage
 @page "/admin/logs"
 
 <div class="log-viewer">
-    <Table Headings="Headings"Items="LogMessages"
-        ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" >
-        <RowTemplate Context="item">
-            <div class="row">
-               <span>@item.Timestamp</span>
-               <span>@item.Message</span>
-               <span>@item.LogLevel</span>
-            </div>
-        </RowTemplate>
-    </Table>
+    <div class="log-filters">
+        <LogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
+        <LogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
+        <LogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
+        <LogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
+        <LogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
+        <LogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
+        <LogTextFilter OnTextChanged="OnFilterTextChanges" />
+    </div>
+
+    <LogTable LogMessages="FilteredLogMessages" />
 </div>
 
 
+
 @code {
+    private IList<LogLevel> includedLogLevels = new List<LogLevel>();
+    private string filterText = string.Empty;
 
-    private IEnumerable<LogMessage> LogMessages => Logger.GetLogMessages();
-
-    private IEnumerable<TableHeadingItem> Headings
+    private IEnumerable<LogMessage> AllLogMessages { get; set; } = new List<LogMessage>();
+    private IEnumerable<LogMessage> FilteredLogMessages
     {
-        get => new List<TableHeadingItem>
-        {
-            new TableHeadingItem("Timestamp"),
-            new TableHeadingItem("Message"),
-            new TableHeadingItem("Log Level", "Log Level"),
-            new TableHeadingItem("Event ID", "EventID"),
-        };
+        get => AllLogMessages.Where(_ => includedLogLevels.Contains(_.LogLevel))
+                             .Where(_ => _.Message.ToLower().Contains(filterText));
     }
 
-    private IEnumerable<int> RowsPerPageInts = new List<int>
+    protected async override Task OnInitializedAsync()
     {
-        5, 10, 25
-    };
+        AllLogMessages = await LocalStorage.GetItemAsync<IEnumerable<LogMessage>>("carltonFluxLogs");
+        includedLogLevels = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
+        await base.OnInitializedAsync();
+    }
+
+    private bool FilterIsActive(LogLevel logLevel)
+        => includedLogLevels.Contains(logLevel);
+
+
+    private int GetCountByLevel(LogLevel logLevel)
+        => AllLogMessages.Count(_ => _.LogLevel == logLevel);
+
+    private void OnFilterTextChanges(string newFilterText)
+        => filterText = newFilterText.ToLower();
+
+    private void LogLevelIncludesChanged(LogLevel logLevel, bool isIncluded)
+    {
+        if (isIncluded)
+            includedLogLevels.Add(logLevel);
+        else
+            includedLogLevels.Remove(logLevel);
+    }
 }
 
