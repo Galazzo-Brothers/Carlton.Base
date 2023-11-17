@@ -1,0 +1,11 @@
+﻿.log-text-filter {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+	.log-text-filter .search-text {
+		height: 25px;
+		width: 250px;
+		border-radius: 5px;
+		border-color: rgba(0, 0, 0, 0.3);
+	}

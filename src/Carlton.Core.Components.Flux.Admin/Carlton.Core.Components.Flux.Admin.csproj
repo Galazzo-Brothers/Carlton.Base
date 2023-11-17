@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flux\Carlton.Core.Components.Flux\Carlton.Core.Components.Flux.csproj" />
     <ProjectReference Include="..\Library\Carlton.Core.Components.Library\Carlton.Core.Components.Library.csproj" />
-    <ProjectReference Include="..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

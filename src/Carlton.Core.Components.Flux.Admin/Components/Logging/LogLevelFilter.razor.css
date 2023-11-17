@@ -1,0 +1,50 @@
+﻿
+.log-level-filter {
+	display: flex;
+	width: 150px;
+	gap: 15px;
+	padding: 10px;
+	border-style: none;
+	border-radius: 5px;
+	color: white;
+	border-color: gray;
+	cursor: pointer;
+}
+
+	.log-level-filter.trace {
+		background-color: var(--accent-color-4);
+	}
+
+	.log-level-filter.debug {
+		background-color: var(--accent-color-1);
+	}
+
+	.log-level-filter.information {
+		background-color: gray;
+	}
+
+	.log-level-filter.warning {
+		background-color: var(--accent-color-5);
+	}
+
+	.log-level-filter.error {
+		background-color: var(--accent-color-3);
+	}
+
+	.log-level-filter.critical {
+		background-color: firebrick;
+	}
+
+	.log-level-filter .log-level-label {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.log-level-filter .log-level-count {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+
+
+
