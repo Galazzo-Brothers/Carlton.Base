@@ -1,6 +1,8 @@
 ﻿
 .test-outcome-column .test-outomce-icon {
 	display: flex;
+	height: 100%;
+	align-items: center;
 	gap: 10px;
 }
 
@@ -15,3 +17,10 @@
 .test-outcome-column .test-not-run-icon {
 	color: var(--accent-color-5);
 }
+
+.test-outcome-column .test-outcome-text {
+	font-size: 16px;
+	padding-left: 2px;
+}
+
+
