@@ -6,7 +6,7 @@ using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
 using Carlton.Core.Components.Flux.State;
-using Carlton.Core.Utilities.TypeUtilities;
+using Carlton.Core.Utilities.JsonConverters;
 using MapsterMapper;
 
 namespace Carlton.Core.Components.Flux;
@@ -51,7 +51,11 @@ public static class ContainerExtensions
     private static void RegisterLocalStorage(IServiceCollection services)
     {
         services.AddBlazoredLocalStorageAsSingleton(
-            config => config.JsonSerializerOptions.Converters.Add(new JsonTypeConverter()));
+            config =>
+            {
+                config.JsonSerializerOptions.Converters.Add(new JsonTypeConverter());
+                config.JsonSerializerOptions.Converters.Add(new JsonEventIdConverter());
+            });
     }
 
     private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)
@@ -75,14 +79,15 @@ public static class ContainerExtensions
     {
         /*ViewModel Dispatchers*/
         services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
-        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
-        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
         //services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelHttpDecorator<TState>>();
         services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelJsDecorator<TState>>();
+        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
+        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
 
         /*Mutation Dispatchers*/
         services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
         services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
+       // services.Decorate<IMutationCommandDispatcher<TState>, MutationHttpDecorator<TState>>();
         if(usesLocalStorage)
             services.Decorate<IMutationCommandDispatcher<TState>, MutationLocalStorageDecorator<TState>>();
         services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
