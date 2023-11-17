@@ -1,20 +1,19 @@
 ﻿using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Carlton.Core.Utilities.Logging;
+
 
 public class InMemoryLogger : ILogger
 {
     private readonly ConcurrentQueue<LogMessage> logMessages = new();
-    private readonly object scopeLock = new();
-    private readonly List<IDisposable> scopes = new();
+    private readonly AsyncLocal<Stack<LogScope>> _currentScopes = new();
 
     public IDisposable BeginScope<TState>(TState state)
     {
-        var scope = new ScopeDisposable<TState>(this, state);
-        lock (scopeLock)
-        {
-            scopes.Add(scope);
-        }
+        var scope = new LogScope(state);
+        _currentScopes.Value ??= new Stack<LogScope>();
+        _currentScopes.Value.Push(scope);
         return scope;
     }
 
@@ -60,27 +59,43 @@ public class InMemoryLogger : ILogger
     public void ClearAllButMostRecent(int keepCount)
     {
         while (logMessages.Count > keepCount)
-            logMessages.TryDequeue(out _);   
+            logMessages.TryDequeue(out _);
     }
 
 
     internal string GetCurrentScopes()
     {
-        lock (scopeLock)
-        {
-            return string.Join(" => ", scopes);
-        }
+        return string.Join(" => ", _currentScopes.Value);
     }
 
-    internal void PopScope<TState>(TState state)
+    //internal void PopScope<TState>(TState state)
+    //{
+    //    // Remove the scope from the list of active scopes.
+    //    _currentScopes.Value.Pop(scope => scope.ToString() == state.ToString());
+    //}
+
+    private class LogScope : IDisposable
     {
-        lock (scopeLock)
+        public object State { get; }
+
+        public LogScope(object state)
         {
-            // Remove the scope from the list of active scopes.
-            scopes.RemoveAll(scope => scope.ToString() == state.ToString());
+            State = state;
+        }
+
+        public void Dispose()
+        {
+            // Clean up any resources if needed
+        }
+
+        public override string ToString()
+        {
+            return State.ToString();
         }
     }
 }
+
+
 
 file class ScopeDisposable<TState> : IDisposable
 {
@@ -95,7 +110,7 @@ file class ScopeDisposable<TState> : IDisposable
 
     public void Dispose()
     {
-        logger.PopScope(this.state);
+       // logger.PopScope(this.state);
     }
 
     public override string ToString()
