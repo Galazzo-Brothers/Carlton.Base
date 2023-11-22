@@ -62,17 +62,10 @@ public class InMemoryLogger : ILogger
             logMessages.TryDequeue(out _);
     }
 
-
     internal string GetCurrentScopes()
     {
-        return string.Join(" => ", _currentScopes.Value);
+        return string.Join(" => ", _currentScopes?.Value);
     }
-
-    //internal void PopScope<TState>(TState state)
-    //{
-    //    // Remove the scope from the list of active scopes.
-    //    _currentScopes.Value.Pop(scope => scope.ToString() == state.ToString());
-    //}
 
     private class LogScope : IDisposable
     {
@@ -92,30 +85,6 @@ public class InMemoryLogger : ILogger
         {
             return State.ToString();
         }
-    }
-}
-
-
-
-file class ScopeDisposable<TState> : IDisposable
-{
-    private readonly InMemoryLogger logger;
-    private readonly TState state;
-
-    public ScopeDisposable(InMemoryLogger logger, TState state)
-    {
-        this.logger = logger;
-        this.state = state;
-    }
-
-    public void Dispose()
-    {
-       // logger.PopScope(this.state);
-    }
-
-    public override string ToString()
-    {
-        return state.ToString();
     }
 }
 

@@ -1,6 +1,9 @@
-﻿using Blazored.LocalStorage;
+﻿using BlazorDB;
+using Blazored.LocalStorage;
 using Carlton.Core.Utilities.Logging;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Carlton.Core.Components.Flux.Decorators.Mutations;
 
@@ -9,6 +12,7 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
     private readonly IMutationCommandDispatcher<TState> _decorated;
     private readonly IFluxState<TState> _fluxState;
     private readonly ILocalStorageService _localStorage;
+    private readonly IBlazorDbFactory _dbFactory;
     private readonly ILogger<MutationLocalStorageDecorator<TState>> _logger;
     private readonly InMemoryLogger _memoryLogger;
 
@@ -16,12 +20,14 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
         IMutationCommandDispatcher<TState> decorated,
         IFluxState<TState> fluxState,
         ILocalStorageService localStorage,
+        IBlazorDbFactory dbFactory,
         ILogger<MutationLocalStorageDecorator<TState>> logger,
         InMemoryLogger memoryLogger)
     {
         _decorated = decorated;
         _fluxState = fluxState;
         _localStorage = localStorage;
+        _dbFactory = dbFactory;
         _logger = logger;
         _memoryLogger = memoryLogger;
     }
@@ -39,10 +45,26 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
             await _decorated.Dispatch(sender, command, cancellationToken);
 
             //Take top 100 log entries
-            _memoryLogger.ClearAllButMostRecent(100);
+            _memoryLogger.ClearAllButMostRecent(50);
+
+            var manager = await _dbFactory.GetDbManager("CarltonFlux");
+            await manager.AddRecord(new StoreRecord<IEnumerable<LogMessage>>()
+            {
+                StoreName = "Logs",
+                Record = _memoryLogger.GetLogMessages().ToArray()
+            });
+
+            //await manager.UpdateRecord<IEnumerable<LogMessage>>(new UpdateRecord<IEnumerable<LogMessage>>
+            //{
+            //    Key = 1,
+            //    StoreName = "Person",
+            //    Record = _memoryLogger.GetLogMessages().ToArray()
+            //});
+
+
 
             //Update LocalStorage
-            await _localStorage.SetItemAsync("carltonFluxState", _fluxState.State, cancellationToken);
+            //await _localStorage.SetItemAsync("carltonFluxState", _fluxState.State, cancellationToken);
             await _localStorage.SetItemAsync("carltonFluxLogs", _memoryLogger.GetLogMessages(), cancellationToken);
 
             //Complete the LocalStorage Interception

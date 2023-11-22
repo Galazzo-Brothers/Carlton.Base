@@ -1,4 +1,5 @@
-﻿using Blazored.LocalStorage;
+﻿using BlazorDB;
+using Blazored.LocalStorage;
 using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Decorators.Mutations;
 using Carlton.Core.Components.Flux.Decorators.Queries;
@@ -7,7 +8,9 @@ using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
 using Carlton.Core.Components.Flux.State;
 using Carlton.Core.Utilities.JsonConverters;
+using Carlton.Core.Utilities.Logging;
 using MapsterMapper;
+using Microsoft.AspNetCore.Components;
 
 namespace Carlton.Core.Components.Flux;
 
@@ -46,6 +49,21 @@ public static class ContainerExtensions
 
         /*Exception Handling*/
         RegisterExceptionHandling(services);
+
+        services.AddBlazorDB(options =>
+        {
+            options.Name = "CarltonFlux";
+            options.Version = 1;
+            options.StoreSchemas = new List<StoreSchema>()
+            {
+                new StoreSchema()
+                {
+                    Name = "Logs",
+                    PrimaryKey = "id",
+                    PrimaryKeyAuto = true,
+                }
+            };
+        });
     }
 
     private static void RegisterLocalStorage(IServiceCollection services)
@@ -87,8 +105,8 @@ public static class ContainerExtensions
         /*Mutation Dispatchers*/
         services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
         services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
-       // services.Decorate<IMutationCommandDispatcher<TState>, MutationHttpDecorator<TState>>();
-        if(usesLocalStorage)
+        // services.Decorate<IMutationCommandDispatcher<TState>, MutationHttpDecorator<TState>>();
+        if (usesLocalStorage)
             services.Decorate<IMutationCommandDispatcher<TState>, MutationLocalStorageDecorator<TState>>();
         services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
     }
