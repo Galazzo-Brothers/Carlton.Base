@@ -28,36 +28,42 @@ else
 
     public TViewModel ViewModel { get; private set; }
 
-    public IEnumerable<string> ObserveableStateEvents { get; private set; } = new List<string>();
+    public IEnumerable<string> ObservableStateEvents { get; private set; } = new List<string>();
 
     public bool IsLoading { get; private set; }
 
+    private string ViewModelDisplayName { get => typeof(TViewModel).GetDisplayName(); }
+
     protected async override Task OnInitializedAsync()
     {
-        //Log Init Start
-        Log.DataWrapperOnInitializedStarted(Logger, WrappedComponentDisplayName);
+        var initTraceGuid = $"DataWrapper_{ViewModelDisplayName}_Init";
+        using(Logger.BeginScope(initTraceGuid))
+        {
+            //Log Init Start
+            Log.DataWrapperOnInitializedStarted(Logger, WrappedComponentDisplayName);
 
-        //Set IsLoading to true
-        IsLoading = true;
+            //Set IsLoading to true
+            IsLoading = true;
 
-        //Register State Changed Handler
-        StateObserver.StateChanged += OnStateChanged;
+            //Register State Changed Handler
+            StateObserver.StateChanged += OnStateChanged;
 
-        //Get VM and initalize context for wrapped component
-        ViewModel = await GetViewModel();
+            //Get VM and initialize context for wrapped component
+            ViewModel = await GetViewModel();
 
-        //Gather the StateEvents this component should be listening for
-        var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
-        ObserveableStateEvents = attributes.Select(_ => _.StateEvent);
+            //Gather the StateEvents this component should be listening for
+            var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
+            ObservableStateEvents = attributes.Select(_ => _.StateEvent);
 
-        //Set IsLoading to false
-        IsLoading = false;
+            //Set IsLoading to false
+            IsLoading = false;
 
-        //Continue initilization
-        await base.OnInitializedAsync();
+            //Continue initialization
+            await base.OnInitializedAsync();
 
-        //Log Init Completed
-        Log.DataWrapperOnInitializedCompleted(Logger, WrappedComponentDisplayName);
+            //Log Init Completed
+            Log.DataWrapperOnInitializedCompleted(Logger, WrappedComponentDisplayName);
+        }
     }
 
     protected async Task<TViewModel> GetViewModel()
@@ -68,32 +74,39 @@ else
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
+        Log.DataWrapperEventRaiseStarted(Logger, WrappedComponentDisplayName, command);
         await MutationDispatcher.Dispatch(Component, (dynamic)command, CancellationToken.None);
+        Log.DataWrapperEventRaiseCompleted(Logger, WrappedComponentDisplayName, command);
     }
 
     protected async Task OnStateChanged(string stateEvent)
     {
-        var stateUpdated = false;
-        var observableStateEventsString = string.Join(',', ObserveableStateEvents);
-        Log.DataWrapperEventReceived(Logger, WrappedComponentDisplayName, stateEvent, observableStateEventsString);
+        var observableStateEventsString = string.Join(',', ObservableStateEvents);
+        Log.DataWrapperListeningEvents(Logger, WrappedComponentDisplayName, observableStateEventsString);
 
-        if(ObserveableStateEvents.Contains(stateEvent))
+        if(ObservableStateEvents.Contains(stateEvent))
         {
-            //IsLoading true
+            //State required refresh
+            Log.DataWrapperEventReceivedStarted(Logger, WrappedComponentDisplayName, stateEvent);
+
+            //Set loading true
             IsLoading = true;
 
             //Refresh ViewModel
             ViewModel = await GetViewModel();
 
-            //IsLoading flase
+            //Set loading false
             IsLoading = false;
 
-            //State was refreshed
-            stateUpdated = true;
+            //StateHasChanged
             StateHasChanged();
+            Log.DataWrapperEventReceivedCompleted(Logger, WrappedComponentDisplayName, stateEvent);
         }
-
-        Log.DataWrapperEventCompleted(Logger, WrappedComponentDisplayName, stateEvent, stateUpdated);
+        else
+        {
+            //State does not require refresh
+            Log.DataWrapperEventSkipped(Logger, WrappedComponentDisplayName, stateEvent);
+        }
     }
 
     protected Dictionary<string, object> GetParameters()

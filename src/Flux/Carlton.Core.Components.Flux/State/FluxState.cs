@@ -16,7 +16,7 @@ public class FluxState<TState> : IMutableFluxState<TState>
     public FluxState(TState state, IMutationResolver<TState> mutationResolver,
         IMapper mapper, ILogger<FluxState<TState>> logger) =>
             (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
-    
+
     public async Task MutateState<TInput>(TInput input)
     {
         var displayName = typeof(TInput).GetDisplayName();
@@ -40,9 +40,9 @@ public class FluxState<TState> : IMutableFluxState<TState>
             if(!mutation.IsRefreshMutation)
                 await InvokeStateChanged(mutation.StateEvent);
 
-            Log.MutationCompleted(_logger, displayName);
+            Log.MutationApplyCompleted(_logger, displayName);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             Log.MutationApplyError(_logger, ex, displayName);
             _mapper.Map(RollbackState, State);
@@ -52,7 +52,19 @@ public class FluxState<TState> : IMutableFluxState<TState>
 
     private async Task InvokeStateChanged(string evt)
     {
-        if (StateChanged != null)
-            await StateChanged?.Invoke(evt);
+        if(StateChanged != null)
+        {
+            var tasks = new List<Task>();
+            foreach(var handler in StateChanged.GetInvocationList())
+            {
+                tasks.Add(Task.Run(async () =>
+                {  
+                    var castedDelegate = (Func<string, Task>)handler;
+                    await castedDelegate(evt);
+                }));
+            }
+
+            await Task.WhenAll(tasks);
+        }
     }
 }

@@ -10,25 +10,32 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
     {
-        using (_logger.BeginScope(Log.ViewModelRequestScopeMessage, typeof(TViewModel).GetDisplayName(), query))
-        {
-            try
-            {
-                Log.ViewModelStarted(_logger, typeof(TViewModel).GetDisplayName());
-                var result = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
-                Log.ViewModelCompleted(_logger, typeof(TViewModel).GetDisplayName());
-                return result;
+        var traceGuid = Guid.NewGuid();
+        var vmDisplayName = typeof(TViewModel).GetDisplayName();
+        var vmQueryTraceGuid = $"{vmDisplayName}_VM_{traceGuid}";
 
-            }
-            catch (ViewModelFluxException<TState, TViewModel>)
+        try
+        {
+            TViewModel result;
+            using(_logger.BeginScope(vmQueryTraceGuid))
             {
-                //Exception was already caught, logged and wrapped by other middleware decorators
-                throw;
+                Log.ViewModelStarted(_logger, vmDisplayName);
+                result = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
+                Log.ViewModelCompleted(_logger, vmDisplayName);
             }
-            catch (Exception ex)
+            return result;
+        }
+        catch(ViewModelFluxException<TState, TViewModel>)
+        {
+            //Exception was already caught, logged and wrapped by other middleware decorators
+            throw;
+        }
+        catch(Exception ex)
+        {
+            //Unhandled Exception
+            using(_logger.BeginScope(vmQueryTraceGuid))
             {
-                //Unhandled Exception
-                Log.ViewModelUnhandledError(_logger, ex, typeof(TViewModel).GetDisplayName());
+                Log.ViewModelUnhandledError(_logger, ex, vmDisplayName);
                 throw new ViewModelFluxException<TState, TViewModel>(query, ex);
             }
         }

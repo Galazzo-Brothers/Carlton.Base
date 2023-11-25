@@ -53,7 +53,7 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
     {
         return $"{Message}" +
             $"{Environment.NewLine}" +
-            $"ViewModelQueryID: {Query.QueryID}" +
+            $"ViewModelQueryID: {Query.QueryTraceID}" +
             $"{base.ToString()}";
     }
 }

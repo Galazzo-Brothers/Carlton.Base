@@ -2,8 +2,8 @@
 
 public record ViewModelQuery
 {
-    public Guid QueryID { get; }
+    public Guid QueryTraceID { get; }
 
     public ViewModelQuery()
-        => QueryID = Guid.NewGuid();
+      => QueryTraceID = Guid.NewGuid();
 }
