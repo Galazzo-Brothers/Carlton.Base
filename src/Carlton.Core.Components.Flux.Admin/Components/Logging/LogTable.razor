@@ -1,10 +1,9 @@
 ﻿@using Carlton.Core.Utilities.Logging;
 
 <div class="log-table">
-    <Table Headings="Headings" Items="LogMessages"
-           ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+    <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
         <RowTemplate Context="item">
-            <div class="table-cell">@item.Timestamp</div>
+            <div class="table-cell">@item.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</div>
             <div class="table-cell">@item.Message</div>
             <div class="table-cell"><span class="pill @(item.LogLevel.ToString().ToLower())">@item.LogLevel</span></div>
             <div class="table-cell">@item.EventId.Id</div>

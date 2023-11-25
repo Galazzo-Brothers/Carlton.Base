@@ -7,12 +7,12 @@ namespace Carlton.Core.Utilities.Logging;
 public class InMemoryLogger : ILogger
 {
     private readonly ConcurrentQueue<LogMessage> logMessages = new();
-    private readonly AsyncLocal<Stack<LogScope>> _currentScopes = new();
+    private readonly AsyncLocal<ConcurrentStack<LogScope>> _currentScopes = new();
 
     public IDisposable BeginScope<TState>(TState state)
     {
-        var scope = new LogScope(state);
-        _currentScopes.Value ??= new Stack<LogScope>();
+        var scope = new LogScope(state, () => PopScope());
+        _currentScopes.Value ??= new();
         _currentScopes.Value.Push(scope);
         return scope;
     }
@@ -29,7 +29,7 @@ public class InMemoryLogger : ILogger
         Exception exception,
         Func<TState, Exception, string> formatter)
     {
-        if (!IsEnabled(logLevel))
+        if(!IsEnabled(logLevel))
             return;
 
         var message = new LogMessage
@@ -53,38 +53,49 @@ public class InMemoryLogger : ILogger
 
     public void ClearLogMessages()
     {
-        while (logMessages.TryDequeue(out _)) { }
+        while(logMessages.TryDequeue(out _))
+        { }
     }
 
     public void ClearAllButMostRecent(int keepCount)
     {
-        while (logMessages.Count > keepCount)
+        while(logMessages.Count > keepCount)
             logMessages.TryDequeue(out _);
     }
 
-    internal string GetCurrentScopes()
+    private string GetCurrentScopes()
     {
-        return string.Join(" => ", _currentScopes?.Value);
+        return _currentScopes?.Value == null ? string.Empty : string.Join(" => ", _currentScopes?.Value);
     }
 
-    private class LogScope : IDisposable
+    private void PopScope()
     {
-        public object State { get; }
+         _currentScopes.Value.TryPop(out _);
+    }
+}
 
-        public LogScope(object state)
-        {
-            State = state;
-        }
 
-        public void Dispose()
-        {
-            // Clean up any resources if needed
-        }
+internal class LogScope : IDisposable
+{
+    public object State { get; }
+    private readonly Action _disposeAct;
 
-        public override string ToString()
-        {
-            return State.ToString();
-        }
+    public LogScope(object state, Action disposeAct)
+    {
+        State = state;
+        _disposeAct = disposeAct;
+    }
+
+    public void Dispose()
+    {
+        //Remove the scope for the list of scopes
+        //as it is being disposed
+        _disposeAct();
+    }
+
+    public override string ToString()
+    {
+        return State.ToString();
     }
 }
 

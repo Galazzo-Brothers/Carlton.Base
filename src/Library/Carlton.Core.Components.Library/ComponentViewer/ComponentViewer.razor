@@ -106,7 +106,7 @@
     {
         //Construct a dynamic Lambda Expression
         //that passes the EventCallback name and object parameter
-        var nameParamaeter = Expression.Constant(evtCallbackName);
+        var nameParameter = Expression.Constant(evtCallbackName);
         var objParameter = Expression.Parameter(genericTypeParam);
 
         var methodInfo = this.GetType()
@@ -114,7 +114,7 @@
                             .MakeGenericMethod(genericTypeParam);
 
         var instance = Expression.Constant(this, typeof(ComponentViewer));
-        var methodCall = Expression.Call(instance, methodInfo, nameParamaeter, objParameter);
+        var methodCall = Expression.Call(instance, methodInfo, nameParameter, objParameter);
         var lambda = Expression.Lambda(methodCall, objParameter);
 
         return lambda.Compile();

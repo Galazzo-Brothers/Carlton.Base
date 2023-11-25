@@ -93,7 +93,7 @@ public class ConnectedWrapperComponentTests : TestContext
         var cut = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
 
         // Assert
-        Assert.Collection(cut.Instance.ObserveableStateEvents,
+        Assert.Collection(cut.Instance.ObservableStateEvents,
           evt => Assert.Equal("TestEvent", evt),
           evt => Assert.Equal("TestEvent2", evt),
           evt => Assert.Equal("TestEvent3", evt)

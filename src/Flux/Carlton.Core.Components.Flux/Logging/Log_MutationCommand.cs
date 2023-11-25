@@ -2,8 +2,6 @@
 
 public static partial class Log
 {
-    public const string MutationScopeMessage = "Initiating Mutation {Type} : {MutationID}";
-
     [LoggerMessage(
        EventId = LogEvents.Mutation_Started,
        Level = LogLevel.Information,
@@ -12,13 +10,13 @@ public static partial class Log
 
     [LoggerMessage(
       EventId = LogEvents.Mutation_Validation_Started,
-      Level = LogLevel.Information,
+      Level = LogLevel.Debug,
       Message = "Started validating mutation command of type {Type}.")]
     public static partial void MutationValidationStarted(ILogger logger, string type);
 
     [LoggerMessage(
       EventId = LogEvents.Mutation_Validation_Completed,
-      Level = LogLevel.Information,
+      Level = LogLevel.Debug,
       Message = "Completed validating mutation command of type {Type}.")]
     public static partial void MutationValidationCompleted(ILogger logger, string type);
 
@@ -30,19 +28,19 @@ public static partial class Log
 
     [LoggerMessage(
       EventId = LogEvents.Mutation_JsInterop_Started,
-      Level = LogLevel.Information,
+      Level = LogLevel.Debug,
       Message = "Started JSInterop interception for mutation command of type {Type}.")]
     public static partial void MutationJSInteropInterceptionStarted(ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_JsInterop_Completed,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Completed JSInterop interception for mutation command of type {Type}.")]
     public static partial void MutationJSInteropInterceptionCompleted(ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_JsInterop_Skipped,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Skipping JSInterop interception for mutation command of type {Type}.")]
     public static partial void MutationJSInteropInterceptionSkipped(ILogger logger, string type);
 
@@ -66,7 +64,7 @@ public static partial class Log
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_HttpCall_Skipped,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Skipping Http interception for mutation command of type {Type}.")]
     public static partial void MutationHttpInterceptionSkipped(ILogger logger, string type);
 
@@ -96,13 +94,13 @@ public static partial class Log
 
     [LoggerMessage(
       EventId = LogEvents.Mutation_Apply_Started,
-      Level = LogLevel.Information,
+      Level = LogLevel.Debug,
       Message = "Started mutating the state store with mutation command of type {Type}.")]
     public static partial void MutationApplyStarted(ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_Apply_Completed,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Completed mutating the state store with mutation command of type {Type}.")]
     public static partial void MutationApplyCompleted(ILogger logger, string type);
 
@@ -120,13 +118,13 @@ public static partial class Log
 
     [LoggerMessage(
        EventId = LogEvents.Mutation_LocalStorage_Started,
-       Level = LogLevel.Information,
+       Level = LogLevel.Debug,
        Message = "Started updating local storage for mutation command of type {Type}.")]
     public static partial void MutationLocalStorageStarted(ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_LocalStorage_Completed,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Completed updating local storage mutation command of type {Type}.")]
     public static partial void MutationLocalStorageCompleted(ILogger logger, string type);
 

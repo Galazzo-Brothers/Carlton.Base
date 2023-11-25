@@ -2,8 +2,6 @@
 
 public static partial class Log
 {
-    public const string ViewModelRequestScopeMessage = "Initiating ViewModelQuery {Type} : {QueryID}";
-
     [LoggerMessage(
         EventId = LogEvents.ViewModel_Started,
         Level = LogLevel.Information,
@@ -12,19 +10,19 @@ public static partial class Log
 
     [LoggerMessage(
        EventId = LogEvents.ViewModel_JsInterop_Started,
-       Level = LogLevel.Information,
+       Level = LogLevel.Debug,
        Message = "Started JSInterop refresh for ViewModel of type {Type}.")]
     public static partial void ViewModelJsInteropRefreshStarted(ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.ViewModel_JsInterop_Completed,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Completed JSInterop refresh for ViewModel of type {Type}.")]
     public static partial void ViewModelJsInteropRefreshCompleted(ILogger logger, string type);
 
     [LoggerMessage(
        EventId = LogEvents.ViewModel_JsInterop_Skipped,
-       Level = LogLevel.Information,
+       Level = LogLevel.Debug,
        Message = "Skipping JSInterop refresh for ViewModel of type {Type}.")]
     public static partial void ViewModelJsInteropRefreshSkipped(ILogger logger, string type);
 
@@ -48,7 +46,7 @@ public static partial class Log
 
     [LoggerMessage(
        EventId = LogEvents.ViewModel_HttpRefresh_Skipped,
-       Level = LogLevel.Information,
+       Level = LogLevel.Debug,
        Message = "Skipping Http refresh for ViewModel of type {Type}.")]
     public static partial void ViewModelHttpRefreshSkipped(ILogger logger, string type);
 
@@ -66,13 +64,13 @@ public static partial class Log
 
     [LoggerMessage(
         EventId = LogEvents.ViewModel_Mapping_Started,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Starting mapping ViewModel of type {Type}.")]
     public static partial void ViewModelMappingStarted(ILogger logger, string type);
 
     [LoggerMessage(
        EventId = LogEvents.ViewModel_Mapping_Completed,
-       Level = LogLevel.Information,
+       Level = LogLevel.Debug,
        Message = "Completed mapping ViewModel of type {Type}.")]
     public static partial void ViewModelMappingCompleted(ILogger logger, string type);
 
@@ -84,13 +82,13 @@ public static partial class Log
 
     [LoggerMessage(
        EventId = LogEvents.ViewModel_Validation_Started,
-       Level = LogLevel.Information,
+       Level = LogLevel.Debug,
        Message = "Started validating ViewModel of type {Type}.")]
     public static partial void ViewModelValidationStarted(ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.ViewModel_Validation_Completed,
-        Level = LogLevel.Information,
+        Level = LogLevel.Debug,
         Message = "Completed validating ViewModel of type {Type}.")]
     public static partial void ViewModelValidationCompleted(ILogger logger, string type);
 
