@@ -11,9 +11,7 @@
     </div>
     @foreach (var item in Items)
     {
-        <div class="table-row">
-            @RowTemplate(item)
-        </div>
+        @RowTemplate(item)
     }
     @if (ShowPaginationRow)
     {

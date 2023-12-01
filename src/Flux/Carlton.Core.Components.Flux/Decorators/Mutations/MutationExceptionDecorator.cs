@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Commands;
+﻿using Carlton.Core.Utilities.Logging;
+
+namespace Carlton.Core.Components.Flux.Decorators.Commands;
 
 public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TState>
 {
@@ -11,18 +13,17 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
     public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
-        var displayName = typeof(TCommand).GetDisplayName();
+        var commandType = typeof(TCommand).GetDisplayName();
         var traceGuid = Guid.NewGuid();
-        var commandType = command.GetType().GetDisplayName();
-        var commandTraceGuid = $"{displayName}_Command_{commandType}_{traceGuid}";
+        var commandTraceGuid = $"MutationCommand_{commandType}_{traceGuid}";
 
         try
         {
             using(_logger.BeginScope(commandTraceGuid))
             {
-                Log.MutationStarted(_logger, displayName, command);
-                await _decorated.Dispatch(sender, command, cancellationToken);
-                Log.MutationCompleted(_logger, displayName);
+                Log.MutationStarted(_logger, commandType, command);
+                var x  = await _decorated.Dispatch(sender, command, cancellationToken);
+                Log.MutationCompleted(_logger, commandType);
             }
             return Unit.Value;
         }
@@ -36,7 +37,7 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
             using(_logger.BeginScope(commandTraceGuid))
             {
                 //Unhandled Exceptions
-                Log.MutationUnhandledError(_logger, ex, displayName);
+                Log.MutationUnhandledError(_logger, ex, commandType);
                 throw new MutationCommandFluxException<TState, TCommand>(command, ex);
             }
         }

@@ -6,4 +6,7 @@ public record ViewModelQuery
 
     public ViewModelQuery()
       => QueryTraceID = Guid.NewGuid();
+
+    public ViewModelQuery(Guid queryTraceID)
+     => QueryTraceID = queryTraceID;
 }
