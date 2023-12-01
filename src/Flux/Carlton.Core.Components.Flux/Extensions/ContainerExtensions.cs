@@ -6,11 +6,13 @@ using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Dispatchers;
 using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Handlers;
+using Carlton.Core.Components.Flux.Services;
 using Carlton.Core.Components.Flux.State;
 using Carlton.Core.Utilities.JsonConverters;
 using Carlton.Core.Utilities.Logging;
 using MapsterMapper;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 
 namespace Carlton.Core.Components.Flux;
 
@@ -19,10 +21,14 @@ public static class ContainerExtensions
     public static void AddCarltonFlux<TState>(
         this IServiceCollection services,
         TState state,
+        IConfiguration configuration,
         TypeAdapterConfig typeAdapterConfig,
         bool usesLocalStorage)
         where TState : class
     {
+        /*Register Logging*/
+        RegisterLogging(services, configuration);
+
         /*Local Storage*/
         RegisterLocalStorage(services);
 
@@ -49,21 +55,20 @@ public static class ContainerExtensions
 
         /*Exception Handling*/
         RegisterExceptionHandling(services);
+    }
 
-        services.AddBlazorDB(options =>
+    private static void RegisterLogging(IServiceCollection services, IConfiguration configuration)
+    {
+        var logger = new InMemoryLogger();
+        services.AddSingleton(logger);
+        services.AddLogging(builder =>
         {
-            options.Name = "CarltonFlux";
-            options.Version = 1;
-            options.StoreSchemas = new List<StoreSchema>()
-            {
-                new StoreSchema()
-                {
-                    Name = "Logs",
-                    PrimaryKey = "id",
-                    PrimaryKeyAuto = true,
-                }
-            };
+            //builder.ClearProviders();
+            builder.AddConfiguration(configuration.GetSection("Logging"));
+            builder.AddProvider(new InMemoryLoggerProvider(logger));
         });
+
+        services.AddSingleton<ILogger, InMemoryLogger>();
     }
 
     private static void RegisterLocalStorage(IServiceCollection services)
@@ -74,6 +79,22 @@ public static class ContainerExtensions
                 config.JsonSerializerOptions.Converters.Add(new JsonTypeConverter());
                 config.JsonSerializerOptions.Converters.Add(new JsonEventIdConverter());
             });
+
+        services.AddBlazorDB(options =>
+        {
+            options.Name = "CarltonFlux";
+            options.Version = 1;
+            options.StoreSchemas = new List<StoreSchema>()
+            {
+                new StoreSchema()
+                {
+                    Name = "Logs",
+                    PrimaryKey = "key"
+                }
+            };
+        });
+
+        services.AddTransient<IBrowserStorageService, BrowserStorageService>();
     }
 
     private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)

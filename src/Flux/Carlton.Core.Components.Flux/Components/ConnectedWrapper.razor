@@ -6,6 +6,7 @@
 @inject IViewModelQueryDispatcher<TState> QueryDispatcher
 @inject IMutationCommandDispatcher<TState> MutationDispatcher
 @inject IFluxStateObserver<TState> StateObserver
+@inject IBrowserStorageService BrowserStorage
 @inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
 
 @if(IsLoading)
@@ -36,11 +37,12 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var initTraceGuid = $"DataWrapper_{ViewModelDisplayName}_Init";
+        var guid = Guid.NewGuid();
+        var initTraceGuid = $"Init_{ViewModelDisplayName}_{guid}";
         using(Logger.BeginScope(initTraceGuid))
         {
             //Log Init Start
-            Log.DataWrapperOnInitializedStarted(Logger, WrappedComponentDisplayName);
+            Log.DataWrapperOnInitializedStarted(Logger, typeof(TViewModel).GetDisplayName());
 
             //Set IsLoading to true
             IsLoading = true;
@@ -49,7 +51,7 @@ else
             StateObserver.StateChanged += OnStateChanged;
 
             //Get VM and initialize context for wrapped component
-            ViewModel = await GetViewModel();
+            ViewModel = await GetViewModel(guid);
 
             //Gather the StateEvents this component should be listening for
             var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
@@ -63,23 +65,19 @@ else
 
             //Log Init Completed
             Log.DataWrapperOnInitializedCompleted(Logger, WrappedComponentDisplayName);
+
+            await BrowserStorage.CommitLogs();
         }
     }
 
-    protected async Task<TViewModel> GetViewModel()
+    private async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        var query = new ViewModelQuery();
-        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
-    }
-
-    protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
-    {
-        Log.DataWrapperEventRaiseStarted(Logger, WrappedComponentDisplayName, command);
+       // Log.DataWrapperEventRaiseStarted(Logger, WrappedComponentDisplayName, command);
         await MutationDispatcher.Dispatch(Component, (dynamic)command, CancellationToken.None);
-        Log.DataWrapperEventRaiseCompleted(Logger, WrappedComponentDisplayName, command);
+       // Log.DataWrapperEventRaiseCompleted(Logger, WrappedComponentDisplayName, command);
     }
 
-    protected async Task OnStateChanged(string stateEvent)
+    private async Task OnStateChanged(string stateEvent)
     {
         var observableStateEventsString = string.Join(',', ObservableStateEvents);
         Log.DataWrapperListeningEvents(Logger, WrappedComponentDisplayName, observableStateEventsString);
@@ -107,6 +105,18 @@ else
             //State does not require refresh
             Log.DataWrapperEventSkipped(Logger, WrappedComponentDisplayName, stateEvent);
         }
+    }
+
+    private async Task<TViewModel> GetViewModel(Guid guid)
+    {
+        var query = new ViewModelQuery(guid);
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
+    }
+
+    private async Task<TViewModel> GetViewModel()
+    {
+        var query = new ViewModelQuery();
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
     }
 
     protected Dictionary<string, object> GetParameters()

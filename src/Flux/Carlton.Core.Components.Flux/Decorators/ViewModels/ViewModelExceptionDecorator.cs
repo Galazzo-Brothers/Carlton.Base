@@ -12,7 +12,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
     {
         var traceGuid = Guid.NewGuid();
         var vmDisplayName = typeof(TViewModel).GetDisplayName();
-        var vmQueryTraceGuid = $"{vmDisplayName}_VM_{traceGuid}";
+        var vmQueryTraceGuid = $"ViewModelQuery_{vmDisplayName}_{traceGuid}";
 
         try
         {
