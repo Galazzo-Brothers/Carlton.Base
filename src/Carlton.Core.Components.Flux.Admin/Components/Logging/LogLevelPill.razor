@@ -1,0 +1,8 @@
+﻿@using Microsoft.Extensions.Logging
+
+<span class="pill @(LogLevel.ToString().ToLower())">@LogLevel</span>
+
+@code {
+    [Parameter]
+    public LogLevel LogLevel {get;set;}
+}

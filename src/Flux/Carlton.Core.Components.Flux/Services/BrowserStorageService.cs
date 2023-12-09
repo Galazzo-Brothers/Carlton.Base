@@ -1,6 +1,7 @@
 ﻿using BlazorDB;
 using Blazored.LocalStorage;
 using Carlton.Core.Utilities.Logging;
+using System.Text.Json.Serialization;
 
 namespace Carlton.Core.Components.Flux.Services;
 
@@ -9,8 +10,7 @@ public class BrowserStorageService : IBrowserStorageService
     private readonly ILocalStorageService _localStorage;
     private readonly IBlazorDbFactory _dbFactory;
     private readonly InMemoryLogger _memoryLogger;
-    private readonly IndexedDbManager _manager;
-
+    private readonly SemaphoreSlim _semaphore = new(1);
 
     public BrowserStorageService(
       ILocalStorageService localStorage,
@@ -22,58 +22,77 @@ public class BrowserStorageService : IBrowserStorageService
         _memoryLogger = memoryLogger;
     }
 
+    public async Task<IEnumerable<LogMessage>> GetLogs(DateTime dateTime)
+    {
+        var manager = await _dbFactory.GetDbManager("CarltonFlux");
+        var carltonMessage = await manager.Where<CarltonFluxLogMessage>("Logs", "indexDate", dateTime.Date.ToShortDateString());
+        return carltonMessage.SelectMany(_ => _.LogMessages).ToList();
+    }
+
     public async Task CommitLogs()
     {
+        await _semaphore.WaitAsync();
         try
         {
             //Get IndexDB reference
             var manager = await _dbFactory.GetDbManager("CarltonFlux");
 
             //Group logs by their starting scope
-            var groups = _memoryLogger.GetLogMessages()
-                                      .GroupBy(_ => initialScope(_.Scopes));
+            var dateGroups = _memoryLogger.GetLogMessages()
+                                          .GroupBy(_ => _.Timestamp.Date.ToShortDateString());
 
-
-            manager.ActionCompleted += (sender, args) =>
+            //Index by ShortDate string
+            foreach (var dateGroup in dateGroups)
             {
-                //Clear memory logs
-                _memoryLogger.ClearLogMessages();
-            };
+                var scopeGroup = dateGroup.GroupBy(_ => InitialScope(_.Scopes));
 
-            //Commit Logs to IndexDb
-            foreach (var group in groups)
-            {
-                var ascendingLogs = group.OrderBy(_ => _.Timestamp);
-                var carltonMessage = new CarltonFluxLogMessage(group.Key, ascendingLogs);
-
-                var result = await manager.AddRecord(new StoreRecord<CarltonFluxLogMessage>()
+                //Commit Logs to IndexDb
+                foreach (var group in scopeGroup)
                 {
-                    StoreName = "Logs",
-                    Record = carltonMessage
-                });
+                    var ascendingLogs = group.OrderBy(_ => _.Timestamp);
+                    var carltonMessage = new CarltonFluxLogMessage(group.Key, dateGroup.Key, ascendingLogs);
+
+                    var result = await manager.AddRecord(new StoreRecord<CarltonFluxLogMessage>()
+                    {
+                        StoreName = "Logs",
+                        Record = carltonMessage,
+                    });
+                }
             }
 
+            //Clear in-memory logs
+            _memoryLogger.ClearLogMessages();
 
         }
-        catch(NullReferenceException)
+        catch (Exception ex)
         {
-            var x = 7;
+           //swallow for now
         }
-
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     //Local func to extract initial wrapping scope
-    static string initialScope(string scopeString) => scopeString.Split("=>")?.Last().Trim();
+    static string InitialScope(string scopeString) => scopeString.Split("=>")?.Last().Trim();
 }
 
 file class CarltonFluxLogMessage
 {
-    public CarltonFluxLogMessage(string key, IEnumerable<LogMessage> logMessage)
+    public CarltonFluxLogMessage(string key, string indexDate, IEnumerable<LogMessage> logMessage)
     {
         Key = key;
+        IndexDate = indexDate;
         LogMessages = logMessage;
     }
 
+    [JsonConstructor]
+    private CarltonFluxLogMessage()
+    {
+    }
+
     public string Key { get; set; }
+    public string IndexDate { get; set; }
     public IEnumerable<LogMessage> LogMessages { get; set; }
 }

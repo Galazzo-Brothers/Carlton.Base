@@ -1,4 +1,5 @@
 ﻿@using Carlton.Core.Components.Flux.Admin.Components.Logging
+@using Carlton.Core.Components.Flux.Contracts;
 @using Carlton.Core.Components.Library
 @using Carlton.Core.Utilities.Logging;
 @using Blazored.LocalStorage;
@@ -6,8 +7,7 @@
 @using Microsoft.Extensions.Logging;
 @using static Carlton.Core.Components.Flux.Admin.Components.Logging.LogLevelFilter;
 @namespace Carlton.Core.Components.Flux.Admin
-@inject InMemoryLogger Logger
-@inject ILocalStorageService LocalStorage
+@inject IBrowserStorageService BrowserStorage
 @page "/admin/logs"
 
 <div class="log-viewer">
@@ -39,7 +39,8 @@
 
     protected async override Task OnInitializedAsync()
     {
-        AllLogMessages = await LocalStorage.GetItemAsync<IEnumerable<LogMessage>>("carltonFluxLogs");
+        await BrowserStorage.CommitLogs();
+        AllLogMessages = await BrowserStorage.GetLogs(DateTime.Now);
         includedLogLevels = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
         await base.OnInitializedAsync();
     }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Carlton.Core.Utilities.Logging;
 
 namespace Carlton.Core.Components.Flux.Contracts;
 
 public interface IBrowserStorageService
 {
     public Task CommitLogs();
+    public Task<IEnumerable<LogMessage>> GetLogs(DateTime dateTime);
 }
