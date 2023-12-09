@@ -1,28 +1,15 @@
 ﻿@using Carlton.Core.Utilities.Logging;
 
 <div class="table-row">
-    <div class="table-cell">@LogMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</div>
-    <div class="table-cell">@LogMessage.Message</div>
+    <div class="table-cell"><span class="cell-text">@LogMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</span></div>
+    <div class="table-cell"><span class="cell-text">@LogMessage.Message</span></div>
     <div class="table-cell"><span class="pill @(LogMessage.LogLevel.ToString().ToLower())">@LogMessage.LogLevel</span></div>
-    <div class="table-cell">@LogMessage.EventId.Id</div>
-    <div class="table-cell">@LogMessage.EventId.Name</div>
+    <div class="table-cell"><span class="cell-text">@LogMessage.EventId</span></div>
+    <div class="table-cell"><span class="cell-text">@LogMessage.EventName</span></div>
 </div>
 
-@foreach(var child in ChildLogMessages)
-{
-    <div class="table-row">
-        <div class="table-cell">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</div>
-        <div class="table-cell">@child.Message</div>
-        <div class="table-cell"><span class="pill @(child.LogLevel.ToString().ToLower())">@LogMessage.LogLevel</span></div>
-        <div class="table-cell">@child.EventId.Id</div>
-        <div class="table-cell">@child.EventId.Name</div>
-    </div>
-}
 
 @code {
     [Parameter]
-    public LogMessage LogMessage { get; set; }
-
-    [Parameter]
-    public IEnumerable<LogMessage> ChildLogMessages { get; set; } = new List<LogMessage>();
+    public required LogMessage LogMessage { get; set; }
 }

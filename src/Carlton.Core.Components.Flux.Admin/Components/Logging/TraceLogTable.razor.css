@@ -1,7 +1,7 @@
-﻿
-::deep .table-cell {
-	max-width: 300px;
+﻿::deep .header-cell  {
+	margin-left: 20px;
 }
+
 
 ::deep .header-cell .heading-text {
 	margin-left: auto;

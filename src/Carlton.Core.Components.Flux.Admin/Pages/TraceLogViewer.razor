@@ -1,0 +1,30 @@
+﻿@using Carlton.Core.Components.Flux.Admin.Components.Logging
+@using Carlton.Core.Components.Flux.Contracts;
+@using Carlton.Core.Components.Library
+@using Carlton.Core.Utilities.Logging;
+@using Blazored.LocalStorage;
+@using Carlton.Core.Components.Flux.Admin.Components;
+@using Microsoft.Extensions.Logging;
+@using static Carlton.Core.Components.Flux.Admin.Components.Logging.LogLevelFilter;
+@namespace Carlton.Core.Components.Flux.Admin
+@inject IBrowserStorageService BrowserStorage
+@page "/admin/trace"
+
+<div class="log-viewer">
+    <TraceLogTable LogMessages="LogMessages" />
+</div>
+
+
+
+@code {
+    private IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        await BrowserStorage.CommitLogs();
+        LogMessages = await BrowserStorage.GetLogs(DateTime.Now);
+        await base.OnInitializedAsync();
+    }
+}
+

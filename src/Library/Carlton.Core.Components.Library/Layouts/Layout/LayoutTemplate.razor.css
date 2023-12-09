@@ -1,7 +1,7 @@
 ﻿.layout-container {
     display: grid;
     grid-template-rows: auto 1fr auto;
-    grid-template-columns: 20% 1fr 1fr;
+    grid-template-columns: 15% 1fr 1fr;
     grid-template-areas:
         "navsidebar header header"
         "navsidebar main main"
@@ -30,10 +30,10 @@
     }
 
     .layout-container footer.fixed {
-        width: 80%;
+        width: 85%;
         position: absolute;
         bottom: 0;
-        margin-left: 20%;
+        margin-left: 15%;
         z-index: 10;
     }
 

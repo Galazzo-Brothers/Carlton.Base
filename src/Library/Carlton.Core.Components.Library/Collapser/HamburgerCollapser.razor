@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Library
 
 <div class="collapser">
-    <a href="#" @onclick="LayoutState.ToggleCollapsedState">
+    <a href="#" @onclick:preventDefault @onclick="LayoutState.ToggleCollapsedState">
         <span class="mdi mdi-24px mdi-menu" />
     </a>
 </div>

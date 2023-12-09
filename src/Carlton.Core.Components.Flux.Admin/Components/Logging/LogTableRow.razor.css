@@ -1,0 +1,46 @@
+﻿
+.cell-text {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.table-cell:nth-of-type(2) .pill {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pill {
+	display: inline-block;
+	width: 75px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px 10px;
+	text-align: center;
+	color: #fff;
+	border-radius: 25px;
+	font-family: Arial, sans-serif;
+}
+
+	.pill.trace {
+		background-color: var(--accent-color-4);
+	}
+
+	.pill.debug {
+		background-color: var(--accent-color-1);
+	}
+
+	.pill.information {
+		background-color: var(--accent-neutral);
+	}
+
+	.pill.warning {
+		background-color: var(--accent-color-5);
+	}
+
+	.pill.error {
+		background-color: var(--accent-color-3);
+	}
+
+	.pill.critical {
+		background-color: var(--accent-color-6);
+	}

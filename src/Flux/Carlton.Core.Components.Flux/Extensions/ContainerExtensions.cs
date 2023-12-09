@@ -11,7 +11,6 @@ using Carlton.Core.Components.Flux.State;
 using Carlton.Core.Utilities.JsonConverters;
 using Carlton.Core.Utilities.Logging;
 using MapsterMapper;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 
 namespace Carlton.Core.Components.Flux;
@@ -86,15 +85,16 @@ public static class ContainerExtensions
             options.Version = 1;
             options.StoreSchemas = new List<StoreSchema>()
             {
-                new StoreSchema()
+                new()
                 {
                     Name = "Logs",
-                    PrimaryKey = "key"
+                    PrimaryKey = "key",
+                    Indexes = new List<string> {"indexDate"}
                 }
             };
         });
 
-        services.AddTransient<IBrowserStorageService, BrowserStorageService>();
+        services.AddSingleton<IBrowserStorageService, BrowserStorageService>();
     }
 
     private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)

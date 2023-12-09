@@ -10,7 +10,7 @@
 }
 
 /* Apply zebra stripe effect */
-::deep .table-row:nth-child(even) {
+::deep .table-row.zebra:nth-child(even) {
     background-color: #f2f2f2;
 }
 
