@@ -1,20 +1,35 @@
 ﻿@namespace Carlton.Core.Components.Flux.Admin
 @inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<DashboardLayout ShowTabPanel="true" >
+<DashboardLayout ShowTabPanel="false">
     <NavContent>
-        <NavMenu />
+        <FluxAdminNavMenu />
     </NavContent>
     <PageTitleContent>
-        <span>Admin</span>
+        <BreadCrumbs Title="Admin" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
     </PageTitleContent>
+    <HeaderActionContent>
+        <FluxAdminHeaderActions />
+    </HeaderActionContent>
     <Body>
         @Body
     </Body>
     <Tabs>
-@*        <ComponentLabTabs />*@
     </Tabs>
 </DashboardLayout>
 
 
+@code {
+    private string GetCurrentPage()
+    {
+        // Get the full URI
+        string fullUri = NavigationManager.Uri;
 
+        // Get the base URI of the app
+        string baseUri = NavigationManager.BaseUri;
+
+        // Extract the tail end of the route (current page) by removing the base URI
+        return fullUri.Substring(baseUri.Length).Split('/').Last();
+    }
+}

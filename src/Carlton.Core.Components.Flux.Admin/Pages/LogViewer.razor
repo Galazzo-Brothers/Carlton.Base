@@ -3,30 +3,38 @@
 @using Carlton.Core.Components.Library
 @using Carlton.Core.Utilities.Logging;
 @using Blazored.LocalStorage;
-@using Carlton.Core.Components.Flux.Admin.Components;
+@using Carlton.Core.Components.Flux.Admin.Components.Logging.EventLogging;
 @using Microsoft.Extensions.Logging;
-@using static Carlton.Core.Components.Flux.Admin.Components.Logging.LogLevelFilter;
+
 @namespace Carlton.Core.Components.Flux.Admin
 @inject IBrowserStorageService BrowserStorage
 @page "/admin/logs"
 
-<div class="log-viewer">
-    <div class="log-filters">
-        <LogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
-        <LogTextFilter OnTextChanged="OnFilterTextChanges" />
+@if (IsLoading)
+{
+    <Spinner/>
+}
+else
+{
+    <div class="log-viewer">
+        <div class="log-filters">
+            <LogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
+            <LogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
+            <LogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
+            <LogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
+            <LogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
+            <LogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
+            <LogTextFilter OnTextChanged="OnFilterTextChanges" />
+        </div>
+
+        <LogTable LogMessages="FilteredLogMessages" />
     </div>
-
-    <LogTable LogMessages="FilteredLogMessages" />
-</div>
-
+}
 
 
 @code {
+    private bool IsLoading { get; set; } = true;
+
     private IList<LogLevel> includedLogLevels = new List<LogLevel>();
     private string filterText = string.Empty;
 
@@ -42,6 +50,7 @@
         await BrowserStorage.CommitLogs();
         AllLogMessages = await BrowserStorage.GetLogs(DateTime.Now);
         includedLogLevels = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
+        IsLoading = false;
         await base.OnInitializedAsync();
     }
 

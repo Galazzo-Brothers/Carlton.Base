@@ -1,5 +1,4 @@
 ﻿
-
 .table-row.starting-row {
 	background-color: var(--card-background-color);
 	border-bottom: transparent;
@@ -9,10 +8,21 @@
 	background-color: var(--card-background-color);
 }
 
+.table-row .table-cell:first-of-type {
+	max-width: 25px;
+}
+
 .table-row.child-row {
+	padding-left: 15px;
 	background-color: var(--card-secondary-background-color);
 	border-bottom: transparent;
 }
+
+.table-cell {
+	max-width: 300px;
+	min-width: 25px;
+}
+
 
 .cell-text {
 	margin-left: auto;
@@ -27,11 +37,8 @@
 	cursor: pointer;
 }
 
-.hidden {
-	visibility: hidden;
-}
-
 .child-row {
+	padding-left: 5px;
 }
 
 	.child-row.collapsed {
