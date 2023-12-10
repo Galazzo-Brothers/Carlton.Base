@@ -8,6 +8,3 @@
 	margin-right: auto;
 }
 
-::deep .table-cell {
-	max-width: 300px;
-}

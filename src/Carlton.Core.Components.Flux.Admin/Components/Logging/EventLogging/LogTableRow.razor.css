@@ -1,0 +1,15 @@
+﻿
+.table-cell{
+	max-width: 300px;
+}
+
+.cell-text {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.table-cell:nth-of-type(2) .pill {
+	margin-left: auto;
+	margin-right: auto;
+}

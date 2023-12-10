@@ -1,0 +1,14 @@
+﻿.flux-admin-header-actions {
+	display: flex;
+	gap: 10px;
+}
+
+	.flux-admin-header-actions .icon {
+		margin-top: auto;
+		margin-block: auto;
+		color: var(--icon-color);
+	}
+
+	.flux-admin-header-actions ::deep .vertical-spacer {
+		border-left-color: var(--icon-color);
+	}

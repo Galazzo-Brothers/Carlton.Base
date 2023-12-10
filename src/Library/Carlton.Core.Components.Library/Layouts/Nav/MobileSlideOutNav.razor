@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Library
 
 <div class="@SlideOutNavCss">
-    <a href="#" @onclick="() => MenuVisible=!MenuVisible">
+    <a href="#" @onclick:preventDefault @onclick="() => MenuVisible=!MenuVisible">
         <span class="@SlideOutNavIconCss" />
     </a>
 </div>

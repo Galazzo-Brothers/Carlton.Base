@@ -5,18 +5,26 @@
 @using Blazored.LocalStorage;
 @using Carlton.Core.Components.Flux.Admin.Components;
 @using Microsoft.Extensions.Logging;
-@using static Carlton.Core.Components.Flux.Admin.Components.Logging.LogLevelFilter;
+@using Carlton.Core.Components.Flux.Admin.Components.Logging.TraceLogging
 @namespace Carlton.Core.Components.Flux.Admin
 @inject IBrowserStorageService BrowserStorage
 @page "/admin/trace"
 
-<div class="log-viewer">
-    <TraceLogTable LogMessages="LogMessages" />
-</div>
-
+@if (IsLoading)
+{
+    <Spinner />
+}
+else
+{
+    <div class="log-viewer">
+        <TraceLogTable LogMessages="LogMessages" />
+    </div>
+}
 
 
 @code {
+    private bool IsLoading { get; set; } = true;
+
     private IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
 
@@ -24,6 +32,7 @@
     {
         await BrowserStorage.CommitLogs();
         LogMessages = await BrowserStorage.GetLogs(DateTime.Now);
+        IsLoading = false;
         await base.OnInitializedAsync();
     }
 }

@@ -26,7 +26,12 @@
             </div>
         </HeaderTemplate>
         <MenuItemTemplate Context="item">
-            <DropdownMenuElement MenuItemName="@item.MenuItemName" Value="@item.Value" MenuIcon="@item.MenuIcon" AccentColorIndex="@item.AccentColorIndex" />
+            <DropdownMenuElement T="int"
+                                 MenuItemName="@item.MenuItemName"
+                                 Value="@item.Value"
+                                 MenuIcon="@item.MenuIcon"
+                                 AccentColorIndex="@item.AccentColorIndex"
+                                 OnMenuItemSelected="MenuItemSelected" />
         </MenuItemTemplate>
     </DropdownMenu>
 </div>
@@ -36,13 +41,10 @@
     public string AvatarImgUrl { get; set; }
     [Parameter]
     public string Username { get; set; }
-
-    public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; private set; } = new List<DropdownMenuItem<int>>
-    {
-        new DropdownMenuItem<int>("Profile", 1, "account", 1),
-        new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2),
-        new DropdownMenuItem<int>("Logout", 3, "logout", 3)
-    };
+    [Parameter]
+    public EventCallback<int> MenuItemSelected { get; set; }
+    [Parameter]
+    public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; set; }
 
     private DropdownMenuStyle Style
     {

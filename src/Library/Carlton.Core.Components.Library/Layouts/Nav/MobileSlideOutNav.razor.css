@@ -1,10 +1,11 @@
-﻿.slide-out-nav span{
+﻿.slide-out-nav .icon{
     color: white;
 }
 
 .menu-content-container {
     display: none;
     height: 100vh;
+    background-color: var(--layout-nav-background-color);
     z-index: 11;
     transition: left 1s;
 }
