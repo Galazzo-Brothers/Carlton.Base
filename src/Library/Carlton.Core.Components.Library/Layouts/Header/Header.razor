@@ -11,7 +11,7 @@
                 @PageTitleContent
             </TitleContent>
             <ActionContent>
-                <HeaderActions/>
+                @HeaderActionsContent
             </ActionContent>
         </DesktopHeaderTemplate>
     </DesktopContent>
@@ -27,7 +27,7 @@
                 @PageTitleContent
             </TitleContent>
             <ActionContent>
-                <ProfileAvatar Username="Stephen" AvatarImgUrl="_content/Carlton.Core.Components.Library/images/avatar.jpg" />
+                @HeaderActionsContent
             </ActionContent>
         </MobileHeaderTemplate>
     </MobileContent>
@@ -38,4 +38,6 @@
     public RenderFragment PageTitleContent { get; set; }
     [Parameter, AllowNull]
     public RenderFragment NavMenuContent { get; set; }
+    [Parameter]
+    public RenderFragment HeaderActionsContent { get; set; }
 }

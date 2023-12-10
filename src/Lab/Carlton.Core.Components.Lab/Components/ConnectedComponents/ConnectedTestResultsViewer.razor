@@ -3,7 +3,7 @@
 @inherits BaseConnectedComponent<TestResultsViewModel>
 
 <div class="test-results-viewer">
-    <Table Headings="Headings" Items="@ViewModel.TestResults" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+    <Table Headings="Headings" Items="@ViewModel.TestResults" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
         <RowTemplate Context="item">
             <div class="table-row">
                 <div class="table-cell test-outcome-column">
@@ -30,7 +30,6 @@
                     }
                 </div>
                 <div class="table-cell">@item?.TestName</div>
-                <div class="table-cell">@item?.TestDuration</div>
             </div>
         </RowTemplate>
     </Table>
@@ -42,9 +41,8 @@
     {
         get => new List<TableHeadingItem>
         {
-            new TableHeadingItem("Result", "TestResultStatus"),
-            new TableHeadingItem("Test Name", "TestName"),
-            new TableHeadingItem("Duration (Milliseconds )", "TestDuration")
+            new TableHeadingItem("Result", "TestResultOutcome"),
+            new TableHeadingItem("Test Name", "TestName")
         };
     }
 

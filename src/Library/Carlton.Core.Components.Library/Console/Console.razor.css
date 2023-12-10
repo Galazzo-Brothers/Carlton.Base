@@ -9,6 +9,7 @@ textarea {
     background-color: var(--console-background-color);
     color: var(--console-color);
     resize: none;
+    border: none;
 }
 
     textarea.error {

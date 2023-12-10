@@ -1,16 +1,11 @@
-﻿/* vertical panel */
-.resizable-panel {
-    height: calc(100vh - 100px);
-    overflow: hidden;
-}
-
+﻿
 .panel-top {
     /* only manually resize */
     padding: 10px;
     height: 100px;
     width: 100%;
     overflow-y: scroll;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - 140px);
     box-sizing: border-box;
 }
 

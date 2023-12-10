@@ -2,7 +2,7 @@
 
 <LayoutTemplate IsFixedFooter="true">
     <HeaderContent>
-        <Header NavMenuContent="NavContent" PageTitleContent="PageTitleContent" />
+        <Header NavMenuContent="NavContent" PageTitleContent="PageTitleContent" HeaderActionsContent="HeaderActionContent"  />
     </HeaderContent>
     <NavContent>
         <NavTemplate Title="@Title" NavContent="NavContent" />
@@ -23,15 +23,13 @@
     [Parameter]
     public RenderFragment PageTitleContent { get; set; }
     [Parameter]
-    public RenderFragment HeaderContent { get; set; }
+    public RenderFragment HeaderActionContent { get; set; }
     [Parameter]
     public RenderFragment NavContent { get; set; }
     [Parameter]
     public RenderFragment Body { get; set; }
     [Parameter]
     public RenderFragment Tabs { get; set; }
-    [Parameter]
-    public RenderFragment FooterContent { get; set; }
 }
 
 
