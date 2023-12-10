@@ -1,19 +1,19 @@
-﻿.page-title {
+﻿.bread-crumbs {
     --page-title-font-size: 15pt;
     --page-title-bread-crumb-font-size: 12pt;
 }
 
-.page-title {
+.bread-crumbs {
     display: flex;
     flex-direction: column;
 }
 
-    .page-title .title {
+    .bread-crumbs .page-title {
         font-size: var(--page-title-font-size);
         color: var(--primary-text-color);
     }
 
-    .page-title .bread-crumbs {
+    .bread-crumbs .bread-crumbs-text {
         font-size: var(--page-title-bread-crumb-font-size);
         color: var(--secondary-text-color);
     }

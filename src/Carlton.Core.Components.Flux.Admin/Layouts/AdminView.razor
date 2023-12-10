@@ -14,9 +14,9 @@ else
 @code {
 
     [Parameter]
-    public RenderFragment AdminContent { get; set; }
+    public required RenderFragment AdminContent { get; set; }
     [Parameter]
-    public RenderFragment ApplicationContent { get; set; }
+    public required RenderFragment ApplicationContent { get; set; }
 
     private bool IsAdmin { get => Navigation.Uri.Contains("/admin"); }
 }

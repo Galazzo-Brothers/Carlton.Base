@@ -1,8 +1,6 @@
 ﻿.header-bar {
-    --header-height: 75px;
-
     display: flex;
-    height: var(--header-height);
+    height: 75px;
     background-color: var(--layout-header-background-color);
 }
 
@@ -26,8 +24,3 @@
         margin-right: 10px;
     }
 
-/*Overrides*/
-.desktop-header-template-container ::deep .horizontal-spacer::after {
-    width: 100%;
-    opacity: .5;
-}

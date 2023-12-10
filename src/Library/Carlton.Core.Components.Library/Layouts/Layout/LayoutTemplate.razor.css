@@ -20,6 +20,8 @@
 
     .layout-container main {
         grid-area: main;
+        height: 100vh;
+        padding-top: 20px;
         background-color: var(--layout-main-background-color);
     }
 
