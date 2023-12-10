@@ -20,7 +20,7 @@
     private bool IsActive { get; set; }
 
     [Parameter]
-    public IEnumerable<DropdownMenuItem<T>> MenuItems { get; set; }
+    public IEnumerable<DropdownMenuItem<T>> MenuItems { get; set; } = new List<DropdownMenuItem<T>>();
     [Parameter]
     public RenderFragment HeaderTemplate { get; set; }
     [Parameter]

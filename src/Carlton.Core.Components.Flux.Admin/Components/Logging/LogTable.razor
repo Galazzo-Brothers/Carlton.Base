@@ -1,7 +1,7 @@
 ﻿@using Carlton.Core.Utilities.Logging;
 
 <div class="log-table">
-    <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts">
+    <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
         <RowTemplate Context="item">
             <LogTableRow LogMessage="item" />
         </RowTemplate>

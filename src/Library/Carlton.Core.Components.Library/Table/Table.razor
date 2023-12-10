@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Library
 @typeparam TItem
 
-<div class="table-container">
+<div class="table-container @TableCssClass">
     <div class="table-row">
         <TableHeader TItem="TItem"
                      Headings="Headings"
@@ -48,6 +48,9 @@
     [Parameter]
     public bool SortableHeadersEnabled { get; set; } = true;
 
+    [Parameter]
+    public bool ZebraStripped { get; set; }
+
     private int SelectedRowsPerPageIndex { get; set; } = 0;
 
     private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
@@ -59,6 +62,13 @@
     private bool OrderAscending { get; set; } = true;
 
     private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
+    
+    private string TableCssClass
+    {
+        get => new CssBuilder()
+                .AddClass("zebra", ZebraStripped)
+                .Build();
+    }
 
     protected override void OnParametersSet()
     {
