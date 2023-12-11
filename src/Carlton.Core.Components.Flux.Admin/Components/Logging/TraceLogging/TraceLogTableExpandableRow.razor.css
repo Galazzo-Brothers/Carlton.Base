@@ -18,12 +18,6 @@
 	border-bottom: transparent;
 }
 
-.table-cell {
-	max-width: 300px;
-	min-width: 25px;
-}
-
-
 .cell-text {
 	margin-left: auto;
 	margin-right: auto;

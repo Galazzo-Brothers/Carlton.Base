@@ -1,13 +1,14 @@
 ﻿
+
 .log-filters {
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
+	margin-left: 10px;
 	margin-bottom: 20px;
 }
 
 ::deep .log-text-filter {
 	margin-left: 50px;
 }
-
 
