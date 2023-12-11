@@ -2,17 +2,19 @@
 @typeparam TItem
 
 <div class="table-container @TableCssClass">
-    <div class="table-row">
+    <div class="header table-row">
         <TableHeader TItem="TItem"
                      Headings="Headings"
                      OrderColumn="@OrderColumn"
                      OrderAscending="OrderAscending"
                      OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
     </div>
-    @foreach (var item in Items)
-    {
-        @RowTemplate(item)
-    }
+    <div class="body">
+        @foreach (var item in Items)
+        {
+            @RowTemplate(item)
+        }
+    </div>
     @if (ShowPaginationRow)
     {
         <div class="table-row">
@@ -62,7 +64,7 @@
     private bool OrderAscending { get; set; } = true;
 
     private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
-    
+
     private string TableCssClass
     {
         get => new CssBuilder()
