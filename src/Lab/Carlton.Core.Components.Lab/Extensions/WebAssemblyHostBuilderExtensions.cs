@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Lab;
+﻿using Carlton.Core.Components.Flux.Admin.State;
+
+namespace Carlton.Core.Components.Lab;
 
 public static class WebAssemblyHostBuilderExtensions
 {
@@ -16,8 +18,9 @@ public static class WebAssemblyHostBuilderExtensions
 
         /*Flux Registers*/
         var state = new LabState(options, testResults);
-        builder.Services.AddCarltonFlux(state, builder.Configuration, typeAdapterConfig, true);
-        builder.Services.AddCarltonFluxAdmin<LabState>(builder.Configuration);
+        builder.AddCarltonFlux(state, typeAdapterConfig, true);
+
+        builder.AddCarltonFluxAdmin(state);
     }
 }
 
