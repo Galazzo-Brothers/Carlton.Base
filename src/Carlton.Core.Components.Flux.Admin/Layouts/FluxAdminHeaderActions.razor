@@ -1,5 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Flux.Admin
+@using Carlton.Core.Components.Flux.Contracts
 @inject NavigationManager NavigationManager
+@inject IBrowserStorageService BrowserStorageService
 
 <div class="flux-admin-header-actions">
     <ThemeMenu />
@@ -11,9 +13,20 @@
 </div>
 
 
+
+<Modal ModalVisible="ShowModal" 
+       ModalPrompt="Are you sure?"
+       ModalMessage="Do you really want to delete this records? It cannot be undone."
+       OnModalDissmissed="OnModalDismised" />
+
+
+
+
 @code {
     [CascadingParameter]
     private ThemeState ThemeState { get; set; }
+
+    private bool ShowModal { get; set; }
 
     private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
     {
@@ -23,8 +36,9 @@
             {
                 new DropdownMenuItem<int>("Profile", 1, "account", 1),
                 new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2),
-                new DropdownMenuItem<int>("App", 3, "open-in-app", 3),
-                new DropdownMenuItem<int>("Logout", 4, "logout", 4)
+                new DropdownMenuItem<int>("Clear Localstorage", 3, "delete", 3),
+                new DropdownMenuItem<int>("App", 4, "open-in-app", 4),
+                new DropdownMenuItem<int>("Logout", 5, "logout", 5)
             };
         }
     }
@@ -37,10 +51,21 @@
                 ThemeState.SetTheme(ThemeState.Theme == Themes.light ? Themes.dark : Themes.light);
                 break;
             case 3:
+                ShowModal = true;
+                break;
+            case 4:
                 NavigationManager.NavigateTo($"/");
                 break;
             default:
                 return;
         }
+    }
+
+    private async Task OnModalDismised(bool userConfirmed)
+    {
+        if (userConfirmed)
+            await BrowserStorageService.ClearLogs();
+
+        ShowModal = false;
     }
 }
