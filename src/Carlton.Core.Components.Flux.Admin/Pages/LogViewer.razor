@@ -5,8 +5,8 @@
 @using Blazored.LocalStorage;
 @using Carlton.Core.Components.Flux.Admin.Components.Logging.EventLogging;
 @using Microsoft.Extensions.Logging;
-
 @namespace Carlton.Core.Components.Flux.Admin
+@implements IDisposable
 @inject IBrowserStorageService BrowserStorage
 @page "/admin/logs"
 
@@ -38,7 +38,7 @@ else
     private IList<LogLevel> includedLogLevels = new List<LogLevel>();
     private string filterText = string.Empty;
 
-    private IEnumerable<LogMessage> AllLogMessages { get; set; } = new List<LogMessage>();
+    private IList<LogMessage> AllLogMessages { get; set; } = new List<LogMessage>();
     private IEnumerable<LogMessage> FilteredLogMessages
     {
         get => AllLogMessages.Where(_ => includedLogLevels.Contains(_.LogLevel))
@@ -48,15 +48,15 @@ else
     protected async override Task OnInitializedAsync()
     {
         await BrowserStorage.CommitLogs();
-        AllLogMessages = await BrowserStorage.GetLogs(DateTime.Now);
+        AllLogMessages = (await BrowserStorage.GetLogs(DateTime.Now)).ToList();
         includedLogLevels = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
         IsLoading = false;
+        BrowserStorage.LogsCleared += LogsCleared;
         await base.OnInitializedAsync();
     }
 
     private bool FilterIsActive(LogLevel logLevel)
         => includedLogLevels.Contains(logLevel);
-
 
     private int GetCountByLevel(LogLevel logLevel)
         => AllLogMessages.Count(_ => _.LogLevel == logLevel);
@@ -70,6 +70,17 @@ else
             includedLogLevels.Add(logLevel);
         else
             includedLogLevels.Remove(logLevel);
+    }
+
+    private void LogsCleared()
+    {
+        AllLogMessages.Clear();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        BrowserStorage.LogsCleared -= LogsCleared;
     }
 }
 
