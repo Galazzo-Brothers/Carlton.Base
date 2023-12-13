@@ -1,0 +1,98 @@
+﻿.modal {
+	display: none;
+	position: fixed; 
+	z-index: 1; 
+	left: 0;
+	top: 0;
+	width: 100%; 
+	height: 100%; 
+	overflow: auto; 
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+	.modal.visible{
+		display: inherit;
+	}
+
+.modal-content {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	width: 15%; 
+	gap: 20px;
+	background-color: #fefefe;
+	margin: 15% auto; 
+	padding: 20px;
+	border: none;
+	border-radius: 5px;
+}
+
+.close {
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+	.close:hover,
+	.close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+
+.modal-header {
+	margin-left: auto;
+	margin-right: auto;
+	color: #e46a76;
+}
+
+
+.modal-prompt-message {
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--primary-text-color);
+	font-size: 20pt;
+}
+
+.modal-message {
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+	.modal-message .message-text {
+		color: var(--secondary-text-color);
+		font-size: 10pt;
+	}
+
+.modal-actions {
+	display: flex;
+	gap: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+	.modal-actions button {
+		height: 30px;
+		width: 75px;
+		margin-left: auto;
+		margin-right: auto;
+		color: white;
+		border-radius: 5px;
+		border-color: transparent;
+		cursor: pointer;
+	}
+
+	.modal-actions .btn-cancel{
+		background-color: gray;
+	}
+
+	.modal-actions .btn-confirm {
+		background-color: #e46a76;
+	}
