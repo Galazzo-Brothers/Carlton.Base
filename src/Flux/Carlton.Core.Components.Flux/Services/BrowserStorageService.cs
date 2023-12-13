@@ -74,6 +74,19 @@ public class BrowserStorageService : IBrowserStorageService
         }
     }
 
+    public async Task ClearLogs()
+    {
+        try
+        {
+            var manager = await _dbFactory.GetDbManager("CarltonFlux");
+            await manager.ClearTableAsync("Logs");
+        }
+        catch(Exception ex)
+        {
+            //swallow for now
+        }
+    }
+
     //Local func to extract initial wrapping scope
     static string InitialScope(string scopeString) => scopeString.Split("=>")?.Last().Trim();
 }
