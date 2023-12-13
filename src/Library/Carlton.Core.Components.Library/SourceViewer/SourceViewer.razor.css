@@ -3,3 +3,8 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+code{
+	height: 230px;
+	overflow-y: scroll;
+}
