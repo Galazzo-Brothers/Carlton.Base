@@ -11,6 +11,7 @@ using Carlton.Core.Components.Flux.State;
 using Carlton.Core.Utilities.JsonConverters;
 using Carlton.Core.Utilities.Logging;
 using MapsterMapper;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace Carlton.Core.Components.Flux;
@@ -18,68 +19,67 @@ namespace Carlton.Core.Components.Flux;
 public static class ContainerExtensions
 {
     public static void AddCarltonFlux<TState>(
-        this IServiceCollection services,
+        this WebAssemblyHostBuilder builder,
         TState state,
-        IConfiguration configuration,
         TypeAdapterConfig typeAdapterConfig,
         bool usesLocalStorage)
         where TState : class
     {
         /*Register Logging*/
-        RegisterLogging(services, configuration);
-
+        RegisterLogging(builder);
+        
         /*Local Storage*/
-        RegisterLocalStorage(services);
+        RegisterLocalStorage(builder);
 
         /*Mapster*/
-        RegisterMapster(services, typeAdapterConfig);
+        RegisterMapster(builder, typeAdapterConfig);
 
         /*Flux State*/
-        RegisterFluxState(services, state, usesLocalStorage);
+        RegisterFluxState(builder, state, usesLocalStorage);
 
         /*Connected Components*/
-        RegisterFluxConnectedComponents(services);
+        RegisterFluxConnectedComponents(builder);
 
         /*Dispatchers*/
-        RegisterFluxDispatchers<TState>(services, usesLocalStorage);
+        RegisterFluxDispatchers<TState>(builder, usesLocalStorage);
 
         /*Handlers*/
-        RegisterFluxHandlers<TState>(services);
+        RegisterFluxHandlers<TState>(builder);
 
         /*State Mutations*/
-        RegisterFluxStateMutations<TState>(services);
+        RegisterFluxStateMutations<TState>(builder);
 
         /*Validators*/
-        RegisterValidators(services);
+        RegisterValidators(builder);
 
         /*Exception Handling*/
-        RegisterExceptionHandling(services);
+        RegisterExceptionHandling(builder);
     }
 
-    private static void RegisterLogging(IServiceCollection services, IConfiguration configuration)
+    private static void RegisterLogging(WebAssemblyHostBuilder builder)
     {
         var logger = new InMemoryLogger();
-        services.AddSingleton(logger);
-        services.AddLogging(builder =>
+        builder.Services.AddSingleton(logger);
+        builder.Services.AddLogging(b =>
         {
             //builder.ClearProviders();
-            builder.AddConfiguration(configuration.GetSection("Logging"));
-            builder.AddProvider(new InMemoryLoggerProvider(logger));
+            b.AddConfiguration(builder.Configuration.GetSection("Logging"));
+            b.AddProvider(new InMemoryLoggerProvider(logger));
         });
 
-        services.AddSingleton<ILogger, InMemoryLogger>();
+        builder.Services.AddSingleton<ILogger, InMemoryLogger>();
     }
 
-    private static void RegisterLocalStorage(IServiceCollection services)
+    private static void RegisterLocalStorage(WebAssemblyHostBuilder builder)
     {
-        services.AddBlazoredLocalStorageAsSingleton(
+        builder.Services.AddBlazoredLocalStorageAsSingleton(
             config =>
             {
                 config.JsonSerializerOptions.Converters.Add(new JsonTypeConverter());
                 config.JsonSerializerOptions.Converters.Add(new JsonEventIdConverter());
             });
 
-        services.AddBlazorDB(options =>
+        builder.Services.AddBlazorDB(options =>
         {
             options.Name = "CarltonFlux";
             options.Version = 1;
@@ -94,54 +94,53 @@ public static class ContainerExtensions
             };
         });
 
-        services.AddSingleton<IBrowserStorageService, BrowserStorageService>();
+        builder.Services.AddSingleton<IBrowserStorageService, BrowserStorageService>();
     }
 
-    private static void RegisterMapster(IServiceCollection services, TypeAdapterConfig config)
+    private static void RegisterMapster(WebAssemblyHostBuilder builder, TypeAdapterConfig config)
     {
-        services.AddSingleton(config);
-        services.AddSingleton<IMapper, ServiceMapper>();
+        builder.Services.AddSingleton(config);
+        builder.Services.AddSingleton<IMapper, ServiceMapper>();
     }
 
-    private static void RegisterFluxState<TState>(IServiceCollection services, TState state, bool usesLocalStorage)
+    private static void RegisterFluxState<TState>(WebAssemblyHostBuilder builder, TState state, bool usesLocalStorage)
         where TState : class
     {
-        /*LabState*/
-        services.AddSingleton(provider => CheckLocalStorageState(state, provider, usesLocalStorage));
-        services.AddSingleton<IMutableFluxState<TState>, FluxState<TState>>();
-        services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
-        services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
-        services.AddSingleton<MutationResolver<TState>>();
+        builder.Services.AddSingleton(provider => CheckLocalStorageState(state, provider, usesLocalStorage));
+        builder.Services.AddSingleton<IMutableFluxState<TState>, FluxState<TState>>();
+        builder.Services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
+        builder.Services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
+        builder.Services.AddSingleton<MutationResolver<TState>>();
     }
 
-    private static void RegisterFluxDispatchers<TState>(IServiceCollection services, bool usesLocalStorage)
+    private static void RegisterFluxDispatchers<TState>(WebAssemblyHostBuilder builder, bool usesLocalStorage)
     {
         /*ViewModel Dispatchers*/
-        services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
+        builder.Services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
         //services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelHttpDecorator<TState>>();
-        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelJsDecorator<TState>>();
-        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
-        services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
+        builder.Services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelJsDecorator<TState>>();
+        builder.Services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
+        builder.Services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
 
         /*Mutation Dispatchers*/
-        services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
-        services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
+        builder.Services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
+        builder.Services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
         // services.Decorate<IMutationCommandDispatcher<TState>, MutationHttpDecorator<TState>>();
         if (usesLocalStorage)
-            services.Decorate<IMutationCommandDispatcher<TState>, MutationLocalStorageDecorator<TState>>();
-        services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
+            builder.Services.Decorate<IMutationCommandDispatcher<TState>, MutationLocalStorageDecorator<TState>>();
+        builder.Services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
     }
 
-    private static void RegisterFluxConnectedComponents(IServiceCollection services)
+    private static void RegisterFluxConnectedComponents(WebAssemblyHostBuilder builder)
     {
-        services.Scan(scan => scan
+        builder.Services.Scan(scan => scan
                     .FromApplicationDependencies()
                     .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime());
     }
 
-    private static void RegisterFluxHandlers<TState>(IServiceCollection services)
+    private static void RegisterFluxHandlers<TState>(WebAssemblyHostBuilder builder)
     {
         bool interfacePredicate(Type _) => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(IConnectedComponent<>);
         bool baseConnComPredicate(Type _) => _.IsGenericType && _.GetGenericTypeDefinition() == typeof(BaseConnectedComponent<>);
@@ -163,42 +162,42 @@ public static class ContainerExtensions
                                 var vmType = _.GetInterfaces().First(interfacePredicate).GetGenericArguments()[0];
                                 var interfaceType = typeof(IViewModelQueryHandler<,>).MakeGenericType(typeof(TState), vmType);
                                 var implementationType = typeof(ViewModelQueryHandler<,>).MakeGenericType(typeof(TState), vmType);
-                                services.AddTransient(interfaceType, implementationType);
+                                builder.Services.AddTransient(interfaceType, implementationType);
                             }
                             else if (isMutationCommand)
                             {
                                 //Register Mutation Commands
                                 var interfaceType = typeof(IMutationCommandHandler<,>).MakeGenericType(typeof(TState), _);
                                 var implementationType = typeof(MutationCommandHandler<,>).MakeGenericType(typeof(TState), _);
-                                services.AddTransient(interfaceType, implementationType);
+                                builder.Services.AddTransient(interfaceType, implementationType);
                             }
                         });
     }
 
-    private static void RegisterFluxStateMutations<TState>(IServiceCollection services)
+    private static void RegisterFluxStateMutations<TState>(WebAssemblyHostBuilder builder)
     {
-        services.AddSingleton<IMutationResolver<TState>, MutationResolver<TState>>();
+        builder.Services.AddSingleton<IMutationResolver<TState>, MutationResolver<TState>>();
 
-        services.Scan(_ => _
+        builder.Services.Scan(_ => _
             .FromApplicationDependencies()
             .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
             .AsImplementedInterfaces()
             .WithTransientLifetime());
     }
 
-    private static void RegisterValidators(IServiceCollection services)
+    private static void RegisterValidators(WebAssemblyHostBuilder builder)
     {
-        services.Scan(_ =>
+        builder.Services.Scan(_ =>
             _.FromApplicationDependencies()
             .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
             .AsImplementedInterfaces()
             .WithTransientLifetime());
     }
 
-    private static void RegisterExceptionHandling(IServiceCollection services)
+    private static void RegisterExceptionHandling(WebAssemblyHostBuilder builder)
     {
-        services.AddSingleton<IExceptionDisplayService, FluxExceptionDisplayService>();
-        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
+        builder.Services.AddSingleton<IExceptionDisplayService, FluxExceptionDisplayService>();
+        builder.Services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
     }
 
     private static TState CheckLocalStorageState<TState>(TState state, IServiceProvider provider, bool usesLocalStorage)
