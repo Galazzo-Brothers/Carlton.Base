@@ -6,4 +6,5 @@ public interface IBrowserStorageService
 {
     public Task CommitLogs();
     public Task<IEnumerable<LogMessage>> GetLogs(DateTime dateTime);
+    public Task ClearLogs();
 }
