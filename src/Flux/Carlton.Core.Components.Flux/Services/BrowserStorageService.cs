@@ -7,6 +7,7 @@ namespace Carlton.Core.Components.Flux.Services;
 
 public class BrowserStorageService : IBrowserStorageService
 {
+    public event Action LogsCleared;
     private readonly ILocalStorageService _localStorage;
     private readonly IBlazorDbFactory _dbFactory;
     private readonly InMemoryLogger _memoryLogger;
@@ -80,6 +81,8 @@ public class BrowserStorageService : IBrowserStorageService
         {
             var manager = await _dbFactory.GetDbManager("CarltonFlux");
             await manager.ClearTableAsync("Logs");
+            _memoryLogger.ClearLogMessages();
+            LogsCleared.Invoke();
         }
         catch(Exception ex)
         {

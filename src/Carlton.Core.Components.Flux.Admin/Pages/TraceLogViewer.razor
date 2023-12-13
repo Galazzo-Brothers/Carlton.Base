@@ -7,6 +7,7 @@
 @using Microsoft.Extensions.Logging;
 @using Carlton.Core.Components.Flux.Admin.Components.Logging.TraceLogging
 @namespace Carlton.Core.Components.Flux.Admin
+@implements IDisposable
 @inject IBrowserStorageService BrowserStorage
 @page "/admin/trace"
 
@@ -25,15 +26,27 @@ else
 @code {
     private bool IsLoading { get; set; } = true;
 
-    private IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    private IList<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
 
     protected async override Task OnInitializedAsync()
     {
         await BrowserStorage.CommitLogs();
-        LogMessages = await BrowserStorage.GetLogs(DateTime.Now);
+        LogMessages = (await BrowserStorage.GetLogs(DateTime.Now)).ToList();
         IsLoading = false;
+        BrowserStorage.LogsCleared += LogsCleared;
         await base.OnInitializedAsync();
+    }
+
+    private void LogsCleared()
+    {
+        LogMessages.Clear();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        BrowserStorage.LogsCleared -= LogsCleared;
     }
 }
 
