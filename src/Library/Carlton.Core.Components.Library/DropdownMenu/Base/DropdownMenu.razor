@@ -6,12 +6,12 @@
     <div class="dropdown @DropdownMenuCss" style="@DropdownMenuStyle">
         <ul>
             <div class="header">@HeaderTemplate</div>
-            @foreach(var item in MenuItems)
-            {
-                <li>
-                    @MenuItemTemplate(item)
-                </li>
-            }
+                @foreach(var item in MenuItems)
+                {
+                    <li>
+                        @MenuItemTemplate(item)
+                    </li>
+                }
         </ul>
     </div>
 </div>

@@ -71,12 +71,13 @@ else
     private async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
         var guid = Guid.NewGuid();
-        var commandTraceGuid = $"Command_{command.GetType().GetDisplayName()}_{guid}";
+        var commandName = command.GetType().GetDisplayName();
+        var commandTraceGuid = $"Command_{commandName}_{guid}";
         using (Logger.BeginScope(commandTraceGuid))
         {
-            Logger.DataWrapperEventRaiseStarted(WrappedComponentDisplayName, command);
+            Logger.DataWrapperCommandDispatchStarted(WrappedComponentDisplayName, commandName);
             await MutationDispatcher.Dispatch(Component, (dynamic)command, CancellationToken.None);
-            Logger.DataWrapperEventRaiseCompleted(WrappedComponentDisplayName, command);
+            Logger.DataWrapperCommandDispatchCompleted(WrappedComponentDisplayName, commandName);
         }
     }
 

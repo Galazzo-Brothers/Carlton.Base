@@ -1,4 +1,4 @@
-﻿@using Carlton.Core.Utilities.Logging;
+﻿@using Carlton.Core.Utilities.Logging
 
 <div class="log-table">
     <Table Headings="Headings" Items="GroupedMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" SortableHeadersEnabled="false">
@@ -39,20 +39,18 @@
 
     private void InitGroupedMessages()
     {
-        var orderedMessages = LogMessages.ToList().GroupBy(_ => _.Scopes.Split("=>")?.Last().Trim()).ToList();
-
         GroupedMessages =
             LogMessages.GroupBy(_ => _.Scopes.Split("=>")?.Last().Trim())
                        .Select(group =>
                             {
-                                var orderedMessages = group.OrderBy(_ => _.Timestamp).ToList();
-                                var orderedChildren = new List<LogMessage>(orderedMessages);
+                                var orderedMessages = group.ToList();
                                 orderedMessages.RemoveAt(0);
                                 orderedMessages.RemoveAt(orderedMessages.Count - 1);
+                                var orderedChildren = new List<LogMessage>(orderedMessages);
                                 return new GroupedLogMessage
                                     {
-                                        StartingMessage = orderedMessages.First(),
-                                        EndingMessage = orderedMessages.Last(),
+                                        StartingMessage = group.First(),
+                                        EndingMessage = group.Last(),
                                         ChildMessages = orderedChildren
                                     };
                             }).ToList();

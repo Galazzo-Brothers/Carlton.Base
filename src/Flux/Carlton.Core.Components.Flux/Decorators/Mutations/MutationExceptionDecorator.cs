@@ -19,7 +19,7 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
         {
             using(_logger.BeginScope(commandTraceGuid))
             {
-                _logger.MutationStarted(commandType, command);
+                _logger.MutationStarted(commandType);
                 await _decorated.Dispatch(sender, command, cancellationToken);
                 _logger.MutationCompleted(commandType);
             }

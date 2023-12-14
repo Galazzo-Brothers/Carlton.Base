@@ -42,7 +42,8 @@ else
     private IEnumerable<LogMessage> FilteredLogMessages
     {
         get => AllLogMessages.Where(_ => includedLogLevels.Contains(_.LogLevel))
-                             .Where(_ => _.Message.ToLower().Contains(filterText));
+                             .Where(_ => _.Message.ToLower().Contains(filterText))
+                             .OrderByDescending(_ => _.Timestamp);
     }
 
     protected async override Task OnInitializedAsync()

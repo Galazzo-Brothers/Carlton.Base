@@ -5,8 +5,8 @@ public static partial class LogMutationCommand
     [LoggerMessage(
        EventId = LogEvents.Mutation_Started,
        Level = LogLevel.Information,
-       Message = "Starting processing mutation command of type {Type}. Mutation : {Mutation}")]
-    public static partial void MutationStarted(this ILogger logger, string type, MutationCommand mutation);
+       Message = "Starting processing mutation command of type {Type}.")]
+    public static partial void MutationStarted(this ILogger logger, string type);
 
     [LoggerMessage(
       EventId = LogEvents.Mutation_Validation_Started,
