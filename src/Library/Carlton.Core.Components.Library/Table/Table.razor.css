@@ -22,7 +22,6 @@
 ::deep .table-row {
     display: flex;
     flex-flow: row nowrap;
-    width: 100%;
     border-bottom: 1px solid #dadada;
 }
 
