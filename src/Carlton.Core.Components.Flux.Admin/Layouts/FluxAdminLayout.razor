@@ -1,5 +1,8 @@
 ﻿@namespace Carlton.Core.Components.Flux.Admin
+@using Carlton.Core.Components.Flux.Contracts
+@using Microsoft.AspNetCore.Components.Routing
 @inherits LayoutComponentBase
+@inject IBrowserStorageService BrowserStorageService
 @inject NavigationManager NavigationManager
 
 <DashboardLayout ShowTabPanel="false">
@@ -21,6 +24,18 @@
 
 
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.LocationChanged += LocationChanged;
+        await base.OnInitializedAsync();
+    }
+
+    private async void LocationChanged(object sender, LocationChangedEventArgs args)
+    {
+        await BrowserStorageService.CommitLogs();
+    }
+
     private string GetCurrentPage()
     {
         // Get the full URI
@@ -30,6 +45,9 @@
         string baseUri = NavigationManager.BaseUri;
 
         // Extract the tail end of the route (current page) by removing the base URI
-        return fullUri.Substring(baseUri.Length).Split('/').Last();
+        var currentRoute = fullUri.Substring(baseUri.Length).Split('/').Last();
+
+        //Title case the route
+        return char.ToUpper(currentRoute[0]) + currentRoute.Substring(1);
     }
 }

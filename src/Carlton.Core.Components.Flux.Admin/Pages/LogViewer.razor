@@ -47,7 +47,6 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        await BrowserStorage.CommitLogs();
         AllLogMessages = (await BrowserStorage.GetLogs(DateTime.Now)).ToList();
         includedLogLevels = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
         IsLoading = false;
