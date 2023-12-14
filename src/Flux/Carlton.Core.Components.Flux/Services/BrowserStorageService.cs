@@ -27,7 +27,7 @@ public class BrowserStorageService : IBrowserStorageService
     {
         var manager = await _dbFactory.GetDbManager("CarltonFlux");
         var carltonMessage = await manager.Where<CarltonFluxLogMessage>("Logs", "indexDate", dateTime.Date.ToShortDateString());
-        return carltonMessage.SelectMany(_ => _.LogMessages).ToList();
+        return carltonMessage.SelectMany(_ => _.LogMessages);
     }
 
     public async Task CommitLogs()

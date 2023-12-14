@@ -1,7 +1,7 @@
 ﻿@using Carlton.Core.Utilities.Logging;
 
 <div class="table-row">
-    <div class="table-cell"><span class="cell-text">@LogMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</span></div>
+    <div class="table-cell"><span class="cell-text">@LogMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
     <div class="table-cell"><span class="cell-text">@LogMessage.Message</span></div>
     <div class="table-cell"><LogLevelPill LogLevel="@LogMessage.LogLevel"/></div>
     <div class="table-cell"><span class="cell-text">@LogMessage.EventId</span></div>

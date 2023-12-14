@@ -3,7 +3,7 @@
 
 <div class="table-row starting-row" @onclick="() => Expanded=!Expanded">
     <div class="table-cell plus-minus-cell"><span class="mdi mdi-24px @(Expanded ? "mdi-minus" : "mdi-plus")"></span></div>
-    <div class="table-cell"><span class="cell-text">@GroupedLogs.StartingMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</span></div>
+    <div class="table-cell"><span class="cell-text">@GroupedLogs.StartingMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
     <div class="table-cell"><span class="cell-text">@GroupedLogs.StartingMessage.Message</span></div>
     <div class="table-cell"><LogLevelPill LogLevel="@GroupedLogs.StartingMessage.LogLevel" /></div>
     <div class="table-cell"><span class="cell-text">@GroupedLogs.StartingMessage.EventId</span></div>
@@ -14,7 +14,7 @@
 {
     <div class="table-row child-row @(Expanded ? string.Empty : "collapsed")">
         <div class="table-cell"></div>
-        <div class="table-cell"><span class="cell-text">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</span></div>
+        <div class="table-cell"><span class="cell-text">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
         <div class="table-cell"><span class="cell-text">@child.Message</span></div>
         <div class="table-cell"><LogLevelPill LogLevel="@child.LogLevel" /></div>
         <div class="table-cell"><span class="cell-text">@child.EventId</span></div>
@@ -24,7 +24,7 @@
 
 <div class="table-row ending-row">
     <div class="table-cell"></div>
-    <div class="table-cell"><span class="cell-text">@GroupedLogs.EndingMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fff")</span></div>
+    <div class="table-cell"><span class="cell-text">@GroupedLogs.EndingMessage.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
     <div class="table-cell"><span class="cell-text">@GroupedLogs.EndingMessage.Message</span></div>
     <div class="table-cell"><LogLevelPill LogLevel="@GroupedLogs.EndingMessage.LogLevel"/></div>
     <div class="table-cell"><span class="cell-text">@GroupedLogs.EndingMessage.EventId</span></div>

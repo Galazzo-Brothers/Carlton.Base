@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Components.Flux.Admin.State;
-
-namespace Carlton.Core.Components.Lab;
+﻿namespace Carlton.Core.Components.Lab;
 
 public static class WebAssemblyHostBuilderExtensions
 {

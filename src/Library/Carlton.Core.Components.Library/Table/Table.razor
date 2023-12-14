@@ -53,6 +53,8 @@
     [Parameter]
     public bool ZebraStripped { get; set; }
 
+    private IList<TItem> AllItems { get; set; } = new List<TItem>();
+
     private int SelectedRowsPerPageIndex { get; set; } = 0;
 
     private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
@@ -63,8 +65,6 @@
 
     private bool OrderAscending { get; set; } = true;
 
-    private IEnumerable<TItem> AllItems { get; set; } = new List<TItem>();
-
     private string TableCssClass
     {
         get => new CssBuilder()
@@ -74,25 +74,25 @@
 
     protected override void OnParametersSet()
     {
-        AllItems = Items;
+        AllItems = Items.ToList();
         ResetPaginationAndOrdering();
-        UpdatePagination();
         UpdateOrdering();
+        UpdatePagination();
         base.OnParametersSet();
     }
 
     private void OnPageChanged(TablePageChangedArgs args)
     {
         CurrentPage = args.CurrentPage;
-        UpdatePagination();
         UpdateOrdering();
+        UpdatePagination();
     }
 
     private void OnRowsPerPageChanged(TableRowsPerPageChangedArgs args)
     {
         SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
-        UpdatePagination();
         UpdateOrdering();
+        UpdatePagination();
     }
 
     private void OnOrderingChanged(TableOrderingChangedArgs args)
@@ -103,10 +103,15 @@
         OrderColumn = args.OrderColumn;
         OrderAscending = args.OrderAscending;
         UpdateOrdering();
+        UpdatePagination();
     }
 
     private void UpdatePagination()
     {
+
+        if (!ShowPaginationRow)
+            return;
+
         Items = AllItems.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
                                .Take(SelectedRowPerPageValue)
                                .ToList();
@@ -118,7 +123,7 @@
             return;
 
         var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
-        Items = Items.AsQueryable().OrderBy(orderString).ToList();
+        AllItems = AllItems.AsQueryable().OrderBy(orderString).ToList();
     }
 
     private void ResetPaginationAndOrdering()

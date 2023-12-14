@@ -5,8 +5,8 @@ public static class LogEvents
     //DataComponent
     public const int DataWrapper_OnInitialized_Started = 101;
     public const int DataWrapper_OnInitialized_Completed = 102;
-    public const int DataWrapper_Event_Raise_Started = 103;
-    public const int DataWrapper_Event_Raise_Completed = 104;
+    public const int DataWrapper_Command_Dispatch_Started = 103;
+    public const int DataWrapper_Command_Dispatch_Completed = 104;
     public const int DataWrapper_Event_Listening = 105;
     public const int DataWrapper_Event_Received_Started = 106;
     public const int DataWrapper_Event_Received_Completed = 107;
