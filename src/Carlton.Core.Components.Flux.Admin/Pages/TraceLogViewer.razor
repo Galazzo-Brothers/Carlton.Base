@@ -31,7 +31,6 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        await BrowserStorage.CommitLogs();
         LogMessages = (await BrowserStorage.GetLogs(DateTime.Now)).ToList();
         IsLoading = false;
         BrowserStorage.LogsCleared += LogsCleared;
