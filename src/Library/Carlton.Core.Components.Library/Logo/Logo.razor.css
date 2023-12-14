@@ -8,13 +8,18 @@
 }
 
 	.logo .content {
+		display: flex;
 		flex-basis: 85%;
+		white-space: nowrap;
+		overflow:hidden;
 	}
 
 		.logo .content .title {
 			vertical-align: middle;
 			font-size: var(--logo-font-size);
 			color: var(--logo-color);
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		.logo .content img {
