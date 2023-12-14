@@ -13,9 +13,9 @@ public class ViewModelQueryHandler<TState, TViewModel> : IViewModelQueryHandler<
 
     public Task<TViewModel> Handle(ViewModelQuery query, CancellationToken cancellationToken)
     {
-        Log.ViewModelMappingStarted(_logger, typeof(TViewModel).GetDisplayName());
+        _logger.ViewModelMappingStarted(typeof(TViewModel).GetDisplayName());
         var result = _mapper.Map<TViewModel>(_fluxState.State);
-        Log.ViewModelMappingCompleted(_logger, typeof(TViewModel).GetDisplayName());
+        _logger.ViewModelMappingCompleted(typeof(TViewModel).GetDisplayName());
         return Task.FromResult(result);
     }
 }

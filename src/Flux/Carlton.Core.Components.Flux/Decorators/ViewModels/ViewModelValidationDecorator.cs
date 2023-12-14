@@ -15,14 +15,14 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
         {
             var validator = _provider.GetService<IValidator<TViewModel>>();
             var vm = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
-            Log.ViewModelValidationStarted(_logger, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelValidationStarted(typeof(TViewModel).GetDisplayName());
             validator.ValidateAndThrow(vm);
-            Log.ViewModelValidationCompleted(_logger, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelValidationCompleted(typeof(TViewModel).GetDisplayName());
             return vm;
         }
         catch (ValidationException ex)
         {
-            Log.ViewModelValidationError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelValidationError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.ValidationError(query, ex);
         }
     }

@@ -19,7 +19,7 @@ public class ComponentExceptionLoggingService : IComponentExceptionLoggingServic
             case Exception ex:
                 //This is not a flux related error.
                 //It is an error that has occurred during rendering 
-                Log.DataWrapperUnhandledException(logger, erroredComponentType.GetDisplayName(), ex);
+                logger.DataWrapperUnhandledException(erroredComponentType.GetDisplayName(), ex);
                 break;
         }
     }

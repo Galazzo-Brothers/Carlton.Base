@@ -19,9 +19,9 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             TViewModel result;
             using(_logger.BeginScope(vmQueryTraceGuid))
             {
-                Log.ViewModelStarted(_logger, vmDisplayName);
+                _logger.ViewModelStarted(vmDisplayName);
                 result = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
-                Log.ViewModelCompleted(_logger, vmDisplayName);
+                _logger.ViewModelCompleted(vmDisplayName);
             }
             return result;
         }
@@ -35,7 +35,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             //Unhandled Exception
             using(_logger.BeginScope(vmQueryTraceGuid))
             {
-                Log.ViewModelUnhandledError(_logger, ex, vmDisplayName);
+                _logger.ViewModelUnhandledError(ex, vmDisplayName);
                 throw new ViewModelFluxException<TState, TViewModel>(query, ex);
             }
         }

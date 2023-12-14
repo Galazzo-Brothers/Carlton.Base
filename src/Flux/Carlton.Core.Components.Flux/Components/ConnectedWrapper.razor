@@ -42,7 +42,7 @@ else
         using (Logger.BeginScope(initTraceGuid))
         {
             //Log Init Start
-            Log.DataWrapperOnInitializedStarted(Logger, typeof(TViewModel).GetDisplayName());
+            Logger.DataWrapperOnInitializedStarted(typeof(TViewModel).GetDisplayName());
 
             //Set IsLoading to true
             IsLoading = true;
@@ -64,7 +64,7 @@ else
             await base.OnInitializedAsync();
 
             //Log Init Completed
-            Log.DataWrapperOnInitializedCompleted(Logger, WrappedComponentDisplayName);
+            Logger.DataWrapperOnInitializedCompleted(WrappedComponentDisplayName);
         }
     }
 
@@ -74,9 +74,9 @@ else
         var commandTraceGuid = $"Command_{command.GetType().GetDisplayName()}_{guid}";
         using (Logger.BeginScope(commandTraceGuid))
         {
-            Log.DataWrapperEventRaiseStarted(Logger, WrappedComponentDisplayName, command);
+            Logger.DataWrapperEventRaiseStarted(WrappedComponentDisplayName, command);
             await MutationDispatcher.Dispatch(Component, (dynamic)command, CancellationToken.None);
-            Log.DataWrapperEventRaiseCompleted(Logger, WrappedComponentDisplayName, command);
+            Logger.DataWrapperEventRaiseCompleted(WrappedComponentDisplayName, command);
         }
     }
 
@@ -87,12 +87,12 @@ else
         using (Logger.BeginScope(eventTraceGuid))
         {
             var observableStateEventsString = string.Join(',', ObservableStateEvents);
-            Log.DataWrapperListeningEvents(Logger, WrappedComponentDisplayName, observableStateEventsString);
+            Logger.DataWrapperListeningEvents(WrappedComponentDisplayName, observableStateEventsString);
 
             if (ObservableStateEvents.Contains(stateEvent))
             {
                 //State required refresh
-                Log.DataWrapperEventReceivedStarted(Logger, WrappedComponentDisplayName, stateEvent);
+                Logger.DataWrapperEventReceivedStarted(WrappedComponentDisplayName, stateEvent);
 
                 //Set loading true
                 IsLoading = true;
@@ -105,12 +105,12 @@ else
 
                 //StateHasChanged
                 StateHasChanged();
-                Log.DataWrapperEventReceivedCompleted(Logger, WrappedComponentDisplayName, stateEvent);
+                Logger.DataWrapperEventReceivedCompleted(WrappedComponentDisplayName, stateEvent);
             }
             else
             {
                 //State does not require refresh
-                Log.DataWrapperEventSkipped(Logger, WrappedComponentDisplayName, stateEvent);
+                Logger.DataWrapperEventSkipped(WrappedComponentDisplayName, stateEvent);
             }
         }
     }

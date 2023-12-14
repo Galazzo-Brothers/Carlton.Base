@@ -28,26 +28,26 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
         {
             //Start the LocalStorage Interception
             var commandType = typeof(TCommand).GetDisplayName();
-            Log.MutationLocalStorageStarted(_logger, commandType);
+            _logger.MutationLocalStorageStarted(commandType);
 
             //Continue with dispatch and update the state store
             await _decorated.Dispatch(sender, command, cancellationToken);
 
             //Complete the LocalStorage Interception
-            Log.MutationLocalStorageStarted(_logger, commandType);
+            _logger.MutationLocalStorageStarted(commandType);
 
             return Unit.Value;
         }
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            Log.MutationJsonError(_logger, ex, typeof(TCommand).GetDisplayName());
+            _logger.MutationJsonError(ex, typeof(TCommand).GetDisplayName());
             throw MutationCommandFluxException<TState, TCommand>.LocalStorageJsonError(command, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            Log.MutationJsonError(_logger, ex, typeof(TCommand).GetDisplayName());
+            _logger.MutationJsonError(ex, typeof(TCommand).GetDisplayName());
             throw MutationCommandFluxException<TState, TCommand>.LocalStorageJsonError(command, ex);
         }
     }
