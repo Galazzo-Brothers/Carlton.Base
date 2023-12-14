@@ -25,22 +25,22 @@ public class ViewModelJsDecorator<TState> : IViewModelQueryDispatcher<TState>
 
             if (requiresRefresh)
             {
-                Log.ViewModelJsInteropRefreshStarted(_logger, vmType);
+                _logger.ViewModelJsInteropRefreshStarted(vmType);
                 await using var module = await _jsRuntime.InvokeAsync<IJSObjectReference>(Import, jsInteropAttribute.Module);
                 var result = await module.InvokeAsync<TViewModel>(jsInteropAttribute.Function, cancellationToken, jsInteropAttribute.Parameters);
                 await _fluxState.MutateState(result);
-                Log.ViewModelJsInteropRefreshCompleted(_logger, vmType);
+                _logger.ViewModelJsInteropRefreshCompleted(vmType);
             }
             else
             {
-                Log.ViewModelJsInteropRefreshSkipped(_logger, vmType);
+                _logger.ViewModelJsInteropRefreshSkipped(vmType);
             }
 
             return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
         }
         catch (JSException ex)
         {
-            Log.ViewModelJsInteropRefreshError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelJsInteropRefreshError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.JSInteropError(query, ex);
         }
     }

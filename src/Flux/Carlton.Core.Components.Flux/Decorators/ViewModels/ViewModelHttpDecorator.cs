@@ -29,7 +29,7 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
             if (requiresRefresh)
             {
                 //Log HttpRefresh Process
-                Log.ViewModelHttpRefreshStarted(_logger, vmType);
+                _logger.ViewModelHttpRefreshStarted(vmType);
 
                 //Construct Http Refresh URL
                 var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
@@ -42,11 +42,11 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
                 await _fluxState.MutateState(viewModel);
 
                 //Logging and Auditing 
-                Log.ViewModelHttpRefreshCompleted(_logger, vmType);
+                _logger.ViewModelHttpRefreshCompleted(vmType);
             }
             else
             {
-                Log.ViewModelHttpRefreshSkipped(_logger, vmType);
+                _logger.ViewModelHttpRefreshSkipped(vmType);
             }
 
             return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
@@ -54,25 +54,25 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
             //URL Construction Errors
-            Log.ViewModelHttpUrlError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelHttpUrlError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(query, ex);
         }
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            Log.ViewModelJsonError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelJsonError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.JsonError(query, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            Log.ViewModelJsonError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelJsonError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.JsonError(query, ex);
         }
         catch (HttpRequestException ex)
         {
             //Http Exceptions
-            Log.ViewModelHttpRefreshError(_logger, ex, typeof(TViewModel).GetDisplayName());
+            _logger.ViewModelHttpRefreshError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.HttpError(query, ex);
         }   
     }

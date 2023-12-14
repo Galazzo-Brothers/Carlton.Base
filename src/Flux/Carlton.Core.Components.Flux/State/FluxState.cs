@@ -22,7 +22,7 @@ public class FluxState<TState> : IMutableFluxState<TState>
         var displayName = typeof(TInput).GetDisplayName();
         try
         {
-            Log.MutationApplyStarted(_logger, displayName);
+            _logger.MutationApplyStarted(displayName);
 
             //Find the correct mutations and save a rollback state
             var mutation = _mutationResolver.Resolve<TInput>();
@@ -40,11 +40,11 @@ public class FluxState<TState> : IMutableFluxState<TState>
             if(!mutation.IsRefreshMutation)
                 await InvokeStateChanged(mutation.StateEvent);
 
-            Log.MutationApplyCompleted(_logger, displayName);
+            _logger.MutationApplyCompleted(displayName);
         }
         catch(Exception ex)
         {
-            Log.MutationApplyError(_logger, ex, displayName);
+            _logger.MutationApplyError(ex, displayName);
             _mapper.Map(RollbackState, State);
             throw;
         }

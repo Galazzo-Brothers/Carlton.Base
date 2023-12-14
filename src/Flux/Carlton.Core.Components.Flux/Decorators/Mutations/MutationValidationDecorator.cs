@@ -15,15 +15,15 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
         try
         {
             var displayName = typeof(TCommand).GetDisplayName();
-            Log.MutationValidationStarted(_logger, displayName);
+            _logger.MutationValidationStarted(displayName);
             var validator = _provider.GetService<IValidator<TCommand>>();
             validator.ValidateAndThrow(command);
-            Log.MutationValidationCompleted(_logger, displayName);
+            _logger.MutationValidationCompleted(displayName);
             return await _decorated.Dispatch(sender, command, cancellationToken);
         }
         catch (ValidationException ex)
         {
-            Log.MutationValidationError(_logger, ex, typeof(TCommand).GetDisplayName());
+            _logger.MutationValidationError(ex, typeof(TCommand).GetDisplayName());
             throw MutationCommandFluxException<TState, TCommand>.ValidationError(command, ex);
         }
     }
