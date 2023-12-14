@@ -18,6 +18,13 @@
 	border-bottom: transparent;
 }
 
+.table-cell {
+}
+
+	.table-cell .cell-text {
+		max-width: 300px;
+	}
+
 .cell-text {
 	margin-left: auto;
 	margin-right: auto;
