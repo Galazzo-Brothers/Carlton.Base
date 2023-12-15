@@ -69,6 +69,7 @@ else
     }
 
     private async Task OnComponentEvent<TCommand>(object sender, TCommand command)
+        where TCommand : MutationCommand
     {
         var guid = Guid.NewGuid();
         var commandName = command.GetType().GetDisplayName();

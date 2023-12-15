@@ -35,7 +35,8 @@ public static class LogEvents
     public const int ViewModel_HTTP_URL_Error = 1103;
     public const int ViewModel_HTTP_Error = 1104;
     public const int ViewModel_JSON_Error = 1105;
-    public const int ViewModel_Validation_Error = 1106;
+    public const int ViewModel_Mapping_Error = 1106;
+    public const int ViewModel_Validation_Error = 1107;
     public const int ViewModel_Unhandled_Error = 1050;
 
     //ViewModel Query Error Messages
@@ -43,7 +44,8 @@ public static class LogEvents
     public const string ViewModel_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a ViewModel";
     public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel";
     public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
-    public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of ViewModel";
+    public const string ViewModel_Mapping_ErrorMsg = "An error occurred during the mapping of a ViewModel";
+    public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of a ViewModel";
     public const string ViewModel_Unhandled_ErrorMsg = $"An unhandled exception occurred during a ViewModelQuery";
 
     //MutationCommand Requests
