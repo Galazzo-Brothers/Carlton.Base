@@ -99,6 +99,12 @@ public static partial class LogViewModelQuery
     public static partial void ViewModelJsonError(this ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
+    EventId = LogEvents.ViewModel_Mapping_Error,
+    Level = LogLevel.Error,
+    Message = "An error occurred mapping ViewModel of type {Type}.")]
+    public static partial void ViewModelMappingError(this ILogger logger, Exception ex, string type);
+
+    [LoggerMessage(
       EventId = LogEvents.ViewModel_Validation_Error,
       Level = LogLevel.Error,
       Message = "An error occurred validating ViewModel of type {Type}.")]

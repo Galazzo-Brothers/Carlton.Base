@@ -56,5 +56,5 @@ public static partial class LogDataWrapper
        EventId = LogEvents.DataWrapper_Error,
        Level = LogLevel.Error,
        Message = "DataWrapper for ViewModel of type {Type} threw an unhandled exception during rendering.")]
-    public static partial void DataWrapperUnhandledException(this ILogger logger, string type, Exception exception);
+    public static partial void DataWrapperUnhandledException(this ILogger logger, Exception ex, string type);
 }

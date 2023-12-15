@@ -13,10 +13,18 @@ public class ViewModelQueryHandler<TState, TViewModel> : IViewModelQueryHandler<
 
     public Task<TViewModel> Handle(ViewModelQuery query, CancellationToken cancellationToken)
     {
-        _logger.ViewModelMappingStarted(typeof(TViewModel).GetDisplayName());
-        var result = _mapper.Map<TViewModel>(_fluxState.State);
-        _logger.ViewModelMappingCompleted(typeof(TViewModel).GetDisplayName());
-        return Task.FromResult(result);
+        try
+        {
+            _logger.ViewModelMappingStarted(typeof(TViewModel).GetDisplayName());
+            var result = _mapper.Map<TViewModel>(_fluxState.State);
+            _logger.ViewModelMappingCompleted(typeof(TViewModel).GetDisplayName());
+            return Task.FromResult(result);
+        }
+        catch(CompileException ex) 
+        {
+            _logger.ViewModelMappingError(ex, typeof(TViewModel).GetDisplayName());
+            throw ViewModelFluxException<TState, TViewModel>.MappingError(query, ex);
+        }
     }
 }
 

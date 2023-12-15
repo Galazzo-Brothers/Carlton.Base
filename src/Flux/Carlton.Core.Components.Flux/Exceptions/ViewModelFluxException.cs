@@ -24,6 +24,11 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Validation_Error, LogEvents.ViewModel_Validation_ErrorMsg, query, innerException);
     }
 
+    public static ViewModelFluxException<TState, TViewModel> MappingError(ViewModelQuery query, CompileException innerException)
+    {
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Mapping_Error, LogEvents.ViewModel_Mapping_ErrorMsg, query, innerException);
+    }
+
     public static ViewModelFluxException<TState, TViewModel> JSInteropError(ViewModelQuery query, JSException innerException)
     {
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, query, innerException);
