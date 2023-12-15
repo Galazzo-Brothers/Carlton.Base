@@ -26,7 +26,7 @@ else
 @code {
     private bool IsLoading { get; set; } = true;
 
-    private IList<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    private IList<IndexDBLogMessage> LogMessages { get; set; } = new List<IndexDBLogMessage>();
 
 
     protected async override Task OnInitializedAsync()

@@ -23,11 +23,19 @@ public class BrowserStorageService : IBrowserStorageService
         _memoryLogger = memoryLogger;
     }
 
-    public async Task<IEnumerable<LogMessage>> GetLogs(DateTime dateTime)
+    public async Task<IEnumerable<IndexDBLogMessage>> GetLogs(DateTime dateTime)
     {
-        var manager = await _dbFactory.GetDbManager("CarltonFlux");
-        var carltonMessage = await manager.Where<CarltonFluxLogMessage>("Logs", "indexDate", dateTime.Date.ToShortDateString());
-        return carltonMessage.SelectMany(_ => _.LogMessages);
+        try
+        {
+            var manager = await _dbFactory.GetDbManager("CarltonFlux");
+            var carltonMessage = await manager.Where<CarltonFluxLogMessage>("Logs", "indexDate", dateTime.Date.ToShortDateString());
+            return carltonMessage.SelectMany(_ => _.LogMessages);
+        }
+        catch(Exception ex)
+        {
+            //swallow for now
+            throw;
+        }
     }
 
     public async Task CommitLogs()
@@ -45,14 +53,15 @@ public class BrowserStorageService : IBrowserStorageService
             //Index by ShortDate string
             foreach (var dateGroup in dateGroups)
             {
-                var scopeGroup = dateGroup.GroupBy(_ => InitialScope(_.Scopes));
+                var scopeGroups = dateGroup.GroupBy(_ => InitialScope(_.Scopes));
 
                 //Commit Logs to IndexDb
-                foreach (var group in scopeGroup)
+                foreach (var group in scopeGroups)
                 {
-                    var ascendingLogs = group.OrderBy(_ => _.Timestamp);
-                    var carltonMessage = new CarltonFluxLogMessage(group.Key, dateGroup.Key, ascendingLogs);
-
+                    var indexDbKey = group.Key == string.Empty ? $"UnhandledException_{Guid.NewGuid()}" : group.Key;
+                    var ascendingLogs = group.OrderBy(_ => _.Timestamp).Select(_ => new IndexDBLogMessage(_)).ToList();
+                    var carltonMessage = new CarltonFluxLogMessage(indexDbKey, dateGroup.Key, ascendingLogs);
+                   
                     var result = await manager.AddRecord(new StoreRecord<CarltonFluxLogMessage>()
                     {
                         StoreName = "Logs",
@@ -67,7 +76,7 @@ public class BrowserStorageService : IBrowserStorageService
         }
         catch (Exception ex)
         {
-           //swallow for now
+            //swallow for now
         }
         finally
         {
@@ -84,7 +93,7 @@ public class BrowserStorageService : IBrowserStorageService
             _memoryLogger.ClearLogMessages();
             LogsCleared.Invoke();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             //swallow for now
         }
@@ -96,7 +105,7 @@ public class BrowserStorageService : IBrowserStorageService
 
 file class CarltonFluxLogMessage
 {
-    public CarltonFluxLogMessage(string key, string indexDate, IEnumerable<LogMessage> logMessage)
+    public CarltonFluxLogMessage(string key, string indexDate, IEnumerable<IndexDBLogMessage> logMessage)
     {
         Key = key;
         IndexDate = indexDate;
@@ -110,5 +119,5 @@ file class CarltonFluxLogMessage
 
     public string Key { get; set; }
     public string IndexDate { get; set; }
-    public IEnumerable<LogMessage> LogMessages { get; set; }
+    public IEnumerable<IndexDBLogMessage> LogMessages { get; set; }
 }
