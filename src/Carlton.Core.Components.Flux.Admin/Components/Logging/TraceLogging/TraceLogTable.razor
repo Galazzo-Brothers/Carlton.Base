@@ -10,7 +10,7 @@
 
 @code {
     [Parameter]
-    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    public IEnumerable<IndexDBLogMessage> LogMessages { get; set; } = new List<IndexDBLogMessage>();
 
     private IEnumerable<GroupedLogMessage> GroupedMessages { get; set; } = new List<GroupedLogMessage>();
 
@@ -46,7 +46,7 @@
                                 var orderedMessages = group.ToList();
                                 orderedMessages.RemoveAt(0);
                                 orderedMessages.RemoveAt(orderedMessages.Count - 1);
-                                var orderedChildren = new List<LogMessage>(orderedMessages);
+                                var orderedChildren = new List<IndexDBLogMessage>(orderedMessages);
                                 return new GroupedLogMessage
                                     {
                                         StartingMessage = group.First(),

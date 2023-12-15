@@ -38,8 +38,8 @@ else
     private IList<LogLevel> includedLogLevels = new List<LogLevel>();
     private string filterText = string.Empty;
 
-    private IList<LogMessage> AllLogMessages { get; set; } = new List<LogMessage>();
-    private IEnumerable<LogMessage> FilteredLogMessages
+    private IList<IndexDBLogMessage> AllLogMessages { get; set; } = new List<IndexDBLogMessage>();
+    private IEnumerable<IndexDBLogMessage> FilteredLogMessages
     {
         get => AllLogMessages.Where(_ => includedLogLevels.Contains(_.LogLevel))
                              .Where(_ => _.Message.ToLower().Contains(filterText))
