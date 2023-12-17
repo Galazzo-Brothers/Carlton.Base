@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+    .panel-top::-webkit-scrollbar {
+        display: none;
+    }
+
 .splitter-horizontal {
     height: 20px;
     background: #535353;
@@ -19,4 +23,3 @@
 .panel-bottom {
     padding: 10px;
 }
-

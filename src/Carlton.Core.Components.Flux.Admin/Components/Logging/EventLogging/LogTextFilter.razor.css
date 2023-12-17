@@ -5,7 +5,7 @@
 
 	.log-text-filter .search-text {
 		height: 25px;
-		width: 250px;
+		width: 100%;
 		border-radius: 5px;
 		border-color: rgba(0, 0, 0, 0.3);
 	}
