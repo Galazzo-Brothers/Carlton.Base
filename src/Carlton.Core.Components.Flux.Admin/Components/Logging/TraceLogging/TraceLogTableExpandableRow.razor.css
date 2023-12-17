@@ -1,47 +1,45 @@
 ﻿
 .table-row.starting-row {
-	background-color: var(--card-background-color);
-	border-bottom: transparent;
+    background-color: var(--card-background-color);
+    border-bottom: transparent;
 }
 
 .table-row.ending-row {
-	background-color: var(--card-background-color);
+    background-color: var(--card-background-color);
 }
 
 .table-row .table-cell:first-of-type {
-	max-width: 25px;
+    max-width: 25px;
 }
 
 .table-row.child-row {
-	padding-left: 15px;
-	background-color: var(--card-secondary-background-color);
-	border-bottom: transparent;
+    padding-left: 15px;
+    background-color: var(--card-secondary-background-color);
+    border-bottom: transparent;
 }
 
 .table-cell {
 }
 
-	.table-cell .cell-text {
-		max-width: 300px;
-	}
-
-.cell-text {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-}
+    .table-cell .cell-text {
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        overflow-wrap: anywhere;
+    }
 
 .plus-minus-cell {
-	margin-top: auto;
-	margin-bottom: auto;
-	color: var(--primary-text-color);
-	cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--primary-text-color);
+    cursor: pointer;
 }
 
 .child-row {
-	padding-left: 5px;
+    padding-left: 5px;
 }
 
-	.child-row.collapsed {
-		display: none;
-	}
+    .child-row.collapsed {
+        display: none;
+    }

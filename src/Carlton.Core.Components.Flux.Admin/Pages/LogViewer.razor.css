@@ -5,10 +5,14 @@
 	flex-direction: row;
 	gap: 10px;
 	margin-left: 10px;
+	margin-right: 10px;
 	margin-bottom: 20px;
 }
 
 ::deep .log-text-filter {
-	margin-left: 50px;
+	width: 25%;
+	min-width: 100px;
+	max-width: 250px;
 }
+
 
