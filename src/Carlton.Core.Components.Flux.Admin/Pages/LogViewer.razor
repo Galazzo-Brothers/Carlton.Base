@@ -1,14 +1,14 @@
-﻿@using Carlton.Core.Components.Flux.Admin.Components.Logging
+﻿@using Carlton.Core.Components.Flux.Debug.Components.Logging
 @using Carlton.Core.Components.Flux.Contracts;
 @using Carlton.Core.Components.Library
 @using Carlton.Core.Utilities.Logging;
 @using Blazored.LocalStorage;
-@using Carlton.Core.Components.Flux.Admin.Components.Logging.EventLogging;
+@using Carlton.Core.Components.Flux.Debug.Components.Logging.EventLogging;
 @using Microsoft.Extensions.Logging;
-@namespace Carlton.Core.Components.Flux.Admin
+@namespace Carlton.Core.Components.Flux.Debug
 @implements IDisposable
 @inject IBrowserStorageService BrowserStorage
-@page "/admin/logs"
+@page "/debug/logs"
 
 @if (IsLoading)
 {

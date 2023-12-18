@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Carlton.Core.Components.Flux.Admin\Carlton.Core.Components.Flux.Admin.csproj" />
+    <ProjectReference Include="..\..\Carlton.Core.Components.Flux.Admin\Carlton.Core.Components.Flux.Debug.csproj" />
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
     <ProjectReference Include="..\..\Library\Carlton.Core.Components.Library\Carlton.Core.Components.Library.csproj" />
     <ProjectReference Include="..\..\Flux\Carlton.Core.Components.Flux\Carlton.Core.Components.Flux.csproj" />
