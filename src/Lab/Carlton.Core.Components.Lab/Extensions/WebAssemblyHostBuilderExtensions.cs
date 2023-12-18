@@ -18,7 +18,7 @@ public static class WebAssemblyHostBuilderExtensions
         var state = new LabState(options, testResults);
         builder.AddCarltonFlux(state, typeAdapterConfig, true);
 
-        builder.AddCarltonFluxAdmin(state);
+        builder.AddCarltonFluxDebug(state);
     }
 }
 

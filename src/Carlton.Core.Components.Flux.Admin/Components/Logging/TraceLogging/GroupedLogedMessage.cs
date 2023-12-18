@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Flux.Services;
-namespace Carlton.Core.Components.Flux.Admin.Components.Logging;
+namespace Carlton.Core.Components.Flux.Debug.Components.Logging;
 
 public class GroupedLogMessage
 {

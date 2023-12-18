@@ -4,16 +4,16 @@
 
 
 <Router AppAssembly="@typeof(Program).Assembly" 
-    AdditionalAssemblies="new[] { typeof(LabPage).Assembly, typeof(FluxAdminLayout).Assembly }">
+    AdditionalAssemblies="new[] { typeof(LabPage).Assembly, typeof(FluxDebugLayout).Assembly }">
     <Found Context="routeData">
-        <AdminView>
-            <AdminContent>
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(FluxAdminLayout)" />
-            </AdminContent>
+        <FluxDebugView>
+            <DebugContent>
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(FluxDebugLayout)" />
+            </DebugContent>
             <ApplicationContent>
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(ComponentLabLayout)" />
             </ApplicationContent>
-        </AdminView>
+        </FluxDebugView>
     </Found>
     <NotFound>
         <p>Sorry, there's nothing at this address.</p>
