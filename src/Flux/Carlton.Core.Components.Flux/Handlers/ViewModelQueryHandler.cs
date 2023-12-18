@@ -2,16 +2,16 @@
 
 namespace Carlton.Core.Components.Flux.Handlers;
 
-public class ViewModelQueryHandler<TState, TViewModel> : IViewModelQueryHandler<TState, TViewModel>
+public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
 {
     private readonly IFluxState<TState> _fluxState;
     private readonly IMapper _mapper;
-    private readonly ILogger<ViewModelQueryHandler<TState, TViewModel>> _logger;
+    private readonly ILogger<ViewModelQueryHandler<TState>> _logger;
 
-    public ViewModelQueryHandler(IFluxState<TState> state, IMapper mapper, ILogger<ViewModelQueryHandler<TState, TViewModel>> logger)
+    public ViewModelQueryHandler(IFluxState<TState> state, IMapper mapper, ILogger<ViewModelQueryHandler<TState>> logger)
         => (_fluxState, _mapper, _logger) = (state, mapper, logger);
 
-    public Task<TViewModel> Handle(ViewModelQuery query, CancellationToken cancellationToken)
+    public Task<TViewModel> Handle<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken)
     {
         try
         {
