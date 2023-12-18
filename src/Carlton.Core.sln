@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lab.Test", "Carlton.Core.Components.Lab.Tests\Carlton.Core.Components.Lab.Test.csproj", "{FDA60BD8-F986-4F00-88EE-51DB455B1346}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flux.Admin", "Carlton.Core.Components.Flux.Admin\Carlton.Core.Components.Flux.Admin.csproj", "{43A999CD-0440-42F7-B0BA-87961AA4E0A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Flux.Debug", "Carlton.Core.Components.Flux.Debug\Carlton.Core.Components.Flux.Debug.csproj", "{43A999CD-0440-42F7-B0BA-87961AA4E0A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC3BAD72-BEE2-4C13-9A18-A12074E5D502}"
 	ProjectSection(SolutionItems) = preProject

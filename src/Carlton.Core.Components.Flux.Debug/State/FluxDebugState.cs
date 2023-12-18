@@ -1,6 +1,6 @@
 using Carlton.Core.Utilities.Logging;
 
-namespace Carlton.Core.Components.Flux.Admin.State;
+namespace Carlton.Core.Components.Flux.Debug.State;
 
 public class FluxDebugState<TState>
 {

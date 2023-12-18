@@ -1,21 +1,18 @@
 ﻿
-using Blazored.LocalStorage;
-using Carlton.Core.Components.Flux.Admin.State;
+using Carlton.Core.Components.Flux.Debug.State;
 using Carlton.Core.Components.Flux.Contracts;
 using Carlton.Core.Components.Flux.Decorators.Commands;
 using Carlton.Core.Components.Flux.Decorators.Mutations;
 using Carlton.Core.Components.Flux.Decorators.Queries;
 using Carlton.Core.Components.Flux.Dispatchers;
-using Carlton.Core.Components.Flux.Handlers;
-using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.State;
-using Carlton.Core.Components.Lab;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Carlton.Core.Components.Debug;
 
-namespace Carlton.Core.Components.Flux.Admin;
+namespace Carlton.Core.Components.Flux.Debug;
 
 public static class ContainerExtensions
 {
