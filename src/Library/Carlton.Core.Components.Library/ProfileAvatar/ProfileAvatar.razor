@@ -44,7 +44,7 @@
     [Parameter]
     public EventCallback<int> MenuItemSelected { get; set; }
     [Parameter]
-    public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; set; }
+    public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; set; } = new List<DropdownMenuItem<int>>();
 
     private DropdownMenuStyle Style
     {
