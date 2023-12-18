@@ -1,6 +1,6 @@
 ﻿using Mapster;
 
-namespace Carlton.Core.Components.Lab;
+namespace Carlton.Core.Components.Debug;
 
 public static class FluxDebugMapsterConfig
 {
