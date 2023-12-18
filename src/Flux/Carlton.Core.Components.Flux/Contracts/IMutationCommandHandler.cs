@@ -1,7 +1,9 @@
 ﻿namespace Carlton.Core.Components.Flux.Contracts;
 
-public interface IMutationCommandHandler<TState, TCommand> 
-    where TCommand : MutationCommand
+public interface IMutationCommandHandler<TState>
 {
-    public Task<Unit> Handle(TCommand command, CancellationToken cancellationToken);
+    public Task<Unit> Handle<TCommand>(TCommand command, CancellationToken cancellationToken)
+            where TCommand : MutationCommand;
 }
+
+

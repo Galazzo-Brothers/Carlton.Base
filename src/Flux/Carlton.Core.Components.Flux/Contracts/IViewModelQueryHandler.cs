@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Components.Flux.Contracts;
 
-public interface IViewModelQueryHandler<TState, TViewModel> 
+public interface IViewModelQueryHandler<TState> 
 {
-    public Task<TViewModel> Handle(ViewModelQuery query, CancellationToken cancellationToken);
+    public Task<TViewModel> Handle<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken);
 }

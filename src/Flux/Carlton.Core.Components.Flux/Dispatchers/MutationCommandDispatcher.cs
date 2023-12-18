@@ -11,7 +11,7 @@ public class MutationCommandDispatcher<TState> : IMutationCommandDispatcher<TSta
     public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
-        var handler = _serviceProvider.GetRequiredService<IMutationCommandHandler<TState, TCommand>>();
+        var handler = _serviceProvider.GetRequiredService<IMutationCommandHandler<TState>>();
         return await handler.Handle(command, cancellationToken);
     }
 }
