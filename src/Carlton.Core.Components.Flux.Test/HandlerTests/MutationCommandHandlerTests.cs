@@ -22,7 +22,7 @@ public class MutationCommandHandlerTests
     {
         //Arrange?
         var command = _fixture.Create<TestCommand1>();
-        var sut = _fixture.Create<MutationCommandHandler<TestState, TestCommand1>>();
+        var sut = _fixture.Create<MutationCommandHandler<TestState>>();
 
         //Act
         await sut.Handle(command, CancellationToken.None);

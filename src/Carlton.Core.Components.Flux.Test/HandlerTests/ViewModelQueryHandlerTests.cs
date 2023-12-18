@@ -29,12 +29,12 @@ public class ViewModelQueryHandlerTests
     {
         //Arrange
         var query = new ViewModelQuery();
-        var sut = _fixture.Create<ViewModelQueryHandler<TestState, TestViewModel>>();
+        var sut = _fixture.Create<ViewModelQueryHandler<TestState>>();
         var vm = _fixture.Create<TestViewModel>();
         _mockMapper.SetupMapper(_testState, vm);
 
         //Act
-        var result = await sut.Handle(query, CancellationToken.None);
+        var result = await sut.Handle<TestViewModel>(query, CancellationToken.None);
 
         //Assert
         Assert.Equal(vm, result);

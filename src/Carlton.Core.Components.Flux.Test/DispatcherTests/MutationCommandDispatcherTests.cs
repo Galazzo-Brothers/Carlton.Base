@@ -21,18 +21,18 @@ public class MutationCommandDispatcherTests
     {
         //Arrange
         var serviceProvider = _fixture.Freeze<Mock<IServiceProvider>>();
-        var handler = _fixture.Freeze<Mock<IMutationCommandHandler<TestState, MutationCommand>>>();
+        var handler = _fixture.Freeze<Mock<IMutationCommandHandler<TestState>>>();
         var sender = _fixture.Create<object>();
         var sut = _fixture.Create<MutationCommandDispatcher<TestState>>();
 
-        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState, MutationCommand>>(handler.Object);
-        handler.SetupHandler();
+        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState>>(handler.Object);
+        handler.SetupHandler<MutationCommand>();
       
 
         //Act
         await sut.Dispatch(sender, command, CancellationToken.None);
 
         //Assert
-        handler.VerifyHandler();
+        handler.VerifyHandler<MutationCommand>();
     }  
 }
