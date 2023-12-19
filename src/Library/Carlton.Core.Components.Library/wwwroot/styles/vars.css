@@ -18,6 +18,7 @@
     --nav-text-color: #fff;
     --selected-color: #21c1d6;
     --icon-color: #5e5e5e;
+    --mobile-icon-color: #fff;
     --spacer-color: #5e5e5e;
     /*Accents*/
     --accent-neutral: #808080;
@@ -57,6 +58,7 @@
     --nav-text-color: #fff;
     --selected-color: #21c1d6;
     --icon-color: #fff;
+    --mobile-icon-color: #fff;
     --spacer-color: #5e5e5e;
     /*Accents*/
     --accent-neutral: #808080;

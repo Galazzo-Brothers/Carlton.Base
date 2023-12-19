@@ -4,3 +4,13 @@
     margin-bottom: auto;
     color: var(--icon-color);
 }
+
+/*Media Queries*/
+@media (max-width: 768px) {
+    .theme-menu {
+        color: var(--mobile-icon-color);
+    }
+}
+
+
+
