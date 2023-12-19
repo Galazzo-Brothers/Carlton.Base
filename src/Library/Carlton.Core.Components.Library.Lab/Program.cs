@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Library.Lab;
+﻿using Carlton.Core.Components.Lab.Extensions;
+
+namespace Carlton.Core.Components.Library.Lab;
 
 public static class Program
 {
@@ -57,7 +59,8 @@ public static class Program
 
 
         builder.RootComponents.Add<App>("app");
-
-        await builder.Build().RunAsync().ConfigureAwait(true);
+        var app =  builder.Build();
+        app.UseCarltonTestLab();
+        await app.RunAsync().ConfigureAwait(true);     
     }
 }

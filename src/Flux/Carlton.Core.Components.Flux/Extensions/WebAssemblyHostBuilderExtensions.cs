@@ -16,12 +16,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Carlton.Core.Components.Flux;
 
-public static class ContainerExtensions
+public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonFlux<TState>(
         this WebAssemblyHostBuilder builder,
         TState state,
-        TypeAdapterConfig typeAdapterConfig,
         bool usesLocalStorage)
         where TState : class
     {
@@ -32,7 +31,7 @@ public static class ContainerExtensions
         RegisterLocalStorage(builder);
 
         /*Mapster*/
-        RegisterMapster(builder, typeAdapterConfig);
+        RegisterMapster(builder);
 
         /*Flux State*/
         RegisterFluxState(builder, state, usesLocalStorage);
@@ -97,8 +96,15 @@ public static class ContainerExtensions
         builder.Services.AddSingleton<IBrowserStorageService, BrowserStorageService>();
     }
 
-    private static void RegisterMapster(WebAssemblyHostBuilder builder, TypeAdapterConfig config)
+    private static void RegisterMapster(WebAssemblyHostBuilder builder)
     {
+        builder.Services.Scan(scan => scan
+                  .FromApplicationDependencies()
+                  .AddClasses(classes => classes.AssignableTo(typeof(IRegister)))
+                  .AsImplementedInterfaces()
+                  .WithSingletonLifetime());
+
+        var config = new TypeAdapterConfig();
         builder.Services.AddSingleton(config);
         builder.Services.AddSingleton<IMapper, ServiceMapper>();
     }
@@ -154,7 +160,7 @@ public static class ContainerExtensions
             .FromApplicationDependencies()
             .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
             .AsImplementedInterfaces()
-            .WithTransientLifetime());
+            .WithSingletonLifetime());
     }
 
     private static void RegisterValidators(WebAssemblyHostBuilder builder)
@@ -163,7 +169,7 @@ public static class ContainerExtensions
             _.FromApplicationDependencies()
             .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
             .AsImplementedInterfaces()
-            .WithTransientLifetime());
+            .WithSingletonLifetime());
     }
 
     private static void RegisterExceptionHandling(WebAssemblyHostBuilder builder)

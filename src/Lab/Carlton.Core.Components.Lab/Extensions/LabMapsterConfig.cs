@@ -2,15 +2,12 @@
 
 namespace Carlton.Core.Components.Lab;
 
-public static class MapsterConfig
+public class LabMapsterConfig : IRegister
 {
-    public static TypeAdapterConfig BuildMapsterConfig()
+    public void Register(TypeAdapterConfig config)
     {
-        var config = new TypeAdapterConfig
-        {
-            RequireExplicitMapping = true,
-            RequireDestinationMemberSource = true
-        };
+        config.RequireExplicitMapping = true;
+        config.RequireDestinationMemberSource = true;
 
         config.NewConfig<LabState, LabState>()
             .Ignore(_ => _.ComponentTestResults)
@@ -52,9 +49,6 @@ public static class MapsterConfig
         config.NewConfig<TestResult, TestResult>();
 
         config.Compile();
-
-        return config;
     }
-
 }
 
