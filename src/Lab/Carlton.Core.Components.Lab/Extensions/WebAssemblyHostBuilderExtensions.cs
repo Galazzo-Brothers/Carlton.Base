@@ -11,14 +11,12 @@ public static class WebAssemblyHostBuilderExtensions
         navTreeAct(NavMenuBuilder);
         var options = NavMenuBuilder.Build();
 
-        /*Mapster Configuration*/
-        var typeAdapterConfig = MapsterConfig.BuildMapsterConfig();
 
         /*Flux Registers*/
         var state = new LabState(options, testResults);
-        builder.AddCarltonFlux(state, typeAdapterConfig, true);
+        builder.AddCarltonFlux(state, true);
 
-        builder.AddCarltonFluxDebug(state);
+//        builder.AddCarltonFluxDebug(state);
     }
 }
 
