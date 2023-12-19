@@ -27,3 +27,12 @@
     }
 
 
+/*Media Queries*/
+@media (max-width: 768px) {
+    .notifications i {
+        color: var(--mobile-icon-color);
+    }
+}
+
+
+

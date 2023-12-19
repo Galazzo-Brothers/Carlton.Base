@@ -8,7 +8,6 @@ public static class Program
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-
         var http = new HttpClient()
         {
             BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
@@ -16,11 +15,6 @@ public static class Program
 
         builder.Services.AddScoped(sp => http);
 
-        var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.xml");
-        var testResults = TestBedUtils.ParseXUnitTestResults(testResultsContent);
-
-        //var testResultsContent = await http.GetStringAsync("/UnitTestResults/ComponentTestResults.trx");
-        //var testResults = TestBedUtils.ParseTrxTestResults(testResultsContent);
 
         builder.AddCarltonTestLab(builder =>
         {
@@ -54,8 +48,7 @@ public static class Program
                    .AddParameterObjComponent<WarningNotification>(NotificationStates.WarningState)
                    .AddParameterObjComponent<ErrorNotification>(NotificationStates.ErrorState)
                    .Build();
-        },
-        testResults);
+        });
 
 
         builder.RootComponents.Add<App>("app");
