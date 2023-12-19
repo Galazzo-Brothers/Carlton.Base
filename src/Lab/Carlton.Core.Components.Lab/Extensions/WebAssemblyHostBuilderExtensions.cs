@@ -3,8 +3,7 @@
 public static class WebAssemblyHostBuilderExtensions
 {
     public static void AddCarltonTestLab(this WebAssemblyHostBuilder builder,
-        Action<NavMenuViewModelBuilder> navTreeAct,
-        IDictionary<string, TestResultsReport> testResults = null)
+        Action<NavMenuViewModelBuilder> navTreeAct)
     {
         /*NavMenu Builder*/
         var NavMenuBuilder = new NavMenuViewModelBuilder();
@@ -13,7 +12,7 @@ public static class WebAssemblyHostBuilderExtensions
 
 
         /*Flux Registers*/
-        var state = new LabState(options, testResults);
+        var state = new LabState(options);
         builder.AddCarltonFlux(state, true);
 
 //        builder.AddCarltonFluxDebug(state);

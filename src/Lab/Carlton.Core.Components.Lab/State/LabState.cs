@@ -1,6 +1,4 @@
 ﻿using Carlton.Core.Components.Lab.Models.Common;
-using System.Collections.Immutable;
-
 namespace Carlton.Core.Components.Lab;
 
 public record LabState 
@@ -19,20 +17,12 @@ public record LabState
         get { return _componentEvents; }
         init { _componentEvents = value.ToList(); }
     }
-    public ImmutableDictionary<string, TestResultsReport> ComponentTestResults { get; init; }
-    public TestResultsReport SelectedComponentTestReport
-    {
-        get => ComponentTestResults.ContainsKey(SelectedComponentType.GetDisplayName()) ?
-             ComponentTestResults[SelectedComponentType.GetDisplayName()]
-            : new TestResultsReport();
-    }
 
-    public LabState(IEnumerable<ComponentAvailableStates> componentStates, IDictionary<string, TestResultsReport> testResults)
+    public LabState(IEnumerable<ComponentAvailableStates> componentStates)
     {
         ComponentStates = componentStates.ToList();
         SelectedComponentIndex = 0; //Default to the first item
         SelectedComponentStateIndex = 0; //Default to the first item
         SelectedComponentParameters = SelectedComponentState.ComponentParameters;
-        ComponentTestResults = testResults.ToImmutableDictionary();
     }
 }

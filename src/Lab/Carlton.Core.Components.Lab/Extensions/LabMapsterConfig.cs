@@ -10,8 +10,7 @@ public class LabMapsterConfig : IRegister
         config.RequireDestinationMemberSource = true;
 
         config.NewConfig<LabState, LabState>()
-            .Ignore(_ => _.ComponentTestResults)
-            .ConstructUsing(_ => new LabState(_.ComponentStates, _.ComponentTestResults));
+            .ConstructUsing(_ => new LabState(_.ComponentStates));
 
         config.NewConfig<LabState, NavMenuViewModel>()
             .Map(dest => dest.MenuItems, src => src.ComponentStates)
@@ -34,9 +33,6 @@ public class LabMapsterConfig : IRegister
 
         config.NewConfig<LabState, SourceViewerViewModel>()
             .Map(dest => dest.ComponentSource, src => src.SelectedComponentMarkup);
-
-        config.NewConfig<LabState, TestResultsViewModel>()
-            .ConstructUsing(_ => new TestResultsViewModel(_.SelectedComponentTestReport.TestResults));
 
         config.NewConfig<ComponentRecordedEvent, ComponentRecordedEvent>();
 
