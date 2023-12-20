@@ -82,14 +82,16 @@ public static class TableTestStates
             {
                 builder.AddMarkupContent(0,
                  $@"
-                 <div class=""table-cell"">
-                    <span>{item.ID}</span>
-                 </div>
-                 <div class= ""table-cell"">
-                    <span>{item.DisplayName}</span>
-                 </div>
-                 <div class=""table-cell"">
-                    <span>{item.CreatedDate}</span>
+                 <div class=""table-row"">
+                     <div class=""table-cell"">
+                        <span>{item.ID}</span>
+                     </div>
+                     <div class= ""table-cell"">
+                        <span>{item.DisplayName}</span>
+                     </div>
+                     <div class=""table-cell"">
+                        <span>{item.CreatedDate}</span>
+                     </div>
                  </div>");
             };
 
