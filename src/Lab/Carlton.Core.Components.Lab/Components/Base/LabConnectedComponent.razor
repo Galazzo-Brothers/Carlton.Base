@@ -1,13 +1,13 @@
-﻿@namespace Carlton.Core.Components.Lab
+﻿
+@namespace Carlton.Core.Components.Lab
 @typeparam TViewModel
 
 
-<LabErrorBoundary TComponent="TViewModel">
-    <ChildContent>
-        <ConnectedWrapper TViewModel="TViewModel" TState="LabState">
-            <SpinnerContent>
-                <Spinner />
-            </SpinnerContent>
-        </ConnectedWrapper>
-    </ChildContent>
-</LabErrorBoundary>
+<FluxConnectedComponent TViewModel="TViewModel" TState="LabState">
+    <ErrorContent Context="error">
+          <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="error.Recover" />
+    </ErrorContent>
+    <SpinnerContent>
+        <Spinner />
+    </SpinnerContent>
+</FluxConnectedComponent>
