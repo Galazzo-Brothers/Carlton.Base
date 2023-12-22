@@ -1,4 +1,6 @@
+using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Utilities.Logging;
+
 
 namespace Carlton.Core.Components.Flux.Debug.State;
 
@@ -10,6 +12,11 @@ public class FluxDebugState
         LogMessages = logMessages;
     }
 
-    public IEnumerable<LogMessage> LogMessages { get; private set; }
+    public FluxDebugState(object state)
+        : this(state, new List<LogMessage>())
+    {
+    }
+
+    public IEnumerable<LogMessage> LogMessages { get; private set; } = new List<LogMessage>();
     public object State { get; private set; }
 }

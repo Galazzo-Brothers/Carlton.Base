@@ -1,9 +1,14 @@
 ﻿@namespace Carlton.Core.Components.Flux.Debug
 @using Carlton.Core.Components.Flux.Contracts
+@using Carlton.Core.Components.Flux.Debug.State
+@using Mapster
+@using MapsterMapper
 @using Microsoft.AspNetCore.Components.Routing
 @inherits LayoutComponentBase
 @inject IBrowserStorageService BrowserStorageService
 @inject NavigationManager NavigationManager
+@inject IFluxState<FluxDebugState> FluxDebugState
+@inject IMapper Mapper
 
 <DashboardLayout ShowTabPanel="false">
     <NavContent>
@@ -16,7 +21,14 @@
         <FluxDebugHeaderActions />
     </HeaderActionContent>
     <Body>
-        @Body
+        @if (LoadingComplete)
+        {
+            @Body
+        }
+        else
+        {
+            <Spinner />
+        }
     </Body>
     <Tabs>
     </Tabs>
@@ -24,16 +36,33 @@
 
 
 @code {
+    private bool LoadingComplete { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
+        //Save Logs from your in app memory loggers to IndexDB
+        await BrowserStorageService.CommitLogs();
+
+        //Get todays logs to hydrate a FluxDebug state object
+        var logs = await BrowserStorageService.GetLogs(DateTime.Now.Date);
+        
+        //Hydrate a FluxDebug state object
+        var newState = new FluxDebugState(new object(), logs);
+
+        //Replace the container state with our constructed state
+        //via the magic of reflection
+        Mapper.Map(newState, FluxDebugState.State);
+
+        //Allow the child components to render
+        LoadingComplete = true;
+
         NavigationManager.LocationChanged += LocationChanged;
         await base.OnInitializedAsync();
     }
 
     private async void LocationChanged(object sender, LocationChangedEventArgs args)
     {
-        await BrowserStorageService.CommitLogs();
+        //await BrowserStorageService.CommitLogs();
     }
 
     private string GetCurrentPage()

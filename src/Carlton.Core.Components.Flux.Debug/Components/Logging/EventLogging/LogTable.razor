@@ -1,4 +1,5 @@
 ﻿@using Carlton.Core.Utilities.Logging;
+@using Carlton.Core.Components.Flux.Models;
 
 <div class="log-table">
     <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
@@ -10,7 +11,7 @@
 
 @code {
     [Parameter]
-    public IEnumerable<IndexDBLogMessage> LogMessages { get; set; } = new List<IndexDBLogMessage>();
+    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
     private IEnumerable<TableHeadingItem> Headings
     {

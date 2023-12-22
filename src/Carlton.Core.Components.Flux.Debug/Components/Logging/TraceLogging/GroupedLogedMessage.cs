@@ -1,9 +1,10 @@
-﻿using Carlton.Core.Components.Flux.Services;
+﻿using Carlton.Core.Utilities.Logging;
+
 namespace Carlton.Core.Components.Flux.Debug.Components.Logging;
 
 public class GroupedLogMessage
 {
-    public required IndexDBLogMessage StartingMessage { get; set; }
-    public required IndexDBLogMessage EndingMessage { get; set; }
-    public IEnumerable<IndexDBLogMessage> ChildMessages { get; set; } = new List<IndexDBLogMessage>();
+    public required LogMessage StartingMessage { get; set; }
+    public required LogMessage EndingMessage { get; set; }
+    public IEnumerable<LogMessage> ChildMessages { get; set; } = new List<LogMessage>();
 }

@@ -1,0 +1,8 @@
+﻿@namespace Carlton.Core.Components.Flux.Debug.Components.ConnectedComponents
+@using Carlton.Core.Components.Flux.Debug.Components.Logging.TraceLogging
+@using Carlton.Core.Components.Flux.Debug.ViewModels
+@inherits BaseConnectedComponent<TraceLogViewerViewModel>
+
+
+<TraceLogTable LogMessages="@ViewModel.LogMessages.ToList()" />
+

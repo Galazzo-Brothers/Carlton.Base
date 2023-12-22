@@ -1,4 +1,5 @@
-﻿@using Carlton.Core.Utilities.Logging
+﻿@using Carlton.Core.Components.Flux.Models
+@using Carlton.Core.Utilities.Logging
 
 <div class="log-table">
     <Table Headings="Headings" Items="GroupedMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" SortableHeadersEnabled="false">
@@ -10,7 +11,7 @@
 
 @code {
     [Parameter]
-    public IEnumerable<IndexDBLogMessage> LogMessages { get; set; } = new List<IndexDBLogMessage>();
+    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
     private IEnumerable<GroupedLogMessage> GroupedMessages { get; set; } = new List<GroupedLogMessage>();
 
@@ -40,13 +41,15 @@
     private void InitGroupedMessages()
     {
         GroupedMessages =
-            LogMessages.GroupBy(_ => _.Scopes.Split("=>")?.Last().Trim())
+            LogMessages
+                       .GroupBy(_ => _.Scopes.Split("=>")?.Last()?.Trim())
+                       .Where(_ => _.Count() > 1) //Ignore orphaned messages
                        .Select(group =>
                             {
                                 var orderedMessages = group.ToList();
                                 orderedMessages.RemoveAt(0);
                                 orderedMessages.RemoveAt(orderedMessages.Count - 1);
-                                var orderedChildren = new List<IndexDBLogMessage>(orderedMessages);
+                                var orderedChildren = new List<LogMessage>(orderedMessages);
                                 return new GroupedLogMessage
                                     {
                                         StartingMessage = group.First(),
@@ -55,4 +58,5 @@
                                     };
                             }).ToList();
     }
+}
 }
