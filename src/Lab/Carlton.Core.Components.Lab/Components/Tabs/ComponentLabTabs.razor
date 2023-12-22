@@ -8,7 +8,18 @@
     <LabConnectedComponent TViewModel="ParametersViewerViewModel" />
 </Tab>
 <Tab DisplayText="Component Source" Icon="mdi-source-branch">
-    <LabConnectedComponent TViewModel="SourceViewerViewModel"  />
+    <JsInteropConnectedWrapper TViewModel="SourceViewerViewModel" 
+                               TState="LabState"
+                               JsModule="@ModulePath"
+                               JsFunction="getSourceViewerViewModel"
+                               JsParameters="@(new object[] {".component-viewer"})">
+        <SpinnerContent>
+            <Spinner />
+        </SpinnerContent>
+    </JsInteropConnectedWrapper>
 </Tab>
 
+@code{
+    private const string ModulePath = "./_content/Carlton.Core.Components.Library/SourceViewer/SourceViewer.razor.js";
+}
 
