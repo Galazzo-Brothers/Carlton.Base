@@ -1,45 +1,29 @@
 ﻿@using Carlton.Core.Components.Flux.Debug.Components.Logging
 @using Carlton.Core.Components.Flux.Contracts;
+@using Carlton.Core.Components.Flux.Debug.ViewModels
 @using Carlton.Core.Components.Library
 @using Carlton.Core.Utilities.Logging;
 @using Blazored.LocalStorage;
-@using Carlton.Core.Components.Flux.Debug.Components;
+@using Carlton.Core.Components.Flux.Debug.Components.Logging.EventLogging;
 @using Microsoft.Extensions.Logging;
-@using Carlton.Core.Components.Flux.Debug.Components.Logging.TraceLogging
+@using Carlton.Core.Components.Flux.Models;
 @namespace Carlton.Core.Components.Flux.Debug
 @implements IDisposable
 @inject IBrowserStorageService BrowserStorage
-@page "/debug/trace"
+@page "/debug/logs"
 
-@if (IsLoading)
-{
-    <Spinner />
-}
-else
-{
-    <div class="trace-log-viewer">
-        <TraceLogTable LogMessages="LogMessages" />
-    </div>
-}
-
+<FluxDebugConnectedComponent TViewModel="LogViewerViewModel" />
 
 @code {
-    private bool IsLoading { get; set; } = true;
-
-    private IList<IndexDBLogMessage> LogMessages { get; set; } = new List<IndexDBLogMessage>();
-
-
     protected async override Task OnInitializedAsync()
     {
-        LogMessages = (await BrowserStorage.GetLogs(DateTime.Now)).ToList();
-        IsLoading = false;
         BrowserStorage.LogsCleared += LogsCleared;
         await base.OnInitializedAsync();
     }
 
     private void LogsCleared()
     {
-        LogMessages.Clear();
+        //AllLogMessages.Clear();
         StateHasChanged();
     }
 

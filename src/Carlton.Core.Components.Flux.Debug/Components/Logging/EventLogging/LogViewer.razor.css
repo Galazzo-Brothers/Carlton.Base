@@ -1,11 +1,10 @@
-﻿
-
-.log-filters {
+﻿.log-filters {
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
-	margin-left: 10px;
-	margin-right: 10px;
+	flex-wrap: wrap;
+	margin-left: 20px;
+	margin-right: 20px;
 	margin-bottom: 20px;
 }
 
@@ -15,4 +14,6 @@
 	max-width: 250px;
 }
 
-
+::deep .log-table{
+	margin: 20px;
+}
