@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Handlers;
+﻿namespace Carlton.Core.Components.Flux.Handlers.Mutations;
 
 
 public class MutationCommandHandler<TState> : IMutationCommandHandler<TState>

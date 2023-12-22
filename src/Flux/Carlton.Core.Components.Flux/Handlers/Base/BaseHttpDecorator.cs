@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Carlton.Core.Components.Flux.Decorators.Base;
+namespace Carlton.Core.Components.Flux.Handlers;
 
 public abstract partial class BaseHttpDecorator<TState>
 {

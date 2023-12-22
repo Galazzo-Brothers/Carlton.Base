@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Components.Flux.Exceptions;
-using Microsoft.JSInterop;
 using System.Text.Json;
 
 namespace Carlton.Core.Components.Flux;
@@ -27,11 +26,6 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
     public static ViewModelFluxException<TState, TViewModel> MappingError(ViewModelQuery query, CompileException innerException)
     {
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Mapping_Error, LogEvents.ViewModel_Mapping_ErrorMsg, query, innerException);
-    }
-
-    public static ViewModelFluxException<TState, TViewModel> JSInteropError(ViewModelQuery query, JSException innerException)
-    {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, query, innerException);
     }
 
     public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQuery query, JsonException innerException)

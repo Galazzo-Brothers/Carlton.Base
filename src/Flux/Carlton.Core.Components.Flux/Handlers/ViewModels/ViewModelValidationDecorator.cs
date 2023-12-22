@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Queries;
+﻿namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
 
 public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TState>
 {

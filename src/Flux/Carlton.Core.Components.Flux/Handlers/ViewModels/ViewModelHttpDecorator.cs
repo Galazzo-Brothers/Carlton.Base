@@ -1,8 +1,7 @@
-﻿using Carlton.Core.Components.Flux.Decorators.Base;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Carlton.Core.Components.Flux.Decorators.ViewModels;
+namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
 
 public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewModelQueryDispatcher<TState>
 {
@@ -74,6 +73,6 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
             //Http Exceptions
             _logger.ViewModelHttpRefreshError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.HttpError(query, ex);
-        }   
+        }
     }
 }

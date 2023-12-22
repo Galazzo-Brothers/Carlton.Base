@@ -1,6 +1,6 @@
 ﻿using MapsterMapper;
 
-namespace Carlton.Core.Components.Flux.Handlers;
+namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
 
 public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
 {
@@ -20,7 +20,7 @@ public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
             _logger.ViewModelMappingCompleted(typeof(TViewModel).GetDisplayName());
             return Task.FromResult(result);
         }
-        catch(CompileException ex) 
+        catch (CompileException ex)
         {
             _logger.ViewModelMappingError(ex, typeof(TViewModel).GetDisplayName());
             throw ViewModelFluxException<TState, TViewModel>.MappingError(query, ex);
