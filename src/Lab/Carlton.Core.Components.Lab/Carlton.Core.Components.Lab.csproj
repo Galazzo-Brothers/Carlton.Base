@@ -28,4 +28,8 @@
     <ProjectReference Include="..\..\Flux\Carlton.Core.Components.Flux\Carlton.Core.Components.Flux.csproj" />
     <ProjectReference Include="..\Carlton.Core.Components.Lab.Models\Carlton.Core.Components.Lab.Models.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
 </Project>
