@@ -1,4 +1,6 @@
 ﻿using Carlton.Core.Components.Lab.Models.Common;
+using Carlton.Core.Utilities.JsonConverters;
+using System.Text.Json.Serialization;
 namespace Carlton.Core.Components.Lab;
 
 public record LabState 
@@ -9,6 +11,7 @@ public record LabState
     public int SelectedComponentIndex { get; init; }
     public int SelectedComponentStateIndex { get; init; }
     public ComponentState SelectedComponentState { get => ComponentStates.ElementAt(SelectedComponentIndex).ComponentStates.ElementAt(SelectedComponentStateIndex); }
+    [JsonConverter(typeof(JsonTypeConverter))]
     public Type SelectedComponentType { get { return ComponentStates.ElementAt(SelectedComponentIndex).ComponentType; } }
     public string SelectedComponentMarkup { get; init; }
     public ComponentParameters SelectedComponentParameters { get; init; }
