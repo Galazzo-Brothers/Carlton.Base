@@ -23,7 +23,7 @@ public class BrowserStorageService : IBrowserStorageService
         _memoryLogger = memoryLogger;
     }
 
-    public async Task<IEnumerable<IndexDBLogMessage>> GetLogs(DateTime dateTime)
+    public async Task<IEnumerable<LogMessage>> GetLogs(DateTime dateTime)
     {
         try
         {
@@ -59,7 +59,7 @@ public class BrowserStorageService : IBrowserStorageService
                 foreach (var group in scopeGroups)
                 {
                     var indexDbKey = group.Key == string.Empty ? $"UnhandledException_{Guid.NewGuid()}" : group.Key;
-                    var ascendingLogs = group.OrderBy(_ => _.Timestamp).Select(_ => new IndexDBLogMessage(_)).ToList();
+                    var ascendingLogs = group.OrderBy(_ => _.Timestamp).ToList();
                     var carltonMessage = new CarltonFluxLogMessage(indexDbKey, dateGroup.Key, ascendingLogs);
                    
                     var result = await manager.AddRecord(new StoreRecord<CarltonFluxLogMessage>()
@@ -82,6 +82,9 @@ public class BrowserStorageService : IBrowserStorageService
         {
             _semaphore.Release();
         }
+
+        //Local func to extract initial wrapping scope
+        static string InitialScope(string scopeString) => scopeString.Split("=>")?.Last().Trim();
     }
 
     public async Task ClearLogs()
@@ -99,13 +102,30 @@ public class BrowserStorageService : IBrowserStorageService
         }
     }
 
-    //Local func to extract initial wrapping scope
-    static string InitialScope(string scopeString) => scopeString.Split("=>")?.Last().Trim();
+    public async Task SaveState<TState>(TState state)
+    {
+        try
+        {
+            //Get IndexDB reference
+            var manager = await _dbFactory.GetDbManager("CarltonFlux");
+
+            //Commit State to IndexDB
+            var result = await manager.AddRecord(new StoreRecord<TState>
+            {
+                StoreName = "AppState",
+                Record = state
+            });
+        }
+        catch (Exception ex)
+        {
+            //swallow for now
+        }
+    }
 }
 
 file class CarltonFluxLogMessage
 {
-    public CarltonFluxLogMessage(string key, string indexDate, IEnumerable<IndexDBLogMessage> logMessage)
+    public CarltonFluxLogMessage(string key, string indexDate, IEnumerable<LogMessage> logMessage)
     {
         Key = key;
         IndexDate = indexDate;
@@ -119,5 +139,5 @@ file class CarltonFluxLogMessage
 
     public string Key { get; set; }
     public string IndexDate { get; set; }
-    public IEnumerable<IndexDBLogMessage> LogMessages { get; set; }
+    public IEnumerable<LogMessage> LogMessages { get; set; }
 }
