@@ -1,9 +1,8 @@
 ﻿using Carlton.Core.Components.Flux.Attributes;
-using Carlton.Core.Components.Flux.Decorators.Base;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Carlton.Core.Components.Flux.Decorators.Mutations;
+namespace Carlton.Core.Components.Flux.Handlers.Mutations;
 
 public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutationCommandDispatcher<TState>
 {
@@ -137,7 +136,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
                 prop.SetValue(command, serverResponseValue);
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new InvalidOperationException($"{LogEvents.ErrorUpdatingCommandFromServerResponseMsg} {typeof(HttpResponseTypeAttribute<>).GetDisplayName()}", ex);
         }

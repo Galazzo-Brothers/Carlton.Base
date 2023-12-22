@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Commands;
+﻿namespace Carlton.Core.Components.Flux.Handlers.Mutations;
 
 public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TState>
 {

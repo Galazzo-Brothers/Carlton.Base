@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.State;
+﻿namespace Carlton.Core.Components.Flux.Services;
 
 
 public class MutationResolver<TState> : IMutationResolver<TState>

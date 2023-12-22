@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Components.Flux.Exceptions;
-
-namespace Carlton.Core.Components.Flux.ExceptionHandling;
+﻿namespace Carlton.Core.Components.Flux.Exceptions.ExceptionHandling;
 
 public class FluxExceptionDisplayService : IExceptionDisplayService
 {

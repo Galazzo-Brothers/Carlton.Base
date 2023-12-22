@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Commands;
+﻿namespace Carlton.Core.Components.Flux.Handlers.Mutations;
 
 public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TState>
 {
@@ -17,7 +17,7 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
 
         try
         {
-            using(_logger.BeginScope(commandTraceGuid))
+            using (_logger.BeginScope(commandTraceGuid))
             {
                 _logger.MutationStarted(commandType);
                 await _decorated.Dispatch(sender, command, cancellationToken);
@@ -25,14 +25,14 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
             }
             return Unit.Value;
         }
-        catch(MutationCommandFluxException<TState, TCommand>)
+        catch (MutationCommandFluxException<TState, TCommand>)
         {
             //Exception was already caught, logged and wrapped by other middleware decorators
             throw;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            using(_logger.BeginScope(commandTraceGuid))
+            using (_logger.BeginScope(commandTraceGuid))
             {
                 //Unhandled Exceptions
                 _logger.MutationUnhandledError(ex, commandType);

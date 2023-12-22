@@ -17,9 +17,6 @@ public static class LogEvents
 
     //ViewModel Queries
     public const int ViewModel_Started = 1000;
-    public const int ViewModel_JsInterop_Started = 1001;
-    public const int ViewModel_JsInterop_Completed = 1002;
-    public const int ViewModel_JsInterop_Skipped = 1003;
     public const int ViewModel_HttpRefresh_Started = 1004;
     public const int ViewModel_HttpRefresh_Completed = 1005;
     public const int ViewModel_HttpRefresh_Skipped = 1006;
@@ -31,7 +28,6 @@ public static class LogEvents
 
     //ViewModel Queries Errors
     public const int ViewModel_HttpRefresh_Http_Error = 1101;
-    public const int ViewModel_JsInterop_Error = 1102;
     public const int ViewModel_HTTP_URL_Error = 1103;
     public const int ViewModel_HTTP_Error = 1104;
     public const int ViewModel_JSON_Error = 1105;
@@ -43,7 +39,6 @@ public static class LogEvents
     public const string ViewModel_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a ViewModel";
     public const string ViewModel_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a ViewModel";
     public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel";
-    public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
     public const string ViewModel_Mapping_ErrorMsg = "An error occurred during the mapping of a ViewModel";
     public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of a ViewModel";
     public const string ViewModel_Unhandled_ErrorMsg = $"An unhandled exception occurred during a ViewModelQuery";

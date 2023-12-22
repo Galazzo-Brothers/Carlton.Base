@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Decorators.Queries;
+﻿namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
 
 public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TState>
 {
@@ -17,7 +17,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
         try
         {
             TViewModel result;
-            using(_logger.BeginScope(vmQueryTraceGuid))
+            using (_logger.BeginScope(vmQueryTraceGuid))
             {
                 _logger.ViewModelStarted(vmDisplayName);
                 result = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
@@ -25,15 +25,15 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             }
             return result;
         }
-        catch(ViewModelFluxException<TState, TViewModel>)
+        catch (ViewModelFluxException<TState, TViewModel>)
         {
             //Exception was already caught, logged and wrapped by other middleware decorators
             throw;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             //Unhandled Exception
-            using(_logger.BeginScope(vmQueryTraceGuid))
+            using (_logger.BeginScope(vmQueryTraceGuid))
             {
                 _logger.ViewModelUnhandledError(ex, vmDisplayName);
                 throw new ViewModelFluxException<TState, TViewModel>(query, ex);

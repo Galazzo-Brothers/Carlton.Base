@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Carlton.Core.Components.Flux.Decorators.Mutations;
+namespace Carlton.Core.Components.Flux.Handlers.Mutations;
 
 public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<TState>
 {
@@ -29,6 +29,9 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
             //Start the LocalStorage Interception
             var commandType = typeof(TCommand).GetDisplayName();
             _logger.MutationLocalStorageStarted(commandType);
+
+            //Save to local storage
+            await _browserStorage.SaveState(_fluxState.State);
 
             //Continue with dispatch and update the state store
             await _decorated.Dispatch(sender, command, cancellationToken);

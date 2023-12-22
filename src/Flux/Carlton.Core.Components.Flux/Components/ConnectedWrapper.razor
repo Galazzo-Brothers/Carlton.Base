@@ -1,22 +1,18 @@
 ﻿@namespace Carlton.Core.Components.Flux
 @implements IDisposable
-@typeparam TViewModel
 @typeparam TState
+@typeparam TViewModel
 @inject IConnectedComponent<TViewModel> Component
 @inject IViewModelQueryDispatcher<TState> QueryDispatcher
 @inject IMutationCommandDispatcher<TState> MutationDispatcher
 @inject IFluxStateObserver<TState> StateObserver
 @inject IBrowserStorageService BrowserStorage
-@inject ILogger<ConnectedWrapper<TViewModel, TState>> Logger
+@inject ILogger<ConnectedWrapper<TState, TViewModel>> Logger
 
-@if (IsLoading)
-{
-    @SpinnerContent
-}
-else
-{
-    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
-}
+<ConnectedComponentContent SpinnerContent="SpinnerContent"
+                           WrappedComponentType="WrappedComponentType"
+                           Parameters="GetParameters()"
+                           IsLoading="IsLoading" />
 
 
 @code {
@@ -51,7 +47,7 @@ else
             StateObserver.StateChanged += OnStateChanged;
 
             //Get VM and initialize context for wrapped component
-            ViewModel = await GetViewModel(guid);
+            ViewModel = await GetViewModel();
 
             //Gather the StateEvents this component should be listening for
             var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
@@ -68,7 +64,13 @@ else
         }
     }
 
-    private async Task OnComponentEvent<TCommand>(object sender, TCommand command)
+    protected virtual async Task<TViewModel> GetViewModel()
+    {
+        var query = new ViewModelQuery();
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
+    }
+
+    protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
         where TCommand : MutationCommand
     {
         var guid = Guid.NewGuid();
@@ -115,18 +117,6 @@ else
                 Logger.DataWrapperEventSkipped(WrappedComponentDisplayName, stateEvent);
             }
         }
-    }
-
-    private async Task<TViewModel> GetViewModel(Guid guid)
-    {
-        var query = new ViewModelQuery(guid);
-        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
-    }
-
-    private async Task<TViewModel> GetViewModel()
-    {
-        var query = new ViewModelQuery();
-        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
     }
 
     protected Dictionary<string, object> GetParameters()

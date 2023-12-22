@@ -1,12 +1,10 @@
-﻿using Carlton.Core.Components.Flux.Exceptions;
-
-namespace Carlton.Core.Components.Flux.ExceptionHandling;
+﻿namespace Carlton.Core.Components.Flux.Exceptions.ExceptionHandling;
 
 public class ComponentExceptionLoggingService : IComponentExceptionLoggingService
 {
     public void LogException<TComponent>(ILogger logger, Exception exception)
     {
-       LogException(logger, exception, typeof(TComponent));
+        LogException(logger, exception, typeof(TComponent));
     }
 
     public void LogException(ILogger logger, Exception exception, Type erroredComponentType)
