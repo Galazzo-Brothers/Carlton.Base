@@ -6,25 +6,28 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorComponentUtilities" Version="1.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Carlton.Core.Components.Lab.Layouts\Carlton.Core.Layouts.csproj" />
-    <ProjectReference Include="..\Flux\Carlton.Core.Components.Flux\Carlton.Core.Flux.csproj" />
-    <ProjectReference Include="..\Library\Carlton.Core.Components.Library\Carlton.Core.Components.csproj" />
+    <Folder Include="Extensions\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
   </ItemGroup>
+
+	<PropertyGroup>
+		<NoWarn>8618;</NoWarn>
+	</PropertyGroup>
 
 </Project>
