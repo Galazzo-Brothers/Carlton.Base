@@ -2,7 +2,7 @@
 @namespace Carlton.Core.Lab.Layouts
 @inherits LayoutComponentBase
 
-<DashboardLayout ShowTabPanel="true" >
+<DashboardLayout ShowPanel="true">
     <NavContent>
         <LabFluxComponent TViewModel="NavMenuViewModel" />
     </NavContent>
@@ -15,9 +15,9 @@
     <Body>
         @Body
     </Body>
-    <Tabs>
-        <LabTabs />
-    </Tabs>
+    <PanelContent>
+       <LabPanelContent />
+    </PanelContent>
 </DashboardLayout>
 
 

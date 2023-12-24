@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Layouts.Components
+﻿@namespace Carlton.Core.Components
 
 <div class="slide-tab" style="@SlideTabStyle">
     <button class="slide-button" @onclick="() => IsExpanded = !IsExpanded">@Title</button>
@@ -15,11 +15,14 @@
     [Parameter]
     public bool IsExpanded { get; set; }
     [Parameter]
+    public int Height { get; set; }
+    [Parameter]
     public int PositionBottom { get; set; }
 
     private string SlideTabStyle
     {
         get => StyleBuilder.Empty()
+                .AddStyle("--slide-tab-height", $"{Height}px")
                 .AddStyle("--slide-tab-bottom", $"{PositionBottom}px")
                 .Build();
 

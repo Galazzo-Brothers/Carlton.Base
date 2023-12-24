@@ -2,14 +2,15 @@
 @using Carlton.Core.Lab.State
 @namespace Carlton.Core.Lab.Layouts
 
- <Tab DisplayText="Component Events" Icon="mdi-flash">
+
+<Tab DisplayText="Component Events" Icon="mdi-flash">
     <LabFluxComponent TViewModel="EventConsoleViewModel" />
 </Tab>
 <Tab DisplayText="Component Parameters" Icon="mdi-code-braces">
     <LabFluxComponent TViewModel="ParametersViewerViewModel" />
 </Tab>
 <Tab DisplayText="Component Source" Icon="mdi-source-branch">
-    <JsInteropConnectedWrapper TViewModel="SourceViewerViewModel" 
+    <JsInteropConnectedWrapper TViewModel="SourceViewerViewModel"
                                TState="LabState"
                                JsModule="@ModulePath"
                                JsFunction="getSourceViewerViewModel"
@@ -18,9 +19,9 @@
             <Spinner />
         </SpinnerContent>
     </JsInteropConnectedWrapper>
-</Tab> 
+</Tab>
 
-@code{
+@code {
     private const string ModulePath = "./_content/Carlton.Core.Components.Library/SourceViewer/SourceViewer.razor.js";
 }
 
