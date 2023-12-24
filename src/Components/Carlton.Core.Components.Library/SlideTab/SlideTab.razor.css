@@ -29,5 +29,5 @@
 
 		.slide-tab .slide-container.expanded {
 			display: block;
-			height: 350px;
+			height: var(--slide-tab-height);
 		}

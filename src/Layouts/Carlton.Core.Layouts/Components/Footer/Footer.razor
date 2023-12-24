@@ -2,7 +2,7 @@
 
 <MediaQueryWrapper>
     <DesktopContent>
-        <div class="content @(HideInMobile ? "hidden" : "")">
+        <div class="content">
             <div class="external-urls">
                 <a href="#">Dashboard</a>
                 <a href="#">Documentation</a>
@@ -16,19 +16,7 @@
             </div>
         </div>
     </DesktopContent>
-
-    <MobileContent>
-        @if(HideInMobile)
-        {
-            
-        }
-    </MobileContent>
-
 </MediaQueryWrapper>
 
 
-
-@code {
-    public bool HideInMobile { get; set; }
-}
 

@@ -1,16 +1,18 @@
-﻿@namespace Carlton.Core.Layouts.Components
+﻿@namespace Carlton.Core.Components
 @inherits TabBarBase
 
 
-<CascadingValue Value="this">
-    @ChildContent
-</CascadingValue>
-
+@if (!ContentBelow)
+{
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+}
 
 <div class="mobile-tab-bar">
     <div class="content">
         <div class="mobile-tabs">
-            @foreach(Tab tab in Tabs)
+            @foreach (Tab tab in Tabs)
             {
                 <div class="mobile-tab @(tab==this.ActiveTab ? "active" : "")">
                     <div class="mobile-tab-link" @onclick="(args)=>ActivateTab(tab)">
@@ -18,10 +20,10 @@
                         {
                             <i class="mdi mdi-24px @tab.Icon"></i>
                         }
-                       @if(ShowDisplayText)
-                       {
+                        @if (ShowDisplayText)
+                        {
                             <span>@tab.DisplayText</span>
-                       }
+                        }
                     </div>
                 </div>
             }
@@ -29,10 +31,20 @@
     </div>
 </div>
 
-@code{
+@if (ContentBelow)
+{
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+}
+
+@code {
     [Parameter]
     public bool ShowDisplayIcon { get; set; }
 
     [Parameter]
-    public bool ShowDisplayText { get; set; } 
+    public bool ShowDisplayText { get; set; }
+
+    [Parameter]
+    public bool ContentBelow { get; set; }
 }
