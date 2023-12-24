@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace Carlton.Core.Components.Flux.Extensions;
+namespace Carlton.Core.Flux.Extensions;
 
 public static class WebAssemblyHostExtensions
 {
@@ -13,6 +13,9 @@ public static class WebAssemblyHostExtensions
     private static void SetupMappingConfigs(WebAssemblyHost host)
     {
         var mapperConfig = host.Services.GetService<TypeAdapterConfig>();
+
+        var x = host.Services
+            .GetServices<IRegister>();
 
         host.Services
             .GetServices<IRegister>()

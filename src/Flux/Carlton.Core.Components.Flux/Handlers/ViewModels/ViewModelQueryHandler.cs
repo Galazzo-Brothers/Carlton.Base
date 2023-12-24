@@ -1,6 +1,8 @@
-﻿using MapsterMapper;
+﻿using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Logging;
+using MapsterMapper;
 
-namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
+namespace Carlton.Core.Flux.Handlers.ViewModels;
 
 public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
 {

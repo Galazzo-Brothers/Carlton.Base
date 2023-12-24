@@ -1,22 +1,16 @@
-﻿@namespace Carlton.Core.Components.Library
+﻿@using Carlton.Core.Components.DropdownMenu
+@namespace Carlton.Core.Components
+
+
 
 <div class="profile-avatar-container">
     <DropdownMenu MenuItems="DropdownMenuItems" Style="Style">
         <MenuTemplate>
-            <MediaQueryWrapper>
-                <DesktopContent>
-                    <div class="profile-avatar">
-                        <img class="avatar-img text-center" src="@AvatarImgUrl" />
-                        <span class="username">@Username</span>
-                        <span class="icon mdi mdi-24px mdi-chevron-down"></span>
-                    </div>
-                </DesktopContent>
-                <MobileContent>
-                    <div class="profile-avatar">
-                        <img class="avatar-img text-center" src="@AvatarImgUrl" />
-                    </div>
-                </MobileContent>
-            </MediaQueryWrapper>
+            <div class="profile-avatar">
+                <img class="avatar-img text-center" src="@AvatarImgUrl" />
+                <span class="username mobile-hide">@Username</span>
+                <span class="icon mdi mdi-24px mdi-chevron-down mobile-hide"></span>
+            </div>
         </MenuTemplate>
         <HeaderTemplate>
             <div class="header">

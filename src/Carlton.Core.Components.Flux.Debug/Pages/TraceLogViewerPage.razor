@@ -1,38 +1,6 @@
-﻿@using Carlton.Core.Components.Flux.Debug.Components.ConnectedComponents
-@using Carlton.Core.Components.Flux.Debug.Components.Logging
-@using Carlton.Core.Components.Flux.Contracts;
-@using Carlton.Core.Components.Flux.Debug.ViewModels
-@using Carlton.Core.Components.Flux.Models
-@using Carlton.Core.Components.Library
-@using Carlton.Core.Utilities.Logging;
-@using Blazored.LocalStorage;
-@using Carlton.Core.Components.Flux.Debug.Components;
-@using Microsoft.Extensions.Logging;
-@using Carlton.Core.Components.Flux.Debug.Components.Logging.TraceLogging
-@namespace Carlton.Core.Components.Flux.Debug
-@implements IDisposable
-@inject IBrowserStorageService BrowserStorage
+﻿@namespace Carlton.Core.Flux.Debug.Pages
 @page "/debug/trace"
 
 
-<FluxDebugConnectedComponent TViewModel="TraceLogViewerViewModel" />
-
-@code {
-    protected async override Task OnInitializedAsync()
-    {
-        BrowserStorage.LogsCleared += LogsCleared;
-        await base.OnInitializedAsync();
-    }
-
-    private void LogsCleared()
-    {
-      // LogMessages.Clear();
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        BrowserStorage.LogsCleared -= LogsCleared;
-    }
-}
+<FluxDebugComponent TViewModel="TraceLogViewerViewModel" />
 

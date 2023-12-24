@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models;
+﻿namespace Carlton.Core.Lab.Models.Common;
 
 internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);
 

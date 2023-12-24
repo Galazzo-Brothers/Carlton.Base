@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Contracts;
+﻿namespace Carlton.Core.Flux.Contracts;
 
 public interface IFluxStateObserver<TState>
 {

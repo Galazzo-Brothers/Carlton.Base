@@ -1,0 +1,36 @@
+﻿@namespace Carlton.Core.Components.Cards
+
+<div class="card">
+    <div class="content">
+        <div class="title-content">
+            <span class="card-title">@CardTitle</span>
+            <div class="status-icon">
+                @if(ActionBarContent == null)
+                {
+                   @* <KebabMenu />*@
+                }
+                else
+                {
+                    @ActionBarContent
+                }
+            </div>
+        </div>
+        <div class="header-content">
+            @HeaderContent
+        </div>
+        <div class="primary-content">
+            @PrimaryCardContent
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string CardTitle { get; set; }
+    [Parameter]
+    public RenderFragment ActionBarContent { get; set; }
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; }
+    [Parameter]
+    public RenderFragment PrimaryCardContent { get; set; }
+}

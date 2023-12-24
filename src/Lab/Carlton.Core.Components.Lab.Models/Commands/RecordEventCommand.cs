@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models.Commands;
+﻿namespace Carlton.Core.Lab.Models.Commands;
 
 public sealed record RecordEventCommand(string RecordedEventName, object EventArgs) : MutationCommand;
 

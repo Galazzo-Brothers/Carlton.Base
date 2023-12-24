@@ -1,4 +1,7 @@
-﻿namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
+﻿using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Logging;
+
+namespace Carlton.Core.Flux.Handlers.ViewModels;
 
 public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TState>
 {

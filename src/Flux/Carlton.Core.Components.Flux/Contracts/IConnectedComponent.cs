@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Carlton.Core.Components.Flux.Contracts;
+namespace Carlton.Core.Flux.Contracts;
 
 public interface IConnectedComponent<TViewModel> : IComponent
 {

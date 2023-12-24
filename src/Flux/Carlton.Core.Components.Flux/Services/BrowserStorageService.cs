@@ -1,9 +1,8 @@
 ﻿using BlazorDB;
 using Blazored.LocalStorage;
 using Carlton.Core.Utilities.Logging;
-using System.Text.Json.Serialization;
 
-namespace Carlton.Core.Components.Flux.Services;
+namespace Carlton.Core.Flux.Services;
 
 public class BrowserStorageService : IBrowserStorageService
 {

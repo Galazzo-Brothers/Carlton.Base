@@ -1,0 +1,28 @@
+﻿@namespace Carlton.Core.Layouts.Components
+
+<div class="desktop-header-template-container">
+    <div class="header-bar @(IsCollapsed ? "collapsed" : string.Empty)">
+        <div class="menu">
+            @MenuContent
+        </div>
+        <div class="title">
+            @TitleContent
+        </div>
+        <div class="action">
+            @ActionContent
+        </div>
+    </div>
+</div>
+<Spacer WidthPercentage="100" />
+
+
+@code {
+    // [CascadingParameter]
+     public bool IsCollapsed { get; set; }
+    [Parameter]
+    public RenderFragment MenuContent { get; set; }
+    [Parameter]
+    public RenderFragment TitleContent { get; set; }
+    [Parameter]
+    public RenderFragment ActionContent { get; set; }
+}

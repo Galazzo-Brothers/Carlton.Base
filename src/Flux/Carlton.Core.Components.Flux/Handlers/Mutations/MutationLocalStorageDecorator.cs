@@ -1,6 +1,10 @@
-﻿using System.Text.Json;
+﻿using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Models;
+using System.Text.Json;
 
-namespace Carlton.Core.Components.Flux.Handlers.Mutations;
+namespace Carlton.Core.Flux.Handlers.Mutations;
 
 public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<TState>
 {
@@ -21,7 +25,7 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
         _logger = logger;
     }
 
-    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
+    public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         try
@@ -38,8 +42,6 @@ public class MutationLocalStorageDecorator<TState> : IMutationCommandDispatcher<
 
             //Complete the LocalStorage Interception
             _logger.MutationLocalStorageStarted(commandType);
-
-            return Unit.Value;
         }
         catch (JsonException ex)
         {

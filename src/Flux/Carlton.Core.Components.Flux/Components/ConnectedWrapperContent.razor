@@ -1,0 +1,22 @@
+﻿@namespace Carlton.Core.Flux.Components
+
+@if (IsLoading)
+{
+    @SpinnerContent
+}
+else
+{
+    <DynamicComponent Type="WrappedComponentType" Parameters="Parameters" />
+}
+
+
+@code{
+    [Parameter]
+    public RenderFragment SpinnerContent {get;set;}
+    [Parameter]
+    public Type WrappedComponentType {get;set;}
+    [Parameter]
+    public IDictionary<string, object> Parameters {get;set;}
+    [Parameter]
+    public bool IsLoading {get;set;}
+}

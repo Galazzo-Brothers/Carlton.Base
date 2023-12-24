@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Models;
+﻿namespace Carlton.Core.Flux.Models;
 
 public record ViewModelQuery
 {

@@ -1,8 +1,5 @@
-﻿using Carlton.Core.Components.Flux.Exceptions;
-using Microsoft.JSInterop;
-using System.Text.Json;
-
-namespace Carlton.Core.Components.Flux;
+﻿using System.Runtime.InteropServices.JavaScript;
+namespace Carlton.Core.Flux.Exceptions;
 
 
 public class MutationCommandFluxException<TState, TCommand> : FluxException

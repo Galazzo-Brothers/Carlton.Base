@@ -1,6 +1,6 @@
-﻿using Carlton.Core.Components.Lab.Models.Common;
-
-namespace Carlton.Core.Components.Lab;
+﻿using Carlton.Core.Lab.State;
+using Carlton.Core.Utilities.UnitTesting;
+namespace Carlton.Core.Lab.Extensions;
 
 public class LabMapsterConfig : IRegister
 {

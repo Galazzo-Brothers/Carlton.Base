@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.State.Mutations.RefreshMutations;
+﻿namespace Carlton.Core.Lab.State.Mutations.RefreshMutations;
 
 public class SourceViewerRefreshMutation : IFluxStateMutation<LabState, SourceViewerViewModel>
 {

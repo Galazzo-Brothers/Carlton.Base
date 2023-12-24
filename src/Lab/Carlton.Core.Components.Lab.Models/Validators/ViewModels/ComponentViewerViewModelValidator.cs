@@ -1,6 +1,6 @@
-﻿using Carlton.Core.Components.Lab.Models.Validators.Base;
+﻿
 
-namespace Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+namespace Carlton.Core.Lab.Models.Validators.ViewModels;
 
 public class ComponentViewerViewModelValidator : AbstractValidator<ComponentViewerViewModel>
 {

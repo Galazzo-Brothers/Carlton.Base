@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models.Validators.Commands;
+﻿namespace Carlton.Core.Lab.Models.Validators.Commands;
 
 public class RecordEventCommandValidator : AbstractValidator<RecordEventCommand>
 {

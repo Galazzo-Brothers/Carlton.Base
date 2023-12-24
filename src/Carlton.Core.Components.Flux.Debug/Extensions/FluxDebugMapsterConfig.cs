@@ -1,10 +1,6 @@
-﻿using Carlton.Core.Components.Flux.Debug.State;
-using Carlton.Core.Components.Flux.Debug.ViewModels;
-using Carlton.Core.Utilities.Logging;
-using Mapster;
+﻿using Mapster;
 using Microsoft.Extensions.Logging;
-
-namespace Carlton.Core.Components.Debug;
+namespace Carlton.Core.Flux.Debug.Extensions;
 
 
 public class FluxDebugMapsterConfig : IRegister
@@ -22,6 +18,10 @@ public class FluxDebugMapsterConfig : IRegister
 
         config.NewConfig<FluxDebugState, TraceLogViewerViewModel>()
             .Map(dest => dest.LogMessages, src => src.LogMessages);
+
+        //config.NewConfig<FluxDebugState, ModalViewModel>()
+        //    .Ignore(dest => dest.IsVisible)
+        //    .ConstructUsing(_ => new ModalViewModel(false));
 
         config.NewConfig<LogMessage, LogMessage>();
 

@@ -1,5 +1,5 @@
 ﻿using MapsterMapper;
-namespace Carlton.Core.Components.Flux.State;
+namespace Carlton.Core.Flux.State;
 
 public class FluxState<TState> : IMutableFluxState<TState>
 {

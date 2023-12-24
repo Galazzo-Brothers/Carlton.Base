@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Exceptions.ExceptionHandling;
+﻿namespace Carlton.Core.Flux.Exceptions.ExceptionHandling;
 
 public class ComponentExceptionLoggingService : IComponentExceptionLoggingService
 {

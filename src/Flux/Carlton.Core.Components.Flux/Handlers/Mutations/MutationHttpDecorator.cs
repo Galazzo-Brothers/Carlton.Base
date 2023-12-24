@@ -1,8 +1,13 @@
-﻿using Carlton.Core.Components.Flux.Attributes;
+﻿using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Handlers.Base;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Carlton.Core.Components.Flux.Handlers.Mutations;
+namespace Carlton.Core.Flux.Handlers.Mutations;
 
 public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutationCommandDispatcher<TState>
 {
@@ -13,7 +18,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
         : base(client, fluxState)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
+    public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         try
@@ -50,7 +55,7 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
             }
 
             //Continue the Dispatch Pipeline
-            return await _decorated.Dispatch(sender, command, cancellationToken);
+            await _decorated.Dispatch(sender, command, cancellationToken);
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {

@@ -1,4 +1,13 @@
-﻿@using Microsoft.AspNetCore.Components.Web
-@using Carlton.Core.Components.Library
-@using Carlton.Core.Components.Flux.Attributes
-@using Carlton.Core.Components.Flux.Services
+﻿@using System.Threading
+@using Microsoft.Extensions.Logging
+@using Carlton.Core.Components
+@using Carlton.Core.Flux.Contracts
+@using Carlton.Core.Flux.Components
+@using Carlton.Core.Flux.Attributes
+@using Carlton.Core.Flux.Services
+@using Carlton.Core.Flux.Debug.Models.ViewModels;
+@using Carlton.Core.Flux.Debug.Models.Commands;
+@using Carlton.Core.Flux.Debug.State;
+@using Carlton.Core.Utilities.Logging;
+
+

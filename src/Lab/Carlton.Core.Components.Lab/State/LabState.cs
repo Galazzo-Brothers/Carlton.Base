@@ -1,7 +1,6 @@
-﻿using Carlton.Core.Components.Lab.Models.Common;
+﻿using System.Text.Json.Serialization;
 using Carlton.Core.Utilities.JsonConverters;
-using System.Text.Json.Serialization;
-namespace Carlton.Core.Components.Lab;
+namespace Carlton.Core.Lab.State;
 
 public record LabState 
 {

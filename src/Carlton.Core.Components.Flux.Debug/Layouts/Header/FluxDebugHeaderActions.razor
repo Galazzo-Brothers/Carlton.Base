@@ -1,0 +1,65 @@
+﻿@using Carlton.Core.Components.DropdownMenu
+@using Carlton.Core.Layouts.Components
+@using Carlton.Core.Layouts.Components.Notifications
+@using Carlton.Core.Flux.Debug.Layouts.Header
+@namespace Carlton.Core.Flux.Debug.Layouts.Header
+@inject IBrowserStorageService BrowserStorageService
+@inject NavigationManager NavigationManager
+
+<div class="flux-debug-header-actions">
+    <ThemeMenu />
+    <NotificationMenu />
+    <ProfileAvatar Username="Stephen"
+                   AvatarImgUrl="_content/Carlton.Core.Components.Library/images/avatar.jpg"
+                   DropdownMenuItems="DropdownMenuItems"
+                   MenuItemSelected="HandleMenuItemSelected" />
+</div>
+
+@code {
+    private ModalState ModalState { get; set; } = new ModalState { IsVisible = false };
+    private bool IsVisible { get; set; } = false;
+
+    private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
+    {
+        get
+        {
+            return new List<DropdownMenuItem<int>>
+            {
+                new DropdownMenuItem<int>("Profile", 1, "account", 1),
+                new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2),
+                new DropdownMenuItem<int>("Clear Localstorage", 3, "delete", 3),
+                new DropdownMenuItem<int>("App", 4, "open-in-app", 4),
+                new DropdownMenuItem<int>("Logout", 5, "logout", 5)
+            };
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+
+    private void HandleMenuItemSelected(int selectedIndex)
+    {
+        switch (selectedIndex)
+        {
+            case 2:
+                //ThemeState.SetTheme(ThemeState.Theme == Themes.light ? Themes.dark : Themes.light);
+                break;
+            case 3:
+                ModalState.IsVisible = true;   
+                // IsVisible = true;
+                break;
+            case 4:
+                NavigationManager.NavigateTo($"/");
+                break;
+            default:
+                return;
+        }
+    }
+}

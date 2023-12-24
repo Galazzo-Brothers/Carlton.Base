@@ -1,6 +1,6 @@
 ﻿global using FluentValidation;
-global using Carlton.Core.Components.Flux.Models;
-global using Carlton.Core.Components.Lab.Models.Common;
-global using Carlton.Core.Components.Lab.Models.Commands;
-global using Carlton.Core.Components.Lab.Models.Validators;
-global using Carlton.Core.Components.Lab.Models.ViewModels;
+global using Carlton.Core.Flux.Models;
+global using Carlton.Core.Lab.Models.Common;
+global using Carlton.Core.Lab.Models.Commands;
+global using Carlton.Core.Lab.Models.ViewModels;
+global using Carlton.Core.Lab.Models.Validators.Common;

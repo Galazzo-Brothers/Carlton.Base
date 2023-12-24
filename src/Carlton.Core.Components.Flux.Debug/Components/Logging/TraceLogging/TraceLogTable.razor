@@ -1,5 +1,5 @@
-﻿@using Carlton.Core.Components.Flux.Models
-@using Carlton.Core.Utilities.Logging
+﻿@using Carlton.Core.Components.Table
+@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
 
 <div class="log-table">
     <Table Headings="Headings" Items="GroupedMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" SortableHeadersEnabled="false">
@@ -58,5 +58,4 @@
                                     };
                             }).ToList();
     }
-}
 }

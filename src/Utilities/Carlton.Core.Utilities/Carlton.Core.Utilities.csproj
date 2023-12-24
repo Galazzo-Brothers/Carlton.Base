@@ -12,11 +12,8 @@
 
   <ItemGroup>
     <Compile Remove="CQRS\**" />
-    <Compile Remove="Utilities\**" />
     <EmbeddedResource Remove="CQRS\**" />
-    <EmbeddedResource Remove="Utilities\**" />
     <None Remove="CQRS\**" />
-    <None Remove="Utilities\**" />
   </ItemGroup>
   
   <ItemGroup>

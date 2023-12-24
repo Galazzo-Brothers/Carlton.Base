@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Library.Lab.TestData;
+﻿using Carlton.Core.Components.DropdownMenu;
+namespace Carlton.Core.Components.Library.Lab.TestData;
+
 internal static class ProfileAvatarTestStates
 {
     public static object DefaultState

@@ -1,7 +1,7 @@
-﻿@namespace Carlton.Core.Components.Flux
-@implements IDisposable
+﻿@namespace Carlton.Core.Flux.Components
 @typeparam TState
 @typeparam TViewModel
+@implements IDisposable
 @inject IConnectedComponent<TViewModel> Component
 @inject IViewModelQueryDispatcher<TState> QueryDispatcher
 @inject IMutationCommandDispatcher<TState> MutationDispatcher
@@ -9,7 +9,7 @@
 @inject IBrowserStorageService BrowserStorage
 @inject ILogger<ConnectedWrapper<TState, TViewModel>> Logger
 
-<ConnectedComponentContent SpinnerContent="SpinnerContent"
+<ConnectedWrapperContent SpinnerContent="SpinnerContent"
                            WrappedComponentType="WrappedComponentType"
                            Parameters="GetParameters()"
                            IsLoading="IsLoading" />
@@ -109,6 +109,7 @@
 
                 //StateHasChanged
                 StateHasChanged();
+
                 Logger.DataWrapperEventReceivedCompleted(WrappedComponentDisplayName, stateEvent);
             }
             else

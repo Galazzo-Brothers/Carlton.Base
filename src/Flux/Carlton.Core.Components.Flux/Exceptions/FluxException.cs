@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Exceptions;
+﻿namespace Carlton.Core.Flux.Exceptions;
 
 public class FluxException : Exception
 {

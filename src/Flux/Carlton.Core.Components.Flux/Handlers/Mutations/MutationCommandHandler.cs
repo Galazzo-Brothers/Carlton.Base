@@ -1,4 +1,7 @@
-﻿namespace Carlton.Core.Components.Flux.Handlers.Mutations;
+﻿using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Models;
+
+namespace Carlton.Core.Flux.Handlers.Mutations;
 
 
 public class MutationCommandHandler<TState> : IMutationCommandHandler<TState>
@@ -8,11 +11,10 @@ public class MutationCommandHandler<TState> : IMutationCommandHandler<TState>
     public MutationCommandHandler(IMutableFluxState<TState> state)
         => State = state;
 
-    public async Task<Unit> Handle<TCommand>(TCommand command, CancellationToken cancellationToken)
+    public async Task Handle<TCommand>(TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         await State.MutateState(command);
-        return Unit.Value;
     }
 }
 

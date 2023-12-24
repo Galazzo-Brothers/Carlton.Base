@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components.Flux.Debug
+﻿@namespace Carlton.Core.Flux.Debug.Layouts
 @inject NavigationManager Navigation
 
 @if(IsDebug)
@@ -12,7 +12,6 @@ else
 
 
 @code {
-
     [Parameter]
     public required RenderFragment DebugContent { get; set; }
     [Parameter]
