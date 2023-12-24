@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models.ViewModels;
+﻿namespace Carlton.Core.Lab.Models.ViewModels;
 
 public record EventConsoleViewModel(IEnumerable<ComponentRecordedEvent> RecordedEvents);
 

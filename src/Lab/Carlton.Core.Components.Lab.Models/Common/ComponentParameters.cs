@@ -1,3 +1,3 @@
-﻿namespace Carlton.Core.Components.Lab.Models;
+﻿namespace Carlton.Core.Lab.Models.Common;
 
 public record ComponentParameters(object ParameterObj, ParameterObjectType ParameterObjType);

@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Dispatchers;
+﻿namespace Carlton.Core.Flux.Dispatchers;
 
 public class MutationCommandDispatcher<TState> : IMutationCommandDispatcher<TState>
 {
@@ -8,10 +8,10 @@ public class MutationCommandDispatcher<TState> : IMutationCommandDispatcher<TSta
         => _serviceProvider = serviceProvider;
 
 
-    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
+    public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         var handler = _serviceProvider.GetRequiredService<IMutationCommandHandler<TState>>();
-        return await handler.Handle(command, cancellationToken);
+        await handler.Handle(command, cancellationToken);
     }
 }

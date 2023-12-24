@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Utilities.Logging;
 
-namespace Carlton.Core.Components.Flux.Debug.Components.Logging;
+namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging;
 
 public class GroupedLogMessage
 {

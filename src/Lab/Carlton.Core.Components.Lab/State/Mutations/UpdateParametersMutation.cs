@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Components.Flux.State;
-
-namespace Carlton.Core.Components.Lab.State.Mutations;
+﻿namespace Carlton.Core.Lab.State.Mutations;
 
 public class UpdateParametersMutation : IFluxStateMutation<LabState, UpdateParametersCommand>
 {

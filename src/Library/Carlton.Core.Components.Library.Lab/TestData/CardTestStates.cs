@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Library.Lab.TestData;
+﻿using Carlton.Core.Components.Cards;
+
+namespace Carlton.Core.Components.Library.Lab.TestData;
 internal static class CardTestStates
 {
     public static object DefaultState

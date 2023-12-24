@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Models.Validators.ViewModels;
+﻿namespace Carlton.Core.Lab.Models.Validators.ViewModels;
 
 public class EventConsoleViewModelValidator : AbstractValidator<EventConsoleViewModel>
 {

@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Components.Flux.Attributes;
-
-namespace Carlton.Core.Components.Flux;
+﻿namespace Carlton.Core.Flux.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class HttpRefreshParameterAttribute : Attribute

@@ -1,4 +1,9 @@
-﻿namespace Carlton.Core.Components.Flux.Handlers.Mutations;
+﻿using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Models;
+
+namespace Carlton.Core.Flux.Handlers.Mutations;
 
 public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TState>
 {
@@ -8,7 +13,7 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
     public MutationExceptionDecorator(IMutationCommandDispatcher<TState> decorated, ILogger<MutationExceptionDecorator<TState>> logger)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
+    public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         var commandType = typeof(TCommand).GetDisplayName();
@@ -23,7 +28,6 @@ public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TSt
                 await _decorated.Dispatch(sender, command, cancellationToken);
                 _logger.MutationCompleted(commandType);
             }
-            return Unit.Value;
         }
         catch (MutationCommandFluxException<TState, TCommand>)
         {

@@ -1,6 +1,6 @@
-﻿@namespace Carlton.Core.Components.Flux.Debug.Components.ConnectedComponents
-@using Carlton.Core.Components.Flux.Debug.Components.Logging.TraceLogging
-@using Carlton.Core.Components.Flux.Debug.ViewModels
+﻿@using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
+@namespace Carlton.Core.Components.Flux.Debug.Components
+@attribute [ObserveStateEvents("LocalStorageCleared")]
 @inherits BaseConnectedComponent<TraceLogViewerViewModel>
 
 

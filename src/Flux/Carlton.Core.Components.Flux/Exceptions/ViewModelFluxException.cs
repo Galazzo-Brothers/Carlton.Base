@@ -1,7 +1,7 @@
-﻿using Carlton.Core.Components.Flux.Exceptions;
+﻿using Carlton.Core.Flux.Logging;
 using System.Text.Json;
 
-namespace Carlton.Core.Components.Flux;
+namespace Carlton.Core.Flux.Exceptions;
 
 public class ViewModelFluxException<TState, TViewModel> : FluxException
 {

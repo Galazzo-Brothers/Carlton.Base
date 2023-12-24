@@ -1,6 +1,6 @@
 ﻿using AutoFixture.AutoMoq;
-using Carlton.Core.Components.Flux.ExceptionHandling;
 using Carlton.Core.Components.Flux.Exceptions;
+using Carlton.Core.Components.Flux.Exceptions.ExceptionHandling;
 using Carlton.Core.Components.Flux.Models;
 
 namespace Carlton.Core.Components.Flux.Test.ExceptionHandlingTests;

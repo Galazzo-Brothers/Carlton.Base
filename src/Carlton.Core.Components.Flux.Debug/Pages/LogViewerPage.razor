@@ -1,35 +1,7 @@
-﻿@using Carlton.Core.Components.Flux.Debug.Components.Logging
-@using Carlton.Core.Components.Flux.Contracts;
-@using Carlton.Core.Components.Flux.Debug.ViewModels
-@using Carlton.Core.Components.Library
-@using Carlton.Core.Utilities.Logging;
-@using Blazored.LocalStorage;
-@using Carlton.Core.Components.Flux.Debug.Components.Logging.EventLogging;
-@using Microsoft.Extensions.Logging;
-@using Carlton.Core.Components.Flux.Models;
-@namespace Carlton.Core.Components.Flux.Debug
-@implements IDisposable
-@inject IBrowserStorageService BrowserStorage
+﻿@namespace Carlton.Core.Flux.Debug.Pages
 @page "/debug/logs"
 
-<FluxDebugConnectedComponent TViewModel="LogViewerViewModel" />
+<FluxDebugComponent TViewModel="LogViewerViewModel" />
 
-@code {
-    protected async override Task OnInitializedAsync()
-    {
-        BrowserStorage.LogsCleared += LogsCleared;
-        await base.OnInitializedAsync();
-    }
 
-    private void LogsCleared()
-    {
-        //AllLogMessages.Clear();
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        BrowserStorage.LogsCleared -= LogsCleared;
-    }
-}
 

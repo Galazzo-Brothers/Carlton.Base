@@ -1,0 +1,48 @@
+﻿@namespace Carlton.Core.Components.Consoles
+
+<div class="json-viewer-console">
+    <Console Text="@JsonObj"
+             IsReadOnly="@IsReadOnly"
+             IsValid="@IsValid"
+             OnChangeCallback="OnTextChange" />
+</div>
+
+
+@code {
+    [Parameter]
+    public Object Obj { get; set; }
+
+    [Parameter]
+    public bool IsReadOnly { get; set; }
+
+    [Parameter]
+    public EventCallback<object> OnChangeCallback { get; set; }
+
+    private bool IsValid { get; set; } = true;
+    private string JsonObj { get; set; } = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        IsValid = true;
+        JsonObj = JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
+        base.OnParametersSet();
+    }
+
+    private async Task OnTextChange(string vmStr)
+    {
+        try
+        {
+            //Parse New ViewModel String
+            var type = Obj.GetType();
+            var deserializedObj = JsonSerializer.Deserialize(vmStr, type);
+            IsValid = true;
+
+            //If Parse succeeds Send ComponentEvent    
+            await OnChangeCallback.InvokeAsync(deserializedObj);
+        }
+        catch(Exception)
+        {
+            IsValid = false;
+        }
+    }
+}

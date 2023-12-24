@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Library.Lab.TestData;
+﻿using Carlton.Core.Components.Table;
+
+namespace Carlton.Core.Components.Library.Lab.TestData;
 public static class TableTestStates
 {
     public record TableTestDate

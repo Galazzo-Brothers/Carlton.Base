@@ -1,5 +1,5 @@
 ﻿
-namespace Carlton.Core.Components.Flux;
+namespace Carlton.Core.Flux.Logging;
 
 public static partial class LogDataWrapper
 {

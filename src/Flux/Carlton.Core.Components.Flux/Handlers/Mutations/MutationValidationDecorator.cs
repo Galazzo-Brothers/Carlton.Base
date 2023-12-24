@@ -1,4 +1,9 @@
-﻿namespace Carlton.Core.Components.Flux.Handlers.Mutations;
+﻿using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Models;
+
+namespace Carlton.Core.Flux.Handlers.Mutations;
 
 public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TState>
 {
@@ -9,7 +14,7 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
     public MutationValidationDecorator(IMutationCommandDispatcher<TState> decorated, IServiceProvider provider, ILogger<MutationValidationDecorator<TState>> logger)
         => (_decorated, _provider, _logger) = (decorated, provider, logger);
 
-    public async Task<Unit> Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
+    public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
         try
@@ -19,7 +24,7 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
             var validator = _provider.GetService<IValidator<TCommand>>();
             validator.ValidateAndThrow(command);
             _logger.MutationValidationCompleted(displayName);
-            return await _decorated.Dispatch(sender, command, cancellationToken);
+            await _decorated.Dispatch(sender, command, cancellationToken);
         }
         catch (ValidationException ex)
         {

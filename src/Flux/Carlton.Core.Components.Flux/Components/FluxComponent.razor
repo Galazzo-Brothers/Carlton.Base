@@ -1,0 +1,24 @@
+﻿@namespace Carlton.Core.Flux.Components
+@typeparam TState
+@typeparam TViewModel
+
+
+<FluxErrorBoundary TComponent="TViewModel">
+    <ChildContent>
+        <ConnectedWrapper TViewModel="TViewModel" TState="TState">
+            <SpinnerContent>
+                @SpinnerContent
+            </SpinnerContent>
+        </ConnectedWrapper>
+    </ChildContent>
+    <ErrorPrompt Context="error" >
+        @ErrorContent(error)
+    </ErrorPrompt>
+</FluxErrorBoundary>
+
+@code {
+    [Parameter]
+    public RenderFragment<ExceptionErrorPrompt> ErrorContent { get; set; }
+    [Parameter]
+    public RenderFragment SpinnerContent { get; set; }
+}

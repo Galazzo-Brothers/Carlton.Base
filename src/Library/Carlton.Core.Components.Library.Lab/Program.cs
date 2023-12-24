@@ -1,6 +1,9 @@
-﻿using Carlton.Core.Components.Lab.Extensions;
+﻿using Carlton.Core.Components;
+using Carlton.Core.Components.Cards;
+using Carlton.Core.Components.Table;
+using Carlton.Core.Lab.Extensions;
 
-namespace Carlton.Core.Components.Library.Lab;
+namespace Carlton.Core.Library.Lab;
 
 public static class Program
 {
@@ -26,7 +29,7 @@ public static class Program
                    .AddParameterObjComponent<CountCard>("Accent 3", CardTestStates.CountCard3State)
                    .AddParameterObjComponent<CountCard>("Accent 4", CardTestStates.CountCard4State)
                    .AddParameterObjComponent<FloatingActionButton>(ButtonTestStates.DefaultState)
-                   .AddParameterObjComponent<Logo>(LogoTestStates.DefaultState)
+                   //.AddParameterObjComponent<Logo>(LogoTestStates.DefaultState)
                    .AddParameterObjComponent<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
                    .AddParameterObjComponent<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)
                    .AddParameterObjComponent<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
@@ -40,13 +43,13 @@ public static class Program
                    .AddParameterObjComponent<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
                    .AddParameterObjComponent<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
                    .AddParameterObjComponent<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
-                   .AddParameterObjComponent<NotificationBar>("FadeOut Disabled", NotificationStates.NotificationBarFadeOutDisabledStated)
-                   .AddParameterObjComponent<NotificationBar>("FadeOut Enabled", NotificationStates.NotificationBarFadeOutEnabledStated)
-                   .AddParameterObjComponent<SuccessNotification>("FadeOut Disabled", NotificationStates.SuccessFadeOutDisabledState)
-                   .AddParameterObjComponent<SuccessNotification>("FadeOut Enabled", NotificationStates.SuccessFadeOutEnabledState)
-                   .AddParameterObjComponent<InfoNotification>(NotificationStates.InfoState)
-                   .AddParameterObjComponent<WarningNotification>(NotificationStates.WarningState)
-                   .AddParameterObjComponent<ErrorNotification>(NotificationStates.ErrorState)
+                   //.AddParameterObjComponent<NotificationBar>("FadeOut Disabled", NotificationStates.NotificationBarFadeOutDisabledStated)
+                   //.AddParameterObjComponent<NotificationBar>("FadeOut Enabled", NotificationStates.NotificationBarFadeOutEnabledStated)
+                   //.AddParameterObjComponent<SuccessNotification>("FadeOut Disabled", NotificationStates.SuccessFadeOutDisabledState)
+                   //.AddParameterObjComponent<SuccessNotification>("FadeOut Enabled", NotificationStates.SuccessFadeOutEnabledState)
+                   //.AddParameterObjComponent<InfoNotification>(NotificationStates.InfoState)
+                   //.AddParameterObjComponent<WarningNotification>(NotificationStates.WarningState)
+                   //.AddParameterObjComponent<ErrorNotification>(NotificationStates.ErrorState)
                    .Build();
         });
 

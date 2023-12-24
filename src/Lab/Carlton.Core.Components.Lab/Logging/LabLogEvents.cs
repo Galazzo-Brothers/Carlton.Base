@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.Logging;
+﻿namespace Carlton.Core.Lab.Logging;
 
 public static class LabLogEvents
 {

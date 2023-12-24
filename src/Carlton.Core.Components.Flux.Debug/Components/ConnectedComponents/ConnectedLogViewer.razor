@@ -1,7 +1,7 @@
-﻿@namespace Carlton.Core.Components.Flux.Debug.Components.ConnectedComponents
-@using Carlton.Core.Components.Flux.Debug.ViewModels
+﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+@namespace Carlton.Core.Flux.Debug.Components
+@attribute [ObserveStateEvents("LocalStorageCleared")]
 @inherits BaseConnectedComponent<LogViewerViewModel>
-
 
 <LogViewer LogMessages="@ViewModel.LogMessages.ToList()" />
 

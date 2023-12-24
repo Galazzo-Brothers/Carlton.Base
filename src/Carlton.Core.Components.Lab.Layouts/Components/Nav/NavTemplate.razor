@@ -1,0 +1,16 @@
+﻿@namespace Carlton.Core.Layouts.Components
+
+<Logo Title="Component Test Lab" />
+@* @if(!LayoutState.IsCollapsed)
+{ *@
+    @NavContent
+@* } *@
+
+@code{
+    // [CascadingParameter]
+     public LayoutState LayoutState { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public RenderFragment NavContent { get; set; }
+}

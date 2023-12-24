@@ -1,20 +1,18 @@
 ﻿using BlazorDB;
 using Blazored.LocalStorage;
-using Carlton.Core.Components.Flux.Decorators.Commands;
-using Carlton.Core.Components.Flux.Decorators.Mutations;
-using Carlton.Core.Components.Flux.Decorators.Queries;
-using Carlton.Core.Components.Flux.Dispatchers;
-using Carlton.Core.Components.Flux.ExceptionHandling;
-using Carlton.Core.Components.Flux.Handlers;
-using Carlton.Core.Components.Flux.Services;
-using Carlton.Core.Components.Flux.State;
+using Carlton.Core.Flux.Dispatchers;
+using Carlton.Core.Flux.Exceptions.ExceptionHandling;
+using Carlton.Core.Flux.Handlers.Mutations;
+using Carlton.Core.Flux.Handlers.ViewModels;
+using Carlton.Core.Flux.Services;
+using Carlton.Core.Flux.State;
 using Carlton.Core.Utilities.JsonConverters;
 using Carlton.Core.Utilities.Logging;
 using MapsterMapper;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace Carlton.Core.Components.Flux;
+namespace Carlton.Core.Flux.Extensions;
 
 public static class WebAssemblyHostBuilderExtensions
 {
@@ -89,6 +87,12 @@ public static class WebAssemblyHostBuilderExtensions
                     Name = "Logs",
                     PrimaryKey = "key",
                     Indexes = new List<string> {"indexDate"}
+                },
+                new ()
+                {
+                    Name = "AppState",
+                    PrimaryKey = "id",
+                    PrimaryKeyAuto = true
                 }
             };
         });
@@ -124,7 +128,6 @@ public static class WebAssemblyHostBuilderExtensions
         /*ViewModel Dispatchers*/
         builder.Services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
         //services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelHttpDecorator<TState>>();
-        builder.Services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelJsDecorator<TState>>();
         builder.Services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
         builder.Services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
 
@@ -174,7 +177,7 @@ public static class WebAssemblyHostBuilderExtensions
 
     private static void RegisterExceptionHandling(WebAssemblyHostBuilder builder)
     {
-        builder.Services.AddSingleton<IExceptionDisplayService, FluxExceptionDisplayService>();
+        builder.Services.AddSingleton<IFluxExceptionDisplayService, FluxExceptionDisplayService>();
         builder.Services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
     }
 

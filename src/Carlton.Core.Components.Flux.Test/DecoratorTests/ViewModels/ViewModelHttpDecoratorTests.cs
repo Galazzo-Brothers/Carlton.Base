@@ -1,6 +1,6 @@
 ﻿using AutoFixture.AutoMoq;
 using Carlton.Core.Components.Flux.Contracts;
-using Carlton.Core.Components.Flux.Decorators.ViewModels;
+using Carlton.Core.Components.Flux.Handlers.ViewModels;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
 using Carlton.Core.Components.Flux.Test.Common.Extensions;

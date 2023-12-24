@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Flux.Dispatchers;
+﻿namespace Carlton.Core.Flux.Dispatchers;
 
 public class ViewModelQueryDispatcher<TState> : IViewModelQueryDispatcher<TState>
 {

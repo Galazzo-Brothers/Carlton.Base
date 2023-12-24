@@ -1,5 +1,4 @@
-﻿namespace Carlton.Core.Components.Lab.State.Mutations;
-
+﻿namespace Carlton.Core.Lab.State.Mutations;
 
 public class RecordEventMutation : IFluxStateMutation<LabState, RecordEventCommand>
 {

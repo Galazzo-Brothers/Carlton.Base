@@ -1,8 +1,9 @@
-﻿using Carlton.Core.Components.Flux.Attributes;
+﻿using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Logging;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Carlton.Core.Components.Flux.Handlers;
+namespace Carlton.Core.Flux.Handlers.Base;
 
 public abstract partial class BaseHttpDecorator<TState>
 {

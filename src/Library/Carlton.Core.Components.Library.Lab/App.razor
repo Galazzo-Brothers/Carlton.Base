@@ -1,19 +1,21 @@
-﻿@namespace Carlton.Core.Components.Library.Lab
-@using Carlton.Core.Components.Flux.Debug;
-@using Carlton.Core.Components.Lab.Pages;
+﻿@namespace Carlton.Core.Library.Lab
+@using Carlton.Core.Flux.Debug.Layouts;
+@using Carlton.Core.Lab.Layouts
+@using Carlton.Core.Lab.Pages;
 
 
 <Router AppAssembly="@typeof(Program).Assembly" 
     AdditionalAssemblies="new[] { typeof(LabPage).Assembly, typeof(FluxDebugLayout).Assembly }">
     <Found Context="routeData">
-        <FluxDebugView>
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(LabLayout)" />
+        @* <FluxDebugView>
             <DebugContent>
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(FluxDebugLayout)" />
             </DebugContent>
             <ApplicationContent>
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(ComponentLabLayout)" />
             </ApplicationContent>
-        </FluxDebugView>
+        </FluxDebugView> *@
     </Found>
     <NotFound>
         <p>Sorry, there's nothing at this address.</p>

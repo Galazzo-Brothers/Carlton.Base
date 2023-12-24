@@ -1,0 +1,12 @@
+﻿@namespace Carlton.Core.Flux.Debug
+@typeparam TViewModel
+
+
+<FluxComponent TViewModel="TViewModel" TState="FluxDebugState">
+    <ErrorContent Context="error">
+          <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="@error.Recover" />
+    </ErrorContent>
+    <SpinnerContent>
+        <Spinner />
+    </SpinnerContent>
+</FluxComponent>

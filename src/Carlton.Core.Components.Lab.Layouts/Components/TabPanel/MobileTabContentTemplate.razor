@@ -1,0 +1,19 @@
+﻿@namespace Carlton.Core.Layouts.Components
+
+
+@MainContent
+
+<MobileTabBar ShowDisplayIcon="true" ShowDisplayText="false">
+    <SlideTab Title="Settings" PositionBottom="50">
+        <Content>
+            @Tabs
+        </Content>
+    </SlideTab>
+</MobileTabBar>
+
+@code {
+    [Parameter]
+    public RenderFragment MainContent { get; set; }
+    [Parameter]
+    public RenderFragment Tabs { get; set; }
+}

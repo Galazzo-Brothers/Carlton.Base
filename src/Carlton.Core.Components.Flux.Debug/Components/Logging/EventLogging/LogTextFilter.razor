@@ -1,4 +1,6 @@
-﻿<div class="log-text-filter">
+﻿@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+
+<div class="log-text-filter">
     <input class="search-text" type="text" @onchange="(args) => OnTextChanged.InvokeAsync(args.Value.ToString())" />
 </div>
 

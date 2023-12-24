@@ -1,4 +1,9 @@
-﻿namespace Carlton.Core.Components.Flux.Handlers.ViewModels;
+﻿using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Models;
+
+namespace Carlton.Core.Flux.Handlers.ViewModels;
 
 public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TState>
 {

@@ -1,5 +1,5 @@
 ﻿
-namespace Carlton.Core.Components.Lab.Models.Validators.Commands;
+namespace Carlton.Core.Lab.Models.Validators.Commands;
 
 public class SelectMenuExpandedCommandValidator : AbstractValidator<SelectMenuExpandedCommand>
 {

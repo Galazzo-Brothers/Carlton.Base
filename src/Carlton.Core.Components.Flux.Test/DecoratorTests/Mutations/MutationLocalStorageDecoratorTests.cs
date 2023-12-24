@@ -1,7 +1,7 @@
 ﻿using AutoFixture.AutoMoq;
 using Blazored.LocalStorage;
 using Carlton.Core.Components.Flux.Contracts;
-using Carlton.Core.Components.Flux.Decorators.Mutations;
+using Carlton.Core.Components.Flux.Handlers.Mutations;
 using Carlton.Core.Components.Flux.Models;
 using Carlton.Core.Components.Flux.Test.Common;
 using Carlton.Core.Components.Flux.Test.Common.Extensions;
