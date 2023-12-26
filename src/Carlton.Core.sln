@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layouts", "Layouts", "{4BCDD61B-77D9-400F-A29E-822C82962370}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{74CF6108-5B0A-408F-B8F1-90F324CDEED9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components", "Components\Carlton.Core.Components\Carlton.Core.Components.csproj", "{6D48BD82-A96F-4006-9D7B-A6815BA87DEF}"
@@ -34,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Lab", "Lab\Car
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Lab.Models", "Lab\Carlton.Core.Lab.Models\Carlton.Core.Lab.Models.csproj", "{D5FCD78D-495B-41AD-B913-6D7A15AC0660}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Layouts", "Layouts\Carlton.Core.Layouts\Carlton.Core.Layouts.csproj", "{694F5FF7-6969-4CC6-883B-DFF65FB92C50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts", "Layouts\Carlton.Core.Layouts\Carlton.Core.Components.Layouts.csproj", "{694F5FF7-6969-4CC6-883B-DFF65FB92C50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,7 +89,7 @@ Global
 		{7A48DFB3-FB6D-4D81-85DC-0D80A210B2BB} = {30A02A52-86DC-457F-BAFF-10EB6B1ED1AC}
 		{F0CA25A6-F32E-45A2-8FFE-2658BFABD9E2} = {4BF087BD-FC47-4D3E-BAD5-051FCC8858AF}
 		{D5FCD78D-495B-41AD-B913-6D7A15AC0660} = {4BF087BD-FC47-4D3E-BAD5-051FCC8858AF}
-		{694F5FF7-6969-4CC6-883B-DFF65FB92C50} = {4BCDD61B-77D9-400F-A29E-822C82962370}
+		{694F5FF7-6969-4CC6-883B-DFF65FB92C50} = {74CF6108-5B0A-408F-B8F1-90F324CDEED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}

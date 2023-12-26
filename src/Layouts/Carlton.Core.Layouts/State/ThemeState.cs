@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Layouts.State;
+﻿namespace Carlton.Core.Components.Layouts.State;
 
 public class ThemeState
 {
