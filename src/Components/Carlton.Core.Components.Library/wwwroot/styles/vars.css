@@ -36,6 +36,9 @@
     --console-background-color: #282c34;
     --console-color: #7FFF00;
     --console-error-color: #ff0000;
+    /*Tabs*/
+    --tab-font-size: 14px;
+    --tab-hover-color: #7c848a;
 }
 
 
@@ -76,6 +79,9 @@
     --console-background-color: #2C2C2C;
     --console-color: #7FFF00;
     --console-error-color: #DC143C;
+    /*Tabs*/
+    --tab-font-size: 14px;
+    --tab-hover-color: #7c848a;
 }
 
 
