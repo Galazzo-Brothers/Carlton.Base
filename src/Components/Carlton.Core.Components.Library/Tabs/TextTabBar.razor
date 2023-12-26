@@ -1,28 +1,14 @@
-﻿@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components.Tabs
 @inherits TabBarBase
 
-<div class="tabs">
-    <div class="content">
-        @foreach(Tab tab in Tabs)
-        {
-            <div class="@CarltonTabCss(tab)">
-                <a class="" @onclick="()=>ActivateTab(tab)" href="#">@tab.DisplayText</a>
-                <span class="tab-selected-bar"></span>
-            </div>
-        }
-    </div>
+
+<div class="text-tab-bar">
+    <TabBarBase HideCollapser="true"
+                HideTabs="false"
+                ContentLocation="ContentLocation"
+                ChildContent="ChildContent">
+        <TabContent Context="tab">
+            <TextTabContent Tab="tab" />
+        </TabContent>
+    </TabBarBase>
 </div>
-
-<CascadingValue Value="this">
-    @ChildContent
-</CascadingValue>
-
-
-@code {
-    private Func<Tab, string> CarltonTabCss
-    {
-        get => (tab) => new CssBuilder("carlton-tab")
-                .AddClass("active", ActiveTab == tab)
-                .Build();
-    }
-}

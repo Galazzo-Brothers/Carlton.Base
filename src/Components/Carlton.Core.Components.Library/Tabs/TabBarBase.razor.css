@@ -1,0 +1,53 @@
+﻿
+.tab-bar {
+	display: flex;
+	flex-direction: column;
+}
+
+.slide-button {
+	cursor: pointer;
+	display: block;
+	width: 100px;
+	margin: 0 auto;
+	padding: 15px 0;
+	border: 0;
+	text-align: center;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+.slide-container {
+	display: none;
+	color: #fff;
+	min-height: 50px;
+	text-align: left;
+}
+
+	.slide-container.expanded {
+		display: block;
+		height: var(--slide-tab-height);
+	}
+
+.tabs {
+	display: flex;
+	height: 50px;
+}
+
+.tab {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	justify-content: center;
+	text-align: center;
+	font-size: 0.8rem;
+	cursor: pointer;
+}
+
+	.tab.active {
+		color: var(--selected-color);
+	}
+
+	.tab .tab-link {
+		display: flex;
+		flex-direction: column;
+	}

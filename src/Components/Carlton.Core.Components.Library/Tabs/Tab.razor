@@ -1,7 +1,7 @@
-﻿@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components.Tabs
 
 <div class="tab">
-    @if(Parent.ActiveTab == this)
+    @if (IsActive)
     {
         @ChildContent
     }
@@ -21,14 +21,16 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    public bool IsActive { get => Parent.ActiveTab == this; }
+
     //Value set by the TabBar when added
     public int TabIndex { get; set; }
 
     protected override void OnInitialized()
     {
-        if(Parent == null)
+        if (Parent == null)
             throw new ArgumentNullException(nameof(Parent), "Tab must exist within a TabBar");
         base.OnInitialized();
         Parent.AddTab(this);
     }
-}
+} 
