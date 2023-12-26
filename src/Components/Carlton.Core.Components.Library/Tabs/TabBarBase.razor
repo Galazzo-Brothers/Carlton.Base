@@ -1,36 +1,122 @@
-﻿@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components.Tabs
+
+<div class="tab-bar">
+    @if (!HideCollapser)
+    {
+        <button class="slide-button" @onclick="() => IsExpanded = !IsExpanded">@Title</button>
+    }
+
+    @if (ContentLocation == ContentLocations.Above)
+    {
+        <div class="slide-container @(GetExpandedState() ? "expanded" : string.Empty)">
+            <CascadingValue Value="this">
+                @ChildContent
+            </CascadingValue>
+        </div>
+    }
+
+    @if (!HideTabs)
+    {
+        <div class="tabs">
+            @foreach (Tab tab in Tabs)
+            {
+                <div class="tab @(tab==this.ActiveTab ? "active" : "")">
+                    <div class="tab-link" @onclick="(args)=>ActivateTab(tab)">
+                        @TabContent(tab)
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @if (ContentLocation == ContentLocations.Below)
+    {
+        <div class="slide-container @(GetExpandedState() ? "expanded" : string.Empty)">
+            <CascadingValue Value="this">
+                @ChildContent
+            </CascadingValue>
+        </div>
+    }
+</div>
+
 
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    [Parameter]
+    public bool HideCollapser { get; set; } = false;
+
+    [Parameter]
+    public bool HideTabs { get; set; } = false;
+
+    [Parameter]
+    public ContentLocations ContentLocation { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public bool IsExpanded { get; set; }
+
+    [Parameter]
+    public RenderFragment<Tab> TabContent { get; set; }
+
     public Tab ActiveTab { get; set; }
 
-    protected List<Tab> Tabs { get; } = new List<Tab>();
+    private List<Tab> Tabs { get; } = new List<Tab>();
 
-    protected int TabCount { get; private set; }
+    private int TabCount { get; set; }
 
-    protected int ActiveTabIndex { get; private set; }
+    private int ActiveTabIndex { get; set; }
 
-    internal void AddTab(Tab tab)
+    protected override void OnInitialized()
+    {
+        if (HideCollapser)
+            IsExpanded = true;
+
+        base.OnInitialized();
+    }
+
+    public void AddTab(Tab tab)
     {
         TabCount = TabCount + 1;
         tab.TabIndex = TabCount - 1;
 
         Tabs.Add(tab);
-        if(Tabs.Count == 1)
+        if (Tabs.Count == 1)
             ActiveTab = tab;
         StateHasChanged();
     }
 
-    internal void ActivateTab(Tab tab)
+    public void ActivateTab(Tab tab)
     {
         ActiveTab = tab;
         ActiveTabIndex = tab.TabIndex;
     }
 
-    private string GetButtonClass(Tab tab)
+    private bool GetExpandedState()
     {
-        return tab == ActiveTab ? "btn-primary" : "btn-secondary";
+        if (HideCollapser)
+            //Collapser is hidden and component is being used as icon tabs
+            return true;
+        else
+            //Collapser is visible and so content is conditionally shown based on state
+            return IsExpanded;
     }
 }
+
+
+
+
+
+
+
+
+    
+
+   
+
+    
+
+   

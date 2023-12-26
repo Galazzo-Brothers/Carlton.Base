@@ -1,0 +1,11 @@
+﻿
+
+.mobile-collapsable-tab-bar ::deep .slide-button {
+	background-color: var(--layout-footer-background-color);
+}
+
+.mobile-collapsable-tab-bar ::deep .tabs {
+	color: var(--layout-footer-color);
+	background-color: var(--layout-footer-background-color);
+}
+

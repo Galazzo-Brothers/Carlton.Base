@@ -1,0 +1,31 @@
+﻿@namespace Carlton.Core.Components.Tabs
+
+<div class="@TextTabCss">
+    <a class="@TabLinkCss" href="#">@Tab.DisplayText</a>
+    @if (Tab.IsActive)
+    {
+        <Spacer 
+            WidthPercentage="100"
+            HeightPixels="3" />
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public Tab Tab { get; set; }
+
+    private string TextTabCss
+    {
+        get => new CssBuilder("text-tab")
+                .AddClass("active", Tab.IsActive)
+                .Build();
+    }
+
+    private string TabLinkCss
+    {
+        get => new CssBuilder("tab-link")
+            .AddClass("active", Tab.IsActive)
+            .Build();
+    }
+}

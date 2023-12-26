@@ -1,0 +1,19 @@
+﻿@namespace Carlton.Core.Components.Tabs
+
+<div class="mobile-collapsable-tab-bar">
+    <TabBarBase HideCollapser="false"
+                HideTabs="false"
+                ContentLocation="ContentLocation"
+                ChildContent="ChildContent">
+        <TabContent Context="tab">
+            <IconTabContent Tab="tab" />
+        </TabContent>
+    </TabBarBase>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public ContentLocations ContentLocation { get; set; }
+}

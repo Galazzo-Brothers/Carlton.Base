@@ -1,17 +1,18 @@
-﻿<MediaQueryWrapper>
+﻿@using Carlton.Core.Components.Tabs
+<MediaQueryWrapper>
     <DesktopContent>
-        <TextTabBar>
-            <LabTabs />
+        <TextTabBar ContentLocation="ContentLocations.Below">
+            <ChildContent>
+                <LabTabs />
+            </ChildContent>
         </TextTabBar>
     </DesktopContent>
     <MobileContent>
-        <IconTabBar ShowDisplayIcon="true" ShowDisplayText="false" ContentBelow="true">
-            <SlideTab Title="Settings" PositionBottom="70" Height="250">
-                <Content>
-                    <LabTabs />
-                </Content>
-            </SlideTab>
-        </IconTabBar>
+        <MobileCollapsableTabBar>
+            <ChildContent>
+                <LabTabs />
+            </ChildContent>
+        </MobileCollapsableTabBar>
     </MobileContent>
 </MediaQueryWrapper>
 
