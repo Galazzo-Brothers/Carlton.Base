@@ -47,7 +47,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Flux\Carlton.Core.Flux.Debug\Carlton.Core.Flux.Debug.csproj" />
     <ProjectReference Include="..\..\Lab\Carlton.Core.Lab\Carlton.Core.Lab.csproj" />
-    <ProjectReference Include="..\Carlton.Core.Components.Library\Carlton.Core.Components.csproj" />
   </ItemGroup>
 
   <ItemGroup>
