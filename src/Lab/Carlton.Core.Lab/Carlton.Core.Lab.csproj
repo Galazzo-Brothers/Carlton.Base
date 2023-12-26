@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Components\Carlton.Core.Components.Library\Carlton.Core.Components.csproj" />
+    <ProjectReference Include="..\..\Components\Carlton.Core.Components\Carlton.Core.Components.csproj" />
     <ProjectReference Include="..\..\Flux\Carlton.Core.Flux\Carlton.Core.Flux.csproj" />
     <ProjectReference Include="..\..\Layouts\Carlton.Core.Layouts\Carlton.Core.Layouts.csproj" />
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />

@@ -22,9 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layouts", "Layouts", "{4BCD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{74CF6108-5B0A-408F-B8F1-90F324CDEED9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components", "Components\Carlton.Core.Components.Library\Carlton.Core.Components.csproj", "{6D48BD82-A96F-4006-9D7B-A6815BA87DEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components", "Components\Carlton.Core.Components\Carlton.Core.Components.csproj", "{6D48BD82-A96F-4006-9D7B-A6815BA87DEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lab", "Components\Carlton.Core.Components.Library.Lab\Carlton.Core.Components.Lab.csproj", "{14BEEF4B-9005-4FF0-9155-0109DC8E59B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lab", "Components\Carlton.Core.Components.Lab\Carlton.Core.Components.Lab.csproj", "{14BEEF4B-9005-4FF0-9155-0109DC8E59B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Flux", "Flux\Carlton.Core.Flux\Carlton.Core.Flux.csproj", "{47C1806C-92E1-446D-B50F-F34A70DB8FCE}"
 EndProject
