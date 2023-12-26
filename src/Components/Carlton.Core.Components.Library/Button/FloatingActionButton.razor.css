@@ -1,5 +1,4 @@
 ﻿.fab {
-    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,9 +8,6 @@
     border-radius: 20px;
     box-shadow: 0 6px 10px 0 #666;
     color: white;
-    position: absolute;
-    right: var(--fab-right);
-    bottom: var(--fab-bottom);
     background-color: var(--selected-color);
     transition: all 0.1s ease-in-out;
     cursor: pointer;

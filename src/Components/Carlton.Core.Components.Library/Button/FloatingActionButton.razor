@@ -1,26 +1,11 @@
 ﻿@namespace Carlton.Core.Components
 
-<div class="fab mdi mdi-24px mdi-@(Icon)" style="@FabStyle" @onclick="OnClickCallback"></div>
+<div class="fab mdi mdi-24px mdi-@(Icon)" @onclick="OnClickCallback"></div>
 
 @code{
     [Parameter]
     public string Icon { get; set; }
 
     [Parameter]
-    public int PositionBottom { get; set; }
-
-    [Parameter]
-    public int PositionRight { get; set; }
-
-    [Parameter]
     public EventCallback OnClickCallback { get; set; }
-
-    private string FabStyle
-    {
-        get => StyleBuilder.Empty()
-                .AddStyle("--fab-bottom", $"{PositionBottom}%")
-                .AddStyle("--fab-right", $"{PositionRight}%")
-                .Build();
-
-    }
 }

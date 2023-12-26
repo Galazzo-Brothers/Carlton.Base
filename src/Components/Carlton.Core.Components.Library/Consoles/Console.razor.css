@@ -1,7 +1,10 @@
 ﻿
+.console{
+    display: flex;
+}
 
 textarea {
-    width: 95%;
+    width: 100%;
     background-color: var(--console-background-color);
     color: var(--console-color);
     resize: none;
