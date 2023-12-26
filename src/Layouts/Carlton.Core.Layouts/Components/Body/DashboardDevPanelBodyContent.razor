@@ -1,4 +1,5 @@
-﻿@namespace Carlton.Core.Layouts.Components
+﻿@using Carlton.Core.Components.Tabs
+@namespace Carlton.Core.Components.Layouts
 
 @if (ShowPanel)
 {
@@ -9,16 +10,24 @@
                     @Body
                 </TopContent>
                 <BottomContent>
-                    @PanelContent
+                    <TextTabBar ContentLocation="ContentLocations.Below">
+                        <ChildContent>
+                            @PanelContent
+                        </ChildContent>
+                    </TextTabBar>
                 </BottomContent>
             </ResizablePanel>
         </DesktopContent>
         <MobileContent>
-            <div class="mobile-main-content">
+            <div class="mobile-body-content">
                 @Body
             </div>
-            <div class="mobile-fixed-panel-content">
-                @PanelContent
+            <div class="mobile-panel-content">
+                <MobileDrawerTabBar>
+                    <ChildContent>
+                        @PanelContent
+                    </ChildContent>
+                </MobileDrawerTabBar>
             </div>
         </MobileContent>
     </MediaQueryWrapper>

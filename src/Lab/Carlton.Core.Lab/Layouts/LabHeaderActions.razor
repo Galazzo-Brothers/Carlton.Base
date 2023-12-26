@@ -1,13 +1,12 @@
 ﻿@using Carlton.Core.Components.DropdownMenu
-@using Carlton.Core.Layouts.Components
-@using Carlton.Core.Layouts.Components.Notifications
-@using Carlton.Core.Layouts.State
+@using Carlton.Core.Components.Layouts
+@* @using Carlton.Core.Components.Layouts.Notifications *@
 @namespace Carlton.Core.Lab.Layouts
 @inject NavigationManager NavigationManager
 
 <div class="component-lab-header-actions">
     <ThemeMenu />
-    <NotificationMenu />
+  @*   <NotificationMenu /> *@
     <ProfileAvatar Username="Stephen" 
         AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
         DropdownMenuItems="DropdownMenuItems"

@@ -40,8 +40,8 @@
     {
         await base.OnInitializedAsync();
 
-        _module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.PROJECT_NAME}/Components/Notifications/BaseNotification.razor.js");
-        await _module.InvokeAsync<Task>("applyTransitionedCallback");
+        // _module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.PROJECT_NAME}/Components/Notifications/BaseNotification.razor.js");
+        // await _module.InvokeAsync<Task>("applyTransitionedCallback");
 
         if(FadeOutEnabled)
         {

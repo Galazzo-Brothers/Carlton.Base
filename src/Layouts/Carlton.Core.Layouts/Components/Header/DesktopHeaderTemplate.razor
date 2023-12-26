@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Layouts.Components
+﻿@namespace Carlton.Core.Components.Layouts
 
 <div class="desktop-header-template-container">
     <div class="header-bar @(IsCollapsed ? "collapsed" : string.Empty)">
@@ -12,9 +12,8 @@
             @ActionContent
         </div>
     </div>
+    <Spacer WidthPercentage="100" />
 </div>
-<Spacer WidthPercentage="100" />
-
 
 @code {
     // [CascadingParameter]
