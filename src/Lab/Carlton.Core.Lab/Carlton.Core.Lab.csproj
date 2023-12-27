@@ -16,16 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Components\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
     <ProjectReference Include="..\..\Flux\Carlton.Core.Flux\Carlton.Core.Flux.csproj" />
-    <ProjectReference Include="..\..\Layouts\Carlton.Core.Layouts\Carlton.Core.Components.Layouts.csproj" />
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
     <ProjectReference Include="..\Carlton.Core.Lab.Models\Carlton.Core.Lab.Models.csproj" />
   </ItemGroup>
