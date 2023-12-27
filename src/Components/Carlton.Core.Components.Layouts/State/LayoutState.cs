@@ -1,31 +1,20 @@
 ﻿namespace Carlton.Core.Components.Layouts.State;
 
-public interface ILayoutState
+public class LayoutState(bool isCollapsed) : ILayoutState
 {
     public event EventHandler<LayoutNavCollapsedChangedEventsArgs> LayoutNavCollapsedChanged;
 
-    public bool IsCollapsed { get; }
-
-    public void ToggleCollapsedState();
-}
-
-public class LayoutState
-{
-    public event EventHandler<LayoutNavCollapsedChangedEventsArgs> LayoutNavCollapsedChanged;
-
-    public bool IsCollapsed { get; private set; }
+    public bool IsCollapsed { get; private set; } = isCollapsed;
 
     public LayoutState() : this(false)
     {
     }
 
-    public LayoutState(bool isCollapsed) =>
-        IsCollapsed = isCollapsed;
-
     public void ToggleCollapsedState()
     {
         IsCollapsed = !IsCollapsed;
+        var args = new LayoutNavCollapsedChangedEventsArgs(IsCollapsed);
+        LayoutNavCollapsedChanged?.DynamicInvoke(this, args);
     }
 }
 
-public record LayoutNavCollapsedChangedEventsArgs(bool IsCollapsed);

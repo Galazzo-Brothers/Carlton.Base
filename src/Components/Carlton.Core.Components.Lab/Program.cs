@@ -1,5 +1,6 @@
 ﻿using Carlton.Core.Components;
 using Carlton.Core.Components.Cards;
+using Carlton.Core.Components.Layouts.Extensions;
 using Carlton.Core.Components.Table;
 using Carlton.Core.Lab.Extensions;
 
@@ -18,7 +19,7 @@ public static class Program
 
         builder.Services.AddScoped(sp => http);
 
-
+        builder.Services.AddCarltonLayout();
         builder.AddCarltonTestLab(builder =>
         {
             //Base Components

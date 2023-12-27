@@ -1,16 +1,32 @@
 ﻿@namespace Carlton.Core.Components.Layouts
+@implements IDisposable
+@inject ILayoutState LayoutState
 
 <Logo Title="Component Test Lab" />
-@* @if(!LayoutState.IsCollapsed)
-{ *@
+@if (!LayoutState.IsCollapsed)
+{
     @NavContent
-@* } *@
+}
 
-@code{
-    // [CascadingParameter]
-     public LayoutState LayoutState { get; set; }
+@code {
     [Parameter]
     public string Title { get; set; }
     [Parameter]
     public RenderFragment NavContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        LayoutState.LayoutNavCollapsedChanged += OnLayoutNavCollapsedChanged;
+        base.OnInitialized();
+    }
+
+    private void OnLayoutNavCollapsedChanged(object sender, LayoutNavCollapsedChangedEventsArgs args)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        LayoutState.LayoutNavCollapsedChanged -= OnLayoutNavCollapsedChanged;
+    }
 }

@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Layouts
 
 <div class="desktop-header-template-container">
-    <div class="header-bar @(IsCollapsed ? "collapsed" : string.Empty)">
+    <div class="header-bar">
         <div class="menu">
             @MenuContent
         </div>
@@ -16,12 +16,12 @@
 </div>
 
 @code {
-    // [CascadingParameter]
-     public bool IsCollapsed { get; set; }
     [Parameter]
     public RenderFragment MenuContent { get; set; }
+
     [Parameter]
     public RenderFragment TitleContent { get; set; }
+
     [Parameter]
     public RenderFragment ActionContent { get; set; }
 }
