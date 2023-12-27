@@ -1,14 +1,9 @@
-﻿@using Carlton.Core.Components.Layouts.State
-@namespace Carlton.Core.Components.Layouts
+﻿@namespace Carlton.Core.Components.Layouts
+@inject ILayoutState LayoutState
 
 <div class="collapser">
-    <a href="#" @onclick:preventDefault >
+    <a href="#" @onclick:preventDefault @onclick="LayoutState.ToggleCollapsedState" >
         <span class="mdi mdi-24px mdi-menu" />
     </a>
 </div>
 
-
-@code {
-    // [CascadingParameter]
-    // private LayoutState LayoutState { get; set; }
-}

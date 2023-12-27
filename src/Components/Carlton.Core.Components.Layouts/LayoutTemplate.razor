@@ -1,6 +1,7 @@
 ﻿@using Carlton.Core.Layouts.Components.Notifications
 @namespace Carlton.Core.Components.Layouts
-@* @inject ILayoutState LayoutState *@
+@implements IDisposable
+@inject ILayoutState LayoutState
 
 <div class="@LayoutContainerCss" data-theme="@ThemeState.ThemeString">
     <header>
@@ -37,6 +38,7 @@
     protected override void OnInitialized()
     {
         ThemeState = new ThemeState(Themes.light, StateHasChanged);
+        LayoutState.LayoutNavCollapsedChanged += OnLayoutNavCollapsedChanged;
         base.OnInitialized();
     }
 
@@ -51,10 +53,15 @@
         base.OnAfterRender(firstRender);
     }
 
+    private void OnLayoutNavCollapsedChanged(object sender, LayoutNavCollapsedChangedEventsArgs args)
+    {
+        StateHasChanged();
+    }
+
     private string LayoutContainerCss
     {
         get => new CssBuilder("layout-container")
-                .AddClass("collapsed", false) /*  LayoutState.IsCollapsed) */
+                .AddClass("collapsed", LayoutState.IsCollapsed)
                 .Build();
     }
 
@@ -63,5 +70,10 @@
         get => new CssBuilder("footer")
             .AddClass("fixed", IsFixedFooter)
             .Build();
+    }
+
+    public void Dispose()
+    {
+        LayoutState.LayoutNavCollapsedChanged -= OnLayoutNavCollapsedChanged;
     }
 }

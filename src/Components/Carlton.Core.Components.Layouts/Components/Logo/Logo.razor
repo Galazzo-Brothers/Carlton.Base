@@ -1,4 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Layouts
+@implements IDisposable
+@inject ILayoutState LayoutState
 
 <div class="@LogoCss">
     <div class="content">
@@ -10,16 +12,29 @@
 
 
 @code {
-    // [CascadingParameter]
-    // public LayoutState LayoutState { get; set; }
-
     [Parameter]
     public string Title { get; set; }
+
+    protected override void OnInitialized()
+    {
+        LayoutState.LayoutNavCollapsedChanged += OnLayoutNavCollapsedChanged;
+        base.OnInitialized();
+    }
+
+    private void OnLayoutNavCollapsedChanged(object sender, LayoutNavCollapsedChangedEventsArgs args)
+    {
+        StateHasChanged();
+    }
 
     private string LogoCss 
     {
         get => new CssBuilder("logo")
-                .AddClass("collapsed",false)// LayoutState.IsCollapsed)
+                .AddClass("collapsed", LayoutState.IsCollapsed)
                 .Build();
+    }
+
+    public void Dispose()
+    {
+        LayoutState.LayoutNavCollapsedChanged -= OnLayoutNavCollapsedChanged;
     }
 }
