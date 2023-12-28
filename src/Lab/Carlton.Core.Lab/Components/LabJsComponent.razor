@@ -1,0 +1,27 @@
+﻿@using Carlton.Core.Flux.Components
+@using Carlton.Core.Lab.State
+@namespace Carlton.Core.Lab
+@typeparam TViewModel
+
+
+<FluxJsComponent TViewModel="TViewModel"
+                 TState="LabState"
+                 JsModule="@JsModule"
+                 JsFunction="@JsFunction"
+                 JsParameters="JsParameters">
+    <SpinnerContent>
+        <Spinner />
+    </SpinnerContent>
+    <ErrorContent Context="error">
+        <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="error.Recover" />
+    </ErrorContent>
+</FluxJsComponent>
+
+@code{
+    [Parameter]
+    public string JsModule { get; set; }
+    [Parameter]
+    public string JsFunction { get; set; }
+    [Parameter]
+    public object[] JsParameters { get; set; }
+}

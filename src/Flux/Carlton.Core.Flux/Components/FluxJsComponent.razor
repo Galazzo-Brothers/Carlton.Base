@@ -1,22 +1,26 @@
 ﻿@using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
-@using Carlton.Core.Lab.Logging
-@namespace Carlton.Core.Lab
+@namespace Carlton.Core.Flux.Components
 @typeparam TViewModel
 @typeparam TState
-@inherits ConnectedWrapper<TState, TViewModel>
+@inherits FluxComponent<TState, TViewModel>
 @inject IJSRuntime JsRuntime;
-@inject ILogger<JsInteropConnectedWrapper<TViewModel, TState>> Logger;
+@inject ILogger<FluxJsComponent<TViewModel, TState>> Logger;
+
 
 <FluxErrorBoundary TComponent="TViewModel">
     <ChildContent>
-        <ConnectedWrapperContent SpinnerContent="SpinnerContent"
-                                   WrappedComponentType="WrappedComponentType"
-                                   Parameters="GetParameters()"
-                                   IsLoading="IsLoading" />
+        @if (IsLoading)
+        {
+            @SpinnerContent
+        }
+        else
+        {
+            <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+        }
     </ChildContent>
     <ErrorPrompt Context="error">
-        <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="error.Recover" />
+        @ErrorContent(error)
     </ErrorPrompt>
 </FluxErrorBoundary>
 
@@ -50,7 +54,7 @@
             catch (JSException ex)
             {
                 Logger.ViewModelJsInteropRefreshError(ex, typeof(TViewModel).GetDisplayName());
-                throw;
+                throw ViewModelFluxException<TState, TViewModel>.JSInteropError(new ViewModelQuery(), ex);
             }
         }
     }
