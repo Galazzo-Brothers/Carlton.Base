@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.State.FullScreen;
-using Carlton.Core.Components.Layouts.State.Modal;
+using Carlton.Core.Components.Layouts.State.Modals;
 using Carlton.Core.Components.Layouts.State.Theme;
 using Microsoft.Extensions.DependencyInjection;
 

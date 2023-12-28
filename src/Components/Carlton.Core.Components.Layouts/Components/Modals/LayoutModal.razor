@@ -1,0 +1,42 @@
+﻿@using Carlton.Core.Components.Modals
+@namespace Carlton.Core.Components.Layouts.Modals
+
+
+<DynamicComponent Type="ModalType" Parameters="Parameters" />
+
+@code {
+    [Parameter]
+    public Type ModalType { get; set; }
+    [Parameter]
+    public ModalViewModel ViewModel { get; set; }
+    [Parameter]
+    public EventCallback ModalDismissed { get; set; }
+    [Parameter]
+    public EventCallback ModalClosed { get; set; }
+
+    private Dictionary<string, object> Parameters
+    {
+        get
+        {
+            return new Dictionary<string, object>
+                   {
+                        { "ViewModel", ViewModel },
+                        { "ModalDismissed", ModalDismissed },
+                        { "ModalClosed", ModalClosed }
+                   };
+        }
+    }
+
+
+    protected override bool ShouldRender()
+    {
+        if (ModalType == null)
+            return false;
+
+        if (!ModalType.IsAssignableTo(typeof(Modal)))
+            return false;
+
+        return base.ShouldRender();
+    }
+}
+
