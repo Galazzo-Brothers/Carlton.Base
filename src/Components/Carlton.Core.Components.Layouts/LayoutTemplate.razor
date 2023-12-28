@@ -1,6 +1,7 @@
 ﻿@using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Layouts.Modals
 @using Carlton.Core.Components.Layouts.State.FullScreen
-@using Carlton.Core.Components.Layouts.State.Modal
+@using Carlton.Core.Components.Layouts.State.Modals
 @using Carlton.Core.Components.Layouts.State.Theme
 @using Carlton.Core.Layouts.Components.Notifications
 @namespace Carlton.Core.Components.Layouts
@@ -26,11 +27,16 @@
     </footer>
 </div>
 
+<LayoutModal 
+    ModalType="ModalType"
+    ViewModel="ModalState.ModalModel"
+    ModalDismissed="ModalState.ModalModel.DismissModal"
+    ModalClosed="ModalState.ModalModel.CloseModal"/>
 
-
+@* 
 <ConfirmationModal ViewModel="ModalState.ModalModel"
                    ModalDismissed="ModalState.ModalModel.DismissModal"
-                   ModalClosed="ModalState.ModalModel.CloseModal"/> 
+                   ModalClosed="ModalState.ModalModel.CloseModal"/>  *@
 
 @code {
     [Parameter]
@@ -42,9 +48,9 @@
     [Parameter]
     public RenderFragment FooterContent { get; set; }
     [Parameter]
-    public RenderFragment<ModalViewModel> ModalContent { get; set; }
-    [Parameter]
     public bool IsFixedFooter { get; set; }
+
+    private Type ModalType { get; set; }
 
     // private NotificationBar NotificationBarRef { get; set; }
     // private Action<string, string, NotificationType> GenerateNotificationAct { get; set; }
@@ -60,7 +66,7 @@
             return Task.CompletedTask;
         });
 
-        ModalState.RaiseModal(model);
+        ModalState.RaiseModal<SingleActionModal>(model);
     }
 
     protected override void OnInitialized()
@@ -89,8 +95,11 @@
     private void OnThemeChanged(object sender, ThemeChangedEventArgs args)
         => StateHasChanged();
 
-    private void OnModalRaised(object sender, EventArgs args)
-        => StateHasChanged();
+    private void OnModalRaised(object sender, ModalRaisedEventArgs args)
+    {
+        ModalType = args.ModalType;
+        StateHasChanged();
+    }
 
     private string LayoutContainerCss
     {

@@ -1,10 +1,10 @@
 ﻿using Carlton.Core.Components.Modals;
 
-namespace Carlton.Core.Components.Layouts.State.Modal;
+namespace Carlton.Core.Components.Layouts.State.Modals;
 
 public class ModalState : IModalState
 {
-    public event EventHandler<ModelRaisedEventArgs> ModalRaised;
+    public event EventHandler<ModalRaisedEventArgs> ModalRaised;
 
     public ModalViewModel ModalModel { get; private set; }
 
@@ -13,10 +13,11 @@ public class ModalState : IModalState
         ModalModel = new ModalViewModel(false, string.Empty, string.Empty, null, null);
     }
 
-    public void RaiseModal(ModalViewModel model)
+    public void RaiseModal<TModal>(ModalViewModel model)
+        where TModal : Modal
     {
         ModalModel = model;
-        ModalRaised?.Invoke(this, new ModelRaisedEventArgs());
+        ModalRaised?.Invoke(this, new ModalRaisedEventArgs(typeof(TModal)));
     }
 }
 
