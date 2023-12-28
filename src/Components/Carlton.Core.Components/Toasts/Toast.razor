@@ -1,0 +1,72 @@
+﻿@using Microsoft.JSInterop
+@namespace Carlton.Core.Components.Toasts
+@inject IJSRuntime JS;
+
+<div id="@ToastId" class="@ToastCss">
+    <div class="content">
+        <span class="@IconCss"></span>
+        <div class="message-container">
+            <span class="title">@ViewModel.Title</span>
+            <span class="message">@ViewModel.Message</span>
+        </div>
+        <span class="@DismissCss" @onclick="@Dismiss"></span>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ToastViewModel ViewModel { get; set; }
+
+
+    private string ToastId { get => $"toast-{ViewModel.ToastIndex}"; }
+
+    private bool IsDismissed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using (var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
+            await module.InvokeAsync<Task>("initNewToast", ViewModel.ToastIndex);
+
+        if (ViewModel.FadeOutEnabled)
+        {
+            //Let notification linger for a few seconds
+            await Task.Delay(3000);
+            IsDismissed = true;
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private string IconCss
+    {
+        get => new CssBuilder("icon")
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-check-circle", ViewModel.ToastType == ToastTypes.Success)
+                .AddClass("mdi-alert-circle-outline", ViewModel.ToastType == ToastTypes.Info)
+                .AddClass("mdi-alert", ViewModel.ToastType == ToastTypes.Warning)
+                .AddClass("mdi-alert-circle-outline", ViewModel.ToastType == ToastTypes.Error)
+                .Build();
+
+    }
+
+    private string ToastCss
+    {
+        get => new CssBuilder("toast")
+                .AddClass("success", ViewModel.ToastType == ToastTypes.Success)
+                .AddClass("info", ViewModel.ToastType == ToastTypes.Info)
+                .AddClass("warning", ViewModel.ToastType == ToastTypes.Warning)
+                .AddClass("error", ViewModel.ToastType == ToastTypes.Error)
+                .AddClass("dismissed", IsDismissed)
+                .Build();
+    }
+
+    private string DismissCss
+    {
+        get => new CssBuilder("dismiss")
+                .AddClass("mdi mdi-18px mdi-close")
+                .Build();
+    }
+
+    private void Dismiss()
+         => IsDismissed = true;
+}
