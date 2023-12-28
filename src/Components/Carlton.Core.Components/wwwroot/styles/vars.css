@@ -39,6 +39,11 @@
     /*Tabs*/
     --tab-font-size: 14px;
     --tab-hover-color: #7c848a;
+    /*Notifications*/
+    --success-notification-background-color: #00897b;
+    --info-notification-background-color: #1e88e5;
+    --warning-notification-background-color: #f0a810;
+    --error-notification-background-color: #e46a76;
 }
 
 
@@ -82,6 +87,11 @@
     /*Tabs*/
     --tab-font-size: 14px;
     --tab-hover-color: #7c848a;
+    /*Notifications*/
+    --success-notification-background-color: #00897b;
+    --info-notification-background-color: #1e88e5;
+    --warning-notification-background-color: #f0a810;
+    --error-notification-background-color: #e46a76;
 }
 
 
