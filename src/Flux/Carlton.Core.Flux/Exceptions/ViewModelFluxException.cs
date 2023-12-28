@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Flux.Logging;
-using System.Text.Json;
+﻿using Microsoft.JSInterop;
 
 namespace Carlton.Core.Flux.Exceptions;
 
@@ -16,6 +15,11 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
     {
         Query = query;
         EventID = eventID;
+    }
+
+    public static ViewModelFluxException<TState, TViewModel> JSInteropError(ViewModelQuery query, JSException innerException)
+    {
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.Mutation_JSInterop_Error, LogEvents.Mutation_JSInterop_ErrorMsg, query, innerException);
     }
 
     public static ViewModelFluxException<TState, TViewModel> ValidationError(ViewModelQuery query, ValidationException innerException)

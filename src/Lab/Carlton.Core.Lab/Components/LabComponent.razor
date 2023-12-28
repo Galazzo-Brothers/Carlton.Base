@@ -1,0 +1,16 @@
+﻿@using Carlton.Core.Flux.Components
+@using Carlton.Core.Lab.State
+@namespace Carlton.Core.Lab
+@typeparam TViewModel
+
+
+<FluxComponent TViewModel="TViewModel" TState="LabState">
+    <SpinnerContent>
+        <Spinner />
+    </SpinnerContent>
+    <ErrorContent Context="error">
+        <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="error.Recover" />
+    </ErrorContent>
+</FluxComponent>
+
+

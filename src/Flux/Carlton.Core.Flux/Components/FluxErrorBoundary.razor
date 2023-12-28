@@ -19,6 +19,7 @@ else
     [Parameter]
     public RenderFragment<ExceptionErrorPrompt> ErrorPrompt { get; set; }
 
+
     private bool ShowErrorContent { get => base.CurrentException != null; }
 
     private ExceptionErrorPrompt ErrorPromptModel { get; set; }
