@@ -1,0 +1,25 @@
+﻿@namespace Carlton.Core.Components.Modals
+@inherits Modal
+
+
+<Modal 
+       ViewModel="ViewModel"
+       ModalDismissed="ModalDismissed"
+       ModalClosed="ModalClosed">
+    <ModalContent>
+        <div class="modal-header">
+            <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
+        </div>
+        <div class="modal-prompt-message">
+            <span class="message-text">@this.ViewModel.ModalPrompt</span>
+        </div>
+        <div class="modal-message">
+            <span class="message-text">@this.ViewModel.ModalMessage</span>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" @onclick="Dismiss">Cancel</button>
+            <button class="btn-confirm" @onclick="() => CloseModal(true)">Delete</button>
+        </div>
+    </ModalContent>
+</Modal>
+

@@ -1,4 +1,6 @@
-﻿@namespace Carlton.Core.Components.Layouts
+﻿@using Carlton.Core.Components.Layouts.State.Theme
+@namespace Carlton.Core.Components.Layouts
+@inject IThemeState ThemeState
 
 <a href="#" class="theme-menu" @onclick:preventDefault="true" @onclick="SwapTheme">
     <i class="@ThemeIconCss"></i>
@@ -6,27 +8,24 @@
 
 
 @code {
-    // [CascadingParameter]
-    // private ThemeState ThemeState { get; set; }
-
     private string ThemeIconCss
     {
         get => new CssBuilder()
                 .AddClass("mdi mdi-24px")
-                // .AddClass("mdi-weather-sunny", ThemeState.Theme == Themes.light)
-                // .AddClass("mdi-moon-waxing-crescent", ThemeState.Theme == Themes.dark)
+                .AddClass("mdi-weather-sunny", ThemeState.Theme == Themes.light)
+                .AddClass("mdi-moon-waxing-crescent", ThemeState.Theme == Themes.dark)
                 .Build();
     }
 
     private void SwapTheme()
     {
-        // if(ThemeState.Theme == Themes.light)
-        // {
-        //     ThemeState.SetTheme(Themes.dark);
-        // }
-        // else
-        // {
-        //     ThemeState.SetTheme(Themes.light);
-        // }
+        if(ThemeState.Theme == Themes.light)
+        {
+            ThemeState.SetTheme(Themes.dark);
+        }
+        else
+        {
+            ThemeState.SetTheme(Themes.light);
+        }
     }
 }
