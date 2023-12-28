@@ -1,6 +1,8 @@
-﻿@namespace Carlton.Core.Components.Layouts
+﻿@using Carlton.Core.Components.Layouts.State.FullScreen
+@namespace Carlton.Core.Components.Layouts
+
 @implements IDisposable
-@inject ILayoutState LayoutState
+@inject IFullScreenState FullScreenState
 
 <div class="@LogoCss">
     <div class="content">
@@ -17,24 +19,19 @@
 
     protected override void OnInitialized()
     {
-        LayoutState.LayoutNavCollapsedChanged += OnLayoutNavCollapsedChanged;
+        FullScreenState.FullScreenStateChanged += OnFullScreenStateChanged;
         base.OnInitialized();
     }
 
-    private void OnLayoutNavCollapsedChanged(object sender, LayoutNavCollapsedChangedEventsArgs args)
-    {
-        StateHasChanged();
-    }
+    private void OnFullScreenStateChanged(object sender, FullScreenStateChangedEventArgs args)
+        => StateHasChanged();
 
     private string LogoCss 
     {
         get => new CssBuilder("logo")
-                .AddClass("collapsed", LayoutState.IsCollapsed)
+                .AddClass("collapsed", FullScreenState.IsFullScreen)
                 .Build();
     }
 
-    public void Dispose()
-    {
-        LayoutState.LayoutNavCollapsedChanged -= OnLayoutNavCollapsedChanged;
-    }
+    public void Dispose() => FullScreenState.FullScreenStateChanged -= OnFullScreenStateChanged;
 }

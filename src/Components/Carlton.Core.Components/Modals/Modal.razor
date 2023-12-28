@@ -1,0 +1,39 @@
+﻿@namespace Carlton.Core.Components.Modals
+
+<div class="@ModalClass">
+    <div class="modal-content">
+        <span class="close" @onclick="@Dismiss">&times;</span> 
+         @ModalContent
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public ModalViewModel ViewModel { get; set; }
+    [Parameter]
+    public EventCallback ModalDismissed { get; set; }
+    [Parameter]
+    public EventCallback ModalClosed { get; set; }
+    [Parameter]
+    public RenderFragment ModalContent { get; set; }
+
+    protected async Task Dismiss()
+    {
+        await ModalDismissed.InvokeAsync();
+    }
+
+    protected async Task CloseModal(object args)
+    {
+        await ModalClosed.InvokeAsync(args);
+    }
+
+    private string ModalClass
+    {
+        get => new CssBuilder("modal")
+                .AddClass("visible", ViewModel.IsVisible)
+                .Build();
+    }
+}
+
+

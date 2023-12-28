@@ -1,8 +1,9 @@
-﻿@namespace Carlton.Core.Components.Layouts
-@inject ILayoutState LayoutState
+﻿@using Carlton.Core.Components.Layouts.State.FullScreen
+@namespace Carlton.Core.Components.Layouts
+@inject IFullScreenState FullScreenState
 
 <div class="collapser">
-    <a href="#" @onclick:preventDefault @onclick="LayoutState.ToggleCollapsedState" >
+    <a href="#" @onclick:preventDefault @onclick="FullScreenState.ToggleFullScreen">
         <span class="mdi mdi-24px mdi-menu" />
     </a>
 </div>
