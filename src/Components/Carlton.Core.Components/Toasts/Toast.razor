@@ -17,7 +17,6 @@
     [Parameter]
     public ToastViewModel ViewModel { get; set; }
 
-
     private string ToastId { get => $"toast-{ViewModel.ToastIndex}"; }
 
     private bool IsDismissed { get; set; }
@@ -68,5 +67,5 @@
     }
 
     private void Dismiss()
-         => IsDismissed = true;
+        => IsDismissed = true;
 }

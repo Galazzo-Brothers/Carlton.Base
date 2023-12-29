@@ -2,23 +2,20 @@
 @namespace Carlton.Core.Components.Layouts.Toasts
 
 <div class="layout-toaster">
+    @if (IsTestMode)
+    {
+       <LayoutToasterTestPanel ToastIndex="ToastIndex" GenerateNotification="GenerateNotification" />
+    }
+
     <div class="content" style="@ContentStyle">
-        @foreach(var vm in Toasts)
+        @foreach (var vm in Toasts)
         {
             <Toast ViewModel="@vm" />
         }
     </div>
 </div>
 
-@if(IsTestMode)
-{
-    <div class="test-btns">
-        <button class="success-btn" @onclick="@(() => GenerateNotification("Test", "Test", ToastTypes.Success))">Success</button>
-        <button class="info-btn" @onclick="@(() => GenerateNotification("Test", "Test", ToastTypes.Info))">Info</button>
-        <button class="warning-btn" @onclick="@(() => GenerateNotification("Test", "Test", ToastTypes.Warning))">Warning</button>
-        <button class="error-btn" @onclick="@(() => GenerateNotification("Test", "Test", ToastTypes.Error))">Error</button>
-    </div>
-}
+
 
 @code {
     [Parameter]
@@ -34,18 +31,11 @@
 
     private List<ToastViewModel> Toasts { get; } = new List<ToastViewModel>();
 
-    public void GenerateNotification(string title, string message, ToastTypes toastType)
+    public void GenerateNotification(ToastViewModel newToast)
     {
-        Toasts.Add(new ToastViewModel
-            {
-                Title = title,
-                Message = message,
-                ToastType = toastType,
-                FadeOutEnabled = FadeOutEnabled,
-                ToastIndex = ToastIndex
-            });
-
-            ToastIndex++;
+        Toasts.Add(newToast);
+        ToastIndex++;
+        StateHasChanged();
     }
 
     private string ContentStyle

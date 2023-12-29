@@ -17,7 +17,7 @@ public class ThemeState(Themes theme) : IThemeState
 
         Theme = theme;
         var args = new ThemeChangedEventArgs(theme);
-        ThemeChanged.Invoke(this, args);
+        ThemeChanged?.Invoke(this, args);
     }
 }
 
