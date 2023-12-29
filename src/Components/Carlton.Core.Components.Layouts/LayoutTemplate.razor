@@ -1,18 +1,26 @@
 ﻿@using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Toasts
 @using Carlton.Core.Components.Layouts.Modals
+@using Carlton.Core.Components.Layouts.Toasts
 @using Carlton.Core.Components.Layouts.State.FullScreen
 @using Carlton.Core.Components.Layouts.State.Modals
 @using Carlton.Core.Components.Layouts.State.Theme
-@using Carlton.Core.Layouts.Components.Notifications
+@using Carlton.Core.Components.Layouts.State.Toasts
+
 @namespace Carlton.Core.Components.Layouts
 @implements IDisposable
 @inject IFullScreenState NavMenuState
 @inject IThemeState ThemeState
 @inject IModalState ModalState
+@inject IToastState ToastState
 
+<LayoutToasater @ref="LayoutToaster"
+                IsTestMode="true"
+                FadeOutEnabled="true"
+                Top="10"
+                Right="10" />
 <div class="@LayoutContainerCss" data-theme="@ThemeState.Theme.ToString()">
     <header>
-        @* <NotificationBar @ref="NotificationBarRef" IsTestMode="false" FadeOutEnabled="true" Top="10" Right="10" /> *@
         @HeaderContent
     </header>
     <nav>
@@ -21,6 +29,7 @@
     <main>
         @Body
         <button @onclick="RaiseModal">Modal Test</button>
+        <button @onclick="RaiseToast">Toast Test</button>
     </main>
     <footer class="@LayoutFooterCss">
         @FooterContent
@@ -28,15 +37,12 @@
 </div>
 
 <LayoutModal 
-    ModalType="ModalType"
+    ModalType="ModalState.ModalType"
     ViewModel="ModalState.ModalModel"
     ModalDismissed="ModalState.ModalModel.DismissModal"
     ModalClosed="ModalState.ModalModel.CloseModal"/>
 
-@* 
-<ConfirmationModal ViewModel="ModalState.ModalModel"
-                   ModalDismissed="ModalState.ModalModel.DismissModal"
-                   ModalClosed="ModalState.ModalModel.CloseModal"/>  *@
+
 
 @code {
     [Parameter]
@@ -50,14 +56,13 @@
     [Parameter]
     public bool IsFixedFooter { get; set; }
 
-    private Type ModalType { get; set; }
+    private LayoutToasater LayoutToaster { get; set; }
 
-    // private NotificationBar NotificationBarRef { get; set; }
-    // private Action<string, string, NotificationType> GenerateNotificationAct { get; set; }
 
     private void RaiseModal()
     {
-        var model = new ModalViewModel(true, "Testing", "This is a test", () =>
+        var model = new ModalViewModel("Testing", "This is a test",
+        () =>
         {
             return Task.CompletedTask;
         },
@@ -69,23 +74,18 @@
         ModalState.RaiseModal<SingleActionModal>(model);
     }
 
+    private void RaiseToast()
+    {
+        ToastState.AddToast("Some Toast", "This is a toast", ToastTypes.Success);
+    }
+
     protected override void OnInitialized()
     {
         NavMenuState.FullScreenStateChanged += OnLayoutChanged;
         ThemeState.ThemeChanged += OnThemeChanged;
         ModalState.ModalRaised += OnModalRaised;
+        ToastState.ToastAdded += OnToastRaised;
         base.OnInitialized();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        // if (firstRender)
-        // {
-        //     // GenerateNotificationAct = NotificationBarRef.GenerateNotification;
-        //     StateHasChanged();
-        // }
-
-        base.OnAfterRender(firstRender);
     }
 
     private void OnLayoutChanged(object sender, FullScreenStateChangedEventArgs args)
@@ -97,7 +97,12 @@
 
     private void OnModalRaised(object sender, ModalRaisedEventArgs args)
     {
-        ModalType = args.ModalType;
+        StateHasChanged();
+    }
+
+    private void OnToastRaised(object sender, ToastRaisedEventArgs args)
+    {
+        LayoutToaster.GenerateNotification(args.RaisedToast);
         StateHasChanged();
     }
 
@@ -120,5 +125,6 @@
         NavMenuState.FullScreenStateChanged -= OnLayoutChanged;
         ThemeState.ThemeChanged -= OnThemeChanged;
         ModalState.ModalRaised -= OnModalRaised;
+        ToastState.ToastAdded -= OnToastRaised;
     }
 }
