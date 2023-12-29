@@ -1,11 +1,10 @@
 ﻿namespace Carlton.Core.Components.Toasts;
 
-public record ToastViewModel
+public record ToastViewModel(int ToastIndex, string Title, string Message, ToastTypes ToastType)
 {
-    public string Title { get; init; }
-    public string Message { get; init; }
-    public ToastTypes ToastType { get; init; }
-    public bool FadeOutEnabled { get; init; }
-    public int ToastIndex { get; init; }
-    public Action OnDismiss { get; init; }
+    public string Title { get; init; } = Title;
+    public string Message { get; init; } = Message;
+    public ToastTypes ToastType { get; init; } = ToastType;
+    public bool FadeOutEnabled { get; init; } = true;
+    public int ToastIndex { get; init; } = ToastIndex;
 }

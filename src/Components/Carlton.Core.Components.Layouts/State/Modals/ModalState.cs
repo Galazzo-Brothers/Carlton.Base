@@ -10,7 +10,7 @@ public class ModalState : IModalState
 
     public ModalState()
     {
-        ModalModel = new ModalViewModel(false, string.Empty, string.Empty, null, null);
+        ModalModel = new ModalViewModel(string.Empty, string.Empty, null, null);
     }
 
     public void RaiseModal<TModal>(ModalViewModel model)

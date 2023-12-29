@@ -15,8 +15,7 @@ public class FullScreenState(bool isCollapsed) : IFullScreenState
         IsFullScreen = !IsFullScreen;
         var args = new FullScreenStateChangedEventArgs(IsFullScreen);
 
-        if(FullScreenStateChanged != null)
-            FullScreenStateChanged(this, args);
+        FullScreenStateChanged?.Invoke(this, args);
     }
 }
 
