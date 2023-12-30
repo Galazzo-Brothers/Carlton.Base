@@ -21,3 +21,8 @@
     background: #c1c1c1;
     border-radius: 10px;
 }
+
+/* Cornder */
+::-webkit-scrollbar-corner {
+/*    background: rgba(0,0,0,0.5);*/
+}
