@@ -7,7 +7,7 @@ public static class ContainerExtensions
     public static void AddCarltonFluxDebug<TState>(this WebAssemblyHostBuilder builder, TState state)
     {
         var adminState = new FluxDebugState(state);
-        builder.AddCarltonFlux<FluxDebugState>(adminState, false);
+        builder.AddCarltonFlux(adminState, false);
     }
 }
 
