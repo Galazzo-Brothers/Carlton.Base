@@ -1,7 +1,11 @@
 ﻿.test-component-output-source{
-	width: 95%;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+pre{
+	margin: 0;
 }
 
 code{
