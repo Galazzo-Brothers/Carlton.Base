@@ -8,7 +8,7 @@ public class ToastState : IToastState
 
     public int LatestIndex { get => Toasts.Count != 0 ? Toasts.Peek().ToastIndex : 0; }
 
-    public void AddToast(string Title, string Message, ToastTypes ToastType)
+    public void RaiseToast(string Title, string Message, ToastTypes ToastType)
     {
         var toastIndex = LatestIndex + 1;
         var toast = new ToastViewModel(toastIndex, Title, Message, ToastType);

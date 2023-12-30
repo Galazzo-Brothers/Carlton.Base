@@ -6,6 +6,6 @@ public interface IToastState
     public event EventHandler<ToastRaisedEventArgs> ToastAdded;
     public Stack<ToastViewModel> Toasts { get; }
     public int LatestIndex { get; }
-    public void AddToast(string Title, string Message, ToastTypes ToastType);
+    public void RaiseToast(string Title, string Message, ToastTypes ToastType);
 }
 

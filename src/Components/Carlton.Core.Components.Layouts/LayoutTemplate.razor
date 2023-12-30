@@ -14,11 +14,6 @@
 @inject IModalState ModalState
 @inject IToastState ToastState
 
-<LayoutToasater @ref="LayoutToaster"
-                IsTestMode="true"
-                FadeOutEnabled="true"
-                Top="10"
-                Right="10" />
 <div class="@LayoutContainerCss" data-theme="@ThemeState.Theme.ToString()">
     <header>
         @HeaderContent
@@ -28,19 +23,25 @@
     </nav>
     <main>
         @Body
-        <button @onclick="RaiseModal">Modal Test</button>
-        <button @onclick="RaiseToast">Toast Test</button>
+@*         <button @onclick="RaiseModal">Modal Test</button>
+        <button @onclick="RaiseToast">Toast Test</button> *@
     </main>
     <footer class="@LayoutFooterCss">
         @FooterContent
     </footer>
+    <LayoutToasater @ref="LayoutToaster"
+                    IsTestMode="false"
+                    FadeOutEnabled="true"
+                    Top="50"
+                    Right="10" />
+
+    <LayoutModal ModalType="ModalState.ModalType"
+                 ViewModel="ModalState.ModalModel"
+                 ModalDismissed="ModalState.ModalModel.DismissModal"
+                 ModalClosed="ModalState.ModalModel.CloseModal" />
 </div>
 
-<LayoutModal 
-    ModalType="ModalState.ModalType"
-    ViewModel="ModalState.ModalModel"
-    ModalDismissed="ModalState.ModalModel.DismissModal"
-    ModalClosed="ModalState.ModalModel.CloseModal"/>
+
 
 
 
@@ -76,7 +77,7 @@
 
     private void RaiseToast()
     {
-        ToastState.AddToast("Some Toast", "This is a toast", ToastTypes.Success);
+        ToastState.RaiseToast("Some Toast", "This is a toast", ToastTypes.Success);
     }
 
     protected override void OnInitialized()
