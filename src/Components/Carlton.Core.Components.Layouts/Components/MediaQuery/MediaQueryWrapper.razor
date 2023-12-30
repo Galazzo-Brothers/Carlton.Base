@@ -1,0 +1,52 @@
+﻿@using Microsoft.JSInterop
+@using Carlton.Core.Components.Layouts.State.Viewport
+@namespace Carlton.Core.Components.Layouts.MediaQuery
+@inject IViewportState ViewPortState
+
+<div class="media-query-wrapper">
+    @if (CurrentViewport.IsMoible)
+    {
+        <div class="mobile">
+            @MobileContent
+        </div>
+    }
+    else
+    {
+        <div class="desktop">
+            @DesktopContent
+        </div>
+    }
+</div>
+
+@code {
+    private IJSObjectReference _module;
+
+    [Parameter]
+    public RenderFragment MobileContent { get; set; }
+
+    [Parameter]
+    public RenderFragment DesktopContent { get; set; }
+
+    private ViewportModel CurrentViewport { get; set; }
+
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        CurrentViewport = await ViewPortState.GetCurrentViewport();
+        await ViewPortState.RegisterViewportChangedHandler(DotNetObjectReference.Create(this), nameof(ViewportUpdated));
+        await base.OnInitializedAsync();
+    }
+
+
+    [JSInvokable("ViewportUpdated")]
+    public void ViewportUpdated(ViewportModel updatedViewport)
+    {
+        var viewportChanged = CurrentViewport.IsMoible != updatedViewport.IsMoible;
+
+        CurrentViewport = updatedViewport;
+
+        if (viewportChanged)
+            StateHasChanged();
+    }
+}
