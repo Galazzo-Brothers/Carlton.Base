@@ -30,7 +30,7 @@
         if(firstRender)
         {
             _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/ResizablePanel/ResizablePanel.razor.js");
-            await _module.InvokeAsync<Task>("initResizablePanel");
+            await _module.InvokeVoidAsync("initResizablePanel");
         }
         base.OnAfterRender(firstRender);
     }
