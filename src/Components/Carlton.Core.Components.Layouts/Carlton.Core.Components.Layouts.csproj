@@ -10,11 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Components\Carlton.Core.Components\Carlton.Core.Components.csproj" />
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
   </ItemGroup>
