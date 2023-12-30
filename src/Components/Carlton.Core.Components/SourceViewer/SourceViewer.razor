@@ -31,14 +31,14 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        await _module.InvokeAsync<Task>(SetCodeBlock, Selector, Source);
+        await _module.InvokeVoidAsync(SetCodeBlock, Selector, Source);
         await base.OnParametersSetAsync();
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if(_module != null)
-            await _module.InvokeAsync<Task>(SourceViewer.HighlightCodeBlock, Selector);
+            await _module.InvokeVoidAsync(SourceViewer.HighlightCodeBlock, Selector);
 
         await base.OnAfterRenderAsync(firstRender);
     }
