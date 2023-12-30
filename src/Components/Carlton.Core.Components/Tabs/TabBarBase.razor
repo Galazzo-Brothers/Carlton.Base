@@ -8,7 +8,7 @@
 
     @if (ContentLocation == ContentLocations.Above)
     {
-        <div class="slide-container @(GetExpandedState() ? "expanded" : string.Empty)">
+        <div class="@SlideContainerCss">
             <CascadingValue Value="this">
                 @ChildContent
             </CascadingValue>
@@ -20,8 +20,8 @@
         <div class="tabs">
             @foreach (Tab tab in Tabs)
             {
-                <div class="tab @(tab==this.ActiveTab ? "active" : "")">
-                    <div class="tab-link" @onclick="(args)=>ActivateTab(tab)">
+                <div class="@TabCss(tab)">
+                    <div class="tab-link" @onclick="(args) => ActivateTab(tab)">
                         @TabContent(tab)
                     </div>
                 </div>
@@ -31,7 +31,7 @@
 
     @if (ContentLocation == ContentLocations.Below)
     {
-        <div class="slide-container @(GetExpandedState() ? "expanded" : string.Empty)">
+        <div class="@SlideContainerCss">
             <CascadingValue Value="this">
                 @ChildContent
             </CascadingValue>
@@ -104,6 +104,18 @@
             //Collapser is visible and so content is conditionally shown based on state
             return IsExpanded;
     }
+
+    private string SlideContainerCss
+    {
+        get => new CssBuilder("slide-container")
+                    .AddClass("expanded", GetExpandedState())
+                    .Build();
+    }
+
+    private string TabCss(Tab tab)
+        => new CssBuilder("tab")
+                .AddClass("active", tab.TabIndex == ActiveTab.TabIndex)
+                .Build();
 }
 
 
@@ -113,10 +125,9 @@
 
 
 
-    
 
-   
 
-    
 
-   
+
+
+
