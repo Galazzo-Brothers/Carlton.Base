@@ -1,16 +1,19 @@
 ﻿@using Carlton.Core.Components.DropdownMenu
 @using Carlton.Core.Components.Layouts
+@using Carlton.Core.Components.Layouts.State.Theme
+@using Carlton.Core.Layouts.Components.Notifications
 @* @using Carlton.Core.Components.Layouts.Notifications *@
 @namespace Carlton.Core.Lab.Layouts
+@inject IThemeState ThemeState
 @inject NavigationManager NavigationManager
 
 <div class="component-lab-header-actions">
     <ThemeMenu />
-  @*   <NotificationMenu /> *@
-    <ProfileAvatar Username="Stephen" 
-        AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
-        DropdownMenuItems="DropdownMenuItems"
-        MenuItemSelected="HandleMenuItemSelected" />
+    <NotificationMenu />
+    <ProfileAvatar Username="Stephen"
+                   AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
+                   DropdownMenuItems="DropdownMenuItems"
+                   MenuItemSelected="HandleMenuItemSelected" />
 </div>
 
 
@@ -38,10 +41,10 @@
         switch (selectedIndex)
         {
             case 2:
-             //  ThemeState.SetTheme(ThemeState.Theme == Themes.light ? Themes.dark : Themes.light);
+                ThemeState.SetTheme(ThemeState.Theme == Themes.light ? Themes.dark : Themes.light);
                 break;
             case 3:
-                 NavigationManager.NavigateTo($"/debug/logs");
+                NavigationManager.NavigateTo($"/debug/logs");
                 break;
             default:
                 return;

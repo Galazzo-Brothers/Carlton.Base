@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Carlton.Core.Flux.Extensions;
 using Carlton.Core.Lab.State;
+using Carlton.Core.Flux.Debug.Extensions;
 namespace Carlton.Core.Lab.Extensions;
 
 public static class WebAssemblyHostBuilderExtensions
@@ -17,7 +18,7 @@ public static class WebAssemblyHostBuilderExtensions
         /*Flux Registers*/
         var state = new LabState(options);
         builder.AddCarltonFlux(state, true);
-      //  builder.AddCarltonFluxDebug(state);
+        builder.AddCarltonFluxDebug(state);
     }
 }
 
