@@ -4,7 +4,7 @@
 @typeparam TViewModel
 
 
-<FluxJsComponent TViewModel="TViewModel"
+<InteropFluxComponent TViewModel="TViewModel"
                  TState="LabState"
                  JsModule="@JsModule"
                  JsFunction="@JsFunction"
@@ -15,7 +15,7 @@
     <ErrorContent Context="error">
         <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="error.Recover" />
     </ErrorContent>
-</FluxJsComponent>
+</InteropFluxComponent>
 
 @code{
     [Parameter]

@@ -1,0 +1,57 @@
+﻿@using Carlton.Core.Components
+@using Carlton.Core.Components.DropdownMenu
+@using Carlton.Core.Components.Layouts
+@using Carlton.Core.Components.Layouts.State.Modals
+@using Carlton.Core.Components.Layouts.State.Theme
+@using Carlton.Core.Components.Layouts.State.Toasts
+@using Carlton.Core.Components.Modals
+@using Carlton.Core.Flux.Debug.Layouts
+@using Carlton.Core.Layouts.Components.Notifications
+@namespace Carlton.Core.Flux.Debug.Components
+@inherits BaseConnectedComponent<HeaderActionsViewModel>
+@inject IBrowserStorageService BrowserStorageService
+@inject IThemeState ThemeState
+@inject IModalState ModalState
+@inject IBrowserStorageService BrowserStorageService
+@inject NavigationManager NavigationManager
+@inject IToastState ToastState
+
+<div class="flux-debug-header-actions">
+    <ThemeMenu />
+    <NotificationMenu />
+    <ProfileAvatar Username="Stephen"
+                   AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
+                   DropdownMenuItems="DropdownMenuItems" />
+</div>
+
+@code {
+    private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
+    {
+        get =>
+            new List<DropdownMenuItem<int>>
+            {
+                new DropdownMenuItem<int>("Profile", 1, "account", 1, () => { }),
+                new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2, ThemeState.ToggleTheme),
+                new DropdownMenuItem<int>("Clear Localstorage", 3, "delete", 3, RaiseClearLocalStorageConfirmationModal),
+                new DropdownMenuItem<int>("App", 4, "open-in-app", 4, () => NavigationManager.NavigateTo($"/")),
+                new DropdownMenuItem<int>("Logout", 5, "logout", 5, () => { })
+            };
+
+    }
+
+    private void RaiseClearLocalStorageConfirmationModal()
+        => ModalState.RaiseModal<ConfirmationModal>("Are you sure", "Are you sure you want to clear the local storage logs?", null, ClearLocalStorageConfirmed);
+
+
+    private async Task ClearLocalStorageConfirmed(object args)
+    {
+        var userConfirmed = (bool)args;
+
+        if (!userConfirmed)
+            return;
+
+        await BrowserStorageService.ClearLogs();
+        ToastState.RaiseToast("Success", "Localstorage has been cleared.", Core.Components.Toasts.ToastTypes.Success);
+        await base.OnComponentEvent.InvokeAsync(new ClearLocalStorageCommand());
+    }
+}

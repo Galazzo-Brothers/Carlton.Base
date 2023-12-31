@@ -1,0 +1,36 @@
+﻿@using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@namespace Carlton.Core.Flux.Components
+@typeparam TState
+@typeparam TViewModel
+@inherits FluxComponent<TState, TViewModel>
+@inject ILogger<PassiveFluxComponent<TState, TViewModel>> Logger;
+
+
+<FluxErrorBoundary TComponent="object">
+    <ChildContent>
+        @if (IsLoading)
+        {
+            @SpinnerContent
+        }
+        else
+        {
+        
+            <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+        }
+    </ChildContent>
+    <ErrorPrompt Context="error">
+        @ErrorContent(error)
+    </ErrorPrompt>
+</FluxErrorBoundary>
+
+
+@code {
+    [Parameter]
+    public TViewModel PassiveViewModel { get; set; }
+
+    protected override Task<TViewModel> GetViewModel()
+    {
+        return Task.FromResult(PassiveViewModel);
+    }
+}

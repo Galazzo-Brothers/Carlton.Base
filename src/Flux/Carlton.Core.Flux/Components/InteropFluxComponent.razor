@@ -5,7 +5,7 @@
 @typeparam TState
 @inherits FluxComponent<TState, TViewModel>
 @inject IJSRuntime JsRuntime;
-@inject ILogger<FluxJsComponent<TViewModel, TState>> Logger;
+@inject ILogger<InteropFluxComponent<TViewModel, TState>> Logger;
 
 
 <FluxErrorBoundary TComponent="TViewModel">

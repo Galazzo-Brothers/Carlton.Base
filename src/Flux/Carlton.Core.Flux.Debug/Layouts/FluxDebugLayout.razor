@@ -3,7 +3,7 @@
 @using MapsterMapper
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Flux.Debug.Components.Nav
-@using Carlton.Core.Flux.Debug.Layouts.Header
+@using Carlton.Core.Flux.Debug.Layouts
 @namespace Carlton.Core.Flux.Debug.Layouts
 @inherits LayoutComponentBase
 @inject IBrowserStorageService BrowserStorageService
@@ -19,7 +19,7 @@
         <BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
     </PageTitleContent>
     <HeaderActionContent>
-        <FluxDebugHeaderActions />
+        <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="new HeaderActionsViewModel()" />
     </HeaderActionContent>
     <Body>
         @if (LoadingComplete)
