@@ -1,0 +1,25 @@
+﻿@using BlazorComponentUtilities
+@namespace Carlton.Core.Flux.Debug.Layouts
+@inject NavigationManager NavigationManager
+
+
+<a href="#" class="return-menu" @onclick:preventDefault="true" @onclick="ReturnToApp">
+    <i class="@ReturnIconCss"></i>
+</a>
+
+
+@code {
+    private string ReturnIconCss
+    {
+        get => new CssBuilder()
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-open-in-app")
+                .Build();
+    }
+
+    private void ReturnToApp()
+    {
+        NavigationManager.NavigateTo($"/");
+    }
+}
+

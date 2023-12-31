@@ -19,7 +19,7 @@
         <BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
     </PageTitleContent>
     <HeaderActionContent>
-        <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="new HeaderActionsViewModel()" />
+        <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="HeaderActionsViewModel" />
     </HeaderActionContent>
     <Body>
         @if (LoadingComplete)
@@ -38,6 +38,9 @@
 
 @code {
     private bool LoadingComplete { get; set; } = false;
+
+    private HeaderActionsViewModel HeaderActionsViewModel { get; } 
+        = new HeaderActionsViewModel("Stephen", "_content/Carlton.Core.Components/images/avatar.jpg");
 
     protected override async Task OnInitializedAsync()
     {

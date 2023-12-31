@@ -1,0 +1,13 @@
+﻿
+.return-menu {
+	margin-top: auto;
+	margin-bottom: auto;
+	color: var(--icon-color);
+}
+
+/*Media Queries*/
+@media (max-width: 768px) {
+	.return-menu {
+		color: var(--mobile-icon-color);
+	}
+}

@@ -16,26 +16,26 @@ namespace Carlton.Core.Flux.Extensions;
 
 public static class WebAssemblyHostBuilderExtensions
 {
+    private static bool AddedLocalStorage = false;
+
     public static void AddCarltonFlux<TState>(
         this WebAssemblyHostBuilder builder,
         TState state,
         bool usesLocalStorage)
         where TState : class
     {
-        /*Register Logging*/
-        RegisterLogging(builder);
-        
-        /*Local Storage*/
-        RegisterLocalStorage(builder);
+        if (!AddedLocalStorage)
+            RegisterFluxDependencies(builder);
 
-        /*Mapster*/
-        RegisterMapster(builder);
+        RegisterStateSpecificFluxDependencies(builder, state, usesLocalStorage);
 
+        AddedLocalStorage = true;
+    }
+
+    private static void RegisterStateSpecificFluxDependencies<TState>(WebAssemblyHostBuilder builder, TState state, bool usesLocalStorage) where TState : class
+    {
         /*Flux State*/
         RegisterFluxState(builder, state, usesLocalStorage);
-
-        /*Connected Components*/
-        RegisterFluxConnectedComponents(builder);
 
         /*Dispatchers*/
         RegisterFluxDispatchers<TState>(builder, usesLocalStorage);
@@ -45,12 +45,27 @@ public static class WebAssemblyHostBuilderExtensions
 
         /*State Mutations*/
         RegisterFluxStateMutations<TState>(builder);
+    }
+
+    private static void RegisterFluxDependencies(WebAssemblyHostBuilder builder)
+    {
+        /*Register Logging*/
+        RegisterLogging(builder);
+
+        /*Local Storage*/
+        RegisterLocalStorage(builder);
+
+        /*Mapster*/
+        RegisterMapster(builder);
 
         /*Validators*/
         RegisterValidators(builder);
 
         /*Exception Handling*/
         RegisterExceptionHandling(builder);
+
+        /*Connected Components*/
+        RegisterFluxConnectedComponents(builder);
     }
 
     private static void RegisterLogging(WebAssemblyHostBuilder builder)
@@ -76,28 +91,33 @@ public static class WebAssemblyHostBuilderExtensions
                 config.JsonSerializerOptions.Converters.Add(new JsonEventIdConverter());
             });
 
-        builder.Services.AddBlazorDB(options =>
+        if (!AddedLocalStorage)
         {
-            options.Name = "CarltonFlux";
-            options.Version = 1;
-            options.StoreSchemas = new List<StoreSchema>()
+            builder.Services.AddBlazorDB(options =>
             {
-                new()
-                {
-                    Name = "Logs",
-                    PrimaryKey = "key",
-                    Indexes = new List<string> {"indexDate"}
-                },
-                new ()
-                {
-                    Name = "AppState",
-                    PrimaryKey = "id",
-                    PrimaryKeyAuto = true
-                }
-            };
-        });
+                options.Name = "CarltonFlux";
+                options.Version = 1;
+                options.StoreSchemas =
+                [
+                    new()
+                    {
+                        Name = "Logs",
+                        PrimaryKey = "key",
+                        Indexes = ["indexDate"]
+                    },
+                    new()
+                    {
+                        Name = "AppState",
+                        PrimaryKey = "id",
+                        PrimaryKeyAuto = true
+                    }
+                ];
+            });
+        }
 
         builder.Services.AddSingleton<IBrowserStorageService, BrowserStorageService>();
+
+        AddedLocalStorage = true;
     }
 
     private static void RegisterMapster(WebAssemblyHostBuilder builder)
