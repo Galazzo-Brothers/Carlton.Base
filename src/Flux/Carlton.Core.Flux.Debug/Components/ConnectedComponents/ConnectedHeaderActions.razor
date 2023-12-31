@@ -16,13 +16,12 @@
 @inject NavigationManager NavigationManager
 @inject IToastState ToastState
 
-<div class="flux-debug-header-actions">
-    <ThemeMenu />
-    <NotificationMenu />
-    <ProfileAvatar Username="Stephen"
-                   AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
-                   DropdownMenuItems="DropdownMenuItems" />
-</div>
+<FluxDebugHeaderActions 
+       UserName="@ViewModel.UserName"
+       AvatarUrl="@ViewModel.AvatarUrl"
+       DropdownMenuItems="DropdownMenuItems"
+    />
+
 
 @code {
     private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
@@ -45,13 +44,20 @@
 
     private async Task ClearLocalStorageConfirmed(object args)
     {
+        //Cast the modal params
         var userConfirmed = (bool)args;
 
+        //Check if user confirmed the action
         if (!userConfirmed)
             return;
 
+        //Clear localstorage
         await BrowserStorageService.ClearLogs();
+
+        //Notify the user via a toast
         ToastState.RaiseToast("Success", "Localstorage has been cleared.", Core.Components.Toasts.ToastTypes.Success);
+
+        //Update the in memory state store to reflect the action
         await base.OnComponentEvent.InvokeAsync(new ClearLocalStorageCommand());
     }
 }

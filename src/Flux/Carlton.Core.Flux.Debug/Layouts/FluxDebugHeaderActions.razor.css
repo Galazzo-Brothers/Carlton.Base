@@ -1,0 +1,14 @@
+﻿.flux-debug-header-actions {
+	display: flex;
+	gap: 10px;
+}
+
+	.flux-debug-header-actions .icon {
+		margin-top: auto;
+		margin-block: auto;
+		color: var(--icon-color);
+	}
+
+	.flux-debug-header-actions ::deep .vertical-spacer {
+		border-left-color: var(--icon-color);
+	}

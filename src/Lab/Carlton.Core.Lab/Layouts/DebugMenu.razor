@@ -1,0 +1,25 @@
+﻿@using BlazorComponentUtilities
+@namespace Carlton.Core.Lab
+@inject NavigationManager NavigationManager
+
+
+<a href="#" class="debug-menu" @onclick:preventDefault="true" @onclick="NavigateToDebug">
+    <i class="@DebugIconCss"></i>
+</a>
+
+
+@code {
+    private string DebugIconCss
+    {
+        get => new CssBuilder()
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-bug-outline")
+                .Build();
+    }
+
+    private void NavigateToDebug()
+    {
+        NavigationManager.NavigateTo($"/debug/logs");
+    }
+}
+
