@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Core.Components.DropdownMenu;
 
-public record DropdownMenuItem<T>(string MenuItemName, T Value, string MenuIcon, int AccentColorIndex);
+public record DropdownMenuItem<T>(string MenuItemName, T Value, string MenuIcon, int AccentColorIndex, Action MenuItemSelected);
