@@ -6,8 +6,23 @@ public class ThemeState(Themes theme) : IThemeState
 
     public Themes Theme { get; private set; } = theme;
 
-    public ThemeState() : this(Themes.light) 
+    public ThemeState() : this(Themes.light)
     {
+    }
+
+    public void ToggleTheme()
+    {
+        switch (Theme)
+        {
+            case Themes.light:
+                SetTheme(Themes.dark);
+                break;
+            case Themes.dark:
+                SetTheme(Themes.light);
+                break;
+            default:
+                return;
+        }
     }
 
     public void SetTheme(Themes theme)

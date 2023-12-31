@@ -11,9 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Notifications\**" />
     <Compile Remove="Styles\**" />
+    <Content Remove="Notifications\**" />
     <Content Remove="Styles\**" />
+    <EmbeddedResource Remove="Notifications\**" />
     <EmbeddedResource Remove="Styles\**" />
+    <None Remove="Notifications\**" />
     <None Remove="Styles\**" />
   </ItemGroup>
 
@@ -27,11 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Notifications\" />
   </ItemGroup>
 
 </Project>
