@@ -16,9 +16,9 @@ internal static class MenuTestStates
     {
         get => new List<DropdownMenuItem<int>>
         {
-            new DropdownMenuItem<int>("Option 1", 1, "mdi-icon1", 1),
-            new DropdownMenuItem<int>("Option 2", 2, "mdi-icon2", 2),
-            new DropdownMenuItem<int>("Option 3", 3, "mdi-icon3", 3)
+            new("Option 1", 1, "mdi-icon1", 1, () => { }),
+            new("Option 2", 2, "mdi-icon2", 2, () => { }),
+            new("Option 3", 3, "mdi-icon3", 3, () => { })
         };
     }
 }

@@ -7,7 +7,8 @@ public interface IModalState
 
     public ModalViewModel ModalModel { get; }
     public Type ModalType { get; }
-    public void RaiseModal<TModal>(ModalViewModel model)
+    public void RaiseModal<TModal>(string modalPrompt, string modalMessage)
+        where TModal : Modal;
+    public void RaiseModal<TModal>(string modalPrompt, string modalMessage, Func<Task> modalDismissedFunc, Func<object, Task> modelClosedFunc)
         where TModal : Modal;
 }
-
