@@ -4,8 +4,8 @@
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
     <div class="menu">@MenuTemplate(IsActive)</div>
     <div class="dropdown @DropdownMenuCss" style="@DropdownMenuStyle">
+        <div class="header">@HeaderTemplate</div>
         <ul>
-            <div class="header">@HeaderTemplate</div>
                 @foreach(var item in MenuItems)
                 {
                     <li>
