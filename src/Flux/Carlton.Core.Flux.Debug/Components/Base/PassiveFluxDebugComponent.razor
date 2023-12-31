@@ -1,0 +1,18 @@
+﻿@using Carlton.Core.Flux.Components
+@namespace Carlton.Core.Flux.Debug
+@typeparam TViewModel
+
+
+<PassiveFluxComponent TViewModel="TViewModel" TState="FluxDebugState" PassiveViewModel="PassiveViewModel">
+    <SpinnerContent>
+        <Spinner />
+    </SpinnerContent>
+    <ErrorContent Context="error">
+        <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="@error.Recover" />
+    </ErrorContent>
+</PassiveFluxComponent>
+
+@code{
+    [Parameter]
+    public TViewModel PassiveViewModel {get; set;}
+}

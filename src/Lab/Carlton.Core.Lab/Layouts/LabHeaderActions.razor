@@ -2,7 +2,6 @@
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Components.Layouts.State.Theme
 @using Carlton.Core.Layouts.Components.Notifications
-@* @using Carlton.Core.Components.Layouts.Notifications *@
 @namespace Carlton.Core.Lab.Layouts
 @inject IThemeState ThemeState
 @inject NavigationManager NavigationManager
@@ -12,42 +11,22 @@
     <NotificationMenu />
     <ProfileAvatar Username="Stephen"
                    AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
-                   DropdownMenuItems="DropdownMenuItems"
-                   MenuItemSelected="HandleMenuItemSelected" />
+                   DropdownMenuItems="DropdownMenuItems" />
 </div>
 
 
 @code {
-    // [CascadingParameter]
-    // private ThemeState ThemeState { get; set; }
-
     private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
     {
         get
         {
             return new List<DropdownMenuItem<int>>
             {
-                new DropdownMenuItem<int>("Profile", 1, "account", 1),
-                new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2),
-                new DropdownMenuItem<int>("Debug", 3, "bug-outline", 3),
-                new DropdownMenuItem<int>("Logout", 4, "logout", 4)
+                new DropdownMenuItem<int>("Profile", 1, "account", 1, () => { }),
+                new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2, ThemeState.ToggleTheme),
+                new DropdownMenuItem<int>("Debug", 3, "bug-outline", 3, () => NavigationManager.NavigateTo($"/debug/logs")),
+                new DropdownMenuItem<int>("Logout", 4, "logout", 4, () => { })
             };
-        }
-    }
-
-
-    private void HandleMenuItemSelected(int selectedIndex)
-    {
-        switch (selectedIndex)
-        {
-            case 2:
-                ThemeState.SetTheme(ThemeState.Theme == Themes.light ? Themes.dark : Themes.light);
-                break;
-            case 3:
-                NavigationManager.NavigateTo($"/debug/logs");
-                break;
-            default:
-                return;
         }
     }
 }
