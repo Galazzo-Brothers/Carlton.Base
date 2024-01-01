@@ -1,17 +1,17 @@
 ﻿namespace Carlton.Core.Utilities.Logging;
 
-public class InMemoryLoggerProvider : ILoggerProvider
+public class MemoryLoggerProvider : ILoggerProvider
 {
-    private readonly InMemoryLogger _logger;
+    private readonly MemoryLogger _logger;
 
-    public InMemoryLoggerProvider(InMemoryLogger logger)
+    public MemoryLoggerProvider(MemoryLogger logger)
     {
         _logger = logger;
     }
 
-    public InMemoryLoggerProvider()
+    public MemoryLoggerProvider()
     {
-        _logger = new InMemoryLogger();
+        _logger = new MemoryLogger();
     }
 
     public ILogger CreateLogger(string categoryName)
