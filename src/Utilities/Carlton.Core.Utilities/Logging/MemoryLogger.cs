@@ -4,7 +4,7 @@ using System.Threading;
 namespace Carlton.Core.Utilities.Logging;
 
 
-public class InMemoryLogger : ILogger
+public class MemoryLogger : ILogger
 {
     private readonly ConcurrentQueue<LogMessage> logMessages = new();
     private readonly AsyncLocal<ConcurrentStack<LogScope>> _currentScopes = new();
