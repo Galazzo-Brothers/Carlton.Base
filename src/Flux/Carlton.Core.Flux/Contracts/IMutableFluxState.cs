@@ -3,5 +3,6 @@
 
 public interface IMutableFluxState<TState> : IFluxState<TState>
 {
-    public Task MutateState<TInput>(TInput input);
+    public Task MutateState<TCommand>(TCommand command)
+        where TCommand : MutationCommand;
 }

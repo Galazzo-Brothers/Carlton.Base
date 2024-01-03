@@ -1,11 +1,18 @@
-﻿using Carlton.Core.Utilities.Logging;
+﻿namespace Carlton.Core.Flux.Contracts;
 
-namespace Carlton.Core.Flux.Contracts;
-
-public interface IBrowserStorageService
+public interface IBrowserStorageService<TState>
 {
-    public Task CommitLogs();
-    public Task<IEnumerable<LogMessage>> GetLogs(DateTime dateTime);
-    public Task ClearLogs();
-    public Task SaveState<TState>(TState state);
+    public Task<TState> LoadState();
+    public Task SaveState(TState state);
+}
+
+public class DummyBrowserStorageService<TState>(TState state) : IBrowserStorageService<TState>
+{
+    private readonly TState _state = state;
+
+    public Task<TState> LoadState()
+        => Task.FromResult(_state);
+
+    public Task SaveState(TState state)
+        => Task.CompletedTask;
 }

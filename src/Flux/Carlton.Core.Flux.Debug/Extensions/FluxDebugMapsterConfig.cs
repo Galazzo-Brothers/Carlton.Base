@@ -19,16 +19,11 @@ public class FluxDebugMapsterConfig : IRegister
         config.NewConfig<FluxDebugState, TraceLogViewerViewModel>()
             .Map(dest => dest.LogMessages, src => src.LogMessages);
 
-        //config.NewConfig<FluxDebugState, ModalViewModel>()
-        //    .Ignore(dest => dest.IsVisible)
-        //    .ConstructUsing(_ => new ModalViewModel(false));
-
         config.NewConfig<LogMessage, LogMessage>();
 
         config.NewConfig<LogLevel, LogLevel>();
 
-
-        config.NewConfig<Exception, Exception>();
+        config.NewConfig<LoggedException, LoggedException>();
 
         config.Compile();
     }

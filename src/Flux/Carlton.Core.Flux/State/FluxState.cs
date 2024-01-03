@@ -3,13 +3,13 @@ namespace Carlton.Core.Flux.State;
 
 public class FluxState<TState> : IMutableFluxState<TState>
 {
-    private readonly IList<string> _recordedEventStore = new List<string>();
+    private readonly Queue<IFluxStateMutation<TState>> _recordedMutations = new();
     private readonly IMutationResolver<TState> _mutationResolver;
     private readonly IMapper _mapper;
     private readonly ILogger<FluxState<TState>> _logger;
 
     public event Func<string, Task> StateChanged;
-    public IReadOnlyList<string> RecordedEventStore { get => _recordedEventStore.AsReadOnly(); }
+    public IReadOnlyList<string> RecordedEventStore { get => _recordedMutations.Select(_ => _.StateEvent).ToList().AsReadOnly(); }
     public TState State { get; private set; }
     private TState RollbackState { get; set; }
 
@@ -17,15 +17,16 @@ public class FluxState<TState> : IMutableFluxState<TState>
         IMapper mapper, ILogger<FluxState<TState>> logger) =>
             (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
 
-    public async Task MutateState<TInput>(TInput input)
+    public async Task MutateState<TCommand>(TCommand input)
+        where TCommand : MutationCommand
     {
-        var displayName = typeof(TInput).GetDisplayName();
+        var displayName = typeof(TCommand).GetDisplayName();
         try
         {
             _logger.MutationApplyStarted(displayName);
 
             //Find the correct mutations and save a rollback state
-            var mutation = _mutationResolver.Resolve<TInput>();
+            var mutation = _mutationResolver.Resolve<TCommand>();
             _mapper.Map(State, RollbackState);
 
             //Run the non-destructive mutation to generate a new state from the old, 
@@ -34,11 +35,10 @@ public class FluxState<TState> : IMutableFluxState<TState>
             _mapper.Map(mutatedState, State);
 
             //Update EventStore 
-            _recordedEventStore.Add(mutation.StateEvent);
+            _recordedMutations.Enqueue(mutation);
 
-            //Raise Event if it was a command mutation
-            if(!mutation.IsRefreshMutation)
-                await InvokeStateChanged(mutation.StateEvent);
+            //Raise Event
+            await InvokeStateChanged(mutation.StateEvent);
 
             _logger.MutationApplyCompleted(displayName);
         }

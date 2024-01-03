@@ -54,7 +54,7 @@
             catch (JSException ex)
             {
                 Logger.ViewModelJsInteropRefreshError(ex, typeof(TViewModel).GetDisplayName());
-                throw ViewModelFluxException<TState, TViewModel>.JSInteropError(new ViewModelQuery(), ex);
+                throw ViewModelFluxException<TState, TViewModel>.JSInteropError(ex);
             }
         }
     }

@@ -6,7 +6,6 @@
 @inject IViewModelQueryDispatcher<TState> QueryDispatcher
 @inject IMutationCommandDispatcher<TState> MutationDispatcher
 @inject IFluxStateObserver<TState> StateObserver
-@inject IBrowserStorageService BrowserStorage
 @inject ILogger<FluxComponent<TState, TViewModel>> Logger
 
 <FluxErrorBoundary TComponent="TViewModel">

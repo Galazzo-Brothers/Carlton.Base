@@ -17,11 +17,6 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
         EventID = eventID;
     }
 
-    public static ViewModelFluxException<TState, TViewModel> JSInteropError(ViewModelQuery query, JSException innerException)
-    {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.Mutation_JSInterop_Error, LogEvents.Mutation_JSInterop_ErrorMsg, query, innerException);
-    }
-
     public static ViewModelFluxException<TState, TViewModel> ValidationError(ViewModelQuery query, ValidationException innerException)
     {
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Validation_Error, LogEvents.ViewModel_Validation_ErrorMsg, query, innerException);
@@ -50,6 +45,11 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
     public static ViewModelFluxException<TState, TViewModel> HttpUrlError(ViewModelQuery query, InvalidOperationException innerException)
     {
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_URL_Error, LogEvents.ViewModel_HTTP_URL_ErrorMsg, query, innerException);
+    }
+
+    public static ViewModelFluxException<TState, TViewModel> JSInteropError(JSException innerException)
+    {
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, new ViewModelQuery(), innerException);
     }
 
     public override string ToString()

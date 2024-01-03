@@ -1,11 +1,10 @@
 ﻿namespace Carlton.Core.Lab.State.Mutations;
 
-public class RecordEventMutation : IFluxStateMutation<LabState, RecordEventCommand>
+public class RecordEventMutation : FluxStateMutationBase<LabState, RecordEventCommand>
 {
-    public bool IsRefreshMutation => false;
-    public string StateEvent => LabStateEvents.EventRecorded.ToString();
+    public override string StateEvent => LabStateEvents.EventRecorded.ToString();
 
-    public LabState Mutate(LabState currentState, RecordEventCommand command)
+    public override LabState Mutate(LabState currentState, RecordEventCommand command)
     {
         var newEvents = currentState.ComponentEvents.Append(new ComponentRecordedEvent(command.RecordedEventName, command.EventArgs));
         return currentState with { ComponentEvents = newEvents };

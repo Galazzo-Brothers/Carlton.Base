@@ -1,15 +1,11 @@
 ﻿using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Exceptions;
 using Carlton.Core.Flux.Handlers.Base;
-using Carlton.Core.Flux.Logging;
-using Carlton.Core.Flux.Models;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace Carlton.Core.Flux.Handlers.Mutations;
 
-public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutationCommandDispatcher<TState>
+public class MutationHttpDecorator<TState>: BaseHttpDecorator<TState>, IMutationCommandDispatcher<TState>
 {
     private readonly IMutationCommandDispatcher<TState> _decorated;
     private readonly ILogger<MutationHttpDecorator<TState>> _logger;
@@ -66,13 +62,13 @@ public class MutationHttpDecorator<TState> : BaseHttpDecorator<TState>, IMutatio
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            _logger.MutationJsonError(ex, typeof(TCommand).GetDisplayName());
+            _logger.MutationHttpInterceptionJsonParseError(ex, typeof(TCommand).GetDisplayName());
             throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(command, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            _logger.MutationJsonError(ex, typeof(TCommand).GetDisplayName());
+            _logger.MutationHttpInterceptionJsonParseError(ex, typeof(TCommand).GetDisplayName());
             throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(command, ex);
         }
         catch (HttpRequestException ex)

@@ -1,20 +1,14 @@
-﻿using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Models;
-
-namespace Carlton.Core.Flux.Handlers.Mutations;
+﻿namespace Carlton.Core.Flux.Handlers.Mutations;
 
 
-public class MutationCommandHandler<TState> : IMutationCommandHandler<TState>
+public class MutationCommandHandler<TState>(IMutableFluxState<TState> state) : IMutationCommandHandler<TState>
 {
-    protected IMutableFluxState<TState> State { get; }
-
-    public MutationCommandHandler(IMutableFluxState<TState> state)
-        => State = state;
+    private readonly IMutableFluxState<TState> _state = state;
 
     public async Task Handle<TCommand>(TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand
     {
-        await State.MutateState(command);
+        await _state.MutateState(command);
     }
 }
 

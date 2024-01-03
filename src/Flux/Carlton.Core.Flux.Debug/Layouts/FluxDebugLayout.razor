@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Components.Routing
+﻿@using Carlton.Core.BrowserStroage
+@using Carlton.Core.Flux.Debug.Storage
+@using Microsoft.AspNetCore.Components.Routing
 @using Mapster
 @using MapsterMapper
 @using Carlton.Core.Components.Layouts
@@ -6,7 +8,7 @@
 @using Carlton.Core.Flux.Debug.Layouts
 @namespace Carlton.Core.Flux.Debug.Layouts
 @inherits LayoutComponentBase
-@inject IBrowserStorageService BrowserStorageService
+@inject ILogsDataAccess LogsDataAccess
 @inject NavigationManager NavigationManager
 @inject IFluxState<FluxDebugState> FluxDebugState
 @inject IMapper Mapper
@@ -45,13 +47,16 @@
     protected override async Task OnInitializedAsync()
     {
         //Save Logs from your in app memory loggers to IndexDB
-        await BrowserStorageService.CommitLogs();
+        await LogsDataAccess.CommitLogs();
 
         //Get todays logs to hydrate a FluxDebug state object
-        var logs = await BrowserStorageService.GetLogs(DateTime.Now.Date);
+        var logs = await LogsDataAccess.GetLogs(DateTime.Now.Date);
+     
+        //flatten logs
+        var flattenedLogs = logs.SelectMany(_ => _.LogMessages);
 
         //Hydrate a FluxDebug state object
-        var newState = new FluxDebugState(new object(), logs);
+        var newState = new FluxDebugState(new object(), flattenedLogs);
 
         //Replace the container state with our constructed state
         //via the magic of reflection

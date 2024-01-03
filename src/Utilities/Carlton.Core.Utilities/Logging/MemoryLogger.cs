@@ -38,7 +38,7 @@ public class MemoryLogger : ILogger
             EventId = eventId.Id,
             EventName = eventId.Name,
             Message = formatter(state, exception),
-            Exception = exception,
+            LoggedException = new LoggedException(exception),
             Timestamp = DateTime.Now,
             Scopes = GetCurrentScopes()
         };
