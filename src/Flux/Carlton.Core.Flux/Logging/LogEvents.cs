@@ -2,87 +2,93 @@
 
 public static class LogEvents
 {
-    //DataComponent
-    public const int DataWrapper_OnInitialized_Started = 101;
-    public const int DataWrapper_OnInitialized_Completed = 102;
-    public const int DataWrapper_Command_Dispatch_Started = 103;
-    public const int DataWrapper_Command_Dispatch_Completed = 104;
-    public const int DataWrapper_Event_Listening = 105;
-    public const int DataWrapper_Event_Received_Started = 106;
-    public const int DataWrapper_Event_Received_Completed = 107;
-    public const int DataWrapper_Event_Skipped = 108;
+    //DataComponent Events
+    public const int DataWrapper_OnInitialized_Started = 1000;
+    public const int DataWrapper_OnInitialized_Completed = 1100;
 
-    //DataComponent Errors
-    public const int DataWrapper_Error = 110;
+    public const int DataWrapper_Command_Dispatch_Started = 1001;
+    public const int DataWrapper_Command_Dispatch_Completed = 1101;
 
-    //ViewModel Queries
-    public const int ViewModel_Started = 1000;
-    public const int ViewModel_JsInterop_Started = 1001;
-    public const int ViewModel_JsInterop_Completed = 1002;
-    public const int ViewModel_HttpRefresh_Started = 1003;
-    public const int ViewModel_HttpRefresh_Completed = 1004;
-    public const int ViewModel_HttpRefresh_Skipped = 1005;
-    public const int ViewModel_Mapping_Started = 1006;
-    public const int ViewModel_Mapping_Completed = 1007;
-    public const int ViewModel_Validation_Started = 1008;
-    public const int ViewModel_Validation_Completed = 1010;
-    public const int ViewModel_Completed = 1100;
+    public const int DataWrapper_Event_Received_Started = 1002;
+    public const int DataWrapper_Event_Received_Completed = 1102;
 
-    //ViewModel Queries Errors
-    public const int ViewModel_JsInterop_Error = 1100;
-    public const int ViewModel_HttpRefresh_Http_Error = 1101;
-    public const int ViewModel_HTTP_URL_Error = 1103;
-    public const int ViewModel_HTTP_Error = 1104;
-    public const int ViewModel_JSON_Error = 1105;
-    public const int ViewModel_Mapping_Error = 1106;
-    public const int ViewModel_Validation_Error = 1107;
-    public const int ViewModel_Unhandled_Error = 1050;
+    public const int DataWrapper_Error = 1200;
 
-    //ViewModel Query Error Messages
-    public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
-    public const string ViewModel_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a ViewModel";
-    public const string ViewModel_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a ViewModel";
-    public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel";
-    public const string ViewModel_Mapping_ErrorMsg = "An error occurred during the mapping of a ViewModel";
-    public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of a ViewModel";
-    public const string ViewModel_Unhandled_ErrorMsg = $"An unhandled exception occurred during a ViewModelQuery";
+    public const int DataWrapper_Event_Listening = 1301;
+    public const int DataWrapper_Event_Skipped = 1302;
 
-    //MutationCommand Requests
-    public const int Mutation_Started = 2000;
-    public const int Mutation_Validation_Started = 2001;
-    public const int Mutation_Validation_Completed = 2002;
-    public const int Mutation_JsInterop_Started = 2003;
-    public const int Mutation_JsInterop_Completed = 2004;
-    public const int Mutation_JsInterop_Skipped = 2005;
-    public const int Mutation_HttpCall_Started = 2006;
-    public const int Mutation_HttpCall_Completed = 2007;
-    public const int Mutation_HttpCall_Skipped = 2008;
-    public const int Mutation_Apply_Started = 2009;
-    public const int Mutation_Apply_Completed = 2010;
-    public const int Mutation_LocalStorage_Started = 2011;
-    public const int Mutation_LocalStorage_Completed = 2012;
-    public const int Mutation_Completed = 2100;
+    //ViewModel Query Events
+    public const int ViewModel_Started = 2000;
+    public const int ViewModel_Completed = 2100;
+
+    public const int ViewModel_HttpRefresh_Started = 2300;
+    public const int ViewModel_HttpRefresh_Completed = 2310;
+    public const int ViewModel_HttpRefresh_Skipped = 2311;
+
+    public const int ViewModel_Mapping_Started = 2400;
+    public const int ViewModel_Mapping_Completed = 2410;
+
+    public const int ViewModel_Validation_Started = 2500;
+    public const int ViewModel_Validation_Completed = 2510;
+
+    public const int ViewModel_JsInterop_Started = 2600;
+    public const int ViewModel_JsInterop_Completed = 2610;
+
+    public const int ViewModel_Unhandled_Error = 2200;
+    public const int ViewModel_HTTP_Error = 2230;
+    public const int ViewModel_HTTP_URL_Error = 2231;
+    public const int ViewModel_JSON_Error = 2232;
+    public const int ViewModel_Mapping_Error = 2240;
+    public const int ViewModel_Validation_Error = 2250;
+    public const int ViewModel_JsInterop_Error = 2260;
+
+    //Mutation Command Start Events
+    public const int Mutation_Started = 3000;
+    public const int Mutation_Completed = 3100;
+
+    public const int Mutation_Validation_Started = 3300;
+    public const int Mutation_Validation_Completed = 3310;
+
+    public const int Mutation_HttpCall_Started = 3400;
+    public const int Mutation_HttpCall_Completed = 3410;
+    public const int Mutation_HttpCall_Skipped = 3411;
+
+    public const int Mutation_Apply_Started = 3500;
+    public const int Mutation_Apply_Completed = 3510;
+
+    public const int Mutation_LocalStorage_Started = 3600;
+    public const int Mutation_LocalStorage_Completed = 3610;
 
     //Mutation Errors
-    public const int Mutation_Validation_Error = 2101;
-    public const int Mutation_JSInterop_Error = 2102;
-    public const int Mutation_HTTP_URL_Error = 2103;
-    public const int Mutation_HTTP_JSON_Error = 2104;
-    public const int Mutation_HTTP_Error = 2105;
-    public const int Mutation_HTTP_Response_Update_Error = 2106;
-    public const int Mutation_Apply_Error = 2107;
-    public const int Mutation_LocalStorage_JSON_Error = 2108;
-    public const int Mutation_Unhandled_Error = 2050;
+    public const int Mutation_Unhandled_Error = 3200;
+    public const int Mutation_Validation_Error = 3230;
+    public const int Mutation_HTTP_Error = 3240;
+    public const int Mutation_HTTP_URL_Error = 3241;
+    public const int Mutation_HTTP_JSON_Error = 3242;
+    public const int Mutation_HTTP_Response_Update_Error = 3243;
+    public const int Mutation_Apply_Error = 3250;
+    public const int Mutation_LocalStorage_Unhandled_Error = 3260;
+    public const int Mutation_LocalStorage_JSON_Error = 3261;
+
+    //ViewModel Query Error Messages
+    public const string ViewModel_Unhandled_ErrorMsg = $"An unhandled exception occurred during a ViewModelQuery";
+    public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel";
+    public const string ViewModel_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a ViewModel";
+    public const string ViewModel_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a ViewModel";
+    public const string ViewModel_Mapping_ErrorMsg = "An error occurred during the mapping of a ViewModel";
+    public const string ViewModel_Validation_ErrorMsg = "An error occurred during the validation of a ViewModel";
+    public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel";
 
     //Mutation Error Messages
-    public const string Mutation_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a Mutation Command";
+    public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during a MutationCommand";
+    public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a Mutation Command";
     public const string Mutation_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a Mutation Command";
     public const string Mutation_HTTP_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing a Mutation Command for an HTTP call";
-    public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a Mutation Command";
     public const string Mutation_HTTP_Response_Update_ErrorMsg = "An error occurred while updating the command with values from the server response for a Mutation Command";
     public const string Mutation_Validation_ErrorMsg = "An error occurred during the validation of Mutation Command";
+    public const string Mutation_LocalStorage_ErrorMsg = "An error occurred while writing to locastorage for a Mutation Command";
     public const string Mutation_LocalStorage_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing a Mutation Command for saving to local storage";
-    public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during a MutationCommand";
+
 
     //Specific Http Errors
     public const string InvalidRefreshUrlParametersMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ";

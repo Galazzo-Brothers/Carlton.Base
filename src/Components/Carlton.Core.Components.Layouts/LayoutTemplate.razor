@@ -23,8 +23,8 @@
     </nav>
     <main>
         @Body
-@*         <button @onclick="RaiseModal">Modal Test</button>
-        <button @onclick="RaiseToast">Toast Test</button> *@
+        <button @onclick="RaiseModal">Modal Test</button>
+        <button @onclick="RaiseToast">Toast Test</button>
     </main>
     <footer class="@LayoutFooterCss">
         @FooterContent
@@ -62,7 +62,7 @@
 
     private void RaiseModal()
     {
-        var model = new ModalViewModel("Testing", "This is a test",
+        ModalState.RaiseModal<SingleActionModal>("Testing", "This is a test",
         () =>
         {
             return Task.CompletedTask;
@@ -71,8 +71,6 @@
         {
             return Task.CompletedTask;
         });
-
-        ModalState.RaiseModal<SingleActionModal>(model);
     }
 
     private void RaiseToast()

@@ -1,11 +1,10 @@
 ﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
 
-public class ClearLocalStorageMutation : IFluxStateMutation<FluxDebugState, ClearLocalStorageCommand> 
+public class ClearLocalStorageMutation : FluxStateMutationBase<FluxDebugState, ClearLocalStorageCommand> 
 {
-    public bool IsRefreshMutation => false;
-    public string StateEvent => FluxDebugStateEvents.LocalStorageCleared.ToString();
+    public override string StateEvent => FluxDebugStateEvents.LocalStorageCleared.ToString();
 
-    public FluxDebugState Mutate(FluxDebugState originalState, ClearLocalStorageCommand command)
+    public override FluxDebugState Mutate(FluxDebugState originalState, ClearLocalStorageCommand command)
     {
         return originalState with { LogMessages = new List<LogMessage>() };
     }

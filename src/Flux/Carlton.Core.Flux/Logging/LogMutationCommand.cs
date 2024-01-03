@@ -27,30 +27,6 @@ public static partial class LogMutationCommand
     public static partial void MutationValidationError(this ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
-      EventId = LogEvents.Mutation_JsInterop_Started,
-      Level = LogLevel.Debug,
-      Message = "Started JSInterop interception for mutation command of type {Type}.")]
-    public static partial void MutationJSInteropInterceptionStarted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_JsInterop_Completed,
-        Level = LogLevel.Debug,
-        Message = "Completed JSInterop interception for mutation command of type {Type}.")]
-    public static partial void MutationJSInteropInterceptionCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_JsInterop_Skipped,
-        Level = LogLevel.Debug,
-        Message = "Skipping JSInterop interception for mutation command of type {Type}.")]
-    public static partial void MutationJSInteropInterceptionSkipped(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_JSInterop_Error,
-        Level = LogLevel.Error,
-        Message = "An error occurred during JSInterop Interception for mutation command of {Type}.")]
-    public static partial void MutationJSInteropInterceptionError(this ILogger logger, Exception ex, string type);
-
-    [LoggerMessage(
        EventId = LogEvents.Mutation_HttpCall_Started,
        Level = LogLevel.Information,
        Message = "Started Http interception for mutation command of type {Type}.")]
@@ -130,9 +106,15 @@ public static partial class LogMutationCommand
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_LocalStorage_JSON_Error,
-        Level = LogLevel.Error,
+        Level = LogLevel.Warning,
         Message = "An error occurred serializing mutation command of type {Type} for local storage.")]
-    public static partial void MutationJsonError(this ILogger logger, Exception ex, string type);
+    public static partial void MutationLocalStorageJsonError(this ILogger logger, Exception ex, string type);
+
+    [LoggerMessage(
+        EventId = LogEvents.Mutation_LocalStorage_Unhandled_Error,
+        Level = LogLevel.Warning,
+        Message = "An unhandled error occurred while committing the mutation command of type {Type} to local storage.")]
+    public static partial void MutationLocalStorageUnhandledError(this ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
       EventId = LogEvents.Mutation_Unhandled_Error,

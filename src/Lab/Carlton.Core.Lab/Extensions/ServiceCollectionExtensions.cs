@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Carlton.Core.Flux.Extensions;
-using Carlton.Core.Lab.State;
+﻿using Carlton.Core.Lab.State;
 using Carlton.Core.Flux.Debug.Extensions;
+using Carlton.Core.Flux.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.Lab.Extensions;
 
-public static class WebAssemblyHostBuilderExtensions
+public static class ServiceCollectionExtensions
 {
-    public static void AddCarltonTestLab(this WebAssemblyHostBuilder builder,
+    public static void AddCarltonTestLab(this IServiceCollection services,
         Action<NavMenuViewModelBuilder> navTreeAct)
     {
         /*NavMenu Builder*/
@@ -17,8 +17,8 @@ public static class WebAssemblyHostBuilderExtensions
 
         /*Flux Registers*/
         var state = new LabState(options);
-        builder.AddCarltonFlux(state, true);
-        builder.AddCarltonFluxDebug(state);
+        services.AddCarltonFlux(state);
+        services.AddCarltonFluxDebug(state);
     }
 }
 

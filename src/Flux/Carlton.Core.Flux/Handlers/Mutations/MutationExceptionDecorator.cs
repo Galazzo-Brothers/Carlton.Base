@@ -1,17 +1,13 @@
-﻿using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Exceptions;
-using Carlton.Core.Flux.Logging;
-using Carlton.Core.Flux.Models;
-
+﻿using Carlton.Core.Flux.Exceptions;
 namespace Carlton.Core.Flux.Handlers.Mutations;
 
-public class MutationExceptionDecorator<TState> : IMutationCommandDispatcher<TState>
+public class MutationExceptionDecorator<TState>(
+    IMutationCommandDispatcher<TState> decorated,
+    ILogger<MutationExceptionDecorator<TState>> logger)
+    : IMutationCommandDispatcher<TState>
 {
-    private readonly IMutationCommandDispatcher<TState> _decorated;
-    private readonly ILogger<MutationExceptionDecorator<TState>> _logger;
-
-    public MutationExceptionDecorator(IMutationCommandDispatcher<TState> decorated, ILogger<MutationExceptionDecorator<TState>> logger)
-        => (_decorated, _logger) = (decorated, logger);
+    private readonly IMutationCommandDispatcher<TState> _decorated = decorated;
+    private readonly ILogger<MutationExceptionDecorator<TState>> _logger = logger;
 
     public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
         where TCommand : MutationCommand

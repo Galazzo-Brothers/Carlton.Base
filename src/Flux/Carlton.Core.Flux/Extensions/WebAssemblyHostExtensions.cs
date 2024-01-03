@@ -14,9 +14,6 @@ public static class WebAssemblyHostExtensions
     {
         var mapperConfig = host.Services.GetService<TypeAdapterConfig>();
 
-        var x = host.Services
-            .GetServices<IRegister>();
-
         host.Services
             .GetServices<IRegister>()
             .ToList()

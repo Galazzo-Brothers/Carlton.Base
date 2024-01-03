@@ -1,13 +1,48 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Carlton.Core.Flux.Extensions;
+﻿using Carlton.Core.Flux.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Carlton.Core.BrowserStroage;
+using Carlton.Core.Flux.Debug.Storage;
+using BlazorDB;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
 public static class ContainerExtensions
 {
-    public static void AddCarltonFluxDebug<TState>(this WebAssemblyHostBuilder builder, TState state)
+    private const string CarltonFlux = "CarltonFlux";
+    private const string Logs = "Logs";
+
+    public static void AddCarltonFluxDebug<TState>(this IServiceCollection services, TState state)
     {
-        var adminState = new FluxDebugState(state);
-        builder.AddCarltonFlux(adminState, false);
+        var debugState = new FluxDebugState(state);
+        RegisterIndexDbStorage(services);
+
+        services.AddSingleton<ILogsDataAccess, LogsDataAccess>();
+
+        services.AddCarltonFlux(debugState);
+        services.AddSingleton<IIndexDbService<IndexedLogMessages>>(_ => new IndexDbService<IndexedLogMessages>(_.GetService<IBlazorDbFactory>(), CarltonFlux, Logs));
+    }
+
+    private static void RegisterIndexDbStorage(IServiceCollection services)
+    {
+        services.AddBlazorDB(options =>
+        {
+            options.Name = "CarltonFlux";
+            options.Version = 1;
+            options.StoreSchemas =
+            [
+                new()
+                {
+                    Name = "Logs",
+                    PrimaryKey = "key",
+                    Indexes = ["indexDate"]
+                },
+                new()
+                {
+                    Name = "AppState",
+                    PrimaryKey = "id",
+                    PrimaryKeyAuto = true
+                }
+            ];
+        });
     }
 }
 
