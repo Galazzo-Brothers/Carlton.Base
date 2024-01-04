@@ -1,34 +1,73 @@
 ﻿using Microsoft.JSInterop;
+using System.Threading;
 
 namespace Carlton.Core.Components.Layouts.State.Viewport;
 
-public class ViewportState(IJSRuntime js) : IViewportState, IAsyncDisposable
+public class ViewportState : IViewportState, IAsyncDisposable
 {
-    public ViewportModel CurrentViewport { get; private set; }
-    private readonly IJSRuntime _js = js;
+    const string ModulePath = $"./_content/{Constants.ProjectName}/scripts/viewport.js";
+    public event EventHandler<ViewportChangedEventArgs> ViewportChanged;
+    
+    private readonly IJSRuntime _js;
+    private readonly SemaphoreSlim _semaphore = new(1);
     private IJSObjectReference _module;
+    private bool IsInitalized = false;
+    private ViewportModel currentViewport;
 
-    private const string ModulePath = $"./_content/{Constants.ProjectName}/scripts/viewport.js";
+    private readonly Task initTask;
+
+    public ViewportState(IJSRuntime js)
+    {
+        _js = js;
+        initTask = Initialize();
+    }
 
     public async Task<ViewportModel> GetCurrentViewport()
     {
-        var module = await GetModule();
-        return await module.InvokeAsync<ViewportModel>("viewport.getViewport");
+        await initTask.ConfigureAwait(false);
+        return currentViewport;
     }
 
-    public async Task RegisterViewportChangedHandler<T>(DotNetObjectReference<T> dotnetObjectReference, string callbackName)
-        where T : class
+    private async Task Initialize()
     {
-        var module = await GetModule();
-        await module.InvokeAsync<ViewportModel>("viewport.registerViewportChangedHandler", dotnetObjectReference, callbackName);
-    }
+        try
+        {
+            await _semaphore.WaitAsync();
 
-    private async Task<IJSObjectReference> GetModule()
-        => _module ??= await _js.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            if (IsInitalized == true)
+                return;
+
+            //Set module
+            _module = await _js.InvokeAsync<IJSObjectReference>("import", ModulePath);
+
+            //Get current viewport
+            currentViewport = await _module.InvokeAsync<ViewportModel>("viewport.getViewport");
+
+            //Register Callback
+            await _module.InvokeAsync<ViewportModel>("viewport.registerViewportChangedHandler", DotNetObjectReference.Create(this), nameof(ViewportUpdated));
+
+            IsInitalized = true;
+        }
+        finally 
+        {
+            _semaphore.Release();
+        }
+    }
 
     public async ValueTask DisposeAsync()
     {
-        var module = await GetModule();
-        await module.InvokeAsync<ViewportModel>("viewport.removeViewportChangedHandlers", DotNetObjectReference.Create(this));
+        await _module.InvokeAsync<ViewportModel>("viewport.removeViewportChangedHandlers", DotNetObjectReference.Create(this));
+    }
+
+    [JSInvokable("ViewportUpdated")]
+    public async Task ViewportUpdated(ViewportModel updatedViewport)
+    {
+        await initTask.ConfigureAwait(false);
+
+        var viewportChanged = currentViewport.IsMoible != updatedViewport.IsMoible;
+        currentViewport = updatedViewport;
+
+        if (viewportChanged)
+            ViewportChanged?.Invoke(this, new ViewportChangedEventArgs(currentViewport));
     }
 }
