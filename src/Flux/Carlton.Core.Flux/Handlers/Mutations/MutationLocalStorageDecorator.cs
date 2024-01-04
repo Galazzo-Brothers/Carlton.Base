@@ -23,7 +23,7 @@ public class MutationLocalStorageDecorator<TState>(
             _logger.MutationLocalStorageStarted(commandType);
 
             //Save to local storage
-            await _browserStorage.SaveState(_fluxState.State);
+            await _browserStorage.SaveState((IFluxState<TState>)this);
 
             //Continue with dispatch and update the state store
             await _decorated.Dispatch(sender, command, cancellationToken);

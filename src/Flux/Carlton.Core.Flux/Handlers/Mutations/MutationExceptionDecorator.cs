@@ -25,6 +25,13 @@ public class MutationExceptionDecorator<TState>(
                 _logger.MutationCompleted(commandType);
             }
         }
+        catch(MutationCommandFluxException<TState, TCommand> ex) 
+            when (ex.EventID == LogEvents.Mutation_LocalStorage_JSON_Error ||
+                 ex.EventID == LogEvents.Mutation_LocalStorage_Unhandled_Error)
+        {
+            //Exception is logged
+            //Swallow here so component will still render
+        }
         catch (MutationCommandFluxException<TState, TCommand>)
         {
             //Exception was already caught, logged and wrapped by other middleware decorators
