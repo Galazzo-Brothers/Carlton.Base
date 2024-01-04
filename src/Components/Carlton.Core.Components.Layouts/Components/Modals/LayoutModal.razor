@@ -1,8 +1,10 @@
 ﻿@using Carlton.Core.Components.Modals
 @namespace Carlton.Core.Components.Layouts.Modals
 
-
-<DynamicComponent Type="ModalType" Parameters="Parameters" />
+@if (ModalType != null)
+{
+    <DynamicComponent Type="ModalType" Parameters="Parameters" />
+}
 
 @code {
     [Parameter]
