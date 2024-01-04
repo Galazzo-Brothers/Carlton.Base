@@ -44,6 +44,8 @@
     --info-notification-background-color: #1e88e5;
     --warning-notification-background-color: #f0a810;
     --error-notification-background-color: #e46a76;
+    /*Tables*/
+    --table-row-selected-background-color: #c7e0f4;
 }
 
 
@@ -92,6 +94,8 @@
     --info-notification-background-color: #1e88e5;
     --warning-notification-background-color: #f0a810;
     --error-notification-background-color: #e46a76;
+    /*Tables*/
+    --table-row-selected-background-color: #21c1d6;
 }
 
 
