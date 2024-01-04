@@ -10,7 +10,7 @@
 
 @code {
     [Parameter]
-    public Object Obj { get; set; }
+    public object Obj { get; set; } = new object();
 
     [Parameter]
     public bool IsReadOnly { get; set; }
@@ -24,7 +24,7 @@
     protected override void OnParametersSet()
     {
         IsValid = true;
-        JsonObj = JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
+        JsonObj = Obj == null ? string.Empty : JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
         base.OnParametersSet();
     }
 
