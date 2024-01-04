@@ -35,10 +35,9 @@ public class MemoryLogger : ILogger
         var message = new LogMessage
         {
             LogLevel = logLevel,
-            EventId = eventId.Id,
-            EventName = eventId.Name,
+            EventId = eventId,
             Message = formatter(state, exception),
-            LoggedException = new LoggedException(exception),
+            Exception = exception,
             Timestamp = DateTime.Now,
             Scopes = GetCurrentScopes()
         };
