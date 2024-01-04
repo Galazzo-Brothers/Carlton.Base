@@ -3,6 +3,6 @@
 public interface ILogsDataAccess
 {
     public Task CommitLogs();
-    public Task<IEnumerable<IndexedLogMessages>> GetLogs(DateTime dateTime);
+    public Task<IEnumerable<IndexedLogEntry>> GetLogs(DateTime dateTime);
     public Task ClearLogs();
 }

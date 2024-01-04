@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Core.Flux.Debug.Models.ViewModels;
 
-public record TraceLogViewerViewModel(IEnumerable<LogMessage> LogMessages);
+public record TraceLogViewerViewModel(IEnumerable<LogEntry> LogEntries);

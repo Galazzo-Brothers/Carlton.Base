@@ -6,7 +6,7 @@ public class ClearLocalStorageMutation : FluxStateMutationBase<FluxDebugState, C
 
     public override FluxDebugState Mutate(FluxDebugState originalState, ClearLocalStorageCommand command)
     {
-        return originalState with { LogMessages = new List<LogMessage>() };
+        return originalState with { LogEntries = new List<LogEntry>() };
     }
 }
 
