@@ -4,7 +4,6 @@ namespace Carlton.Core.Components.Layouts.State.Viewport;
 
 public interface IViewportState
 {
+    public event EventHandler<ViewportChangedEventArgs> ViewportChanged;
     public Task<ViewportModel> GetCurrentViewport();
-    public Task RegisterViewportChangedHandler<T>(DotNetObjectReference<T> dotnetObjectReference, string callbackName)
-        where T : class;
 }

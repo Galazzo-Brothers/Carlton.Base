@@ -33,7 +33,7 @@ function getViewport() {
 
 function handleResize(dotnetHelper, dotnetCallbackMethod) {
 	let result = getViewport();
-	dotnetHelper.invokeMethod(dotnetCallbackMethod, result);
+	dotnetHelper.invokeMethodAsync(dotnetCallbackMethod, result);
 }
 
 
