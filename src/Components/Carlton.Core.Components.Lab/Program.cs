@@ -20,7 +20,7 @@ public static class Program
         builder.Services.AddScoped(sp => http);
 
         builder.Services.AddCarltonLayout();
-        builder.AddCarltonTestLab(builder =>
+        builder.Services.AddCarltonTestLab(builder =>
         {
             //Base Components
             builder.AddParameterObjComponent<Card>(CardTestStates.DefaultState)
