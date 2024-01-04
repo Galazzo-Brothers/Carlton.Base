@@ -10,6 +10,7 @@ public class FluxState<TState> : IMutableFluxState<TState>
 
     public event Func<string, Task> StateChanged;
     public IReadOnlyList<string> RecordedEventStore { get => _recordedMutations.Select(_ => _.StateEvent).ToList().AsReadOnly(); }
+    public TState InitialState { get; init; }
     public TState State { get; private set; }
     private TState RollbackState { get; set; }
 
