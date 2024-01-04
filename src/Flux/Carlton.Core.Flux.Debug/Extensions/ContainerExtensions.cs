@@ -18,7 +18,7 @@ public static class ContainerExtensions
         services.AddSingleton<ILogsDataAccess, LogsDataAccess>();
 
         services.AddCarltonFlux(debugState);
-        services.AddSingleton<IIndexDbService<IndexedLogMessages>>(_ => new IndexDbService<IndexedLogMessages>(_.GetService<IBlazorDbFactory>(), CarltonFlux, Logs));
+        services.AddSingleton<IIndexDbService<IndexedLogEntry>>(_ => new IndexDbService<IndexedLogEntry>(_.GetService<IBlazorDbFactory>(), CarltonFlux, Logs));
     }
 
     private static void RegisterIndexDbStorage(IServiceCollection services)

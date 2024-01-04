@@ -13,7 +13,7 @@
 @inject IFluxState<FluxDebugState> FluxDebugState
 @inject IMapper Mapper
 
-<DashboardDevPanelLayout ShowPanel="false">
+<DashboardDevPanelLayout ShowPanel="true">
     <NavContent>
         <FluxDebugNavMenu />
     </NavContent>
@@ -34,6 +34,7 @@
         }
     </Body>
     <PanelContent>
+        <FluxDebugTabs />
     </PanelContent>
 </DashboardDevPanelLayout>
 
@@ -53,7 +54,7 @@
         var logs = await LogsDataAccess.GetLogs(DateTime.Now.Date);
      
         //flatten logs
-        var flattenedLogs = logs.SelectMany(_ => _.LogMessages);
+        var flattenedLogs = logs.SelectMany(_ => _.LogEntries);
 
         //Hydrate a FluxDebug state object
         var newState = new FluxDebugState(new object(), flattenedLogs);

@@ -1,0 +1,39 @@
+﻿@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Utilities.Extensions
+@using System.Text
+@using System.Web
+
+<div class="log-details">
+    <Console Text="@ScopeText()" IsReadOnly="true" />
+</div>
+
+
+@code {
+    [Parameter]
+    public LogEntry LogEntry { get; set; }
+
+    private string ScopeText()
+    {
+        if (LogEntry == null)
+            return string.Empty;
+
+        if (string.IsNullOrEmpty(LogEntry.Scopes))
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        var scopeArray = LogEntry.Scopes.Split(" => ");
+        var nextIndentation = "\t";
+
+        foreach(var scope in scopeArray)
+        {
+            sb.Append(nextIndentation)
+              .Append(" => ")
+              .Append(scope)
+              .AppendLine();
+
+            nextIndentation += "\t";
+        }
+
+        return sb.ToString();
+    }
+}

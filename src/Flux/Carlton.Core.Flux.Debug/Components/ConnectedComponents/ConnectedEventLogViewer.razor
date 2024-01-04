@@ -1,0 +1,7 @@
+﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+@namespace Carlton.Core.Flux.Debug.Components
+@attribute [ObserveStateEvents("LocalStorageCleared")]
+@inherits BaseConnectedComponent<EventLogViewerViewModel>
+
+<EventLogViewer LogEntries="@ViewModel.LogEntries.ToList()" SelectedLogEntryChanged="args => base.OnComponentEvent.InvokeAsync(new ChangeSelectedLogEntryCommand(args))" />
+

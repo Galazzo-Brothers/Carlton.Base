@@ -2,16 +2,27 @@
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 
 <div class="log-table">
-    <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
+    <Table Headings="Headings" Items="LogEntries" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
         <RowTemplate Context="item">
-            <LogTableRow LogMessage="item" />
+            <EventLogTableRow LogEntry="item" LogEntrySelected="OnLogEntrySelected" IsSelected="item==SelectedLogEntry" />
         </RowTemplate>
     </Table>
 </div>
 
 @code {
     [Parameter]
-    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    public IEnumerable<LogEntry> LogEntries { get; set; } = new List<LogEntry>();
+
+    [Parameter]
+    public EventCallback<LogEntry> LogEntrySelected { get; set; }
+
+    private LogEntry SelectedLogEntry { get; set; }
+
+    private void OnLogEntrySelected(LogEntry selectedLogEntry)
+    {
+        SelectedLogEntry = selectedLogEntry;
+        LogEntrySelected.InvokeAsync(selectedLogEntry);
+    }
 
     private IEnumerable<TableHeadingItem> Headings
     {

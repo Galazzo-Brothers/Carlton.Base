@@ -2,18 +2,18 @@
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
 
 <div class="log-table">
-    <Table Headings="Headings" Items="GroupedMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" SortableHeadersEnabled="false">
+    <Table Headings="Headings" Items="GroupedEntries" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" SortableHeadersEnabled="false">
         <RowTemplate Context="group">
-            <TraceLogTableExpandableRow GroupedLogs="group" />
+            <TraceLogTableExpandableRow LogEntryGroup="group" />
         </RowTemplate>
     </Table>
 </div>
 
 @code {
     [Parameter]
-    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    public IEnumerable<LogEntry> LogEntries { get; set; } = new List<LogEntry>();
 
-    private IEnumerable<GroupedLogMessage> GroupedMessages { get; set; } = new List<GroupedLogMessage>();
+    private IEnumerable<LogEntryGroup> GroupedEntries { get; set; } = new List<LogEntryGroup>();
 
     protected override void OnParametersSet()
     {
@@ -40,8 +40,8 @@
 
     private void InitGroupedMessages()
     {
-        GroupedMessages =
-            LogMessages
+        GroupedEntries =
+            LogEntries
                        .GroupBy(_ => _.Scopes.Split("=>")?.Last()?.Trim())
                        .Where(_ => _.Count() > 1) //Ignore orphaned messages
                        .Select(group =>
@@ -49,12 +49,12 @@
                                 var orderedMessages = group.ToList();
                                 orderedMessages.RemoveAt(0);
                                 orderedMessages.RemoveAt(orderedMessages.Count - 1);
-                                var orderedChildren = new List<LogMessage>(orderedMessages);
-                                return new GroupedLogMessage
+                                var orderedChildren = new List<LogEntry>(orderedMessages);
+                                return new LogEntryGroup
                                     {
-                                        StartingMessage = group.First(),
-                                        EndingMessage = group.Last(),
-                                        ChildMessages = orderedChildren
+                                        StartingEntry = group.First(),
+                                        EndingEntry = group.Last(),
+                                        ChildEntries = orderedChildren
                                     };
                             }).ToList();
     }

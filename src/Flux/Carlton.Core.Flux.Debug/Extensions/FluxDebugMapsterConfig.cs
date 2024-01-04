@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Carlton.Core.Flux.Debug.Models.Common;
+using Mapster;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
@@ -11,19 +12,25 @@ public class FluxDebugMapsterConfig : IRegister
         config.RequireDestinationMemberSource = true;
 
         config.NewConfig<FluxDebugState, FluxDebugState>()
-            .ConstructUsing(_ => new FluxDebugState(_.State, _.LogMessages));
+            .ConstructUsing(_ => new FluxDebugState(_.State, _.LogEntries));
 
-        config.NewConfig<FluxDebugState, LogViewerViewModel>()
-              .Map(dest => dest.LogMessages, src => src.LogMessages);
+        config.NewConfig<FluxDebugState, EventLogViewerViewModel>()
+              .Map(dest => dest.LogEntries, src => src.LogEntries);
 
         config.NewConfig<FluxDebugState, TraceLogViewerViewModel>()
-            .Map(dest => dest.LogMessages, src => src.LogMessages);
+            .Map(dest => dest.LogEntries, src => src.LogEntries);
 
-        config.NewConfig<LogMessage, LogMessage>();
+        config.NewConfig<FluxDebugState, EventLogDetailsViewModel>()
+            .Map(dest => dest.SelectedLogEntry, src => src.SelectedLogEntry);
+
+        config.NewConfig<FluxDebugState, EventLogScopesViewModel>()
+            .Map(dest => dest.SelectedLogEntry, src => src.SelectedLogEntry);
+
+        config.NewConfig<LogEntry, LogEntry>();
 
         config.NewConfig<LogLevel, LogLevel>();
 
-        config.NewConfig<LoggedException, LoggedException>();
+        config.NewConfig<ExceptionEntry, ExceptionEntry>();
 
         config.Compile();
     }
