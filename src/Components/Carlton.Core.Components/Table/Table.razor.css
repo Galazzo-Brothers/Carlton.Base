@@ -1,44 +1,50 @@
 ﻿
 .table-container {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 0 auto;
-    background-color: var(--card-background-color);
-    border-radius: 4px;
-    border-bottom: 1px solid #DADADA;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
-    max-height: 500px;
+	display: flex;
+	flex-flow: column nowrap;
+	margin: 0 auto;
+	background-color: var(--card-background-color);
+	border-radius: 4px;
+	border-bottom: 1px solid #DADADA;
+	box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
+	max-height: 500px;
 }
 
-    .table-container.zebra ::deep.table-row:nth-child(even) {
-        background-color: var(--card-secondary-background-color);
-    }
+	.table-container.zebra ::deep.table-row:nth-child(even) {
+		background-color: var(--card-secondary-background-color);
+	}
+
+	.table-container.zebra ::deep.table-row.selected:nth-child(even) {
+		background-color: var(--table-row-selected-background-color);
+	}
 
 .body {
-    overflow-y: auto;
-    max-height: calc(100% - 30px); 
+	overflow-y: auto;
+	max-height: calc(100% - 30px);
 }
 
 ::deep .table-row {
-    display: flex;
-    flex-flow: row nowrap;
-    border-bottom: 1px solid #dadada;
+	display: flex;
+	flex-flow: row nowrap;
+	border-bottom: 1px solid #dadada;
 }
+
+	::deep .table-row.selected {
+		background-color: var(--table-row-selected-background-color);
+	}
+
+	::deep .table-row:hover:not(.selected) {
+		cursor: pointer;
+		background-color: var(--card-hover-background-color);
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
+	}
 
 ::deep .table-cell {
-    display: flex;
-    flex: 1;
-    font-size: 14px;
-    padding: 8px 5px;
-    align-items: center;
-    color: var(--primary-text-color);
-    transition: all 0.15s ease-in-out;
+	display: flex;
+	flex: 1;
+	font-size: 14px;
+	padding: 8px 5px;
+	align-items: center;
+	color: var(--primary-text-color);
+	transition: all 0.15s ease-in-out;
 }
-
-    ::deep .table-cell:hover {
-        cursor: pointer;
-        background-color: var(--card-hover-background-color);
-        box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
-    }
-
-
