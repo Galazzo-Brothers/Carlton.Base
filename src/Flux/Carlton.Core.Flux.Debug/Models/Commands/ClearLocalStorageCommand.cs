@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Core.Flux.Debug.Models.Commands;
 
-public record ClearLocalStorageCommand() : MutationCommand;
+public record ClearLocalStorageCommand();

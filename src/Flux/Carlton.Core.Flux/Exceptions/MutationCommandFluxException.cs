@@ -1,73 +1,72 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-namespace Carlton.Core.Flux.Exceptions;
+﻿namespace Carlton.Core.Flux.Exceptions;
 
 
 public class MutationCommandFluxException<TState, TCommand> : FluxException
 {
-    public MutationCommand Command { get; init; }
+    public MutationCommandContext<TCommand> Context { get; init; }
 
-    public MutationCommandFluxException(MutationCommand command, Exception innerException) 
-        : this(LogEvents.Mutation_Unhandled_Error, LogEvents.Mutation_Unhandled_ErrorMsg, command, innerException)
+    public MutationCommandFluxException(MutationCommandContext<TCommand> command, Exception innerException) 
+        : this(LogEvents.Mutation_Error, LogEvents.Mutation_Unhandled_ErrorMsg, command, innerException)
     {
     }
 
-    private MutationCommandFluxException(int eventID, string message, MutationCommand command, Exception innerException)
+    private MutationCommandFluxException(int eventID, string message, MutationCommandContext<TCommand> context, Exception innerException)
         : base(eventID, message, innerException)
     {
-        Command = command;
+        Context = context;
     }
 
-    public static MutationCommandFluxException<TState, TCommand> ValidationError(MutationCommand command, ValidationException innerException)
+    public static MutationCommandFluxException<TState, TCommand> ValidationError(MutationCommandContext<TCommand> context, ValidationException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_Validation_Error, LogEvents.Mutation_Validation_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_Validation_Error, LogEvents.Mutation_Validation_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpJsonError(MutationCommand command, JsonException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpJsonError(MutationCommandContext<TCommand> context, JsonException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_JSON_Error, LogEvents.Mutation_HTTP_JSON_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HttpInterception_Response_JSON_Error, LogEvents.Mutation_HTTP_JSON_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpJsonError(MutationCommand command, NotSupportedException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpJsonError(MutationCommandContext<TCommand> context, NotSupportedException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_JSON_Error, LogEvents.Mutation_HTTP_JSON_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HttpInterception_Response_JSON_Error, LogEvents.Mutation_HTTP_JSON_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpError(MutationCommand command, HttpRequestException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpError(MutationCommandContext<TCommand> context, HttpRequestException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_Error, LogEvents.Mutation_HTTP_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HttpInterception_Request_Error, LogEvents.Mutation_HTTP_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpUrlError(MutationCommand command, InvalidOperationException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpUrlError(MutationCommandContext<TCommand> context, InvalidOperationException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_URL_Error, LogEvents.Mutation_HTTP_URL_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HttpInterception_UrlConstruction_Error, LogEvents.Mutation_HTTP_URL_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> HttpResponseUpdateError(MutationCommand command, InvalidOperationException innerException)
+    public static MutationCommandFluxException<TState, TCommand> HttpResponseUpdateError(MutationCommandContext<TCommand> context, InvalidOperationException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HTTP_Response_Update_Error, LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_HttpInterception_Response_Update_Error, LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> LocalStorageJsonError(MutationCommand command, JsonException innerException)
+    public static MutationCommandFluxException<TState, TCommand> LocalStorageJsonError(MutationCommandContext<TCommand> context, JsonException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_LocalStorage_JSON_Error, LogEvents.Mutation_LocalStorage_JSON_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_SaveLocalStorage_JSON_Error, LogEvents.Mutation_LocalStorage_JSON_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> LocalStorageJsonError(MutationCommand command, NotSupportedException innerException)
+    public static MutationCommandFluxException<TState, TCommand> LocalStorageJsonError(MutationCommandContext<TCommand> context, NotSupportedException innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_LocalStorage_JSON_Error, LogEvents.Mutation_LocalStorage_JSON_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_SaveLocalStorage_JSON_Error, LogEvents.Mutation_LocalStorage_JSON_ErrorMsg, context, innerException);
     }
 
-    public static MutationCommandFluxException<TState, TCommand> LocalStorageError(MutationCommand command, Exception innerException)
+    public static MutationCommandFluxException<TState, TCommand> LocalStorageError(MutationCommandContext<TCommand> context, Exception innerException)
     {
-        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_LocalStorage_Unhandled_Error, LogEvents.Mutation_LocalStorage_ErrorMsg, command, innerException);
+        return new MutationCommandFluxException<TState, TCommand>(LogEvents.Mutation_SaveLocalStorage_Error, LogEvents.Mutation_LocalStorage_ErrorMsg, context, innerException);
     }
 
     public override string ToString()
     {
         return $"{Message}" +
             $"{Environment.NewLine}" +
-            $"CommandID: {Command.CommandID}" +
-            $"Parameters: {JsonSerializer.Serialize(Command)}" +
+            $"CommandID: {Context.RequestID}" +
+            $"Parameters: {JsonSerializer.Serialize(Context)}" +
             $"{base.ToString()}";
     }
 }

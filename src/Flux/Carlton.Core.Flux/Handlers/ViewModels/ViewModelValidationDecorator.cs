@@ -1,6 +1,4 @@
 ﻿using Carlton.Core.Flux.Exceptions;
-using Carlton.Core.Flux.Logging;
-
 namespace Carlton.Core.Flux.Handlers.ViewModels;
 
 public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TState>
@@ -12,21 +10,22 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
     public ViewModelValidationDecorator(IViewModelQueryDispatcher<TState> decorated, IServiceProvider provider, ILogger<ViewModelValidationDecorator<TState>> logger)
         => (_decorated, _provider, _logger) = (decorated, provider, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
         try
         {
             var validator = _provider.GetService<IValidator<TViewModel>>();
-            var vm = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
-            _logger.ViewModelValidationStarted(typeof(TViewModel).GetDisplayName());
+            var vm = await _decorated.Dispatch(sender, context, cancellationToken);
             validator.ValidateAndThrow(vm);
-            _logger.ViewModelValidationCompleted(typeof(TViewModel).GetDisplayName());
+            context.MarkAsValidated();
+            _logger.ViewModelValidationCompleted(context.ViewModelType);
             return vm;
         }
         catch (ValidationException ex)
         {
-            _logger.ViewModelValidationError(ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.ValidationError(query, ex);
+            context.MarkAsErrored();
+            _logger.ViewModelValidationError(ex, context.ViewModelType);
+            throw ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex);
         }
     }
 }

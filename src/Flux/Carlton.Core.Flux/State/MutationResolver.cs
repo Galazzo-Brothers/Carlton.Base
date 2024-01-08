@@ -1,4 +1,5 @@
-﻿namespace Carlton.Core.Flux.State;
+﻿
+namespace Carlton.Core.Flux.State;
 
 
 public class MutationResolver<TState>(IServiceProvider serviceProvider) : IMutationResolver<TState>
@@ -6,8 +7,13 @@ public class MutationResolver<TState>(IServiceProvider serviceProvider) : IMutat
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     public IFluxStateMutation<TState, TCommand> Resolve<TCommand>()
-        where TCommand : MutationCommand
     {
         return _serviceProvider.GetService<IFluxStateMutation<TState, TCommand>>();
+    }
+
+    public IFluxStateMutation<TState> Resolve(Type commandType)
+    {
+        var type = typeof(IFluxStateMutation<,>).MakeGenericType(typeof(TState), commandType);
+        return (IFluxStateMutation<TState>) _serviceProvider.GetService(type);
     }
 }

@@ -2,5 +2,5 @@
 
 public interface IViewModelQueryHandler<TState> 
 {
-    public Task<TViewModel> Handle<TViewModel>(ViewModelQuery query, CancellationToken cancellationToken);
+    public Task<TViewModel> Handle<TViewModel>(ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken);
 }

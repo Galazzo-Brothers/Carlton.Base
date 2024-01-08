@@ -3,6 +3,6 @@
 
 public interface IMutationResolver<TState>
 {
-    public IFluxStateMutation<TState, TCommand> Resolve<TCommand>()
-        where TCommand: MutationCommand;
+    public IFluxStateMutation<TState, TCommand> Resolve<TCommand>();
+    public IFluxStateMutation<TState> Resolve(Type commandType);
 }

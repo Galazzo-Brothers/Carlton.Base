@@ -16,9 +16,9 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
         HttpClient client,
         IMutableFluxState<TState> fluxState,
         ILogger<ViewModelHttpDecorator<TState>> logger) : base(client, fluxState)
-        => (_decorated, _logger) = (decorated, logger);
+            => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
         try
         {
@@ -26,13 +26,9 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
             var attributes = sender.GetType().GetCustomAttributes();
             var httpRefreshAttribute = attributes.OfType<ViewModelHttpRefreshAttribute>().FirstOrDefault();
             var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
-            var vmType = typeof(TViewModel).GetDisplayName();
 
             if (requiresRefresh)
             {
-                //Log HttpRefresh Process
-                _logger.ViewModelHttpRefreshStarted(vmType);
-
                 //Construct Http Refresh URL
                 var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
                 var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
@@ -41,42 +37,47 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
                 var viewModel = await _client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
 
                 //Update the StateStore
-                var command = new ViewModelRemoteRefreshCommand(viewModel);
+                var command = new ViewModelRemoteRefreshCommand<TViewModel>(viewModel);
                 await _fluxState.MutateState(command);
 
                 //Logging and Auditing 
-                _logger.ViewModelHttpRefreshCompleted(vmType);
+                context.MarkAsHttpCallMade(serverUrl, viewModel);
+                _logger.ViewModelHttpRefreshCompleted(context.ViewModelType);
             }
             else
             {
-                _logger.ViewModelHttpRefreshSkipped(vmType);
+                _logger.ViewModelHttpRefreshSkipped(context.ViewModelType);
             }
 
-            return await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
+            return await _decorated.Dispatch(sender, context, cancellationToken);
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
             //URL Construction Errors
-            _logger.ViewModelHttpUrlError(ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(query, ex);
+            context.MarkAsErrored();
+            _logger.ViewModelHttpUrlError(ex, context.ViewModelType);
+            throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex);
         }
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            _logger.ViewModelJsonError(ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.JsonError(query, ex);
+            context.MarkAsErrored();
+            _logger.ViewModelHttpResponseJsonError(ex, context.ViewModelType);
+            throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            _logger.ViewModelJsonError(ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.JsonError(query, ex);
+            context.MarkAsErrored();
+            _logger.ViewModelHttpResponseJsonError(ex, context.ViewModelType);
+            throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex);
         }
         catch (HttpRequestException ex)
         {
             //Http Exceptions
-            _logger.ViewModelHttpRefreshError(ex, typeof(TViewModel).GetDisplayName());
-            throw ViewModelFluxException<TState, TViewModel>.HttpError(query, ex);
+            context.MarkAsErrored();
+            _logger.ViewModelHttpRequestError(ex, context.ViewModelType);
+            throw ViewModelFluxException<TState, TViewModel>.HttpError(context, ex);
         }
     }
 }

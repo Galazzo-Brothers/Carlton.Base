@@ -45,13 +45,8 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var guid = Guid.NewGuid();
-        var initTraceGuid = $"Init_{ViewModelDisplayName}_{guid}";
-        using (Logger.BeginScope(initTraceGuid))
+        using (Logger.BeginScope(LogEvents.FluxComponentInitialization))
         {
-            //Log Init Start
-            Logger.DataWrapperOnInitializedStarted(typeof(TViewModel).GetDisplayName());
-
             //Set IsLoading to true
             IsLoading = true;
 
@@ -78,38 +73,25 @@
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
-        var query = new ViewModelQuery();
-        return await QueryDispatcher.Dispatch<TViewModel>(Component, query, CancellationToken.None);
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, new ViewModelQueryContext<TViewModel>(), CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
-        where TCommand : MutationCommand
     {
-        var guid = Guid.NewGuid();
-        var commandName = command.GetType().GetDisplayName();
-        var commandTraceGuid = $"Command_{commandName}_{guid}";
-        using (Logger.BeginScope(commandTraceGuid))
-        {
-            Logger.DataWrapperCommandDispatchStarted(WrappedComponentDisplayName, commandName);
-            await MutationDispatcher.Dispatch(Component, (dynamic)command, CancellationToken.None);
-            Logger.DataWrapperCommandDispatchCompleted(WrappedComponentDisplayName, commandName);
-        }
+        var request = new MutationCommandContext<TCommand>(command);
+        await MutationDispatcher.Dispatch(Component, (dynamic)request, CancellationToken.None);
+        Logger.DataWrapperCommandDispatchCompleted(WrappedComponentDisplayName, request.CommandTypeName);
     }
 
     private async Task OnStateChanged(string stateEvent)
     {
-        var guid = Guid.NewGuid();
-        var eventTraceGuid = $"Event_{stateEvent}_{guid}";
-        using (Logger.BeginScope(eventTraceGuid))
+        using (Logger.BeginScope(LogEvents.FluxComponentStateEvent, stateEvent))
         {
             var observableStateEventsString = string.Join(',', ObservableStateEvents);
             Logger.DataWrapperListeningEvents(WrappedComponentDisplayName, observableStateEventsString);
 
             if (ObservableStateEvents.Contains(stateEvent))
             {
-                //State required refresh
-                Logger.DataWrapperEventReceivedStarted(WrappedComponentDisplayName, stateEvent);
-
                 //Set loading true
                 IsLoading = true;
 
@@ -122,6 +104,7 @@
                 //StateHasChanged
                 StateHasChanged();
 
+                //Log the completion
                 Logger.DataWrapperEventReceivedCompleted(WrappedComponentDisplayName, stateEvent);
             }
             else
@@ -132,15 +115,15 @@
         }
     }
 
-    protected Dictionary<string, object> GetParameters()
+    protected IDictionary<string, object> GetParameters()
     {
-        var eventCallback = EventCallback.Factory.Create<MutationCommand>(this, (command) => OnComponentEvent(Component, command));
+        var eventCallback = EventCallback.Factory.Create(this, (command) => OnComponentEvent(Component, command));
         return new Dictionary<string, object>
             {
                 { "ViewModel", ViewModel },
                 { "GetViewModel", async () => await GetViewModel() },
                 { "OnComponentEvent", eventCallback }
-            };
+            }.AsReadOnly();
     }
 
     public void Dispose()

@@ -5,10 +5,9 @@ public class MutationCommandHandler<TState>(IMutableFluxState<TState> state) : I
 {
     private readonly IMutableFluxState<TState> _state = state;
 
-    public async Task Handle<TCommand>(TCommand command, CancellationToken cancellationToken)
-        where TCommand : MutationCommand
+    public async Task Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
-        await _state.MutateState(command);
+        await _state.MutateState(context.MutationCommand);
     }
 }
 

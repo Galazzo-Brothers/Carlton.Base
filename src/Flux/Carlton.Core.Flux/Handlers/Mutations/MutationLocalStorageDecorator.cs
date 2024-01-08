@@ -13,41 +13,36 @@ public class MutationLocalStorageDecorator<TState>(
     private readonly IBrowserStorageService<TState> _browserStorage = browserStorage;
     private readonly ILogger<MutationLocalStorageDecorator<TState>> _logger = logger;
 
-    public async Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
-        where TCommand : MutationCommand
+    public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         try
         {
-            //Start the LocalStorage Interception
-            var commandType = typeof(TCommand).GetDisplayName();
-            _logger.MutationLocalStorageStarted(commandType);
-
             //Save to local storage
             await _browserStorage.SaveState((IFluxState<TState>)this);
 
             //Continue with dispatch and update the state store
-            await _decorated.Dispatch(sender, command, cancellationToken);
+            await _decorated.Dispatch(sender, context, cancellationToken);
 
             //Complete the LocalStorage Interception
-            _logger.MutationLocalStorageStarted(commandType);
+            _logger.MutationSaveLocalStorageCompleted(context.CommandTypeName);
         }
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            _logger.MutationLocalStorageJsonError(ex, typeof(TCommand).GetDisplayName());
-            throw MutationCommandFluxException<TState, TCommand>.LocalStorageJsonError(command, ex);
+            _logger.MutationSaveLocalStorageJsonError(ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.LocalStorageJsonError(context, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            _logger.MutationLocalStorageJsonError(ex, typeof(TCommand).GetDisplayName());
-            throw MutationCommandFluxException<TState, TCommand>.LocalStorageJsonError(command, ex);
+            _logger.MutationSaveLocalStorageJsonError(ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.LocalStorageJsonError(context, ex);
         }
         catch(Exception ex)
         {
             //Error writing to local storage
-            _logger.MutationLocalStorageUnhandledError(ex, typeof(TCommand).GetDisplayName());
-            throw MutationCommandFluxException<TState, TCommand>.LocalStorageError(command, ex);
+            _logger.MutationCommandSaveLocalStorageError(ex, typeof(TCommand).GetDisplayName());
+            throw MutationCommandFluxException<TState, TCommand>.LocalStorageError(context, ex);
         }
     }
 }

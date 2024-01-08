@@ -10,35 +10,29 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
     public ViewModelExceptionDecorator(IViewModelQueryDispatcher<TState> decorated, ILogger<ViewModelExceptionDecorator<TState>> logger)
         => (_decorated, _logger) = (decorated, logger);
 
-    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQuery query, CancellationToken cancellationToken)
+    public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        var traceGuid = Guid.NewGuid();
-        var vmDisplayName = typeof(TViewModel).GetDisplayName();
-        var vmQueryTraceGuid = $"ViewModelQuery_{vmDisplayName}_{traceGuid}";
-
-        try
+        using (_logger.BeginScope(LogEvents.FluxAction))
+        using (_logger.BeginScope(LogEvents.ViewModelScope, context))
         {
-            TViewModel result;
-            using (_logger.BeginScope(vmQueryTraceGuid))
+            try
             {
-                _logger.ViewModelStarted(vmDisplayName);
-                result = await _decorated.Dispatch<TViewModel>(sender, query, cancellationToken);
-                _logger.ViewModelCompleted(vmDisplayName);
+                TViewModel result;
+                result = await _decorated.Dispatch(sender, context, cancellationToken);
+                _logger.ViewModelCompleted(context.ViewModelType);
+                context.MarkAsCompleted();
+                return result;
             }
-            return result;
-        }
-        catch (ViewModelFluxException<TState, TViewModel>)
-        {
-            //Exception was already caught, logged and wrapped by other middleware decorators
-            throw;
-        }
-        catch (Exception ex)
-        {
-            //Unhandled Exception
-            using (_logger.BeginScope(vmQueryTraceGuid))
+            catch (ViewModelFluxException<TState, TViewModel>)
             {
-                _logger.ViewModelUnhandledError(ex, vmDisplayName);
-                throw new ViewModelFluxException<TState, TViewModel>(query, ex);
+                //Exception was already caught, logged and wrapped by other middleware decorators
+                throw;
+            }
+            catch (Exception ex)
+            {
+                context.MarkAsErrored();
+                _logger.ViewModelUnhandledError(ex, context.ViewModelType);
+                throw new ViewModelFluxException<TState, TViewModel>(context, ex);
             }
         }
     }
