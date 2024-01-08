@@ -7,13 +7,11 @@ public interface IFluxStateMutation<TState>
 }
 
 public interface IFluxStateMutation<TState, in TCommand> : IFluxStateMutation<TState>
-    where TCommand : MutationCommand
 {
     public TState Mutate(TState state, TCommand command);
 }
 
 public abstract class FluxStateMutationBase<TState, TCommand> : IFluxStateMutation<TState, TCommand>
-    where TCommand : MutationCommand
 {
     public abstract string StateEvent { get; }
 

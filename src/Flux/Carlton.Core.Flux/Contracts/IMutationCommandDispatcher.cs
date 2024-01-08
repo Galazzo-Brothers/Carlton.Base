@@ -2,6 +2,5 @@
 
 public interface IMutationCommandDispatcher<TState>
 {
-    public Task Dispatch<TCommand>(object sender, TCommand command, CancellationToken cancellationToken)
-        where TCommand : MutationCommand;
+    public Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken);
 }

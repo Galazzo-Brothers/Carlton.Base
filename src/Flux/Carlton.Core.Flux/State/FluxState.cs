@@ -19,15 +19,12 @@ public class FluxState<TState> : IMutableFluxState<TState>
             (State, _mutationResolver, _mapper, _logger) = (state, mutationResolver, mapper, logger);
 
     public async Task MutateState<TCommand>(TCommand input)
-        where TCommand : MutationCommand
     {
         var displayName = typeof(TCommand).GetDisplayName();
         try
         {
-            _logger.MutationApplyStarted(displayName);
-
             //Find the correct mutations and save a rollback state
-            var mutation = _mutationResolver.Resolve<TCommand>();
+            var mutation = _mutationResolver.Resolve(input.GetType());
             _mapper.Map(State, RollbackState);
 
             //Run the non-destructive mutation to generate a new state from the old, 
@@ -40,7 +37,6 @@ public class FluxState<TState> : IMutableFluxState<TState>
 
             //Raise Event
             await InvokeStateChanged(mutation.StateEvent);
-
             _logger.MutationApplyCompleted(displayName);
         }
         catch(Exception ex)

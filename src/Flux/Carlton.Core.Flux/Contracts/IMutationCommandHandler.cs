@@ -2,8 +2,7 @@
 
 public interface IMutationCommandHandler<TState>
 {
-    public Task Handle<TCommand>(TCommand command, CancellationToken cancellationToken)
-            where TCommand : MutationCommand;
+    public Task Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken);
 }
 
 

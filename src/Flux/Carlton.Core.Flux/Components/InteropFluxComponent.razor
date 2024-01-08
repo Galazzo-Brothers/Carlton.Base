@@ -45,7 +45,6 @@
             try
             {
                 var vmType = typeof(TViewModel).GetDisplayName();
-                Logger.ViewModelJsInteropRefreshStarted(vmType);
                 await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(Import, JsModule);
                 var result = await module.InvokeAsync<TViewModel>(JsFunction, CancellationToken.None, JsParameters);
                 Logger.ViewModelJsInteropRefreshCompleted(vmType);
@@ -53,7 +52,7 @@
             }
             catch (JSException ex)
             {
-                Logger.ViewModelJsInteropRefreshError(ex, typeof(TViewModel).GetDisplayName());
+                Logger.ViewModelJsInteropRefreshErrored(ex, typeof(TViewModel).GetDisplayName());
                 throw ViewModelFluxException<TState, TViewModel>.JSInteropError(ex);
             }
         }

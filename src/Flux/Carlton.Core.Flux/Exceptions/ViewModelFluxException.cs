@@ -4,59 +4,59 @@ namespace Carlton.Core.Flux.Exceptions;
 
 public class ViewModelFluxException<TState, TViewModel> : FluxException
 {
-    public ViewModelQuery Query { get; init; }
+    public ViewModelQueryContext<TViewModel> Context { get; init; }
 
-    public ViewModelFluxException(ViewModelQuery query, Exception innerException)
+    public ViewModelFluxException(ViewModelQueryContext<TViewModel> query, Exception innerException)
        : this(LogEvents.ViewModel_Unhandled_Error, LogEvents.ViewModel_Unhandled_ErrorMsg, query, innerException)
     {
     }
 
-    private ViewModelFluxException(int eventID, string message, ViewModelQuery query, Exception innerException) : base(eventID, message, innerException)
+    private ViewModelFluxException(int eventID, string message, ViewModelQueryContext<TViewModel> context, Exception innerException) : base(eventID, message, innerException)
     {
-        Query = query;
+        Context = context;
         EventID = eventID;
     }
 
-    public static ViewModelFluxException<TState, TViewModel> ValidationError(ViewModelQuery query, ValidationException innerException)
+    public static ViewModelFluxException<TState, TViewModel> ValidationError(ViewModelQueryContext<TViewModel> context, ValidationException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Validation_Error, LogEvents.ViewModel_Validation_ErrorMsg, query, innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Validation_Error, LogEvents.ViewModel_Validation_ErrorMsg, context, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> MappingError(ViewModelQuery query, CompileException innerException)
+    public static ViewModelFluxException<TState, TViewModel> MappingError(ViewModelQueryContext<TViewModel> context, CompileException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Mapping_Error, LogEvents.ViewModel_Mapping_ErrorMsg, query, innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Mapping_Error, LogEvents.ViewModel_Mapping_ErrorMsg, context, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQuery query, JsonException innerException)
+    public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQueryContext<TViewModel> context, JsonException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JSON_Error, LogEvents.ViewModel_JSON_ErrorMsg, query, innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_Response_JSON_Error, LogEvents.ViewModel_JSON_ErrorMsg, context, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQuery query, NotSupportedException innerException)
+    public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQueryContext<TViewModel> context, NotSupportedException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JSON_Error, LogEvents.ViewModel_JSON_ErrorMsg, query, innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_Response_JSON_Error, LogEvents.ViewModel_JSON_ErrorMsg, context, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> HttpError(ViewModelQuery query, HttpRequestException innerException)
+    public static ViewModelFluxException<TState, TViewModel> HttpError(ViewModelQueryContext<TViewModel> context, HttpRequestException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_Error, LogEvents.ViewModel_HTTP_ErrorMsg, query, innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_Request_Error, LogEvents.ViewModel_HTTP_ErrorMsg, context, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> HttpUrlError(ViewModelQuery query, InvalidOperationException innerException)
+    public static ViewModelFluxException<TState, TViewModel> HttpUrlError(ViewModelQueryContext<TViewModel> context, InvalidOperationException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_URL_Error, LogEvents.ViewModel_HTTP_URL_ErrorMsg, query, innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_HTTP_Request_Error, LogEvents.ViewModel_HTTP_URL_ErrorMsg, context, innerException);
     }
 
     public static ViewModelFluxException<TState, TViewModel> JSInteropError(JSException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, new ViewModelQuery(), innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, new ViewModelQueryContext<TViewModel>(), innerException);
     }
 
     public override string ToString()
     {
         return $"{Message}" +
             $"{Environment.NewLine}" +
-            $"ViewModelQueryID: {Query.QueryTraceID}" +
+            $"ViewModelQueryID: {Context.RequestID}" +
             $"{base.ToString()}";
     }
 }
