@@ -1,12 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Exceptions;
 
-public class FluxException : Exception
+public class FluxException(int eventID, string message, Exception innerException) : Exception(message, innerException)
 {
-    public int EventID { get; init; }
-
-    public FluxException(int eventID, string message, Exception innerException)
-        :base(message, innerException)
-    {
-        EventID = eventID;
-    }
+    public int EventID { get; init; } = eventID;
 }

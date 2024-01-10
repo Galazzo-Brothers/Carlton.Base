@@ -17,6 +17,8 @@ public class BaseRequestContext
     public object HttpResponse { get; private set; }
 
     public bool ResourceValidated { get; private set; }
+    public bool? ValidationPassed { get; private set; } = null;
+    public IEnumerable<string> ValidationErrors { get; private set; }
 
     public BaseRequestContext()
         => RequestID = Guid.NewGuid();
@@ -32,6 +34,14 @@ public class BaseRequestContext
     public void MarkAsValidated()
     {
         ResourceValidated = true;
+        ValidationPassed = true;
+    }
+
+    public void MarkAsValidationFailed(IEnumerable<string> validationErrors)
+    {
+        ResourceValidated = true;
+        ValidationPassed = false;
+        ValidationErrors = validationErrors;
     }
 
     public void MarkAsCompleted()
