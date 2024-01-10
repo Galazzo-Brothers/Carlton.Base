@@ -4,10 +4,12 @@ public static class LogEvents
 {
     //Logging Scopes
     public const string FluxComponentInitialization = "FluxComponentInitialization";
-    public const string FluxComponentStateEvent = "FluxComponentStateEvent : {stateEvent}";
-    public const string FluxAction = "FluxAction";
-    public const string ViewModelScope = "ViewModelQuery : {query}";
-    public const string CommandScope = "Command : {command}";
+    public const string FluxComponentStateEvent = "FluxComponentStateEvent : {StateEvent}";
+    public const string FluxAction = "FluxAction: {@FluxAction}";
+    public const string MutationCommand = "MutationCommand";
+    public const string ViewModelQuery = "ViewModelQuery";
+    public const string ViewModelScope = "ViewModelQueryContext : {@ViewModelQueryContext}";
+    public const string CommandScope = "MutationCommandContext : {@MutationCommandContext}";
 
     //DataComponent Events
     public const int DataWrapper_OnInitialized_Started = 1000;

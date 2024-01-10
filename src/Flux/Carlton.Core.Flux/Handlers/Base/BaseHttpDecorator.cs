@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Logging;
 using System.Text;
 using System.Text.RegularExpressions;
 

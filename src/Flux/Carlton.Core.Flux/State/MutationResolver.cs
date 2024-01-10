@@ -1,5 +1,4 @@
-﻿
-namespace Carlton.Core.Flux.State;
+﻿namespace Carlton.Core.Flux.State;
 
 
 public class MutationResolver<TState>(IServiceProvider serviceProvider) : IMutationResolver<TState>

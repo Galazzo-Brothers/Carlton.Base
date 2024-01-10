@@ -80,7 +80,6 @@
     {
         var request = new MutationCommandContext<TCommand>(command);
         await MutationDispatcher.Dispatch(Component, (dynamic)request, CancellationToken.None);
-        Logger.DataWrapperCommandDispatchCompleted(WrappedComponentDisplayName, request.CommandTypeName);
     }
 
     private async Task OnStateChanged(string stateEvent)
@@ -105,7 +104,7 @@
                 StateHasChanged();
 
                 //Log the completion
-                Logger.DataWrapperEventReceivedCompleted(WrappedComponentDisplayName, stateEvent);
+               Logger.DataWrapperEventReceivedCompleted(WrappedComponentDisplayName, stateEvent);
             }
             else
             {

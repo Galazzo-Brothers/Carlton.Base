@@ -11,7 +11,7 @@ public class MutationExceptionDecorator<TState>(
 
     public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
-        using (_logger.BeginScope(LogEvents.FluxAction))
+        using (_logger.BeginScope(LogEvents.FluxAction, "MutationCommands"))
         using (_logger.BeginScope(LogEvents.CommandScope, context))
         {
             try

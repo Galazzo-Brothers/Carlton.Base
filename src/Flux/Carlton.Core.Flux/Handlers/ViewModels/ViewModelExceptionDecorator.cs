@@ -12,7 +12,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        using (_logger.BeginScope(LogEvents.FluxAction))
+        using (_logger.BeginScope(LogEvents.FluxAction, LogEvents.ViewModelQuery))
         using (_logger.BeginScope(LogEvents.ViewModelScope, context))
         {
             try
