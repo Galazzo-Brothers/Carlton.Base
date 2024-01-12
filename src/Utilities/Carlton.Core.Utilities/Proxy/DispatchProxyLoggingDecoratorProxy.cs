@@ -1,7 +1,7 @@
 ﻿namespace Carlton.Core.Utilities;
 
 public class DispatchProxyLoggingDecorator<TDecorated> : DispatchProxy
-//  where TDecorated : class
+  where TDecorated : class
 {
     private ILogger _logger;
 

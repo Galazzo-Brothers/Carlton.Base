@@ -29,7 +29,7 @@ public class MemoryLogger : ILogger
         Exception exception,
         Func<TState, Exception, string> formatter)
     {
-        if(!IsEnabled(logLevel))
+        if (!IsEnabled(logLevel))
             return;
 
         var message = new LogMessage
@@ -53,29 +53,46 @@ public class MemoryLogger : ILogger
 
     public void ClearLogMessages()
     {
-        while(logMessages.TryDequeue(out _))
+        while (logMessages.TryDequeue(out _))
         { }
     }
 
     public void ClearAllButMostRecent(int keepCount)
     {
-        while(logMessages.Count > keepCount)
+        while (logMessages.Count > keepCount)
             logMessages.TryDequeue(out _);
     }
 
-    private string GetCurrentScopes()
+    private IEnumerable<KeyValuePair<string, object>> GetCurrentScopes()
     {
-        return _currentScopes?.Value == null ? string.Empty : string.Join(" => ", _currentScopes?.Value);
+        var result = new List<KeyValuePair<string, object>>();
+
+        if (_currentScopes?.Value == null)
+            return result;
+
+        foreach (var scope in _currentScopes.Value.ToList())
+        {
+            var scopeArray = scope.ToString().Split(":");
+            var isNamedVariable = scopeArray.Length > 1;
+            var scopeName = scopeArray[0];
+            //case 1: the scope is a named parameter and we add the key value to the dictionary
+            //case 2: the scope is a singular string value and just add the name to the dictionary
+            var scopeValue = isNamedVariable ? scopeArray[1] : string.Empty;
+
+            result.Add(new KeyValuePair<string, object>(scopeName, scopeValue));
+        }
+
+        return result;
     }
 
     private void PopScope()
     {
-         _currentScopes.Value.TryPop(out _);
+        _currentScopes.Value.TryPop(out _);
     }
 }
 
 
-internal class LogScope : IDisposable
+public class LogScope : IDisposable
 {
     public object State { get; }
     private readonly Action _disposeAct;

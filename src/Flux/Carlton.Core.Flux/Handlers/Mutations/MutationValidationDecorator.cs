@@ -20,12 +20,10 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
             var validator = (IValidator)_provider.GetService(validatorType);
             validator.ValidateAndThrow(context.MutationCommand);
             context.MarkAsValidated();
-            _logger.MutationValidationCompleted(context.CommandTypeName);
             await _decorated.Dispatch(sender, context, cancellationToken);
         }
         catch (ValidationException ex)
         {
-            context.MarkAsErrored();
             _logger.MutationValidationError(ex, typeof(TCommand).GetDisplayName());
             throw MutationCommandFluxException<TState, TCommand>.ValidationError(context, ex);
         }

@@ -1,16 +1,16 @@
-﻿using Carlton.Core.Flux.Attributes;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
+using Carlton.Core.Flux.Attributes;
 
 namespace Carlton.Core.Flux.Handlers.Base;
 
 public abstract partial class BaseHttpDecorator<TState>
 {
     protected readonly HttpClient _client;
-    protected readonly IMutableFluxState<TState> _fluxState;
+    protected readonly TState _state;
 
-    protected BaseHttpDecorator(HttpClient client, IMutableFluxState<TState> fluxState)
-        => (_client, _fluxState) = (client, fluxState);
+    protected BaseHttpDecorator(HttpClient client, TState state)
+        => (_client, _state) = (client, state);
 
     protected static bool GetRefreshPolicy(HttpRefreshAttribute attribute)
     {
@@ -34,11 +34,11 @@ public abstract partial class BaseHttpDecorator<TState>
             var value = string.Empty;
             value = attribute.ParameterType switch
             {
-                DataEndpointParameterType.StateStoreParameter => _fluxState.State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_fluxState.State).ToString(),
+                DataEndpointParameterType.StateStoreParameter => _state.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_state).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
                 _ => throw new InvalidOperationException(LogEvents.InvalidRefreshUrlCreationEnumValueMsg)
             };
-            result = result.Replace("{" + attribute.Name + "}", value);
+            result = result.Replace($"{{{attribute.Name}}}", value);
         }
 
         VerifyUrlParameters(result);

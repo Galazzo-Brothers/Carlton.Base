@@ -12,16 +12,13 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        using (_logger.BeginScope(LogEvents.FluxAction, LogEvents.ViewModelQuery))
-        using (_logger.BeginScope(LogEvents.ViewModelScope, context))
+        var scopes = LogEvents.GetFluxComponentViewModelLoggingScopes(_logger, context);
+        using (scopes)
         {
             try
             {
-                TViewModel result;
-                result = await _decorated.Dispatch(sender, context, cancellationToken);
-                _logger.ViewModelCompleted(context.ViewModelType);
-                context.MarkAsCompleted();
-                return result;
+                var viewmodel = await _decorated.Dispatch(sender, context, cancellationToken);
+                return viewmodel;
             }
             catch (ViewModelFluxException<TState, TViewModel>)
             {
@@ -30,7 +27,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             }
             catch (Exception ex)
             {
-                context.MarkAsErrored();
+                context.MarkAsErrored(ex);
                 _logger.ViewModelUnhandledError(ex, context.ViewModelType);
                 throw new ViewModelFluxException<TState, TViewModel>(context, ex);
             }

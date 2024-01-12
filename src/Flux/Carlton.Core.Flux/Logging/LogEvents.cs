@@ -1,15 +1,19 @@
-﻿namespace Carlton.Core.Flux.Logging;
+﻿using Carlton.Core.Flux.State;
+using Carlton.Core.Utilities.Disposable;
+namespace Carlton.Core.Flux.Logging;
 
 public static class LogEvents
 {
     //Logging Scopes
-    public const string FluxComponentInitialization = "FluxComponentInitialization";
-    public const string FluxComponentStateEvent = "FluxComponentStateEvent : {StateEvent}";
+    public const string FluxComponentInitialization = "FluxComponentInitialization: {@FluxComponentInitialization}";
+    public const string IsFluxChildRequest = "IsFluxChildRequest : {@IsFluxChildRequest}";
+    public const string FluxParentRequestId = "FluxParentRequestId : {@FluxParentRequestId}";
+    public const string FluxStateEvent = "FluxStateEvent : {@FluxStateEvent}";
     public const string FluxAction = "FluxAction: {@FluxAction}";
+    public const string FluxRequestId = "FluxRequestId: {@FluxRequestId}";
     public const string MutationCommand = "MutationCommand";
     public const string ViewModelQuery = "ViewModelQuery";
-    public const string ViewModelScope = "ViewModelQueryContext : {@ViewModelQueryContext}";
-    public const string CommandScope = "MutationCommandContext : {@MutationCommandContext}";
+    public const string FluxRequestContext = "FluxRequestContext : {@FluxRequestContext}";
 
     //DataComponent Events
     public const int DataWrapper_OnInitialized_Started = 1000;
@@ -91,6 +95,58 @@ public static class LogEvents
     public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
     public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
     public const string ErrorUpdatingCommandFromServerResponseMsg = "An error occurred updating the command with the server response of type";
+
+
+    public static IDisposable GetFluxComponentInitalizationLoggingScopes(ILogger logger, BaseRequestContext context)
+    {
+        return new CompositeDisposable
+        (
+           logger.BeginScope(FluxAction, ViewModelQuery),
+           logger.BeginScope(FluxRequestId, context.RequestID),
+           logger.BeginScope(FluxRequestContext, context),
+           logger.BeginScope(FluxComponentInitialization, true)
+       );
+    }
+
+    public static IDisposable GetFluxComponentViewModelLoggingScopes(ILogger logger, BaseRequestContext context)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(FluxAction, ViewModelQuery),
+            logger.BeginScope(FluxRequestId, context.RequestID),
+            logger.BeginScope(FluxRequestContext, context)
+        );
+    }
+
+    public static IDisposable GetFluxComponentStateChangedLogginScopes(ILogger logger, FluxStateChangedEventArgs args)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(IsFluxChildRequest, true),
+            logger.BeginScope(FluxParentRequestId, args.Context.RequestID),
+            logger.BeginScope(FluxStateEvent, args.StateEvent)
+        );
+    }
+
+    public static IDisposable GetViewModelRequestLoggingSCopes(ILogger logger, BaseRequestContext context)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(FluxAction, ViewModelQuery),
+            logger.BeginScope(FluxRequestId, context.RequestID),
+            logger.BeginScope(FluxRequestContext, context)
+        );
+    }
+
+    public static IDisposable GetMutationCommandRequestLoggingScopes(ILogger logger, BaseRequestContext context)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(FluxAction, MutationCommand),
+            logger.BeginScope(FluxRequestId, context.RequestID),
+            logger.BeginScope(FluxRequestContext, context)
+        );
+    }
 }
 
 

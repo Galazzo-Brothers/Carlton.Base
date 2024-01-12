@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Lab.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts", "Components\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj", "{06BC8359-4A38-4A42-9A76-9AD3D83A1813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Core.BrowserStroage", "Flux\Carlton.Core.BrowserStroage\Carlton.Core.BrowserStroage.csproj", "{8CDF30FA-FC18-4E47-BE7B-28E3F65B312D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.BrowserStroage", "Flux\Carlton.Core.BrowserStroage\Carlton.Core.BrowserStroage.csproj", "{8CDF30FA-FC18-4E47-BE7B-28E3F65B312D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
