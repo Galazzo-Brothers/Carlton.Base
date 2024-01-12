@@ -18,12 +18,12 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
             var vm = await _decorated.Dispatch(sender, context, cancellationToken);
             validator.ValidateAndThrow(vm);
             context.MarkAsValidated();
-            _logger.ViewModelValidationCompleted(context.ViewModelType);
             return vm;
         }
         catch (ValidationException ex)
         {
-            context.MarkAsErrored();
+            context.MarkAsValidated();
+            context.MarkAsErrored(ex);
             _logger.ViewModelValidationError(ex, context.ViewModelType);
             throw ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex);
         }

@@ -11,18 +11,17 @@ public class MutationExceptionDecorator<TState>(
 
     public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
-        using (_logger.BeginScope(LogEvents.FluxAction, "MutationCommands"))
-        using (_logger.BeginScope(LogEvents.CommandScope, context))
+        var scopes = LogEvents.GetMutationCommandRequestLoggingScopes(_logger, context);
+        using (scopes)
         {
             try
             {
                 await _decorated.Dispatch(sender, context, cancellationToken);
-                context.MarkAsCompleted();
                 _logger.MutationCompleted(context.CommandTypeName);
             }
             catch (MutationCommandFluxException<TState, TCommand> ex)
                 when (ex.EventID == LogEvents.Mutation_SaveLocalStorage_JSON_Error ||
-                     ex.EventID == LogEvents.Mutation_SaveLocalStorage_Error)
+                      ex.EventID == LogEvents.Mutation_SaveLocalStorage_Error)
             {
                 //Exception is logged
                 //Swallow here so component will still render
@@ -35,7 +34,7 @@ public class MutationExceptionDecorator<TState>(
             catch (Exception ex)
             {
                 //Unhandled Exceptions
-                context.MarkAsErrored();
+                context.MarkAsErrored(ex);
                 _logger.MutationError(ex, context.CommandTypeName);
                 throw new MutationCommandFluxException<TState, TCommand>(context, ex);
             }

@@ -88,9 +88,9 @@ public static class ServiceCollectionExtensions
     private static void RegisterFluxState<TState>(IServiceCollection services)
         where TState : class
     {
-        services.AddSingleton<IMutableFluxState<TState>, FluxState<TState>>();
-        services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
-        services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
+        var observable = new FluxStateObservable<TState>();
+        services.AddSingleton<IFluxStateObserver<TState>>(observable);
+        services.AddSingleton<IFluxStateObservable<TState>>(observable);
         services.AddSingleton<MutationResolver<TState>>();
     }
 

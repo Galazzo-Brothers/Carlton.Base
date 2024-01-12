@@ -2,17 +2,17 @@
 
 public interface IBrowserStorageService<TState>
 {
-    public Task<IFluxState<TState>> LoadState();
-    public Task SaveState(IFluxState<TState> state);
+    public Task<TState> LoadState();
+    public Task SaveState(TState state);
 }
 
-public class DummyBrowserStorageService<TState>(IFluxState<TState> state) : IBrowserStorageService<TState>
+public class DummyBrowserStorageService<TState>(TState state) : IBrowserStorageService<TState>
 {
-    private readonly IFluxState<TState> _state = state;
+    private readonly TState _state = state;
 
-    public Task<IFluxState<TState>> LoadState()
+    public Task<TState> LoadState()
         => Task.FromResult(state);
 
-    public Task SaveState(IFluxState<TState> state)
+    public Task SaveState(TState state)
         => Task.CompletedTask;
 }

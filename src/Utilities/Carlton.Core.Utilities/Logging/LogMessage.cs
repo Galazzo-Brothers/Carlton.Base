@@ -7,6 +7,6 @@ public record LogMessage
     public string Message { get; init; }
     public Exception Exception { get; init; }
     public DateTime Timestamp { get; init; }
-    public string Scopes { get; init; }
+    public IEnumerable<KeyValuePair<string, object>> Scopes { get; init; } = new List<KeyValuePair<string, object>>();
 }
 
