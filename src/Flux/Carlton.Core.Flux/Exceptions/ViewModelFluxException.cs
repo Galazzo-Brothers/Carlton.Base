@@ -49,7 +49,7 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
 
     public static ViewModelFluxException<TState, TViewModel> JSInteropError(JSException innerException)
     {
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, new ViewModelQueryContext<TViewModel>(), innerException);
+        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_JsInterop_Error, LogEvents.ViewModel_JSInterop_ErrorMsg, null, innerException);
     }
 
     public override string ToString()

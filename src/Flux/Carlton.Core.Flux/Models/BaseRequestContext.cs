@@ -4,19 +4,17 @@ using System.Net;
 
 namespace Carlton.Core.Flux.Models;
 
-public class BaseRequestContext
+public abstract class BaseRequestContext
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly ConcurrentBag<ChildRequestContext> _childRequests = [];
+    private readonly ConcurrentBag<BaseRequestContext> _childRequests = [];
 
     public Guid RequestID { get; } = Guid.NewGuid();
 
-    //Child Contexts
-    public bool HasChildRequests { get => ChildRequests.Any(); }
-    public IEnumerable<ChildRequestContext> ChildRequests { get => _childRequests; }
-    internal void AddChildContext(BaseRequestContext context)
-        => _childRequests.Add(new ChildRequestContext(RequestID, context));
-
+    //Child Requests
+    public Guid ParentRequestId { get; protected init; }
+    public bool IsChildRequest { get => ParentRequestId != Guid.Empty; }
+ 
     //Http Context
     public bool RequiresHttpRefresh { get; private set; }
     public bool RequestHttRefreshed { get => RequestHttpContext != null; }
@@ -43,8 +41,6 @@ public class BaseRequestContext
     protected internal void MarkAsErrored(Exception exception)
         => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), exception);
 }
-
-public record ChildRequestContext(Guid ParentRequestId, BaseRequestContext ChildRequest);
 
 
 public record RequestHttpContext(
