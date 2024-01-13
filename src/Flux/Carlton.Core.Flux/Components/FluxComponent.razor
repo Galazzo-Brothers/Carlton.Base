@@ -39,53 +39,36 @@
 
     public IEnumerable<string> ObservableStateEvents { get; private set; } = new List<string>();
 
-    public bool IsLoading { get; private set; }
+    protected bool IsLoading { get; set; }
 
     private string ViewModelDisplayName { get => typeof(TViewModel).GetDisplayName(); }
 
     protected async override Task OnInitializedAsync()
     {
-        var context = new ViewModelQueryContext<TViewModel>();
-        var scopes = LogEvents.GetFluxComponentInitalizationLoggingScopes(Logger, context);
-        using (scopes)
-        {
-            //Set IsLoading to true
-            IsLoading = true;
+        //Set IsLoading to true
+        IsLoading = true;
 
-            //Register State Changed Handler
-            StateObserver.StateChanged += OnStateChanged;
+        //Register State Changed Handler
+        StateObserver.StateChanged += OnStateChanged;
 
-            //Get VM and initialize context for wrapped component
-            ViewModel = await GetViewModelInternal(context);
+        //Get VM and initialize context for wrapped component
+        ViewModel = await GetViewModel();
 
-            //Gather the StateEvents this component should be listening for
-            var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
-            ObservableStateEvents = attributes.Select(_ => _.StateEvent);
+        //Gather the StateEvents this component should be listening for
+        var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
+        ObservableStateEvents = attributes.Select(_ => _.StateEvent);
 
-            //Set IsLoading to false
-            IsLoading = false;
+        //Set IsLoading to false
+        IsLoading = false;
 
-            //Continue initialization
-            await base.OnInitializedAsync();
-
-            //Log Init Completed
-            Logger.DataWrapperOnInitializedCompleted(WrappedComponentDisplayName);
-        }
+        //Continue initialization
+        await base.OnInitializedAsync();
     }
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
-        return await GetViewModelInternal(new ViewModelQueryContext<TViewModel>());
-    }
-
-    private async Task<TViewModel> GetViewModelInternal(ViewModelQueryContext<TViewModel> context)
-    {
-        var scopes = LogEvents.GetFluxComponentViewModelLoggingScopes(Logger, context);
-        using (scopes)
-        {
-            var viewmodle = await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
-            return viewmodle;
-        }
+        var context = ViewModelQueryContext<TViewModel>.CreateViewModelQueryContext();
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
@@ -96,22 +79,18 @@
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
     {
-        //State does not require refresh
-        if (!ObservableStateEvents.Contains(args.StateEvent))
-            return;
-
-        var scopes = LogEvents.GetFluxComponentStateChangedLogginScopes(Logger, args);
+        var scopes = Logger.BeginScope(LogEvents.GetFluxComponentStateChangedLogginScopes(Logger, args));
         using (scopes)
         {
+            //State does not require refresh
+            if (!ObservableStateEvents.Contains(args.StateEvent))
+                return;
+
             //Set loading true
             IsLoading = true;
 
-            //Child Context
-            var childContext = new ViewModelQueryContext<TViewModel>();
-            args.Context.AddChildContext(childContext);
-
             //Refresh ViewModel
-            ViewModel = await GetViewModelInternal(childContext);
+            ViewModel = await GetViewModel();
 
             //Set loading false
             IsLoading = false;
@@ -126,9 +105,9 @@
         var eventCallback = EventCallback.Factory.Create(this, (command) => OnComponentEvent(Component, command));
         return new Dictionary<string, object>
         {
-                { "ViewModel", ViewModel },
-                { "GetViewModel", async () => await GetViewModel() },
-                { "OnComponentEvent", eventCallback }
+            { "ViewModel", ViewModel },
+            { "GetViewModel", async () => await GetViewModel() },
+            { "OnComponentEvent", eventCallback }
         };
     }
 

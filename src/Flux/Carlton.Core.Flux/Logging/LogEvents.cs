@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Flux.State;
-using Carlton.Core.Utilities.Disposable;
+﻿using Carlton.Core.Utilities.Disposable;
 namespace Carlton.Core.Flux.Logging;
 
 public static class LogEvents
@@ -16,59 +15,30 @@ public static class LogEvents
     public const string FluxRequestContext = "FluxRequestContext : {@FluxRequestContext}";
 
     //DataComponent Events
-    public const int DataWrapper_OnInitialized_Started = 1000;
-    public const int DataWrapper_OnInitialized_Completed = 1100;
-
-    public const int DataWrapper_Command_Dispatch_Started = 1001;
-    public const int DataWrapper_Command_Dispatch_Completed = 1101;
-
-    public const int DataWrapper_Event_Received_Started = 1002;
-    public const int DataWrapper_Event_Received_Completed = 1102;
-
     public const int DataWrapper_Error = 1200;
 
-    public const int DataWrapper_Event_Listening = 1301;
-    public const int DataWrapper_Event_Skipped = 1302;
-
     //ViewModel Query Events
-    public const int ViewModel_JsInterop_Completed = 2010;
-    public const int ViewModel_JsInterop_Error = 2110;
-
     public const int ViewModel_Completed = 2000;
-    public const int ViewModel_Unhandled_Error = 2100;
+    public const int ViewModel_JsInterop_Completed = 2010;
 
-    public const int ViewModel_HttpRefresh_Completed = 2200;
-    public const int ViewModel_HttpRefresh_Skipped = 2210;
+    public const int ViewModel_JsInterop_Error = 2110;
+    public const int ViewModel_Unhandled_Error = 2100;
     public const int ViewModel_HTTP_URL_Error = 2220;
     public const int ViewModel_HTTP_Request_Error = 2230;
     public const int ViewModel_HTTP_Response_JSON_Error = 2240;
-
-    public const int ViewModel_Mapping_Completed = 2300;
     public const int ViewModel_Mapping_Error = 2310;
-
-    public const int ViewModel_Validation_Completed = 2400;
     public const int ViewModel_Validation_Error = 2410;
 
     //Mutation Command Start Events
     public const int Mutation_Completed = 3000;
     public const int Mutation_Error = 3100;
-
-    public const int Mutation_Validation_Completed = 3200;
     public const int Mutation_Validation_Error = 3210;
-
-    public const int Mutation_HttpInterception_Completed = 3300;
-    public const int Mutation_HttpInterception_Skipped = 3310;
     public const int Mutation_HttpInterception_UrlConstruction_Error = 3320;
     public const int Mutation_HttpInterception_Request_Error = 3330;
     public const int Mutation_HttpInterception_Response_JSON_Error = 3340;
     public const int Mutation_HttpInterception_Response_Update_Error = 3350;
-
-    public const int Mutation_Apply_Completed = 3400;
     public const int Mutation_Apply_Error = 3410;
-
-    public const int Mutation_LocalStorage_Started = 3500;
     public const int Mutation_SaveLocalStorage_Error = 3510;
-    public const int Mutation_SaveLocalStorage_Completed = 3520;
     public const int Mutation_SaveLocalStorage_JSON_Error = 3531;
 
     //ViewModel Query Error Messages
@@ -97,27 +67,6 @@ public static class LogEvents
     public const string ErrorUpdatingCommandFromServerResponseMsg = "An error occurred updating the command with the server response of type";
 
 
-    public static IDisposable GetFluxComponentInitalizationLoggingScopes(ILogger logger, BaseRequestContext context)
-    {
-        return new CompositeDisposable
-        (
-           logger.BeginScope(FluxAction, ViewModelQuery),
-           logger.BeginScope(FluxRequestId, context.RequestID),
-           logger.BeginScope(FluxRequestContext, context),
-           logger.BeginScope(FluxComponentInitialization, true)
-       );
-    }
-
-    public static IDisposable GetFluxComponentViewModelLoggingScopes(ILogger logger, BaseRequestContext context)
-    {
-        return new CompositeDisposable
-        (
-            logger.BeginScope(FluxAction, ViewModelQuery),
-            logger.BeginScope(FluxRequestId, context.RequestID),
-            logger.BeginScope(FluxRequestContext, context)
-        );
-    }
-
     public static IDisposable GetFluxComponentStateChangedLogginScopes(ILogger logger, FluxStateChangedEventArgs args)
     {
         return new CompositeDisposable
@@ -128,17 +77,18 @@ public static class LogEvents
         );
     }
 
-    public static IDisposable GetViewModelRequestLoggingSCopes(ILogger logger, BaseRequestContext context)
+    public static IDisposable GetViewModelRequestLoggingScopes<TViewModel>(ILogger logger, ViewModelQueryContext<TViewModel> context)
     {
         return new CompositeDisposable
         (
             logger.BeginScope(FluxAction, ViewModelQuery),
             logger.BeginScope(FluxRequestId, context.RequestID),
-            logger.BeginScope(FluxRequestContext, context)
+            logger.BeginScope(FluxRequestContext, context),
+            logger.BeginScope(FluxComponentInitialization, context.IsInitializationRequest)
         );
     }
 
-    public static IDisposable GetMutationCommandRequestLoggingScopes(ILogger logger, BaseRequestContext context)
+    public static IDisposable GetMutationCommandRequestLoggingScopes<TCommand>(ILogger logger, MutationCommandContext<TCommand> context)
     {
         return new CompositeDisposable
         (

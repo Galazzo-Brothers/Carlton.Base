@@ -42,7 +42,6 @@ public class MutationHttpDecorator<TState>: BaseHttpDecorator<TState>, IMutation
 
                 //End the Http Interception
                 context.MarkAsHttpCallMade(serverUrl, response.StatusCode, response);
-                _logger.MutationHttpInterceptionCompleted(commandType);
             }
 
             //Continue the Dispatch Pipeline
@@ -84,7 +83,6 @@ public class MutationHttpDecorator<TState>: BaseHttpDecorator<TState>, IMutation
     {
         return httpVerb switch
         {
-            // HttpVerb.GET => _client.ge HttpMethod.Get,
             HttpVerb.POST => await _client.PostAsJsonAsync(serverUrl, payload, cancellation),
             HttpVerb.PUT => await _client.PutAsJsonAsync(serverUrl, payload, cancellation),
             HttpVerb.PATCH => await _client.PatchAsJsonAsync(serverUrl, payload, cancellation),

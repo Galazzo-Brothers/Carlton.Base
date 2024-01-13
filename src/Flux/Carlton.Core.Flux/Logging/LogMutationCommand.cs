@@ -3,29 +3,16 @@
 public static partial class LogMutationCommand
 {
     [LoggerMessage(
-        EventId = LogEvents.Mutation_Validation_Completed,
-        Level = LogLevel.Debug,
-        Message = "Completed validating mutation of type {Type}")]
-    public static partial void MutationValidationCompleted(this ILogger logger, string type);
+         EventId = LogEvents.Mutation_Completed,
+         Level = LogLevel.Information,
+         Message = "Completed processing mutation of type {Type}")]
+    public static partial void MutationCompleted(this ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_Validation_Error,
         Level = LogLevel.Error,
         Message = "An error occurred while validating mutation of type {Type}")]
     public static partial void MutationValidationError(this ILogger logger, Exception ex, string type);
-
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_HttpInterception_Completed,
-        Level = LogLevel.Information,
-        Message = "Completed Http interception for mutation of type {Type}")]
-    public static partial void MutationHttpInterceptionCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_HttpInterception_Skipped,
-        Level = LogLevel.Debug,
-        Message = "Skipped Http interception for mutation of type {Type}")]
-    public static partial void MutationHttpInterceptionSkipped(this ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_HttpInterception_UrlConstruction_Error,
@@ -52,28 +39,10 @@ public static partial class LogMutationCommand
     public static partial void MutationHttpInterceptionResponseUpdateError(this ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
-        EventId = LogEvents.Mutation_Apply_Completed,
-        Level = LogLevel.Debug,
-        Message = "Completed mutating the state store with mutation of type {Type}")]
-    public static partial void MutationApplyCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
         EventId = LogEvents.Mutation_Apply_Error,
         Level = LogLevel.Error,
         Message = "An error occurred while mutating the state store with mutation of type {Type}, rolling back state store to the previous state")]
     public static partial void MutationApplyError(this ILogger logger, Exception ex, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_Completed,
-        Level = LogLevel.Information,
-        Message = "Completed processing mutation of type {Type}")]
-    public static partial void MutationCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.Mutation_SaveLocalStorage_Completed,
-        Level = LogLevel.Debug,
-        Message = "Completed updating local storage mutation of type {Type}")]
-    public static partial void MutationSaveLocalStorageCompleted(this ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.Mutation_SaveLocalStorage_JSON_Error,

@@ -3,6 +3,12 @@
 public static partial class LogViewModelQuery
 {
     [LoggerMessage(
+        EventId = LogEvents.ViewModel_Completed,
+        Level = LogLevel.Information,
+    Message = "Completed processing query for ViewModel of type {Type}")]
+    public static partial void ViewModelCompleted(this ILogger logger, string type);
+
+    [LoggerMessage(
         EventId = LogEvents.ViewModel_JsInterop_Completed,
         Level = LogLevel.Debug,
         Message = "Completed JSInterop refresh for ViewModel of type {Type}")]
@@ -16,18 +22,6 @@ public static partial class LogViewModelQuery
         (this ILogger logger, Exception ex, string type);
 
     [LoggerMessage(
-        EventId = LogEvents.ViewModel_HttpRefresh_Completed,
-        Level = LogLevel.Information,
-        Message = "Completed Http refresh for ViewModel of type {Type}")]
-    public static partial void ViewModelHttpRefreshCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.ViewModel_HttpRefresh_Skipped,
-        Level = LogLevel.Debug,
-        Message = "Skipping Http refresh for ViewModel of type {Type}")]
-    public static partial void ViewModelHttpRefreshSkipped(this ILogger logger, string type);
-
-    [LoggerMessage(
         EventId = LogEvents.ViewModel_HTTP_URL_Error,
         Level = LogLevel.Error,
         Message = "An error occurred during the creation of an Http Refresh URL for ViewModel of type {Type}")]
@@ -38,24 +32,6 @@ public static partial class LogViewModelQuery
         Level = LogLevel.Error,
         Message = "An error occurred during the Http request for ViewModel of type {Type}")]
     public static partial void ViewModelHttpRequestError(this ILogger logger, Exception ex, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.ViewModel_Mapping_Completed,
-        Level = LogLevel.Debug,
-        Message = "Completed mapping ViewModel of type {Type}")]
-    public static partial void ViewModelMappingCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.ViewModel_Completed,
-        Level = LogLevel.Information,
-        Message = "Completed processing query for ViewModel of type {Type}")]
-    public static partial void ViewModelCompleted(this ILogger logger, string type);
-
-    [LoggerMessage(
-        EventId = LogEvents.ViewModel_Validation_Completed,
-        Level = LogLevel.Debug,
-        Message = "Completed validating ViewModel of type {Type}")]
-    public static partial void ViewModelValidationCompleted(this ILogger logger, string type);
 
     [LoggerMessage(
         EventId = LogEvents.ViewModel_HTTP_Response_JSON_Error,

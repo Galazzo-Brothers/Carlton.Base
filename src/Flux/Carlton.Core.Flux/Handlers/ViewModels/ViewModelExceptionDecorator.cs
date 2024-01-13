@@ -12,12 +12,13 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        var scopes = LogEvents.GetFluxComponentViewModelLoggingScopes(_logger, context);
+        var scopes = LogEvents.GetViewModelRequestLoggingScopes(_logger, context);
         using (scopes)
         {
             try
             {
                 var viewmodel = await _decorated.Dispatch(sender, context, cancellationToken);
+                _logger.ViewModelCompleted(context.ViewModelType);
                 return viewmodel;
             }
             catch (ViewModelFluxException<TState, TViewModel>)
