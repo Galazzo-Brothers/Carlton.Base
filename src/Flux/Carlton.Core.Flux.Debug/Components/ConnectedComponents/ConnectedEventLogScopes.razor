@@ -1,6 +1,6 @@
 ﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @namespace Carlton.Core.Flux.Debug.Components
-@attribute [ObserveStateEvents("SelectedLogEntryChanged")]
+@attribute [ObserveStateEvents("SelectedLogMessageChanged")]
 @inherits BaseConnectedComponent<EventLogScopesViewModel>
 
-<EventLogScopes LogEntry="@ViewModel.SelectedLogEntry" />
+<EventLogScopes LogMessage="@ViewModel.SelectedLogMessage" />

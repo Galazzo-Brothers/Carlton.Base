@@ -4,6 +4,6 @@ public class EventLogViewerViewModelValidator : AbstractValidator<EventLogViewer
 {
     public EventLogViewerViewModelValidator()
     {
-        RuleFor(vm => vm.LogEntries).NotNull();
+        RuleFor(vm => vm.LogMessages).NotNull();
     }
 }

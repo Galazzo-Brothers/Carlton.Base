@@ -3,5 +3,5 @@
 @attribute [ObserveStateEvents("LocalStorageCleared")]
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
-<EventLogViewer LogEntries="@ViewModel.LogEntries.ToList()" SelectedLogEntryChanged="args => base.OnComponentEvent.InvokeAsync(new ChangeSelectedLogEntryCommand(args))" />
+<EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" SelectedLogMessageChanged="args => base.OnComponentEvent.InvokeAsync(new ChangeSelectedLogMessageCommand(args))" />
 

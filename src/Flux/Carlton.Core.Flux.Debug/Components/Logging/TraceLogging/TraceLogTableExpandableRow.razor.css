@@ -29,7 +29,7 @@
         overflow-wrap: anywhere;
     }
 
-.plus-minus-cell {
+.chevron-cell {
     margin-top: auto;
     margin-bottom: auto;
     color: var(--primary-text-color);

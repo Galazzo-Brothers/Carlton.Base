@@ -2,18 +2,18 @@ namespace Carlton.Core.Flux.Debug.State;
 
 public record FluxDebugState
 {
-    public FluxDebugState(object state, IEnumerable<LogEntry> logMessages)
+    public FluxDebugState(object state, IEnumerable<LogMessage> logMessages)
     {
         State = state;
-        LogEntries = logMessages;
+        LogMessages = logMessages;
     }
 
     public FluxDebugState(object state)
-        : this(state, new List<LogEntry>())
+        : this(state, new List<LogMessage>())
     {
     }
 
-    public IEnumerable<LogEntry> LogEntries { get; init; } = new List<LogEntry>();
-    public LogEntry SelectedLogEntry { get; init; } 
+    public IEnumerable<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
+    public LogMessage SelectedLogMessage { get; init; } 
     public object State { get; private set; }
 }

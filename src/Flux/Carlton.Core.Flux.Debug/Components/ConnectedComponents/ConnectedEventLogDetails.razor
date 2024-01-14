@@ -1,7 +1,7 @@
 ﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @namespace Carlton.Core.Flux.Debug.Components
 @attribute [ObserveStateEvents("LocalStorageCleared")]
-@attribute [ObserveStateEvents("SelectedLogEntryChanged")]
+@attribute [ObserveStateEvents("SelectedLogMessageChanged")]
 @inherits BaseConnectedComponent<EventLogDetailsViewModel>
 
-<EventLogDetails LogEntry="@ViewModel.SelectedLogEntry"  />
+<EventLogDetails LogMessage="@ViewModel.SelectedLogMessage"  />
