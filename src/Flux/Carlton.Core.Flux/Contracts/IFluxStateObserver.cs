@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Contracts;
 
-public record FluxStateChangedEventArgs(string StateEvent, BaseRequestContext Context);
+public record FluxStateChangedEventArgs(string StateEvent, Guid ParentRequestId);
 
 public interface IFluxStateObserver<TState>
 {

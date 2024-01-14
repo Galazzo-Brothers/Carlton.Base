@@ -70,8 +70,16 @@ public static class LogEvents
         return new CompositeDisposable
         (
             logger.BeginScope(IsFluxChildRequest, true),
-            logger.BeginScope(FluxParentRequestId, args.Context.RequestID),
+            logger.BeginScope(FluxParentRequestId, args.ParentRequestId),
             logger.BeginScope(FluxStateEvent, args.StateEvent)
+        );
+    }
+
+    public static IDisposable GetViewModelInitializationLoggingScopes<TViewModel>(ILogger logger)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(FluxComponentInitialization, true)
         );
     }
 
@@ -81,8 +89,7 @@ public static class LogEvents
         (
             logger.BeginScope(FluxAction, ViewModelQuery),
             logger.BeginScope(FluxRequestId, context.RequestID),
-            logger.BeginScope(FluxRequestContext, context),
-            logger.BeginScope(FluxComponentInitialization, context.IsInitializationRequest)
+            logger.BeginScope(FluxRequestContext, context)
         );
     }
 

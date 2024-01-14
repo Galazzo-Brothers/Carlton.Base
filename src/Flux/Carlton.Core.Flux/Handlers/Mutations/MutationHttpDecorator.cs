@@ -45,31 +45,26 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> de
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
             //URL Construction Errors
-            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpUrlError(context, ex);
         }
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(context, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(context, ex);
         }
         catch (HttpRequestException ex)
         {
             //HTTP Operation Exceptions
-            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpError(context, ex);
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.ErrorUpdatingCommandFromServerResponseMsg))
         {
             //Response Update Errors
-            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpResponseUpdateError(context, ex);
         }
     }

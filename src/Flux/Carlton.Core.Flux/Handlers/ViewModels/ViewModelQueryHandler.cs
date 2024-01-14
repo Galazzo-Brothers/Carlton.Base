@@ -21,7 +21,6 @@ public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
         }
         catch (CompileException ex)
         {
-            context.MarkAsErrored(ex);
             throw ViewModelFluxException<TState, TViewModel>.MappingError(context, ex); //Mapping Errors
         }
     }

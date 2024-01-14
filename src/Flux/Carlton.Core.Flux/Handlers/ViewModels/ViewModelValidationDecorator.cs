@@ -22,7 +22,6 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
         catch (ValidationException ex)
         {
             context.MarkAsValidated();
-            context.MarkAsErrored(ex);
             throw ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex); //Validation Errors
         }
     }

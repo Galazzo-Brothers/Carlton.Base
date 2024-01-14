@@ -47,22 +47,18 @@ public class ViewModelHttpDecorator<TState>(
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
-            context.MarkAsErrored(ex);
             throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex); //URL Construction Errors
         }
         catch (JsonException ex)
         {
-            context.MarkAsErrored(ex);
             throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex); //Error Serializing JSON
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
-            context.MarkAsErrored(ex);
             throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex); //Error Serializing JSON
         }
         catch (HttpRequestException ex)
         {
-            context.MarkAsErrored(ex);
             throw ViewModelFluxException<TState, TViewModel>.HttpError(context, ex); //Http Exceptions
         }
     }
