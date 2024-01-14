@@ -3,6 +3,7 @@ using Carlton.Core.Components.Cards;
 using Carlton.Core.Components.Layouts.Extensions;
 using Carlton.Core.Components.Table;
 using Carlton.Core.Lab.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace Carlton.Core.Library.Lab;
 
@@ -18,6 +19,12 @@ public static class Program
         };
 
         builder.Services.AddScoped(sp => http);
+
+        builder.Services.AddLogging
+        (
+            loggingBuilder => loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"))
+                                            .AddSeq("http://localhost:5341/")
+        );
 
         builder.Services.AddCarltonLayout();
         builder.Services.AddCarltonTestLab(builder =>
@@ -56,8 +63,8 @@ public static class Program
 
 
         builder.RootComponents.Add<App>("app");
-        var app =  builder.Build();
+        var app = builder.Build();
         app.UseCarltonTestLab();
-        await app.RunAsync().ConfigureAwait(true);     
+        await app.RunAsync().ConfigureAwait(true);
     }
 }
