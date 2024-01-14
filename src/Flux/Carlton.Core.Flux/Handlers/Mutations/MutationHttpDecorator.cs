@@ -5,14 +5,9 @@ using System.Net.Http.Json;
 
 namespace Carlton.Core.Flux.Handlers.Mutations;
 
-public class MutationHttpDecorator<TState>: BaseHttpDecorator<TState>, IMutationCommandDispatcher<TState>
+public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> decorated, HttpClient client, TState state) : BaseHttpDecorator<TState>(client, state), IMutationCommandDispatcher<TState>
 {
-    private readonly IMutationCommandDispatcher<TState> _decorated;
-    private readonly ILogger<MutationHttpDecorator<TState>> _logger;
-
-    public MutationHttpDecorator(IMutationCommandDispatcher<TState> decorated, HttpClient client, TState state, ILogger<MutationHttpDecorator<TState>> logger)
-        : base(client, state)
-        => (_decorated, _logger) = (decorated, logger);
+    private readonly IMutationCommandDispatcher<TState> _decorated = decorated;
 
     public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {

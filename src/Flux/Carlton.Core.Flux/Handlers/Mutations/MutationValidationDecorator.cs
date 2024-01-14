@@ -7,10 +7,9 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
 {
     private readonly IMutationCommandDispatcher<TState> _decorated;
     private readonly IServiceProvider _provider;
-    private readonly ILogger<MutationValidationDecorator<TState>> _logger;
 
-    public MutationValidationDecorator(IMutationCommandDispatcher<TState> decorated, IServiceProvider provider, ILogger<MutationValidationDecorator<TState>> logger)
-        => (_decorated, _provider, _logger) = (decorated, provider, logger);
+    public MutationValidationDecorator(IMutationCommandDispatcher<TState> decorated, IServiceProvider provider)
+        => (_decorated, _provider) = (decorated, provider);
 
     public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {

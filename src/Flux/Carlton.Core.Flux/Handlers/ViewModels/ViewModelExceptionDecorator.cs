@@ -17,6 +17,7 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             try
             {
                 var viewmodel = await _decorated.Dispatch(sender, context, cancellationToken);
+                _logger.ViewModelCompleted(context.ViewModelType);
                 return viewmodel;
             }
             catch (ViewModelFluxException<TState, TViewModel> ex)
