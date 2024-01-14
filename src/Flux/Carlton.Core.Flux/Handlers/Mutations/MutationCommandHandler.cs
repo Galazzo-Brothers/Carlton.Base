@@ -5,14 +5,12 @@ namespace Carlton.Core.Flux.Handlers.Mutations;
 public class MutationCommandHandler<TState>(
     IFluxStateObservable<TState> observable,
     IMutationResolver<TState> resolver,
-    TState state,
-    ILogger<MutationCommandHandler<TState>> logger) 
+    TState state) 
     : IMutationCommandHandler<TState>
 {
     private readonly IFluxStateObservable<TState> _observable = observable;
     private readonly IMutationResolver<TState> _resolver = resolver;
     private readonly TState _state = state;
-    private readonly ILogger<MutationCommandHandler<TState>> _logger = logger;
 
     public async Task Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
