@@ -6,14 +6,13 @@ public class ComponentExceptionLoggingService : IComponentExceptionLoggingServic
     {
         switch (exception)
         {
-            case FluxException ex:
-                logger.BeginScope(LogEvents.FluxRequestContext, ex.Context);
-                logger.LogError(ex.EventId, ex, ex.Message, ex.Context);
+            case FluxException:
+                //Flux Exceptions are already logged
                 break;
             case Exception ex:
                 //This is not a flux related error.
                 //It is an error that has occurred during rendering 
-                logger.LogError(ex, "An unhandled exception has occured");
+                logger.LogError(ex, "An exception has occured while rendering a flux component");
                 break;
         }
     }

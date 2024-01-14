@@ -39,37 +39,69 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        var scopes = LogEvents.GetViewModelInitializationLoggingScopes<TViewModel>(Logger);
+        using(Logger.BeginScope(scopes))
+        {
+            //Set IsLoading to true
+            IsLoading = true;
 
-        //Set IsLoading to true
-        IsLoading = true;
+            //Register State Changed Handler
+            StateObserver.StateChanged += OnStateChanged;
 
-        //Register State Changed Handler
-        StateObserver.StateChanged += OnStateChanged;
+            //Get VM and initialize context for wrapped component
+            ViewModel = await GetViewModel();
 
-        //Get VM and initialize context for wrapped component
-        ViewModel = await GetViewModel();
+            //Gather the StateEvents this component should be listening for
+            var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
+            ObservableStateEvents = attributes.Select(_ => _.StateEvent);
 
-        //Gather the StateEvents this component should be listening for
-        var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
-        ObservableStateEvents = attributes.Select(_ => _.StateEvent);
+            //Set IsLoading to false
+            IsLoading = false;
 
-        //Set IsLoading to false
-        IsLoading = false;
-
-        //Continue initialization
-        await base.OnInitializedAsync();
+            //Continue initialization
+            await base.OnInitializedAsync();
+        }
     }
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
         var context = ViewModelQueryContext<TViewModel>.CreateViewModelQueryContext();
-        return await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
+        using (Logger.BeginScope(LogEvents.GetViewModelRequestLoggingScopes(Logger, context)))
+        {
+            try
+            {
+                var viewmodel = await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
+                context.MarkAsSucceeded();
+                Logger.ViewModelCompleted(context.ViewModelType);
+                return viewmodel;
+            }
+            catch (ViewModelFluxException<TState, TViewModel> ex)
+            {
+                context.MarkAsErrored(ex);
+                Logger.LogError(ex.EventId, ex, ex.Message);
+                throw;
+            }
+        }
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
         var context = new MutationCommandContext<TCommand>(command);
-        await MutationDispatcher.Dispatch(Component, (dynamic)context, CancellationToken.None);
+        using (Logger.BeginScope(LogEvents.GetMutationCommandRequestLoggingScopes(Logger, context)))
+        {
+            try
+            {
+                await MutationDispatcher.Dispatch(Component, context, CancellationToken.None);
+                context.MarkAsSucceeded();
+                Logger.MutationCompleted(context.CommandTypeName);
+            }
+            catch (MutationCommandFluxException<TState, TCommand> ex)
+            {
+                context.MarkAsErrored(ex);
+                Logger.LogError(ex.EventId, ex, ex.Message);
+                throw;
+            }
+        }
     }
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)

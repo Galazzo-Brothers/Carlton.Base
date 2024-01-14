@@ -28,7 +28,7 @@ public class MutationCommandHandler<TState>(
             context.MarkAsStateMutationApplied(stateEvent);
 
             //Notify of state changed
-            var args = new FluxStateChangedEventArgs(stateEvent, context);
+            var args = new FluxStateChangedEventArgs(stateEvent, context.RequestID);
             await _observable.OnStateChanged(args);
             context.MarkAsSucceeded();
         }

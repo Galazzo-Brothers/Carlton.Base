@@ -23,7 +23,6 @@ public class MutationValidationDecorator<TState> : IMutationCommandDispatcher<TS
         }
         catch (ValidationException ex)
         {
-            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.ValidationError(context, ex);
         }
     }
