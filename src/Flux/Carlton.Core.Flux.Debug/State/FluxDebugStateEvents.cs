@@ -3,5 +3,5 @@
 public enum FluxDebugStateEvents
 {
     LocalStorageCleared,
-    SelectedLogEntryChanged
+    SelectedLogMessageChanged
 }

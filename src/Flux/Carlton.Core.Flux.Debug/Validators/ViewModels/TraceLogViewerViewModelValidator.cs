@@ -4,6 +4,6 @@ public class TraceLogViewerViewModelValidator : AbstractValidator<TraceLogViewer
 {
     public TraceLogViewerViewModelValidator()
     {
-        RuleFor(vm => vm.LogEntries).NotNull();
+        RuleFor(vm => vm.LogMessages).NotNull();
     }
 }

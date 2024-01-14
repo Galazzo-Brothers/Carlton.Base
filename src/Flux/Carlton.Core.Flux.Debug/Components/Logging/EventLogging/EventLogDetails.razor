@@ -2,11 +2,11 @@
 @using Carlton.Core.Components.Consoles
 
 <div class="log-exception-details">
-    <JsonViewerConsole Obj="@LogEntry" IsReadOnly="true" />
+    <JsonViewerConsole Obj="@LogMessage" IsReadOnly="true" />
 </div>
 
 
 @code {
     [Parameter]
-    public LogEntry LogEntry { get; set; }
+    public LogMessage LogMessage { get; set; }
 }

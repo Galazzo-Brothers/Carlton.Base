@@ -1,24 +1,24 @@
 ﻿@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @using BlazorComponentUtilities
 
-<div class="@TableRowCss" @onclick="() => LogEntrySelected.InvokeAsync(LogEntry)">
+<div class="@TableRowCss" @onclick="() => LogMessageSelected.InvokeAsync(LogEntry)">
     <div class="table-cell"><span class="cell-text">@LogEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
     <div class="table-cell"><span class="cell-text">@LogEntry.Message</span></div>
     <div class="table-cell"><LogLevelPill LogLevel="@LogEntry.LogLevel" /></div>
-    <div class="table-cell"><span class="cell-text">@LogEntry.EventId</span></div>
-    <div class="table-cell"><span class="cell-text">@LogEntry.EventName</span></div>
+    <div class="table-cell"><span class="cell-text">@LogEntry.EventId.Id</span></div>
+    <div class="table-cell"><span class="cell-text">@LogEntry.EventId.Name</span></div>
 </div>
 
 
 @code {
     [Parameter]
-    public required LogEntry LogEntry { get; set; }
+    public required LogMessage LogEntry { get; set; }
 
     [Parameter]
     public bool IsSelected { get; set; } = false;
 
     [Parameter]
-    public EventCallback<LogEntry> LogEntrySelected { get; set; }
+    public EventCallback<LogMessage> LogMessageSelected { get; set; }
 
     public string TableRowCss
     {

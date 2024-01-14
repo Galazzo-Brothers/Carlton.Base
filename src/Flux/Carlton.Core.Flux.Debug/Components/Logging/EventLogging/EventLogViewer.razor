@@ -3,16 +3,16 @@
 
 <div class="log-viewer">
     <div class="log-filters">
-        <LogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
-        <LogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
-        <LogTextFilter OnTextChanged="OnFilterTextChanges" />
+        <EventLogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
+        <EventLogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
+        <EventLogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
+        <EventLogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
+        <EventLogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
+        <EventLogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
+        <EventLogTextFilter OnTextChanged="OnFilterTextChanges" />
     </div>
 
-    <EventLogTable LogEntries="FilteredLogMessages" LogEntrySelected="OnLogEntrySelected" />
+    <EventLogTable LogMessages="FilteredLogMessages" LogMessageSelected="OnLogEntrySelected" />
 </div>
 
 
@@ -20,25 +20,25 @@
 
 @code {
     [Parameter]
-    public IList<LogEntry> LogEntries { get; set; } = new List<LogEntry>();
+    public IList<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
     [Parameter]
-    public EventCallback<LogEntry> SelectedLogEntryChanged { get; set; }
+    public EventCallback<LogMessage> SelectedLogMessageChanged { get; set; }
 
-    public LogEntry SelectedLogEntry { get; private set; }
+    public LogMessage SelectedLogMessage { get; private set; }
 
-    public void OnLogEntrySelected(LogEntry selectedLogEntry)
+    public void OnLogEntrySelected(LogMessage selectedLogMessage)
     {
-        SelectedLogEntry = selectedLogEntry;
-        SelectedLogEntryChanged.InvokeAsync(selectedLogEntry);
+        SelectedLogMessage = selectedLogMessage;
+        SelectedLogMessageChanged.InvokeAsync(selectedLogMessage);
     }
 
     private IList<LogLevel> includedLogLevels = new List<LogLevel>();
     private string filterText = string.Empty;
 
-    private IEnumerable<LogEntry> FilteredLogMessages
+    private IEnumerable<LogMessage> FilteredLogMessages
     {
-        get => LogEntries.Where(_ => includedLogLevels.Contains(_.LogLevel))
+        get => LogMessages.Where(_ => includedLogLevels.Contains(_.LogLevel))
                          .Where(_ => _.Message.ToLower().Contains(filterText))
                          .OrderByDescending(_ => _.Timestamp);
     }
@@ -53,7 +53,7 @@
         => includedLogLevels.Contains(logLevel);
 
     private int GetCountByLevel(LogLevel logLevel)
-        => LogEntries.Count(_ => _.LogLevel == logLevel);
+        => LogMessages.Count(_ => _.LogLevel == logLevel);
 
     private void OnFilterTextChanges(string newFilterText)
         => filterText = newFilterText.ToLower();

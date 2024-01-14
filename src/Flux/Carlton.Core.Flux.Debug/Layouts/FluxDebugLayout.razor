@@ -1,8 +1,6 @@
 ﻿@using Carlton.Core.BrowserStroage
 @using Carlton.Core.Flux.Debug.Storage
 @using Microsoft.AspNetCore.Components.Routing
-@using Mapster
-@using MapsterMapper
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Flux.Debug.Components.Nav
 @using Carlton.Core.Flux.Debug.Layouts
@@ -10,8 +8,8 @@
 @inherits LayoutComponentBase
 @inject ILogsDataAccess LogsDataAccess
 @inject NavigationManager NavigationManager
-@inject IFluxState<FluxDebugState> FluxDebugState
-@inject IMapper Mapper
+@* @inject IFluxState<FluxDebugState> FluxDebugState *@
+@inject MemoryLogger MemoryLogger
 
 <DashboardDevPanelLayout ShowPanel="true">
     <NavContent>
@@ -48,20 +46,20 @@
     protected override async Task OnInitializedAsync()
     {
         //Save Logs from your in app memory loggers to IndexDB
-        await LogsDataAccess.CommitLogs();
+       // await LogsDataAccess.CommitLogs();
 
         //Get todays logs to hydrate a FluxDebug state object
-        var logs = await LogsDataAccess.GetLogs(DateTime.Now.Date);
+        //var logs = await LogsDataAccess.GetLogs(DateTime.Now.Date);
      
         //flatten logs
-        var flattenedLogs = logs.SelectMany(_ => _.LogEntries);
+        //var flattenedLogs = logs.SelectMany(_ => _.LogEntries);
 
         //Hydrate a FluxDebug state object
-        var newState = new FluxDebugState(new object(), flattenedLogs);
+      //  var newState = new FluxDebugState(null, MemoryLogger.GetLogMessages());
 
         //Replace the container state with our constructed state
         //via the magic of reflection
-        Mapper.Map(newState, FluxDebugState.State);
+      //  Mapper.Map(newState, FluxDebugState.State);
 
         //Allow the child components to render
         LoadingComplete = true;

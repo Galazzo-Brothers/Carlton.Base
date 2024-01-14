@@ -3,40 +3,30 @@
 
 
 <div class="table-row starting-row" @onclick="() => Expanded=!Expanded">
-    <div class="table-cell plus-minus-cell"><span class="mdi mdi-24px @(Expanded ? "mdi-minus" : "mdi-plus")"></span></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.StartingEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.StartingEntry.Message</span></div>
-    <div class="table-cell"><LogLevelPill LogLevel="@LogEntryGroup.StartingEntry.LogLevel" /></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.StartingEntry.EventId</span></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.StartingEntry.EventName</span></div>
+    <div class="table-cell chevron-cell"><span class="mdi mdi-24px @(Expanded ? "mdi-chevron-down" : "mdi-chevron-right")"></span></div>
+    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
+    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.Message</span></div>
+    <div class="table-cell"><LogLevelPill LogLevel="@LogMessageGroup.ParentEntry.LogLevel" /></div>
+    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.EventId.Id</span></div>
+    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.EventId.Name</span></div>
 </div>
 
-@foreach (var child in LogEntryGroup.ChildEntries)
+@foreach (var child in LogMessageGroup.ChildEntries)
 {
     <div class="table-row child-row @(Expanded ? string.Empty : "collapsed")">
         <div class="table-cell"></div>
         <div class="table-cell"><span class="cell-text">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
         <div class="table-cell"><span class="cell-text">@child.Message</span></div>
         <div class="table-cell"><LogLevelPill LogLevel="@child.LogLevel" /></div>
-        <div class="table-cell"><span class="cell-text">@child.EventId</span></div>
-        <div class="table-cell"><span class="cell-text">@child.EventName</span></div>
+        <div class="table-cell"><span class="cell-text">@child.EventId.Id</span></div>
+        <div class="table-cell"><span class="cell-text">@child.EventId.Name</span></div>
     </div>
 }
-
-<div class="table-row ending-row">
-    <div class="table-cell"></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.EndingEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.EndingEntry.Message</span></div>
-    <div class="table-cell"><LogLevelPill LogLevel="@LogEntryGroup.EndingEntry.LogLevel"/></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.EndingEntry.EventId</span></div>
-    <div class="table-cell"><span class="cell-text">@LogEntryGroup.EndingEntry.EventName</span></div>
-</div>
-
 
 
 @code {
     [Parameter]
-    public required LogEntryGroup LogEntryGroup { get; set; }
+    public required LogMessageGroup LogMessageGroup { get; set; }
 
     private bool Expanded { get; set; }
 }

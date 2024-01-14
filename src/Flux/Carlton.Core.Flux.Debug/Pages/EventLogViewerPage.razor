@@ -1,7 +1,8 @@
 ﻿@namespace Carlton.Core.Flux.Debug.Pages
+@inject MemoryLogger MemoryLogger;
 @page "/debug/logs"
 
-<FluxDebugComponent TViewModel="EventLogViewerViewModel" />
+<PassiveFluxDebugComponent TViewModel="EventLogViewerViewModel" PassiveViewModel="new EventLogViewerViewModel(MemoryLogger.GetLogMessages())" />
 
 
 

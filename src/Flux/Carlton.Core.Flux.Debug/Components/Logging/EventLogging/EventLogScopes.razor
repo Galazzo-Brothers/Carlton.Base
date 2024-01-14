@@ -10,25 +10,24 @@
 
 @code {
     [Parameter]
-    public LogEntry LogEntry { get; set; }
+    public LogMessage LogMessage { get; set; }
 
     private string ScopeText()
     {
-        if (LogEntry == null)
+        if (LogMessage == null)
             return string.Empty;
 
-        if (string.IsNullOrEmpty(LogEntry.Scopes))
+        if (!LogMessage.Scopes.Any())
             return string.Empty;
 
         var sb = new StringBuilder();
-        var scopeArray = LogEntry.Scopes.Split(" => ");
         var nextIndentation = "\t";
 
-        foreach(var scope in scopeArray)
+        foreach (var (key, value) in LogMessage.Scopes.ToList())
         {
             sb.Append(nextIndentation)
               .Append(" => ")
-              .Append(scope)
+              .Append($"{key} : {value}")
               .AppendLine();
 
             nextIndentation += "\t";
