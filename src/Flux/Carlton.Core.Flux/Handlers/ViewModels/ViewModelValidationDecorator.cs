@@ -5,10 +5,9 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
 {
     private readonly IViewModelQueryDispatcher<TState> _decorated;
     private readonly IServiceProvider _provider;
-    private readonly ILogger<ViewModelValidationDecorator<TState>> _logger;
 
-    public ViewModelValidationDecorator(IViewModelQueryDispatcher<TState> decorated, IServiceProvider provider, ILogger<ViewModelValidationDecorator<TState>> logger)
-        => (_decorated, _provider, _logger) = (decorated, provider, logger);
+    public ViewModelValidationDecorator(IViewModelQueryDispatcher<TState> decorated, IServiceProvider provider)
+        => (_decorated, _provider) = (decorated, provider);
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
@@ -24,8 +23,7 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
         {
             context.MarkAsValidated();
             context.MarkAsErrored(ex);
-            _logger.ViewModelValidationError(ex, context.ViewModelType);
-            throw ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex);
+            throw ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex); //Validation Errors
         }
     }
 }

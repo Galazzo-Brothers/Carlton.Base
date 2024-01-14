@@ -1,0 +1,35 @@
+﻿@namespace Carlton.Core.Flux.Components
+@typeparam TState
+@typeparam TViewModel
+@inject ILogger<InteropFluxComponent<TState, TViewModel>> Logger
+@inject IFluxExceptionDisplayService ExceptionDisplayService
+@inject IComponentExceptionLoggingService ComponentExceptionLoggingService
+
+
+<FluxErrorBoundary ErrorPrompt="ErrorPrompt">
+    <ChildContent>
+        <InteropFluxWrapper TState="TState" 
+            TViewModel="TViewModel"
+            SpinnerContent="SpinnerContent"
+            JsModule="JsModule"
+            JsFunction="JsFunction"
+            JsParameters="JsParameters"/>
+    </ChildContent>
+</FluxErrorBoundary>
+
+@code {
+    [Parameter]
+    public RenderFragment SpinnerContent { get; set; }
+    [Parameter]
+    public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
+    [Parameter]
+    public string JsModule { get; set; }
+    [Parameter]
+    public string JsFunction { get; set; }
+    [Parameter]
+    public object[] JsParameters { get; set; }
+}
+
+
+
+
