@@ -1,7 +1,6 @@
 ﻿@namespace Carlton.Core.Flux.Components
-@typeparam TComponent
 @inherits ErrorBoundary
-@inject ILogger<FluxErrorBoundary<TComponent>> Logger
+@inject ILogger<FluxErrorBoundary> Logger
 @inject IFluxExceptionDisplayService ExceptionDisplayService
 @inject IComponentExceptionLoggingService ComponentExceptionLoggingService
 
@@ -17,23 +16,25 @@ else
 
 @code {
     [Parameter]
-    public RenderFragment<ExceptionErrorPrompt> ErrorPrompt { get; set; }
+    public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
 
+    //hide the ErrorContent in favor of the new ErrorPrompt
+    private new RenderFragment<Exception> ErrorContent { get; set; }
 
     private bool ShowErrorContent { get => base.CurrentException != null; }
 
-    private ExceptionErrorPrompt ErrorPromptModel { get; set; }
+    private ErrorPromptModel ErrorPromptModel { get; set; }
 
     protected override void OnParametersSet()
     {
-        ComponentExceptionLoggingService.LogException(Logger, base.CurrentException, typeof(TComponent));
+        ComponentExceptionLoggingService.LogException(Logger, base.CurrentException);
         base.OnParametersSet();
     }
 
     protected override Task OnErrorAsync(Exception exception)
     {
-        ErrorPromptModel = ExceptionDisplayService.GetExceptionErrorPrompt(exception, base.Recover);
-        ComponentExceptionLoggingService.LogException(Logger, exception, typeof(TComponent));
+        ErrorPromptModel = ExceptionDisplayService.GetErrorPromptModel(exception, base.Recover);
+        ComponentExceptionLoggingService.LogException(Logger, exception);
         return base.OnErrorAsync(exception);
     }
 }

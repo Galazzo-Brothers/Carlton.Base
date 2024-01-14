@@ -7,10 +7,9 @@ public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
 {
     private readonly TState _state;
     private readonly IMapper _mapper;
-    private readonly ILogger<ViewModelQueryHandler<TState>> _logger;
 
-    public ViewModelQueryHandler(TState state, IMapper mapper, ILogger<ViewModelQueryHandler<TState>> logger)
-        => (_state, _mapper, _logger) = (state, mapper, logger);
+    public ViewModelQueryHandler(TState state, IMapper mapper)
+        => (_state, _mapper) = (state, mapper);
 
     public Task<TViewModel> Handle<TViewModel>(ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
@@ -23,8 +22,7 @@ public class ViewModelQueryHandler<TState> : IViewModelQueryHandler<TState>
         catch (CompileException ex)
         {
             context.MarkAsErrored(ex);
-            _logger.ViewModelMappingError(ex, context.ViewModelType);
-            throw ViewModelFluxException<TState, TViewModel>.MappingError(context, ex);
+            throw ViewModelFluxException<TState, TViewModel>.MappingError(context, ex); //Mapping Errors
         }
     }
 }

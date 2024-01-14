@@ -50,31 +50,31 @@ public class MutationHttpDecorator<TState>: BaseHttpDecorator<TState>, IMutation
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
             //URL Construction Errors
-            _logger.MutationHttpInterceptionUrlConstructionError(ex, typeof(TCommand).GetDisplayName());
+            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpUrlError(context, ex);
         }
         catch (JsonException ex)
         {
             //Error Serializing JSON
-            _logger.MutationHttpInterceptionJsonResponseParseError(ex, typeof(TCommand).GetDisplayName());
+            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(context, ex);
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
             //Error Serializing JSON
-            _logger.MutationHttpInterceptionJsonResponseParseError(ex, typeof(TCommand).GetDisplayName());
+            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpJsonError(context, ex);
         }
         catch (HttpRequestException ex)
         {
             //HTTP Operation Exceptions
-            _logger.MutationHttpInterceptionRequestError(ex, typeof(TCommand).GetDisplayName());
+            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpError(context, ex);
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.ErrorUpdatingCommandFromServerResponseMsg))
         {
             //Response Update Errors
-            _logger.MutationHttpInterceptionResponseUpdateError(ex, typeof(TCommand).GetDisplayName());
+            context.MarkAsErrored(ex);
             throw MutationCommandFluxException<TState, TCommand>.HttpResponseUpdateError(context, ex);
         }
     }

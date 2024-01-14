@@ -5,20 +5,14 @@ using Carlton.Core.Flux.Exceptions;
 using Carlton.Core.Flux.Handlers.Base;
 using Carlton.Core.Flux.State;
 
-
 namespace Carlton.Core.Flux.Handlers.ViewModels;
 
-public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewModelQueryDispatcher<TState>
+public class ViewModelHttpDecorator<TState>(
+    IViewModelQueryDispatcher<TState> decorated,
+    HttpClient client,
+    TState state) : BaseHttpDecorator<TState>(client, state), IViewModelQueryDispatcher<TState>
 {
-    private readonly IViewModelQueryDispatcher<TState> _decorated;
-    private readonly ILogger<ViewModelHttpDecorator<TState>> _logger;
-
-    public ViewModelHttpDecorator(
-        IViewModelQueryDispatcher<TState> decorated,
-        HttpClient client,
-        TState state,
-        ILogger<ViewModelHttpDecorator<TState>> logger) : base(client, state)
-            => (_decorated, _logger) = (decorated, logger);
+    private readonly IViewModelQueryDispatcher<TState> _decorated = decorated;
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
@@ -53,27 +47,23 @@ public class ViewModelHttpDecorator<TState> : BaseHttpDecorator<TState>, IViewMo
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg))
         {
-            //URL Construction Errors
-            _logger.ViewModelHttpUrlError(ex, context.ViewModelType);
-            throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex);
+            context.MarkAsErrored(ex);
+            throw ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex); //URL Construction Errors
         }
         catch (JsonException ex)
         {
-            //Error Serializing JSON
-            _logger.ViewModelHttpResponseJsonError(ex, context.ViewModelType);
-            throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex);
+            context.MarkAsErrored(ex);
+            throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex); //Error Serializing JSON
         }
         catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
         {
-            //Error Serializing JSON
-            _logger.ViewModelHttpResponseJsonError(ex, context.ViewModelType);
-            throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex);
+            context.MarkAsErrored(ex);
+            throw ViewModelFluxException<TState, TViewModel>.JsonError(context, ex); //Error Serializing JSON
         }
         catch (HttpRequestException ex)
         {
-            //Http Exceptions
-            _logger.ViewModelHttpRequestError(ex, context.ViewModelType);
-            throw ViewModelFluxException<TState, TViewModel>.HttpError(context, ex);
+            context.MarkAsErrored(ex);
+            throw ViewModelFluxException<TState, TViewModel>.HttpError(context, ex); //Http Exceptions
         }
     }
 }

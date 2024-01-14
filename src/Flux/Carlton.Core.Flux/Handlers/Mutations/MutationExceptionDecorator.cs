@@ -20,23 +20,22 @@ public class MutationExceptionDecorator<TState>(
                 _logger.MutationCompleted(context.CommandTypeName);
             }
             catch (MutationCommandFluxException<TState, TCommand> ex)
-                when (ex.EventID == LogEvents.Mutation_SaveLocalStorage_JSON_Error ||
-                      ex.EventID == LogEvents.Mutation_SaveLocalStorage_Error)
+                when (ex.EventId == LogEvents.Mutation_SaveLocalStorage_JSON_Error ||
+                      ex.EventId == LogEvents.Mutation_SaveLocalStorage_Error)
             {
-                //Exception is logged
                 //Swallow here so component will still render
+                context.MarkAsErrored(ex);
             }
-            catch (MutationCommandFluxException<TState, TCommand>)
+            catch (MutationCommandFluxException<TState, TCommand> ex)
             {
-                //Exception was already caught, logged and wrapped by other middleware decorators
-                throw;
+                context.MarkAsErrored(ex);
+                throw;  //Exception was already caught, logged and wrapped by other middleware decorators
             }
             catch (Exception ex)
             {
                 //Unhandled Exceptions
                 context.MarkAsErrored(ex);
-                _logger.MutationError(ex, context.CommandTypeName);
-                throw new MutationCommandFluxException<TState, TCommand>(context, ex);
+                throw MutationCommandFluxException<TState, TCommand>.UnhandledError(context, ex);
             }
         }
     }

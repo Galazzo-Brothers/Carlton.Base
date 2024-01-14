@@ -2,18 +2,18 @@
 
 public class FluxExceptionDisplayService : IFluxExceptionDisplayService
 {
-    public ExceptionErrorPrompt GetExceptionErrorPrompt(Exception ex, Action recoverAct)
+    public ErrorPromptModel GetErrorPromptModel(Exception ex, Action recoverAct)
     {
         return ex switch
         {
-            FluxException fluxEx => new ExceptionErrorPrompt
+            FluxException fluxEx => new ErrorPromptModel
                             (
                                 "Error",
                                 fluxEx.Message,
                                 "mdi-alert-circle-outline",
                                 recoverAct
                             ),
-            _ => new ExceptionErrorPrompt
+            _ => new ErrorPromptModel
                             (
                                "Error",
                                "Oops! We are sorry an error has occurred. Please try again.",

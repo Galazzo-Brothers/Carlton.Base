@@ -1,5 +1,6 @@
-﻿namespace Carlton.Core.Flux.Handlers.Mutations;
+﻿using Carlton.Core.Flux.Exceptions;
 
+namespace Carlton.Core.Flux.Handlers.Mutations;
 
 public class MutationCommandHandler<TState>(
     IFluxStateObservable<TState> observable,
@@ -33,10 +34,10 @@ public class MutationCommandHandler<TState>(
             await _observable.OnStateChanged(args);
             context.MarkAsSucceeded();
         }
-        catch(Exception ex)
+        catch(CompileException ex)
         {
-            _logger.MutationApplyError(ex, context.CommandTypeName);
-            throw;
+            context.MarkAsErrored(ex);
+            throw MutationCommandFluxException<TState, TCommand>.MutationApplyError(context, ex);
         }
     }
 }

@@ -59,19 +59,21 @@ public record RequestValidationContext(IEnumerable<string> ValidationErrors)
 public record RequestCompletionContext
 {
     public bool RequestSucceeded { get => Exception == null; }
-    public Exception Exception { get; init; }
+    public RequestExceptionContext Exception { get; init; }
     public DateTimeOffset RequestEndTimestamp { get; init; }
     public long ElapsedTime { get; init; }
 
-    public RequestCompletionContext(Stopwatch stopwatch) : this(stopwatch, null)
+    public RequestCompletionContext(Stopwatch stopwatch, Exception exception) : this(stopwatch)
     {
+        Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
     }
 
-    public RequestCompletionContext(Stopwatch stopwatch, Exception exception)
+    public RequestCompletionContext(Stopwatch stopwatch) 
     {
-        Exception = exception;
         RequestEndTimestamp = DateTimeOffset.UtcNow;
         stopwatch.Stop();
         ElapsedTime = stopwatch.ElapsedMilliseconds;
     }
 }
+
+public record RequestExceptionContext(string ExceptionType, string Message, string StackTrace);

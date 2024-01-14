@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Exceptions;
-
 namespace Carlton.Core.Flux.Handlers.ViewModels;
 
 public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TState>
@@ -18,19 +17,17 @@ public class ViewModelExceptionDecorator<TState> : IViewModelQueryDispatcher<TSt
             try
             {
                 var viewmodel = await _decorated.Dispatch(sender, context, cancellationToken);
-                _logger.ViewModelCompleted(context.ViewModelType);
                 return viewmodel;
             }
-            catch (ViewModelFluxException<TState, TViewModel>)
+            catch (ViewModelFluxException<TState, TViewModel> ex)
             {
-                //Exception was already caught, logged and wrapped by other middleware decorators
-                throw;
+                context.MarkAsErrored(ex);
+                throw; //Exception was already caught, logged and wrapped by other middleware decorators
             }
             catch (Exception ex)
             {
                 context.MarkAsErrored(ex);
-                _logger.ViewModelUnhandledError(ex, context.ViewModelType);
-                throw new ViewModelFluxException<TState, TViewModel>(context, ex);
+                throw ViewModelFluxException<TState, TViewModel>.UnhandledError(context, ex);
             }
         }
     }

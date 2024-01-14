@@ -3,26 +3,18 @@
 @namespace Carlton.Core.Flux.Components
 @typeparam TViewModel
 @typeparam TState
-@inherits FluxComponent<TState, TViewModel>
+@inherits FluxWrapper<TState, TViewModel>
 @inject IJSRuntime JsRuntime;
 @inject ILogger<InteropFluxComponent<TViewModel, TState>> Logger;
 
-
-<FluxErrorBoundary TComponent="TViewModel">
-    <ChildContent>
-        @if (IsLoading)
-        {
-            @SpinnerContent
-        }
-        else
-        {
-            <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
-        }
-    </ChildContent>
-    <ErrorPrompt Context="error">
-        @ErrorContent(error)
-    </ErrorPrompt>
-</FluxErrorBoundary>
+@if (IsLoading)
+{
+    @SpinnerContent
+}
+else
+{
+    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+}
 
 
 @code {
