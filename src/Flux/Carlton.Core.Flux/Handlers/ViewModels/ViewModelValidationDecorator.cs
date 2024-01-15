@@ -11,18 +11,10 @@ public class ViewModelValidationDecorator<TState> : IViewModelQueryDispatcher<TS
 
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        try
-        {
-            var validator = _provider.GetService<IValidator<TViewModel>>();
-            var vm = await _decorated.Dispatch(sender, context, cancellationToken);
-            validator.ValidateAndThrow(vm);
-            context.MarkAsValidated();
-            return vm;
-        }
-        catch (ValidationException ex)
-        {
-            context.MarkAsValidated();
-            throw ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex); //Validation Errors
-        }
+        var validator = _provider.GetService<IValidator<TViewModel>>();
+        var vm = await _decorated.Dispatch(sender, context, cancellationToken);
+        validator.ValidateAndThrow(vm);
+        context.MarkAsValidated();
+        return vm;
     }
 }
