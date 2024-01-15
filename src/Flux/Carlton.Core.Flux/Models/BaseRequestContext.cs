@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
 
 namespace Carlton.Core.Flux.Models;
@@ -7,7 +6,6 @@ namespace Carlton.Core.Flux.Models;
 public abstract class BaseRequestContext
 {
     private readonly Stopwatch _stopwatch = new();
-    private readonly ConcurrentBag<BaseRequestContext> _childRequests = [];
 
     public Guid RequestID { get; } = Guid.NewGuid();
 
@@ -36,7 +34,7 @@ public abstract class BaseRequestContext
     //Completion Context
     public bool RequestInProgress { get => RequestCompletionContext == null; }
     public RequestCompletionContext RequestCompletionContext { get; private set; }
-    protected internal void MarkAsSucceeded()
+    protected void MarkAsSucceeded()
         => RequestCompletionContext = new RequestCompletionContext(_stopwatch);
     protected internal void MarkAsErrored(Exception exception)
         => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), exception);

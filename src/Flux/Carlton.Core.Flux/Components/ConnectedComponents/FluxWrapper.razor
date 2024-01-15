@@ -9,7 +9,7 @@
 @inject ILogger<FluxWrapper<TState, TViewModel>> Logger
 
 
-@if (IsLoading)
+@if(IsLoading)
 {
     @SpinnerContent
 }
@@ -66,51 +66,22 @@ else
     protected virtual async Task<TViewModel> GetViewModel()
     {
         var context = ViewModelQueryContext<TViewModel>.CreateViewModelQueryContext();
-        using (Logger.BeginScope(LogEvents.GetViewModelRequestLoggingScopes(Logger, context)))
-        {
-            try
-            {
-                var viewmodel = await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
-                context.MarkAsSucceeded();
-                Logger.ViewModelCompleted(context.ViewModelType);
-                return viewmodel;
-            }
-            catch (ViewModelFluxException<TState, TViewModel> ex)
-            {
-                context.MarkAsErrored(ex);
-                Logger.LogError(ex.EventId, ex, ex.Message);
-                throw;
-            }
-        }
+        return await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
         var context = new MutationCommandContext<TCommand>(command);
-        using (Logger.BeginScope(LogEvents.GetMutationCommandRequestLoggingScopes(Logger, context)))
-        {
-            try
-            {
-                await MutationDispatcher.Dispatch(Component, context, CancellationToken.None);
-                context.MarkAsSucceeded();
-                Logger.MutationCompleted(context.CommandTypeName);
-            }
-            catch (MutationCommandFluxException<TState, TCommand> ex)
-            {
-                context.MarkAsErrored(ex);
-                Logger.LogError(ex.EventId, ex, ex.Message);
-                throw;
-            }
-        }
+        await MutationDispatcher.Dispatch(Component, context, CancellationToken.None);
     }
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
     {
-        var scopes = Logger.BeginScope(LogEvents.GetFluxComponentStateChangedLogginScopes(Logger, args));
-        using (scopes)
+        var scopes = Logger.BeginScope(LogEvents.GetFluxComponentStateChangedLoggingScopes(Logger, args));
+        using(scopes)
         {
             //State does not require refresh
-            if (!ObservableStateEvents.Contains(args.StateEvent))
+            if(!ObservableStateEvents.Contains(args.StateEvent))
                 return;
 
             //Set loading true

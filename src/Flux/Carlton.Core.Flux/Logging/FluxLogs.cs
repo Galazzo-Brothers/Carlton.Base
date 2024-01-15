@@ -55,17 +55,15 @@ public static class LogEvents
     public const string Mutation_HTTP_JSON_ErrorMsg = "An error occurred while parsing the JSON HTTP response for MutationCommand of type";
     public const string Mutation_HTTP_Response_Update_ErrorMsg = "An error occurred while updating the command with values from the server response for MutationCommand of type";
     public const string Mutation_Apply_ErrorMsg = "An error occurred while applying MutationCommand of type";
-    public const string Mutation_LocalStorage_ErrorMsg = "An error occurred while writing to locastorage for MutationCommand of type";
+    public const string Mutation_LocalStorage_ErrorMsg = "An error occurred while writing to local storage for MutationCommand of type";
     public const string Mutation_LocalStorage_JSON_ErrorMsg = "An error occurred while serializing for local storage MutationCommand of type";
 
     //Specific Http Errors
     public const string InvalidRefreshUrlParametersMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ";
     public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
     public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
-    public const string ErrorUpdatingCommandFromServerResponseMsg = "An error occurred updating the command with the server response of type";
-
-
-    public static IDisposable GetFluxComponentStateChangedLogginScopes(ILogger logger, FluxStateChangedEventArgs args)
+  
+    public static IDisposable GetFluxComponentStateChangedLoggingScopes(ILogger logger, FluxStateChangedEventArgs args)
     {
         return new CompositeDisposable
         (
