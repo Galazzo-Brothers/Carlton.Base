@@ -8,7 +8,5 @@
     [Parameter]
     public TViewModel ViewModel { get; set; }
     [Parameter]
-    public Func<Task<TViewModel>> GetViewModel { get; init; }
-    [Parameter]
     public EventCallback OnComponentEvent { get; init; }
 }

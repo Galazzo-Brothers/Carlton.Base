@@ -133,7 +133,6 @@ else
         return new Dictionary<string, object>
         {
             { "ViewModel", ViewModel },
-            { "GetViewModel", async () => await GetViewModel() },
             { "OnComponentEvent", eventCallback }
         };
     }
