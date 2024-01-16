@@ -8,19 +8,20 @@ public class ViewModelExceptionDecorator<TState>(
 {
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        using(_logger.BeginScope(LogEvents.GetViewModelRequestLoggingScopes(_logger, context)))
+        using (_logger.BeginScope(LogEvents.GetViewModelRequestLoggingScopes(_logger, context)))
         {
             try
             {
                 var vm = await _decorated.Dispatch(sender, context, cancellationToken);
-                _logger.ViewModelCompleted(context.ViewModelType);
+                _logger.ViewModelQueryCompleted(context.ViewModelType);
                 return vm;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 context.MarkAsErrored(ex);
                 var wrappedException = WrapException(context, ex);
-                _logger.LogError(wrappedException.EventId, wrappedException, wrappedException.Message);
+                using (_logger.BeginScope(LogEvents.GetExceptionLoggingScopes(_logger, wrappedException)))
+                    _logger.ViewModelQueryErrored(context.ViewModelType, wrappedException);
                 throw wrappedException;
             }
         }
@@ -28,9 +29,7 @@ public class ViewModelExceptionDecorator<TState>(
 
     private static ViewModelFluxException<TState, TViewModel> WrapException<TViewModel>(
         ViewModelQueryContext<TViewModel> context,
-        Exception exception)
-    {
-        return exception switch
+        Exception exception) => exception switch
         {
             ValidationException ex => ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex), //Validation Error
             InvalidOperationException ex when ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg) => ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex),//URL Construction Error
@@ -40,7 +39,6 @@ public class ViewModelExceptionDecorator<TState>(
             CompileException ex => ViewModelFluxException<TState, TViewModel>.MappingError(context, ex),//Mapping Exception
             _ => ViewModelFluxException<TState, TViewModel>.UnhandledError(context, exception),//Unhandled Exception
         };
-    }
 }
 
 
