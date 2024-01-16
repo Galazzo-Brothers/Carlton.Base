@@ -1,6 +1,5 @@
 ﻿using Carlton.Core.Flux.Exceptions;
 using Carlton.Core.Utilities.Disposable;
-using Microsoft.AspNetCore.Components;
 namespace Carlton.Core.Flux.Logging;
 
 public static class LogEvents
@@ -16,6 +15,7 @@ public static class LogEvents
     public const string ViewModelQuery = "ViewModelQuery";
     public const string FluxRequestContext = "FluxRequestContext: {@FluxRequestContext}";
     public const string EventIdScope = "EventId: {@EventId}";
+    public const string StateEventScope = "StateEvent: {@StateEvent}";
     public const string RequestErrored = "RequestErrored: {@RequestErrored}";
     public const string JsModlue = "JsModule: {@JsModule}";
     public const string JsFunction = "JsFunction: {@JsFunction}";
@@ -30,8 +30,7 @@ public static class LogEvents
     public const int ViewModel_HTTP_URL_Error = 1120;
     public const int ViewModel_HTTP_Request_Error = 1130;
     public const int ViewModel_HTTP_Response_JSON_Error = 1140;
-    public const int ViewModel_Mapping_Error = 1150;
-    public const int ViewModel_Validation_Error = 1160;
+    public const int ViewModel_Validation_Error = 1150;
 
     //Mutation Command Start Events
     public const int Mutation_Completed = 2000;
@@ -50,7 +49,6 @@ public static class LogEvents
     public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel of type";
     public const string ViewModel_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a ViewMode of type";
     public const string ViewModel_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a ViewModel of type";
-    public const string ViewModel_Mapping_ErrorMsg = "An error occurred during the mapping of a ViewModel of type";
     public const string ViewModel_Validation_ErrorMsg = "An error occurred while validating ViewModel of type";
     public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel of type";
 
@@ -70,7 +68,7 @@ public static class LogEvents
     public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
     public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
 
-    public static IDisposable GetJsInteropLoggingScopes(ILogger logger, string jsModule, string jsFunction, object[] jsParameters)
+    public static IDisposable BeginJsInteropLoggingScopes(this ILogger logger, string jsModule, string jsFunction, object[] jsParameters)
     {
         return new CompositeDisposable
         (
@@ -81,7 +79,7 @@ public static class LogEvents
     }
 
 
-    public static IDisposable GetExceptionLoggingScopes(ILogger logger, FluxException exception)
+    public static IDisposable BeginRequestExceptionLoggingScopes(this ILogger logger, FluxException exception)
     {
         return new CompositeDisposable
         (
@@ -90,17 +88,24 @@ public static class LogEvents
         );
     }
 
-    public static IDisposable GetFluxComponentStateChangedLoggingScopes(ILogger logger, FluxStateChangedEventArgs args)
+    public static IDisposable BeginFluxComponentChildRequestLoggingScopes(this ILogger logger, BaseRequestContext context)
     {
         return new CompositeDisposable
         (
             logger.BeginScope(IsFluxChildRequest, true),
-            logger.BeginScope(FluxParentRequestId, args.ParentRequestId),
-            logger.BeginScope(FluxStateEvent, args.StateEvent)
+            logger.BeginScope(FluxParentRequestId, context.RequestID)
         );
     }
 
-    public static IDisposable GetViewModelInitializationLoggingScopes<TViewModel>(ILogger logger)
+    public static IDisposable BeginFluxComponentEventRecievedLoggingScopes(this ILogger logger, string stateEvent)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(StateEventScope, stateEvent)
+        );
+    }
+
+    public static IDisposable BeginViewModelInitializationLoggingScopes(this ILogger logger)
     {
         return new CompositeDisposable
         (
@@ -108,7 +113,7 @@ public static class LogEvents
         );
     }
 
-    public static IDisposable GetViewModelRequestLoggingScopes<TViewModel>(ILogger logger, ViewModelQueryContext<TViewModel> context)
+    public static IDisposable BeginViewModelRequestLoggingScopes<TViewModel>(this ILogger logger, ViewModelQueryContext<TViewModel> context)
     {
         return new CompositeDisposable
         (
@@ -118,7 +123,7 @@ public static class LogEvents
         );
     }
 
-    public static IDisposable GetMutationCommandRequestLoggingScopes<TCommand>(ILogger logger, MutationCommandContext<TCommand> context)
+    public static IDisposable BeginMutationCommandRequestLoggingScopes<TCommand>(this ILogger logger, MutationCommandContext<TCommand> context)
     {
         return new CompositeDisposable
         (

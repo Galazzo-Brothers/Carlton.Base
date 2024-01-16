@@ -8,10 +8,10 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
     public TCommand MutationCommand { get; init; } = command;
     public string ResultingStateEvent { get; private set; }
 
-    internal void MarkAsStateMutationApplied(string stateEvent)
-        => ResultingStateEvent = stateEvent;
-    
-    internal void MarkChildRequestsSucceeded()
-        => base.MarkAsSucceeded();
+    internal void MarkAsSucceeded(string stateEvent)
+    {
+        ResultingStateEvent = stateEvent;
+        base.MarkAsSucceeded();
+    }
 }
 

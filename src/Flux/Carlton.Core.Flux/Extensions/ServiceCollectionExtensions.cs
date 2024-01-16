@@ -4,7 +4,6 @@ using Carlton.Core.Flux.Handlers.Mutations;
 using Carlton.Core.Flux.Handlers.ViewModels;
 using Carlton.Core.Flux.State;
 using Carlton.Core.Utilities.Logging;
-using MapsterMapper;
 
 namespace Carlton.Core.Flux.Extensions;
 
@@ -12,25 +11,20 @@ public static class ServiceCollectionExtensions
 {
     private static bool AddedLocalStorage = false;
 
-    public static void AddCarltonFlux<TState>(
-        this IServiceCollection services,
-        TState state)
-        where TState : class
+    public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state)
     {
         if (!AddedLocalStorage)
             RegisterFluxDependencies(services);
 
-        RegisterStateSpecificFluxDependencies<TState>(services);
-
-        services.AddSingleton(state);
+        RegisterStateSpecificFluxDependencies(services, state);
 
         AddedLocalStorage = true;
     }
 
-    private static void RegisterStateSpecificFluxDependencies<TState>(IServiceCollection services) where TState : class
+    private static void RegisterStateSpecificFluxDependencies<TState>(IServiceCollection services, TState state) 
     {
         /*Flux State*/
-        RegisterFluxState<TState>(services);
+        RegisterFluxState<TState>(services, state);
 
         /*Dispatchers*/
         RegisterFluxDispatchers<TState>(services);
@@ -40,15 +34,24 @@ public static class ServiceCollectionExtensions
 
         /*State Mutations*/
         RegisterFluxStateMutations<TState>(services);
+
+        /*ViewModel Projection Mapper*/
+        RegisterViewModelProjectionMapper<TState>(services);
+    }
+
+    private static void RegisterViewModelProjectionMapper<TState>(IServiceCollection services)
+    {
+        services.Scan(scan => scan
+          .FromApplicationDependencies()
+          .AddClasses(classes => classes.AssignableTo(typeof(IViewModelMapper<TState>)))
+          .AsImplementedInterfaces()
+          .WithSingletonLifetime());
     }
 
     private static void RegisterFluxDependencies(IServiceCollection services)
     {
         /*Register Logging*/
         RegisterLogging(services);
-
-        /*Mapster*/
-        RegisterMapster(services);
 
         /*Validators*/
         RegisterValidators(services);
@@ -72,26 +75,27 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ILogger, MemoryLogger>();
     }
 
-    private static void RegisterMapster(IServiceCollection services)
+    private static void RegisterValidators(IServiceCollection services)
     {
-        services.Scan(scan => scan
-                  .FromApplicationDependencies()
-                  .AddClasses(classes => classes.AssignableTo(typeof(IRegister)))
-                  .AsImplementedInterfaces()
-                  .WithSingletonLifetime());
-
-        var config = new TypeAdapterConfig();
-        services.AddSingleton(config);
-        services.AddSingleton<IMapper, ServiceMapper>();
+        services.Scan(_ =>
+            _.FromApplicationDependencies()
+            .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+            .AsImplementedInterfaces()
+            .WithSingletonLifetime());
     }
 
-    private static void RegisterFluxState<TState>(IServiceCollection services)
-        where TState : class
+    private static void RegisterExceptionHandling(IServiceCollection services)
     {
-        var observable = new FluxStateObservable<TState>();
-        services.AddSingleton<IFluxStateObserver<TState>>(observable);
-        services.AddSingleton<IFluxStateObservable<TState>>(observable);
-        services.AddSingleton<MutationResolver<TState>>();
+        services.AddSingleton<IFluxExceptionDisplayService, FluxExceptionDisplayService>();
+        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
+    }
+
+    private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
+    {
+        //Register State Wrappers
+        services.AddSingleton<IMutableFluxState<TState>>(_ => new FluxState<TState>(state, new MutationResolver<TState>(_)));
+        services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
+        services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
     }
 
     private static void RegisterFluxDispatchers<TState>(IServiceCollection services)
@@ -126,8 +130,6 @@ public static class ServiceCollectionExtensions
 
     private static void RegisterFluxStateMutations<TState>(IServiceCollection services)
     {
-        services.AddSingleton<IMutationResolver<TState>, MutationResolver<TState>>();
-
         services.Scan(_ => _
             .FromApplicationDependencies()
             .AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
@@ -135,20 +137,6 @@ public static class ServiceCollectionExtensions
             .WithSingletonLifetime());
     }
 
-    private static void RegisterValidators(IServiceCollection services)
-    {
-        services.Scan(_ =>
-            _.FromApplicationDependencies()
-            .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-            .AsImplementedInterfaces()
-            .WithSingletonLifetime());
-    }
-
-    private static void RegisterExceptionHandling(IServiceCollection services)
-    {
-        services.AddSingleton<IFluxExceptionDisplayService, FluxExceptionDisplayService>();
-        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
-    }
 }
 
 

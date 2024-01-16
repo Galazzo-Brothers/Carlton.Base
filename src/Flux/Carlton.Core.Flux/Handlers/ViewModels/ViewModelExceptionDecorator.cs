@@ -8,7 +8,7 @@ public class ViewModelExceptionDecorator<TState>(
 {
     public async Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        using (_logger.BeginScope(LogEvents.GetViewModelRequestLoggingScopes(_logger, context)))
+        using (_logger.BeginViewModelRequestLoggingScopes(context))
         {
             try
             {
@@ -20,7 +20,7 @@ public class ViewModelExceptionDecorator<TState>(
             {
                 context.MarkAsErrored(ex);
                 var wrappedException = WrapException(context, ex);
-                using (_logger.BeginScope(LogEvents.GetExceptionLoggingScopes(_logger, wrappedException)))
+                using (_logger.BeginRequestExceptionLoggingScopes(wrappedException))
                     _logger.ViewModelQueryErrored(context.ViewModelType, wrappedException);
                 throw wrappedException;
             }
@@ -36,7 +36,6 @@ public class ViewModelExceptionDecorator<TState>(
             JsonException ex => ViewModelFluxException<TState, TViewModel>.JsonError(context, ex),//Error Serializing JSON
             NotSupportedException ex when ex.Message.Contains("Serialization and deserialization") => ViewModelFluxException<TState, TViewModel>.JsonError(context, ex),//Error Serializing JSON
             HttpRequestException ex => ViewModelFluxException<TState, TViewModel>.HttpError(context, ex),//Http Exceptions
-            CompileException ex => ViewModelFluxException<TState, TViewModel>.MappingError(context, ex),//Mapping Exception
             _ => ViewModelFluxException<TState, TViewModel>.UnhandledError(context, exception),//Unhandled Exception
         };
 }
