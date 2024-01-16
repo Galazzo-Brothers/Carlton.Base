@@ -65,7 +65,7 @@ else
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
-        var context = ViewModelQueryContext<TViewModel>.CreateViewModelQueryContext();
+        var context = new ViewModelQueryContext<TViewModel>();
         return await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
     }
 

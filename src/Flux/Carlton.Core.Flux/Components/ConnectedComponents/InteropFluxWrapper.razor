@@ -29,22 +29,19 @@ else
 
     protected override async Task<TViewModel> GetViewModel()
     {
-        var traceGuid = Guid.NewGuid();
-        var vmDisplayName = typeof(TViewModel).GetDisplayName();
-        var vmQueryTraceGuid = $"ViewModelJsInteropQuery_{vmDisplayName}_{traceGuid}";
-        using (Logger.BeginScope(vmQueryTraceGuid))
+        var vmType = typeof(TViewModel).GetDisplayName();
+        using (Logger.BeginScope(LogEvents.GetJsInteropLoggingScopes(Logger, JsModule, JsFunction, JsParameters)))
         {
             try
             {
-                var vmType = typeof(TViewModel).GetDisplayName();
                 await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(Import, JsModule);
                 var result = await module.InvokeAsync<TViewModel>(JsFunction, CancellationToken.None, JsParameters);
-                Logger.ViewModelJsInteropRefreshCompleted(vmType);
+                Logger.ViewModelJsInteropQueryCompleted(vmType);
                 return result;
             }
             catch (JSException ex)
             {
-                Logger.ViewModelJsInteropRefreshErrored(ex, typeof(TViewModel).GetDisplayName());
+                Logger.ViewModelJsInteropQueryErrored(ex, vmType);
                 throw ViewModelFluxException<TState, TViewModel>.JSInteropError(ex);
             }
         }

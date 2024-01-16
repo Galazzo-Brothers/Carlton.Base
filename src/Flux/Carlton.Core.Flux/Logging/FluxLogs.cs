@@ -1,18 +1,25 @@
-﻿using Carlton.Core.Utilities.Disposable;
+﻿using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Utilities.Disposable;
+using Microsoft.AspNetCore.Components;
 namespace Carlton.Core.Flux.Logging;
 
 public static class LogEvents
 {
     //Logging Scopes
     public const string FluxComponentInitialization = "FluxComponentInitialization: {@FluxComponentInitialization}";
-    public const string IsFluxChildRequest = "IsFluxChildRequest : {@IsFluxChildRequest}";
-    public const string FluxParentRequestId = "FluxParentRequestId : {@FluxParentRequestId}";
-    public const string FluxStateEvent = "FluxStateEvent : {@FluxStateEvent}";
+    public const string IsFluxChildRequest = "IsFluxChildRequest: {@IsFluxChildRequest}";
+    public const string FluxParentRequestId = "FluxParentRequestId: {@FluxParentRequestId}";
+    public const string FluxStateEvent = "FluxStateEvent: {@FluxStateEvent}";
     public const string FluxAction = "FluxAction: {@FluxAction}";
     public const string FluxRequestId = "FluxRequestId: {@FluxRequestId}";
     public const string MutationCommand = "MutationCommand";
     public const string ViewModelQuery = "ViewModelQuery";
-    public const string FluxRequestContext = "FluxRequestContext : {@FluxRequestContext}";
+    public const string FluxRequestContext = "FluxRequestContext: {@FluxRequestContext}";
+    public const string EventIdScope = "EventId: {@EventId}";
+    public const string RequestErrored = "RequestErrored: {@RequestErrored}";
+    public const string JsModlue = "JsModule: {@JsModule}";
+    public const string JsFunction = "JsFunction: {@JsFunction}";
+    public const string JsParameters = "JsParameters: {@JsParameters}";
 
     //ViewModel Query Events
     public const int ViewModel_JsInterop_Completed = 1200;
@@ -62,7 +69,27 @@ public static class LogEvents
     public const string InvalidRefreshUrlParametersMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ";
     public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
     public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
-  
+
+    public static IDisposable GetJsInteropLoggingScopes(ILogger logger, string jsModule, string jsFunction, object[] jsParameters)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(JsModlue, jsModule),
+            logger.BeginScope(JsFunction, jsFunction),
+            logger.BeginScope(JsParameters, jsParameters)
+        );
+    }
+
+
+    public static IDisposable GetExceptionLoggingScopes(ILogger logger, FluxException exception)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(EventIdScope, exception.EventId),
+            logger.BeginScope(RequestErrored, true)
+        );
+    }
+
     public static IDisposable GetFluxComponentStateChangedLoggingScopes(ILogger logger, FluxStateChangedEventArgs args)
     {
         return new CompositeDisposable

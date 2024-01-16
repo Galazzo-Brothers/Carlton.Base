@@ -9,10 +9,6 @@ public abstract class BaseRequestContext
 
     public Guid RequestID { get; } = Guid.NewGuid();
 
-    //Child Requests
-    public Guid ParentRequestId { get; protected init; }
-    public bool IsChildRequest { get => ParentRequestId != Guid.Empty; }
- 
     //Http Context
     public bool RequiresHttpRefresh { get; private set; }
     public bool RequestHttRefreshed { get => RequestHttpContext != null; }
@@ -34,23 +30,20 @@ public abstract class BaseRequestContext
     //Completion Context
     public bool RequestInProgress { get => RequestCompletionContext == null; }
     public RequestCompletionContext RequestCompletionContext { get; private set; }
-    protected void MarkAsSucceeded()
+    protected internal void MarkAsSucceeded()
         => RequestCompletionContext = new RequestCompletionContext(_stopwatch);
     protected internal void MarkAsErrored(Exception exception)
         => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), exception);
 }
 
 
-public record RequestHttpContext(
-    string HttpUrl,
-    HttpStatusCode HttpStatusCode,
-    object HttpResponse);
+public record RequestHttpContext(string HttpUrl, HttpStatusCode HttpStatusCode, object HttpResponse);
 
 public record RequestValidationContext(IEnumerable<string> ValidationErrors)
 {
     public bool ValidationPassed { get => !ValidationErrors.Any(); }
 
-    public RequestValidationContext() : this(new List<string>())
+    internal RequestValidationContext() : this(new List<string>())
     { }
 }
 
@@ -61,12 +54,12 @@ public record RequestCompletionContext
     public DateTimeOffset RequestEndTimestamp { get; init; }
     public long ElapsedTime { get; init; }
 
-    public RequestCompletionContext(Stopwatch stopwatch, Exception exception) : this(stopwatch)
+    internal RequestCompletionContext(Stopwatch stopwatch, Exception exception) : this(stopwatch)
     {
         Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
     }
 
-    public RequestCompletionContext(Stopwatch stopwatch) 
+    internal RequestCompletionContext(Stopwatch stopwatch) 
     {
         RequestEndTimestamp = DateTimeOffset.UtcNow;
         stopwatch.Stop();
