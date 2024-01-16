@@ -30,7 +30,7 @@ else
     protected override async Task<TViewModel> GetViewModel()
     {
         var vmType = typeof(TViewModel).GetDisplayName();
-        using (Logger.BeginScope(LogEvents.GetJsInteropLoggingScopes(Logger, JsModule, JsFunction, JsParameters)))
+        using (Logger.BeginScope(LogEvents.BeginJsInteropLoggingScopes(Logger, JsModule, JsFunction, JsParameters)))
         {
             try
             {

@@ -15,12 +15,6 @@ public class ViewModelFluxException<TState, TViewModel> : FluxException
         return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Validation_Error, message, context, innerException);
     }
 
-    public static ViewModelFluxException<TState, TViewModel> MappingError(ViewModelQueryContext<TViewModel> context, CompileException innerException)
-    {
-        var message = $"{LogEvents.ViewModel_Mapping_ErrorMsg} {context.ViewModelType}";
-        return new ViewModelFluxException<TState, TViewModel>(LogEvents.ViewModel_Mapping_Error, message, context, innerException);
-    }
-
     public static ViewModelFluxException<TState, TViewModel> JsonError(ViewModelQueryContext<TViewModel> context, JsonException innerException)
     {
         var message = $"{LogEvents.ViewModel_JSON_ErrorMsg} {context.ViewModelType}";

@@ -8,7 +8,7 @@ public class MutationExceptionDecorator<TState>(
 {
     public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
-        using(_logger.BeginScope(LogEvents.GetMutationCommandRequestLoggingScopes(_logger, context)))
+        using(_logger.BeginMutationCommandRequestLoggingScopes(context))
         {
             try
             {
@@ -25,7 +25,7 @@ public class MutationExceptionDecorator<TState>(
             {
                 context.MarkAsErrored(ex);
                 var wrappedException = WrapException(context, ex);
-                using (_logger.BeginScope(LogEvents.GetExceptionLoggingScopes(_logger, wrappedException)))
+                using (_logger.BeginRequestExceptionLoggingScopes(wrappedException))
                     _logger.MutationCommandErrored(context.CommandTypeName, wrappedException);
                 throw wrappedException;
             }

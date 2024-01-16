@@ -9,7 +9,7 @@
 @inject ILogger<FluxWrapper<TState, TViewModel>> Logger
 
 
-@if(IsLoading)
+@if (IsLoading)
 {
     @SpinnerContent
 }
@@ -39,28 +39,24 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var scopes = LogEvents.GetViewModelInitializationLoggingScopes<TViewModel>(Logger);
-        using(Logger.BeginScope(scopes))
-        {
-            //Set IsLoading to true
-            IsLoading = true;
+        IsLoading = true;
 
-            //Register State Changed Handler
-            StateObserver.StateChanged += OnStateChanged;
+        //Register State Changed Handler
+        StateObserver.StateChanged += OnStateChanged;
 
-            //Get VM and initialize context for wrapped component
+        //Get VM and initialize context for wrapped component
+        using (Logger.BeginViewModelInitializationLoggingScopes())
             ViewModel = await GetViewModel();
 
-            //Gather the StateEvents this component should be listening for
-            var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
-            ObservableStateEvents = attributes.Select(_ => _.StateEvent);
+        //Gather the StateEvents this component should be listening for
+        var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
+        ObservableStateEvents = attributes.Select(_ => _.StateEvent);
 
-            //Set IsLoading to false
-            IsLoading = false;
+        //Set IsLoading to false
+        IsLoading = false;
 
-            //Continue initialization
-            await base.OnInitializedAsync();
-        }
+        //Continue initialization
+        await base.OnInitializedAsync();
     }
 
     protected virtual async Task<TViewModel> GetViewModel()
@@ -77,25 +73,22 @@ else
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
     {
-        var scopes = Logger.BeginScope(LogEvents.GetFluxComponentStateChangedLoggingScopes(Logger, args));
-        using(scopes)
-        {
-            //State does not require refresh
-            if(!ObservableStateEvents.Contains(args.StateEvent))
-                return;
+        //State does not require refresh
+        if (!ObservableStateEvents.Contains(args.StateEvent))
+            return;
 
-            //Set loading true
-            IsLoading = true;
+        //Set loading true
+        IsLoading = true;
 
-            //Refresh ViewModel
+        //Refresh ViewModel
+        using (Logger.BeginFluxComponentEventRecievedLoggingScopes(args.StateEvent))
             ViewModel = await GetViewModel();
 
-            //Set loading false
-            IsLoading = false;
+        //Set loading false
+        IsLoading = false;
 
-            //StateHasChanged
-            StateHasChanged();
-        }
+        //StateHasChanged
+        StateHasChanged();
     }
 
     protected IDictionary<string, object> GetParameters()
