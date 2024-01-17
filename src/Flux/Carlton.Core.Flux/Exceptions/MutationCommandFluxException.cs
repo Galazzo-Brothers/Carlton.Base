@@ -79,7 +79,7 @@ public class MutationCommandFluxException<TState, TCommand> : FluxException
     {
         return $"{Message}" +
             $"{Environment.NewLine}" +
-            $"CommandID: {Context.RequestID}" +
+            $"CommandID: {Context.RequestId}" +
             $"Parameters: {JsonSerializer.Serialize(Context)}" +
             $"{base.ToString()}";
     }

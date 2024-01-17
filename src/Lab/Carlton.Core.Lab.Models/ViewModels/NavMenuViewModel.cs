@@ -1,5 +1,16 @@
-﻿namespace Carlton.Core.Lab.Models.ViewModels;
+﻿using Carlton.Core.Utilities.Validations;
 
-public sealed record NavMenuViewModel(IEnumerable<ComponentAvailableStates> MenuItems, int SelectedComponentIndex, int SelectedStateIndex);
+namespace Carlton.Core.Lab.Models.ViewModels;
+
+public sealed record NavMenuViewModel
+{
+    public IEnumerable<ComponentAvailableStates> MenuItems = new List<ComponentAvailableStates>();
+
+    [NonNegativeInteger]
+    public int SelectedComponentIndex { get; init; }
+
+    [NonNegativeInteger]
+    public int SelectedStateIndex { get; init; }    
+};
 
 

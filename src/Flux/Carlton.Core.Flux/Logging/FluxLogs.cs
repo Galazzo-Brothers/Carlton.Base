@@ -78,7 +78,6 @@ public static class LogEvents
         );
     }
 
-
     public static IDisposable BeginRequestExceptionLoggingScopes(this ILogger logger, FluxException exception)
     {
         return new CompositeDisposable
@@ -88,12 +87,12 @@ public static class LogEvents
         );
     }
 
-    public static IDisposable BeginFluxComponentChildRequestLoggingScopes(this ILogger logger, BaseRequestContext context)
+    public static IDisposable BeginFluxComponentChildRequestLoggingScopes(this ILogger logger, Guid requestId)
     {
         return new CompositeDisposable
         (
             logger.BeginScope(IsFluxChildRequest, true),
-            logger.BeginScope(FluxParentRequestId, context.RequestID)
+            logger.BeginScope(FluxParentRequestId, requestId)
         );
     }
 
@@ -118,7 +117,7 @@ public static class LogEvents
         return new CompositeDisposable
         (
             logger.BeginScope(FluxAction, ViewModelQuery),
-            logger.BeginScope(FluxRequestId, context.RequestID),
+            logger.BeginScope(FluxRequestId, context.RequestId),
             logger.BeginScope(FluxRequestContext, context)
         );
     }
@@ -128,7 +127,7 @@ public static class LogEvents
         return new CompositeDisposable
         (
             logger.BeginScope(FluxAction, MutationCommand),
-            logger.BeginScope(FluxRequestId, context.RequestID),
+            logger.BeginScope(FluxRequestId, context.RequestId),
             logger.BeginScope(FluxRequestContext, context)
         );
     }

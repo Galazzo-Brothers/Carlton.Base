@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Lab.Models.Common;
 
-internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, object ComponentParameters, bool IsViewModelComponent);
+internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, object ComponentParameters);
 
 public sealed class NavMenuViewModelBuilder
 {
@@ -8,37 +8,22 @@ public sealed class NavMenuViewModelBuilder
 
     public NavMenuViewModelBuilder()
     {
-        _internalState = new List<NavMenuBuilderItemState>();
+        _internalState = [];
     }
 
-    public NavMenuViewModelBuilder AddParameterObjComponent<T>()
+    public NavMenuViewModelBuilder AddComponent<T>()
     {
-        return AddComponent<T>("Default", new object(), false);
+        return AddComponentState<T>("Default", new object());
     }
 
-    public NavMenuViewModelBuilder AddParameterObjComponent<T>(object parameters)
+    public NavMenuViewModelBuilder AddComponentState<T>(object parameterObj)
     {
-        return AddComponent<T>("Default", parameters, false);
+        return AddComponentState<T>("Default", parameterObj);
     }
 
-    public NavMenuViewModelBuilder AddParameterObjComponent<T>(string displayName, object parameters)
+    public NavMenuViewModelBuilder AddComponentState<T>(string displayName, object parameterObj)
     {
-        return AddComponent<T>(displayName, parameters, false);
-    }
-
-    public NavMenuViewModelBuilder AddViewModelComponent<T>(object vm)
-    {
-        return AddComponent<T>("Default", vm, true);
-    }
-
-    public NavMenuViewModelBuilder AddViewModelComponent<T>(string displayName, object vm)
-    {
-        return AddComponent<T>(displayName, vm, true);
-    }
-
-    public NavMenuViewModelBuilder AddComponent<T>(string displayName, object vm, bool isViewModel)
-    {
-        var testComp = new NavMenuBuilderItemState(displayName, typeof(T), vm, isViewModel);
+        var testComp = new NavMenuBuilderItemState(displayName, typeof(T), parameterObj);
         _internalState.Add(testComp);
 
         return this;
@@ -47,7 +32,12 @@ public sealed class NavMenuViewModelBuilder
     public IEnumerable<ComponentAvailableStates> Build()
     {
         return _internalState.GroupBy(_ => _.ComponentType)
-                      .Select(group => new ComponentAvailableStates(group.Key, IsExpanded(group.Key), group.Select(BuildComponentState)));
+                      .Select(group => new ComponentAvailableStates
+                      {
+                          ComponentType = group.Key,
+                          ComponentStates = group.Select(BuildComponentState),
+                          IsExpanded = IsExpanded(group.Key)
+                      });
 
 
         bool IsExpanded(Type type)
@@ -55,9 +45,12 @@ public sealed class NavMenuViewModelBuilder
 
         static ComponentState BuildComponentState(NavMenuBuilderItemState state)
         {
-            var paramObjType = state.IsViewModelComponent ? ParameterObjectType.ViewModel : ParameterObjectType.ParameterObject;
-            var compParams = new ComponentParameters(state.ComponentParameters, paramObjType);
-            return new ComponentState(state.DisplayName, compParams);
+            var compParams = new ComponentParameters(state.ComponentParameters);
+            return new()
+            {
+                 DisplayName = state.DisplayName,
+                 ComponentParameters = compParams
+            };
         }
     }
 }

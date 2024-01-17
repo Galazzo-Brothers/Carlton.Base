@@ -9,11 +9,22 @@
                       Groups="ComponentStateGroups"
                       SelectedGroupIndex="ViewModel.SelectedComponentIndex"
                       SelectedItemIndex="ViewModel.SelectedStateIndex"
-                      OnExpandedStateChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuExpandedCommand(args.GroupIndexID, args.IsExpanded))"
-                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(new SelectMenuItemCommand(args.GroupIndexID, args.ItemIndexID, args.Item))" />
+                      OnExpandedStateChanged="args => base.OnComponentEvent.InvokeAsync(
+                        new SelectMenuExpandedCommand
+                        {
+                            SelectedComponentIndex = args.GroupIndexID,
+                            IsExpanded = args.IsExpanded
+                        })"
+                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(
+                        new SelectMenuItemCommand
+                        {
+                            ComponentIndex = args.GroupIndexID,
+                            ComponentStateIndex = args.ItemIndexID,
+                            SelectedComponentState = args.Item
+                        })" />
 
 
-@code{
+@code {
     private IEnumerable<SelectGroup<ComponentState>> ComponentStateGroups { get; set; }
 
     protected override void OnParametersSet()
@@ -28,9 +39,9 @@
 
         var builder = new AccordionSelectGroupBuilder<ComponentState>();
 
-        foreach(var component in components)
-        {            
-            var dictionary = component.ComponentStates.ToDictionary(_ => _.DisplayName, _ => _);    
+        foreach (var component in components)
+        {
+            var dictionary = component.ComponentStates.ToDictionary(_ => _.DisplayName, _ => _);
             builder.AddGroup(component.ComponentType.GetDisplayName(), component.IsExpanded, dictionary);
         }
 

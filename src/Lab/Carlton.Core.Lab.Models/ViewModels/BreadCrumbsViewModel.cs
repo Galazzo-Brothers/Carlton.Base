@@ -1,2 +1,10 @@
 ﻿namespace Carlton.Core.Lab.Models.ViewModels;
-public sealed record BreadCrumbsViewModel(string SelectedComponent, string SelectedComponentState);
+
+public record BreadCrumbsViewModel
+{
+    [Required]
+    public required string SelectedComponent { get; init; }
+
+    [Required]
+    public required string SelectedComponentState { get; init; }
+};

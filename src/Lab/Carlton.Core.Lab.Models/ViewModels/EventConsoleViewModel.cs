@@ -1,6 +1,9 @@
 ﻿namespace Carlton.Core.Lab.Models.ViewModels;
 
-public record EventConsoleViewModel(IEnumerable<ComponentRecordedEvent> RecordedEvents);
+public sealed record EventConsoleViewModel
+{
+    public IEnumerable<ComponentRecordedEvent> RecordedEvents { get; init; } = new List<ComponentRecordedEvent>();
+};
 
 
 

@@ -3,37 +3,36 @@
 public static partial class LogSourceGenerators
 {
     [LoggerMessage(
-       Level = LogLevel.Error,
-       Message = "An error occured processing query for ViewModel of type {Type}")]
-    public static partial void ViewModelQueryErrored(this ILogger logger, string type, Exception ex);
+        EventId = LogEvents.ViewModel_Completed,
+        Level = LogLevel.Information,
+        Message = "Completed processing query for ViewModel of type {ViewModelType}")]
+    public static partial void ViewModelQueryCompleted(this ILogger logger, string viewModelType);
 
     [LoggerMessage(
-      Level = LogLevel.Error,
-      Message = "An error occured processing mutation command of type {Type}")]
-    public static partial void MutationCommandErrored(this ILogger logger, string type, Exception ex);
-
-    [LoggerMessage(
-       EventId = LogEvents.ViewModel_Completed,
-       Level = LogLevel.Information,
-       Message = "Completed processing query for ViewModel of type {Type}")]
-    public static partial void ViewModelQueryCompleted(this ILogger logger, string type);
-
+        EventId = LogEvents.Mutation_Completed,
+        Level = LogLevel.Information,
+        Message = "Completed processing mutation of type {MutationCommandType}")]
+    public static partial void MutationCommandCompleted(this ILogger logger, string mutationCommandType);
+    
     [LoggerMessage(
         EventId = LogEvents.ViewModel_JsInterop_Completed,
         Level = LogLevel.Information,
-        Message = "Completed JSInterop query for ViewModel of type {Type}")]
-    public static partial void ViewModelJsInteropQueryCompleted(this ILogger logger, string type);
+        Message = "Completed JSInterop query for ViewModel of type {ViewModelType}")]
+    public static partial void ViewModelJsInteropQueryCompleted(this ILogger logger, string viewModelType);
 
     [LoggerMessage(
-        EventId = LogEvents.ViewModel_JsInterop_Error,
-        Level = LogLevel.Error,
-        Message = "An error occurred during JSInterop query for ViewModel of type {Type}")]
-    public static partial void ViewModelJsInteropQueryErrored
-        (this ILogger logger, Exception ex, string type);
+       Level = LogLevel.Error,
+       Message = "An error occured processing query for ViewModel of type {ViewModelType}")]
+    public static partial void ViewModelQueryErrored(this ILogger logger, string viewModelType, Exception ex);
 
     [LoggerMessage(
-         EventId = LogEvents.Mutation_Completed,
-         Level = LogLevel.Information,
-         Message = "Completed processing mutation of type {Type}")]
-    public static partial void MutationCommandCompleted(this ILogger logger, string type);
+       Level = LogLevel.Error,
+       Message = "An error occured processing mutation command of type {MutationCommandType}")]
+    public static partial void MutationCommandErrored(this ILogger logger, string MutationCommandType, Exception ex);
+    
+    [LoggerMessage(
+       EventId = LogEvents.ViewModel_JsInterop_Error,
+       Level = LogLevel.Error,
+       Message = "An error occurred during JSInterop query for ViewModel of type {ViewModelType}")]
+    public static partial void ViewModelJsInteropQueryErrored(this ILogger logger, Exception ex, string viewModelType);
 }
