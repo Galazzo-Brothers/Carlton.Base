@@ -1,3 +1,12 @@
-﻿namespace Carlton.Core.Lab.Models.Commands;
+﻿using Carlton.Core.Utilities.Validations;
 
-public sealed record SelectMenuExpandedCommand(int SelectedComponentIndex, bool IsExpanded);
+namespace Carlton.Core.Lab.Models.Commands;
+
+public sealed record SelectMenuExpandedCommand
+{
+    [NonNegativeInteger]
+    public int SelectedComponentIndex { get; init; }
+
+    public bool IsExpanded { get; init; }
+};
+

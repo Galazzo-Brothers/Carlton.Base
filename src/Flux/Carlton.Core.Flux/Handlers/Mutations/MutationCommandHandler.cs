@@ -7,7 +7,7 @@ public class MutationCommandHandler<TState>(
 {
     public async Task Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
-        using (_logger.BeginFluxComponentChildRequestLoggingScopes(context))
+        using (_logger.BeginFluxComponentChildRequestLoggingScopes(context.RequestId))
         {
             var stateEvent = await _state.ApplyMutationCommand(context.MutationCommand);
             context.MarkAsSucceeded(stateEvent);

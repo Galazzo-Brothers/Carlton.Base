@@ -3,11 +3,14 @@
 @attribute [ObserveStateEvents("ParametersUpdated")]
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
 
-<ComponentViewer ComponentType="@ViewModel.ComponentType" 
+<ComponentViewer ComponentType="@ViewModel.ComponentType"
                  ParameterObject="@ViewModel.ComponentParameters.ParameterObj"
-                 Act="(name, obj) => base.OnComponentEvent.InvokeAsync(new RecordEventCommand(name, obj))" />
+                 Act="(name, obj) => base.OnComponentEvent.InvokeAsync(new RecordEventCommand
+                                                                        {
+                                                                            RecordedEventName = name,
+                                                                            EventArgs = obj
+                                                                        })" />
 
 
 
 
-                

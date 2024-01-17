@@ -28,6 +28,7 @@ public class FluxState<TState>(TState _state, IMutationResolver<TState> _resolve
         var args = new FluxStateChangedEventArgs(mutation.StateEvent);
         await StateChanged?.GetInvocationList().RaiseAsyncDelegates(args);
 
+        //Return StateEvent
         return mutation.StateEvent;
     }
 }

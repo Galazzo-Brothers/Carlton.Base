@@ -7,7 +7,7 @@ public abstract class BaseRequestContext
 {
     private readonly Stopwatch _stopwatch = new();
 
-    public Guid RequestID { get; } = Guid.NewGuid();
+    public Guid RequestId { get; } = Guid.NewGuid();
 
     //Http Context
     public bool RequiresHttpRefresh { get; private set; }

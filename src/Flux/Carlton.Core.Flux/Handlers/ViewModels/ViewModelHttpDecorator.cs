@@ -31,8 +31,8 @@ public class ViewModelHttpDecorator<TState>(
             context.MarkAsHttpCallMade(serverUrl, HttpStatusCode.OK, viewModel);
 
             //Update the StateStore
-            var command = new ViewModelRemoteRefreshCommand<TViewModel>(viewModel);
-            var commandContext = new MutationCommandContext<ViewModelRemoteRefreshCommand<TViewModel>>(command);
+            //var command = new ViewModelRemoteRefreshCommand<TViewModel>(viewModel);
+            //var commandContext = new MutationCommandContext<ViewModelRemoteRefreshCommand<TViewModel>>(command);
             // await _state.ApplyMutationCommand(commandContext);
             context.MarkAsStateModifiedByHttpRefresh();
         }

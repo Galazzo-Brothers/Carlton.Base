@@ -21,8 +21,38 @@ public static class ServiceCollectionExtensions
         AddedLocalStorage = true;
     }
 
+    private static void RegisterFluxDependencies(IServiceCollection services)
+    {
+        /*Register Logging*/
+        RegisterLogging(services);
+
+        /*Exception Handling*/
+        RegisterExceptionHandling(services);
+    }
+
+    private static void RegisterLogging(IServiceCollection services)
+    {
+        var logger = new MemoryLogger();
+        services.AddSingleton(logger);
+        services.AddLogging(b =>
+        {
+            b.AddProvider(new MemoryLoggerProvider(logger));
+        });
+
+        services.AddSingleton<ILogger, MemoryLogger>();
+    }
+
+    private static void RegisterExceptionHandling(IServiceCollection services)
+    {
+        services.AddSingleton<IFluxExceptionDisplayService, FluxExceptionDisplayService>();
+        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
+    }
+
     private static void RegisterStateSpecificFluxDependencies<TState>(IServiceCollection services, TState state) 
     {
+        /*Flux Connected Components*/
+        RegisterFluxConnectedComponents(services);
+
         /*Flux State*/
         RegisterFluxState<TState>(services, state);
 
@@ -39,56 +69,15 @@ public static class ServiceCollectionExtensions
         RegisterViewModelProjectionMapper<TState>(services);
     }
 
-    private static void RegisterViewModelProjectionMapper<TState>(IServiceCollection services)
+    private static void RegisterFluxConnectedComponents(IServiceCollection services)
     {
         services.Scan(scan => scan
-          .FromApplicationDependencies()
-          .AddClasses(classes => classes.AssignableTo(typeof(IViewModelMapper<TState>)))
-          .AsImplementedInterfaces()
-          .WithSingletonLifetime());
+                    .FromApplicationDependencies()
+                    .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime());
     }
 
-    private static void RegisterFluxDependencies(IServiceCollection services)
-    {
-        /*Register Logging*/
-        RegisterLogging(services);
-
-        /*Validators*/
-        RegisterValidators(services);
-
-        /*Exception Handling*/
-        RegisterExceptionHandling(services);
-
-        /*Connected Components*/
-        RegisterFluxConnectedComponents(services);
-    }
-
-    private static void RegisterLogging(IServiceCollection services)
-    {
-        var logger = new MemoryLogger();
-        services.AddSingleton(logger);
-        services.AddLogging(b =>
-        {
-            b.AddProvider(new MemoryLoggerProvider(logger));
-        });
-
-        services.AddSingleton<ILogger, MemoryLogger>();
-    }
-
-    private static void RegisterValidators(IServiceCollection services)
-    {
-        services.Scan(_ =>
-            _.FromApplicationDependencies()
-            .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-            .AsImplementedInterfaces()
-            .WithSingletonLifetime());
-    }
-
-    private static void RegisterExceptionHandling(IServiceCollection services)
-    {
-        services.AddSingleton<IFluxExceptionDisplayService, FluxExceptionDisplayService>();
-        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
-    }
 
     private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
     {
@@ -113,15 +102,6 @@ public static class ServiceCollectionExtensions
         services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
     }
 
-    private static void RegisterFluxConnectedComponents(IServiceCollection services)
-    {
-        services.Scan(scan => scan
-                    .FromApplicationDependencies()
-                    .AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
-                    .AsImplementedInterfaces()
-                    .WithTransientLifetime());
-    }
-
     private static void RegisterFluxHandlers<TState>(IServiceCollection services)
     {
         services.AddSingleton<IMutationCommandHandler<TState>, MutationCommandHandler<TState>>();
@@ -137,6 +117,14 @@ public static class ServiceCollectionExtensions
             .WithSingletonLifetime());
     }
 
+    private static void RegisterViewModelProjectionMapper<TState>(IServiceCollection services)
+    {
+        services.Scan(scan => scan
+          .FromApplicationDependencies()
+          .AddClasses(classes => classes.AssignableTo(typeof(IViewModelMapper<TState>)))
+          .AsImplementedInterfaces()
+          .WithSingletonLifetime());
+    }
 }
 
 

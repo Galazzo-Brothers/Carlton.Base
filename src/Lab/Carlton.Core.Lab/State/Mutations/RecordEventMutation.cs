@@ -6,7 +6,12 @@ public class RecordEventMutation : FluxStateMutationBase<LabState, RecordEventCo
 
     public override LabState Mutate(LabState currentState, RecordEventCommand command)
     {
-        var newEvents = currentState.ComponentEvents.Append(new ComponentRecordedEvent(command.RecordedEventName, command.EventArgs));
+        var newEvents = currentState.ComponentEvents.Append(
+            new ComponentRecordedEvent
+            {
+                Name = command.RecordedEventName,
+                EventObj = command.EventArgs
+            });
         return currentState with { ComponentEvents = newEvents };
     }
 }
