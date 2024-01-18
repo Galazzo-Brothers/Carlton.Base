@@ -1,4 +1,8 @@
 ﻿namespace Carlton.Core.Lab.Models.Common;
 
-public record ComponentParameters(object ParameterObj);
+public record ComponentParameters
+{
+    [Required]
+    public required object ParameterObj { get; init; }
+};
 

@@ -45,7 +45,7 @@ public sealed class NavMenuViewModelBuilder
 
         static ComponentState BuildComponentState(NavMenuBuilderItemState state)
         {
-            var compParams = new ComponentParameters(state.ComponentParameters);
+            var compParams = new ComponentParameters { ParameterObj = state.ComponentParameters };
             return new()
             {
                  DisplayName = state.DisplayName,

@@ -4,13 +4,10 @@ using Carlton.Core.Flux.Attributes;
 
 namespace Carlton.Core.Flux.Handlers.Base;
 
-public abstract partial class BaseHttpDecorator<TState>
+public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFluxState<TState> _state)
 {
-    protected readonly HttpClient _client;
-    protected readonly TState _state;
-
-    protected BaseHttpDecorator(HttpClient client, TState state)
-        => (_client, _state) = (client, state);
+    protected HttpClient Client { get; init; } = _client;
+    protected IFluxState<TState> State { get; init; } = _state;
 
     protected static bool GetRefreshPolicy(HttpRefreshAttribute attribute)
     {
@@ -34,7 +31,7 @@ public abstract partial class BaseHttpDecorator<TState>
             var value = string.Empty;
             value = attribute.ParameterType switch
             {
-                DataEndpointParameterType.StateStoreParameter => _state.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(_state).ToString(),
+                DataEndpointParameterType.StateStoreParameter => State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
                 _ => throw new InvalidOperationException(LogEvents.InvalidRefreshUrlCreationEnumValueMsg)
             };

@@ -6,7 +6,7 @@ public class UpdateParametersMutation : FluxStateMutationBase<LabState, UpdatePa
 
     public override LabState Mutate(LabState currentState, UpdateParametersCommand command)
     {
-        var newComponentParameters = new ComponentParameters(command.Parameters);        
+        var newComponentParameters = new ComponentParameters { ParameterObj = command.Parameters };        
         return currentState with { SelectedComponentParameters = newComponentParameters };
     }
 }
