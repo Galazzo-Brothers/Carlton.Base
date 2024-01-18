@@ -4,8 +4,8 @@ using System.Net.Http.Json;
 
 namespace Carlton.Core.Flux.Handlers.Mutations;
 
-public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient client, TState state)
-    : BaseHttpDecorator<TState>(client, state), IMutationCommandDispatcher<TState>
+public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client, IFluxState<TState> _state)
+    : BaseHttpDecorator<TState>(_client, _state), IMutationCommandDispatcher<TState>
 {
     public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
@@ -42,10 +42,10 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
     {
         return httpVerb switch
         {
-            HttpVerb.POST => await _client.PostAsJsonAsync(serverUrl, payload, cancellation),
-            HttpVerb.PUT => await _client.PutAsJsonAsync(serverUrl, payload, cancellation),
-            HttpVerb.PATCH => await _client.PatchAsJsonAsync(serverUrl, payload, cancellation),
-            HttpVerb.DELETE => await _client.DeleteAsync(serverUrl, cancellation),
+            HttpVerb.POST => await Client.PostAsJsonAsync(serverUrl, payload, cancellation),
+            HttpVerb.PUT => await Client.PutAsJsonAsync(serverUrl, payload, cancellation),
+            HttpVerb.PATCH => await Client.PatchAsJsonAsync(serverUrl, payload, cancellation),
+            HttpVerb.DELETE => await Client.DeleteAsync(serverUrl, cancellation),
             _ => throw new NotSupportedException("This HTTP verb is not supported here."),
         };
     }
