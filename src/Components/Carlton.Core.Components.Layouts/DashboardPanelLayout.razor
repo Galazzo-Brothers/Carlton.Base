@@ -1,5 +1,6 @@
 ﻿@using Carlton.Core.Layouts.Components
 @namespace Carlton.Core.Components.Layouts
+@inherits LayoutComponentBase
 
 <LayoutTemplate IsFixedFooter="true">
     <HeaderContent>
@@ -9,7 +10,33 @@
         <NavTemplate Title="@Title" NavContent="NavContent" />
     </NavContent>
     <Body>
-        <DashboardDevPanelBodyContent ShowPanel="ShowPanel" Body="Body" PanelContent="PanelContent" />
+        @if (ShowPanel)
+        {
+            <MediaQueryWrapper>
+                <DesktopContent>
+                    <ResizablePanel>
+                        <TopContent>
+                            @Body
+                        </TopContent>
+                        <BottomContent>
+                            @PanelContent
+                        </BottomContent>
+                    </ResizablePanel>
+                </DesktopContent>
+                <MobileContent>
+                    <div class="mobile-body-content">
+                        @Body
+                    </div>
+                    <div class="mobile-panel-content">
+                        @PanelContent
+                    </div>
+                </MobileContent>
+            </MediaQueryWrapper>
+        }
+        else
+        {
+            @Body
+        }
     </Body>
     <FooterContent>
         <Footer />
@@ -27,8 +54,6 @@
     public RenderFragment HeaderActionContent { get; set; }
     [Parameter]
     public RenderFragment NavContent { get; set; }
-    [Parameter]
-    public RenderFragment Body { get; set; }
     [Parameter]
     public RenderFragment PanelContent { get; set; }
 }

@@ -5,6 +5,4 @@
 	left: 0;
 	right: 0;
 	z-index: 99;
-	will-change: transform;
-	transform: translateZ(0);
 }
