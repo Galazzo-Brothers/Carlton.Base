@@ -2,5 +2,14 @@
 
 public interface IViewModelQueryDispatcher<TState>
 {
-    public Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken);
+    internal Task<TViewModel> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken);
+}
+
+
+public static class ViewModelQueryDispatcherExtensions
+{
+    public static async Task<TViewModel> Dispatch<TState, TViewModel>(this IViewModelQueryDispatcher<TState> dispatcher, object sender, CancellationToken cancellation)
+    {
+        return await dispatcher.Dispatch(sender, new ViewModelQueryContext<TViewModel>(), cancellation);
+    }
 }

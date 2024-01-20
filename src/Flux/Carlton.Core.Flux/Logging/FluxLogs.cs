@@ -5,21 +5,23 @@ namespace Carlton.Core.Flux.Logging;
 public static class LogEvents
 {
     //Logging Scopes
-    public const string FluxComponentInitialization = "FluxComponentInitialization: {@FluxComponentInitialization}";
-    public const string IsFluxChildRequest = "IsFluxChildRequest: {@IsFluxChildRequest}";
-    public const string FluxParentRequestId = "FluxParentRequestId: {@FluxParentRequestId}";
-    public const string FluxStateEvent = "FluxStateEvent: {@FluxStateEvent}";
-    public const string FluxAction = "FluxAction: {@FluxAction}";
-    public const string FluxRequestId = "FluxRequestId: {@FluxRequestId}";
+    public const string FluxComponentInitialization = "FluxComponentInitialization:{@FluxComponentInitialization}";
+    public const string IsFluxChildRequest = "IsFluxChildRequest:{@IsFluxChildRequest}";
+    public const string FluxParentRequestId = "FluxParentRequestId:{@FluxParentRequestId}";
+    public const string FluxStateEvent = "FluxStateEvent:{@FluxStateEvent}";
+    public const string FluxAction = "FluxAction:{@FluxAction}";
+    public const string FluxRequestId = "FluxRequestId:{@FluxRequestId}";
     public const string MutationCommand = "MutationCommand";
     public const string ViewModelQuery = "ViewModelQuery";
-    public const string FluxRequestContext = "FluxRequestContext: {@FluxRequestContext}";
-    public const string EventIdScope = "EventId: {@EventId}";
-    public const string StateEventScope = "StateEvent: {@StateEvent}";
-    public const string RequestErrored = "RequestErrored: {@RequestErrored}";
-    public const string JsModlue = "JsModule: {@JsModule}";
-    public const string JsFunction = "JsFunction: {@JsFunction}";
-    public const string JsParameters = "JsParameters: {@JsParameters}";
+    public const string FluxRequestContext = "FluxRequestContext:{@FluxRequestContext}";
+    public const string ViewModelType = "ViewModelType:{ViewModelType}";
+    public const string MutationCommandType = "MutationCommandType:{MutationCommandType}";
+    public const string EventIdScope = "EventId:{@EventId}";
+    public const string StateEventScope = "StateEvent:{@StateEvent}";
+    public const string RequestErrored = "RequestErrored:{@RequestErrored}";
+    public const string JsModlue = "JsModule:{@JsModule}";
+    public const string JsFunction = "JsFunction:{@JsFunction}";
+    public const string JsParameters = "JsParameters:{@JsParameters}";
 
     //ViewModel Query Events
     public const int ViewModel_JsInterop_Completed = 1200;
@@ -117,6 +119,7 @@ public static class LogEvents
         return new CompositeDisposable
         (
             logger.BeginScope(FluxAction, ViewModelQuery),
+            logger.BeginScope(ViewModelType, context.ViewModelType),
             logger.BeginScope(FluxRequestId, context.RequestId),
             logger.BeginScope(FluxRequestContext, context)
         );
@@ -127,6 +130,7 @@ public static class LogEvents
         return new CompositeDisposable
         (
             logger.BeginScope(FluxAction, MutationCommand),
+            logger.BeginScope(MutationCommandType, context.CommandTypeName),
             logger.BeginScope(FluxRequestId, context.RequestId),
             logger.BeginScope(FluxRequestContext, context)
         );
