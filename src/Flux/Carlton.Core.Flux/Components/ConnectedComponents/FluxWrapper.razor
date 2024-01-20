@@ -61,14 +61,12 @@ else
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
-        var context = new ViewModelQueryContext<TViewModel>();
-        return await QueryDispatcher.Dispatch<TViewModel>(Component, context, CancellationToken.None);
+        return await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        var context = new MutationCommandContext<TCommand>(command);
-        await MutationDispatcher.Dispatch(Component, context, CancellationToken.None);
+        await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None);
     }
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
