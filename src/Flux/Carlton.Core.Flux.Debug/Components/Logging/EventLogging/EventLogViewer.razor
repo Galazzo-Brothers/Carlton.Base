@@ -25,7 +25,7 @@
     [Parameter]
     public EventCallback<LogMessage> SelectedLogMessageChanged { get; set; }
 
-    public LogMessage SelectedLogMessage { get; private set; }
+    public LogMessage? SelectedLogMessage { get; private set; }
 
     public void OnLogEntrySelected(LogMessage selectedLogMessage)
     {

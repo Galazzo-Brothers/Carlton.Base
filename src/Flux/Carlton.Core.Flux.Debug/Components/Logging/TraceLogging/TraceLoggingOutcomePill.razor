@@ -1,0 +1,21 @@
+﻿@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
+
+
+<div class="@LoggingOutcomePillCss">
+      <Pill Text="@OutcomeText" />
+</div>
+
+@code {
+    [Parameter]
+    public bool RequestSucceeded { get; set; }
+
+    private string OutcomeText { get => RequestSucceeded ? "Success" : "Error"; }
+
+    private string LoggingOutcomePillCss
+    {
+        get => new CssBuilder("log-outcome-pill")
+                .AddClass("succeeded", RequestSucceeded)
+                .AddClass("failed", !RequestSucceeded)
+                .Build();
+    }
+}

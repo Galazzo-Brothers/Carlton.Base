@@ -13,5 +13,12 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
         ResultingStateEvent = stateEvent;
         base.MarkAsSucceeded();
     }
+
+    //Most uses of this context involve passing a
+    //weakly typed object as a command at runtime
+    //this override is primarily
+    //so the actual value of the command can be logged
+    public override string ToString()
+     => $"MutationCommandContext[{CommandTypeName}]";
 }
 

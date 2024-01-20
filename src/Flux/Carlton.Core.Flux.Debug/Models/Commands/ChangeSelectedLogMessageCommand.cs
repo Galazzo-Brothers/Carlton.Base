@@ -1,3 +1,9 @@
-﻿namespace Carlton.Core.Flux.Debug.Models.Commands;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record ChangeSelectedLogMessageCommand(LogMessage SelectedLogMessage);
+namespace Carlton.Core.Flux.Debug.Models.Commands;
+
+public record ChangeSelectedLogMessageCommand
+{
+    [Required]
+    public required LogMessage SelectedLogMessage { get; init; }
+};

@@ -1,6 +1,10 @@
 ﻿
-.log-table{
+.trace-log-table{
 	margin: 20px;
+}
+
+::deep .header{
+	padding-left: 25px;
 }
 
 ::deep .header-cell  {
