@@ -1,0 +1,26 @@
+﻿@using Carlton.Core.Components.Tabs
+
+
+<SectionContent SectionName="tab-content">
+    <MediaQueryWrapper>
+        <DesktopContent>
+            <TextTabBar ContentLocation="ContentLocations.Below">
+                <ChildContent>
+                    @TabContent
+                </ChildContent>
+            </TextTabBar>
+        </DesktopContent>
+        <MobileContent>
+            <MobileDrawerTabBar>
+                <ChildContent>
+                    @TabContent
+                </ChildContent>
+            </MobileDrawerTabBar>
+        </MobileContent>
+    </MediaQueryWrapper>
+</SectionContent>
+
+@code {
+    [Parameter]
+    public RenderFragment TabContent { get; set; }
+}
