@@ -1,0 +1,19 @@
+﻿@using Microsoft.Extensions.Logging
+@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+
+
+<div class="@LogLevelPillCss">
+    <Pill Text="@LogLevel.ToString()" />
+</div>
+
+@code {
+    [Parameter]
+    public LogLevel LogLevel { get; set; }
+
+    private string LogLevelPillCss
+    {
+        get => new CssBuilder("log-level-pill")
+                .AddClass(LogLevel.ToString().ToLower())
+                .Build();
+    }
+}

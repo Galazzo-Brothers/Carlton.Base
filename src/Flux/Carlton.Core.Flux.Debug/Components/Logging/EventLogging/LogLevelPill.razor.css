@@ -1,0 +1,31 @@
+﻿
+
+.log-level-pill{
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.trace ::deep.pill {
+	background-color: var(--accent-color-4);
+}
+
+l.debug ::deep.pill {
+	background-color: var(--accent-color-1);
+}
+
+.information ::deep.pill {
+	background-color: gray;
+}
+
+.warning ::deep.pill {
+	background-color: var(--accent-color-5);
+}
+
+.error ::deep.pill {
+	background-color: var(--accent-color-3);
+}
+
+.critical ::deep.pill {
+	background-color: firebrick;
+}

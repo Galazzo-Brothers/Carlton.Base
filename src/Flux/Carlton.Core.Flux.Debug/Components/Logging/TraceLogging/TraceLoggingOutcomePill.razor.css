@@ -1,0 +1,13 @@
+﻿.log-outcome-pill {
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.succeeded ::deep.pill {
+	background-color: #00897b;
+}
+
+.failed ::deep.pill {
+	background-color: firebrick;
+}

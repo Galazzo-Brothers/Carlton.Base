@@ -1,32 +1,62 @@
-﻿@using Carlton.Core.Flux.Debug.Components.Logging
+﻿@using BlazorComponentUtilities
+@using Carlton.Core.Flux.Debug.Components.Logging
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
 
 
-<div class="table-row starting-row" @onclick="() => Expanded=!Expanded">
-    <div class="table-cell chevron-cell"><span class="mdi mdi-24px @(Expanded ? "mdi-chevron-down" : "mdi-chevron-right")"></span></div>
-    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
-    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.Message</span></div>
-    <div class="table-cell"><LogLevelPill LogLevel="@LogMessageGroup.ParentEntry.LogLevel" /></div>
-    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.EventId.Id</span></div>
-    <div class="table-cell"><span class="cell-text">@LogMessageGroup.ParentEntry.EventId.Name</span></div>
+<div class="table-row starting-row" @onclick="ChevronClick">
+    <div class="table-cell chevron-cell"><span class="@ChevronCss"></span></div>
+    <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
+    <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.FluxAction</span></div>
+    <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.TypeDisplayName</span></div>
+    <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.EventId.Id</span></div>
+    <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@TraceLogMessageGroup.ParentEntry.RequestSucceeded" /></span></div>
 </div>
 
-@foreach (var child in LogMessageGroup.ChildEntries)
+
+
+@foreach (var child in TraceLogMessageGroup.ChildEntries)
 {
-    <div class="table-row child-row @(Expanded ? string.Empty : "collapsed")">
+    <div class="@ChildRowCss">
         <div class="table-cell"></div>
         <div class="table-cell"><span class="cell-text">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
-        <div class="table-cell"><span class="cell-text">@child.Message</span></div>
-        <div class="table-cell"><LogLevelPill LogLevel="@child.LogLevel" /></div>
+        <div class="table-cell"><span class="cell-text">@child.FluxAction</span></div>
+        <div class="table-cell"><span class="cell-text">@child.TypeDisplayName</span></div>
         <div class="table-cell"><span class="cell-text">@child.EventId.Id</span></div>
-        <div class="table-cell"><span class="cell-text">@child.EventId.Name</span></div>
+        <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@child.RequestSucceeded" /></span></div>
     </div>
 }
 
 
 @code {
     [Parameter]
-    public required LogMessageGroup LogMessageGroup { get; set; }
+    public required TraceLogMessageGroup TraceLogMessageGroup { get; set; }
 
     private bool Expanded { get; set; }
+    private bool HasChildren { get => TraceLogMessageGroup.ChildEntries.Any(); }
+
+    private string ChevronCss
+    {
+        get => new CssBuilder("chevron")
+                    .AddClass("mdi")
+                    .AddClass("mdi-24px")
+                    .AddClass("mdi-chevron-down", Expanded)
+                    .AddClass("mdi-chevron-right", !Expanded)
+                    .AddClass("dimmed", !HasChildren)
+                    .Build();
+
+    }
+
+    private string ChildRowCss
+    {
+        get => new CssBuilder("child-row")
+                .AddClass("table-row")
+                .AddClass("collapased", !Expanded)
+                .Build();
+    }
+
+    private void ChevronClick()
+    {
+        if (HasChildren)
+            Expanded = !Expanded;
+    }
 }

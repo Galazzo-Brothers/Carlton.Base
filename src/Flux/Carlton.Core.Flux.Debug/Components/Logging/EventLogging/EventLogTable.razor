@@ -4,7 +4,7 @@
 <div class="log-table">
     <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
         <RowTemplate Context="item">
-            <EventLogTableRow LogEntry="item" LogMessageSelected="LogMessageSelected" IsSelected="item==SelectedLogMessage" />
+            <EventLogTableRow LogEntry="item" LogMessageSelected="OnLogMessageSelected" IsSelected="item==SelectedLogMessage" />
         </RowTemplate>
     </Table>
 </div>
@@ -16,7 +16,7 @@
     [Parameter]
     public EventCallback<LogMessage> LogMessageSelected { get; set; }
 
-    private LogMessage SelectedLogMessage { get; set; }
+    private LogMessage? SelectedLogMessage { get; set; }
 
     private void OnLogMessageSelected(LogMessage selectedLogMessage)
     {

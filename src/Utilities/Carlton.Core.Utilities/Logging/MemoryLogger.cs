@@ -48,7 +48,7 @@ public class MemoryLogger : ILogger
     // Add methods to access log messages as needed.
     public LogMessage[] GetLogMessages()
     {
-        return logMessages.ToArray();
+        return [.. logMessages];
     }
 
     public void ClearLogMessages()
@@ -63,9 +63,9 @@ public class MemoryLogger : ILogger
             logMessages.TryDequeue(out _);
     }
 
-    private IEnumerable<KeyValuePair<string, object>> GetCurrentScopes()
+    private Dictionary<string, object> GetCurrentScopes()
     {
-        var result = new List<KeyValuePair<string, object>>();
+        var result = new Dictionary<string, object>();
 
         if (_currentScopes?.Value == null)
             return result;
@@ -79,7 +79,13 @@ public class MemoryLogger : ILogger
             //case 2: the scope is a singular string value and just add the name to the dictionary
             var scopeValue = isNamedVariable ? scopeArray[1] : string.Empty;
 
-            result.Add(new KeyValuePair<string, object>(scopeName, scopeValue));
+            //We will take the most recent version of the scope
+            //and throw the rest away
+            if (result.ContainsKey(scopeName))
+                continue;
+
+
+            result.Add(scopeName, scopeValue);
         }
 
         return result;

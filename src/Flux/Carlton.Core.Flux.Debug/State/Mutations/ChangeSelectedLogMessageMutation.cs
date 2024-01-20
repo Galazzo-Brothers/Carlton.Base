@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
 
-public class ChangeSelectedLogEntryMutation : FluxStateMutationBase<FluxDebugState, ChangeSelectedLogMessageCommand>
+public class ChangeSelectedLogMessageMutation : FluxStateMutationBase<FluxDebugState, ChangeSelectedLogMessageCommand>
 {
     public override string StateEvent => FluxDebugStateEvents.SelectedLogMessageChanged.ToString();
 
