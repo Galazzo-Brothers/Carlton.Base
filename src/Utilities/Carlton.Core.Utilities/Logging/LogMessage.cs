@@ -2,11 +2,11 @@
 
 public record LogMessage
 {
-    public LogLevel LogLevel { get; init; }
-    public EventId EventId { get; init; }
-    public string Message { get; init; }
-    public Exception Exception { get; init; }
-    public DateTime Timestamp { get; init; }
+    public required LogLevel LogLevel { get; init; }
+    public required EventId EventId { get; init; }
+    public required string Message { get; init; }
+    public required Exception Exception { get; init; }
+    public required DateTime Timestamp { get; init; }
     public IEnumerable<KeyValuePair<string, object>> Scopes { get; init; } = new List<KeyValuePair<string, object>>();
 }
 
