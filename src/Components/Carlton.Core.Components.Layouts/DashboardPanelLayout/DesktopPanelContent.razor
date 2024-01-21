@@ -1,0 +1,15 @@
+﻿@namespace Carlton.Core.Components.Layouts
+
+<ResizablePanel>
+    <TopContent>
+        @Body
+    </TopContent>
+    <BottomContent>
+        <SectionOutlet SectionName="panel" />
+    </BottomContent>
+</ResizablePanel>
+
+@code{
+    [Parameter]
+    public RenderFragment Body {get; set;}
+}

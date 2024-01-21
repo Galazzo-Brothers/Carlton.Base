@@ -1,0 +1,13 @@
+﻿@namespace Carlton.Core.Components.Layouts
+
+<div class="mobile-body-content">
+    @Body
+</div>
+<div class="mobile-panel-content">
+    <SectionOutlet SectionName="panel" />
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment Body { get; set; }
+}

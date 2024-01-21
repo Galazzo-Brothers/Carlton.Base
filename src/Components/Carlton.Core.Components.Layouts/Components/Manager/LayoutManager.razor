@@ -6,6 +6,7 @@
 @using Carlton.Core.Components.Layouts.State.Modals
 @using Carlton.Core.Components.Layouts.State.Theme
 @using Carlton.Core.Components.Layouts.State.Toasts
+@using Carlton.Core.Components.Layouts.State.LayoutSettings
 
 @namespace Carlton.Core.Components.Layouts
 @inherits LayoutComponentBase
@@ -14,22 +15,13 @@
 @inject IThemeState ThemeState
 @inject IModalState ModalState
 @inject IToastState ToastState
+@inject ILayoutSettings LayoutSettings
 
-<div class="@LayoutContainerCss" data-theme="@ThemeState.Theme.ToString()">
-    <header>
-        @HeaderContent
-    </header>
-    <nav>
-        @NavContent
-    </nav>
-    <main>
+<div class="layout-manager" data-theme="@ThemeState.Theme.ToString()">
+    <CascadingValue Value="CascadingState" >
         @Body
-        <button @onclick="RaiseModal">Modal Test</button>
-        <button @onclick="RaiseToast">Toast Test</button>
-    </main>
-    <footer class="@LayoutFooterCss">
-        @FooterContent
-    </footer>
+    </CascadingValue>
+
     <LayoutToasater @ref="LayoutToaster"
                     IsTestMode="false"
                     FadeOutEnabled="true"
@@ -43,38 +35,16 @@
 </div>
 
 
-
-
-
 @code {
-    [Parameter]
-    public RenderFragment HeaderContent { get; set; }
-    [Parameter]
-    public RenderFragment NavContent { get; set; }
-    [Parameter]
-    public RenderFragment FooterContent { get; set; }
-    [Parameter]
-    public bool IsFixedFooter { get; set; }
-
     private LayoutToasater LayoutToaster { get; set; }
 
-
-    private void RaiseModal()
+    private LayoutManagerCascadingState CascadingState
     {
-        ModalState.RaiseModal<SingleActionModal>("Testing", "This is a test",
-        () =>
-        {
-            return Task.CompletedTask;
-        },
-        obj =>
-        {
-            return Task.CompletedTask;
-        });
-    }
-
-    private void RaiseToast()
-    {
-        ToastState.RaiseToast("Some Toast", "This is a toast", ToastTypes.Success);
+        get => new LayoutManagerCascadingState
+            {
+                IsFullScreen = NavMenuState.IsFullScreen,
+                LayoutSettings = LayoutSettings.Settings
+            };
     }
 
     protected override void OnInitialized()
@@ -86,36 +56,19 @@
         base.OnInitialized();
     }
 
-    private void OnLayoutChanged(object sender, FullScreenStateChangedEventArgs args)
+    private void OnLayoutChanged(object? sender, FullScreenStateChangedEventArgs args)
         => StateHasChanged();
 
-
-    private void OnThemeChanged(object sender, ThemeChangedEventArgs args)
+    private void OnThemeChanged(object? sender, ThemeChangedEventArgs args)
         => StateHasChanged();
 
-    private void OnModalRaised(object sender, ModalRaisedEventArgs args)
-    {
-        StateHasChanged();
-    }
+    private void OnModalRaised(object? sender, ModalRaisedEventArgs args)
+        => StateHasChanged();
 
-    private void OnToastRaised(object sender, ToastRaisedEventArgs args)
+    private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
     {
         LayoutToaster.GenerateNotification(args.RaisedToast);
         StateHasChanged();
-    }
-
-    private string LayoutContainerCss
-    {
-        get => new CssBuilder("layout-container")
-                .AddClass("collapsed", NavMenuState.IsFullScreen)
-                .Build();
-    }
-
-    private string LayoutFooterCss
-    {
-        get => new CssBuilder("footer")
-                .AddClass("fixed", IsFixedFooter)
-                .Build();
     }
 
     public void Dispose()
