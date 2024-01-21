@@ -1,27 +1,23 @@
 ﻿@using Carlton.Core.Components.Layouts
 @namespace Carlton.Core.Lab.Layouts
 @inherits LayoutComponentBase
+@layout DashboardTabedPanelLayout
 
-<DashboardDevPanelLayout ShowPanel="true">
-    <NavContent>
-        <LabComponent TViewModel="NavMenuViewModel" />
-    </NavContent>
-    <PageTitleContent>
-        <LabComponent TViewModel="BreadCrumbsViewModel" />
-    </PageTitleContent>
-    <HeaderActionContent>
-        <LabHeaderActions />
-    </HeaderActionContent>
-    <Body>
-        @Body
-    </Body>
-    <PanelContent>
-        <LabTabs />
-    </PanelContent>
-</DashboardDevPanelLayout>
+@Body
 
 
+<SectionContent SectionId="DashboardPanelLayout.HeaderNav">
+    <LabComponent TViewModel="NavMenuViewModel" />
+</SectionContent>
 
+<SectionContent SectionId="DashboardPanelLayout.HeaderPageTitle">
+    <LabComponent TViewModel="BreadCrumbsViewModel" />
+</SectionContent>
 
+<SectionContent SectionId="DashboardPanelLayout.HeaderActionContent">
+    <LabHeaderActions />
+</SectionContent>
 
-
+<SectionContent SectionName="nav-content">
+    <LabComponent TViewModel="NavMenuViewModel" />
+</SectionContent>
