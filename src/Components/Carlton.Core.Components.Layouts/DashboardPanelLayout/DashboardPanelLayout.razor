@@ -1,0 +1,67 @@
+﻿@namespace Carlton.Core.Components.Layouts
+@inherits LayoutComponentBase
+@layout LayoutManager
+
+<div class="@LayoutContainerCss">
+    <header>
+        <Header>
+            <NavMenuContent>
+                <SectionOutlet SectionName="header-nav" />
+            </NavMenuContent>
+            <PageTitleContent>
+                <SectionOutlet SectionName="header-page-title" />
+            </PageTitleContent>
+            <HeaderActionsContent>
+                <SectionOutlet SectionName="header-action-content" />
+            </HeaderActionsContent>
+        </Header>
+    </header>
+    <nav>
+        <NavTemplate Title="@AppName">
+            <NavContent>
+                <SectionOutlet SectionName="nav-content" />
+            </NavContent>
+        </NavTemplate>
+    </nav>
+    <main>
+        @if (ShowPanel)
+        {
+            <MediaQueryWrapper>
+                <DesktopContent>
+                    <DesktopPanelContent Body="Body" />
+                </DesktopContent>
+                <MobileContent>
+                    <MobilePanelContent Body="Body" />
+                </MobileContent>
+            </MediaQueryWrapper>
+        }
+        else
+        {
+            @Body
+        }
+    </main>
+    <footer>
+        <Footer />
+    </footer>
+</div>
+
+
+@code {
+    [CascadingParameter]
+    public LayoutManagerCascadingState CascadingState { get; set; }
+
+    public string AppName { get => CascadingState.LayoutSettings.GetValue<string>("AppName"); }
+
+    public bool ShowPanel { get => CascadingState.LayoutSettings.GetValue<bool>("ShowPanel"); }
+
+    private string LayoutContainerCss
+    {
+        get => new CssBuilder("layout-container")
+                .AddClass("collapsed", CascadingState.IsFullScreen)
+                .Build();
+    }
+
+}
+
+
+

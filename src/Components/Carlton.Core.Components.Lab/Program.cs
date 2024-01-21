@@ -26,7 +26,9 @@ public static class Program
                                             .AddSeq("http://localhost:5341/")
         );
 
-        builder.Services.AddCarltonLayout();
+        builder.Services.AddCarltonLayout(b => 
+            b.AddSetting("AppName", "Carlton Test Lab")
+             .AddSetting("ShowPanel", true));
         builder.Services.AddCarltonTestLab(builder =>
         {
             //Base Components

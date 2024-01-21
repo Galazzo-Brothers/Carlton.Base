@@ -7,9 +7,13 @@ public static class CollectionExtensions
 {
     public static IReadOnlyCollection<T> AsReadOnly<T>(this ConcurrentBag<T> concurrentBag)
     {
-        if (concurrentBag == null)
-            throw new ArgumentNullException(nameof(concurrentBag));
+        return concurrentBag == null
+            ? throw new ArgumentNullException(nameof(concurrentBag))
+            : (IReadOnlyCollection<T>)new ReadOnlyCollection<T>(concurrentBag.ToList());
+    }
 
-        return new ReadOnlyCollection<T>(concurrentBag.ToList());
+    public static T GetValue<T>(this IDictionary<string, object> dictionary, string key)
+    {
+        return (T) dictionary[key];
     }
 }
