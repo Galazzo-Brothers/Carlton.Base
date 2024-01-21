@@ -40,7 +40,7 @@
         await base.OnInitializedAsync();
     }
 
-    private void OnViewportChanged(object sender, ViewportChangedEventArgs args)
+    private void OnViewportChanged(object? sender, ViewportChangedEventArgs args)
     {
         CurrentViewport = args.NewViewport;
         StateHasChanged();

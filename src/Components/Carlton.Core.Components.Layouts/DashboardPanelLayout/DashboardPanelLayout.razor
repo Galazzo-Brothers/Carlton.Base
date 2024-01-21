@@ -6,13 +6,13 @@
     <header>
         <Header>
             <NavMenuContent>
-                <SectionOutlet SectionName="header-nav" />
+                <SectionOutlet SectionId="HeaderNav" />
             </NavMenuContent>
             <PageTitleContent>
-                <SectionOutlet SectionName="header-page-title" />
+                <SectionOutlet SectionId="HeaderPageTitle" />
             </PageTitleContent>
             <HeaderActionsContent>
-                <SectionOutlet SectionName="header-action-content" />
+                <SectionOutlet SectionId="HeaderActionContent" />
             </HeaderActionsContent>
         </Header>
     </header>
@@ -61,6 +61,10 @@
                 .Build();
     }
 
+    public static object HeaderNav = new();
+    public static object HeaderPageTitle = new();
+    public static object HeaderActionContent = new();
+    public static object Panel = new();
 }
 
 
