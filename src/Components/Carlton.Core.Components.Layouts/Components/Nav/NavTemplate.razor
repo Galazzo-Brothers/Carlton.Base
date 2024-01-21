@@ -1,10 +1,8 @@
 ﻿@using Carlton.Core.Components.Layouts.State.FullScreen
 @namespace Carlton.Core.Components.Layouts
-@implements IDisposable
-@inject IFullScreenState FullScreenState
 
 <Logo Title="@Title" />
-@if (!FullScreenState.IsFullScreen)
+@if (!IsFullScreen)
 {
     @NavContent
 }
@@ -14,16 +12,6 @@
     public string Title { get; set; }
     [Parameter]
     public RenderFragment NavContent { get; set; }
-
-    protected override void OnInitialized()
-    {
-        FullScreenState.FullScreenStateChanged += OnFullScreenStateChange;
-        base.OnInitialized();
-    }
-
-    private void OnFullScreenStateChange(object sender, FullScreenStateChangedEventArgs args)
-        => StateHasChanged();
-
-
-    public void Dispose() => FullScreenState.FullScreenStateChanged -= OnFullScreenStateChange;
+    [Parameter]
+    public bool IsFullScreen { get; set; }
 }
