@@ -4,41 +4,13 @@
 
 <div class="@LayoutContainerCss">
     <header>
-        <Header>
-            <NavMenuContent>
-                <SectionOutlet SectionId="HeaderNav" />
-            </NavMenuContent>
-            <PageTitleContent>
-                <SectionOutlet SectionId="HeaderPageTitle" />
-            </PageTitleContent>
-            <HeaderActionsContent>
-                <SectionOutlet SectionId="HeaderActionContent" />
-            </HeaderActionsContent>
-        </Header>
+       <DashboardPanelHeader />
     </header>
     <nav>
-        <NavTemplate Title="@AppName">
-            <NavContent>
-                <SectionOutlet SectionName="nav-content" />
-            </NavContent>
-        </NavTemplate>
+        <DashboardPanelNav AppName="@AppName" IsFullScreen="CascadingState.IsFullScreen" />
     </nav>
     <main>
-        @if (ShowPanel)
-        {
-            <MediaQueryWrapper>
-                <DesktopContent>
-                    <DesktopPanelContent Body="Body" />
-                </DesktopContent>
-                <MobileContent>
-                    <MobilePanelContent Body="Body" />
-                </MobileContent>
-            </MediaQueryWrapper>
-        }
-        else
-        {
-            @Body
-        }
+       <DashboardPanelBody ShowPanel="ShowPanel" BodyContent="@Body" />
     </main>
     <footer>
         <Footer />
