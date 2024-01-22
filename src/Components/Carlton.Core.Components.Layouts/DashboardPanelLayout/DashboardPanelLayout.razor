@@ -1,21 +1,16 @@
-﻿@namespace Carlton.Core.Components.Layouts
+﻿@namespace Carlton.Core.Components.Layouts.DashboardPanelLayout
 @inherits LayoutComponentBase
 @layout LayoutManager
 
-<div class="@LayoutContainerCss">
-    <header>
-       <DashboardPanelHeader />
-    </header>
-    <nav>
-        <DashboardPanelNav AppName="@AppName" IsFullScreen="CascadingState.IsFullScreen" />
-    </nav>
-    <main>
-       <DashboardPanelBody ShowPanel="ShowPanel" BodyContent="@Body" />
-    </main>
-    <footer>
-        <Footer />
-    </footer>
-</div>
+
+<MediaQueryWrapper>
+    <DesktopContent>
+        <DashboardPanelDesktopLayout BodyContent="@Body" AppName="@AppName" LogoUrl="@LogoUrl"  IsFullScreen="CascadingState.IsFullScreen" />
+    </DesktopContent>
+    <MobileContent>
+      <DashboardPanelMobileLayout BodyContent="@Body" LogoUrl="@LogoUrl" IsFullScreen="CascadingState.IsFullScreen" />
+    </MobileContent>
+</MediaQueryWrapper>
 
 
 @code {
@@ -23,6 +18,8 @@
     public LayoutManagerCascadingState CascadingState { get; set; }
 
     public string AppName { get => CascadingState.LayoutSettings.GetValue<string>("AppName"); }
+
+    public string LogoUrl { get => CascadingState.LayoutSettings.GetValue<string>("LogoUrl"); }
 
     public bool ShowPanel { get => CascadingState.LayoutSettings.GetValue<bool>("ShowPanel"); }
 
@@ -33,10 +30,12 @@
                 .Build();
     }
 
-    public static object HeaderNav = new();
+    public static object Nav = new();
+    public static object Logo = new();
     public static object HeaderPageTitle = new();
     public static object HeaderActionContent = new();
     public static object Panel = new();
+    public static object Footer = new();
 }
 
 

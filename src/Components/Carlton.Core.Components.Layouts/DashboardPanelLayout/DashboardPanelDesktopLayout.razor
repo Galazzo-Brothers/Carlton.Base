@@ -1,0 +1,61 @@
+﻿@namespace Carlton.Core.Components.Layouts.DashboardPanelLayout
+
+<div class="@LayoutContainerCss">
+    <header>
+        <div>
+            <div class="header-bar">
+                <div class="menu">
+                    <HamburgerCollapser />
+                </div>
+                <div class="title">
+                    <SectionOutlet SectionId="DashboardPanelLayout.HeaderPageTitle" />
+                </div>
+                <div class="action">
+                    <SectionOutlet SectionId="DashboardPanelLayout.HeaderActionContent" />
+                </div>
+            </div>
+            <Spacer WidthPercentage="100" />
+        </div>
+    </header>
+    <nav>
+        <DashboardPanelLogo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="IsFullScreen" />
+        @if (!IsFullScreen)
+        {
+            <SectionOutlet SectionId="DashboardPanelLayout.Nav" />
+        }
+    </nav>
+    <main>
+        <ResizablePanel>
+            <TopContent>
+                @BodyContent
+            </TopContent>
+            <BottomContent>
+                <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
+            </BottomContent>
+        </ResizablePanel>
+    </main>
+    <footer>
+        <SectionOutlet SectionId="DashboardPanelLayout.Footer" />
+    </footer>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment BodyContent { get; set; }
+    [Parameter]
+    public string AppName { get; set; }
+    [Parameter]
+    public string LogoUrl { get; set; }
+    [Parameter]
+    public bool IsFullScreen { get; set; }
+
+    private string LayoutContainerCss
+    {
+        get => new CssBuilder("layout-container")
+                .AddClass("collapsed", IsFullScreen)
+                .Build();
+    }
+}
+
+
+
