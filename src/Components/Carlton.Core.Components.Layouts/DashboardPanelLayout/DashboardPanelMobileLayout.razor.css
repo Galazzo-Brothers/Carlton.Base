@@ -1,0 +1,80 @@
+﻿/*Layout*/
+
+.layout-container {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	grid-template-columns: 100%;
+	grid-template-areas:
+		"header"
+		"main"
+		"footer";
+}
+
+	.layout-container header {
+		grid-area: header;
+	}
+
+	.layout-container nav {
+		grid-area: navsidebar;
+		background-color: var(--layout-nav-background-color);
+		height: 100vh;
+	}
+
+	.layout-container main {
+		grid-area: main;
+		height: 100vh;
+		padding-top: 20px;
+		background-color: var(--layout-main-background-color);
+	}
+
+/*Header*/
+.header-bar {
+	display: flex;
+	height: 75px;
+	background-color: var(--layout-mobile-header-background-color);
+}
+
+	.header-bar .nav {
+		flex-basis: 5%;
+		margin-left: 10px;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.header-bar .logo {
+		flex-basis: 5%;
+		margin-top: auto;
+		margin-bottom: auto;
+		text-align: center;
+	}
+
+	.header-bar .title {
+		flex-basis: 85%;
+		margin-top: auto;
+		margin-bottom: auto;
+		text-align: left;
+	}
+
+
+	.header-bar .action {
+		flex-basis: 5%;
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: auto;
+		margin-right: 10px;
+	}
+
+/*Panel*/
+.mobile-panel-content {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 99;
+}
+
+
+/*Overrides*/
+.header-bar ::deep.bread-crumbs .page-title {
+	color: var(--layout-mobile-header-primary-text-color);
+}

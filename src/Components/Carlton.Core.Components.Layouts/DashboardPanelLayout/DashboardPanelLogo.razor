@@ -1,0 +1,25 @@
+﻿@namespace Carlton.Core.Layouts.Components
+
+<div class="@LogoCss">
+    <div class="content">
+        <img src="@LogoUrl" />
+        <span class="title">@Title</span>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string LogoUrl { get; set; }
+    [Parameter]
+    public bool IsCollapsed { get; set; }
+
+    private string LogoCss 
+    {
+        get => new CssBuilder("logo")
+                .AddClass("collapsed", IsCollapsed)
+                .Build();
+    }
+}

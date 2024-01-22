@@ -1,5 +1,5 @@
-﻿@using Carlton.Core.Layouts.Components
-@namespace Carlton.Core.Components.Layouts
+﻿@using Carlton.Core.Components.Layouts.DashboardPanelLayout
+@namespace Carlton.Core.Components.Layouts.DasboardTabedPanelLayout
 @inherits LayoutComponentBase
 @layout DashboardPanelLayout
 
@@ -8,9 +8,11 @@
 
 
 <SectionContent SectionId="DashboardPanelLayout.Panel">
-    <SectionOutlet SectionName="tabs" />
+    <SectionOutlet SectionId="Tabs" />
 </SectionContent>
 
-
+@code{
+    public static object Tabs = new();
+}
 
 

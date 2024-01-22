@@ -1,0 +1,76 @@
+﻿
+/*Layout*/
+.layout-container {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	grid-template-columns: 15% 1fr 1fr;
+	grid-template-areas:
+		"navsidebar header header"
+		"navsidebar main main"
+		"navsidebar footer footer";
+}
+
+	.layout-container header {
+		grid-area: header;
+	}
+
+	.layout-container nav {
+		grid-area: navsidebar;
+		background-color: var(--layout-nav-background-color);
+		height: 100vh;
+	}
+
+	.layout-container main {
+		grid-area: main;
+		height: 100vh;
+		padding-top: 20px;
+		background-color: var(--layout-main-background-color);
+	}
+
+	.layout-container footer {
+		grid-area: footer;
+		position: absolute;
+		bottom: 0;
+		width: 85%;
+		margin-left: 15%;
+		z-index: 10;
+		background: var(--layout-footer-background-color);
+		color: var(--layout-footer-color);
+	}
+
+/*Header*/
+.header-bar {
+	display: flex;
+	height: 75px;
+	background-color: var(--layout-header-background-color);
+}
+
+	.header-bar .menu {
+		flex-basis: 5%;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.header-bar .title {
+		flex-basis: 25%;
+		margin-top: auto;
+		margin-bottom: auto;
+		color: white;
+	}
+
+	.header-bar .action {
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: auto;
+		margin-right: 10px;
+	}
+
+/*Collapsed Nav*/
+.layout-container.collapsed {
+	grid-template-columns: 5% 1fr 1fr;
+}
+
+	.layout-container.collapsed footer {
+		width: 95%;
+		margin-left: 5%;
+	}
