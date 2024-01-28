@@ -1,6 +1,5 @@
-﻿global using FluentValidation;
+﻿global using System.ComponentModel.DataAnnotations;
 global using Carlton.Core.Flux.Contracts;
-global using Carlton.Core.Flux.Models;
 global using Carlton.Core.Flux.Debug.Models.Common;
 global using Carlton.Core.Flux.Debug.Models.Commands;
 global using Carlton.Core.Flux.Debug.Models.ViewModels;

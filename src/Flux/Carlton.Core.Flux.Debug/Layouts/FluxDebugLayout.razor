@@ -1,5 +1,8 @@
 ﻿@using Carlton.Core.BrowserStroage
 @using Carlton.Core.Flux.Debug.Storage
+@using Carlton.Core.Flux.Models
+@using Carlton.Core.Components.Layouts.DashboardPanelLayout
+@using Carlton.Core.Components.Layouts.DasboardTabedPanelLayout
 @using Microsoft.AspNetCore.Components.Routing
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Flux.Debug.Components.Nav
@@ -8,58 +11,66 @@
 @inherits LayoutComponentBase
 @inject ILogsDataAccess LogsDataAccess
 @inject NavigationManager NavigationManager
-@* @inject IFluxState<FluxDebugState> FluxDebugState *@
+@inject IFluxState<FluxDebugState> FluxDebugState
 @inject MemoryLogger MemoryLogger
+@inject IMutationCommandDispatcher<FluxDebugState> Dispatcher
+@layout DashboardTabedPanelLayout
 
-<DashboardDevPanelLayout ShowPanel="true">
-    <NavContent>
-        <FluxDebugNavMenu />
-    </NavContent>
-    <PageTitleContent>
-        <BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
-    </PageTitleContent>
-    <HeaderActionContent>
-        <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="HeaderActionsViewModel" />
-    </HeaderActionContent>
-    <Body>
-        @if (LoadingComplete)
-        {
-            @Body
-        }
-        else
-        {
-            <Spinner />
-        }
-    </Body>
-    <PanelContent>
-        <FluxDebugTabs />
-    </PanelContent>
-</DashboardDevPanelLayout>
+@if (LoadingComplete)
+{
+    @Body
+}
+else
+{
+    <Spinner />
+}
+
+
+<SectionContent SectionId="DashboardPanelLayout.Nav">
+    <FluxDebugNavMenu />
+</SectionContent>
+
+<SectionContent SectionId="DashboardPanelLayout.HeaderPageTitle">
+    <BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
+</SectionContent>
+
+<SectionContent SectionId="DashboardPanelLayout.HeaderActionContent">
+    <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="HeaderActionsViewModel" />
+</SectionContent>
 
 
 @code {
     private bool LoadingComplete { get; set; } = false;
 
+  
+
     private HeaderActionsViewModel HeaderActionsViewModel { get; } 
-        = new HeaderActionsViewModel("Stephen", "_content/Carlton.Core.Components/images/avatar.jpg");
+        = new HeaderActionsViewModel
+        { 
+            UserName = "Stephen",
+            AvatarUrl = "_content/Carlton.Core.Components/images/avatar.jpg"
+        };
 
     protected override async Task OnInitializedAsync()
     {
         //Save Logs from your in app memory loggers to IndexDB
-       // await LogsDataAccess.CommitLogs();
+        // await LogsDataAccess.CommitLogs();
 
         //Get todays logs to hydrate a FluxDebug state object
         //var logs = await LogsDataAccess.GetLogs(DateTime.Now.Date);
-     
+
         //flatten logs
         //var flattenedLogs = logs.SelectMany(_ => _.LogEntries);
 
         //Hydrate a FluxDebug state object
-      //  var newState = new FluxDebugState(null, MemoryLogger.GetLogMessages());
+        //  var newState = new FluxDebugState(null, MemoryLogger.GetLogMessages());
 
         //Replace the container state with our constructed state
         //via the magic of reflection
-      //  Mapper.Map(newState, FluxDebugState.State);
+        //  Mapper.Map(newState, FluxDebugState.State);
+
+        var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages() };
+        await Dispatcher.Dispatch<FluxDebugState, LoadLogMessagesCommand>(this, command, CancellationToken.None);
 
         //Allow the child components to render
         LoadingComplete = true;

@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Debug.Extensions;
+﻿using Carlton.Core.Flux.Models;
+
+namespace Carlton.Core.Flux.Debug.Extensions;
 
 public static class LogExtensions
 {
@@ -12,16 +14,6 @@ public static class LogExtensions
         };
     }
 
-    public static string GetScopeValue(this LogMessage logMessage, string key)
-    {
-        var valueExists = logMessage.Scopes.TryGetValue(key, out var value);
-
-        if (!valueExists || value == null)
-            throw new InvalidOperationException("Scope was not present on log message");
-
-        return value.ToString();
-    }
-
     public static TraceLogMessage MapLogMessageToTraceLogMessage(this LogMessage logMessage)
     {
         return new TraceLogMessage
@@ -30,14 +22,25 @@ public static class LogExtensions
             EventId = logMessage.EventId,
             RequestSucceeded = logMessage.Exception == null,
             FluxAction = ParseFluxActionScope(logMessage),
-            TypeDisplayName = logMessage.GetScopeValue("FluxAction") == "ViewModelQuery" ?
-                logMessage.GetScopeValue("ViewModelType") :
-                logMessage.GetScopeValue("MutationCommandType")
+            TypeDisplayName = logMessage.GetScopeValue<string>("FluxAction") == "ViewModelQuery" ?
+                logMessage.GetScopeValue<string>("ViewModelType") :
+                logMessage.GetScopeValue<string>("MutationCommandType"),
+            RequestContext = logMessage.GetScopeValue<BaseRequestContext>("FluxRequestContext")
         };
+    }
+
+    public static T GetScopeValue<T>(this LogMessage logMessage, string key)
+    {
+        var valueExists = logMessage.Scopes.TryGetValue(key, out var value);
+
+        if (!valueExists || value == null)
+            throw new InvalidOperationException("Scope was not present on log message");
+
+        return (T)value;
     }
 
     private static FluxActions ParseFluxActionScope(LogMessage logMessage)
     {
-        return Enum.Parse<FluxActions>(logMessage.GetScopeValue("FluxAction"));
+        return Enum.Parse<FluxActions>(logMessage.GetScopeValue<string>("FluxAction"));
     }
 }
