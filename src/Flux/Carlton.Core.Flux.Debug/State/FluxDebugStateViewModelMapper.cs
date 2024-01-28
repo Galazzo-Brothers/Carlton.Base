@@ -1,5 +1,7 @@
 ﻿#pragma warning disable RMG020 // Source member is not mapped to any target member
+using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging;
 using Riok.Mapperly.Abstractions;
+using static Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.TraceLogTable;
 
 namespace Carlton.Core.Lab.State;
 
@@ -20,6 +22,9 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
     [MapProperty(nameof(FluxDebugState.LogMessages), nameof(TraceLogViewerViewModel.LogMessages))]
     public partial TraceLogViewerViewModel FluxDebugStateToTraceLogViewerViewModelProjection(FluxDebugState state);
 
+    [MapProperty(nameof(FluxDebugState.SelectedTraceLogMessage), nameof(TraceLogRequestContextDetailsViewModel.SelectedTraceLogMessage))]
+    public partial TraceLogRequestContextDetailsViewModel FluxDebugStateToTraceLogRequestContextDetailsViewModelProjection(FluxDebugState state);
+
     public static HeaderActionsViewModel FluxDebugStateToHeaderActionsViewModelProjection(FluxDebugState state)
     {
         return new HeaderActionsViewModel
@@ -29,5 +34,6 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
         };
     }
 }
+
 
 

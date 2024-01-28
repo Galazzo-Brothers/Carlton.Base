@@ -1,0 +1,19 @@
+﻿@using Carlton.Core.Components.Layouts.DasboardTabedPanelLayout
+@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Flux.Components
+@using Carlton.Core.Layouts.Components
+@using Carlton.Core.Flux.Debug.State
+@namespace Carlton.Core.Flux.Debug.Layouts
+
+
+<PageTabs>
+    <TabContent>
+        <Tab DisplayText="Log Details" Icon="mdi-information">
+            <FluxDebugComponent TViewModel="EventLogDetailsViewModel" />
+        </Tab>
+        <Tab DisplayText="Log Scopes" Icon="mdi-file-tree">
+            <FluxDebugComponent TViewModel="EventLogScopesViewModel" />
+        </Tab>
+    </TabContent>
+</PageTabs>
+

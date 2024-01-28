@@ -1,8 +1,13 @@
 ﻿@namespace Carlton.Core.Flux.Debug.Pages
-@inject MemoryLogger MemoryLogger;
+@using Carlton.Core.Components.Layouts
+@using Carlton.Core.Components.Layouts.DasboardTabedPanelLayout
+@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Flux.Debug.Layouts
+@using Microsoft.AspNetCore.Components.Sections
 @page "/debug/logs"
 
-<PassiveFluxDebugComponent TViewModel="EventLogViewerViewModel" PassiveViewModel="new EventLogViewerViewModel(MemoryLogger.GetLogMessages())" />
 
+<FluxDebugComponent TViewModel="EventLogViewerViewModel" />
+<EventLogViewerTabs />
 
 

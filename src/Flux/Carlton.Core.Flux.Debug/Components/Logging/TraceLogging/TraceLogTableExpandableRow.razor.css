@@ -4,9 +4,9 @@
 	border-bottom: transparent;
 }
 
-.table-row.ending-row {
-	background-color: var(--card-background-color);
-}
+	.table-row.starting-row.selected {
+		background-color: var(--table-row-selected-background-color);
+	}
 
 .table-row .table-cell:first-of-type {
 	max-width: 25px;
@@ -44,6 +44,10 @@
 
 .child-row {
 }
+
+	.child-row.selected {
+		background-color: var(--table-row-selected-background-color);
+	}
 
 	.child-row.collapased {
 		display: none;

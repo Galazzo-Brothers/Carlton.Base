@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Carlton.Core.Flux.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Carlton.Core.Flux.Debug.Models.Common;
 
@@ -9,6 +10,7 @@ public record TraceLogMessage
     public required EventId EventId { get; init; }
     public required string TypeDisplayName { get; init; }
     public required bool RequestSucceeded { get; init; }
+    public required BaseRequestContext RequestContext { get; init; }
 }
 
 public class TraceLogMessageGroup

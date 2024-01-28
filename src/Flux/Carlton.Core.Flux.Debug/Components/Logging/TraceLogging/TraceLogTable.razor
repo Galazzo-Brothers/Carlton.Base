@@ -9,7 +9,10 @@
         RowsPerPageOpts="RowsPerPageInts"
         SortableHeadersEnabled="false">
         <RowTemplate Context="group">
-            <TraceLogTableExpandableRow TraceLogMessageGroup="group" />
+            <TraceLogTableExpandableRow
+                TraceLogMessageGroup="group" 
+                SelectedTraceLogMessage="SelectedTraceLogMessage"
+                OnSelectedLogMessageChanged="OnSelectedTraceLogMessageChanged" />
         </RowTemplate>
     </Table>
 </div>
@@ -17,6 +20,11 @@
 @code {
     [Parameter]
     public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+
+    [Parameter]
+    public EventCallback<SelectedTraceLogMessageChangedArgs> SelectedTraceLogMessageChanged { get; set; }
+
+    private TraceLogMessage SelectedTraceLogMessage { get; set; }
 
     private IEnumerable<TraceLogMessageGroup> GroupedTraceMessages { get; set; } = new List<TraceLogMessageGroup>();
 
@@ -35,6 +43,7 @@
             new TableHeadingItem("Flux Action Type", "TypeDisplayName"),
             new TableHeadingItem("Event Id", "EventId.Id"),
             new TableHeadingItem("Outcome", "FluxActionOutcome"),
+            new TableHeadingItem("Details"),
         };
     }
 
@@ -67,7 +76,7 @@
                         //subsequent requests are children of the parent request
                         orderedMessages.RemoveAt(0); 
                         var orderedChildren = new List<LogMessage>(orderedMessages);
-                        
+
                         //Create a TraceLogMessageGroup object
                         return new TraceLogMessageGroup
                         {
@@ -78,5 +87,11 @@
 
 
         bool IsFluxActionPredicate(LogMessage log) => log.Scopes.Any(kvp => kvp.Key == "FluxAction");
+    }
+
+    private void OnSelectedTraceLogMessageChanged(TraceLogMessage selectedTraceLogMessage)
+    {
+        SelectedTraceLogMessage = selectedTraceLogMessage;
+        SelectedTraceLogMessageChanged.InvokeAsync(new SelectedTraceLogMessageChangedArgs(selectedTraceLogMessage));
     }
 }

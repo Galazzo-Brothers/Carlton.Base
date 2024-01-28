@@ -14,6 +14,7 @@ public record FluxDebugState
     }
 
     public IEnumerable<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
-    public LogMessage SelectedLogMessage { get; init; } 
+    public LogMessage SelectedLogMessage { get; init; }
+    public TraceLogMessage SelectedTraceLogMessage { get; init; }
     public object State { get; private set; }
 }
