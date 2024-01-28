@@ -1,0 +1,21 @@
+﻿.app-btn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	width: auto;
+	height: 35px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	box-shadow: 0 6px 10px 0 #666;
+	color: white;
+	background-color: var(--selected-color);
+	transition: all 0.1s ease-in-out;
+	cursor: pointer;
+}
+
+	.app-btn:hover {
+		box-shadow: 0 6px 14px 0 #666;
+		transform: scale(1.05);
+	}

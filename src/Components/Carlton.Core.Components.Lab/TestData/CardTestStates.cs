@@ -18,7 +18,7 @@ internal static class CardTestStates
             (
                 "Shopping List",
                 "Low Items",
-                new List<string> { "Eggs", "Milk", "Carrots" },
+                ["Eggs", "Milk", "Carrots"],
                 listFragment
             );
     }

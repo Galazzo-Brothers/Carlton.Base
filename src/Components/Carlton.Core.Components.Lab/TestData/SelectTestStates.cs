@@ -10,7 +10,7 @@ internal static class SelectTestStates
             Options = new Dictionary<string, int>
                     {
                       { "Option 1", 1 },
-                      { "Option 2", 2},
+                      { "Option 2", 2 },
                       { "Option 3", 3 }
                     }
         };

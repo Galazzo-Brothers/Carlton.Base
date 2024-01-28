@@ -1,0 +1,16 @@
+﻿
+.icon-app-btn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+	border-radius: 25px;
+	box-shadow: 0 6px 10px 0 #666;
+	color: white;
+	background-color: var(--selected-color);
+	transition: all 0.1s ease-in-out;
+	cursor: pointer;
+}

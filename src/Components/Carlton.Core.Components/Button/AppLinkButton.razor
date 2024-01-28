@@ -1,0 +1,10 @@
+﻿<div class="app-link-btn" @onclick="OnClickCallback"><span>@Text</span></div>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+}

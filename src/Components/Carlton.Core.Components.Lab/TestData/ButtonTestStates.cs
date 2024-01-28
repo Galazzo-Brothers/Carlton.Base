@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Library.Lab.TestData;
+﻿namespace Carlton.Core.Components.Lab.TestData;
 
 internal static class ButtonTestStates
 {
@@ -6,9 +6,18 @@ internal static class ButtonTestStates
     {
         get => new
         {
-            Icon = "delete",
-            PositionBottom = 75,
-            PositionRight = 50
+            Text = "Click Me"
         };
+    }
+
+    private static RenderFragment ButtonContentFragmentBuilder(string text)
+    {
+        return
+           (builder) =>
+           {
+               builder.OpenElement(1, "span");
+               builder.AddContent(2, text);
+               builder.CloseElement();
+           };
     }
 }

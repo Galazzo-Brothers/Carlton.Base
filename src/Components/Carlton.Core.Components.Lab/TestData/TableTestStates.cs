@@ -44,16 +44,14 @@ public static class TableTestStates
     }
 
     private static readonly List<TableHeadingItem> Headings =
-        new()
-                {
+            [
                     new TableHeadingItem(nameof(TableTestObject.ID)),
                     new TableHeadingItem(nameof(TableTestObject.DisplayName)),
                     new TableHeadingItem(nameof(TableTestObject.CreatedDate))
-                };
+            ];
 
     private static readonly List<TableTestObject> BigList =
-        new()
-        {
+        [
                 new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
                 new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
                 new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
@@ -69,15 +67,14 @@ public static class TableTestStates
                 new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
                 new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
                 new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
-                };
+        ];
 
     private static readonly List<TableTestObject> SmallList =
-        new()
-        {
+        [
                 new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
                 new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
                 new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
-        };
+        ];
 
     private static readonly RenderFragment<TableTestObject> RowTemplate = item =>
             builder =>
@@ -97,7 +94,7 @@ public static class TableTestStates
                  </div>");
             };
 
-    private static readonly List<int> RowsPerPageTemplate = new() { 5, 10, 15 };
+    private static readonly List<int> RowsPerPageTemplate = [5, 10, 15];
 
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 }

@@ -1,5 +1,7 @@
 ﻿using Carlton.Core.Components;
+using Carlton.Core.Components.Button;
 using Carlton.Core.Components.Cards;
+using Carlton.Core.Components.Lab.TestData;
 using Carlton.Core.Components.Layouts.Extensions;
 using Carlton.Core.Components.Table;
 using Carlton.Core.Lab.Extensions;
@@ -39,7 +41,9 @@ public static class Program
                    .AddComponentState<CountCard>("Accent 2", CardTestStates.CountCard2State)
                    .AddComponentState<CountCard>("Accent 3", CardTestStates.CountCard3State)
                    .AddComponentState<CountCard>("Accent 4", CardTestStates.CountCard4State)
-                   .AddComponentState<FloatingActionButton>(ButtonTestStates.DefaultState)
+                   .AddComponentState<AppButton>("Default", ButtonTestStates.DefaultState)
+                   .AddComponentState<IconAppButton>("Default", IconButtonTestStates.DefaultState)
+                   .AddComponentState<AppLinkButton>("Default", ButtonTestStates.DefaultState)
                    //.AddParameterObjComponent<Logo>(LogoTestStates.DefaultState)
                    .AddComponentState<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
                    .AddComponentState<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)

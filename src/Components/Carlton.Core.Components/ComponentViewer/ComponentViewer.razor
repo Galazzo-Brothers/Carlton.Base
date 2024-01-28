@@ -39,7 +39,7 @@
                 .Where(prop => Attribute.IsDefined(prop, typeof(ParameterAttribute)))
                 .Where(prop => !Attribute.IsDefined(prop, typeof(CascadingParameterAttribute)))
                 .Where(prop => prop.PropertyType != typeof(EventCallback) || (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
-                .Where(prop => prop.PropertyType != typeof(RenderFragment) || (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(RenderFragment<>)))
+            //    .Where(prop => prop.PropertyType != typeof(RenderFragment) || (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(RenderFragment<>)))
                 .ToList();
 
         AssignComponentParameters(props);
