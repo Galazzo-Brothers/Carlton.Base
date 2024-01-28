@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Carlton.Core.Utilities.Logging;
@@ -72,20 +73,31 @@ public class MemoryLogger : ILogger
 
         foreach (var scope in _currentScopes.Value.ToList())
         {
-            var scopeArray = scope.ToString().Split(":");
-            var isNamedVariable = scopeArray.Length > 1;
-            var scopeName = scopeArray[0];
-            //case 1: the scope is a named parameter and we add the key value to the dictionary
-            //case 2: the scope is a singular string value and just add the name to the dictionary
-            var scopeValue = isNamedVariable ? scopeArray[1] : string.Empty;
+            //The scope is a structured message 
+            //with parameters
+            if (scope.State is IReadOnlyList<KeyValuePair<string, object>> castedScopes)
+            {
+                foreach (var castedScope in castedScopes)
+                {
+                    //We want to replace the leading @
+                    //which is an implementation detail for seq
+                    var pattern = @"@\w+";
+                    var cleanedKey = Regex.Replace(castedScope.Key, pattern, m => m.Value[1..]);
 
-            //We will take the most recent version of the scope
-            //and throw the rest away
-            if (result.ContainsKey(scopeName))
-                continue;
+                    //We will take the most recent version of the scope
+                    //and throw the rest away
+                    if (result.ContainsKey(cleanedKey))
+                        continue;
 
-
-            result.Add(scopeName, scopeValue);
+                    //Add the new scope to the dictionary                   
+                    result.Add(cleanedKey, castedScope.Value);
+                }
+            }
+            else
+            {
+                //The scope is a simple string
+                result.Add(scope.State.ToString(), null);
+            }
         }
 
         return result;
@@ -98,27 +110,16 @@ public class MemoryLogger : ILogger
 }
 
 
-public class LogScope : IDisposable
+public class LogScope(object state, Action disposeAct) : IDisposable
 {
-    public object State { get; }
-    private readonly Action _disposeAct;
+    public object State { get; } = state;
+    private readonly Action _disposeAct = disposeAct;
 
-    public LogScope(object state, Action disposeAct)
-    {
-        State = state;
-        _disposeAct = disposeAct;
-    }
-
-    public void Dispose()
-    {
+    public void Dispose() =>
         //Remove the scope for the list of scopes
         //as it is being disposed
         _disposeAct();
-    }
 
-    public override string ToString()
-    {
-        return State.ToString();
-    }
+    public override string ToString() => State.ToString();
 }
 

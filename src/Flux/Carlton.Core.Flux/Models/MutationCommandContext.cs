@@ -1,7 +1,11 @@
-﻿namespace Carlton.Core.Flux.Models;
+﻿using Carlton.Core.Utilities.JsonConverters;
+using System.Text.Json.Serialization;
+
+namespace Carlton.Core.Flux.Models;
 
 public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
+    [JsonConverter(typeof(JsonTypeConverter))]
     public Type CommandType { get => MutationCommand.GetType(); }
     public string CommandTypeName { get => CommandType.GetDisplayName(); }
 
