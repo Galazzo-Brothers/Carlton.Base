@@ -6,8 +6,8 @@
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@RecordedEventsText" />
-    <FloatingActionButton Icon="delete"
-                          OnClickCallback="() => base.OnComponentEvent.InvokeAsync(new ClearEventsCommand())" />
+    <IconAppButton Icon="delete"
+                   OnClickCallback="() => base.OnComponentEvent.InvokeAsync(new ClearEventsCommand())" />
 </div>
 
 @code {

@@ -3,7 +3,7 @@
     text-align: center;
 }
 
-    ::deep .fab {
+    ::deep .icon-app-btn {
         position: absolute;
         bottom: 15px;
         right: 10px;
