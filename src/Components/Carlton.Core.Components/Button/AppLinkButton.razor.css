@@ -1,0 +1,17 @@
+﻿.app-link-btn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	width: auto;
+	height: 35px;
+	color: var(--selected-color);
+	cursor: pointer;
+}
+
+	.app-link-btn:hover {
+		padding-left: 10px;
+		padding-right: 10px;
+		border-radius: 5px;
+		background-color: rgba(33, 193, 214, 0.25);
+	}
