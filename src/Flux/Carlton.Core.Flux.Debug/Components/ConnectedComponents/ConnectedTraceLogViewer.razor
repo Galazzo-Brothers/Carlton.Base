@@ -4,5 +4,8 @@
 @inherits BaseConnectedComponent<TraceLogViewerViewModel>
 
 
-<TraceLogTable LogMessages="@ViewModel.LogMessages.ToList()" />
+<TraceLogTable 
+    LogMessages="@ViewModel.LogMessages.ToList()"
+    SelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>" />
+    
 

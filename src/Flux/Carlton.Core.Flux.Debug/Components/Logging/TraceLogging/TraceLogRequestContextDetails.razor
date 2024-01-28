@@ -1,0 +1,12 @@
+﻿@using System.Text.Json
+@using Carlton.Core.Components.Consoles
+
+<div class="log-exception-details">
+    <JsonViewerConsole Obj="@TraceLogMessage" IsReadOnly="true" />
+</div>
+
+
+@code {
+    [Parameter]
+    public TraceLogMessage? TraceLogMessage { get; set; }
+}
