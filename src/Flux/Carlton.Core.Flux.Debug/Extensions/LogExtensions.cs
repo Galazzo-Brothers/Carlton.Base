@@ -16,13 +16,15 @@ public static class LogExtensions
 
     public static TraceLogMessage MapLogMessageToTraceLogMessage(this LogMessage logMessage)
     {
+        var isQuery = logMessage.GetScopeValue<string>("FluxAction") == "ViewModelQuery";
+
         return new TraceLogMessage
         {
             Timestamp = logMessage.Timestamp,
             EventId = logMessage.EventId,
             RequestSucceeded = logMessage.Exception == null,
             FluxAction = ParseFluxActionScope(logMessage),
-            TypeDisplayName = logMessage.GetScopeValue<string>("FluxAction") == "ViewModelQuery" ?
+            TypeDisplayName = isQuery ?
                 logMessage.GetScopeValue<string>("ViewModelType") :
                 logMessage.GetScopeValue<string>("MutationCommandType"),
             RequestContext = logMessage.GetScopeValue<BaseRequestContext>("FluxRequestContext")

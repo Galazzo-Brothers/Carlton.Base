@@ -53,6 +53,9 @@
     [Parameter]
     public bool ZebraStripped { get; set; }
 
+    [Parameter]
+    public bool Hoverable { get; set; }
+
     private IList<TItem> AllItems { get; set; } = new List<TItem>();
 
     private int SelectedRowsPerPageIndex { get; set; } = 0;
@@ -69,6 +72,7 @@
     {
         get => new CssBuilder()
                 .AddClass("zebra", ZebraStripped)
+                .AddClass("hoverable", Hoverable)
                 .Build();
     }
 

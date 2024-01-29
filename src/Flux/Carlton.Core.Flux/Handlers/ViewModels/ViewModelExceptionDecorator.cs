@@ -13,7 +13,7 @@ public class ViewModelExceptionDecorator<TState>(
             try
             {
                 var vm = await _decorated.Dispatch(sender, context, cancellationToken);
-                _logger.ViewModelQueryCompleted(context.ViewModelType);
+                _logger.ViewModelQueryCompleted(context.ViewModelTypeName);
                 return vm;
             }
             catch (Exception ex)
@@ -21,7 +21,7 @@ public class ViewModelExceptionDecorator<TState>(
                 context.MarkAsErrored(ex);
                 var wrappedException = WrapException(context, ex);
                 using (_logger.BeginRequestExceptionLoggingScopes(wrappedException))
-                    _logger.ViewModelQueryErrored(context.ViewModelType, wrappedException);
+                    _logger.ViewModelQueryErrored(context.ViewModelTypeName, wrappedException);
                 throw wrappedException;
             }
         }

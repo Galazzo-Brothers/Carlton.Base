@@ -8,11 +8,11 @@
 
 <PageTabs>
     <TabContent>
-        <Tab DisplayText="Context Details" Icon="mdi-information">
+        <Tab DisplayText="Request Context" Icon="mdi-information">
             <FluxDebugComponent TViewModel="TraceLogRequestContextDetailsViewModel" />
         </Tab>
-        <Tab DisplayText="Request Details" Icon="mdi-file-tree">
-        @*     <FluxDebugComponent TViewModel="EventLogScopesViewModel" /> *@
+        <Tab DisplayText="Request Object" Icon="mdi-file-tree">
+            <FluxDebugComponent TViewModel="TraceLogRequestObjectDetailsViewModel" />
         </Tab>
     </TabContent>
 </PageTabs>

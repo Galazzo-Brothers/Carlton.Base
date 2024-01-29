@@ -18,10 +18,13 @@
 		background-color: var(--table-row-selected-background-color);
 	}
 
-.body {
-	overflow-y: auto;
-	max-height: calc(100% - 30px);
-}
+
+	.table-container.hoverable ::deep .table-row:hover:not(.selected) {
+		cursor: pointer;
+		background-color: var(--card-hover-background-color);
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
+	}
+
 
 ::deep .table-row {
 	display: flex;
@@ -31,12 +34,6 @@
 
 	::deep .table-row.selected {
 		background-color: var(--table-row-selected-background-color);
-	}
-
-	::deep .table-row:hover:not(.selected) {
-		cursor: pointer;
-		background-color: var(--card-hover-background-color);
-		box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
 	}
 
 ::deep .table-cell {

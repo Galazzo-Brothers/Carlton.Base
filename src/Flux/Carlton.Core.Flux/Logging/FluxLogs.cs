@@ -119,7 +119,7 @@ public static class LogEvents
         return new CompositeDisposable
         (
             logger.BeginScope(FluxAction, ViewModelQuery),
-            logger.BeginScope(ViewModelType, context.ViewModelType),
+            logger.BeginScope(ViewModelType, context.ViewModelTypeName),
             logger.BeginScope(FluxRequestId, context.RequestId),
             logger.BeginScope(FluxRequestContext, context)
         );
