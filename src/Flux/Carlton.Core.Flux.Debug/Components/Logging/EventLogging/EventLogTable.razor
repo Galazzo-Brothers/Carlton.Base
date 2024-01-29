@@ -2,7 +2,12 @@
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 
 <div class="log-table">
-    <Table Headings="Headings" Items="LogMessages" ShowPaginationRow="true" RowsPerPageOpts="RowsPerPageInts" ZebraStripped="true">
+    <Table Headings="Headings"
+           Items="LogMessages"
+           ShowPaginationRow="true"
+           RowsPerPageOpts="RowsPerPageInts"
+           ZebraStripped="true"
+           Hoverable="true">
         <RowTemplate Context="item">
             <EventLogTableRow LogEntry="item" LogMessageSelected="OnLogMessageSelected" IsSelected="item==SelectedLogMessage" />
         </RowTemplate>

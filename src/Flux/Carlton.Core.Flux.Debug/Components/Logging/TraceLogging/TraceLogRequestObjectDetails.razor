@@ -2,14 +2,14 @@
 @using Carlton.Core.Components.Consoles
 @using Carlton.Core.Flux.Models
 
-<div class="trace-log-request-context-details">
+<div class="trace-log-request-object-details">
     <JsonViewerConsole Obj="@RequestToSerialize" IsReadOnly="true" />
 </div>
 
 
 @code {
     [Parameter]
-    public BaseRequestContext? SelectedRequestContext { get; set; }
+    public object? SelectedRequestObject { get; set; }
 
-    private object? RequestToSerialize => SelectedRequestContext ?? null;
+    private object? RequestToSerialize => SelectedRequestObject ?? null;
 }

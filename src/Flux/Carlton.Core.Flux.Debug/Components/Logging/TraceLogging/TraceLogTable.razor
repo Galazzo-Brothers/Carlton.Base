@@ -80,8 +80,8 @@
                         //Create a TraceLogMessageGroup object
                         return new TraceLogMessageGroup
                         {
-                                ParentEntry = parentEntry.MapLogMessageToTraceLogMessage(),
-                                ChildEntries = orderedChildren.Select(_ => _.MapLogMessageToTraceLogMessage())
+                            ParentEntry = parentEntry.MapLogMessageToTraceLogMessage(),
+                            ChildEntries = orderedChildren.Select(_ => _.MapLogMessageToTraceLogMessage())
                         };
                     }).OrderByDescending(_ => _.ParentEntry.Timestamp).ToList();
 

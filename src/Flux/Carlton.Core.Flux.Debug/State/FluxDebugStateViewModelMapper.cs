@@ -1,8 +1,5 @@
 ﻿#pragma warning disable RMG020 // Source member is not mapped to any target member
-using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging;
 using Riok.Mapperly.Abstractions;
-using static Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.TraceLogTable;
-
 namespace Carlton.Core.Lab.State;
 
 [Mapper]
@@ -22,8 +19,28 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
     [MapProperty(nameof(FluxDebugState.LogMessages), nameof(TraceLogViewerViewModel.LogMessages))]
     public partial TraceLogViewerViewModel FluxDebugStateToTraceLogViewerViewModelProjection(FluxDebugState state);
 
-    [MapProperty(nameof(FluxDebugState.SelectedTraceLogMessage), nameof(TraceLogRequestContextDetailsViewModel.SelectedTraceLogMessage))]
-    public partial TraceLogRequestContextDetailsViewModel FluxDebugStateToTraceLogRequestContextDetailsViewModelProjection(FluxDebugState state);
+    public static TraceLogRequestContextDetailsViewModel FluxDebugStateToTraceLogRequestContextDetailsViewModelProjection(FluxDebugState state)
+    {
+        if (state.SelectedTraceLogMessage == null)
+            return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = null };
+
+        return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = state.SelectedTraceLogMessage.RequestContext };
+    }
+
+    public static TraceLogRequestObjectDetailsViewModel FluxDebugStateToTraceLogRequestObjectDetailsViewModelProjection(FluxDebugState state)
+    {
+        var defaultViewModel = new TraceLogRequestObjectDetailsViewModel { SelectedRequestObject = null };
+
+        if (state.SelectedTraceLogMessage == null)
+            return defaultViewModel;
+        var selectedContext = state.SelectedTraceLogMessage.RequestContext;
+        return state.SelectedTraceLogMessage.FluxAction switch
+        {
+            FluxActions.ViewModelQuery => defaultViewModel with { SelectedRequestObject = ((dynamic)selectedContext).ResultViewModel },
+            FluxActions.MutationCommand => defaultViewModel with { SelectedRequestObject = ((dynamic)selectedContext).MutationCommand },
+            _ => defaultViewModel
+        };
+    }
 
     public static HeaderActionsViewModel FluxDebugStateToHeaderActionsViewModelProjection(FluxDebugState state)
     {

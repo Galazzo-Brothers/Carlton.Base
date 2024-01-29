@@ -3,6 +3,6 @@
 @namespace Carlton.Core.Flux.Debug.Components
 @attribute [ObserveStateEvents("LocalStorageCleared")]
 @attribute [ObserveStateEvents("SelectedTraceLogMessageChanged")]
-@inherits BaseConnectedComponent<TraceLogRequestContextDetailsViewModel>
+@inherits BaseConnectedComponent<TraceLogRequestObjectDetailsViewModel>
 
-<TraceLogRequestContextDetails SelectedRequestContext="@ViewModel.SelectedRequestContext" />
+<TraceLogRequestObjectDetails SelectedRequestObject="@ViewModel.SelectedRequestObject" />
