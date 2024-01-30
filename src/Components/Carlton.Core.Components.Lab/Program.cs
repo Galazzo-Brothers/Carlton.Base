@@ -44,7 +44,6 @@ public static class Program
                    .AddComponentState<AppButton>("Default", ButtonTestStates.DefaultState)
                    .AddComponentState<IconAppButton>("Default", IconButtonTestStates.DefaultState)
                    .AddComponentState<AppLinkButton>("Default", ButtonTestStates.DefaultState)
-                   //.AddParameterObjComponent<Logo>(LogoTestStates.DefaultState)
                    .AddComponentState<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
                    .AddComponentState<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)
                    .AddComponentState<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
@@ -58,20 +57,12 @@ public static class Program
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
-                   //.AddParameterObjComponent<NotificationBar>("FadeOut Disabled", NotificationStates.NotificationBarFadeOutDisabledStated)
-                   //.AddParameterObjComponent<NotificationBar>("FadeOut Enabled", NotificationStates.NotificationBarFadeOutEnabledStated)
-                   //.AddParameterObjComponent<SuccessNotification>("FadeOut Disabled", NotificationStates.SuccessFadeOutDisabledState)
-                   //.AddParameterObjComponent<SuccessNotification>("FadeOut Enabled", NotificationStates.SuccessFadeOutEnabledState)
-                   //.AddParameterObjComponent<InfoNotification>(NotificationStates.InfoState)
-                   //.AddParameterObjComponent<WarningNotification>(NotificationStates.WarningState)
-                   //.AddParameterObjComponent<ErrorNotification>(NotificationStates.ErrorState)
                    .Build();
         });
 
 
         builder.RootComponents.Add<App>("app");
         var app = builder.Build();
-        app.UseCarltonTestLab();
         await app.RunAsync().ConfigureAwait(true);
     }
 }
