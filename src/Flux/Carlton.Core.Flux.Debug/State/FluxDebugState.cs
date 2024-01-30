@@ -1,3 +1,5 @@
+using Carlton.Core.Flux.Debug.Extensions;
+
 namespace Carlton.Core.Flux.Debug.State;
 
 public record FluxDebugState
@@ -13,8 +15,18 @@ public record FluxDebugState
     {
     }
 
-    public IEnumerable<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
-    public LogMessage SelectedLogMessage { get; init; }
-    public TraceLogMessage SelectedTraceLogMessage { get; init; }
+    private IEnumerable<LogMessage> _logMessages = new List<LogMessage>();
+    public IEnumerable<LogMessage> LogMessages 
+    {
+        get => _logMessages;
+        init
+        {
+            _logMessages = value;
+            TraceLogMessages = value.MapLogMessagesToTraceLogMessage();
+        }
+    }
+    public IEnumerable<TraceLogMessageGroup> TraceLogMessages { get; init; } = new List<TraceLogMessageGroup>();
+    public LogMessage SelectedLogMessage { get; init; } = null;
+    public TraceLogMessage? SelectedTraceLogMessage { get; init; }
     public object State { get; private set; }
 }

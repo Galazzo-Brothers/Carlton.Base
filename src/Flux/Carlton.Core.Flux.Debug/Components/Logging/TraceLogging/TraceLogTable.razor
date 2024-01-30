@@ -4,7 +4,7 @@
 
 <div class="trace-log-table">
     <Table Headings="Headings"
-           Items="GroupedTraceMessages"
+           Items="TraceLogMessageGroups"
         ShowPaginationRow="true"
         RowsPerPageOpts="RowsPerPageInts"
         SortableHeadersEnabled="false">
@@ -19,20 +19,12 @@
 
 @code {
     [Parameter]
-    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; set; } = new List<TraceLogMessageGroup>();
 
     [Parameter]
     public EventCallback<SelectedTraceLogMessageChangedArgs> SelectedTraceLogMessageChanged { get; set; }
 
-    private TraceLogMessage SelectedTraceLogMessage { get; set; }
-
-    private IEnumerable<TraceLogMessageGroup> GroupedTraceMessages { get; set; } = new List<TraceLogMessageGroup>();
-
-    protected override void OnParametersSet()
-    {
-        InitGroupedMessages();
-        base.OnParametersSet();
-    }
+    private TraceLogMessage? SelectedTraceLogMessage { get; set; }
 
     private IEnumerable<TableHeadingItem> Headings
     {
@@ -51,43 +43,6 @@
     {
         5, 10, 25
     };
-
-    private void InitGroupedMessages()
-    {
-        GroupedTraceMessages =
-            LogMessages
-                    .Where(IsFluxActionPredicate)
-                    .GroupBy(logs => //Group the requests by the initating requests parentId
-                    {
-                        //check if request is a parent request
-                        var hasParentRequestId = logs.Scopes.Any(kvp => kvp.Key == "FluxParentRequestId");
-
-                        if (hasParentRequestId) //Check for a FluxParentRequestId
-                            return logs.Scopes.FirstOrDefault(kvp => kvp.Key == "FluxParentRequestId").Value;
-                        else //fallback to RequestId
-                            return logs.Scopes.FirstOrDefault(kvp => kvp.Key == "FluxRequestId").Value;
-                    })
-                    .Select(group =>
-                    {
-                        //reverse chronological order
-                        var orderedMessages = group.OrderByDescending(_ => _.Timestamp).ToList();
-                        var parentEntry = orderedMessages.First(); //parent entry is first
-
-                        //subsequent requests are children of the parent request
-                        orderedMessages.RemoveAt(0); 
-                        var orderedChildren = new List<LogMessage>(orderedMessages);
-
-                        //Create a TraceLogMessageGroup object
-                        return new TraceLogMessageGroup
-                        {
-                            ParentEntry = parentEntry.MapLogMessageToTraceLogMessage(),
-                            ChildEntries = orderedChildren.Select(_ => _.MapLogMessageToTraceLogMessage())
-                        };
-                    }).OrderByDescending(_ => _.ParentEntry.Timestamp).ToList();
-
-
-        bool IsFluxActionPredicate(LogMessage log) => log.Scopes.Any(kvp => kvp.Key == "FluxAction");
-    }
 
     private void OnSelectedTraceLogMessageChanged(TraceLogMessage selectedTraceLogMessage)
     {

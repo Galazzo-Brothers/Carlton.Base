@@ -42,8 +42,6 @@ else
 @code {
     private bool LoadingComplete { get; set; } = false;
 
-  
-
     private HeaderActionsViewModel HeaderActionsViewModel { get; } 
         = new HeaderActionsViewModel
         { 
@@ -53,22 +51,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        //Save Logs from your in app memory loggers to IndexDB
-        // await LogsDataAccess.CommitLogs();
-
-        //Get todays logs to hydrate a FluxDebug state object
-        //var logs = await LogsDataAccess.GetLogs(DateTime.Now.Date);
-
-        //flatten logs
-        //var flattenedLogs = logs.SelectMany(_ => _.LogEntries);
-
-        //Hydrate a FluxDebug state object
-        //  var newState = new FluxDebugState(null, MemoryLogger.GetLogMessages());
-
-        //Replace the container state with our constructed state
-        //via the magic of reflection
-        //  Mapper.Map(newState, FluxDebugState.State);
-
+        //Load the log messages
         var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages() };
         await Dispatcher.Dispatch<FluxDebugState, LoadLogMessagesCommand>(this, command, CancellationToken.None);
 

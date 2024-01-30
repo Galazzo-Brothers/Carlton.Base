@@ -19,7 +19,7 @@
         var consoleText = new StringBuilder();
         foreach(var evt in ViewModel.RecordedEvents)
         {
-            var args = (evt.EventObj == null) ? string.Empty : JsonSerializer.Serialize(evt.EventObj);
+            var args = (evt.EventObj == null) ? "{}" : JsonSerializer.Serialize(evt.EventObj);
             consoleText.AppendLine($"{evt.Name}: {args}");
         }
         RecordedEventsText = consoleText.ToString().Trim();
