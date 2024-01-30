@@ -5,15 +5,15 @@ using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
 [Mapper]
-public partial class MutationCommandMapper
+internal partial class MutationCommandMapper
 {
-    public static partial TViewModel Map<TViewModel>(object args);
+    internal static partial TViewModel Map<TViewModel>(object args);
 
     [MapProperty(nameof(SelectedEventLogMessageChangedArgs.SelectedLogMessage), nameof(ChangeSelectedLogMessageCommand.SelectedLogMessage))]
-    public static partial ChangeSelectedLogMessageCommand ToCommand(SelectedEventLogMessageChangedArgs args);
+    internal static partial ChangeSelectedLogMessageCommand ToCommand(SelectedEventLogMessageChangedArgs args);
 
     [MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessage), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessage))]
-    public static partial ChangeSelectedTraceLogMessageCommand ToCommand(SelectedTraceLogMessageChangedArgs args);
+    internal static partial ChangeSelectedTraceLogMessageCommand ToCommand(SelectedTraceLogMessageChangedArgs args);
 }
 
 

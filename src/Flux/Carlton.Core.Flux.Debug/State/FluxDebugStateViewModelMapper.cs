@@ -8,18 +8,18 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
     public partial TViewModel Map<TViewModel>(FluxDebugState state);
 
     [MapProperty(nameof(FluxDebugState.SelectedLogMessage), nameof(EventLogDetailsViewModel.SelectedLogMessage))]
-    public partial EventLogDetailsViewModel FluxDebugStateToEventLogDetailsViewModelProjection(FluxDebugState state);
+    public partial EventLogDetailsViewModel ToEventLogDetailsViewModel(FluxDebugState state);
 
     [MapProperty(nameof(FluxDebugState.SelectedLogMessage), nameof(EventLogScopesViewModel.SelectedLogMessage))]
-    public partial EventLogScopesViewModel FluxDebugStateToEventLogScopesViewModelProjection(FluxDebugState state);
+    public partial EventLogScopesViewModel ToEventLogScopesViewModel(FluxDebugState state);
 
     [MapProperty(nameof(FluxDebugState.LogMessages), nameof(EventLogViewerViewModel.LogMessages))]
-    public partial EventLogViewerViewModel FluxDebugStateToEventLogViewerViewModelViewModelProjection(FluxDebugState state);
+    public partial EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state);
 
     [MapProperty(nameof(FluxDebugState.TraceLogMessages), nameof(TraceLogViewerViewModel.TraceLogMessages))]
-    public partial TraceLogViewerViewModel FluxDebugStateToTraceLogViewerViewModelProjection(FluxDebugState state);
+    public partial TraceLogViewerViewModel ToTraceLogViewerViewModel(FluxDebugState state);
 
-    public static TraceLogRequestContextDetailsViewModel FluxDebugStateToTraceLogRequestContextDetailsViewModelProjection(FluxDebugState state)
+    public static TraceLogRequestContextDetailsViewModel ToTraceLogRequestContextDetailsViewModel(FluxDebugState state)
     {
         if (state.SelectedTraceLogMessage == null)
             return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = null };
@@ -27,7 +27,7 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
         return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = state.SelectedTraceLogMessage.RequestContext };
     }
 
-    public static TraceLogRequestObjectDetailsViewModel FluxDebugStateToTraceLogRequestObjectDetailsViewModelProjection(FluxDebugState state)
+    public static TraceLogRequestObjectDetailsViewModel ToTraceLogRequestObjectDetailsViewModel(FluxDebugState state)
     {
         var defaultViewModel = new TraceLogRequestObjectDetailsViewModel { SelectedRequestObject = null };
 
@@ -42,7 +42,7 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
         };
     }
 
-    public static HeaderActionsViewModel FluxDebugStateToHeaderActionsViewModelProjection(FluxDebugState state)
+    public static HeaderActionsViewModel ToHeaderActionsViewModel(FluxDebugState state)
     {
         return new HeaderActionsViewModel
         {
