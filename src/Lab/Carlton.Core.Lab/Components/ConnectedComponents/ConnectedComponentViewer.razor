@@ -1,15 +1,13 @@
 ﻿@namespace Carlton.Core.Lab.Components
+@using Carlton.Core.Components.ComponentViewer
+@using Carlton.Core.Lab.Models.Commands
 @attribute [ObserveStateEvents("MenuItemSelected")]
 @attribute [ObserveStateEvents("ParametersUpdated")]
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
 
 <ComponentViewer ComponentType="@ViewModel.ComponentType"
                  ParameterObject="@ViewModel.ComponentParameters.ParameterObj"
-                 Act="(name, obj) => base.OnComponentEvent.InvokeAsync(new RecordEventCommand
-                                                                        {
-                                                                            RecordedEventName = name,
-                                                                            EventArgs = obj
-                                                                        })" />
+                 ComponentEventRaised="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
 
 
 
