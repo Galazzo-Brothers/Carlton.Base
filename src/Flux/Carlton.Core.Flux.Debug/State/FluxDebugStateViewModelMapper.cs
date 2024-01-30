@@ -16,7 +16,7 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
     [MapProperty(nameof(FluxDebugState.LogMessages), nameof(EventLogViewerViewModel.LogMessages))]
     public partial EventLogViewerViewModel FluxDebugStateToEventLogViewerViewModelViewModelProjection(FluxDebugState state);
 
-    [MapProperty(nameof(FluxDebugState.LogMessages), nameof(TraceLogViewerViewModel.LogMessages))]
+    [MapProperty(nameof(FluxDebugState.TraceLogMessages), nameof(TraceLogViewerViewModel.TraceLogMessages))]
     public partial TraceLogViewerViewModel FluxDebugStateToTraceLogViewerViewModelProjection(FluxDebugState state);
 
     public static TraceLogRequestContextDetailsViewModel FluxDebugStateToTraceLogRequestContextDetailsViewModelProjection(FluxDebugState state)

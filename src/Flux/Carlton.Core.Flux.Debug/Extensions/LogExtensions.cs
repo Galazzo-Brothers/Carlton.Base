@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Models;
-
 namespace Carlton.Core.Flux.Debug.Extensions;
 
 public static class LogExtensions
@@ -29,6 +28,42 @@ public static class LogExtensions
                 logMessage.GetScopeValue<string>("MutationCommandType"),
             RequestContext = logMessage.GetScopeValue<BaseRequestContext>("FluxRequestContext")
         };
+    }
+
+    public static IEnumerable<TraceLogMessageGroup> MapLogMessagesToTraceLogMessage(this IEnumerable<LogMessage> logMessages) 
+    {
+        return
+            logMessages
+                    .Where(IsFluxActionPredicate)
+                    .GroupBy(logs => //Group the requests by the initating requests parentId
+                    {
+                        //check if request is a parent request
+                        var hasParentRequestId = logs.Scopes.Any(kvp => kvp.Key == "FluxParentRequestId");
+
+                        if (hasParentRequestId) //Check for a FluxParentRequestId
+                            return logs.Scopes.FirstOrDefault(kvp => kvp.Key == "FluxParentRequestId").Value;
+                        else //fallback to RequestId
+                            return logs.Scopes.FirstOrDefault(kvp => kvp.Key == "FluxRequestId").Value;
+                    })
+                    .Select(group =>
+                    {
+                        //reverse chronological order
+                        var orderedMessages = group.OrderByDescending(_ => _.Timestamp).ToList();
+                        var parentEntry = orderedMessages.First(); //parent entry is first
+
+                        //subsequent requests are children of the parent request
+                        orderedMessages.RemoveAt(0);
+                        var orderedChildren = new List<LogMessage>(orderedMessages);
+
+                        //Create a TraceLogMessageGroup object
+                        return new TraceLogMessageGroup
+                        {
+                            ParentEntry = parentEntry.MapLogMessageToTraceLogMessage(),
+                            ChildEntries = orderedChildren.Select(_ => _.MapLogMessageToTraceLogMessage())
+                        };
+                    }).OrderByDescending(_ => _.ParentEntry.Timestamp).ToList();
+
+        static bool IsFluxActionPredicate(LogMessage log) => log.Scopes.Any(kvp => kvp.Key == "FluxAction");
     }
 
     public static T GetScopeValue<T>(this LogMessage logMessage, string key)
