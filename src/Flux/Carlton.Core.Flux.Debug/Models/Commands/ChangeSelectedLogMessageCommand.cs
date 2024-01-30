@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Carlton.Core.Flux.Debug.Models.Commands;
+﻿namespace Carlton.Core.Flux.Debug.Models.Commands;
 
 public record ChangeSelectedLogMessageCommand
 {
