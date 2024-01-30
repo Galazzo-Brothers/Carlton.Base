@@ -4,5 +4,5 @@
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
 <EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 
-                SelectedLogMessageChanged="args => base.OnComponentEvent.InvokeAsync(new ChangeSelectedLogMessageCommand { SelectedLogMessage = args})" />
+                SelectedLogMessageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>" />
 

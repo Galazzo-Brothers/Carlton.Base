@@ -23,14 +23,14 @@
     public IList<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
     [Parameter]
-    public EventCallback<LogMessage> SelectedLogMessageChanged { get; set; }
+    public EventCallback<SelectedEventLogMessageChangedArgs> SelectedLogMessageChanged { get; set; }
 
     public LogMessage? SelectedLogMessage { get; private set; }
 
     public void OnLogEntrySelected(LogMessage selectedLogMessage)
     {
         SelectedLogMessage = selectedLogMessage;
-        SelectedLogMessageChanged.InvokeAsync(selectedLogMessage);
+        SelectedLogMessageChanged.InvokeAsync(new SelectedEventLogMessageChangedArgs(selectedLogMessage));
     }
 
     private IList<LogLevel> includedLogLevels = new List<LogLevel>();
