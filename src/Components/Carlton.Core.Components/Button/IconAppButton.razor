@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components
 
 <div class="icon-app-btn">
-    <span class="mdi mdi-24px mdi-@(Icon)"></span>
+    <span @onclick="OnClickCallback" class="mdi mdi-24px mdi-@(Icon)"></span>
 </div>
 
 @code {
