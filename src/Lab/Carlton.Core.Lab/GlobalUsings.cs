@@ -1,5 +1,6 @@
 ﻿global using System;
 global using System.Linq;
+global using System.Threading.Tasks;
 global using System.Collections.Generic;
 global using Carlton.Core.Utilities.Extensions;
 global using Carlton.Core.Flux.Contracts;

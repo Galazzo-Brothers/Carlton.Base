@@ -9,19 +9,8 @@
                       Groups="ComponentStateGroups"
                       SelectedGroupIndex="ViewModel.SelectedComponentIndex"
                       SelectedItemIndex="ViewModel.SelectedStateIndex"
-                      OnExpandedStateChanged="args => base.OnComponentEvent.InvokeAsync(
-                        new SelectMenuExpandedCommand
-                        {
-                            SelectedComponentIndex = args.GroupIndexID,
-                            IsExpanded = args.IsExpanded
-                        })"
-                      OnSelectedItemChanged="args => base.OnComponentEvent.InvokeAsync(
-                        new SelectMenuItemCommand
-                        {
-                            ComponentIndex = args.GroupIndexID,
-                            ComponentStateIndex = args.ItemIndexID,
-                            SelectedComponentState = args.Item
-                        })" />
+                      OnExpandedStateChanged="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuExpandedCommand>"
+                      OnSelectedItemChanged="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
 
 
 @code {

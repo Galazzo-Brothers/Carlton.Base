@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components.ComponentViewer
 
 <div class="component-viewer">
     <DynamicComponent @ref="CurrentComponent" Type="@ComponentType" Parameters="ComponentParameters" />
@@ -12,7 +12,7 @@
     public Object ParameterObject { get; set; }
 
     [Parameter]
-    public Action<string, object> Act { get; set; }
+    public EventCallback<ComponentEventRaisedArgs> ComponentEventRaised { get; set; }
 
     private DynamicComponent CurrentComponent { get; set; }
 
@@ -88,7 +88,7 @@
 
     private object CreateNonGenericEventCallback(PropertyInfo evtCallback)
     {
-        return EventCallback.Factory.Create(CurrentComponent, () => Act(evtCallback.Name, null));
+        return EventCallback.Factory.Create(CurrentComponent, () => ComponentEventRaised.InvokeAsync(new ComponentEventRaisedArgs { EventName = evtCallback.Name }));
     }
 
     private object CreateGenericEventCallback(PropertyInfo evtCallback)
@@ -139,6 +139,6 @@
 
     private void GenericCallback<T>(string callbackName, T obj)
     {
-        Act(callbackName, obj);
+        ComponentEventRaised.InvokeAsync(new ComponentEventRaisedArgs { EventName = callbackName, EventArgs = obj });
     }
 }

@@ -7,7 +7,7 @@ namespace Carlton.Core.Flux.Debug.Extensions;
 [Mapper]
 internal partial class MutationCommandMapper
 {
-    internal static partial TViewModel Map<TViewModel>(object args);
+    internal static partial TCommand Map<TCommand>(object args);
 
     [MapProperty(nameof(SelectedEventLogMessageChangedArgs.SelectedLogMessage), nameof(ChangeSelectedLogMessageCommand.SelectedLogMessage))]
     internal static partial ChangeSelectedLogMessageCommand ToCommand(SelectedEventLogMessageChangedArgs args);
