@@ -1,4 +1,5 @@
 ﻿@using Carlton.Core.Components.Table;
+@using Carlton.Core.Utilities.Extensions;
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 
 <div class="log-table">
@@ -16,17 +17,22 @@
 
 @code {
     [Parameter]
-    public IEnumerable<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    public List<LogMessage> LogMessages { get; set; } = new();
 
     [Parameter]
-    public EventCallback<LogMessage> LogMessageSelected { get; set; }
+    public int SelectedLogMessageIndex { get; set; }
 
-    private LogMessage? SelectedLogMessage { get; set; }
+    [Parameter]
+    public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
+
+    private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
 
     private void OnLogMessageSelected(LogMessage selectedLogMessage)
     {
-        SelectedLogMessage = selectedLogMessage;
-        LogMessageSelected.InvokeAsync(selectedLogMessage);
+        var index = LogMessages.FindIndex(_ => _ == selectedLogMessage);
+        SelectedLogMessageIndex = index;
+        var args = new SelectedEventLogMessageChangedArgs(index);
+        LogMessageSelected.InvokeAsync(args);
     }
 
     private IEnumerable<TableHeadingItem> Headings

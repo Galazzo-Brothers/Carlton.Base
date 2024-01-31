@@ -1,6 +1,5 @@
 ﻿@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 
-
 <div class="log-viewer">
     <div class="log-filters">
         <EventLogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
@@ -9,61 +8,51 @@
         <EventLogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
         <EventLogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
         <EventLogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
-        <EventLogTextFilter OnTextChanged="OnFilterTextChanges" />
+        <EventLogTextFilter Text="@EventLogViewerFilterState.FilterText" OnTextChanged="OnFilterTextChanges" />
     </div>
 
-    <EventLogTable LogMessages="FilteredLogMessages" LogMessageSelected="OnLogEntrySelected" />
+    <EventLogTable LogMessages="FilteredLogMessages"
+                   SelectedLogMessageIndex="SelectedLogMessageIndex"
+                   LogMessageSelected="LogMessageSelected" />
 </div>
 
 
-
-
 @code {
-    [Parameter]
-    public IList<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+    [Parameter]    public List<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
     [Parameter]
-    public EventCallback<SelectedEventLogMessageChangedArgs> SelectedLogMessageChanged { get; set; }
+    public int SelectedLogMessageIndex { get; set; }
 
-    public LogMessage? SelectedLogMessage { get; private set; }
+    [Parameter]
+    public required EventLogViewerFilterState EventLogViewerFilterState { get; set; }
 
-    public void OnLogEntrySelected(LogMessage selectedLogMessage)
+    [Parameter]
+    public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
+
+    [Parameter]
+    public EventCallback<EventLogLevelFiltersChangedArgs> LogLevelFiltersChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<EventLogLevelFilterTextChangedArgs> LogFilterTextChanged { get; set; }
+
+    private List<LogMessage> FilteredLogMessages
     {
-        SelectedLogMessage = selectedLogMessage;
-        SelectedLogMessageChanged.InvokeAsync(new SelectedEventLogMessageChangedArgs(selectedLogMessage));
-    }
-
-    private IList<LogLevel> includedLogLevels = new List<LogLevel>();
-    private string filterText = string.Empty;
-
-    private IEnumerable<LogMessage> FilteredLogMessages
-    {
-        get => LogMessages.Where(_ => includedLogLevels.Contains(_.LogLevel))
-                         .Where(_ => _.Message.ToLower().Contains(filterText))
-                         .OrderByDescending(_ => _.Timestamp);
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        includedLogLevels = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
-        await base.OnInitializedAsync();
+        get => LogMessages.Where(_ => EventLogViewerFilterState.IncludedLogLevels.Contains(_.LogLevel))
+                          .Where(_ => _.Message.ToLower().Contains(EventLogViewerFilterState.FilterText))
+                          .OrderByDescending(_ => _.Timestamp)
+                          .ToList();
     }
 
     private bool FilterIsActive(LogLevel logLevel)
-        => includedLogLevels.Contains(logLevel);
+        => EventLogViewerFilterState.IncludedLogLevels.Contains(logLevel);
 
     private int GetCountByLevel(LogLevel logLevel)
         => LogMessages.Count(_ => _.LogLevel == logLevel);
 
     private void OnFilterTextChanges(string newFilterText)
-        => filterText = newFilterText.ToLower();
+        => LogFilterTextChanged.InvokeAsync(new EventLogLevelFilterTextChangedArgs(newFilterText));
 
     private void LogLevelIncludesChanged(LogLevel logLevel, bool isIncluded)
-    {
-        if (isIncluded)
-            includedLogLevels.Add(logLevel);
-        else
-            includedLogLevels.Remove(logLevel);
-    }
+        => LogLevelFiltersChanged.InvokeAsync(new EventLogLevelFiltersChangedArgs(logLevel, isIncluded));
 }
 

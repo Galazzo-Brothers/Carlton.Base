@@ -14,9 +14,11 @@ public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugS
     public partial EventLogScopesViewModel ToEventLogScopesViewModel(FluxDebugState state);
 
     [MapProperty(nameof(FluxDebugState.LogMessages), nameof(EventLogViewerViewModel.LogMessages))]
+    [MapProperty(nameof(FluxDebugState.EventLogViewerFilterState), nameof(EventLogViewerViewModel.EventLogViewerFilterState))]
     public partial EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state);
 
-    [MapProperty(nameof(FluxDebugState.TraceLogMessages), nameof(TraceLogViewerViewModel.TraceLogMessages))]
+    [MapProperty(nameof(FluxDebugState.TraceLogMessageGroups), nameof(TraceLogViewerViewModel.TraceLogMessages))]
+    [MapProperty(nameof(FluxDebugState.SelectedTraceLogMessage), nameof(TraceLogViewerViewModel.SelectedTraceLogMessage))]
     public partial TraceLogViewerViewModel ToTraceLogViewerViewModel(FluxDebugState state);
 
     public static TraceLogRequestContextDetailsViewModel ToTraceLogRequestContextDetailsViewModel(FluxDebugState state)

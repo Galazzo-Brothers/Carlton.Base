@@ -1,8 +1,15 @@
 ﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @namespace Carlton.Core.Flux.Debug.Components
-@attribute [ObserveStateEvents("LocalStorageCleared")]
+@attribute [ObserveStateEvents("SelectedLogMessageChanged")]
+@attribute [ObserveStateEvents("LogsCleared")]
+@attribute [ObserveStateEvents("EventLogLevelFiltersChanged")]
+@attribute [ObserveStateEvents("EventLogFilterTextChanged")]
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
 <EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 
-                SelectedLogMessageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>" />
+                SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
+                EventLogViewerFilterState="@ViewModel.EventLogViewerFilterState"
+                LogLevelFiltersChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogLevelFiltersCommand>"
+                LogFilterTextChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogFilterTextCommand>"
+                LogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>" />
 
