@@ -1,5 +1,5 @@
 using Carlton.Core.Flux.Debug.Extensions;
-
+using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.State;
 
 public record FluxDebugState
@@ -15,6 +15,8 @@ public record FluxDebugState
     {
     }
 
+    public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
+
     private IEnumerable<LogMessage> _logMessages = new List<LogMessage>();
     public IEnumerable<LogMessage> LogMessages 
     {
@@ -22,11 +24,23 @@ public record FluxDebugState
         init
         {
             _logMessages = value;
-            TraceLogMessages = value.MapLogMessagesToTraceLogMessage();
+            TraceLogMessageGroups = value.MapLogMessagesToTraceLogMessage();
         }
     }
-    public IEnumerable<TraceLogMessageGroup> TraceLogMessages { get; init; } = new List<TraceLogMessageGroup>();
-    public LogMessage SelectedLogMessage { get; init; } = null;
-    public TraceLogMessage? SelectedTraceLogMessage { get; init; }
+
+    public LogMessage SelectedLogMessage => LogMessages.ElementAt(SelectedLogMessageIndex);
+    public TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedLogMessageIndex);
+
+    public int SelectedLogMessageIndex { get; init; }
+    public int SelectedTraceLogMessageIndex { get; init; }
+
+    public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();
+
     public object State { get; private set; }
+}
+
+public record EventLogViewerFilterState
+{
+    public IList<LogLevel> IncludedLogLevels { get; init; } = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
+    public string FilterText { get; init; } = string.Empty;
 }

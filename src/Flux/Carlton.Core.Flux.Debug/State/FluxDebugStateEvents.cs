@@ -3,7 +3,10 @@
 public enum FluxDebugStateEvents
 {
     LoadLogMessages,
-    LocalStorageCleared,
+    LogsCleared,
+    EventLogLevelFiltersChanged,
+    EventLogFilterTextChanged,
     SelectedLogMessageChanged,
-    SelectedTraceLogMessageChanged
+    SelectedTraceLogMessageChanged,
+    TraceLogMessageExpandedChanged
 }

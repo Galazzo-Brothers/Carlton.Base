@@ -1,11 +1,14 @@
 ﻿@namespace Carlton.Core.Components.Flux.Debug.Components
 @using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
 @attribute [ObserveStateEvents("LocalStorageCleared")]
+@attribute [ObserveStateEvents("SelectedTraceLogMessageChanged")]
 @inherits BaseConnectedComponent<TraceLogViewerViewModel>
 
 
 <TraceLogTable 
     TraceLogMessageGroups="@ViewModel.TraceLogMessages.ToList()"
-    SelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>" />
+    SelectedTraceLogMessage="@ViewModel.SelectedTraceLogMessage"
+    SelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>"
+    TraceLogMessageExapansionChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeLogMessageExpansionCommand>" />
     
 

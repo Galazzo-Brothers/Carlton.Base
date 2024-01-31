@@ -1,7 +1,10 @@
-﻿namespace Carlton.Core.Flux.Debug.Models.Commands;
+﻿using Carlton.Core.Utilities.Validations;
+
+namespace Carlton.Core.Flux.Debug.Models.Commands;
 
 public record ChangeSelectedTraceLogMessageCommand
 {
     [Required]
-    public required TraceLogMessage SelectedTraceLogMessage { get; init; }
+    [NonNegativeInteger]
+    public required int SelectedTraceLogMessageIndex { get; init; }
 };

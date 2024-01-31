@@ -58,6 +58,6 @@
         ToastState.RaiseToast("Success", "Localstorage has been cleared.", Core.Components.Toasts.ToastTypes.Success);
 
         //Update the in memory state store to reflect the action
-        await base.OnComponentEvent.InvokeAsync(new ClearLocalStorageCommand());
+        await base.OnComponentEvent.InvokeAsync(new LogsClearedCommand());
     }
 }

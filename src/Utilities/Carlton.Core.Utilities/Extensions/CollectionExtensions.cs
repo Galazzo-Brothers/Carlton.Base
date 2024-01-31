@@ -16,4 +16,12 @@ public static class CollectionExtensions
     {
         return (T) dictionary[key];
     }
+
+    public static T SafeGetAtIndex<T>(this IList<T> list, int index)
+    {
+        if (index >= 0 && index < list.Count)
+            return list[index];
+
+        return default;
+    }
 }
