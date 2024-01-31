@@ -32,7 +32,7 @@ public class ViewModelExceptionDecorator<TState>(
         Exception exception) => exception switch
         {
             ValidationException ex => ViewModelFluxException<TState, TViewModel>.ValidationError(context, ex), //Validation Error
-            InvalidOperationException ex when ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg) => ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex),//URL Construction Error
+            InvalidOperationException ex when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => ViewModelFluxException<TState, TViewModel>.HttpUrlError(context, ex),//URL Construction Error
             JsonException ex => ViewModelFluxException<TState, TViewModel>.JsonError(context, ex),//Error Serializing JSON
             NotSupportedException ex when ex.Message.Contains("Serialization and deserialization") => ViewModelFluxException<TState, TViewModel>.JsonError(context, ex),//Error Serializing JSON
             HttpRequestException ex => ViewModelFluxException<TState, TViewModel>.HttpError(context, ex),//Http Exceptions

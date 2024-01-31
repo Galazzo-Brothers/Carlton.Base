@@ -9,7 +9,12 @@ public class FluxExceptionDisplayService : IFluxExceptionDisplayService
             FluxException fluxEx => new ErrorPromptModel
                             (
                                 "Error",
+#if DEBUG
                                 fluxEx.Message,
+
+#else
+                                FluxLogs.FriendlyErrorMsg,
+#endif
                                 "mdi-alert-circle-outline",
                                 recoverAct
                             ),

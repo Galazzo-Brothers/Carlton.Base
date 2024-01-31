@@ -16,8 +16,8 @@ public class MutationExceptionDecorator<TState>(
                 _logger.MutationCommandCompleted(context.CommandTypeName);
             }
             catch(MutationCommandFluxException<TState, TCommand> ex)
-                when(ex.EventId == LogEvents.Mutation_SaveLocalStorage_JSON_Error ||
-                      ex.EventId == LogEvents.Mutation_SaveLocalStorage_Error)
+                when(ex.EventId == FluxLogs.Mutation_SaveLocalStorage_JSON_Error ||
+                      ex.EventId == FluxLogs.Mutation_SaveLocalStorage_Error)
             {
                 //Swallow here so component will still render
             }
@@ -37,7 +37,7 @@ public class MutationExceptionDecorator<TState>(
        Exception exception) => exception switch
        {
            ValidationException ex => MutationCommandFluxException<TState, TCommand>.ValidationError(context, ex), //Validation Error
-           InvalidOperationException ex when ex.Message.Contains(LogEvents.InvalidRefreshUrlMsg) => MutationCommandFluxException<TState, TCommand>.HttpUrlError(context, ex),//URL Construction Error
+           InvalidOperationException ex when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => MutationCommandFluxException<TState, TCommand>.HttpUrlError(context, ex),//URL Construction Error
            JsonException ex => MutationCommandFluxException<TState, TCommand>.HttpJsonError(context, ex),//Error Serializing JSON
            NotSupportedException ex when ex.Message.Contains("Serialization and deserialization") => MutationCommandFluxException<TState, TCommand>.HttpJsonError(context, ex),//Error Serializing JSON
            HttpRequestException ex => MutationCommandFluxException<TState, TCommand>.HttpError(context, ex),//Http Exceptions

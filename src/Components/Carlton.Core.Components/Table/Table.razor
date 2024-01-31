@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Table
 @typeparam TItem
 
-<div class="table-container @TableCssClass">
+<div class="@TableCssClass">
     <div class="header table-row">
         <TableHeader TItem="TItem"
                      Headings="Headings"
@@ -70,7 +70,7 @@
 
     private string TableCssClass
     {
-        get => new CssBuilder()
+        get => new CssBuilder("table-container")
                 .AddClass("zebra", ZebraStripped)
                 .AddClass("hoverable", Hoverable)
                 .Build();

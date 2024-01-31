@@ -3,19 +3,19 @@
 public static partial class LogSourceGenerators
 {
     [LoggerMessage(
-        EventId = LogEvents.ViewModel_Completed,
+        EventId = FluxLogs.ViewModel_Completed,
         Level = LogLevel.Information,
         Message = "Completed processing query for ViewModel of type {ViewModelType}")]
     public static partial void ViewModelQueryCompleted(this ILogger logger, string viewModelType);
 
     [LoggerMessage(
-        EventId = LogEvents.Mutation_Completed,
+        EventId = FluxLogs.Mutation_Completed,
         Level = LogLevel.Information,
         Message = "Completed processing mutation of type {MutationCommandType}")]
     public static partial void MutationCommandCompleted(this ILogger logger, string mutationCommandType);
     
     [LoggerMessage(
-        EventId = LogEvents.ViewModel_JsInterop_Completed,
+        EventId = FluxLogs.ViewModel_JsInterop_Completed,
         Level = LogLevel.Information,
         Message = "Completed JSInterop query for ViewModel of type {ViewModelType}")]
     public static partial void ViewModelJsInteropQueryCompleted(this ILogger logger, string viewModelType);
@@ -31,7 +31,7 @@ public static partial class LogSourceGenerators
     public static partial void MutationCommandErrored(this ILogger logger, string MutationCommandType, Exception ex);
     
     [LoggerMessage(
-       EventId = LogEvents.ViewModel_JsInterop_Error,
+       EventId = FluxLogs.ViewModel_JsInterop_Error,
        Level = LogLevel.Error,
        Message = "An error occurred during JSInterop query for ViewModel of type {ViewModelType}")]
     public static partial void ViewModelJsInteropQueryErrored(this ILogger logger, Exception ex, string viewModelType);
