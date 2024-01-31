@@ -2,7 +2,7 @@
 using Carlton.Core.Utilities.Disposable;
 namespace Carlton.Core.Flux.Logging;
 
-public static class LogEvents
+public static class FluxLogs
 {
     //Logging Scopes
     public const string FluxComponentInitialization = "FluxComponentInitialization:{@FluxComponentInitialization}";
@@ -56,7 +56,7 @@ public static class LogEvents
 
     //Mutation Error Messages
     public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during MutationCommand of type";
-    public const string Mutation_Validation_ErrorMsg = "An error occurred while validation MutationCommand of type";
+    public const string Mutation_Validation_ErrorMsg = "An error occurred while validating MutationCommand of type";
     public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for MutationCommand of type";
     public const string Mutation_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for MutationCommand of type";
     public const string Mutation_HTTP_JSON_ErrorMsg = "An error occurred while parsing the JSON HTTP response for MutationCommand of type";
@@ -69,6 +69,9 @@ public static class LogEvents
     public const string InvalidRefreshUrlParametersMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ";
     public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
     public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
+
+    //Friendly Error
+    public const string FriendlyErrorMsg = "Oops! We are sorry an error has occurred. Please try again.";
 
     public static IDisposable BeginJsInteropLoggingScopes(this ILogger logger, string jsModule, string jsFunction, object[] jsParameters)
     {

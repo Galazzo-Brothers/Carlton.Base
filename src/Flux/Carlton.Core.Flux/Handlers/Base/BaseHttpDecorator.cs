@@ -33,7 +33,7 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
             {
                 DataEndpointParameterType.StateStoreParameter => State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(State).ToString(),
                 DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-                _ => throw new InvalidOperationException(LogEvents.InvalidRefreshUrlCreationEnumValueMsg)
+                _ => throw new InvalidOperationException(FluxLogs.InvalidRefreshUrlCreationEnumValueMsg)
             };
             result = result.Replace($"{{{attribute.Name}}}", value);
         }
@@ -45,7 +45,7 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
     private static void VerifyUrlParameters(string url)
     {
         var isUrlWellFormed = Uri.IsWellFormedUriString(url, UriKind.Absolute);
-        var msgBuilder = new StringBuilder(LogEvents.InvalidRefreshUrlParametersMsg);
+        var msgBuilder = new StringBuilder(FluxLogs.InvalidRefreshUrlParametersMsg);
 
         //Check for any unreplaced parameters
         var match = UrlParameterTokenRegex().Match(url);
@@ -58,7 +58,7 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
 
         //If there are no unreplaced tokens throw an exception for HttpRefreshAttribute
         if (!unreplacedTokens)
-            throw new InvalidOperationException(LogEvents.InvalidRefreshUrlMsg);
+            throw new InvalidOperationException(FluxLogs.InvalidRefreshUrlMsg);
 
         //If there are unreplaced tokens throw an exception for HttpRefreshParameterAttribute
         while (match.Success)
