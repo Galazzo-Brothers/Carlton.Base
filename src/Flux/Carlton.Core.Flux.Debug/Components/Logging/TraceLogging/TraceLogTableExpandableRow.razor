@@ -1,6 +1,7 @@
 ﻿@using BlazorComponentUtilities
 @using Carlton.Core.Components.Button
 @using Carlton.Core.Flux.Debug.Components.Logging
+
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
 
 
@@ -11,7 +12,7 @@
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.TypeDisplayName</span></div>
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.EventId.Id</span></div>
     <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@TraceLogMessageGroup.ParentEntry.RequestSucceeded" /></span></div>
-    <div class="table-cell"><span class="cell-text"><AppLinkButton Text="View Details" OnClickCallback="() => OnSelectedLogMessageChanged.InvokeAsync(TraceLogMessageGroup.ParentEntry)" /></span></div>
+    <div class="table-cell"><span class="cell-text"><AppLinkButton Text="View Details" OnClickCallback="() => RowClick(TraceLogMessageGroup.ParentEntry)" /></span></div>
 </div>
 
 
@@ -25,7 +26,7 @@
         <div class="table-cell"><span class="cell-text">@child.TypeDisplayName</span></div>
         <div class="table-cell"><span class="cell-text">@child.EventId.Id</span></div>
         <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@child.RequestSucceeded" /></span></div>
-        <div class="table-cell"><span class="cell-text"><AppLinkButton Text="View Details" OnClickCallback="() => OnSelectedLogMessageChanged.InvokeAsync(child)" /></span></div>
+        <div class="table-cell"><span class="cell-text"><AppLinkButton Text="View Details" OnClickCallback="() => RowClick(child)" /></span></div>
     </div>
 }
 
@@ -38,10 +39,15 @@
     public TraceLogMessage? SelectedTraceLogMessage { get; set; }
 
     [Parameter]
-    public EventCallback<TraceLogMessage> OnSelectedLogMessageChanged { get; set; }
+    public bool IsExpanded { get; set; }
 
-    private bool Expanded { get; set; }
-    private bool HasChildren { get => TraceLogMessageGroup.ChildEntries.Any(); }
+    [Parameter]
+    public EventCallback<TraceLogMessage> SelectedTraceLogMessageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TraceLogMessage> TraceLogMessageExapansionChanged { get; set; }
+
+    private bool HasChildren => TraceLogMessageGroup.ChildEntries.Any();
 
     private string TableRowCss
     {
@@ -56,8 +62,8 @@
         get => new CssBuilder("chevron")
                     .AddClass("mdi")
                     .AddClass("mdi-24px")
-                    .AddClass("mdi-chevron-down", Expanded)
-                    .AddClass("mdi-chevron-right", !Expanded)
+                    .AddClass("mdi-chevron-down", IsExpanded)
+                    .AddClass("mdi-chevron-right", !IsExpanded)
                     .AddClass("dimmed", !HasChildren)
                     .Build();
 
@@ -67,13 +73,21 @@
         => new CssBuilder("child-row")
                 .AddClass("table-row")
                 .AddClass("selected", SelectedTraceLogMessage == traceLogMessage)
-                .AddClass("collapased", !Expanded)
+                .AddClass("collapased", !IsExpanded)
                 .Build();
-    
+
+
+    private void RowClick(TraceLogMessage selectedTraceLogMessage)
+    {
+        SelectedTraceLogMessageChanged.InvokeAsync(selectedTraceLogMessage);
+    }
 
     private void ChevronClick()
     {
-        if (HasChildren)
-            Expanded = !Expanded;
+        if (!HasChildren)
+            return;
+
+        var changedTraceLogMessage = TraceLogMessageGroup.ParentEntry;
+        TraceLogMessageExapansionChanged.InvokeAsync(changedTraceLogMessage);
     }
 }

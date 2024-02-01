@@ -15,7 +15,7 @@ internal partial class MutationCommandMapper
     [MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessageIndex), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessageIndex))]
     internal static partial ChangeSelectedTraceLogMessageCommand ToCommand(SelectedTraceLogMessageChangedArgs args);
 
-    [MapProperty(nameof(TraceLogMessageExapansionChangedArgs.TraceLogMessage), nameof(ChangeLogMessageExpansionCommand.TraceLogMessage))]
+    [MapProperty(nameof(TraceLogMessageExapansionChangedArgs.Index), nameof(ChangeLogMessageExpansionCommand.TraceLogMessageIndex))]
     [MapProperty(nameof(TraceLogMessageExapansionChangedArgs.IsExpanded), nameof(ChangeLogMessageExpansionCommand.IsExpanded))]
     internal static partial ChangeLogMessageExpansionCommand ToCommand(TraceLogMessageExapansionChangedArgs args);
 
