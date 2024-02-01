@@ -6,15 +6,13 @@ internal class LogMessageExpansionMutation : FluxStateMutationBase<FluxDebugStat
 
     public override FluxDebugState Mutate(FluxDebugState state, ChangeLogMessageExpansionCommand command)
     {
-        var list = state.TraceLogMessageGroups.SelectMany(tl => tl.FlattenedEntries).ToList();
-
-        var index = list.FindIndex(tl => tl == command.TraceLogMessage);
+        var updatedList = state.ExpandedTraceLogMessageIndexes.ToList();
         
-        var itemToUpdate = list[index];
-        var updatedItem = itemToUpdate with { IsExpanded = command.IsExpanded };
+        if (command.IsExpanded)
+            updatedList.Add(command.TraceLogMessageIndex);
+        else
+            updatedList.Remove(command.TraceLogMessageIndex);
 
-        list[index] = updatedItem;
-
-        return state;
+        return state with { ExpandedTraceLogMessageIndexes = updatedList };    
     }
 }

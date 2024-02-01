@@ -1,39 +1,39 @@
 using Carlton.Core.Flux.Debug.Extensions;
 using Microsoft.Extensions.Logging;
+using System.Collections.ObjectModel;
 namespace Carlton.Core.Flux.Debug.State;
 
 public record FluxDebugState
 {
-    public FluxDebugState(object state, IEnumerable<LogMessage> logMessages)
+    public FluxDebugState()
+    {
+
+    }
+    public FluxDebugState(object state, ReadOnlyCollection<LogMessage> logMessages)
     {
         State = state;
         LogMessages = logMessages;
     }
 
-    public FluxDebugState(object state)
-        : this(state, new List<LogMessage>())
-    {
-    }
+    public IReadOnlyList<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
 
-    public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
-
-    private IEnumerable<LogMessage> _logMessages = new List<LogMessage>();
-    public IEnumerable<LogMessage> LogMessages 
+    private IReadOnlyList<LogMessage> _logMessages = new List<LogMessage>();
+    public IReadOnlyList<LogMessage> LogMessages 
     {
         get => _logMessages;
         init
         {
             _logMessages = value;
-            TraceLogMessageGroups = value.MapLogMessagesToTraceLogMessage();
+            TraceLogMessageGroups = value.MapLogMessagesToTraceLogMessage().ToList();
         }
     }
 
     public LogMessage SelectedLogMessage => LogMessages.ElementAt(SelectedLogMessageIndex);
-    public TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedLogMessageIndex);
+    public TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 
     public int SelectedLogMessageIndex { get; init; }
     public int SelectedTraceLogMessageIndex { get; init; }
-
+    public IReadOnlyList<int> ExpandedTraceLogMessageIndexes { get; init; } = [];
     public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();
 
     public object State { get; private set; }

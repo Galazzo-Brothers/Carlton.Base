@@ -12,7 +12,7 @@ public static class ContainerExtensions
 
     public static void AddCarltonFluxDebug<TState>(this IServiceCollection services, TState state)
     {
-        var debugState = new FluxDebugState(state);
+        var debugState = new FluxDebugState();
         RegisterIndexDbStorage(services);
 
         services.AddSingleton<ILogsDataAccess, LogsDataAccess>();

@@ -30,7 +30,7 @@ public static class LogExtensions
         };
     }
 
-    public static IEnumerable<TraceLogMessageGroup> MapLogMessagesToTraceLogMessage(this IEnumerable<LogMessage> logMessages) 
+    public static IEnumerable<TraceLogMessageGroup> MapLogMessagesToTraceLogMessage(this IEnumerable<LogMessage> logMessages)
     {
         return
             logMessages

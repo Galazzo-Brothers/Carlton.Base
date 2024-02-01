@@ -1,6 +1,5 @@
 ﻿using Carlton.Core.Flux.Models;
 using Microsoft.Extensions.Logging;
-
 namespace Carlton.Core.Flux.Debug.Models.Common;
 
 public record TraceLogMessage
@@ -13,10 +12,23 @@ public record TraceLogMessage
     public required BaseRequestContext RequestContext { get; init; }
 }
 
-public class TraceLogMessageGroup
+public record TraceLogMessageGroup
 {
     public required TraceLogMessage ParentEntry { get; set; }
     public IEnumerable<TraceLogMessage> ChildEntries { get; set; } = new List<TraceLogMessage>();
+
+    public IEnumerable<TraceLogMessage> FlattenedEntries
+    {
+        get
+        {
+            // Include the parent entry first, followed by child entries
+            yield return ParentEntry;
+            foreach (var childEntry in ChildEntries)
+            {
+                yield return childEntry;
+            }
+        }
+    }
 }
 
 public enum FluxActions

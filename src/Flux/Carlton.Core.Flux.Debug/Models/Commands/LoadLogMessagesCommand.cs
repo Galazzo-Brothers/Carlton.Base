@@ -2,5 +2,5 @@
 
 public class LoadLogMessagesCommand
 {
-    public IEnumerable<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
+    public IReadOnlyList<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
 }
