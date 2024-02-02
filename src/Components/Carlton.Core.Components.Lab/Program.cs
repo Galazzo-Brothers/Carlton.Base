@@ -3,6 +3,7 @@ using Carlton.Core.Components.Button;
 using Carlton.Core.Components.Cards;
 using Carlton.Core.Components.Lab.TestData;
 using Carlton.Core.Components.Layouts.Extensions;
+using Carlton.Core.Components.Select;
 using Carlton.Core.Components.Table;
 using Carlton.Core.Lab.Extensions;
 using Microsoft.Extensions.Logging;

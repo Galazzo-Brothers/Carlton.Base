@@ -6,7 +6,11 @@ internal class EventLogTableRowsPerPageMutation : FluxStateMutationBase<FluxDebu
 
     public override FluxDebugState Mutate(FluxDebugState state, ChangeEventLogMessageTableRowsPerPageOptsCommand command)
     {
-        var updatedTableState = state.EventLogTableState with { SelectedRowsPerPageOptsIndex = command.SelectedRowsPerPageIndex };
+        var updatedTableState = state.EventLogTableState with
+        {
+            CurrentPage = 1,
+            SelectedRowsPerPageOptsIndex = command.SelectedRowsPerPageIndex
+        };
         return state with { EventLogTableState = updatedTableState };
     }
 }

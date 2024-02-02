@@ -24,4 +24,12 @@ public static class CollectionExtensions
 
         return default;
     }
+
+    public static T SafeGetAtIndex<T>(this IEnumerable<T> enumerable, int index)
+    {
+        if (index >= 0 && index < enumerable.Count())
+            return enumerable.ElementAt(index);
+
+        return default;
+    }
 }
