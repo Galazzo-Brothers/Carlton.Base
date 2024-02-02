@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
+﻿using Carlton.Core.Components.Table;
+using Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
 using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging;
 using Riok.Mapperly.Abstractions;
 
@@ -25,6 +26,23 @@ internal partial class MutationCommandMapper
 
     [MapProperty(nameof(EventLogLevelFilterTextChangedArgs.FilterText), nameof(ChangeEventLogFilterTextCommand.FilterText))]
     internal static partial ChangeEventLogFilterTextCommand ToCommand(EventLogLevelFilterTextChangedArgs args);
+
+
+    [MapProperty(nameof(TableRowsPerPageChangedArgs.SelectedRowsPerPageIndex), nameof(ChangeEventLogMessageTableRowsPerPageOptsCommand.SelectedRowsPerPageIndex))]
+    internal static partial ChangeEventLogMessageTableRowsPerPageOptsCommand ToCommandEventLogTableRowsPerPage(TableRowsPerPageChangedArgs args);
+
+    [MapProperty(nameof(TableRowsPerPageChangedArgs.SelectedRowsPerPageIndex), nameof(ChangeTraceLogMessageTableRowsPerPageOptsCommand.SelectedRowsPerPageIndex))]
+    internal static partial ChangeTraceLogMessageTableRowsPerPageOptsCommand ToCommandTraceLogTableRowsPerPage(TableRowsPerPageChangedArgs args);
+
+    [MapProperty(nameof(TablePageChangedArgs.CurrentPage), nameof(ChangeEventLogPageCommand.SelectedPageIndex))]
+    internal static partial ChangeEventLogPageCommand ToCommandEventLogTablePageChange(TablePageChangedArgs args);
+
+    [MapProperty(nameof(TablePageChangedArgs.CurrentPage), nameof(ChangeTraceLogPageCommand.SelectedPageIndex))]
+    internal static partial ChangeTraceLogPageCommand ToCommandTraceLogTablePageChange(TablePageChangedArgs args);
+
+    [MapProperty(nameof(TableOrderingChangedArgs.OrderColumn), nameof(ChangeEventLogTableOrderingCommand.OrderByColum))]
+    [MapProperty(nameof(TableOrderingChangedArgs.OrderAscending), nameof(ChangeEventLogTableOrderingCommand.OrderAscending))]
+    internal static partial ChangeEventLogTableOrderingCommand ToCommand(TableOrderingChangedArgs args);
 }
 
 

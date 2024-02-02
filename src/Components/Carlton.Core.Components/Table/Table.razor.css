@@ -18,6 +18,11 @@
 		background-color: var(--table-row-selected-background-color);
 	}
 
+	.table-container.zebra ::deep.table-row:not(.header, .pagination) {
+		border-bottom: none;
+		border-top: none;
+	}
+
 
 	.table-container.hoverable ::deep .table-row:hover:not(.selected) {
 		cursor: pointer;

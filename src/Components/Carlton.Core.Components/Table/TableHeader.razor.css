@@ -5,6 +5,12 @@
     font-weight: bold;
 }
 
+    .header-cell .heading-container{
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .header-cell .filter-arrows {
         display: none;
         gap: 5px;

@@ -8,7 +8,7 @@ internal class EventLogFiltersMutation : FluxStateMutationBase<FluxDebugState, C
     {
         var currentlyIncluded = state.EventLogViewerFilterState.IncludedLogLevels.Contains(command.LogLevel);
         var shouldBeIncluded = command.IsIncluded;
-        var filterList = state.EventLogViewerFilterState.IncludedLogLevels;
+        var filterList = state.EventLogViewerFilterState.IncludedLogLevels.ToList();
 
         if (shouldBeIncluded && !currentlyIncluded)
             filterList.Add(command.LogLevel);
