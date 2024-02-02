@@ -8,7 +8,11 @@ internal class TraceLogMessageTableRowsPerPageMutation : FluxStateMutationBase<F
 
     public override FluxDebugState Mutate(FluxDebugState state, ChangeTraceLogMessageTableRowsPerPageOptsCommand command)
     {
-        var updatedTableState = state.TraceLogTableState with { SelectedRowsPerPageOptsIndex = command.SelectedRowsPerPageIndex };
+        var updatedTableState = state.TraceLogTableState with
+        {
+            CurrentPage = 1,
+            SelectedRowsPerPageOptsIndex = command.SelectedRowsPerPageIndex
+        };
         return state with { TraceLogTableState = updatedTableState };
     }
 }

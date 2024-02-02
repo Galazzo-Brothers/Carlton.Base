@@ -102,11 +102,6 @@
         if (!SortableHeadersEnabled)
             return;
 
-        OrderColumn = args.OrderColumn;
-        OrderAscending = args.OrderAscending;
-        UpdateOrdering();
-        UpdatePagination();
-
         ItemsOrdered.InvokeAsync(args);
     }
 
@@ -117,8 +112,8 @@
             return;
 
         Items = AllItems.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
-                               .Take(SelectedRowPerPageValue)
-                               .ToList();
+                        .Take(SelectedRowPerPageValue)
+                        .ToList();
     }
 
     private void UpdateOrdering()

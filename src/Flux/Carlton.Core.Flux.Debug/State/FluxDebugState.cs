@@ -1,6 +1,7 @@
 using Carlton.Core.Flux.Debug.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
+using Carlton.Core.Utilities.Extensions;
 namespace Carlton.Core.Flux.Debug.State;
 
 public record FluxDebugState
@@ -32,8 +33,8 @@ public record FluxDebugState
     //Selected Log Messages
     public int SelectedLogMessageIndex { get; init; }
     public int SelectedTraceLogMessageIndex { get; init; }
-    public LogMessage SelectedLogMessage => LogMessages.ElementAt(SelectedLogMessageIndex);
-    public TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
+    public LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
+    public TraceLogMessage? SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 
     //Table States
     public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();

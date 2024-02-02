@@ -24,7 +24,14 @@ internal static class TraceLogCollectionExtensions
         return -1;
     }
 
-    internal static TraceLogMessage GetElementAtIndex(this IEnumerable<TraceLogMessageGroup> groups, int targetIndex)
-        => groups.SelectMany(_ => _.FlattenedEntries).ElementAt(targetIndex);
+    internal static TraceLogMessage? GetElementAtIndex(this IEnumerable<TraceLogMessageGroup> groups, int targetIndex)
+    {
+        var flattenedEntries = groups.SelectMany(_ => _.FlattenedEntries);
+        
+        if(targetIndex < flattenedEntries.Count())
+            return flattenedEntries.ElementAt(targetIndex);
+
+        return default;
+    }
 
 }

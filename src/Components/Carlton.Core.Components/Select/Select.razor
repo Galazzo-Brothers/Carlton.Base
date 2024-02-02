@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components.Select
 
 <div class="select">
     <input readonly placeholder=" " value="@ValueDisplay" />
@@ -11,9 +11,9 @@
     else
     {
         <div class="options">
-            @foreach(var opt in Options)
+            @foreach(var (opt, i) in Options.WithIndex())
             {
-                <div class="option" @onclick="()=>OnValueChanged(opt)">@opt.Key</div>
+                <div class="option" @onclick="()=>OnValueChanged(new SelectValueChangedArgs(i, opt.Key, opt.Value))">@opt.Key</div>
             }
         </div>
     }
@@ -31,7 +31,7 @@
     public IReadOnlyDictionary<string, int> Options { get; set; } = new Dictionary<string, int>();
 
     [Parameter]
-    public EventCallback<KeyValuePair<string, int>> ValueChangedCallback { get; set; }
+    public EventCallback<SelectValueChangedArgs> ValueChangedCallback { get; set; }
 
     [Parameter]
     public int SelectedValue { get; set; }
@@ -44,9 +44,9 @@
         }
     }
 
-    private async Task OnValueChanged(KeyValuePair<string, int> opt)
+    private async Task OnValueChanged(SelectValueChangedArgs opt)
     {
-        SelectedValue = opt.Value;
+        SelectedValue = opt.SelectedValue;
         await ValueChangedCallback.InvokeAsync(opt);
     }
 }

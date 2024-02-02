@@ -1,11 +1,12 @@
-﻿@namespace Carlton.Core.Components.Table
+﻿@using Carlton.Core.Components.Select
+@namespace Carlton.Core.Components.Table
 @typeparam TItem
 
 
 <div class="pagination-row">
     <div class="rows-per-page">
         <span class="rows-per-page-label">Rows Per Page</span>
-        <Select Options="RowsPerPageSelectOpts" SelectedValue="SelectedRowsPerPageValue" ValueChangedCallback="(rpp) => ChangeRowsPerPage(rpp.Value)" />
+        <Select Options="RowsPerPageSelectOpts" SelectedValue="SelectedRowsPerPageValue" ValueChangedCallback="(rpp) => ChangeRowsPerPage(rpp.SelectedIndex)" />
     </div>
     <div class="page-number">
         <span class="pagination-label">@PaginationLabel</span>
@@ -73,12 +74,9 @@
         => await PageChanged.InvokeAsync(new TablePageChangedArgs(newPageNumber));
     
 
-    private async Task ChangeRowsPerPage(int newRowsPerPage)
-    {
-        SelectedRowsPerPageIndex = RowsPerPageOpts.ToList().IndexOf(newRowsPerPage);
-        CurrentPage = 1;
-        await RowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(SelectedRowsPerPageIndex));
-    }
+    private async Task ChangeRowsPerPage(int rowsPerPageIndex)
+        => await RowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(rowsPerPageIndex));
+    
 
     private string PageFirstChevronCss
     {
