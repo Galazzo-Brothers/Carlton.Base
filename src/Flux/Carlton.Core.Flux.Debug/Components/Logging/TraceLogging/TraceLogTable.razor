@@ -7,7 +7,11 @@
     <Table Headings="Headings"
            Items="TraceLogMessageGroups"
            ShowPaginationRow="true"
-           RowsPerPageOpts="RowsPerPageInts"
+           CurrentPage="TraceLogTableState.CurrentPage"
+           SelectedRowsPerPageIndex="TraceLogTableState.SelectedRowsPerPageOptsIndex"
+           RowsPerPageOpts="TraceLogTableState.RowsPerPageOpts"
+           PageChanged="PageChanged"
+           RowsPerPageChanged="RowsPerPageChanged"
            SortableHeadersEnabled="false">
         <RowTemplate Context="group">
             <TraceLogTableExpandableRow 
@@ -29,13 +33,22 @@
     public int SelectedTraceLogMessageIndex { get; set; }
 
     [Parameter]
-    public required List<int> ExpandedRowIndexes { get; set; }
+    public required IEnumerable<int> ExpandedRowIndexes { get; set; }
+
+    [Parameter]
+    public required TableState TraceLogTableState { get; set; }
 
     [Parameter]
     public EventCallback<SelectedTraceLogMessageChangedArgs> SelectedTraceLogMessageChanged { get; set; }
 
     [Parameter]
     public EventCallback<TraceLogMessageExapansionChangedArgs> TraceLogMessageExapansionChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
 
     private TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 
@@ -53,11 +66,6 @@
     }
 
     private bool IsExpanded(TraceLogMessage traceLogMessage) => ExpandedRowIndexes.Contains(TraceLogMessageGroups.GetIndex(traceLogMessage));
-
-    private IEnumerable<int> RowsPerPageInts = new List<int>
-    {
-        5, 10, 25
-    };
 
     private void OnSelectedTraceLogMessageChanged(TraceLogMessage selectedTraceLogMessage)
     {

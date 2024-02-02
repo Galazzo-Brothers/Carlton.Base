@@ -33,10 +33,10 @@
     public int SelectedRowsPerPageIndex { get; set; }
 
     [Parameter]
-    public EventCallback<TablePageChangedArgs> OnPageChanged { get; set; }
+    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TableRowsPerPageChangedArgs> OnRowsPerPageChanged { get; set; }
+    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
 
     public int SelectedRowsPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
@@ -70,16 +70,14 @@
     }
 
     private async Task ChangePage(int newPageNumber)
-    {
-        CurrentPage = newPageNumber;
-        await OnPageChanged.InvokeAsync(new TablePageChangedArgs(CurrentPage));
-    }
+        => await PageChanged.InvokeAsync(new TablePageChangedArgs(newPageNumber));
+    
 
     private async Task ChangeRowsPerPage(int newRowsPerPage)
     {
         SelectedRowsPerPageIndex = RowsPerPageOpts.ToList().IndexOf(newRowsPerPage);
         CurrentPage = 1;
-        await OnRowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(SelectedRowsPerPageIndex));
+        await RowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(SelectedRowsPerPageIndex));
     }
 
     private string PageFirstChevronCss

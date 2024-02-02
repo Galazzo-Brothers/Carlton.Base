@@ -13,7 +13,11 @@
 
     <EventLogTable LogMessages="FilteredLogMessages"
                    SelectedLogMessageIndex="SelectedLogMessageIndex"
-                   LogMessageSelected="LogMessageSelected" />
+                   EventLogTableState="EventLogTableState"
+                   LogMessageSelected="LogMessageSelected"
+                   PageChanged="PageChanged"
+                   RowsPerPageChanged="RowsPerPageChanged" 
+                   ItemsOrdered="ItemsOrdered" />
 </div>
 
 
@@ -27,6 +31,9 @@
     public required EventLogViewerFilterState EventLogViewerFilterState { get; set; }
 
     [Parameter]
+    public required TableState EventLogTableState { get; set; }
+
+    [Parameter]
     public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
 
     [Parameter]
@@ -34,6 +41,15 @@
 
     [Parameter]
     public EventCallback<EventLogLevelFilterTextChangedArgs> LogFilterTextChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TableOrderingChangedArgs> ItemsOrdered { get; set; }
 
     private List<LogMessage> FilteredLogMessages
     {

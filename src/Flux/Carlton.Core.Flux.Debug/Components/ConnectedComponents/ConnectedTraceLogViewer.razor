@@ -3,13 +3,20 @@
 @attribute [ObserveStateEvents("LocalStorageCleared")]
 @attribute [ObserveStateEvents("SelectedTraceLogMessageChanged")]
 @attribute [ObserveStateEvents("TraceLogMessageExpandedChanged")]
+@attribute [ObserveStateEvents("TraceLogTablePageChanged")]
+@attribute [ObserveStateEvents("TraceLogTableRowsPerPageChanged")]
+
+
 @inherits BaseConnectedComponent<TraceLogViewerViewModel>
 
 
 <TraceLogTable TraceLogMessageGroups="@ViewModel.TraceLogMessages.ToList()"
                SelectedTraceLogMessageIndex="@ViewModel.SelectedTraceLogMessageIndex"
                ExpandedRowIndexes="@ViewModel.ExpandedRowIndexes"
+               TraceLogTableState="@ViewModel.TraceLogTableState"
                SelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>"
-               TraceLogMessageExapansionChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeLogMessageExpansionCommand>" />
+               TraceLogMessageExapansionChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeLogMessageExpansionCommand>"
+               PageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeTraceLogPageCommand>"
+               RowsPerPageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeTraceLogMessageTableRowsPerPageOptsCommand>" />
 
 

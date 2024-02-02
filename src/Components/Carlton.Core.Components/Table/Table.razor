@@ -17,14 +17,14 @@
     </div>
     @if (ShowPaginationRow)
     {
-        <div class="table-row">
+        <div class="pagination table-row">
             <TablePaginationRow TItem="TItem"
                                 RowsPerPageOpts="RowsPerPageOpts"
                                 TotalItemCount="AllItems.Count()"
                                 CurrentPage="CurrentPage"
                                 SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
-                                OnPageChanged="OnPageChanged"
-                                OnRowsPerPageChanged="OnRowsPerPageChanged" />
+                                PageChanged="PageChanged"
+                                RowsPerPageChanged="RowsPerPageChanged" />
         </div>
     }
 </div>
@@ -48,7 +48,19 @@
     public IEnumerable<int> RowsPerPageOpts { get; set; }
 
     [Parameter]
+    public int SelectedRowsPerPageIndex { get; set; } = 0;
+
+    [Parameter]
+    public int CurrentPage { get; set; } = 1;
+
+    [Parameter]
     public bool SortableHeadersEnabled { get; set; } = true;
+
+    [Parameter]
+    public string OrderColumn { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool OrderAscending { get; set; } = true;
 
     [Parameter]
     public bool ZebraStripped { get; set; }
@@ -56,17 +68,18 @@
     [Parameter]
     public bool Hoverable { get; set; }
 
+    [Parameter]
+    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TableOrderingChangedArgs> ItemsOrdered { get; set; }
+
     private IList<TItem> AllItems { get; set; } = new List<TItem>();
 
-    private int SelectedRowsPerPageIndex { get; set; } = 0;
-
     private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
-
-    private int CurrentPage { get; set; } = 1;
-
-    private string OrderColumn { get; set; }
-
-    private bool OrderAscending { get; set; } = true;
 
     private string TableCssClass
     {
@@ -79,24 +92,9 @@
     protected override void OnParametersSet()
     {
         AllItems = Items.ToList();
-        ResetPaginationAndOrdering();
         UpdateOrdering();
         UpdatePagination();
         base.OnParametersSet();
-    }
-
-    private void OnPageChanged(TablePageChangedArgs args)
-    {
-        CurrentPage = args.CurrentPage;
-        UpdateOrdering();
-        UpdatePagination();
-    }
-
-    private void OnRowsPerPageChanged(TableRowsPerPageChangedArgs args)
-    {
-        SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
-        UpdateOrdering();
-        UpdatePagination();
     }
 
     private void OnOrderingChanged(TableOrderingChangedArgs args)
@@ -108,6 +106,8 @@
         OrderAscending = args.OrderAscending;
         UpdateOrdering();
         UpdatePagination();
+
+        ItemsOrdered.InvokeAsync(args);
     }
 
     private void UpdatePagination()
@@ -128,12 +128,5 @@
 
         var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
         AllItems = AllItems.AsQueryable().OrderBy(orderString).ToList();
-    }
-
-    private void ResetPaginationAndOrdering()
-    {
-        CurrentPage = 1;
-        OrderColumn = string.Empty;
-        OrderAscending = true;
     }
 }

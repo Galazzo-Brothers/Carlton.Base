@@ -10,4 +10,6 @@ public record EventLogViewerViewModel
     public IEnumerable<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
     [Required]
     public required EventLogViewerFilterState EventLogViewerFilterState { get; init; }
+    [Required]
+    public required TableState EventLogTableState { get; init; }
 }

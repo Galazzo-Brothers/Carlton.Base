@@ -8,4 +8,6 @@ public record TraceLogViewerViewModel
     public required IEnumerable<TraceLogMessageGroup> TraceLogMessages { get; init; } = new List<TraceLogMessageGroup>();
     [Required]
     public required IEnumerable<int> ExpandedRowIndexes { get; init; } = new List<int>();
+    [Required]
+    public required TableState TraceLogTableState { get; init; } = new();
 };

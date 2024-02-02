@@ -15,10 +15,11 @@ public record FluxDebugState
         LogMessages = logMessages;
     }
 
-    public IReadOnlyList<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
+    //Logs
+    public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
 
-    private IReadOnlyList<LogMessage> _logMessages = new List<LogMessage>();
-    public IReadOnlyList<LogMessage> LogMessages 
+    private IEnumerable<LogMessage> _logMessages = new List<LogMessage>();
+    public IEnumerable<LogMessage> LogMessages 
     {
         get => _logMessages;
         init
@@ -28,19 +29,33 @@ public record FluxDebugState
         }
     }
 
+    //Selected Log Messages
+    public int SelectedLogMessageIndex { get; init; }
+    public int SelectedTraceLogMessageIndex { get; init; }
     public LogMessage SelectedLogMessage => LogMessages.ElementAt(SelectedLogMessageIndex);
     public TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 
-    public int SelectedLogMessageIndex { get; init; }
-    public int SelectedTraceLogMessageIndex { get; init; }
-    public IReadOnlyList<int> ExpandedTraceLogMessageIndexes { get; init; } = [];
+    //Table States
     public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();
+    public IEnumerable<int> ExpandedTraceLogMessageIndexes { get; init; } = [];
+    public TableState EventLogTableState { get; init; } = new();
+    public TableState TraceLogTableState { get; init; } = new();
 
+    //Main Applicaiton State
     public object State { get; private set; }
+}
+
+public record TableState
+{
+    public int CurrentPage { get; init; } = 1;
+    public int SelectedRowsPerPageOptsIndex { get; init; } = 0;
+    public IEnumerable<int> RowsPerPageOpts { get; init; } = new List<int> { 5, 10, 25 };
+    public string OrderByColum { get; init; } = string.Empty;
+    public bool OrderAscending { get; init; } = true;
 }
 
 public record EventLogViewerFilterState
 {
-    public IList<LogLevel> IncludedLogLevels { get; init; } = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
+    public IEnumerable<LogLevel> IncludedLogLevels { get; init; } = new List<LogLevel> { LogLevel.Trace, LogLevel.Debug, LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Critical };
     public string FilterText { get; init; } = string.Empty;
 }

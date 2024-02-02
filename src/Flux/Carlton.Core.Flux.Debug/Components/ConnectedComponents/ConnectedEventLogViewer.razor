@@ -4,12 +4,19 @@
 @attribute [ObserveStateEvents("LogsCleared")]
 @attribute [ObserveStateEvents("EventLogLevelFiltersChanged")]
 @attribute [ObserveStateEvents("EventLogFilterTextChanged")]
+@attribute [ObserveStateEvents("EventLogRowsPerPageChanged")]
+@attribute [ObserveStateEvents("EventLogPageChanged")]
+@attribute [ObserveStateEvents("EventLogTableOrderingChanged")]
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
 <EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 
                 SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
                 EventLogViewerFilterState="@ViewModel.EventLogViewerFilterState"
+                EventLogTableState="@ViewModel.EventLogTableState"
                 LogLevelFiltersChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogLevelFiltersCommand>"
                 LogFilterTextChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogFilterTextCommand>"
-                LogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>" />
+                LogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>"
+                PageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogPageCommand>"
+                RowsPerPageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogMessageTableRowsPerPageOptsCommand>"
+                ItemsOrdered="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogTableOrderingCommand>" />
 

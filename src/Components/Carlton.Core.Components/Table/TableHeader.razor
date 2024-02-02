@@ -5,10 +5,12 @@
 @foreach (var (heading, i) in Headings.WithIndex())
 {
     <div class="@HeaderCellCss(heading.OrderColumn, i)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
-        <span class="heading-text">@heading.DisplayName</span>
-        <div class="sort-arrows">
-            <span class="arrow-ascending mdi mdi-arrow-up"></span>
-            <span class="arrow-descending mdi mdi-arrow-down"></span>
+        <div class="heading-container">
+            <span class="heading-text">@heading.DisplayName</span>
+            <div class="sort-arrows">
+                <span class="arrow-ascending mdi mdi-arrow-up"></span>
+                <span class="arrow-descending mdi mdi-arrow-down"></span>
+            </div>
         </div>
     </div>
 }
@@ -19,7 +21,7 @@
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
     [Parameter]
-    public string OrderColumn { get; set; }
+    public string OrderColumn { get; set; } = string.Empty;
 
     [Parameter]
     public bool OrderAscending { get; set; } = true;
