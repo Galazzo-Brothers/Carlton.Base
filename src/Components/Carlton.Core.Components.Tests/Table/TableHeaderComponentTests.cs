@@ -1,7 +1,7 @@
-﻿using AutoFixture.Xunit2;
+﻿using Carlton.Core.Components.Table;
 using static Carlton.Core.Components.Library.Tests.TableTestHelper;
 
-namespace Carlton.Core.Components.Library.Tests;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(TableHeader<int>))]
 public class TableHeaderComponentTests : TestContext
@@ -23,15 +23,15 @@ public class TableHeaderComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Headings Parameter Test"), AutoData]
-    public void TableHeader_HeadingsParam_RendersCorrectly(IEnumerable<TableHeadingItem> headings)
+    public void TableHeader_HeadingsParameter_RendersCorrectly(IEnumerable<TableHeadingItem> expectedHeadingItems)
     {
         //Arrange
-        var expectedCount = headings.Count();
-        var expectedHeadings = headings.Select(_ => _.DisplayName);
+        var expectedCount = expectedHeadingItems.Count();
+        var expectedHeadings = expectedHeadingItems.Select(_ => _.DisplayName);
 
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, headings)
+            .Add(p => p.Headings, expectedHeadingItems)
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
@@ -40,8 +40,8 @@ public class TableHeaderComponentTests : TestContext
         var actualHeadings = cut.FindAll(".heading-text").Select(_ => _.TextContent);
 
         //Assert
-        Assert.Equal(expectedCount, actualCount);
-        Assert.Equal(expectedHeadings, actualHeadings);
+        actualCount.ShouldBe(expectedCount);
+        actualHeadings.ShouldBe(expectedHeadings);
     }
 
     [Theory(DisplayName = "OrderColumn and OrderDirection Parameter Test")]
@@ -51,47 +51,52 @@ public class TableHeaderComponentTests : TestContext
     [InlineData("DisplayName", 1, false)]
     [InlineData("CreatedDate", 2, true)]
     [InlineData("CreatedDate", 2, false)]
-    public void TableHeader_OrderColumnParam_And_OrderDirectionParam_RendersCorrectly(string columnName, int columnIndex, bool orderAscending)
+    public void TableHeader_OrderColumnParam_And_OrderDirectionParameter_RendersCorrectly(
+        string expectedColumnName,
+        int expectedColumnIndex,
+        bool expectedOrderAscending)
     {
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, columnName)
-            .Add(p => p.OrderAscending, orderAscending));
+            .Add(p => p.OrderColumn, expectedColumnName)
+            .Add(p => p.OrderAscending, expectedOrderAscending));
 
         var headerRowItems = cut.FindAll(".header-cell");
-        var selectedItem = headerRowItems.ElementAt(columnIndex);
-        var hasSelectedClass = selectedItem.ClassList.Contains("selected");
+        var selectedItem = headerRowItems.ElementAt(expectedColumnIndex);
+ 
         var hasAscendingClass = selectedItem.ClassList.Contains("ascending");
         var hasDescendingClass = selectedItem.ClassList.Contains("descending");
 
         //Assert
-        Assert.True(hasSelectedClass);
-        Assert.Equal(orderAscending, hasAscendingClass);
-        Assert.Equal(orderAscending, !hasDescendingClass);
+        selectedItem.ClassList.ShouldContain("selected");
+        hasAscendingClass.ShouldBe(expectedOrderAscending);
+        hasDescendingClass.ShouldNotBe(expectedOrderAscending);
     }
 
     [Theory(DisplayName = "Invalid OrderColumn Parameter Test")]
     [InlineData("Wrong")]
     [InlineData("Also Wrong")]
     [InlineData("Still Wrong")]
-    public void TableHeader_InvalidOrderColumnParam_RendersCorrectly(string columnName)
+    public void TableHeader_InvalidOrderColumnParameter_RendersCorrectly(string expectedColumnName)
     {
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, columnName)
+            .Add(p => p.OrderColumn, expectedColumnName)
             .Add(p => p.OrderAscending, true));
 
         //Act
-        Assert.Throws<ElementNotFoundException>(() => cut.Find(".selected"));
+        Should.Throw<ElementNotFoundException>(() => cut.Find(".selected"));
     }
 
     [Theory(DisplayName = "Header Click Once Test")]
     [InlineData(0, "ID")]
     [InlineData(1, "DisplayName")]
     [InlineData(2, "CreatedDate")]
-    public void TableHeader_ClickHeadersOnce_EventFires(int columnIndex, string expectedColumnName)
+    public void TableHeader_ClickHeadersOnce_EventFires(
+        int expectedColumnIndex,
+        string expectedColumnName)
     {
         //Arrange
         var eventFired = false;
@@ -106,19 +111,21 @@ public class TableHeaderComponentTests : TestContext
         var headerRowItems = cut.FindAll(".header-cell");
 
         //Act
-        headerRowItems.ElementAt(columnIndex).Click();
+        headerRowItems.ElementAt(expectedColumnIndex).Click();
 
         //Assert
-        Assert.True(eventFired);
-        Assert.True(actualOrderAscending);
-        Assert.Equal(expectedColumnName, actualOrderColumn);
+        eventFired.ShouldBeTrue();
+        actualOrderAscending.ShouldBeTrue();
+        actualOrderColumn.ShouldBe(expectedColumnName);
     }
 
     [Theory(DisplayName = "Header Click Twice Test")]
     [InlineData(0, "ID")]
     [InlineData(1, "DisplayName")]
     [InlineData(2, "CreatedDate")]
-    public void TableHeader_ClickHeadersTwice_EventFires(int columnIndex, string expectedColumnName)
+    public void TableHeader_ClickHeadersTwice_EventFires(
+        int exepectedColumnIndex,
+        string expectedColumnName)
     {
         //Arrange
         var eventFired = false;
@@ -131,22 +138,22 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
         //Act
-        var itemToClick = cut.FindAll(".header-cell").ElementAt(columnIndex);
+        var itemToClick = cut.FindAll(".header-cell").ElementAt(exepectedColumnIndex);
         itemToClick.Click();
-        itemToClick = cut.FindAll(".header-cell").ElementAt(columnIndex);
+        itemToClick = cut.FindAll(".header-cell").ElementAt(exepectedColumnIndex);
         itemToClick.Click();
 
         //Assert
-        Assert.True(eventFired);
-        Assert.False(actualOrderAscending);
-        Assert.Equal(expectedColumnName, actualOrderColumn);
+        eventFired.ShouldBeTrue();
+        actualOrderAscending.ShouldBeFalse();
+        actualOrderColumn.ShouldBe(expectedColumnName);
     }
 
     [Theory(DisplayName = "Header Click, CSS Selected Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void TableHeader_OnClick_SelectedClass_RendersCorrectly(int selectedIndex)
+    public void TableHeader_OnClick_SelectedClass_RendersCorrectly(int expectedSelectedIndex)
     {
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
@@ -155,23 +162,21 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderAscending, true));
 
         var headerRowItems = cut.FindAll(".header-cell", true);
-        var selectedItem = headerRowItems.ElementAt(selectedIndex);
+        var selectedItem = headerRowItems.ElementAt(expectedSelectedIndex);
 
         //Act
         selectedItem.Click();
-        selectedItem = headerRowItems.ElementAt(selectedIndex);
-        var containsSelectedClass = selectedItem.ClassList.Contains("selected");
-
+        selectedItem = headerRowItems.ElementAt(expectedSelectedIndex);
 
         //Assert
-        Assert.True(containsSelectedClass);
+        selectedItem.ClassList.ShouldContain("selected");
     }
 
     [Theory(DisplayName = "Header Click, CSS Ascending Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void TableHeader_OnClick_AscendingClass_RendersCorrectly(int selectedIndex)
+    public void TableHeader_OnClick_AscendingClass_RendersCorrectly(int expectedSelectedIndex)
     {
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
@@ -180,23 +185,21 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderAscending, true));
 
         var headerRowItems = cut.FindAll(".header-cell", true);
-        var selectedItem = headerRowItems.ElementAt(selectedIndex);
+        var selectedItem = headerRowItems.ElementAt(expectedSelectedIndex);
 
         //Act
         selectedItem.Click();
-        selectedItem = headerRowItems.ElementAt(selectedIndex);
-        var containsAscendingClass = selectedItem.ClassList.Contains("ascending");
-
+        selectedItem = headerRowItems.ElementAt(expectedSelectedIndex);
 
         //Assert
-        Assert.True(containsAscendingClass);
+        selectedItem.ClassList.ShouldContain("ascending");
     }
 
     [Theory(DisplayName = "Header Click, CSS Descending Class Test")]
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void TableHeader_OnClick_DescendingClass_RendersCorrectly(int selectedIndex)
+    public void TableHeader_OnClick_DescendingClass_RendersCorrectly(int expectedSelectedIndex)
     {
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
@@ -204,14 +207,12 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.OrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
-
         //Act
-        cut.FindAll(".header-cell").ElementAt(selectedIndex).Click();
-        cut.FindAll(".header-cell").ElementAt(selectedIndex).Click();
-        var selectedItem = cut.FindAll(".header-cell").ElementAt(selectedIndex);
-        var containsDescendingClass = selectedItem.ClassList.Contains("descending");
+        cut.FindAll(".header-cell").ElementAt(expectedSelectedIndex).Click();
+        cut.FindAll(".header-cell").ElementAt(expectedSelectedIndex).Click();
+        var selectedItem = cut.FindAll(".header-cell").ElementAt(expectedSelectedIndex);
 
         //Assert
-        Assert.True(containsDescendingClass);
+        selectedItem.ClassList.ShouldContain("descending");
     }
 }
