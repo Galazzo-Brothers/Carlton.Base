@@ -13,7 +13,7 @@
         color: var(--primary-text-color);
     }
 
-    .bread-crumbs .bread-crumbs-text {
+    .bread-crumbs .bread-bread-crumbs {
         font-size: var(--page-title-bread-crumb-font-size);
         color: var(--secondary-text-color);
     }

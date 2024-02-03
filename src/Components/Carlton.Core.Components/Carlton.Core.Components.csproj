@@ -21,16 +21,8 @@
     <None Remove="Styles\**" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="BlazorComponentUtilities" Version="1.8.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.2" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
+    <ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj" />
   </ItemGroup>
 
 </Project>
