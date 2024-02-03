@@ -32,7 +32,7 @@ public class CountCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Count Parameter Test"), AutoData]
-    public void CountCard_CountParam_RendersCorrectly(
+    public void CountCard_CountParameter_RendersCorrectly(
         int expectedCount,
         string expectedIconClass,
         string expectedMessageTemplate,
@@ -52,7 +52,7 @@ public class CountCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "MessageTemplate Parameter Test"), AutoData]
-    public void CountCard_MessageTemplateParam_RendersCorrectly(
+    public void CountCard_MessageTemplateParameter_RendersCorrectly(
         int expectedCount,
         string expectedIconClass,
         string expectedMessageTemplate,
@@ -74,7 +74,7 @@ public class CountCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Icon Parameter Test"), AutoData]
-    public void CountCard_IconParam_RendersCorrectly(
+    public void CountCard_IconParameter_RendersCorrectly(
         int expectedCount,
         string expectedIcon,
         string expectedMessageTemplate,
@@ -98,7 +98,7 @@ public class CountCardComponentTests : TestContext
     [InlineAutoData(CountCardTheme.Blue)]
     [InlineAutoData(CountCardTheme.Green)]
     [InlineAutoData(CountCardTheme.Purple)]
-    public void CountCard_ThemeParam_RendersCorrectly(
+    public void CountCard_ThemeParameter_RendersCorrectly(
         CountCardTheme expectedTheme,
         int expectedCount,
         string expectedClassIcon,

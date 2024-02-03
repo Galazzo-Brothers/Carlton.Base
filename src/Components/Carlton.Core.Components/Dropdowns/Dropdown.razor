@@ -13,7 +13,7 @@
         <div class="options">
             @foreach(var (opt, i) in Options.WithIndex())
             {
-                <div class="option" @onclick="()=>OnValueChanged(new SelectValueChangedArgs(i, opt.Key, opt.Value))">@opt.Key</div>
+                <div class="option" @onclick="()=>OnValueChanged(new DropdownValueChangedArgs(i, opt.Key, opt.Value))">@opt.Key</div>
             }
         </div>
     }
@@ -31,7 +31,7 @@
     public IReadOnlyDictionary<string, int> Options { get; set; } = new Dictionary<string, int>();
 
     [Parameter]
-    public EventCallback<SelectValueChangedArgs> ValueChangedCallback { get; set; }
+    public EventCallback<DropdownValueChangedArgs> ValueChangedCallback { get; set; }
 
     [Parameter]
     public int SelectedValue { get; set; }
@@ -44,7 +44,7 @@
         }
     }
 
-    private async Task OnValueChanged(SelectValueChangedArgs opt)
+    private async Task OnValueChanged(DropdownValueChangedArgs opt)
     {
         SelectedValue = opt.SelectedValue;
         await ValueChangedCallback.InvokeAsync(opt);

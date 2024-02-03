@@ -19,7 +19,7 @@ public class CheckboxComponentTests : TestContext
     [Theory(DisplayName = "IsChecked Parameter Test")]
     [InlineData(true)]
     [InlineData(false)]
-    public void Checkbox_IsCheckedParam_FiresCallback(bool expectedIsChecked)
+    public void Checkbox_IsCheckedParameter_FiresCallback(bool expectedIsChecked)
     {
         //Arrange
         var eventCalled = false;
