@@ -1,8 +1,9 @@
 ﻿using Carlton.Core.Components;
-using Carlton.Core.Components.Button;
+using Carlton.Core.Components.Buttons;
 using Carlton.Core.Components.Cards;
 using Carlton.Core.Components.Lab.TestData;
 using Carlton.Core.Components.Layouts.Extensions;
+using Carlton.Core.Components.Navigation;
 using Carlton.Core.Components.Select;
 using Carlton.Core.Components.Table;
 using Carlton.Core.Lab.Extensions;
@@ -42,9 +43,9 @@ public static class Program
                    .AddComponentState<CountCard>("Accent 2", CardTestStates.CountCard2State)
                    .AddComponentState<CountCard>("Accent 3", CardTestStates.CountCard3State)
                    .AddComponentState<CountCard>("Accent 4", CardTestStates.CountCard4State)
-                   .AddComponentState<AppButton>("Default", ButtonTestStates.DefaultState)
-                   .AddComponentState<IconAppButton>("Default", IconButtonTestStates.DefaultState)
-                   .AddComponentState<AppLinkButton>("Default", ButtonTestStates.DefaultState)
+                   .AddComponentState<ActionButton>("Default", ButtonTestStates.DefaultState)
+                   .AddComponentState<IconButton>("Default", IconButtonTestStates.DefaultState)
+                   .AddComponentState<LinkButton>("Default", ButtonTestStates.DefaultState)
                    .AddComponentState<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
                    .AddComponentState<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)
                    .AddComponentState<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
@@ -54,7 +55,7 @@ public static class Program
                    .AddComponentState<ErrorPrompt>(ErrorPromptTestStates.DefaultState)
                    .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
-                   .AddComponentState<Select>(SelectTestStates.Default)
+                   .AddComponentState<Dropdown>(SelectTestStates.Default)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
