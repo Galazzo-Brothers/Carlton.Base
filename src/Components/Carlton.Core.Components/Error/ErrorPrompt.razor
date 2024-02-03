@@ -1,16 +1,16 @@
 ﻿@namespace Carlton.Core.Components
 
 <div class="error-prompt">
-    <div class="error-heading">
+    <div class="error-header">
         <div class="content">
             <div class="@IconCss"></div>
-            <span class="title">@ErrorHeader</span>
+            <span class="error-header-message">@ErrorHeader</span>
         </div>
     </div>
     <div class="error-body">
         <div class="content">
-            <span class="message">@ErrorMessage</span>
-            <button class="retry-btn" @onclick="OnClick">Retry</button>
+            <span class="error-message">@ErrorMessage</span>
+            <button class="retry-btn" @onclick="Retry">Retry</button>
         </div>
     </div>
 </div>
@@ -26,12 +26,13 @@
     public string ErrorIconClass { get; set; }
 
     [Parameter]
-    public EventCallback OnClick { get; set; }
+    public EventCallback Retry { get; set; }
 
     private string IconCss
     {
         get => new CssBuilder("icon")
-                .AddClass($"mdi mdi-48px {ErrorIconClass}")
+                .AddClass("mdi mdi-48px")
+                .AddClass($"{ErrorIconClass}")
                 .Build();
     }
 }
