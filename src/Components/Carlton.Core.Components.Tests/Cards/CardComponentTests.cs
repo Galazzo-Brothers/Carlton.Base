@@ -42,7 +42,7 @@ public class CardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Title Parameter Test"), AutoData]
-    public void Card_CardTitleParam_RendersCorrectly(
+    public void Card_CardTitleParameter_RendersCorrectly(
         string expectedTitle,
         string expectedActionBarContent,
         string expectedHeaderContent,
@@ -62,7 +62,7 @@ public class CardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "ActionBarContentChild Parameter Test"), AutoData]
-    public void Card_ActionBarContentChildParam_RendersCorrectly(
+    public void Card_ActionBarContentChildParameter_RendersCorrectly(
         string expectedTitle,
         string expectedActionBarContent,
         string expectedHeaderContent,
@@ -82,7 +82,7 @@ public class CardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "HeaderContentChild Parameter Test"), AutoData]
-    public void Card_HeaderContentChildParam_RendersCorrectly(
+    public void Card_HeaderContentChildParameter_RendersCorrectly(
         string expectedTitle,
         string expectedActionBarContent,
         string expectedHeaderContent,
@@ -102,7 +102,7 @@ public class CardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "PrimaryContentChild Parameter Test"), AutoData]
-    public void Card_PrimaryContentChildParam_RendersCorrectly(
+    public void Card_PrimaryContentChildParameter_RendersCorrectly(
         string expectedTitle,
         string expectedActionBarContent,
         string expectedHeaderContent,

@@ -32,7 +32,7 @@ public class ListCardComponentTests : TestContext
     [InlineAutoData("<span>{0}</span>")]
     [InlineAutoData("<div>Some text {0} some more text</div>")]
     [InlineAutoData("<h1>{0}!!!!!!!!</h1>")]
-    public void ListCard_ItemsParam_RendersCorrectly(
+    public void ListCard_ItemsParameter_RendersCorrectly(
         string expectedItemTemplate,
         string expectedTitle,
         string expectedSubtitle,
@@ -58,7 +58,7 @@ public class ListCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "CardTitle Parameter Test"), AutoData]
-    public void ListCard_CardTitleParam_RendersCorrectly(
+    public void ListCard_CardTitleParameter_RendersCorrectly(
         string expectedTitle,
         string expectedSubtitle,
         string headerContent,
@@ -79,7 +79,7 @@ public class ListCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "CardSubTitle Parameter Test"), AutoData]
-    public void ListCard_CardSubTitleParam_RendersCorrectly(
+    public void ListCard_CardSubTitleParameter_RendersCorrectly(
         string expectedTitle,
         string expectedSubtitle,
         string expectedHeaderContent,
@@ -100,7 +100,7 @@ public class ListCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "HeaderContentChild Parameter Test"), AutoData]
-    public void ListCard_HeaderContentChildParam_RendersCorrectly(
+    public void ListCard_HeaderContentChildParameter_RendersCorrectly(
         string expectedTitle,
         string expectedSubtitle,
         string expectedHeaderContent,
@@ -124,7 +124,7 @@ public class ListCardComponentTests : TestContext
     [InlineAutoData("<span>{0}</span>")]
     [InlineAutoData("<div>Some text {0} some more text</div>")]
     [InlineAutoData("<h1>{0}!!!!!!!!</h1>")]
-    public void ListCard_ItemTemplateParam_RendersCorrectly(
+    public void ListCard_ItemTemplateParameter_RendersCorrectly(
        string expectedItemTemplate,
        string expectedTitle,
        string expectedSubtitle,

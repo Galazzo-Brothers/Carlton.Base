@@ -28,7 +28,7 @@ public class BreadCrumbsComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Title Parameter Test"), AutoData]
-    public void BreadCrumbs_TitleParam_RendersCorrectly(
+    public void BreadCrumbs_TitleParameter_RendersCorrectly(
         string exectedTitle,
         char expectedSeparator,
         IEnumerable<string> expectedItems)
@@ -46,7 +46,7 @@ public class BreadCrumbsComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Separator Parameter Test"), AutoData]
-    public void BreadCrumbs_SeparatorParam_RendersCorrectly(
+    public void BreadCrumbs_SeparatorParameter_RendersCorrectly(
         string expectedTitle,
         char expectedSeparator,
         IEnumerable<string> expectedItems)
@@ -65,7 +65,7 @@ public class BreadCrumbsComponentTests : TestContext
     }
 
     [Theory(DisplayName = "BreadCrumbItems Parameter Test"), AutoData]
-    public void BreadCrumbs_BreadCrumbItemsParam_RendersCorrectly(
+    public void BreadCrumbs_BreadCrumbItemsParameter_RendersCorrectly(
         IEnumerable<string> expectedItems,
         string expectedTitle,
         char expectedSeparator)

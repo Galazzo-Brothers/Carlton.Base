@@ -29,7 +29,7 @@ public class ConsoleComponentTests : TestContext
     [Theory(DisplayName = "ReadOnly Parameter Test")]
     [InlineAutoData(true)]
     [InlineAutoData(false)]
-    public void Console_ReadOnlyParam_RendersCorrectly(bool expectedIsReadOnly, string expectedText)
+    public void Console_ReadOnlyParameter_RendersCorrectly(bool expectedIsReadOnly, string expectedText)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
@@ -44,7 +44,7 @@ public class ConsoleComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Text Parameter Test"), AutoData]
-    public void Console_TextParam_RendersCorrectly(string expectedText)
+    public void Console_TextParameter_RendersCorrectly(string expectedText)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
@@ -62,7 +62,7 @@ public class ConsoleComponentTests : TestContext
     [Theory(DisplayName = "IsValid Parameter Test")]
     [InlineAutoData(true)]
     [InlineAutoData(false)]
-    public void Console_IsValidParam_RendersCorrectly(bool expectedIsValid, string expectedText)
+    public void Console_IsValidParameter_RendersCorrectly(bool expectedIsValid, string expectedText)
     {
         //Act
         var cut = RenderComponent<Console>(parameters => parameters
@@ -78,7 +78,7 @@ public class ConsoleComponentTests : TestContext
     }
 
     [Theory(DisplayName = "OnChangeCallback Parameter Test"), AutoData]
-    public void Console_OnChangeCallbackParam_FiresCallback(string expectedText)
+    public void Console_OnChangeCallbackParameter_FiresCallback(string expectedText)
     {
         //Arrange
         var eventCalled = false;

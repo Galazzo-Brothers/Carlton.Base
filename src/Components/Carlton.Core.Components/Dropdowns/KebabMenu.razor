@@ -1,0 +1,15 @@
+﻿@namespace Carlton.Core.Components.Dropdowns
+
+<i class="@IconCss(true)"></i>
+
+@code {
+    private Func<bool, string> IconCss
+    {
+        get => (isActive) => new CssBuilder()
+                .AddClass("mdi mdi-24px")
+                .AddClass("mdi-dots-vertical", !isActive)
+                .AddClass("mdi-close-circle", isActive)
+                .Build();
+
+    }
+}
