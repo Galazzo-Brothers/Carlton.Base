@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.AccordionSelect;
+﻿namespace Carlton.Core.Components.Navigation;
 
 public class AccordionSelectGroupBuilder<TValue>
 {
@@ -7,14 +7,25 @@ public class AccordionSelectGroupBuilder<TValue>
 
     public AccordionSelectGroupBuilder()
     {
-        _groups = new List<SelectGroup<TValue>>();
+        _groups = [];
         _groupIndex = 0;
     }
 
     public AccordionSelectGroupBuilder<TValue> AddGroup(string name, bool isExpanded, Dictionary<string, TValue> items)
     {
-        var selectItems = items.WithIndex().Select((kvp, i) => new SelectItem<TValue>(kvp.item.Key, kvp.item.Value, i));
-        _groups.Add(new SelectGroup<TValue>(name, _groupIndex, isExpanded, selectItems));
+        var selectItems = items.WithIndex().Select((kvp, i) => new SelectItem<TValue>
+        {
+            Index = i,
+            Name = kvp.item.Key,
+            Value = kvp.item.Value
+        });
+        _groups.Add(new SelectGroup<TValue>
+        {
+            Index = _groupIndex,
+            Name = name,
+            IsExpanded = isExpanded,
+            Items = selectItems
+        });
         _groupIndex++;
         return this;
     }
@@ -23,7 +34,13 @@ public class AccordionSelectGroupBuilder<TValue>
     {
         var sib = new AccordionSelectItemBuilder<TValue>();
         itemBuilder(sib);
-        _groups.Add(new SelectGroup<TValue>(name, _groupIndex, isExpanded, sib.Build()));
+        _groups.Add(new SelectGroup<TValue>
+        {
+            Index = _groupIndex,
+            Name = name,
+            IsExpanded = isExpanded,
+            Items = sib.Build()
+        });
         _groupIndex++;
         return this;
     }
@@ -41,22 +58,32 @@ public class AccordionSelectItemBuilder<TValue>
 
     public AccordionSelectItemBuilder()
     {
-        _items = new List<SelectItem<TValue>>();
+        _items = [];
         _itemIndex = 0;
     }
 
     public AccordionSelectItemBuilder<TValue> AddItem(string name, TValue value)
     {
-        _items.Add(new SelectItem<TValue>(name, value, _itemIndex));
+        _items.Add(new SelectItem<TValue>
+        {
+            Index = _itemIndex,
+            Name = name,
+            Value = value
+        });
         _itemIndex++;
         return this;
     }
 
-    public AccordionSelectItemBuilder<TValue> AddItems(Dictionary<string, TValue> items)
+    public AccordionSelectItemBuilder<TValue> AddItems(IDictionary<string, TValue> items)
     {
         foreach (var item in items)
         {
-            _items.Add(new SelectItem<TValue>(item.Key, item.Value, _itemIndex));
+            _items.Add(new SelectItem<TValue>
+            {
+                Index = _itemIndex,
+                Name = item.Key,
+                Value = item.Value
+            });
             _itemIndex++;
         }
         ;

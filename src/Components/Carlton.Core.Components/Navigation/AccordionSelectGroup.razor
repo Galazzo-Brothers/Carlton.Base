@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components.AccordionSelect
+﻿@namespace Carlton.Core.Components.Navigation
 @typeparam TValue
 
 
@@ -10,7 +10,7 @@
                          Items="group.Items"
                          IsExpanded="@group.IsExpanded"
                          SelectedIndex="GetSelectedItemIndex(index)"
-                         OnExpandedStateChanged="(isExpanded) => ChangeExpandedState(index, isExpanded)"
+                         ExpandedStateChanged="(isExpanded) => OnChangeExpandedState(index, isExpanded)"
                          SelectedItemChanged="(item) => ChangeSelectedItem(index, item.Index, item.Value)" />
     }
 </div>
@@ -20,10 +20,10 @@
     public IEnumerable<SelectGroup<TValue>> Groups { get; set; }
 
     [Parameter]
-    public EventCallback<ExpandedStateChangedEventArgs> OnExpandedStateChanged { get; set; }
+    public EventCallback<ExpandedStateChangedEventArgs> ExpandedStateChanged { get; set; }
 
     [Parameter]
-    public EventCallback<SelectItemChangedEventArgs<TValue>> OnSelectedItemChanged { get; set; }
+    public EventCallback<SelectItemChangedEventArgs<TValue>> SelectedItemChanged { get; set; }
 
     [Parameter]
     public int SelectedGroupIndex { get; set; } = 0;
@@ -54,15 +54,15 @@
         return groupIndex == SelectedGroupIndex ? SelectedItemIndex : -1;
     }
 
-    private async Task ChangeExpandedState(int groupIndex, bool isExpanded)
+    private async Task OnChangeExpandedState(int groupIndex, bool isExpanded)
     {
-        await OnExpandedStateChanged.InvokeAsync(new ExpandedStateChangedEventArgs(groupIndex, isExpanded));
+        await ExpandedStateChanged.InvokeAsync(new ExpandedStateChangedEventArgs(groupIndex, isExpanded));
     }
 
     private async Task ChangeSelectedItem(int groupIndex, int itemIndex, TValue value)
     {
         SelectedGroupIndex = groupIndex;
         SelectedItemIndex = itemIndex;
-        await OnSelectedItemChanged.InvokeAsync(new SelectItemChangedEventArgs<TValue>(groupIndex, itemIndex, value));
+        await SelectedItemChanged.InvokeAsync(new SelectItemChangedEventArgs<TValue>(groupIndex, itemIndex, value));
     }
 }

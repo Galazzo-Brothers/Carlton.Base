@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components.AccordionSelect
+﻿@namespace Carlton.Core.Components.Navigation
 @typeparam TValue
 
 <div class="accordion-select">
@@ -40,7 +40,7 @@
     public EventCallback<SelectItem<TValue>> SelectedItemChanged { get; set; }
 
     [Parameter]
-    public EventCallback<bool> OnExpandedStateChanged { get; set; }
+    public EventCallback<bool> ExpandedStateChanged { get; set; }
 
     public TValue SelectedValue { get => SelectedIndex == -1 ? default(TValue) : Items.ElementAt(SelectedIndex).Value; }
 
@@ -59,7 +59,7 @@
     private async Task OnAccordionClick()
     {
         IsExpanded = !IsExpanded;
-        await OnExpandedStateChanged.InvokeAsync(IsExpanded);
+        await ExpandedStateChanged.InvokeAsync(IsExpanded);
     }
 
     private async Task OnItemSelected(SelectItem<TValue> item)
