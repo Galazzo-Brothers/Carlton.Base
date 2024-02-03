@@ -9,24 +9,24 @@
     margin-right: auto;
 }
 
-.error-heading {
+.error-header {
     height: 50%;
     text-align: center;
     background-color: #e46a76;
 }
 
-    .error-heading .content {
+    .error-header .content {
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
 
-        .error-heading .content .icon {
+        .error-header .content .icon {
             color: white;
         }
 
-        .error-heading .content .title {
+        .error-header .content .error-header-message {
             color: white;
         }
 
@@ -45,7 +45,7 @@
         margin-right: auto;
     }
 
-        .error-body .content .message {
+        .error-body .content .error-message {
             color: var(--primary-text-color);
             font-size: 8pt;
         }
