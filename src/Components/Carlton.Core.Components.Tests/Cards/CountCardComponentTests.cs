@@ -1,81 +1,96 @@
-﻿using AutoFixture.Xunit2;
-
-namespace Carlton.Core.Components.Library.Tests;
+﻿using Carlton.Core.Components.Cards;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(CountCard))]
 public class CountCardComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test"), AutoData]
-    public void CountCard_Markup_RendersCorrectly(int count, string icon, string messageTemplate, CountCardTheme theme)
+    public void CountCard_Markup_RendersCorrectly(
+        int expectedCount,
+        string expectedIconClass,
+        string expectedMessageTemplate,
+        CountCardTheme expectedTheme)
     {
         //Arrange
         var expectedMarkup = 
-@$"<div class=""count-card accent{(int)theme}"">
+@$"<div class=""count-card accent{(int)expectedTheme}"">
     <div class=""content"">
-        <div class=""count-icon mdi mdi-48px {icon}""></div>
-        <span class=""count-message"">{count} {messageTemplate}</span>
+        <div class=""count-icon mdi mdi-48px {expectedIconClass}""></div>
+        <span class=""count-message"">{expectedCount} {expectedMessageTemplate}</span>
     </div>
 </div>";
 
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
-            .Add(p => p.Count, count)
-            .Add(p => p.Icon, icon)
-            .Add(p => p.MessageTemplate, messageTemplate)
-            .Add(p => p.Theme, theme));
+            .Add(p => p.Count, expectedCount)
+            .Add(p => p.Icon, expectedIconClass)
+            .Add(p => p.MessageTemplate, expectedMessageTemplate)
+            .Add(p => p.Theme, expectedTheme));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory(DisplayName = "Count Parameter Test"), AutoData]
-    public void CountCard_CountParam_RendersCorrectly(int count, string icon, string messageTemplate, CountCardTheme theme)
+    public void CountCard_CountParam_RendersCorrectly(
+        int expectedCount,
+        string expectedIconClass,
+        string expectedMessageTemplate,
+        CountCardTheme expectedTheme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
-            .Add(p => p.Count, count)
-            .Add(p => p.Icon, icon)
-            .Add(p => p.MessageTemplate, messageTemplate)
-            .Add(p => p.Theme, theme));
+            .Add(p => p.Count, expectedCount)
+            .Add(p => p.Icon, expectedIconClass)
+            .Add(p => p.MessageTemplate, expectedMessageTemplate)
+            .Add(p => p.Theme, expectedTheme));
 
-        var displayCount = int.Parse(cut.Find(".count-message").TextContent.Split(' ')[0]);
+        var actualCount = int.Parse(cut.Find(".count-message").TextContent.Split(' ')[0]);
 
         //Assert
-        Assert.Equal(count, displayCount);
+        actualCount.ShouldBe(expectedCount);
     }
 
     [Theory(DisplayName = "MessageTemplate Parameter Test"), AutoData]
-    public void CountCard_MessageTemplateParam_RendersCorrectly(int count, string icon, string messageTemplate, CountCardTheme theme)
+    public void CountCard_MessageTemplateParam_RendersCorrectly(
+        int expectedCount,
+        string expectedIconClass,
+        string expectedMessageTemplate,
+        CountCardTheme expectedTheme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
-            .Add(p => p.Count, count)
-            .Add(p => p.Icon, icon)
-            .Add(p => p.MessageTemplate, messageTemplate)
-            .Add(p => p.Theme, theme));
+            .Add(p => p.Count, expectedCount)
+            .Add(p => p.Icon, expectedIconClass)
+            .Add(p => p.MessageTemplate, expectedMessageTemplate)
+            .Add(p => p.Theme, expectedTheme));
 
-        var displayMessageTemplate = string.Join(' ', cut.Find(".count-message").TextContent
+        var actualMessageTemplate = string.Join(' ', cut.Find(".count-message").TextContent
                                                          .Split(' ')
                                                          .Skip(1));
 
         //Assert
-        Assert.Equal(messageTemplate, displayMessageTemplate);
+        actualMessageTemplate.ShouldBe(expectedMessageTemplate);
     }
 
     [Theory(DisplayName = "Icon Parameter Test"), AutoData]
-    public void CountCard_IconParam_RendersCorrectly(int count, string icon, string messageTemplate, CountCardTheme theme)
+    public void CountCard_IconParam_RendersCorrectly(
+        int expectedCount,
+        string expectedIcon,
+        string expectedMessageTemplate,
+        CountCardTheme expectedTheme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
-          .Add(p => p.Count, count)
-          .Add(p => p.Icon, icon)
-          .Add(p => p.MessageTemplate, messageTemplate)
-          .Add(p => p.Theme, theme));
+          .Add(p => p.Count, expectedCount)
+          .Add(p => p.Icon, expectedIcon)
+          .Add(p => p.MessageTemplate, expectedMessageTemplate)
+          .Add(p => p.Theme, expectedTheme));
 
-        var iconElm = cut.Find(".count-icon");
+        var iconElelemnt = cut.Find(".count-icon");
 
         //Assert
-        Assert.Contains(icon, iconElm.ClassList);
+        iconElelemnt.ClassList.ShouldContain(expectedIcon);
     }
 
     [Theory(DisplayName = "Theme Parameter Test")]
@@ -83,19 +98,23 @@ public class CountCardComponentTests : TestContext
     [InlineAutoData(CountCardTheme.Blue)]
     [InlineAutoData(CountCardTheme.Green)]
     [InlineAutoData(CountCardTheme.Purple)]
-    public void CountCard_ThemeParam_RendersCorrectly(CountCardTheme theme, int count, string icon, string messageTemplate)
+    public void CountCard_ThemeParam_RendersCorrectly(
+        CountCardTheme expectedTheme,
+        int expectedCount,
+        string expectedClassIcon,
+        string expectedMessageTemplate)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
-           .Add(p => p.Count, count)
-           .Add(p => p.Icon, icon)
-           .Add(p => p.MessageTemplate, messageTemplate)
-           .Add(p => p.Theme, theme));
+           .Add(p => p.Count, expectedCount)
+           .Add(p => p.Icon, expectedClassIcon)
+           .Add(p => p.MessageTemplate, expectedMessageTemplate)
+           .Add(p => p.Theme, expectedTheme));
 
-        var countCardElm = cut.Find(".count-card");
-        var expectedResults = $"accent{(int)theme}";
+        var countCardElement = cut.Find(".count-card");
 
         //Assert
-        Assert.Contains(expectedResults, countCardElm.ClassList);
+        var expectedResults = $"accent{(int)expectedTheme}";
+        countCardElement.ClassList.ShouldContain(expectedResults);
     }
 }

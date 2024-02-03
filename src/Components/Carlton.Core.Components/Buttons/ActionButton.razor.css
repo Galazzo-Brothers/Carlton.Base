@@ -1,4 +1,4 @@
-﻿.app-btn {
+﻿.action-btn {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -15,7 +15,7 @@
 	cursor: pointer;
 }
 
-	.app-btn:hover {
+	.action-btn:hover {
 		box-shadow: 0 6px 14px 0 #666;
 		transform: scale(1.05);
 	}

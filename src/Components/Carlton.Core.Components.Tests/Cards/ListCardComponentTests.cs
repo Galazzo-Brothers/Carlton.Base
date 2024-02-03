@@ -1,5 +1,5 @@
-﻿using AutoFixture.Xunit2;
-namespace Carlton.Core.Components.Library.Tests;
+﻿using Carlton.Core.Components.Cards;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(ListCard<int>))]
 public class ListCardComponentTests : TestContext
@@ -9,22 +9,22 @@ public class ListCardComponentTests : TestContext
     [InlineAutoData("<div>Some text {0} some more text</div>")]
     [InlineAutoData("<h1>{0}!!!!!!!!</h1>")]
     public void ListCard_Markup_RendersCorrectly(
-        string itemTemplate,
-        IEnumerable<int> items,
-        string title,
-        string subtitle,
-        string headerContent)
+        string expectedItemTemplate,
+        IEnumerable<int> expectedItems,
+        string expectedTitle,
+        string expectedSubtitle,
+        string expectedHeaderContent)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-          .Add(p => p.CardTitle, title)
-          .Add(p => p.SubTitle, subtitle)
-          .Add(p => p.HeaderContent, headerContent)
-          .Add(p => p.ItemTemplate, item => string.Format(itemTemplate, item))
-          .Add(p => p.Items, items));
+          .Add(p => p.CardTitle, expectedTitle)
+          .Add(p => p.SubTitle, expectedSubtitle)
+          .Add(p => p.HeaderContent, expectedHeaderContent)
+          .Add(p => p.ItemTemplate, item => string.Format(expectedItemTemplate, item))
+          .Add(p => p.Items, expectedItems));
 
         //Assert
-        var expectedMarkup = BuildExpectedMarktup(title, subtitle, headerContent, itemTemplate, items);
+        var expectedMarkup = BuildExpectedMarktup(expectedTitle, expectedSubtitle, expectedHeaderContent, expectedItemTemplate, expectedItems);
         cut.MarkupMatches(expectedMarkup);
     }
 
@@ -33,90 +33,91 @@ public class ListCardComponentTests : TestContext
     [InlineAutoData("<div>Some text {0} some more text</div>")]
     [InlineAutoData("<h1>{0}!!!!!!!!</h1>")]
     public void ListCard_ItemsParam_RendersCorrectly(
-        string itemTemplate,
-        string title,
-        string subtitle,
-        string headerContent,
-        IEnumerable<int> items)
+        string expectedItemTemplate,
+        string expectedTitle,
+        string expectedSubtitle,
+        string expectedHeaderContent,
+        IEnumerable<int> expectedItems)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-         .Add(p => p.CardTitle, title)
-         .Add(p => p.SubTitle, subtitle)
-         .Add(p => p.HeaderContent, headerContent)
-         .Add(p => p.ItemTemplate, item => string.Format(itemTemplate, item))
-         .Add(p => p.Items, items));
+         .Add(p => p.CardTitle, expectedTitle)
+         .Add(p => p.SubTitle, expectedSubtitle)
+         .Add(p => p.HeaderContent, expectedHeaderContent)
+         .Add(p => p.ItemTemplate, item => string.Format(expectedItemTemplate, item))
+         .Add(p => p.Items, expectedItems));
 
+        var expectedContent = expectedItems.Select(_ => string.Format(expectedItemTemplate, _));
         var liElements = cut.FindAll(".primary-content li");
         var actualCount = liElements.Count;
         var actualContent = liElements.Select(_ => _.InnerHtml);
 
         //Assert
-        Assert.Equal(items.Count(), actualCount);
-        Assert.All(actualContent, (actual, i) =>
-        {
-            var condition = actual.Contains(items.ElementAt(i).ToString());
-            Assert.True(condition);
-        });
+        actualCount.ShouldBe(expectedItems.Count());
+        actualContent.ShouldBe(expectedContent);
     }
 
     [Theory(DisplayName = "CardTitle Parameter Test"), AutoData]
     public void ListCard_CardTitleParam_RendersCorrectly(
-        string title,
-        string subtitle,
+        string expectedTitle,
+        string expectedSubtitle,
         string headerContent,
-        IReadOnlyCollection<int> items)
+        IReadOnlyCollection<int> expectedItems)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-            .Add(p => p.CardTitle, title)
-            .Add(p => p.SubTitle, subtitle)
+            .Add(p => p.CardTitle, expectedTitle)
+            .Add(p => p.SubTitle, expectedSubtitle)
             .Add(p => p.HeaderContent, headerContent)
             .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-            .Add(p => p.Items, items));
+            .Add(p => p.Items, expectedItems));
 
-        var cardTitle = cut.Find(".card-title").TextContent;
+        var actualCardTitle = cut.Find(".card-title").TextContent;
 
         //Assert
-        Assert.Equal(title, cardTitle);
+        actualCardTitle.ShouldBe(expectedTitle);
     }
 
     [Theory(DisplayName = "CardSubTitle Parameter Test"), AutoData]
-    public void ListCard_CardSubTitleParam_RendersCorrectly(string title, string subtitle, string headerContent, IReadOnlyCollection<int> items)
+    public void ListCard_CardSubTitleParam_RendersCorrectly(
+        string expectedTitle,
+        string expectedSubtitle,
+        string expectedHeaderContent,
+        IReadOnlyCollection<int> expectedItems)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-          .Add(p => p.CardTitle, title)
-          .Add(p => p.SubTitle, subtitle)
-          .Add(p => p.HeaderContent, headerContent)
+          .Add(p => p.CardTitle, expectedTitle)
+          .Add(p => p.SubTitle, expectedSubtitle)
+          .Add(p => p.HeaderContent, expectedHeaderContent)
           .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-          .Add(p => p.Items, items));
+          .Add(p => p.Items, expectedItems));
 
-        var cardTitle = cut.Find(".sub-title").TextContent;
+        var actualCardTitle = cut.Find(".sub-title").TextContent;
 
         //Assert
-        Assert.Equal(subtitle, cardTitle);
+        actualCardTitle.ShouldBe(expectedSubtitle);
     }
 
     [Theory(DisplayName = "HeaderContentChild Parameter Test"), AutoData]
     public void ListCard_HeaderContentChildParam_RendersCorrectly(
-        string title,
-        string subtitle,
-        string headerContent,
-        IReadOnlyCollection<int> items)
+        string expectedTitle,
+        string expectedSubtitle,
+        string expectedHeaderContent,
+        IReadOnlyCollection<int> expectedItems)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-         .Add(p => p.CardTitle, title)
-         .Add(p => p.SubTitle, subtitle)
-         .Add(p => p.HeaderContent, headerContent)
+         .Add(p => p.CardTitle, expectedTitle)
+         .Add(p => p.SubTitle, expectedSubtitle)
+         .Add(p => p.HeaderContent, expectedHeaderContent)
          .Add(p => p.ItemTemplate, item => $"<span>{item}</span>")
-         .Add(p => p.Items, items));
+         .Add(p => p.Items, expectedItems));
 
         var actualHeaderContent = cut.Find(".header-content").InnerHtml;
 
         //Assert
-        Assert.Equal(actualHeaderContent, headerContent);
+        actualHeaderContent.ShouldBe(expectedHeaderContent);
     }
 
     [Theory(DisplayName = "ItemTemplate Parameter Test")]
@@ -124,29 +125,26 @@ public class ListCardComponentTests : TestContext
     [InlineAutoData("<div>Some text {0} some more text</div>")]
     [InlineAutoData("<h1>{0}!!!!!!!!</h1>")]
     public void ListCard_ItemTemplateParam_RendersCorrectly(
-       string itemTemplate,
-       string title,
-       string subtitle,
-       string headerContent,
+       string expectedItemTemplate,
+       string expectedTitle,
+       string expectedSubtitle,
+       string expectedHeaderContent,
        IReadOnlyCollection<int> items)
     {
         //Act
         var cut = RenderComponent<ListCard<int>>(parameters => parameters
-         .Add(p => p.CardTitle, title)
-         .Add(p => p.SubTitle, subtitle)
-         .Add(p => p.HeaderContent, headerContent)
-         .Add(p => p.ItemTemplate, item => string.Format(itemTemplate, item))
+         .Add(p => p.CardTitle, expectedTitle)
+         .Add(p => p.SubTitle, expectedSubtitle)
+         .Add(p => p.HeaderContent, expectedHeaderContent)
+         .Add(p => p.ItemTemplate, item => string.Format(expectedItemTemplate, item))
          .Add(p => p.Items, items));
 
+        var expectedContent = items.Select(_ => string.Format(expectedItemTemplate, _));
         var liElements = cut.FindAll(".primary-content li");
         var actualContent = liElements.Select(_ => _.InnerHtml);
 
         //Assert
-        Assert.All(actualContent, (actual, i) =>
-        {
-            var expected = string.Format(itemTemplate, items.ElementAt(i));
-            Assert.Equal(expected, actual);
-        });
+        actualContent.ShouldBe(expectedContent);
     }
 
     private static string BuildExpectedMarktup(string title, string subtitle, string headerContent, string itemTemplate, IEnumerable<int> items)
@@ -169,9 +167,8 @@ public class ListCardComponentTests : TestContext
             <i class=""mdi mdi-24px mdi-dots-vertical""></i>
           </div>
           <div class=""dropdown "" style=""--dropdown-left:10px;--dropdown-top:10px;--dropdown-top-mobile:10px;"">
-            <ul>
-                 <div class=""header""></div>
-            </ul>
+            <div class=""header""></div>
+            <ul></ul>
           </div>
         </div>
       </div>

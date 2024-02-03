@@ -1,4 +1,4 @@
-﻿.app-link-btn {
+﻿.link-btn {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -9,7 +9,7 @@
 	cursor: pointer;
 }
 
-	.app-link-btn:hover {
+	.link-btn:hover {
 		padding-left: 10px;
 		padding-right: 10px;
 		border-radius: 5px;
