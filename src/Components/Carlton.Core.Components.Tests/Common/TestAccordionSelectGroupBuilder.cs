@@ -1,32 +1,22 @@
 ﻿using AutoFixture;
-using Carlton.Core.Components.Library.AccordionSelect;
+using Carlton.Core.Components.Navigation;
 
 namespace Carlton.Core.Components.Library.Tests.Common;
 
-public class TestAccordionSelectGroupBuilder<TValue>
+public static class TestAccordionSelectGroupBuilder<TValue>
 {
-    private readonly IFixture _fixture = new Fixture();
-
-    public IEnumerable<SelectGroup<TValue>> BuildTestSelectGroup(int numOfGroups, int[] numOfItems)
+    public static IEnumerable<SelectGroup<TValue>> BuildTestSelectGroups()
     {
-        var isExpanded = new List<bool>();
-
-        for (var i = 0; i < numOfGroups; i++)
-            isExpanded.Add(false);
-
-        return BuildTestSelectGroup(numOfGroups, numOfItems, isExpanded.ToArray());
-    }
-
-    public IEnumerable<SelectGroup<TValue>> BuildTestSelectGroup(int numOfGroups, int[] numOfItems, bool[] isExpanded)
-    {  
+        var fixture = new Fixture();
+        var numOfGroups = fixture.Create<int>();
         var builder = new AccordionSelectGroupBuilder<TValue>();
 
         for (var i = 0; i < numOfGroups; i++)
         {
-            var name = _fixture.Create<string>();
-            var kvps =_fixture.CreateMany<KeyValuePair<string, TValue>>(numOfItems[i]);
-            var dictionary = new Dictionary<string, TValue>(kvps);
-            builder.AddGroup(name, isExpanded[i], dictionary);
+            var name = fixture.Create<string>();
+            var isExpanded = fixture.Create<bool>();
+            var items = fixture.Create<Dictionary<string, TValue>>();
+            builder.AddGroup(name, isExpanded, items);
         }
 
         return builder.Build();
