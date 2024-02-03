@@ -1,9 +1,22 @@
-﻿using System.Globalization;
+﻿using Carlton.Core.Components.Table;
+using System.ComponentModel;
+using System.Globalization;
 
 namespace Carlton.Core.Components.Library.Tests;
 
 public static class TableTestHelper
 {
+    public const int ItemCount = 15;
+    public static readonly int[] RowsPerPageOpts = [5, 10, 15];
+
+    public static readonly IEnumerable<TableHeadingItem> TableTestHeadingItems =
+        new List<TableHeadingItem>
+        {
+            new("ID"),
+            new("DisplayName"),
+            new("Created Date")
+        };
+
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 
     public const string RowTemplate =
@@ -40,11 +53,13 @@ public static class TableTestHelper
         return string.Join(Environment.NewLine, headings.Select((item, i) =>
         @$"
 <div class=""header-cell table-cell ascending heading-{i}"">
-    <span class=""heading-text"">{item.DisplayName}</span>
-        <div class=""sort-arrows"">
-            <span class=""arrow-ascending mdi mdi-arrow-up""></span>
-            <span class=""arrow-descending mdi mdi-arrow-down""></span>
-        </div>
+    <div class=""heading-container"">
+        <span class=""heading-text"">{item.DisplayName}</span>
+            <div class=""sort-arrows"">
+                <span class=""arrow-ascending mdi mdi-arrow-up""></span>
+                <span class=""arrow-descending mdi mdi-arrow-down""></span>
+            </div>
+    </div>
 </div>"));
     }
 
@@ -53,7 +68,7 @@ public static class TableTestHelper
         return string.Join(Environment.NewLine, items.Select(item => string.Format(@$"<div class=""table-row"">{rowTemplate}</div>", item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
     }
 
-    public static string BuildExpectedPaginationRow(int itemTotal, IEnumerable<int> rowsPerPage, int selectedRowsPerPageIndex, int currentPage)
+    public static string BuildExpectedPaginationRow(int itemTotal, IEnumerable<int> rowsPerPage, int currentPage, int selectedRowsPerPageIndex)
     {
         var selectedRowsPerPage = rowsPerPage.ElementAt(selectedRowsPerPageIndex);
         var numOfPages = Math.Ceiling((decimal)itemTotal / selectedRowsPerPage);
@@ -63,7 +78,7 @@ public static class TableTestHelper
         var optionsMarkup = string.Join(Environment.NewLine, rowsPerPage.Select(_ => $@"<div class=""option"">{_}</div>"));
 
         var endPageCount = Math.Min((selectedRowsPerPage * currentPage), itemTotal);
-        var startPageCount = Math.Max((endPageCount - selectedRowsPerPage) + 1, 1);
+        var startPageCount = Math.Max(((selectedRowsPerPage * currentPage) - selectedRowsPerPage) + 1, 1);
 
         return
 @$"
