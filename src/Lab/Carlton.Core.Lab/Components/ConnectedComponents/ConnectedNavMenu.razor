@@ -1,4 +1,4 @@
-﻿@using Carlton.Core.Components.AccordionSelect
+﻿@using Carlton.Core.Components.Navigation
 @namespace Carlton.Core.Lab.Components
 @attribute [ObserveStateEvents("MenuItemSelected")]
 @attribute [ObserveStateEvents("MenuItemExpandedStateChanged")]
@@ -9,8 +9,8 @@
                       Groups="ComponentStateGroups"
                       SelectedGroupIndex="ViewModel.SelectedComponentIndex"
                       SelectedItemIndex="ViewModel.SelectedStateIndex"
-                      OnExpandedStateChanged="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuExpandedCommand>"
-                      OnSelectedItemChanged="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
+                      ExpandedStateChanged="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuExpandedCommand>"
+                      SelectedItemChanged="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
 
 
 @code {
