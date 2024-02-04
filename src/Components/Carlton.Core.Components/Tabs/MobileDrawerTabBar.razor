@@ -1,19 +1,15 @@
 ﻿@namespace Carlton.Core.Components.Tabs
+@inherits TabBarBase
 
 <div class="mobile-collapsable-tab-bar">
     <TabBarBase HideCollapser="false"
                 HideTabs="false"
                 ContentLocation="ContentLocation"
-                ChildContent="ChildContent">
+                ChildContent="ChildContent"
+                ActiveTabIndex="ActiveTabIndex">
         <TabContent Context="tab">
             <IconTabContent Tab="tab" />
         </TabContent>
     </TabBarBase>
 </div>
 
-@code {
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-    [Parameter]
-    public ContentLocations ContentLocation { get; set; }
-}
