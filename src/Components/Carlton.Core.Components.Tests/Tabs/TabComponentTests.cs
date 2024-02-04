@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Components.Tabs;
-
 namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(TabComponentTests))]

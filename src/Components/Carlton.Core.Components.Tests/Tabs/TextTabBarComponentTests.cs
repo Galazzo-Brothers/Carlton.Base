@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Tabs;
-using static Carlton.Core.Components.Tests.Common.Extensions;
-
+using Carlton.Core.Components.Tests.Tabs;
+using static Carlton.Core.Components.Tests.Tabs.TabTestHelper;
 namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(TextTabBar))]

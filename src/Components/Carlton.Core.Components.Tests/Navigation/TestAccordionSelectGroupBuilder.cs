@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using Carlton.Core.Components.Navigation;
 
-namespace Carlton.Core.Components.Library.Tests.Common;
+namespace Carlton.Core.Components.Tests;
 
-public static class TestAccordionSelectGroupBuilder<TValue>
+internal static class TestAccordionSelectGroupBuilder<TValue>
 {
     public static IEnumerable<SelectGroup<TValue>> BuildTestSelectGroups()
     {

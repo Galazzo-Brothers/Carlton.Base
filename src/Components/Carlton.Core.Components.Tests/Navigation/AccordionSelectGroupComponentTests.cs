@@ -1,5 +1,5 @@
-﻿using Carlton.Core.Components.Library.Tests.Common;
-namespace Carlton.Core.Components.Navigation.Tests;
+﻿using Carlton.Core.Components.Navigation;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(AccordionSelectGroup<int>))]
 public class AccordionSelectGroupComponentTests : TestContext

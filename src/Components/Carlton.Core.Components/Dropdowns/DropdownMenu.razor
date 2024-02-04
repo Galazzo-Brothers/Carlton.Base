@@ -1,0 +1,50 @@
+﻿@namespace Carlton.Core.Components.Dropdowns
+@typeparam T
+
+<div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
+    <div class="menu">@MenuTemplate(IsActive)</div>
+    <div class="dropdown-items @DropdownMenuCss">
+        <div class="header">@HeaderTemplate</div>
+        <ul>
+            @foreach (var item in MenuItems)
+            {
+                <li>
+                    <span class="@MenuElementCss(item)"></span>
+                    <a href="#" @onclick:preventDefault="true" @onclick="() => MenuItemSelected.InvokeAsync(item.Value)">@item.MenuItemName</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<DropdownMenuItem<T>> MenuItems { get; set; } = new List<DropdownMenuItem<T>>();
+    [Parameter]
+    public RenderFragment<bool> MenuTemplate { get; set; }
+    [Parameter]
+    public RenderFragment HeaderTemplate { get; set; }
+    [Parameter]
+    public RenderFragment<DropdownMenuItem<T>> MenuItemTemplate { get; set; }
+    [Parameter]
+    public EventCallback<T> MenuItemSelected { get; set; }
+
+    private bool IsActive { get; set; }
+
+    private Func<DropdownMenuItem<T>, string> MenuElementCss
+    {
+        get => (item) => new CssBuilder()
+                .AddClass($"mdi mdi-{item.MenuIcon}")
+                .AddClass($"accent-color-{item.AccentColorIndex}")
+                .Build();
+    }
+
+    private string DropdownMenuCss
+    {
+        get => new CssBuilder()
+            .AddClass("active", IsActive)
+            .Build();
+    }
+}
+
+

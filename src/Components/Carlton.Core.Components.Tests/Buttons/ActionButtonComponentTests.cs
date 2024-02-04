@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Buttons;
-namespace Carlton.Core.Components.Tests.Buttons;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(ActionButton))]
 public class ActionButtonComponentTests : TestContext
