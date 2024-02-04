@@ -4,7 +4,7 @@ using Carlton.Core.Components.Cards;
 using Carlton.Core.Components.Lab.TestData;
 using Carlton.Core.Components.Layouts.Extensions;
 using Carlton.Core.Components.Navigation;
-using Carlton.Core.Components.Select;
+using Carlton.Core.Components.Dropdowns;
 using Carlton.Core.Components.Table;
 using Carlton.Core.Lab.Extensions;
 using Microsoft.Extensions.Logging;
@@ -56,6 +56,7 @@ public static class Program
                    .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
                    .AddComponentState<Dropdown>(SelectTestStates.Default)
+                   .AddComponentState<KebabMenu>(SelectTestStates.Default)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)

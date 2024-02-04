@@ -1,6 +1,6 @@
-﻿@namespace Carlton.Core.Components.Select
+﻿@namespace Carlton.Core.Components.Dropdowns
 
-<div class="select">
+<div class="dropdown">
     <input readonly placeholder=" " value="@ValueDisplay" />
     <div class="label">@Label</div>
 
@@ -37,14 +37,10 @@
     public int SelectedValue { get; set; }
 
     private string ValueDisplay
-    {
-        get
-        {
-            return Options.FirstOrDefault(_ => _.Value == SelectedValue).Key;
-        }
-    }
+        => Options.FirstOrDefault(_ => _.Value == SelectedValue).Key;
+    
 
-    private async Task OnValueChanged(DropdownValueChangedArgs opt)
+    protected async Task OnValueChanged(DropdownValueChangedArgs opt)
     {
         SelectedValue = opt.SelectedValue;
         await ValueChangedCallback.InvokeAsync(opt);

@@ -1,5 +1,5 @@
-﻿using Carlton.Core.Components.AccordionSelect;
-using Carlton.Core.Components.ComponentViewer;
+﻿using Carlton.Core.Components.ComponentViewer;
+using Carlton.Core.Components.Navigation;
 using Riok.Mapperly.Abstractions;
 
 namespace Carlton.Core.Lab.Extensions;

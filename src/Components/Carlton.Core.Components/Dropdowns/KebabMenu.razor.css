@@ -1,5 +1,57 @@
-﻿i {
-    color: var(--primary-text-color);
-    transition: all 0.25s cubic-bezier(0.72, 1.2, 0.71, 0.72);
-    transform: scale(1);
+﻿
+.kebab-dropdown {
+	position: relative;
 }
+
+i {
+	color: var(--primary-text-color);
+	cursor: pointer;
+	transition: all 0.25s cubic-bezier(0.72, 1.2, 0.71, 0.72);
+	transform: scale(1);
+}
+
+	i.disabled {
+		opacity: .5;
+		cursor: default;
+	}
+
+.options {
+	visibility: hidden;
+	max-height: 0;
+	max-width: 250px;
+	overflow: hidden;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	position: absolute;
+	top: 30px;
+	right: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	color: var(--primary-text-color);
+	background-color: #F5F5F5;
+	border: 0.5px solid #c9c9c9;
+	transition: 0.5s opacity ease-in-out, 0.5s max-height ease-in-out;
+}
+
+	.options.active {
+		visibility: inherit;
+		max-height: 250px;
+	}
+
+.option {
+	text-align: left;
+	font-weight: bold;
+	font-size: 10pt;
+	cursor: pointer;
+	text-wrap: nowrap;
+	padding: 10px;
+}
+
+	.option:hover {
+		color: var(--primary-text-color);
+		background-color: var(--card-hover-background-color);
+		transform: scale(1.05);
+	}

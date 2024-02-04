@@ -1,10 +1,10 @@
-﻿.select {
+﻿.dropdown {
     position: relative;
     background: none;
     max-width: 12rem;
 }
 
-    .select input {
+    .dropdown input {
         color: var(--primary-text-color);
         width: 100%;
         border: none;
@@ -15,53 +15,58 @@
         transition: 0.25s border-color ease-in-out;
     }
 
-        .select input:focus {
+        .dropdown input:focus {
             border-color: var(--selected-color);
         }
 
-    .select .options {
+    .dropdown .options {
+        width: 100%;
         position: absolute;
         top: 20px;
         left: 0px;
-        background: var(--card-background-color);
         opacity: 0;
         max-height: 0;
+        font-size: 10pt;
+        font-weight: bold;
         overflow: hidden;
         transition: 0.5s opacity ease-in-out, 0.5s max-height ease-in-out;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+        background-color: #F5F5F5;
+        border: 0.5px solid #c9c9c9;
+        border-radius: 5px;
     }
 
-        .select .options .option {
+        .dropdown .options .option {
             color: var(--primary-text-color);
             cursor: pointer;
             padding: 0.5rem;
         }
 
-            .select .options .option:not(*:last-child) {
-                border-bottom: 1px solid #aaa;
-            }
 
-    .select .label {
+    .dropdown .label {
         position: absolute;
+        top: 20px;
+        left: 0;
+        font-size: 10pt;
         color: var(--primary-text-color);
         transform: translateY(-1.8rem);
         transition: 0.25s transform ease-in-out, 0.25s color ease-in-out;
     }
 
-    .select input:focus ~ .label, .select input:not(:placeholder-shown) ~ .label {
+    .dropdown input:focus ~ .label, .dropdown input:not(:placeholder-shown) ~ .label {
         transform: translate(-0.8rem, -2.5rem) scale(0.6);
     }
 
-    .select input:focus ~ .options {
+    .dropdown input:focus ~ .options {
         opacity: 1;
         max-height: 8rem;
     }
 
-    .select .option:hover {
+    .dropdown .option:hover {
         color: var(--primary-text-color);
         background-color: var(--card-hover-background-color);
     }
 
-    .select *:focus {
+    .dropdown *:focus {
         outline: none;
     }

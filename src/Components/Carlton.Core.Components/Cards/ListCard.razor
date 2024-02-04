@@ -10,14 +10,14 @@
     </HeaderContent>
 
     <ActionBarContent>
-        <KebabMenu MenuItems="new List<DropdownMenuItem<string>>()" />
+        <KebabMenu Options="MenuItems" />
     </ActionBarContent>
 
     <PrimaryCardContent>
         <div class="sub-title">@SubTitle</div>
 
         <ul>
-            @foreach(var item in Items)
+            @foreach (var item in Items)
             {
                 <li>
                     @ItemTemplate(item)
@@ -34,5 +34,7 @@
     public RenderFragment<TItem> ItemTemplate { get; set; }
     [Parameter]
     public IEnumerable<TItem> Items { get; set; }
+    [Parameter]
+    public Dictionary<string, int> MenuItems { get; set; } = new();
 }
 

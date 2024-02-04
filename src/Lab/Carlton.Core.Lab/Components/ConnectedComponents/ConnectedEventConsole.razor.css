@@ -3,7 +3,7 @@
     text-align: center;
 }
 
-    ::deep .icon-app-btn {
+    ::deep .icon-btn {
         position: absolute;
         bottom: 15px;
         right: 10px;

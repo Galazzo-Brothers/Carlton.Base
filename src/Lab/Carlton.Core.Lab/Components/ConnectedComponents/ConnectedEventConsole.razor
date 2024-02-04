@@ -1,4 +1,5 @@
-﻿@using Carlton.Core.Components.Consoles
+﻿@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Components.Consoles
 @namespace Carlton.Core.Lab.Components
 @attribute [ObserveStateEvents("EventRecorded")]
 @attribute [ObserveStateEvents("EventsCleared")]
@@ -6,7 +7,7 @@
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@RecordedEventsText" />
-    <IconAppButton Icon="delete"
+    <IconButton Icon="delete"
                    OnClickCallback="this.RaiseComponentFluxEvent<EventConsoleViewModel, ClearEventsCommand>" />
 </div>
 
