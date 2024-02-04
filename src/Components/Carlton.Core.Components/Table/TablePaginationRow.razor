@@ -6,7 +6,11 @@
 <div class="pagination-row">
     <div class="rows-per-page">
         <span class="rows-per-page-label">Rows Per Page</span>
-        <Dropdown Options="RowsPerPageSelectOpts" SelectedValue="SelectedRowsPerPageValue" ValueChangedCallback="(rpp) => ChangeRowsPerPage(rpp.SelectedIndex)" />
+        <Dropdown 
+            T="int" 
+            Options="RowsPerPageSelectOpts"
+            SelectedIndex="SelectedRowsPerPageIndex"
+            ValueChangedCallback="(args) => ChangeRowsPerPage(args.SelectedIndex)" />
     </div>
     <div class="page-number">
         <span class="pagination-label">@PaginationLabel</span>

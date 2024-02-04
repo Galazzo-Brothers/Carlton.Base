@@ -43,7 +43,7 @@ public class TablePaginationRowComponentTests : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0));
 
-        var select = cut.FindComponent<Dropdown>();
+        var select = cut.FindComponent<Dropdown<int>>();
         var actualValue = select.Instance.SelectedValue;
         var expectedValue = expectedOptions.First();
 

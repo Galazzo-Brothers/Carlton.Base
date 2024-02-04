@@ -1,3 +1,3 @@
 ﻿namespace Carlton.Core.Components.Dropdowns;
 
-public record DropdownValueChangedArgs(int SelectedIndex, string SelectedKey, int SelectedValue);
+public record DropdownValueChangedArgs<T>(int SelectedIndex, string SelectedKey, T SelectedValue);

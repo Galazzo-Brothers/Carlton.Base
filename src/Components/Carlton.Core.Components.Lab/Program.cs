@@ -55,7 +55,7 @@ public static class Program
                    .AddComponentState<ErrorPrompt>(ErrorPromptTestStates.DefaultState)
                    .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
-                   .AddComponentState<Dropdown>(SelectTestStates.Default)
+                   .AddComponentState<Dropdown<int>>(SelectTestStates.Default)
                    .AddComponentState<KebabMenu>(SelectTestStates.Default)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
