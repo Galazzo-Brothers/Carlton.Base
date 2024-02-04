@@ -1,12 +1,9 @@
 ﻿@namespace Carlton.Core.Components.Tabs
 
-<div class="tab">
-    @if (IsActive)
-    {
-        @ChildContent
-    }
-</div>
-
+@if (IsActive)
+{
+    @ChildContent
+}
 
 @code {
     [CascadingParameter]
@@ -21,10 +18,10 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    public bool IsActive { get => Parent.ActiveTab == this; }
+    public bool IsActive { get => Parent.ActiveTabIndex == TabIndex; }
 
-    //Value set by the TabBar when added
-    public int TabIndex { get; set; }
+    //Value only set by the TabBar when the Tab is added
+    public int TabIndex { get; internal set; }
 
     protected override void OnInitialized()
     {

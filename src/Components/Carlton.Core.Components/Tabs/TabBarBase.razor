@@ -8,7 +8,7 @@
 
     @if (ContentLocation == ContentLocations.Above)
     {
-        <div class="@SlideContainerCss">
+        <div class="@ContentCss">
             <CascadingValue Value="this">
                 @ChildContent
             </CascadingValue>
@@ -21,7 +21,7 @@
             @foreach (Tab tab in Tabs)
             {
                 <div class="@TabCss(tab)">
-                    <div class="tab-link" @onclick="(args) => ActivateTab(tab)">
+                    <div class="tab-link" @onclick="(args) => ActivateTab(tab.TabIndex)">
                         @TabContent(tab)
                     </div>
                 </div>
@@ -31,7 +31,7 @@
 
     @if (ContentLocation == ContentLocations.Below)
     {
-        <div class="@SlideContainerCss">
+        <div class="@ContentCss">
             <CascadingValue Value="this">
                 @ChildContent
             </CascadingValue>
@@ -60,15 +60,16 @@
     public bool IsExpanded { get; set; }
 
     [Parameter]
-    public RenderFragment<Tab> TabContent { get; set; }
+    public RenderFragment<Tab> TabContent { get; set; } = DefaultTabRenderFragment;
 
-    public Tab ActiveTab { get; set; }
+    [Parameter]
+    public int ActiveTabIndex { get; set; }
 
     private List<Tab> Tabs { get; } = new List<Tab>();
 
-    private int TabCount { get; set; }
+    private int TabCount => Tabs.Count();
 
-    private int ActiveTabIndex { get; set; }
+    public Tab ActiveTab => Tabs.ElementAt(ActiveTabIndex);
 
     protected override void OnInitialized()
     {
@@ -80,22 +81,15 @@
 
     public void AddTab(Tab tab)
     {
-        TabCount = TabCount + 1;
-        tab.TabIndex = TabCount - 1;
-
+        tab.TabIndex = TabCount;
         Tabs.Add(tab);
-        if (Tabs.Count == 1)
-            ActiveTab = tab;
         StateHasChanged();
     }
 
-    public void ActivateTab(Tab tab)
-    {
-        ActiveTab = tab;
-        ActiveTabIndex = tab.TabIndex;
-    }
-
-    private bool GetExpandedState()
+    public void ActivateTab(int tabIndex)
+        => ActiveTabIndex = tabIndex;
+    
+    private bool GetActiveState()
     {
         if (HideCollapser)
             //Collapser is hidden and component is being used as icon tabs
@@ -105,17 +99,18 @@
             return IsExpanded;
     }
 
-    private string SlideContainerCss
-    {
-        get => new CssBuilder("slide-container")
-                    .AddClass("expanded", GetExpandedState())
-                    .Build();
-    }
+    private string ContentCss
+         => new CssBuilder("content")
+                .AddClass("expanded", GetActiveState())
+                .Build();
+
 
     private string TabCss(Tab tab)
         => new CssBuilder("tab")
-                .AddClass("active", tab.TabIndex == ActiveTab.TabIndex)
+                .AddClass("active", tab.TabIndex == ActiveTabIndex)
                 .Build();
+
+    private static readonly RenderFragment<Tab> DefaultTabRenderFragment = (tab) => (builder) => { };
 }
 
 

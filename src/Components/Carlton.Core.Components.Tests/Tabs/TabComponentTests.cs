@@ -1,6 +1,6 @@
-﻿using AutoFixture.Xunit2;
+﻿using Carlton.Core.Components.Tabs;
 
-namespace Carlton.Core.Components.Library.Tests;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(TabComponentTests))]
 public class TabComponentTests : TestContext
@@ -8,73 +8,72 @@ public class TabComponentTests : TestContext
     private readonly IRenderedComponent<TabBarBase> parent;
 
     public TabComponentTests()
+        => parent = RenderComponent<TabBarBase>();
+    
+
+    [Theory(DisplayName = "Markup Test"), AutoData]
+    public void Tab_Markup_RendersCorrectly(
+        string expectedContent,
+        string expectedDisplayText)
     {
-        parent = RenderComponent<TabBarBase>();
+        //Arrange
+        var expectedMarkup = expectedContent;
+
+        //Act
+        var cut = RenderComponent<Tab>(parameters => parameters
+                    .AddCascadingValue(parent.Instance)
+                    .Add(p => p.DisplayText, expectedDisplayText)
+                    .AddChildContent(expectedContent));
+
+        //Assert
+        cut.MarkupMatches(expectedMarkup);
+    }
+   
+    [Theory(DisplayName = "Parent ActiveParam Render Test"), AutoData]
+    public void Tab_Parent_ActiveParam_False_RendersCorrectly(string displayText, string childContent)
+    {
+        //Arrange
+        parent.Instance.ActivateTab(2); //Activate another tab
+
+        //Act
+        var cut = RenderComponent<Tab>(parameters => parameters
+                    .AddCascadingValue(parent.Instance)
+                    .Add(p => p.DisplayText, displayText)
+                    .Add(p => p.ChildContent, childContent));
+
+        //Assert
+        var content = cut.Markup;
+        content.ShouldBeEmpty();
+    }
+
+    [Theory(DisplayName = "Parent Active True, Render Test"), AutoData]
+    public void Tab_Parent_ActiveParameter_True_RendersCorrectly(
+        string expectedDisplayText,
+        string expectedChildContent)
+    {
+        //Arrange
+        parent.Instance.ActivateTab(0); //Activate this tab
+
+        //Act
+        var cut = RenderComponent<Tab>(parameters => parameters
+            .AddCascadingValue(parent.Instance)
+            .Add(p => p.DisplayText, expectedDisplayText)
+            .AddChildContent(expectedChildContent));
+
+        //Assert
+        var content = cut.Markup;
+        content.ShouldNotBeEmpty();
+        content.ShouldBe(expectedChildContent);
     }
 
     [Theory(DisplayName = "Tab Without Parent, Throws Argument Exception"), AutoData]
     public void Tab_WithOutParent_ThrowsArgumentNullException(string displayText)
     {
         //Act
-        var act = () => RenderComponent<Tab>(parameters => parameters
+        IRenderedComponent<Tab> act() => RenderComponent<Tab>(parameters => parameters
             .Add(p => p.DisplayText, displayText));
 
         //Assert
-        Assert.Throws<ArgumentNullException>(act);
-    }
-
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void Tab_Markup_RendersCorrectly(string expectedContent, string displayText)
-    {
-        //Arrange
-        var expectedMarkup = $@"<div class=""tab"">{expectedContent}</div>";
-
-        //Act
-        var cut = RenderComponent<Tab>(parameters => parameters
-                .AddCascadingValue(parent.Instance)
-                .Add(p => p.DisplayText, displayText)
-                .AddChildContent(expectedContent));
-
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
-
-    [Theory(DisplayName = "Parent ActiveParam Render Test"), AutoData]
-    public void Tab_Parent_ActiveParam_False_RendersCorrectly(string displayText, string childContent)
-    {
-        //Arrange
-        var cut = RenderComponent<Tab>(parameters => parameters
-            .AddCascadingValue(parent.Instance)
-            .Add(p => p.DisplayText, displayText)
-            .Add(p => p.ChildContent, childContent));
-
-        var tabElement = cut.Find(".tab");
-
-        //Act
-        parent.Instance.ActiveTab = null;
-        cut.Render();
-
-        //Assert
-        Assert.Empty(tabElement.InnerHtml);
-    }
-
-    [Theory(DisplayName = "Parent Active True, Render Test"), AutoData]
-    public void Tab_Parent_ActiveParam_True_RendersCorrectly(string displayText, string childContent)
-    {
-        //Arrange
-        var cut = RenderComponent<Tab>(parameters => parameters
-            .AddCascadingValue(parent.Instance)
-            .Add(p => p.DisplayText, displayText)
-            .AddChildContent(childContent));
-
-        var tabElement = cut.Find(".tab");
-
-        //Act
-        parent.Instance.ActiveTab = cut.Instance;
-        cut.Render();
-
-        //Assert
-        Assert.NotEmpty(tabElement.InnerHtml);
-        Assert.Equal(childContent, tabElement.InnerHtml);
+        Should.Throw<ArgumentNullException>(act);
     }
 }

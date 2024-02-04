@@ -16,14 +16,14 @@
 	border-top-right-radius: 10px;
 }
 
-.slide-container {
+.content{
 	display: none;
 	color: #fff;
 	min-height: 50px;
 	text-align: left;
 }
 
-	.slide-container.expanded {
+	.content.expanded {
 		display: block;
 		height: var(--slide-tab-height);
 	}
