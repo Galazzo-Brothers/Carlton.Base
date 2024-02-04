@@ -109,9 +109,7 @@ public class TextTabBarComponentTests : TestContext
     private static string BuildExpectedMarkup(IEnumerable<TabConstructionData> data, int selectedIndex)
     {
         var spacer = @"<span class=""horizontal-spacer"" style=""--spacer-width:100%;--spacer-height:3px;"" ></span>";
-
-        var tabHeadings = string.Join(Environment.NewLine, data.Select((data, i) =>
-            selectedIndex == i ? data.ChildContent : string.Empty));
+        var content = data.ElementAt(selectedIndex).ChildContent;
 
         var tabs = string.Join(Environment.NewLine, data.Select((data, i) =>
         $@"<div class=""tab {(selectedIndex == i ? "active" : string.Empty)}"">
@@ -127,7 +125,7 @@ public class TextTabBarComponentTests : TestContext
         <div class=""text-tab-bar"">
             <div class=""tab-bar"">
                 <div class=""content expanded"">
-                    {tabHeadings}
+                    {content}
                 </div>
                 <div class=""tabs"">
                     {tabs}
