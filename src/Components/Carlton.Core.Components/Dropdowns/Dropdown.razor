@@ -1,7 +1,8 @@
 ﻿@namespace Carlton.Core.Components.Dropdowns
+@typeparam T
 
 <div class="dropdown">
-    <input readonly placeholder=" " value="@ValueDisplay" />
+    <input readonly placeholder=" " value="@((IsPristineEnabled && IsPristine) ? null : SelectedKey)" />
     <div class="label">@Label</div>
 
     @if(IsDisabled)
@@ -13,7 +14,7 @@
         <div class="options">
             @foreach(var (opt, i) in Options.WithIndex())
             {
-                <div class="option" @onclick="()=>OnValueChanged(new DropdownValueChangedArgs(i, opt.Key, opt.Value))">@opt.Key</div>
+                <div class="option" @onclick="()=>OnValueChanged(new DropdownValueChangedArgs<T>(i, opt.Key, opt.Value))">@opt.Key</div>
             }
         </div>
     }
@@ -28,21 +29,27 @@
     public string Label { get; set; }
 
     [Parameter]
-    public IReadOnlyDictionary<string, int> Options { get; set; } = new Dictionary<string, int>();
+    public IReadOnlyDictionary<string, T> Options { get; set; } = new Dictionary<string, T>();
 
     [Parameter]
-    public EventCallback<DropdownValueChangedArgs> ValueChangedCallback { get; set; }
+    public EventCallback<DropdownValueChangedArgs<T>> ValueChangedCallback { get; set; }
 
     [Parameter]
-    public int SelectedValue { get; set; }
+    public int SelectedIndex { get; set; }
 
-    private string ValueDisplay
-        => Options.FirstOrDefault(_ => _.Value == SelectedValue).Key;
-    
+    [Parameter]
+    public bool IsPristineEnabled { get; set; }
 
-    protected async Task OnValueChanged(DropdownValueChangedArgs opt)
+    private bool IsPristine { get; set; } = true;
+
+    public string SelectedKey => Options.ElementAt(SelectedIndex).Key;
+
+    public T SelectedValue => Options.ElementAt(SelectedIndex).Value;
+
+    protected async Task OnValueChanged(DropdownValueChangedArgs<T> opt)
     {
-        SelectedValue = opt.SelectedValue;
+        IsPristine = false;
+        SelectedIndex = opt.SelectedIndex;
         await ValueChangedCallback.InvokeAsync(opt);
     }
 }
