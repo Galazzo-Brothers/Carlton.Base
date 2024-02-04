@@ -14,6 +14,9 @@
 	</ItemGroup>
 
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Test\Carlton.Core.Foundation.Test.csproj" />

@@ -1,7 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Tabs
 
-<div class="@TextTabCss">
-    <a class="@TabLinkCss" @onclick:preventDefault="true" href="#">@Tab.DisplayText</a>
+<div class="text-tab">
+    <span class="tab-title">@Tab.DisplayText</span>
     @if (Tab.IsActive)
     {
         <Spacer 
@@ -14,18 +14,4 @@
 @code {
     [Parameter]
     public Tab Tab { get; set; }
-
-    private string TextTabCss
-    {
-        get => new CssBuilder("text-tab")
-                .AddClass("active", Tab.IsActive)
-                .Build();
-    }
-
-    private string TabLinkCss
-    {
-        get => new CssBuilder("tab-link")
-            .AddClass("active", Tab.IsActive)
-            .Build();
-    }
 }

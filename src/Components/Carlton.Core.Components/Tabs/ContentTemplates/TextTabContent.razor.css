@@ -8,7 +8,7 @@
 }
 
 
-.tab-link {
+.tab-title {
 	position: relative;
 	display: inline-block;
 	text-decoration: none;
@@ -20,7 +20,7 @@
 	text-align: center;
 }
 
-	.tab-link:hover {
+	.tab-title:hover {
 		background-color: inherit;
 		color: var(--tab-hover-color);
 	}
