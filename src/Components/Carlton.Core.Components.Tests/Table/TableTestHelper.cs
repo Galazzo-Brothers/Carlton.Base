@@ -1,8 +1,6 @@
 ﻿using Carlton.Core.Components.Table;
-using System.ComponentModel;
 using System.Globalization;
-
-namespace Carlton.Core.Components.Library.Tests;
+namespace Carlton.Core.Components.Tests;
 
 public static class TableTestHelper
 {
@@ -25,7 +23,6 @@ public static class TableTestHelper
 <span class=""table-cell"">{1}</span>
 <span class=""table-cell"">{2}</span>";
 
-    public const string RowTemplate2 = "{0}_{1}_{2}";
 
     public static string BuildExpectedMarkup(
         IEnumerable<TableHeadingItem> headings,
@@ -85,7 +82,7 @@ public static class TableTestHelper
     <div class=""pagination-row"">
         <div class=""rows-per-page"">
             <span class=""rows-per-page-label"">Rows Per Page</span>
-            <div class=""select"">
+            <div class=""dropdown"">
                 <input readonly placeholder="" "" value=""{selectedRowsPerPage}"" />
                 <div class=""label""></div>
                 <div class=""options"">
@@ -108,9 +105,9 @@ public static class TableTestHelper
 
     public static readonly IReadOnlyCollection<TableHeadingItem> Headings = new List<TableHeadingItem>
     {
-            new TableHeadingItem(nameof(TableTestObject.ID)),
-            new TableHeadingItem(nameof(TableTestObject.DisplayName)),
-            new TableHeadingItem(nameof(TableTestObject.CreatedDate))
+            new(nameof(TableTestObject.ID)),
+            new(nameof(TableTestObject.DisplayName)),
+            new(nameof(TableTestObject.CreatedDate))
     };
 
     public static IEnumerable<TableTestObject> OrderCollection(IEnumerable<TableTestObject> items, int columnIndex)
@@ -133,24 +130,5 @@ public static class TableTestHelper
             2 => items.OrderByDescending(p => p.CreatedDate),
             _ => throw new Exception(),
         };
-    }
-
-    public static readonly IReadOnlyCollection<TableTestObject> ItemListForPagingTests = new List<TableTestObject>
-    {
-        new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-        new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-        new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
-        new TableTestObject(4, "Item 1", new DateTime(2023, 10, 9)),
-        new TableTestObject(5, "Item 2", new DateTime(2022, 2, 3)),
-        new TableTestObject(6, "Item 3", new DateTime(2021, 5, 19)),
-        new TableTestObject(7, "Additional Item A", new DateTime(2023, 10, 9)),
-        new TableTestObject(8, "Additional Item B", new DateTime(2022, 2, 3)),
-        new TableTestObject(9, "Additional Item C", new DateTime(2021, 5, 19)),
-        new TableTestObject(10, "Additional Item 1", new DateTime(2023, 10, 9)),
-        new TableTestObject(11, "Additional Item 2", new DateTime(2022, 2, 3)),
-        new TableTestObject(12, "Additional Item 3", new DateTime(2021, 5, 19)),
-        new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
-        new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
-        new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
-    };
+    }    
 }

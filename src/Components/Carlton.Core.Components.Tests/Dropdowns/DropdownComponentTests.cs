@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Components.Select;
-
+﻿using Carlton.Core.Components.Dropdowns;
 namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(Dropdown))]
@@ -200,7 +199,7 @@ public class DropdownComponentTests : TestContext
     {
         return
 @$"
-<div class=""select""><input readonly placeholder="" "" value=""{selectedItem}"" />
+<div class=""dropdown""><input readonly placeholder="" "" value=""{selectedItem}"" />
     <div class=""label"">{labelText}</div>
     <div {(isDisabled ? "disabled = \"\"" : string.Empty)} class=""options"">
         {BuildExpectedOptionsMarkup(isDisabled, options)}

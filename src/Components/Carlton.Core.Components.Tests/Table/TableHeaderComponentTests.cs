@@ -1,6 +1,5 @@
 ﻿using Carlton.Core.Components.Table;
-using static Carlton.Core.Components.Library.Tests.TableTestHelper;
-
+using static Carlton.Core.Components.Tests.TableTestHelper;
 namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(TableHeader<int>))]

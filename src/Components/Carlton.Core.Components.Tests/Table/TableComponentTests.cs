@@ -1,9 +1,8 @@
-﻿using AutoFixture;
-using Carlton.Core.Components.Table;
+﻿using Carlton.Core.Components.Table;
 using System.Globalization;
-using static Carlton.Core.Components.Library.Tests.TableTestHelper;
+using static Carlton.Core.Components.Tests.TableTestHelper;
 
-namespace Carlton.Core.Components.Library.Tests;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(Table<int>))]
 public class TableComponentTests : TestContext

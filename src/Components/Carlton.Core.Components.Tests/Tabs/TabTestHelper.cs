@@ -1,8 +1,7 @@
 ﻿using Carlton.Core.Components.Tabs;
+namespace Carlton.Core.Components.Tests.Tabs;
 
-namespace Carlton.Core.Components.Tests.Common;
-
-public static class Extensions
+public static class TabTestHelper
 {
     public record TabConstructionData(string DisplayText, string IconClass, string ChildContent);
 
@@ -15,7 +14,7 @@ public static class Extensions
         if (numberOfTabs == 0)
             return;
 
-        for(var i = 0; i < numberOfTabs; i++)
+        for (var i = 0; i < numberOfTabs; i++)
         {
             builder.AddChildContent<Tab>(parameters => parameters
                 .Add(p => p.DisplayText, data[i].DisplayText)

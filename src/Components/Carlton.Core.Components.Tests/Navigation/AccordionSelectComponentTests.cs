@@ -1,4 +1,5 @@
-namespace Carlton.Core.Components.Navigation.Tests;
+using Carlton.Core.Components.Navigation;
+namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(AccordionSelect<int>))]
 public class AccordionSelectComponentTests : TestContext

@@ -162,14 +162,9 @@ public class ListCardComponentTests : TestContext
     <div class=""title-content"">
       <span class=""card-title"">{title}</span>
       <div class=""status-icon"">
-        <div class=""dropdown-menu"">
-          <div class=""menu"">
-            <i class=""mdi mdi-24px mdi-dots-vertical""></i>
-          </div>
-          <div class=""dropdown "" style=""--dropdown-left:10px;--dropdown-top:10px;--dropdown-top-mobile:10px;"">
-            <div class=""header""></div>
-            <ul></ul>
-          </div>
+       <div class=""kebab-dropdown"" >
+          <i class=""mdi mdi-24px disabled mdi-dots-vertical""  ></i>
+          <div class=""options"" ></div>
         </div>
       </div>
     </div>
