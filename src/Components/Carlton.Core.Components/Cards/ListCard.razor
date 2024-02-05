@@ -10,7 +10,7 @@
     </HeaderContent>
 
     <ActionBarContent>
-        <KebabMenu Options="MenuItems" />
+        <KebabMenu T="int" MenuItems="MenuItems" />
     </ActionBarContent>
 
     <PrimaryCardContent>
@@ -35,6 +35,6 @@
     [Parameter]
     public IEnumerable<TItem> Items { get; set; }
     [Parameter]
-    public Dictionary<string, int> MenuItems { get; set; } = new();
+    public IEnumerable<DropdownMenuItem<int>> MenuItems { get; set; } = Enumerable.Empty<DropdownMenuItem<int>>();
 }
 

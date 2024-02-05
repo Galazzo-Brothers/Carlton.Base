@@ -1,13 +1,15 @@
 ﻿@namespace Carlton.Core.Components.Dropdowns
-@inherits Dropdown<int>
+@typeparam T
+@inherits DropdownMenu<T>
+
 
 <div class="kebab-dropdown">
     <i class="@IconCss" @onclick="IconClick"></i>
     <div class="@OptionsCss">
-        @foreach (var (opt, i) in Options.WithIndex())
+        @foreach (var (item, i) in MenuItems.WithIndex())
         {
-            <div class="option" @onclick="()=>OnValueChanged(new DropdownValueChangedArgs<int>(i, opt.Key, opt.Value))">
-                @opt.Key
+            <div class="option" @onclick="item.MenuItemSelected">
+                @item.MenuItemName
             </div>
         }
     </div>
@@ -15,11 +17,13 @@
 
 
 @code {
-    private bool IsActive { get; set; }
+
+    [Parameter]
+    public bool IsDisabled { get; set; }
 
     private void IconClick()
     {
-        if (IsDisabled || !Options.Any())
+        if (IsDisabled || !MenuItems.Any())
             return;
 
         IsActive = !IsActive;
@@ -27,8 +31,8 @@
 
     private string IconCss
         => new CssBuilder()
+            .AddClass("disabled", IsDisabled || !MenuItems.Any())
             .AddClass("mdi mdi-24px")
-            .AddClass("disabled", IsDisabled || !Options.Any())
             .AddClass("mdi-dots-vertical", !IsActive)
             .AddClass("mdi-close-circle", IsActive)
             .Build();
