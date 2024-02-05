@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Utilities.Validations;
-
+﻿using Carlton.Core.Utilities.Validation;
 namespace Carlton.Core.Lab.Models.ViewModels;
 
 public sealed record NavMenuViewModel

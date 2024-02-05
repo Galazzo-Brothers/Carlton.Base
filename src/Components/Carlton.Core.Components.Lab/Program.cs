@@ -43,9 +43,9 @@ public static class Program
                    .AddComponentState<CountCard>("Accent 2", CardTestStates.CountCard2State)
                    .AddComponentState<CountCard>("Accent 3", CardTestStates.CountCard3State)
                    .AddComponentState<CountCard>("Accent 4", CardTestStates.CountCard4State)
-                   .AddComponentState<ActionButton>("Default", ButtonTestStates.DefaultState)
-                   .AddComponentState<IconButton>("Default", IconButtonTestStates.DefaultState)
-                   .AddComponentState<LinkButton>("Default", ButtonTestStates.DefaultState)
+                   .AddComponentState<ActionButton>("Default", ButtonTestStates.ButtonState)
+                   .AddComponentState<IconButton>("Default", ButtonTestStates.IconButtonState)
+                   .AddComponentState<LinkButton>("Default", ButtonTestStates.ButtonState)
                    .AddComponentState<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
                    .AddComponentState<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)
                    .AddComponentState<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
@@ -55,11 +55,11 @@ public static class Program
                    .AddComponentState<ErrorPrompt>(ErrorPromptTestStates.DefaultState)
                    .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
-                   .AddComponentState<Dropdown<int>>(SelectTestStates.Default)
+                   .AddComponentState<Dropdown<int>>(DropdownTestStates.Default)
                    .AddComponentState<KebabMenu<int>>(KebabMenuTestStates.Default)
-                   .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
-                   .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
-                   .AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
+                   //.AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
+                   //.AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
+                   //.AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
                    .Build();
         });
 

@@ -1,14 +1,11 @@
 ﻿@namespace Carlton.Core.Lab.Components
-@using Carlton.Core.Components.ComponentViewer
+@using Carlton.Core.Components.Wrappers
 @using Carlton.Core.Lab.Models.Commands
 @attribute [ObserveStateEvents("MenuItemSelected")]
 @attribute [ObserveStateEvents("ParametersUpdated")]
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
 
-<ComponentViewer ComponentType="@ViewModel.ComponentType"
-                 ParameterObject="@ViewModel.ComponentParameters.ParameterObj"
-                 ComponentEventRaised="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
-
-
-
+<DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"
+                              ComponentParameters="@ViewModel.ComponentParameters"
+                              ComponentEventRaised="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
 

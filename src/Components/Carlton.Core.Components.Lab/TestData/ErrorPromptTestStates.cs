@@ -2,13 +2,13 @@
 
 public class ErrorPromptTestStates
 {
-    public static object DefaultState
+    public static Dictionary<string, object> DefaultState
     {
-        get => new
+        get => new()
         {
-            ErrorHeader = "Error",
-            ErrorMessage = "This is an unhandled error.",
-            ErrorIconClass = "mdi-alert-circle-outline"
+            { nameof(ErrorPrompt.ErrorHeader), "Error" },
+            { nameof(ErrorPrompt.ErrorMessage), "This is an unhandled error." },
+            { nameof(ErrorPrompt.ErrorIconClass), "mdi-alert-circle-outline" }
         };
     }
 }

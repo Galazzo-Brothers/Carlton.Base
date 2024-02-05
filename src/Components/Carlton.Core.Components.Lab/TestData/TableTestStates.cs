@@ -28,19 +28,40 @@ public static class TableTestStates
 
     }
 
-    public static object LargeItemList
+    public static Dictionary<string, object> LargeItemList
     {
-        get => new TableTestDate(Headings, BigList, RowTemplate, true, RowsPerPageTemplate);
+        get => new()
+        {
+            { nameof(Table<int>.Headings), Headings },
+            { nameof(Table<int>.Items), BigList },
+            { nameof(Table<int>.RowTemplate), RowTemplate },
+            { nameof(Table<int>.ShowPaginationRow), true },
+            { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
+        };
     }
 
-    public static object SmallItemList
+    public static Dictionary<string, object> SmallItemList
     {
-        get => new TableTestDate(Headings, SmallList, RowTemplate, true, RowsPerPageTemplate);
+        get => new()
+        {
+            { nameof(Table<int>.Headings), Headings },
+            { nameof(Table<int>.Items), SmallItemList },
+            { nameof(Table<int>.RowTemplate), RowTemplate },
+            { nameof(Table<int>.ShowPaginationRow), true },
+            { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
+        };
     }
 
-    public static object WithOutPaginationRow
+    public static Dictionary<string, object> WithOutPaginationRow
     {
-        get => new TableTestDate(Headings, SmallList, RowTemplate, false, RowsPerPageTemplate);
+        get => new()
+        {
+            { nameof(Table<int>.Headings), Headings },
+            { nameof(Table<int>.Items), SmallItemList },
+            { nameof(Table<int>.RowTemplate), RowTemplate },
+            { nameof(Table<int>.ShowPaginationRow), false },
+            { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
+        };
     }
 
     private static readonly List<TableHeadingItem> Headings =
@@ -94,7 +115,7 @@ public static class TableTestStates
                  </div>");
             };
 
-    private static readonly List<int> RowsPerPageTemplate = [5, 10, 15];
+    private static readonly List<int> RowsPerPageOptions = [5, 10, 15];
 
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 }
