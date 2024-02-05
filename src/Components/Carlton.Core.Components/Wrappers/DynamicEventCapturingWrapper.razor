@@ -1,0 +1,107 @@
+﻿@namespace Carlton.Core.Components.Wrappers
+
+<div class="dynamic-event-capturing-wrapper">
+    <DynamicComponent Type="@ComponentType" Parameters="ComponentParameters" />
+</div>
+
+@code {
+    [Parameter]
+    public Type ComponentType { get; set; }
+
+    [Parameter]
+    public IDictionary<string, object> ComponentParameters { get; set; } = new Dictionary<string, object>();
+
+    [Parameter]
+    public EventCallback<CapturedEventRaisedArgs> ComponentEventRaised { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (!(typeof(ComponentBase).IsAssignableFrom(ComponentType)))
+            throw new InvalidOperationException($"{ComponentType} is not a valid component type.");
+
+        AssignEventCallbacks();
+        base.OnParametersSet();
+    }
+
+    private void AssignEventCallbacks()
+    {
+        //Find all EventCallbacks and EventCallbacks<T>
+        var eventCallbacks = ComponentType
+                 .GetProperties()
+                 .Where(_ => _.PropertyType == typeof(EventCallback) || (_.PropertyType.IsGenericType && _.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+                 .ToList();
+
+        //Assign constructed lambda expression values
+        //Add the EventCallbacks to the parameter dictionary
+        foreach (var evtCallback in eventCallbacks)
+        {
+            //Check if Eventcallback already exists
+            if (ComponentParameters.ContainsKey(evtCallback.Name))
+                continue;
+
+            //Create values for EventCallback parameters
+            var isGenericCallback = evtCallback.PropertyType.IsGenericType;
+            var eventCallbackValue = (isGenericCallback) ? CreateGenericEventCallback(evtCallback) : CreateNonGenericEventCallback(evtCallback);
+
+            //Add EventCallback parameters to the parameter dictionary
+            ComponentParameters.Add(evtCallback.Name, eventCallbackValue);
+        };
+    }
+
+    private object CreateNonGenericEventCallback(PropertyInfo evtCallback)
+    {
+        //Create a non-generic delegate to assign
+        return EventCallback.Factory.Create(this, () => ComponentEventRaised.InvokeAsync(new CapturedEventRaisedArgs { EventName = evtCallback.Name }));
+    }
+
+    private object CreateGenericEventCallback(PropertyInfo evtCallback)
+    {
+        var genericTypeParam = evtCallback.PropertyType.GenericTypeArguments.First();
+        var lambda = CreateLambda(evtCallback.Name, genericTypeParam);
+
+        var invokeParams = new object[] { this, lambda };
+
+        return GetEvtCallbackFactoryCreateMethodInfo(genericTypeParam)
+                    .Invoke(EventCallback.Factory, invokeParams);
+    }
+
+    private Delegate CreateLambda(string evtCallbackName, Type genericTypeParam)
+    {
+        //Construct a strongly typed generic Lambda Expression  
+        //that wraps the function GenericCallback<T> 
+        //with the type parameter set at runtime based on the dynamic component
+
+        var nameParameter = Expression.Constant(evtCallbackName);
+        var objParameter = Expression.Parameter(genericTypeParam);
+
+        var methodInfo = this.GetType()
+                             .GetMethod(nameof(GenericCallback), BindingFlags.NonPublic | BindingFlags.Instance)
+                             .MakeGenericMethod(genericTypeParam);
+
+        var instance = Expression.Constant(this, typeof(DynamicEventCapturingWrapper));
+        var methodCall = Expression.Call(instance, methodInfo, nameParameter, objParameter);
+        var lambda = Expression.Lambda(methodCall, objParameter);
+
+        return lambda.Compile();
+    }
+
+    private MethodInfo GetEvtCallbackFactoryCreateMethodInfo(Type genericTypeParam)
+    {
+        //Find the correct overload of EventcallbackFactory to create the correct generic Eventcallback
+        var method = typeof(EventCallbackFactory).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Where(_ => _.Name == nameof(EventCallbackFactory.Create))
+            .Where(_ => _.ContainsGenericParameters)
+            .First(_ => _.GetParameters().Count() == 2 &&
+                        _.GetParameters()[0].ParameterType == typeof(object) &&
+                        _.GetParameters()[1].ParameterType.IsGenericType &&
+                        _.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Action<>));
+
+        var methodInfo = method.MakeGenericMethod(genericTypeParam);
+        return methodInfo;
+    }
+
+    private void GenericCallback<T>(string callbackName, T obj)
+    {
+        ComponentEventRaised.InvokeAsync(new CapturedEventRaisedArgs { EventName = callbackName, EventArgs = obj });
+    }
+}

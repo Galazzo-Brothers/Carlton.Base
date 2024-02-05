@@ -4,6 +4,6 @@ public record ComponentState
     [Required]
     public required string DisplayName { get; init; }
     [Required]
-    public required ComponentParameters ComponentParameters { get; init; }
+    public required ComponentParameters ComponentParameters { get; init; } = new Dictionary<string, object>();
 };
 

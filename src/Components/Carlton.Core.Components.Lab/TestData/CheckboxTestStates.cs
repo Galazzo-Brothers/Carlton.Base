@@ -2,19 +2,19 @@
 
 internal static class CheckboxTestStates
 {
-    public static object CheckedState
+    public static Dictionary<string, object> CheckedState
     {
-        get => new
+        get => new()
             {
-                IsChecked=true 
+                { nameof(Checkbox.IsChecked), true }
             };
     }
 
-    public static object UncheckedState
+    public static Dictionary<string, object> UncheckedState
     {
-        get => new
-            {
-                IsChecked=false
-            };
+        get => new()
+        {
+            { nameof(Checkbox.IsChecked), false }
+        };
     }
 }

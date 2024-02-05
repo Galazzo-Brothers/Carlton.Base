@@ -1,23 +1,21 @@
-﻿namespace Carlton.Core.Components.Lab.TestData;
+﻿using Carlton.Core.Components.Buttons;
+namespace Carlton.Core.Components.Lab.TestData;
 
 internal static class ButtonTestStates
 {
-    public static object DefaultState
+    internal static Dictionary<string, object> ButtonState
     {
-        get => new
+        get => new()
         {
-            Text = "Click Me"
+            {  nameof(ActionButton.Text), "Click Me" }
         };
     }
 
-    private static RenderFragment ButtonContentFragmentBuilder(string text)
+    public static Dictionary<string, object> IconButtonState
     {
-        return
-           (builder) =>
-           {
-               builder.OpenElement(1, "span");
-               builder.AddContent(2, text);
-               builder.CloseElement();
-           };
+        get => new()
+        {
+            { nameof(IconButton.Icon),"delete" }
+        };
     }
 }

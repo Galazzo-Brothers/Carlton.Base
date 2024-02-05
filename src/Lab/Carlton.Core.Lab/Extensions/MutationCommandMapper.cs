@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.ComponentViewer;
+﻿using Carlton.Core.Components.Wrappers;
 using Carlton.Core.Components.Navigation;
 using Riok.Mapperly.Abstractions;
 
@@ -18,12 +18,12 @@ internal partial class MutationCommandMapper
     [MapProperty(nameof(SelectItemChangedEventArgs<ComponentState>.Item), nameof(SelectMenuItemCommand.SelectedComponentState))]
     internal static partial SelectMenuItemCommand ToCommand(SelectItemChangedEventArgs<ComponentState> args);
 
-    [MapProperty(nameof(ComponentEventRaisedArgs.EventName), nameof(RecordEventCommand.RecordedEventName))]
-    [MapProperty(nameof(ComponentEventRaisedArgs.EventArgs), nameof(RecordEventCommand.EventArgs))]
-    internal static partial RecordEventCommand ToCommand(ComponentEventRaisedArgs args);
+    [MapProperty(nameof(CapturedEventRaisedArgs.EventName), nameof(RecordEventCommand.RecordedEventName))]
+    [MapProperty(nameof(CapturedEventRaisedArgs.EventArgs), nameof(RecordEventCommand.EventArgs))]
+    internal static partial RecordEventCommand ToCommand(CapturedEventRaisedArgs args);
 
     internal static ClearEventsCommand ToClearEventsCommand(object args) => new();
-    internal static UpdateParametersCommand ToUpdateParametersCommand(object args) => new() { Parameters = args };
+    internal static UpdateParametersCommand ToUpdateParametersCommand(ComponentParameters args) => new() { Parameters = args };
 }
 
 

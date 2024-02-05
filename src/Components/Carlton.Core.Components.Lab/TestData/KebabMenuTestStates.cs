@@ -3,16 +3,17 @@ namespace Carlton.Core.Components.Lab.TestData;
 
 internal static class KebabMenuTestStates
 {
-    public static object Default
+    public static Dictionary<string, object> Default
     {
-        get => new
+        get => new()
         {
-            IsDisabled = false,
-            MenuItems = new List<DropdownMenuItem<int>>
-            {
-                new("Item 1", 1, "account", 1, () => { }),
-                new("Item 2", 2, "theme-light-dark", 2, () => { }),
-                new("Item 3", 3, "delete", 3, () => { })
+            { nameof(KebabMenu<int>.IsDisabled), false },
+            { nameof(KebabMenu<int>.MenuItems), new List<DropdownMenuItem<int>>
+                {
+                    new("Item 1", 1, "account", 1, () => { }),
+                    new("Item 2", 2, "theme-light-dark", 2, () => { }),
+                    new("Item 3", 3, "delete", 3, () => { })
+                }
             }
         };
     }

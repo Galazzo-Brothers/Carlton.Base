@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Lab.Models.Common;
 
-internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, object ComponentParameters);
+internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, ComponentParameters ComponentParameters);
 
 public sealed class NavMenuViewModelBuilder
 {
@@ -13,17 +13,17 @@ public sealed class NavMenuViewModelBuilder
 
     public NavMenuViewModelBuilder AddComponent<T>()
     {
-        return AddComponentState<T>("Default", new object());
+        return AddComponentState<T>("Default", new Dictionary<string, object>());
     }
 
-    public NavMenuViewModelBuilder AddComponentState<T>(object parameterObj)
+    public NavMenuViewModelBuilder AddComponentState<T>(ComponentParameters componentParameters)
     {
-        return AddComponentState<T>("Default", parameterObj);
+        return AddComponentState<T>("Default", componentParameters);
     }
 
-    public NavMenuViewModelBuilder AddComponentState<T>(string displayName, object parameterObj)
+    public NavMenuViewModelBuilder AddComponentState<T>(string displayName, ComponentParameters componentParameters)
     {
-        var testComp = new NavMenuBuilderItemState(displayName, typeof(T), parameterObj);
+        var testComp = new NavMenuBuilderItemState(displayName, typeof(T), componentParameters);
         _internalState.Add(testComp);
 
         return this;
@@ -45,11 +45,10 @@ public sealed class NavMenuViewModelBuilder
 
         static ComponentState BuildComponentState(NavMenuBuilderItemState state)
         {
-            var compParams = new ComponentParameters { ParameterObj = state.ComponentParameters };
             return new()
             {
                  DisplayName = state.DisplayName,
-                 ComponentParameters = compParams
+                 ComponentParameters = state.ComponentParameters
             };
         }
     }

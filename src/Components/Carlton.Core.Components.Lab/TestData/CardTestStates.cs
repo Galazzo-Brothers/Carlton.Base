@@ -3,79 +3,67 @@
 namespace Carlton.Core.Components.Library.Lab.TestData;
 internal static class CardTestStates
 {
-    public static object DefaultState
+    public static Dictionary<string, object> DefaultState
     {
-        get => new
+        get => new()
         {
-            CardTitle = "Test"
+            { nameof(Card.CardTitle), "Test" }
         };
     }
 
-    public static object DefaultListState
+    internal static readonly string[] listCardItems = ["Eggs", "Milk", "Carrots"];
+    public static Dictionary<string, object> DefaultListState
     {
-        get => new TestListState
-
-            (
-                "Shopping List",
-                "Low Items",
-                ["Eggs", "Milk", "Carrots"],
-                listFragment
-            );
-    }
-
-    public record TestListState
-    {
-        public string CardTitle { get; init; }
-        public string SubTitle { get; init; }
-        public List<string> Items { get; init; }
-        [JsonIgnore]
-        public RenderFragment<string> ItemTemplate { get; init; }
-
-        public TestListState(string cardTitle, string subTitle, List<string> items, RenderFragment<string> itemTemplate) =>
-            (CardTitle, SubTitle, Items, ItemTemplate) = (cardTitle, subTitle, items, itemTemplate);
-    }
-
-    public static object CountCard1State
-    {
-        get => new
+        get => new()
         {
-            Count = 7,
-            MessageTemplate = "This is a test",
-            Icon = "mdi-camera",
-            Theme = CountCardTheme.Blue
+            { nameof(ListCard<int>.CardTitle), "Shopping List" },
+            { nameof(ListCard<int>.SubTitle),  "Low Items" },
+            { nameof(ListCard<int>.Items), listCardItems },
+            { nameof(ListCard<int>.ItemTemplate), listFragment }
         };
     }
 
-    public static object CountCard2State
+    public static Dictionary<string, object> CountCard1State
     {
-        get => new
+        get => new()
         {
-            Count = 7,
-            MessageTemplate = "This is a test",
-            Icon = "mdi-camera",
-            Theme = CountCardTheme.Green
+            { nameof(CountCard.Count),  7 },
+            { nameof(CountCard.MessageTemplate), "This is a test" },
+            { nameof(CountCard.Icon), "mdi-camera" },
+            { nameof(CountCard.Theme),  CountCardTheme.Blue }
         };
     }
 
-    public static object CountCard3State
+    public static Dictionary<string, object> CountCard2State
     {
-        get => new
+        get => new()
         {
-            Count = 7,
-            MessageTemplate = "This is a test",
-            Icon = "mdi-camera",
-            Theme = CountCardTheme.Red
+            { nameof(CountCard.Count), 7 },
+            { nameof(CountCard.MessageTemplate), "This is a test" },
+            { nameof(CountCard.Icon), "mdi-camera" },
+            { nameof(CountCard.Theme), CountCardTheme.Green }
         };
     }
 
-    public static object CountCard4State
+    public static Dictionary<string, object> CountCard3State
     {
-        get => new
+        get => new()
         {
-            Count = 7,
-            MessageTemplate = "This is a test",
-            Icon = "mdi-camera",
-            Theme = CountCardTheme.Purple
+            { nameof(CountCard.Count), 7 },
+            { nameof(CountCard.MessageTemplate), "This is a test" },
+            { nameof(CountCard.Icon), "mdi-camera" },
+            { nameof(CountCard.Theme), CountCardTheme.Red }
+        };
+    }
+
+    public static Dictionary<string, object> CountCard4State
+    {
+        get => new()
+        {
+            { nameof(CountCard.Count), 7 },
+            { nameof(CountCard.MessageTemplate), "This is a test" },
+            { nameof(CountCard.Icon), "mdi-camera" },
+            { nameof(CountCard.Theme), CountCardTheme.Purple }
         };
     }
 
@@ -86,4 +74,5 @@ internal static class CardTestStates
         builder.AddContent(2, str);
         builder.CloseElement();
     };
+
 }

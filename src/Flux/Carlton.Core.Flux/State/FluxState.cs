@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Utilities.Events.Extensions;
-namespace Carlton.Core.Flux.State;
+﻿namespace Carlton.Core.Flux.State;
 
 public record RecordedMutation<TState>(IFluxStateMutation<TState> Mutation, object Command);
 
