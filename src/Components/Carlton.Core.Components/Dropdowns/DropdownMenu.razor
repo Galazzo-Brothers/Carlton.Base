@@ -2,15 +2,15 @@
 @typeparam T
 
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
-    <div class="menu">@MenuTemplate(IsActive)</div>
-    <div class="dropdown-items @DropdownMenuCss">
+    <div class="menu">@MenuTemplate</div>
+    <div class="@DropdownMenuCss">
         <div class="header">@HeaderTemplate</div>
         <ul>
             @foreach (var item in MenuItems)
             {
                 <li>
                     <span class="@MenuElementCss(item)"></span>
-                    <a href="#" @onclick:preventDefault="true" @onclick="() => MenuItemSelected.InvokeAsync(item.Value)">@item.MenuItemName</a>
+                    <a href="#" @onclick:preventDefault="true" @onclick="item.MenuItemSelected">@item.MenuItemName</a>
                 </li>
             }
         </ul>
@@ -21,15 +21,11 @@
     [Parameter]
     public IEnumerable<DropdownMenuItem<T>> MenuItems { get; set; } = new List<DropdownMenuItem<T>>();
     [Parameter]
-    public RenderFragment<bool> MenuTemplate { get; set; }
+    public RenderFragment MenuTemplate { get; set; }
     [Parameter]
     public RenderFragment HeaderTemplate { get; set; }
-    [Parameter]
-    public RenderFragment<DropdownMenuItem<T>> MenuItemTemplate { get; set; }
-    [Parameter]
-    public EventCallback<T> MenuItemSelected { get; set; }
 
-    private bool IsActive { get; set; }
+    protected bool IsActive { get; set; }
 
     private Func<DropdownMenuItem<T>, string> MenuElementCss
     {
@@ -41,7 +37,7 @@
 
     private string DropdownMenuCss
     {
-        get => new CssBuilder()
+        get => new CssBuilder("dropdown-items")
             .AddClass("active", IsActive)
             .Build();
     }

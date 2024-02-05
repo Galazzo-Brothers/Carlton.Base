@@ -5,14 +5,14 @@
     <input readonly placeholder=" " value="@((IsPristineEnabled && IsPristine) ? null : SelectedKey)" />
     <div class="label">@Label</div>
 
-    @if(IsDisabled)
+    @if (IsDisabled)
     {
         <div disabled class="options"></div>
     }
     else
     {
         <div class="options">
-            @foreach(var (opt, i) in Options.WithIndex())
+            @foreach (var (opt, i) in Options.WithIndex())
             {
                 <div class="option" @onclick="()=>OnValueChanged(new DropdownValueChangedArgs<T>(i, opt.Key, opt.Value))">@opt.Key</div>
             }
@@ -21,7 +21,7 @@
 </div>
 
 
-@code{
+@code {
     [Parameter]
     public bool IsDisabled { get; set; }
 
@@ -42,9 +42,17 @@
 
     private bool IsPristine { get; set; } = true;
 
-    public string SelectedKey => Options.ElementAt(SelectedIndex).Key;
+    public string SelectedKey => Options.Any() ? Options.ElementAt(SelectedIndex).Key : default;
 
-    public T SelectedValue => Options.ElementAt(SelectedIndex).Value;
+    public T SelectedValue => Options.Any() ? Options.ElementAt(SelectedIndex).Value : default;
+
+    protected override void OnInitialized()
+    {
+        if (SelectedIndex < 0 || SelectedIndex >= Options.Count)
+            throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
+
+            base.OnInitialized();
+    }
 
     protected async Task OnValueChanged(DropdownValueChangedArgs<T> opt)
     {

@@ -29,9 +29,9 @@ public class ErrorPromptComponentUnitTests : TestContext
 
         //Act
         var cut = RenderComponent<ErrorPrompt>(parameters => parameters
-                .Add(p => p.ErrorHeader, expectedErrorHeader)
-                .Add(p => p.ErrorMessage, expectedErrorMessage)
-                .Add(p => p.ErrorIconClass, expectedIconClass));
+                    .Add(p => p.ErrorHeader, expectedErrorHeader)
+                    .Add(p => p.ErrorMessage, expectedErrorMessage)
+                    .Add(p => p.ErrorIconClass, expectedIconClass));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
@@ -45,9 +45,9 @@ public class ErrorPromptComponentUnitTests : TestContext
     {
         //Act
         var cut = RenderComponent<ErrorPrompt>(parameters => parameters
-                .Add(p => p.ErrorHeader, expectedErrorHeader)
-                .Add(p => p.ErrorMessage, expectedErrorMessage)
-                .Add(p => p.ErrorIconClass, expectedIconClass));
+                    .Add(p => p.ErrorHeader, expectedErrorHeader)
+                    .Add(p => p.ErrorMessage, expectedErrorMessage)
+                    .Add(p => p.ErrorIconClass, expectedIconClass));
 
 
         var errorHeaderMessage = cut.Find(".error-header-message").TextContent;
@@ -64,9 +64,9 @@ public class ErrorPromptComponentUnitTests : TestContext
     {
         //Act
         var cut = RenderComponent<ErrorPrompt>(parameters => parameters
-                .Add(p => p.ErrorHeader, expectedErrorHeader)
-                .Add(p => p.ErrorMessage, expectedErrorMessage)
-                .Add(p => p.ErrorIconClass, expectedIconClass));
+                    .Add(p => p.ErrorHeader, expectedErrorHeader)
+                    .Add(p => p.ErrorMessage, expectedErrorMessage)
+                    .Add(p => p.ErrorIconClass, expectedIconClass));
 
 
         var errorHeaderMessage = cut.Find(".error-message").TextContent;
@@ -83,9 +83,9 @@ public class ErrorPromptComponentUnitTests : TestContext
     {
         //Act
         var cut = RenderComponent<ErrorPrompt>(parameters => parameters
-                .Add(p => p.ErrorHeader, expectedErrorHeader)
-                .Add(p => p.ErrorMessage, expectedErrorMessage)
-                .Add(p => p.ErrorIconClass, expectedIconClass));
+                    .Add(p => p.ErrorHeader, expectedErrorHeader)
+                    .Add(p => p.ErrorMessage, expectedErrorMessage)
+                    .Add(p => p.ErrorIconClass, expectedIconClass));
 
 
         var errorIcon = cut.Find(".icon");
@@ -104,10 +104,10 @@ public class ErrorPromptComponentUnitTests : TestContext
         var retryWasCalled = false;
 
         var cut = RenderComponent<ErrorPrompt>(parameters => parameters
-                .Add(p => p.ErrorHeader, expectedErrorHeader)
-                .Add(p => p.ErrorMessage, expectedErrorMessage)
-                .Add(p => p.ErrorIconClass, expectedIconClass)
-                .Add(p => p.Retry, () => retryWasCalled = true));
+                    .Add(p => p.ErrorHeader, expectedErrorHeader)
+                    .Add(p => p.ErrorMessage, expectedErrorMessage)
+                    .Add(p => p.ErrorIconClass, expectedIconClass)
+                    .Add(p => p.Retry, () => retryWasCalled = true));
 
         var retryBtn = cut.Find(".retry-btn");
 

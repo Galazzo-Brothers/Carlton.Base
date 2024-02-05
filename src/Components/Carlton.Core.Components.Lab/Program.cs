@@ -56,7 +56,7 @@ public static class Program
                    .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
                    .AddComponentState<Dropdown<int>>(SelectTestStates.Default)
-                   .AddComponentState<KebabMenu>(SelectTestStates.Default)
+                   .AddComponentState<KebabMenu<int>>(KebabMenuTestStates.Default)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
                    .AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
