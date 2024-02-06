@@ -1,15 +1,13 @@
-﻿@using Carlton.Core.Utilities.JavaScript
-@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 
-<div class="test-component-output-source">
-    <pre>
-        <code class="@Language"></code>
-    </pre>
+<div class="javascript-markup-viewer">
+    <pre><code class="@Language"></code></pre>
 </div>
 
 @code {
+    public const string ImportPath = $"./_content/Carlton.Core.Components/JavaScriptComponents/{nameof(JavaScriptMarkupViewer)}.razor.js";
     public const string HighlightCodeBlock = "highlightCodeBlock";
     public const string GetOutputSource = "getOutputSource";
     public const string SetCodeBlock = "setCodeBlock";
@@ -25,7 +23,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        _module = await JSRuntime.InvokeAsync<IJSObjectReference>(JavaScriptHelper.Import, JavaScriptHelper.GetImportPath(typeof(SourceViewer)));
+        _module = await JSRuntime.InvokeAsync<IJSObjectReference>(Constants.Import, ImportPath);
         await base.OnInitializedAsync();
     }
 
@@ -38,7 +36,7 @@
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if(_module != null)
-            await _module.InvokeVoidAsync(SourceViewer.HighlightCodeBlock, Selector);
+            await _module.InvokeVoidAsync(JavaScriptMarkupViewer.HighlightCodeBlock, Selector);
 
         await base.OnAfterRenderAsync(firstRender);
     }

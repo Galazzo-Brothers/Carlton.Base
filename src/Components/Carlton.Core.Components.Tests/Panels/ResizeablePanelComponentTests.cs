@@ -10,8 +10,8 @@ public class ResizeablePanelComponentTests : TestContext
         RenderFragment bottomContent)
     {
         //Arrange
-        var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Core.Components/ResizablePanel/ResizablePanel.razor.js");
-        moduleInterop.SetupVoid("initResizablePanel");
+        var moduleInterop = JSInterop.SetupModule(ResizablePanel.ImportPath);
+        moduleInterop.SetupVoid(ResizablePanel.InitResizablePanel);
         var expectedMarkup = @$"
         <div class=""resizable-panel"">
             <div class=""panel-top""></div>
@@ -35,8 +35,8 @@ public class ResizeablePanelComponentTests : TestContext
     RenderFragment bottomContent)
     {
         //Arrange
-        var moduleInterop = JSInterop.SetupModule("./_content/Carlton.Core.Components/ResizablePanel/ResizablePanel.razor.js");
-        moduleInterop.SetupVoid("initResizablePanel");
+        var moduleInterop = JSInterop.SetupModule(ResizablePanel.ImportPath);
+        moduleInterop.SetupVoid(ResizablePanel.InitResizablePanel);
         var expectedMarkup = @$"
         <div class=""resizable-panel"">
             <div class=""panel-top""></div>
@@ -51,6 +51,6 @@ public class ResizeablePanelComponentTests : TestContext
                 .Add(p => p.BottomContent, bottomContent));
 
         //Assert
-        JSInterop.VerifyInvoke("initResizablePanel");
+        JSInterop.VerifyInvoke(ResizablePanel.InitResizablePanel);
     }
 }
