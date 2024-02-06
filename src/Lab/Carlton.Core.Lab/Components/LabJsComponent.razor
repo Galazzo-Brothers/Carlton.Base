@@ -14,7 +14,11 @@
         <Spinner />
     </SpinnerContent>
     <ErrorPrompt Context="error">
-        <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="error.Recover" />
+        <ErrorPrompt 
+            ErrorHeader="@error.Header"
+            ErrorIconClass="@error.IconClass"
+            ErrorMessage="@error.Message"
+            Retry="error.Recover" />
     </ErrorPrompt>
 </InteropFluxComponent>
 
