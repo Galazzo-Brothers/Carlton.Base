@@ -46,7 +46,7 @@ public static class Program
                    .AddComponentState<ActionButton>("Default", ButtonTestStates.ButtonState)
                    .AddComponentState<IconButton>("Default", ButtonTestStates.IconButtonState)
                    .AddComponentState<LinkButton>("Default", ButtonTestStates.ButtonState)
-                   .AddComponentState<ProfileAvatar>(ProfileAvatarTestStates.DefaultState)
+                   .AddComponentState<ProfileAvatarDropdown>(ProfileAvatarTestStates.DefaultState)
                    .AddComponentState<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)
                    .AddComponentState<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
                    .AddComponentState<BreadCrumbs>("Slash MultiCrumb", BreadCrumbsTestStates.SlashMultiCrumb)
