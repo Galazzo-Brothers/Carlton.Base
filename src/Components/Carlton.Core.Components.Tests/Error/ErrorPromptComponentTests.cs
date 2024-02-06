@@ -2,7 +2,7 @@
 
 
 [Trait("Component", nameof(ErrorPrompt))]
-public class ErrorPromptComponentUnitTests : TestContext
+public class ErrorPromptComponentTests : TestContext
 {
     [Theory(DisplayName = "Markup Test"), AutoData]
     public void ErrorPrompt_Markup_RendersCorrectly(
