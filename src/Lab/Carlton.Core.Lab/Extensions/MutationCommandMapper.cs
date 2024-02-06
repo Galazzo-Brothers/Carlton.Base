@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Wrappers;
+﻿using Carlton.Core.Components.DynamicComponents;
 using Carlton.Core.Components.Navigation;
 using Riok.Mapperly.Abstractions;
 
