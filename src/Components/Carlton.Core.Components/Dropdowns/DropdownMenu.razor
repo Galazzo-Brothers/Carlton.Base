@@ -2,9 +2,9 @@
 @typeparam T
 
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
-    <div class="menu">@MenuTemplate</div>
+    <div class="menu-template">@MenuTemplate</div>
     <div class="@DropdownMenuCss">
-        <div class="header">@HeaderTemplate</div>
+        <div class="header-template">@HeaderTemplate</div>
         <ul>
             @foreach (var item in MenuItems)
             {

@@ -1,15 +1,8 @@
 ﻿@using Carlton.Core.Components.Dropdowns
 @namespace Carlton.Core.Components
 
-<div class="profile-avatar-container">
+<div class="profile-avatar-dropdown">
     <DropdownMenu MenuItems="DropdownMenuItems">
-        <HeaderTemplate>
-            <div class="header">
-                <span class="user">Stephen Galazzo</span>
-                <span class="email">Admin User</span>
-                <Spacer WidthPercentage="85" />
-            </div>
-        </HeaderTemplate>
         <MenuTemplate>
             <div class="profile-avatar">
                 <img class="avatar-img text-center" src="@AvatarImgUrl" />
@@ -17,6 +10,13 @@
                 <span class="icon mdi mdi-24px mdi-chevron-down mobile-hide"></span>
             </div>
         </MenuTemplate>
+        <HeaderTemplate>
+            <div class="header">
+                <span class="user">Stephen Galazzo</span>
+                <span class="email">Admin User</span>
+                <Spacer WidthPercentage="85" />
+            </div>
+        </HeaderTemplate>
     </DropdownMenu>
 </div>
 
