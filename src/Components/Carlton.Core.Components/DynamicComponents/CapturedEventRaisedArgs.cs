@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Wrappers;
+﻿namespace Carlton.Core.Components.DynamicComponents;
 
 public record CapturedEventRaisedArgs
 {

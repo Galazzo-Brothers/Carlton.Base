@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Buttons;
-using Carlton.Core.Components.Wrappers;
+using Carlton.Core.Components.DynamicComponents;
 namespace Carlton.Core.Components.Tests;
 
 [Trait("Component", nameof(DynamicEventCapturingWrapper))]
