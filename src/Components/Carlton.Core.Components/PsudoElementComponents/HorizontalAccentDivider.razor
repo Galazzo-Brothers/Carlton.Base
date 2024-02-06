@@ -1,4 +1,4 @@
-﻿@namespace Carlton.Core.Components
+﻿@namespace Carlton.Core.Components.PsudoElementComponents
 
  <span class="horizontal-spacer" style="@SpacerStyle"></span>
 
@@ -7,8 +7,6 @@
     public int WidthPercentage { get; set; }
     [Parameter]
     public int HeightPixels { get; set; } = 1;
-    [Parameter]
-    public string Color { get; set; }
 
     private string SpacerStyle
     {

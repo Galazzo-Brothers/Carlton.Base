@@ -46,6 +46,9 @@
     --error-notification-background-color: #e46a76;
     /*Tables*/
     --table-row-selected-background-color: #c7e0f4;
+    /*Spinner*/
+    --spinner-dimensions: 75px;
+    --spinner-color: #21c1d6;
 }
 
 
@@ -96,6 +99,9 @@
     --error-notification-background-color: #e46a76;
     /*Tables*/
     --table-row-selected-background-color: #21c1d6;
+    /*Spinner*/
+    --spinner-dimensions: 75px;
+    --spinner-color: #21c1d6;
 }
 
 
