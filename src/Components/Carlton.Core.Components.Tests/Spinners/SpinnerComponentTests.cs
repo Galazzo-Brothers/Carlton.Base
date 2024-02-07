@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Spinners;
-namespace Carlton.Core.Components.Tests.Spinners;
+namespace Carlton.Core.Components.Tests;
 
 
 [Trait("Component", nameof(Spinner))]

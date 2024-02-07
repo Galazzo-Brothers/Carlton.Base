@@ -35,7 +35,7 @@ public class DropdownMenuComponentTests : TestContext
             .Add(p => p.MenuTemplate, expectedMenuTemplate)
             .Add(p => p.HeaderTemplate, expectedHeaderTemplate));
 
-        var actualMenuContent = cut.Find(".menu").TextContent;
+        var actualMenuContent = cut.Find(".menu-template").TextContent;
 
         //Assert
         actualMenuContent.ShouldBe(expectedMenuTemplate);
@@ -53,7 +53,7 @@ public class DropdownMenuComponentTests : TestContext
             .Add(p => p.MenuTemplate, expectedMenuTemplate)
             .Add(p => p.HeaderTemplate, expectedHeaderTemplate));
 
-        var actualHeaderContent = cut.Find(".header").TextContent;
+        var actualHeaderContent = cut.Find(".header-template").TextContent;
 
         //Assert
         actualHeaderContent.ShouldBe(expectedHeaderTemplate);
@@ -143,9 +143,9 @@ public class DropdownMenuComponentTests : TestContext
 
         var expectedMarkup = $@"
         <div class=""dropdown-menu"">
-            <div class=""menu"">{expectedMenuTemplate}</div>
+            <div class=""menu-template"">{expectedMenuTemplate}</div>
             <div class=""dropdown-items"">
-            <div class=""header"">{expectedHeaderTemplate}</div>
+            <div class=""header-template"">{expectedHeaderTemplate}</div>
             <ul>{itemElements}</ul>
           </div>
         </div>";

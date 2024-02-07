@@ -1,10 +1,11 @@
-﻿@namespace Carlton.Core.Components.Tabs
+﻿@using Carlton.Core.Components.PsudoElementComponents
+@namespace Carlton.Core.Components.Tabs
 
 <div class="text-tab">
     <span class="tab-title">@Tab.DisplayText</span>
     @if (Tab.IsActive)
     {
-        <Spacer 
+        <HorizontalAccentDivider 
             WidthPercentage="100"
             HeightPixels="3" />
     }
