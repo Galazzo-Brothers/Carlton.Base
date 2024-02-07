@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Carlton.Core.Components.Table;
+using Carlton.Core.Components.Tables;
 using System.Globalization;
 namespace Carlton.Core.Components.Tests;
 
