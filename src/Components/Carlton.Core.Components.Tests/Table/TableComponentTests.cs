@@ -213,13 +213,13 @@ public class TableComponentTests : TestContext
     [InlineAutoData(true)]
     [InlineAutoData(false)]
     public void Table_HoverableParameter_RendersCorrectly(
-      bool expectedHoverable,
-      bool expectedZebraStriped,
-      string expectedRowTemplate,
-      List<TableTestObject> expectedItems,
-      IEnumerable<TableHeadingItem> expectedHeadings,
-      IEnumerable<int> expectedRowsPerPage,
-      bool expectedShowPaginationRow)
+        bool expectedHoverable,
+        bool expectedZebraStriped,
+        string expectedRowTemplate,
+        List<TableTestObject> expectedItems,
+        IEnumerable<TableHeadingItem> expectedHeadings,
+        IEnumerable<int> expectedRowsPerPage,
+        bool expectedShowPaginationRow)
     {
         //Act
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
@@ -242,24 +242,24 @@ public class TableComponentTests : TestContext
     [InlineAutoData(true)]
     [InlineAutoData(false)]
     public void Table_ShowPaginationRowParamter_RendersCorrectly(
-    bool expectedShowPaginationRow,
-    IEnumerable<TableHeadingItem> expectedHeadings,
-    IEnumerable<TableTestObject> expectedItems,
-    IEnumerable<int> expectedRowsPerPage)
-    {
-        //Act
-        var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, expectedHeadings)
-            .Add(p => p.Items, expectedItems)
-            .Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
-            .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
-            .Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
+        bool expectedShowPaginationRow,
+        IEnumerable<TableHeadingItem> expectedHeadings,
+        IEnumerable<TableTestObject> expectedItems,
+        IEnumerable<int> expectedRowsPerPage)
+        {
+            //Act
+            var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
+                .Add(p => p.Headings, expectedHeadings)
+                .Add(p => p.Items, expectedItems)
+                .Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
+                .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
+                .Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
 
-        var paginationRowExists = cut.HasComponent<TablePaginationRow<TableTestObject>>();
+            var paginationRowExists = cut.HasComponent<TablePaginationRow<TableTestObject>>();
 
-        //Assert
-        paginationRowExists.ShouldBe(expectedShowPaginationRow);
-    }
+            //Assert
+            paginationRowExists.ShouldBe(expectedShowPaginationRow);
+        }
 
     [Theory(DisplayName = "CurrentPage Parameter Test")]
     [InlineAutoData(1, 0, "1-5 of 15")] //15 Items, Page 1, 5 Rows PerPage 
@@ -581,9 +581,9 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Header Click Once Test")]
-    [InlineAutoData(0)]
-    [InlineAutoData(1)]
-    [InlineAutoData(2)]
+    [InlineAutoData(0)] //1st Header 
+    [InlineAutoData(1)] //2nd Header
+    [InlineAutoData(2)] //3rd Header
     public void Table_Header_OnClickOnce_FiltersItemsAsc(
        int expectedColumnIndex,
        IEnumerable<TableTestObject> items,
@@ -608,9 +608,9 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Header Click Twice Test")]
-    [InlineAutoData(0)]
-    [InlineAutoData(1)]
-    [InlineAutoData(2)]
+    [InlineAutoData(0)] //1st Header 
+    [InlineAutoData(1)] //2nd Header 
+    [InlineAutoData(2)] //3rd Header 
     public void Table_Header_OnClickTwice_FiltersItemsDesc(
         int expectedColumnIndex,
         IEnumerable<TableTestObject> items,
@@ -636,9 +636,9 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Header Click Once, CSS Selected Class Test")]
-    [InlineAutoData(0)]
-    [InlineAutoData(1)]
-    [InlineAutoData(2)]
+    [InlineAutoData(0)] //1st Header 
+    [InlineAutoData(1)] //2nd Header 
+    [InlineAutoData(2)] //3rd Header 
     public void Table_HeaderItemOnClick_SelectedClass_RendersCorrectly(
         int selectedIndex,
         IEnumerable<TableTestObject> items,
@@ -665,9 +665,9 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Header Click Once, CSS Ascending Class Test")]
-    [InlineAutoData(0)]
-    [InlineAutoData(1)]
-    [InlineAutoData(2)]
+    [InlineAutoData(0)] //1st Header 
+    [InlineAutoData(1)] //2nd Header 
+    [InlineAutoData(2)] //3rd Header 
     public void Table_HeaderItemOnClick_AscendingClass_RendersCorrectly(
         int selectedIndex,
         IEnumerable<TableTestObject> items,
@@ -694,9 +694,9 @@ public class TableComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Header Click Once, CSS Descending Class Test")]
-    [InlineAutoData(0)]
-    [InlineAutoData(1)]
-    [InlineAutoData(2)]
+    [InlineAutoData(0)] //1st Header 
+    [InlineAutoData(1)] //2nd Header 
+    [InlineAutoData(2)] //3rd Header 
     public void Table_HeaderItemOnClick_DescendingClass_RendersCorrectly(
         int selectedIndex,
         IEnumerable<TableTestObject> items,
