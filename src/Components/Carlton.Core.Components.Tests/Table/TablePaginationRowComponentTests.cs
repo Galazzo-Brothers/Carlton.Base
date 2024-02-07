@@ -20,8 +20,8 @@ public class TablePaginationRowComponentTests : TestContext
         //Arrange
         var expected = BuildExpectedPaginationRow(
             ItemCount,
-            RowsPerPageOpts,
             expectedCurrentPage,
+            RowsPerPageOpts,
             expectedSelectedRowsPerPageIndex);
 
         //Act

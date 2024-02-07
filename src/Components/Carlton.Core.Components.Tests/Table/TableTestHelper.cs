@@ -57,7 +57,7 @@ public static class TableTestHelper
     {
     (includePaginationRow ? 
         @$"<div class=""pagination table-row""> 
-            {BuildExpectedPaginationRow(items.Count(), rowsPerPageOpts, currentPage, selectedRowsPerPageIndex)}
+            {BuildExpectedPaginationRow(items.Count(), currentPage, rowsPerPageOpts, selectedRowsPerPageIndex)}
           </div>" : string.Empty)}";
     }
 
@@ -81,7 +81,7 @@ public static class TableTestHelper
         return string.Join(Environment.NewLine, items.Select(item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
     }
 
-    public static string BuildExpectedPaginationRow(int itemTotal, IEnumerable<int> rowsPerPage, int currentPage, int selectedRowsPerPageIndex)
+    public static string BuildExpectedPaginationRow(int itemTotal, int currentPage, IEnumerable<int> rowsPerPage, int selectedRowsPerPageIndex)
     {
         var selectedRowsPerPage = rowsPerPage.ElementAt(selectedRowsPerPageIndex);
         var numOfPages = Math.Ceiling((decimal)itemTotal / selectedRowsPerPage);
