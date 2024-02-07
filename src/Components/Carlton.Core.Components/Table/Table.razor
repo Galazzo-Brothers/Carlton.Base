@@ -5,7 +5,7 @@
     <div class="header table-row">
         <TableHeader TItem="TItem"
                      Headings="Headings"
-                     OrderColumn="@OrderColumn"
+                     SelectedOrderColumn="@OrderColumn"
                      OrderAscending="OrderAscending"
                      OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
     </div>
@@ -29,8 +29,6 @@
     }
 </div>
 
-
-
 @code {
     [Parameter]
     public IEnumerable<TableHeadingItem> Headings { get; set; }
@@ -42,16 +40,22 @@
     public RenderFragment<TItem> RowTemplate { get; set; }
 
     [Parameter]
+    public bool ZebraStripped { get; set; }
+
+    [Parameter]
+    public bool Hoverable { get; set; }
+
+    [Parameter]
     public bool ShowPaginationRow { get; set; }
 
     [Parameter]
     public IEnumerable<int> RowsPerPageOpts { get; set; }
 
     [Parameter]
-    public int SelectedRowsPerPageIndex { get; set; } = 0;
+    public int CurrentPage { get; set; } = 1;
 
     [Parameter]
-    public int CurrentPage { get; set; } = 1;
+    public int SelectedRowsPerPageIndex { get; set; } = 0;
 
     [Parameter]
     public bool SortableHeadersEnabled { get; set; } = true;
@@ -61,12 +65,6 @@
 
     [Parameter]
     public bool OrderAscending { get; set; } = true;
-
-    [Parameter]
-    public bool ZebraStripped { get; set; }
-
-    [Parameter]
-    public bool Hoverable { get; set; }
 
     [Parameter]
     public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
@@ -102,6 +100,9 @@
         if (!SortableHeadersEnabled)
             return;
 
+        OrderColumn = args.OrderColumn;
+        OrderAscending = args.OrderAscending;
+        UpdateOrdering();
         ItemsOrdered.InvokeAsync(args);
     }
 
@@ -122,6 +123,6 @@
             return;
 
         var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
-        AllItems = AllItems.AsQueryable().OrderBy(orderString).ToList();
+        Items = AllItems.AsQueryable().OrderBy(orderString).ToList();
     }
 }

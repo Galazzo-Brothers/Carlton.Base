@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Components.Table;
+﻿using AutoFixture;
+using Carlton.Core.Components.Table;
 using System.Globalization;
 namespace Carlton.Core.Components.Tests;
 
@@ -7,49 +8,64 @@ public static class TableTestHelper
     public const int ItemCount = 15;
     public static readonly int[] RowsPerPageOpts = [5, 10, 15];
 
+    public static IEnumerable<TableTestObject> GetItems()
+    {
+        var fixture = new Fixture();
+        return Enumerable.Range(0, 15).Select(i => fixture.Create<TableTestObject>());
+    }
+
     public static readonly IEnumerable<TableHeadingItem> TableTestHeadingItems =
         new List<TableHeadingItem>
         {
             new("ID"),
             new("DisplayName"),
-            new("Created Date")
+            new("CreatedDate")
         };
 
     public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
 
     public const string RowTemplate =
-@"
-<span class=""table-cell"">{0}</span>
-<span class=""table-cell"">{1}</span>
-<span class=""table-cell"">{2}</span>";
+    @"
+    <div class=""table-row"">
+        <span class=""table-cell"">{0}</span>
+        <span class=""table-cell"">{1}</span>
+        <span class=""table-cell"">{2}</span>
+    </div>";
 
 
     public static string BuildExpectedMarkup(
         IEnumerable<TableHeadingItem> headings,
         string rowTemplate,
         IEnumerable<TableTestObject> items,
+        bool isZebraStriped,
+        bool isHoverable,
         bool includePaginationRow,
         IEnumerable<int> rowsPerPageOpts,
+        int currentPage,
         int selectedRowsPerPageIndex,
-        int currentPage)
+        int expectedOrderColumnIndex = -1,
+        bool isAscending = true)
     {
         return @$"
-  <div class=""table-container"">
-    <div class=""table-row"">
-      {BuildExpectedHeaderMarkup(headings)}
+  <div class=""table-container {(isZebraStriped ? "zebra" : string.Empty)} {(isHoverable ? "hoverable" : string.Empty)}"">
+    <div class=""header table-row"">
+        {BuildExpectedHeaderMarkup(headings, isAscending, expectedOrderColumnIndex)}
     </div>
-    {BuildExpectedItemRows(rowTemplate, items)}
-    {(includePaginationRow ? 
-        @$"<div class=""table-row""> 
-            {BuildExpectedPaginationRow(items.Count(), rowsPerPageOpts, selectedRowsPerPageIndex, currentPage)}
+    <div class=""body"">
+        {BuildExpectedItemRows(items, rowTemplate)}
+    </div>
+    {
+    (includePaginationRow ? 
+        @$"<div class=""pagination table-row""> 
+            {BuildExpectedPaginationRow(items.Count(), rowsPerPageOpts, currentPage, selectedRowsPerPageIndex)}
           </div>" : string.Empty)}";
     }
 
-    public static string BuildExpectedHeaderMarkup(IEnumerable<TableHeadingItem> headings)
+    public static string BuildExpectedHeaderMarkup(IEnumerable<TableHeadingItem> headings, bool isAscending, int selectedOrderIndex = -1)
     {
         return string.Join(Environment.NewLine, headings.Select((item, i) =>
         @$"
-<div class=""header-cell table-cell ascending heading-{i}"">
+<div class=""header-cell table-cell {(i == selectedOrderIndex ? "selected" : string.Empty)} {(isAscending ? "ascending" : "descending")} heading-{i}"">
     <div class=""heading-container"">
         <span class=""heading-text"">{item.DisplayName}</span>
             <div class=""sort-arrows"">
@@ -60,9 +76,9 @@ public static class TableTestHelper
 </div>"));
     }
 
-    public static string BuildExpectedItemRows(string rowTemplate, IEnumerable<TableTestObject> items)
+    public static string BuildExpectedItemRows(IEnumerable<TableTestObject> items, string rowTemplate)
     {
-        return string.Join(Environment.NewLine, items.Select(item => string.Format(@$"<div class=""table-row"">{rowTemplate}</div>", item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
+        return string.Join(Environment.NewLine, items.Select(item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
     }
 
     public static string BuildExpectedPaginationRow(int itemTotal, IEnumerable<int> rowsPerPage, int currentPage, int selectedRowsPerPageIndex)
@@ -72,10 +88,9 @@ public static class TableTestHelper
         var leftDisabled = currentPage == 1;
         var rightDisabled = currentPage == numOfPages;
 
-        var optionsMarkup = string.Join(Environment.NewLine, rowsPerPage.Select(_ => $@"<div class=""option"">{_}</div>"));
-
+        var optionsMarkup = string.Join(Environment.NewLine, rowsPerPage.Select(_ => $@"<div class=""option"">{_}</div>"));               
+        var startPageCount = 1 + ((currentPage - 1) * selectedRowsPerPage);
         var endPageCount = Math.Min((selectedRowsPerPage * currentPage), itemTotal);
-        var startPageCount = Math.Max(((selectedRowsPerPage * currentPage) - selectedRowsPerPage) + 1, 1);
 
         return
 @$"
@@ -110,7 +125,7 @@ public static class TableTestHelper
             new(nameof(TableTestObject.CreatedDate))
     };
 
-    public static IEnumerable<TableTestObject> OrderCollection(IEnumerable<TableTestObject> items, int columnIndex)
+    public static IOrderedEnumerable<TableTestObject> OrderCollection(IEnumerable<TableTestObject> items, int columnIndex)
     {
         return columnIndex switch
         {

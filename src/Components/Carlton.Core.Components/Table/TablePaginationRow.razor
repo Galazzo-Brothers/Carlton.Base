@@ -2,7 +2,6 @@
 @namespace Carlton.Core.Components.Table
 @typeparam TItem
 
-
 <div class="pagination-row">
     <div class="rows-per-page">
         <span class="rows-per-page-label">Rows Per Page</span>
@@ -10,6 +9,7 @@
             T="int" 
             Options="RowsPerPageSelectOpts"
             SelectedIndex="SelectedRowsPerPageIndex"
+            IsPristineEnabled="false"
             ValueChangedCallback="(args) => ChangeRowsPerPage(args.SelectedIndex)" />
     </div>
     <div class="page-number">
@@ -24,15 +24,14 @@
 </div>
 
 @code {
-
-    [Parameter]
-    public IEnumerable<int> RowsPerPageOpts { get; set; }
-
     [Parameter]
     public int TotalItemCount { get; set; }
 
     [Parameter]
     public int CurrentPage { get; set; } = 1;
+
+    [Parameter]
+    public IEnumerable<int> RowsPerPageOpts { get; set; } = new List<int>();
 
     [Parameter]
     public int SelectedRowsPerPageIndex { get; set; }
@@ -45,7 +44,7 @@
 
     public int SelectedRowsPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
-    private IReadOnlyDictionary<string, int> RowsPerPageSelectOpts { get; set; }
+    private IReadOnlyDictionary<string, int> RowsPerPageSelectOpts { get; set; } //Used for Dropdown parameters
 
     private int MaxPage { get => Math.Max(1, (int)Math.Ceiling((decimal)TotalItemCount / SelectedRowsPerPageValue)); }
 
@@ -61,6 +60,9 @@
 
     protected override void OnInitialized()
     {
+        if (TotalItemCount < 0)
+            throw new ArgumentException("TotalItemCount must be a non-negative value.");
+
         if (SelectedRowsPerPageIndex < 0)
             throw new ArgumentException("Selected index cannot be less than 0.");
 
@@ -76,11 +78,14 @@
 
     private async Task ChangePage(int newPageNumber)
         => await PageChanged.InvokeAsync(new TablePageChangedArgs(newPageNumber));
-    
+
 
     private async Task ChangeRowsPerPage(int rowsPerPageIndex)
-        => await RowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(rowsPerPageIndex));
-    
+    {
+        CurrentPage = 1; //Reset to page 1 on RowsPerPage value change
+        await RowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(rowsPerPageIndex));
+    }
+
 
     private string PageFirstChevronCss
     {

@@ -4,7 +4,7 @@
 
 @foreach (var (heading, i) in Headings.WithIndex())
 {
-    <div class="@HeaderCellCss(heading.OrderColumn, i)" @onclick="()=>HeaderRowItemClick(heading.OrderColumn)">
+    <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HeaderRowItemClick(heading.OrderingName)">
         <div class="heading-container">
             <span class="heading-text">@heading.DisplayName</span>
             <div class="sort-arrows">
@@ -21,7 +21,7 @@
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
     [Parameter]
-    public string OrderColumn { get; set; } = string.Empty;
+    public string SelectedOrderColumn { get; set; } = string.Empty;
 
     [Parameter]
     public bool OrderAscending { get; set; } = true;
@@ -29,11 +29,21 @@
     [Parameter]
     public EventCallback<TableOrderingChangedArgs> OnItemsOrdered { get; set; }
 
-    private string HeaderCellCss(string selectedOrderColumn, int index)
+    protected override void OnInitialized()
+    {
+        var allowableOrderingColumns = Headings.Select(_ => _.OrderingName).Append(string.Empty);
+
+        if (!allowableOrderingColumns.Contains(SelectedOrderColumn))
+            throw new ArgumentException($"Attempting to order the table by a non-existent column: {SelectedOrderColumn}");
+
+        base.OnInitialized();
+    }
+
+    private string HeaderCellCss(string column, int index)
     {
         return new CssBuilder("header-cell")
                 .AddClass("table-cell")
-                .AddClass("selected", OrderColumn == selectedOrderColumn)
+                .AddClass("selected", SelectedOrderColumn == column)
                 .AddClass("ascending", OrderAscending)
                 .AddClass("descending", !OrderAscending)
                 .AddClass($"heading-{index}")
@@ -42,16 +52,18 @@
 
     private async Task HeaderRowItemClick(string selectedOrderColumn)
     {
-        OrderAscending = (OrderColumn == selectedOrderColumn) ? !OrderAscending : true;
-        OrderColumn = selectedOrderColumn;
+        OrderAscending = (SelectedOrderColumn == selectedOrderColumn) ? !OrderAscending : true;
+        SelectedOrderColumn = selectedOrderColumn;
         await OrderItems();
     }
 
     private async Task OrderItems()
     {
-        if (string.IsNullOrEmpty(OrderColumn))
+        //If no oreder column is specified 
+        //do not trigger an ordering
+        if (string.IsNullOrEmpty(SelectedOrderColumn))
             return;
 
-        await OnItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(OrderColumn, OrderAscending));
+        await OnItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(SelectedOrderColumn, OrderAscending));
     }
 }

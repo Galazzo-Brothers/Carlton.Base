@@ -18,7 +18,11 @@ public class TablePaginationRowComponentTests : TestContext
         int expectedSelectedRowsPerPageIndex)
     {
         //Arrange
-        var expected = BuildExpectedPaginationRow(ItemCount, RowsPerPageOpts, expectedCurrentPage, expectedSelectedRowsPerPageIndex);
+        var expected = BuildExpectedPaginationRow(
+            ItemCount,
+            RowsPerPageOpts,
+            expectedCurrentPage,
+            expectedSelectedRowsPerPageIndex);
 
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
@@ -31,24 +35,29 @@ public class TablePaginationRowComponentTests : TestContext
         cut.MarkupMatches(expected);
     }
 
-    [Theory(DisplayName = "RowsPerPageOpts Parameter Test"), AutoData]
-    public void TablePaginationRow_RowsPerPageOptsParameter_DefaultsToFirstOption(
-        int expectedItemCount,
-        IEnumerable<int> expectedOptions)
+    [Theory(DisplayName = "SelectedRowsPerPageIndex Parameter Test")]
+    [InlineData(1, 0)] //15 Items, Page 1, 5 Rows PerPage 
+    [InlineData(2, 0)] //15 Items, Page 2, 5 Rows PerPage 
+    [InlineData(3, 0)] //15 Items, Page 3, 5 Rows PerPage 
+    [InlineData(1, 1)] //15 Items, Page 1, 10 Rows PerPage 
+    [InlineData(2, 1)] //15 Items, Page 2, 10 Rows PerPage 
+    [InlineData(1, 2)] //15 Items, Page 1, 15 Rows PerPage 
+    public void TablePaginationRow_SelectedRowsPerPageIndexParameter_RendersCorrectly(
+        int expectedCurrentPage,
+        int expectedSelectedRowsPerPageIndex)
     {
         //Act
         var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
-            .Add(p => p.TotalItemCount, expectedItemCount)
-            .Add(p => p.RowsPerPageOpts, expectedOptions)
-            .Add(p => p.CurrentPage, 1)
-            .Add(p => p.SelectedRowsPerPageIndex, 0));
+            .Add(p => p.TotalItemCount, ItemCount)
+            .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+            .Add(p => p.CurrentPage, expectedCurrentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, expectedSelectedRowsPerPageIndex));
 
-        var select = cut.FindComponent<Dropdown<int>>();
-        var actualValue = select.Instance.SelectedValue;
-        var expectedValue = expectedOptions.First();
+        var dropdown = cut.FindComponent<Dropdown<int>>();
+        var actualValue = dropdown.Instance.SelectedIndex;
 
         //Assert
-        actualValue.ShouldBe(expectedValue);
+        actualValue.ShouldBe(expectedSelectedRowsPerPageIndex);
     }
 
     [Theory(DisplayName = "RowsPerPageOpts Parameter Render Test")]
@@ -81,6 +90,33 @@ public class TablePaginationRowComponentTests : TestContext
         actualOptions.ShouldBe(RowsPerPageOpts);
     }
 
+    [Theory(DisplayName = " SelectedRowsPerPageValue Property Test")]
+    [InlineData(1, 0)] //15 Items, Page 1, 5 Rows PerPage 
+    [InlineData(2, 0)] //15 Items, Page 2, 5 Rows PerPage 
+    [InlineData(3, 0)] //15 Items, Page 3, 5 Rows PerPage 
+    [InlineData(1, 1)] //15 Items, Page 1, 10 Rows PerPage 
+    [InlineData(2, 1)] //15 Items, Page 2, 10 Rows PerPage 
+    [InlineData(1, 2)] //15 Items, Page 1, 15 Rows PerPage 
+    public void TablePaginationRow_SelectedRowsPerPageValue_GetsCorrectly(
+      int expectedCurrentPage,
+      int expectedSelectedRowsPerPageIndex)
+    {
+        //Act
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, ItemCount)
+            .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+            .Add(p => p.CurrentPage, expectedCurrentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, expectedSelectedRowsPerPageIndex));
+
+        var actualSelectedRowsPerPageIndex = cut.Instance.SelectedRowsPerPageIndex;
+        var actualSelectedRowsPerPageValue = cut.Instance.SelectedRowsPerPageValue;
+        var expectedSelectedRowsPerPageValue = RowsPerPageOpts.ElementAt(expectedSelectedRowsPerPageIndex);
+
+        //Assert
+        actualSelectedRowsPerPageIndex.ShouldBe(expectedSelectedRowsPerPageIndex);
+        actualSelectedRowsPerPageValue.ShouldBe(expectedSelectedRowsPerPageValue);
+    }
+
     [Theory(DisplayName = "PaginationLabel Parameter Test")]
     [InlineAutoData(1, 0, "1-5 of 15")] //15 Items, Page 1, 5 Rows PerPage 
     [InlineAutoData(2, 0, "6-10 of 15")] //15 Items, Page 2, 5 Rows PerPage 
@@ -110,7 +146,7 @@ public class TablePaginationRowComponentTests : TestContext
         paginationLabel.TextContent.ShouldBe(expectedText);
     }
 
-    [Theory(DisplayName = "Right Chevron Disabled Test")]
+    [Theory(DisplayName = "Right Chevrons Disabled Test")]
     [InlineAutoData(1, 0, false)] //15 Items, Page 1, 5 Rows PerPage 
     [InlineAutoData(2, 0, false)] //15 Items, Page 2, 5 Rows PerPage 
     [InlineAutoData(3, 0, true)] //15 Items, Page 3, 5 Rows PerPage 
@@ -137,7 +173,7 @@ public class TablePaginationRowComponentTests : TestContext
         chevronLastPageDisabled.ShouldBe(expectedChevronDisabled);
     }
 
-    [Theory(DisplayName = "Left Chevron Disabled Test")]
+    [Theory(DisplayName = "Left Chevrons Disabled Test")]
     [InlineAutoData(1, 0, true)] //15 Items, Page 1, 5 Rows PerPage 
     [InlineAutoData(2, 0, false)] //15 Items, Page 2, 5 Rows PerPage 
     [InlineAutoData(3, 0, false)] //15 Items, Page 3, 5 Rows PerPage 
@@ -196,12 +232,47 @@ public class TablePaginationRowComponentTests : TestContext
         actualSelectedRowsPerPageIndex.ShouldBe(expectedIndexToSelect);
     }
 
+    [Theory(DisplayName = "OnRowsPerPageChangedCallback Reset to Page One Test")]
+    [InlineAutoData(1, 0)] //15 Items, Page 1, 5 Rows PerPage 
+    [InlineAutoData(2, 0)] //15 Items, Page 2, 5 Rows PerPage 
+    [InlineAutoData(3, 0)] //15 Items, Page 3, 5 Rows PerPage 
+    [InlineAutoData(1, 1)] //15 Items, Page 1, 10 Rows PerPage 
+    [InlineAutoData(2, 1)] //15 Items, Page 2, 10 Rows PerPage 
+    [InlineAutoData(1, 2)] //15 Items, Page 1, 15 Rows PerPage 
+    public void TablePaginationRow_OnRowsPerPageChanged_ShouldSetPageOne(
+        int expectedCurrentPage,
+        int expectedRowsPerPageIndex)
+    {
+        //Arrange
+        var eventFired = false;
+        var selectedRowsPerPageCount = RowsPerPageOpts.ElementAt(expectedRowsPerPageIndex);
+        var cut = RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+            .Add(p => p.TotalItemCount, ItemCount)
+            .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+            .Add(p => p.CurrentPage, expectedCurrentPage)
+            .Add(p => p.SelectedRowsPerPageIndex, 0)
+            .Add(p => p.RowsPerPageChanged, args =>
+            {
+                eventFired = true;
+            }));
+
+        var options = cut.FindAll(".option");
+        var optToClick = options.First(_ => int.Parse(_.TextContent) == selectedRowsPerPageCount);
+
+        //Act
+        optToClick.Click();
+
+        //Assert
+        eventFired.ShouldBeTrue();
+        cut.Instance.CurrentPage.ShouldBe(1);
+    }
+
     [Theory(DisplayName = "OnPageChangedCallback Parameter Test")]
     [InlineAutoData(1)] //15 Rows, Page 1, 5 Rows PerPage
     [InlineAutoData(2)] //15 Rows, Page 2, 5 Rows PerPage
     [InlineAutoData(3)] //15 Rows, Page 3, 5 Rows PerPage
     public void TablePaginationRow_OnPageChangedCallback_FiresEvent(
-     int expectedCurrentPage)
+        int expectedCurrentPage)
     {
         //Arrange
         var eventFired = false;
@@ -227,7 +298,26 @@ public class TablePaginationRowComponentTests : TestContext
         actualPage.ShouldBe(expectedCurrentPage + 1);
     }
 
-    [Theory(DisplayName = "Invalid SelectedRowsPerPageIndexParam Test")]
+    [Theory(DisplayName = "Invalid ItemCountParameter Test")]
+    [InlineAutoData(-1)]
+    [InlineAutoData(-5)]
+    [InlineAutoData(-15)]
+    public void TablePaginationRow_Invalid_ItemCountParameter_ShouldThrowArgumentException(int expectedItemCount)
+    {
+        //Arrange
+        IRenderedComponent<TablePaginationRow<TableTestObject>> act() =>
+            RenderComponent<TablePaginationRow<TableTestObject>>(parameters => parameters
+                .Add(p => p.TotalItemCount, expectedItemCount)
+                .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+                .Add(p => p.CurrentPage, 1)
+                .Add(p => p.SelectedRowsPerPageIndex, 0));
+
+
+        //Act
+        var ex = Should.Throw<ArgumentException>((Func<IRenderedComponent<TablePaginationRow<TableTestObject>>>)act, "TotalItemCount must be a non-negative value.");
+    }
+
+    [Theory(DisplayName = "Invalid SelectedRowsPerPageIndexParameter Test")]
     [InlineAutoData(-1, "Selected index cannot be less than 0.")]
     [InlineAutoData(5, "Selected index cannot be greater than RowsPerPageOpts count.")]
     public void TablePaginationRow_Invalid_SelectedRowsPerPageIndexParameter_ShouldThrowArgumentException(
