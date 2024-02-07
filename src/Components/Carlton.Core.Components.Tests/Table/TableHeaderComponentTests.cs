@@ -25,6 +25,32 @@ public class TableHeaderComponentTests : TestContext
         cut.MarkupMatches(expected);
     }
 
+
+    [Theory(DisplayName = "Ordered Headers Markup Test")]
+    [InlineAutoData("ID", 0, true)]
+    [InlineAutoData("ID", 0, false)]
+    [InlineAutoData("DisplayName", 1, true)]
+    [InlineAutoData("DisplayName", 1, false)]
+    [InlineAutoData("CreatedDate", 2, true)]
+    [InlineAutoData("CreatedDate", 2, false)]
+    public void TableHeader_Markup_OrderedHeadersSelected_RendersCorrectly(
+        string expectedOrderColumn,
+        int expectedOrderColumnIndex,
+        bool expectedIsAscending)
+    {
+        //Arrange
+        var expected = BuildExpectedHeaderMarkup(Headings, expectedIsAscending, expectedOrderColumnIndex);
+
+        //Act
+        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+            .Add(p => p.Headings, Headings)
+            .Add(p => p.SelectedOrderColumn, expectedOrderColumn)
+            .Add(p => p.OrderAscending, expectedIsAscending));
+
+        //Assert
+        cut.MarkupMatches(expected);
+    }
+
     [Theory(DisplayName = "Headings Parameter Test"), AutoData]
     public void TableHeader_HeadingsParameter_RendersCorrectly(IEnumerable<TableHeadingItem> expectedHeadingItems)
     {
