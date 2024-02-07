@@ -27,7 +27,7 @@
     public bool OrderAscending { get; set; } = true;
 
     [Parameter]
-    public EventCallback<TableOrderingChangedArgs> OnItemsOrdered { get; set; }
+    public EventCallback<TableOrderingChangedArgs> ItemsOrdered { get; set; }
 
     protected override void OnInitialized()
     {
@@ -64,6 +64,6 @@
         if (string.IsNullOrEmpty(SelectedOrderColumn))
             return;
 
-        await OnItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(SelectedOrderColumn, OrderAscending));
+        await ItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(SelectedOrderColumn, OrderAscending));
     }
 }
