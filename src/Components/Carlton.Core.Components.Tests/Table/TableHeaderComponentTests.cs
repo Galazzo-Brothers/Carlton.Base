@@ -135,7 +135,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.Headings, Headings)
             .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
-            .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
+            .Add(p => p.ItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
         var headerRowItems = cut.FindAll(".header-cell");
 
@@ -164,7 +164,7 @@ public class TableHeaderComponentTests : TestContext
             .Add(p => p.Headings, Headings)
             .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
-            .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
+            .Add(p => p.ItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
         //Act
         var itemToClick = cut.FindAll(".header-cell").ElementAt(exepectedColumnIndex);

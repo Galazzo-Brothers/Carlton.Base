@@ -7,7 +7,7 @@
                      Headings="Headings"
                      SelectedOrderColumn="@OrderColumn"
                      OrderAscending="OrderAscending"
-                     OnItemsOrdered="(args)=>OnOrderingChanged(args)" />
+                     ItemsOrdered="(args)=>OrderingChanged(args)" />
     </div>
     <div class="body">
         @foreach (var item in Items)
@@ -95,7 +95,7 @@
         base.OnParametersSet();
     }
 
-    private void OnOrderingChanged(TableOrderingChangedArgs args)
+    private void OrderingChanged(TableOrderingChangedArgs args)
     {
         if (!SortableHeadersEnabled)
             return;

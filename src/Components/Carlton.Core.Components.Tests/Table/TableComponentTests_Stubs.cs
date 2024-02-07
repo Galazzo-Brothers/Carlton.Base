@@ -554,7 +554,7 @@ public class TableComponentTests_Stubs : TestContext
             }));
 
         var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-        var callback = header.Instance.Parameters.Get(_ => _.OnItemsOrdered);
+        var callback = header.Instance.Parameters.Get(_ => _.ItemsOrdered);
 
         //Act
         header.InvokeAsync(() => callback.InvokeAsync(new TableOrderingChangedArgs(expectedOrderColumn, expectedIsAscending)));
@@ -591,7 +591,7 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ItemsOrdered, args => eventFired = true));
 
         var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-        var callback = header.Instance.Parameters.Get(_ => _.OnItemsOrdered);
+        var callback = header.Instance.Parameters.Get(_ => _.ItemsOrdered);
 
         //Act
         header.InvokeAsync(() => callback.InvokeAsync(new TableOrderingChangedArgs(expectedOrderColumn, expectedIsAscending)));
@@ -627,7 +627,7 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, true));
 
         var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-        var callback = header.Instance.Parameters.Get(_ => _.OnItemsOrdered);
+        var callback = header.Instance.Parameters.Get(_ => _.ItemsOrdered);
 
         //Act
         header.InvokeAsync(() => callback.InvokeAsync(new TableOrderingChangedArgs(expectedOrderColumn, expectedIsAscending)));
