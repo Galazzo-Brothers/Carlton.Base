@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Table;
+﻿using Carlton.Core.Components.Tables;
 
 namespace Carlton.Core.Components.Library.Lab.TestData;
 public static class TableTestStates

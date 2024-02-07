@@ -5,7 +5,7 @@ using Carlton.Core.Components.Lab.TestData;
 using Carlton.Core.Components.Layouts.Extensions;
 using Carlton.Core.Components.Navigation;
 using Carlton.Core.Components.Dropdowns;
-using Carlton.Core.Components.Table;
+using Carlton.Core.Components.Tables;
 using Carlton.Core.Lab.Extensions;
 using Microsoft.Extensions.Logging;
 using Carlton.Core.Components.Spinners;

@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Table;
+﻿namespace Carlton.Core.Components.Tables;
 
 public record TableHeadingItem(string DisplayName, string OrderingName)
 {

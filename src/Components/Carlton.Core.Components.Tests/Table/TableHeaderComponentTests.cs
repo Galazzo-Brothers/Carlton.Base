@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Table;
+﻿using Carlton.Core.Components.Tables;
 using static Carlton.Core.Components.Tests.TableTestHelper;
 namespace Carlton.Core.Components.Tests;
 
