@@ -5,17 +5,21 @@ namespace Carlton.Core.Components.Tests;
 [Trait("Component", nameof(TableHeader<int>))]
 public class TableHeaderComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void TableHeader_Markup_RendersCorrectly(IEnumerable<TableHeadingItem> headings)
+    [Theory(DisplayName = "Markup Test")]
+    [InlineAutoData(true)]
+    [InlineAutoData(false)]
+    public void TableHeader_Markup_RendersCorrectly(
+        bool expectedIsAscending,
+        IEnumerable<TableHeadingItem> headings)
     {
         //Arrange
-        var expected = BuildExpectedHeaderMarkup(headings);
+        var expected = BuildExpectedHeaderMarkup(headings, expectedIsAscending);
 
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, headings)
-            .Add(p => p.OrderColumn, string.Empty)
-            .Add(p => p.OrderAscending, true));
+            .Add(p => p.SelectedOrderColumn, string.Empty)
+            .Add(p => p.OrderAscending, expectedIsAscending));
 
         //Assert
         cut.MarkupMatches(expected);
@@ -31,7 +35,7 @@ public class TableHeaderComponentTests : TestContext
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, expectedHeadingItems)
-            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
         var headerRowItems = cut.FindAll(".header-cell");
@@ -58,7 +62,7 @@ public class TableHeaderComponentTests : TestContext
         //Act
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, expectedColumnName)
+            .Add(p => p.SelectedOrderColumn, expectedColumnName)
             .Add(p => p.OrderAscending, expectedOrderAscending));
 
         var headerRowItems = cut.FindAll(".header-cell");
@@ -80,13 +84,13 @@ public class TableHeaderComponentTests : TestContext
     public void TableHeader_InvalidOrderColumnParameter_RendersCorrectly(string expectedColumnName)
     {
         //Arrange
-        var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
+        IRenderedComponent<TableHeader<TableTestObject>> act() => RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, expectedColumnName)
+            .Add(p => p.SelectedOrderColumn, expectedColumnName)
             .Add(p => p.OrderAscending, true));
 
         //Act
-        Should.Throw<ElementNotFoundException>(() => cut.Find(".selected"));
+        Should.Throw<ArgumentException>((Func<IRenderedComponent<TableHeader<TableTestObject>>>)act, $"Attempting to order the table by a non-existent column: {expectedColumnName}");
     }
 
     [Theory(DisplayName = "Header Click Once Test")]
@@ -103,7 +107,7 @@ public class TableHeaderComponentTests : TestContext
         var actualOrderColumn = string.Empty;
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
@@ -132,7 +136,7 @@ public class TableHeaderComponentTests : TestContext
         var actualOrderColumn = string.Empty;
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true)
             .Add(p => p.OnItemsOrdered, args => { eventFired = true; actualOrderAscending = args.OrderAscending; actualOrderColumn = args.OrderColumn; }));
 
@@ -157,7 +161,7 @@ public class TableHeaderComponentTests : TestContext
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
         var headerRowItems = cut.FindAll(".header-cell", true);
@@ -180,7 +184,7 @@ public class TableHeaderComponentTests : TestContext
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
         var headerRowItems = cut.FindAll(".header-cell", true);
@@ -203,7 +207,7 @@ public class TableHeaderComponentTests : TestContext
         //Arrange
         var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
             .Add(p => p.Headings, Headings)
-            .Add(p => p.OrderColumn, string.Empty)
+            .Add(p => p.SelectedOrderColumn, string.Empty)
             .Add(p => p.OrderAscending, true));
 
         //Act

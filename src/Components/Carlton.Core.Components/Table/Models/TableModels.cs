@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Components.Table;
 
-public record TableHeadingItem(string DisplayName, string OrderColumn)
+public record TableHeadingItem(string DisplayName, string OrderingName)
 {
     public TableHeadingItem(string columnName) : this(columnName, columnName)
     {
