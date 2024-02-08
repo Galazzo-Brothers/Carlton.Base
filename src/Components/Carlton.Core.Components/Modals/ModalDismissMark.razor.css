@@ -1,4 +1,4 @@
-﻿.close {
+﻿.dismiss {
 	position: absolute;
 	top: 0px;
 	right: 10px;
@@ -8,8 +8,8 @@
 	font-weight: bold;
 }
 
-	.close:hover,
-	.close:focus {
+	.dismiss:hover,
+	.dismiss:focus {
 		color: black;
 		text-decoration: none;
 		cursor: pointer;
