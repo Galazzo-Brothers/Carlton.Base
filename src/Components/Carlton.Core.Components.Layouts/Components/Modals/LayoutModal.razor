@@ -1,44 +1,31 @@
 ﻿@using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Layouts.State.Modals
 @namespace Carlton.Core.Components.Layouts.Modals
 
-@if (ModalType != null)
-{
-    <DynamicComponent Type="ModalType" Parameters="Parameters" />
-}
+<Modal IsVisible="IsVisible"
+       ModalPrompt="@ViewModel.ModalPrompt"
+       ModalMessage="@ViewModel.ModalMessage"
+       ModalClosed="@ViewModel.CloseModal"
+       ModalDismissed="@ViewModel.DismissModal">
+    <ModalContent Context="state">
+        @switch (ModalTypes)
+        {
+            case ModalTypes.SingleActionModal:
+                <SingleActionModalContent State="state" />
+                break;
+            case ModalTypes.ConfirmationModal:
+                <ConfirmationModalContent State="state" />
+                break;
+        }
+    </ModalContent>
+</Modal>
 
 @code {
     [Parameter]
-    public Type ModalType { get; set; }
+    public bool IsVisible { get; set; }
+    [Parameter]
+    public ModalTypes ModalTypes { get; set; }
     [Parameter]
     public ModalViewModel ViewModel { get; set; }
-    [Parameter]
-    public EventCallback ModalDismissed { get; set; }
-    [Parameter]
-    public EventCallback ModalClosed { get; set; }
-
-    private Dictionary<string, object> Parameters
-    {
-        get
-        {
-            return new Dictionary<string, object>
-                   {
-                        { "ViewModel", ViewModel },
-                        { "ModalDismissed", ModalDismissed },
-                        { "ModalClosed", ModalClosed }
-                   };
-        }
-    }
-
-
-    protected override bool ShouldRender()
-    {
-        if (ModalType == null)
-            return false;
-
-        if (!ModalType.IsAssignableTo(typeof(Modal)))
-            return false;
-
-        return base.ShouldRender();
-    }
 }
 

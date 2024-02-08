@@ -1,0 +1,23 @@
+﻿@namespace Carlton.Core.Components.Modals
+
+
+<div class="modal-header">
+    <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
+</div>
+<div class="modal-prompt-message">
+    <span class="message-text">@State.ModalPrompt</span>
+</div>
+<div class="modal-message">
+    <span class="message-text">@State.ModalMessage</span>
+</div>
+<div class="modal-actions">
+    <button class="btn-cancel" @onclick="@State.DissmissCallback">Cancel</button>
+    <button class="btn-confirm" @onclick="() => State.CloseModalCallback(true)">Delete</button>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public ModalRenderFragmentState State { get; set; }
+}

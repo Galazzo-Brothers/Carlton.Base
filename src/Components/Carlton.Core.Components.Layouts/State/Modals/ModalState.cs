@@ -3,31 +3,50 @@ namespace Carlton.Core.Components.Layouts.State.Modals;
 
 public class ModalState : IModalState
 {
-    public event EventHandler<ModalRaisedEventArgs> ModalRaised;
+    public event EventHandler<ModalStateChangedEventArgs> ModalStateChanged;
 
+    public bool IsVisible { get; private set; }
+    public ModalTypes ModalType { get; private set; }
     public ModalViewModel ModalModel { get; private set; }
-    public Type ModalType { get; private set; }
 
-    public ModalState()
+
+    public void RaiseModal(ModalTypes modalType, ModalViewModel modalViewModel)
     {
-        ModalModel = new ModalViewModel(string.Empty, string.Empty, null, null);
+        IsVisible = true;
+        ModalType = modalType;
+        ModalModel = modalViewModel with
+        {
+            CloseModal = WrapCloseModalCallback(modalViewModel.CloseModal),
+            DismissModal = WrapDismissModalCallback(modalViewModel.DismissModal)
+        };
+
+        RaiseModalStateChangedEvent();
     }
 
-    public void RaiseModal<TModal>(string modalPrompt, string modalMessage, Func<Task> modalDismissedFunc, Func<object, Task> modelClosedFunc)
-        where TModal : Modal
-    {
-        if (!typeof(TModal).IsAssignableTo(typeof(Modal)))
-            throw new ArgumentException($"{typeof(TModal)} is not a valid Modal type.");
+    private Func<object, Task> WrapCloseModalCallback(Func<object, Task> closeModalCallback) =>
+        async (obj) =>
+        {
+            IsVisible = false;
+            RaiseModalStateChangedEvent();
+            await closeModalCallback(obj);
+        };
 
-        ModalModel = new ModalViewModel(modalPrompt, modalMessage, modalDismissedFunc, modelClosedFunc);
-        ModalType = typeof(TModal);
-        ModalRaised?.Invoke(this, new ModalRaisedEventArgs(typeof(TModal)));
-    }
+    private Func<Task> WrapDismissModalCallback(Func<Task> dismissModalCallback) =>
+        async () =>
+        {
+            IsVisible = false;
+            RaiseModalStateChangedEvent();
+            await dismissModalCallback();
+        };
 
-    public void RaiseModal<TModal>(string modalPrompt, string modalMessage)
-        where TModal : Modal
+    private void RaiseModalStateChangedEvent()
     {
-        RaiseModal<TModal>(modalPrompt, modalMessage, null, null);
+        ModalStateChanged?.Invoke(this, new ModalStateChangedEventArgs
+        {
+            IsVisible = IsVisible,
+            ModalType = ModalType,
+            ModalModel = ModalModel
+        });
     }
 }
 

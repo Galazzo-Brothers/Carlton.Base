@@ -1,5 +1,6 @@
-﻿@namespace Carlton.Core.Components.Layouts.DashboardPanelLayout
-@using Carlton.Core.Components.Panels
+﻿@using Carlton.Core.Components.Panels
+@using Carlton.Core.Components.PsudoElementComponents
+@namespace Carlton.Core.Components.Layouts.DashboardPanelLayout
 
 <div class="@LayoutContainerCss">
     <header>
@@ -15,7 +16,7 @@
                     <SectionOutlet SectionId="DashboardPanelLayout.HeaderActionContent" />
                 </div>
             </div>
-            <Spacer WidthPercentage="100" />
+            <HorizontalAccentDivider WidthPercentage="100" />
         </div>
     </header>
     <nav>
