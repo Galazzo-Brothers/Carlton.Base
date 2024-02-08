@@ -2,36 +2,50 @@
 
 <div class="@ModalClass">
     <div class="modal-content">
-        <span class="close" @onclick="@Dismiss">&times;</span>
-         @ModalContent
+        <span class="close" @onclick="@OnDismiss">&times;</span>
+        @ModalContent(RenderFragmentState)
     </div>
 </div>
 
 
 @code {
     [Parameter]
-    public ModalViewModel ViewModel { get; set; }
+    public bool IsVisible { get; set; }
+    [Parameter]
+    public string ModalPrompt { get; set; }
+    [Parameter]
+    public string ModalMessage { get; set; }
+    [Parameter]
+    public RenderFragment<ModalRenderFragmentState> ModalContent { get; set; }
     [Parameter]
     public EventCallback ModalDismissed { get; set; }
     [Parameter]
     public EventCallback ModalClosed { get; set; }
-    [Parameter]
-    public RenderFragment ModalContent { get; set; }
 
-    protected async Task Dismiss()
+    private ModalRenderFragmentState RenderFragmentState => new ModalRenderFragmentState
+        {
+            ModalPrompt = ModalPrompt,
+            ModalMessage = ModalMessage,
+            CloseModalCallback = OnClose,
+            DissmissCallback = OnDismiss
+        };
+
+    private async Task OnClose(object args)
     {
-        await ModalDismissed.InvokeAsync();
+        IsVisible = false;
+        await ModalClosed.InvokeAsync(args);
     }
 
-    protected async Task CloseModal(object args)
+    private async Task OnDismiss()
     {
-        await ModalClosed.InvokeAsync(args);
+        IsVisible = false;
+        await ModalDismissed.InvokeAsync();
     }
 
     private string ModalClass
     {
         get => new CssBuilder("modal")
-                .AddClass("visible", ViewModel.IsVisible)
+                .AddClass("visible", IsVisible)
                 .Build();
     }
 }

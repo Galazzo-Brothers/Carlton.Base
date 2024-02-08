@@ -1,0 +1,17 @@
+﻿@namespace Carlton.Core.Components.Modals
+
+<div class="modal-prompt-message">
+    <span class="message-text">@State.ModalPrompt</span>
+</div>
+<div class="modal-message">
+    <span class="message-text">@State.ModalMessage</span>
+</div>
+<div class="modal-actions">
+    <button class="btn-cancel" @onclick="State.DissmissCallback">Ok</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public ModalRenderFragmentState State { get; set; }
+}
