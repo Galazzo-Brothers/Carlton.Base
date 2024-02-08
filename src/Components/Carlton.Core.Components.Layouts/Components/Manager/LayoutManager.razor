@@ -18,7 +18,7 @@
 @inject ILayoutSettings LayoutSettings
 
 <div class="layout-manager" data-theme="@ThemeState.Theme.ToString()">
-    <CascadingValue Value="CascadingState" >
+    <CascadingValue Value="CascadingState">
         @Body
     </CascadingValue>
 
@@ -28,10 +28,9 @@
                     Top="50"
                     Right="10" />
 
-    <LayoutModal ModalType="ModalState.ModalType"
-                 ViewModel="ModalState.ModalModel"
-                 ModalDismissed="ModalState.ModalModel.DismissModal"
-                 ModalClosed="ModalState.ModalModel.CloseModal" />
+    <LayoutModal IsVisible="ModalState.IsVisible"
+                 ModalTypes="ModalState.ModalType"
+                 ViewModel="ModalState.ModalModel" />
 </div>
 
 
@@ -51,7 +50,7 @@
     {
         NavMenuState.FullScreenStateChanged += OnLayoutChanged;
         ThemeState.ThemeChanged += OnThemeChanged;
-        ModalState.ModalRaised += OnModalRaised;
+        ModalState.ModalStateChanged += OnModalStateChanged;
         ToastState.ToastAdded += OnToastRaised;
         base.OnInitialized();
     }
@@ -62,7 +61,7 @@
     private void OnThemeChanged(object? sender, ThemeChangedEventArgs args)
         => StateHasChanged();
 
-    private void OnModalRaised(object? sender, ModalRaisedEventArgs args)
+    private void OnModalStateChanged(object? sender, ModalStateChangedEventArgs args)
         => StateHasChanged();
 
     private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
@@ -75,7 +74,7 @@
     {
         NavMenuState.FullScreenStateChanged -= OnLayoutChanged;
         ThemeState.ThemeChanged -= OnThemeChanged;
-        ModalState.ModalRaised -= OnModalRaised;
+        ModalState.ModalStateChanged -= OnModalStateChanged;
         ToastState.ToastAdded -= OnToastRaised;
     }
 }
