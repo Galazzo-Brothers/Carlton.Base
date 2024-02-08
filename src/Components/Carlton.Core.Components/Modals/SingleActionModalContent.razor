@@ -1,6 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Modals
 
-<ModalDismissMark />
+<ModalDismissMark OnDismiss="State.HandleDismiss" />
 
 <div class="modal-prompt-message">
     <span class="message-text">@State.ModalPrompt</span>
@@ -9,7 +9,7 @@
     <span class="message-text">@State.ModalMessage</span>
 </div>
 <div class="modal-actions">
-    <button class="btn-cancel" @onclick="State.HandleDismiss">Ok</button>
+    <button class="btn-ok" @onclick="() => State.HandleClose(new ModalCloseEventArgs(true))">Ok</button>
 </div>
 
 

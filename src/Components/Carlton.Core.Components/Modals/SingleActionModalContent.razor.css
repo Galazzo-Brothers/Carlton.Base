@@ -36,10 +36,7 @@
 		cursor: pointer;
 	}
 
-	.modal-actions .btn-cancel {
+	.modal-actions .btn-ok {
 		background-color: gray;
 	}
 
-	.modal-actions .btn-confirm {
-		background-color: #e46a76;
-	}
