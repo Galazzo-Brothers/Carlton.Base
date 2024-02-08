@@ -1,5 +1,5 @@
 ﻿@using Carlton.Core.Components
-@using Carlton.Core.Components.DropdownMenu
+@using Carlton.Core.Components.Dropdowns
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Components.Layouts.State.Modals
 @using Carlton.Core.Components.Layouts.State.Theme
@@ -18,7 +18,7 @@
     <ThemeMenu />
     <NotificationMenu />
     <FluxDebugReturnMenu />
-    <ProfileAvatar Username="@UserName"
+    <ProfileAvatarDropdown Username="@UserName"
                    AvatarImgUrl="@AvatarUrl"
                    DropdownMenuItems="DropdownMenuItems" />
 </div>

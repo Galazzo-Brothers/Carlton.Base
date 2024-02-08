@@ -1,5 +1,5 @@
 ﻿@using BlazorComponentUtilities
-@using Carlton.Core.Components.Button
+@using Carlton.Core.Components.Buttons
 @using Carlton.Core.Flux.Debug.Components.Logging
 
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
@@ -12,7 +12,7 @@
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.TypeDisplayName</span></div>
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.EventId.Id</span></div>
     <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@TraceLogMessageGroup.ParentEntry.RequestSucceeded" /></span></div>
-    <div class="table-cell"><span class="cell-text"><AppLinkButton Text="View Details" OnClickCallback="() => RowClick(TraceLogMessageGroup.ParentEntry)" /></span></div>
+    <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClickCallback="() => RowClick(TraceLogMessageGroup.ParentEntry)" /></span></div>
 </div>
 
 
@@ -26,7 +26,7 @@
         <div class="table-cell"><span class="cell-text">@child.TypeDisplayName</span></div>
         <div class="table-cell"><span class="cell-text">@child.EventId.Id</span></div>
         <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@child.RequestSucceeded" /></span></div>
-        <div class="table-cell"><span class="cell-text"><AppLinkButton Text="View Details" OnClickCallback="() => RowClick(child)" /></span></div>
+        <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClickCallback="() => RowClick(child)" /></span></div>
     </div>
 }
 
