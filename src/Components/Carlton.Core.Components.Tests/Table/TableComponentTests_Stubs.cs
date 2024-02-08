@@ -206,7 +206,6 @@ public class TableComponentTests_Stubs : TestContext
     public void Table_RowTemplateParameter_RendersCorrectly(
        string expectedRowTemplate,
        List<TableTestObject> expectedItems,
-       IEnumerable<TableHeadingItem> expectedHeadings,
        IEnumerable<int> expectedRowsPerPage,
        bool expectedShowPaginationRow)
     {
@@ -216,7 +215,7 @@ public class TableComponentTests_Stubs : TestContext
 
         //Act
         var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
-            .Add(p => p.Headings, expectedHeadings)
+            .Add(p => p.Headings, Headings)
             .Add(p => p.Items, expectedItems)
             .Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
             .Add(p => p.RowTemplate, item => string.Format(expectedRowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
@@ -475,17 +474,17 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.CurrentPage, 0)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.PageChanged, args =>
+            .Add(p => p.OnPageChange, args =>
             {
                 eventFired = true;
                 actualPage = args.CurrentPage;
             }));
 
         var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-        var callback = paginationRow.Instance.Parameters.Get(_ => _.PageChanged);
+        var callback = paginationRow.Instance.Parameters.Get(_ => _.OnPageChange);
 
         //Act
-        paginationRow.InvokeAsync(() => callback.InvokeAsync(new TablePageChangedArgs(expectedPage)));
+        paginationRow.InvokeAsync(() => callback.InvokeAsync(new PageChangeEventArgs(expectedPage)));
 
         //Assert
         eventFired.ShouldBeTrue();
@@ -509,17 +508,17 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.RowsPerPageChanged, args =>
+            .Add(p => p.OnRowsPerPageChange, args =>
             {
                 eventFired = true;
                 actualSelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
             }));
 
         var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-        var callback = paginationRow.Instance.Parameters.Get(_ => _.RowsPerPageChanged);
+        var callback = paginationRow.Instance.Parameters.Get(_ => _.OnRowsPerPageChange);
 
         //Act
-        paginationRow.InvokeAsync(() => callback.InvokeAsync(new TableRowsPerPageChangedArgs(expectedRowsPerPageIndex)));
+        paginationRow.InvokeAsync(() => callback.InvokeAsync(new RowsPerPageChangeEventArgs(expectedRowsPerPageIndex)));
 
         //Assert
         eventFired.ShouldBeTrue();
@@ -551,18 +550,18 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.ItemsOrdered, args =>
+            .Add(p => p.OnItemsSort, args =>
             {
                 eventFired = true;
-                actualOrderColumn = args.OrderColumn;
-                actualOrderAscending = args.OrderAscending;
+                actualOrderColumn = args.SortColumn;
+                actualOrderAscending = args.SortAscending;
             }));
 
         var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-        var callback = header.Instance.Parameters.Get(_ => _.ItemsOrdered);
+        var callback = header.Instance.Parameters.Get(_ => _.OnItemsSort);
 
         //Act
-        header.InvokeAsync(() => callback.InvokeAsync(new TableOrderingChangedArgs(expectedOrderColumn, expectedIsAscending)));
+        header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
 
         //Assert
         eventFired.ShouldBeTrue();
@@ -593,13 +592,13 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, false)
-            .Add(p => p.ItemsOrdered, args => eventFired = true));
+            .Add(p => p.OnItemsSort, args => eventFired = true));
 
         var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-        var callback = header.Instance.Parameters.Get(_ => _.ItemsOrdered);
+        var callback = header.Instance.Parameters.Get(_ => _.OnItemsSort);
 
         //Act
-        header.InvokeAsync(() => callback.InvokeAsync(new TableOrderingChangedArgs(expectedOrderColumn, expectedIsAscending)));
+        header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
 
         //Assert
         eventFired.ShouldBeFalse();
@@ -632,10 +631,10 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, true));
 
         var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-        var callback = header.Instance.Parameters.Get(_ => _.ItemsOrdered);
+        var callback = header.Instance.Parameters.Get(_ => _.OnItemsSort);
 
         //Act
-        header.InvokeAsync(() => callback.InvokeAsync(new TableOrderingChangedArgs(expectedOrderColumn, expectedIsAscending)));
+        header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
         var actualItems = cut.Instance.Items;
 
         //Assert

@@ -40,7 +40,7 @@ public class LinkButtonComponentTests : TestContext
         var eventCalled = false;
         var cut = RenderComponent<LinkButton>(parameters => parameters
             .Add(p => p.Text, expectedText)
-            .Add(p => p.OnClickCallback, () => { eventCalled = true; }));
+            .Add(p => p.OnClick, () => { eventCalled = true; }));
 
         //Act
         cut.Find(".link-btn").Click();

@@ -107,7 +107,7 @@ public class ErrorPromptComponentTests : TestContext
                     .Add(p => p.ErrorHeader, expectedErrorHeader)
                     .Add(p => p.ErrorMessage, expectedErrorMessage)
                     .Add(p => p.ErrorIconClass, expectedIconClass)
-                    .Add(p => p.Retry, () => retryWasCalled = true));
+                    .Add(p => p.OnRetry, () => retryWasCalled = true));
 
         var retryBtn = cut.Find(".retry-btn");
 

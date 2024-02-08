@@ -10,16 +10,16 @@
             Options="RowsPerPageSelectOpts"
             SelectedIndex="SelectedRowsPerPageIndex"
             IsPristineEnabled="false"
-            ValueChangedCallback="(args) => ChangeRowsPerPage(args.SelectedIndex)" />
+            OnValueChange="(args) => HandleRowsPerPageChange(args.SelectedIndex)" />
     </div>
     <div class="page-number">
         <span class="pagination-label">@PaginationLabel</span>
     </div>
     <div class="page-chevrons">
-        <span class="@PageFirstChevronCss" @onclick="() => ChangePage(1)"></span>
-        <span class="@PageLeftChevronCss" @onclick="() => ChangePage(CurrentPage-1)"></span>
-        <span class="@PageRightChevronCss" @onclick="() => ChangePage(CurrentPage+1)"></span>
-        <span class="@PageLastChevronCss" @onclick="() => ChangePage(MaxPage)"></span>
+        <span class="@PageFirstChevronCss" @onclick="() => HandlePageChange(1)"></span>
+        <span class="@PageLeftChevronCss" @onclick="() => HandlePageChange(CurrentPage-1)"></span>
+        <span class="@PageRightChevronCss" @onclick="() => HandlePageChange(CurrentPage+1)"></span>
+        <span class="@PageLastChevronCss" @onclick="() => HandlePageChange(MaxPage)"></span>
     </div>
 </div>
 
@@ -37,10 +37,10 @@
     public int SelectedRowsPerPageIndex { get; set; }
 
     [Parameter]
-    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+    public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
 
     [Parameter]
-    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
+    public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
     public int SelectedRowsPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
@@ -76,14 +76,14 @@
         base.OnInitialized();
     }
 
-    private async Task ChangePage(int newPageNumber)
-        => await PageChanged.InvokeAsync(new TablePageChangedArgs(newPageNumber));
+    private async Task HandlePageChange(int newPageNumber)
+        => await OnPageChange.InvokeAsync(new PageChangeEventArgs(newPageNumber));
 
 
-    private async Task ChangeRowsPerPage(int rowsPerPageIndex)
+    private async Task HandleRowsPerPageChange(int rowsPerPageIndex)
     {
         CurrentPage = 1; //Reset to page 1 on RowsPerPage value change
-        await RowsPerPageChanged.InvokeAsync(new TableRowsPerPageChangedArgs(rowsPerPageIndex));
+        await OnRowsPerPageChange.InvokeAsync(new RowsPerPageChangeEventArgs(rowsPerPageIndex));
     }
 
 

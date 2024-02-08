@@ -10,7 +10,7 @@
     <div class="error-body">
         <div class="content">
             <span class="error-message">@ErrorMessage</span>
-            <button class="retry-btn" @onclick="Retry">Retry</button>
+            <button class="retry-btn" @onclick="OnRetry">Retry</button>
         </div>
     </div>
 </div>
@@ -26,7 +26,7 @@
     public string ErrorIconClass { get; set; }
 
     [Parameter]
-    public EventCallback Retry { get; set; }
+    public EventCallback OnRetry { get; set; }
 
     private string IconCss
     {

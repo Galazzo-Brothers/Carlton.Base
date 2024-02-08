@@ -194,7 +194,7 @@ public class DropdownComponentTests : TestContext
            .Add(p => p.Label, expectedLabelText)
            .Add(p => p.IsDisabled, false)
            .Add(p => p.SelectedIndex, expectedIndex)
-           .Add(p => p.ValueChangedCallback, (args) =>
+           .Add(p => p.OnValueChange, (args) =>
                 {
                     eventFired = true;
                     eventKey = args.SelectedKey;

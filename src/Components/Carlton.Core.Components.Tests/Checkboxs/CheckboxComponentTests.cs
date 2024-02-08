@@ -32,7 +32,7 @@ public class CheckboxComponentTests : TestContext
 
         var cut = RenderComponent<Checkbox>(parameters => parameters
             .Add(p => p.IsChecked, expectedIsChecked)
-            .Add(p => p.CheckboxValueChangedCallback, (state) => { eventCalled = true; actualCheckedState = state; }));
+            .Add(p => p.OnValueChange, (state) => { eventCalled = true; actualCheckedState = state; }));
 
         //Act
         cut.Find(".checkbox").Click();

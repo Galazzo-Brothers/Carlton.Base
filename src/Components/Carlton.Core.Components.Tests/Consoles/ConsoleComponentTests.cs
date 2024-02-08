@@ -87,7 +87,7 @@ public class ConsoleComponentTests : TestContext
         var cut = RenderComponent<Console>(parameters => parameters
             .Add(p => p.IsReadOnly, true)
             .Add(p => p.Text, expectedText)
-            .Add(p => p.OnChangeCallback, (str) => { eventCalled = true; actualText = str; }));
+            .Add(p => p.OnValueChange, (str) => { eventCalled = true; actualText = str; }));
 
         var consoleElement = cut.Find("textarea");
 

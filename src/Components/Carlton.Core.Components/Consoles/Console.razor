@@ -5,7 +5,7 @@
               disabled="@IsReadOnly"
               class="@ConsoleCss"
               value="@Text"
-              @onchange="(args) => OnChangeCallback.InvokeAsync(args.Value.ToString())">  
+              @onchange="(args) => OnValueChange.InvokeAsync(args.Value.ToString())">  
     </textarea>
 </div>
 
@@ -17,7 +17,7 @@
     [Parameter]
     public bool IsValid { get; set; } = true;
     [Parameter]
-    public EventCallback<string> OnChangeCallback { get; set; }
+    public EventCallback<string> OnValueChange { get; set; }
 
     private string ConsoleCss
     {

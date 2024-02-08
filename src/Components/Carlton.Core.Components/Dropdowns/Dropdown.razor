@@ -14,7 +14,7 @@
         <div class="options">
             @foreach (var (opt, i) in Options.WithIndex())
             {
-                <div class="option" @onclick="()=>OnValueChanged(new DropdownValueChangedArgs<T>(i, opt.Key, opt.Value))">@opt.Key</div>
+                <div class="option" @onclick="()=>HandleValueChange(new ValueChangeArgs<T>(i, opt.Key, opt.Value))">@opt.Key</div>
             }
         </div>
     }
@@ -32,13 +32,14 @@
     public IReadOnlyDictionary<string, T> Options { get; set; } = new Dictionary<string, T>();
 
     [Parameter]
-    public EventCallback<DropdownValueChangedArgs<T>> ValueChangedCallback { get; set; }
-
-    [Parameter]
     public int SelectedIndex { get; set; }
 
     [Parameter]
     public bool IsPristineEnabled { get; set; }
+
+    [Parameter]
+    public EventCallback<ValueChangeArgs<T>> OnValueChange{ get; set; }
+
 
     private bool IsPristine { get; set; } = true;
 
@@ -54,10 +55,10 @@
             base.OnInitialized();
     }
 
-    protected async Task OnValueChanged(DropdownValueChangedArgs<T> opt)
+    protected async Task HandleValueChange(ValueChangeArgs<T> opt)
     {
         IsPristine = false;
         SelectedIndex = opt.SelectedIndex;
-        await ValueChangedCallback.InvokeAsync(opt);
+        await OnValueChange.InvokeAsync(opt);
     }
 }

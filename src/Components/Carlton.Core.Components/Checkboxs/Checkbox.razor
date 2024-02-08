@@ -1,10 +1,10 @@
 ﻿@namespace Carlton.Core.Components
 
-<div class="@CheckboxCss" @onclick="() => UserCheckChange(IsChecked ? false : true )"></div>
+<div class="@CheckboxCss" @onclick="() => HandleValueChange(IsChecked ? false : true )"></div>
 
 @code {
     [Parameter]
-    public EventCallback<bool> CheckboxValueChangedCallback { get; set; }
+    public EventCallback<bool> OnValueChange { get; set; }
 
     [Parameter]
     public bool IsChecked { get; set; }
@@ -18,9 +18,9 @@
                 .Build();
     }
 
-    private void UserCheckChange(bool value)
+    private void HandleValueChange(bool value)
     {
         IsChecked = value;
-        CheckboxValueChangedCallback.InvokeAsync(value);
+        OnValueChange.InvokeAsync(value);
     }
 }

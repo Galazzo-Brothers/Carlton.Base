@@ -1,6 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Buttons
 
-<div class="icon-btn" @onclick="OnClickCallback">
+<div class="icon-btn" @onclick="OnClick">
     <span class="mdi mdi-24px mdi-@(Icon)"></span>
 </div>
 
@@ -9,5 +9,5 @@
     public string Icon { get; set; }
 
     [Parameter]
-    public EventCallback OnClickCallback { get; set; }
+    public EventCallback OnClick { get; set; }
 }

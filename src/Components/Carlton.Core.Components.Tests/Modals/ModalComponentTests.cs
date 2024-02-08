@@ -46,7 +46,7 @@ public class ModalComponentTests : TestContext
          .Add(p => p.ModalMessage, expectedModalMessage)
          .Add<ConfirmationModalContent, ModalRenderFragmentState>(p => p.ModalContent, value =>
             childParams => childParams.Add(_ => _.State, value))
-         .Add(p => p.ModalClosed, (args) =>
+         .Add(p => p.OnClose, (args) =>
          {
              eventFired = true;
              modalConfiremd = args.UserConfirmed;
@@ -74,7 +74,7 @@ public class ModalComponentTests : TestContext
          .Add(p => p.ModalMessage, expectedModalMessage)
          .Add<ConfirmationModalContent, ModalRenderFragmentState>(p => p.ModalContent, value =>
             childParams => childParams.Add(_ => _.State, value))
-         .Add(p => p.ModalDismissed, () =>
+         .Add(p => p.OnDismiss, () =>
          {
              eventFired = true;
          }));
