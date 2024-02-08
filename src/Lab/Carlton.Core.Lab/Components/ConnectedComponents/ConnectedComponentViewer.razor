@@ -8,5 +8,5 @@
 
 <DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"
                               ComponentParameters="@ViewModel.ComponentParameters"
-                              ComponentEventRaised="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
+                              OnCapturedComponentEvent="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
 

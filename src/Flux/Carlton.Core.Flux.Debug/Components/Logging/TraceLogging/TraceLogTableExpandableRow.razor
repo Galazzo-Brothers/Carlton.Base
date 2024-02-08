@@ -12,7 +12,7 @@
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.TypeDisplayName</span></div>
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.EventId.Id</span></div>
     <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@TraceLogMessageGroup.ParentEntry.RequestSucceeded" /></span></div>
-    <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClickCallback="() => RowClick(TraceLogMessageGroup.ParentEntry)" /></span></div>
+    <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClick="() => RowClick(TraceLogMessageGroup.ParentEntry)" /></span></div>
 </div>
 
 
@@ -26,7 +26,8 @@
         <div class="table-cell"><span class="cell-text">@child.TypeDisplayName</span></div>
         <div class="table-cell"><span class="cell-text">@child.EventId.Id</span></div>
         <div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@child.RequestSucceeded" /></span></div>
-        <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClickCallback="() => RowClick(child)" /></span></div>
+        <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClick
+            ="() => RowClick(child)" /></span></div>
     </div>
 }
 

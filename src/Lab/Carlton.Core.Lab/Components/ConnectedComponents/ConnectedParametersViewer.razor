@@ -8,7 +8,7 @@
 <div class="parameters-viewer">
     <JsonViewerConsole Obj="ViewModel.ComponentParameters"
                        IsReadOnly="false"
-                       OnChangeCallback="this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>" />
+                       OnValueChange="this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>" />
 </div>
 
 

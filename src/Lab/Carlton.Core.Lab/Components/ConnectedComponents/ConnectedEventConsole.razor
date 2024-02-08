@@ -8,7 +8,7 @@
 <div class="event-console">
     <Console IsReadOnly="true" Text="@RecordedEventsText" />
     <IconButton Icon="delete"
-                   OnClickCallback="this.RaiseComponentFluxEvent<EventConsoleViewModel, ClearEventsCommand>" />
+                OnClick="this.RaiseComponentFluxEvent<EventConsoleViewModel, ClearEventsCommand>" />
 </div>
 
 @code {

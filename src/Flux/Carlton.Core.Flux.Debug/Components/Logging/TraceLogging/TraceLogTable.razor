@@ -10,8 +10,8 @@
            CurrentPage="TraceLogTableState.CurrentPage"
            SelectedRowsPerPageIndex="TraceLogTableState.SelectedRowsPerPageOptsIndex"
            RowsPerPageOpts="TraceLogTableState.RowsPerPageOpts"
-           PageChanged="PageChanged"
-           RowsPerPageChanged="RowsPerPageChanged"
+           OnPageChange="PageChanged"
+           OnRowsPerPageChange="RowsPerPageChanged"
            SortableHeadersEnabled="false">
         <RowTemplate Context="group">
             <TraceLogTableExpandableRow 
@@ -45,10 +45,10 @@
     public EventCallback<TraceLogMessageExapansionChangedArgs> TraceLogMessageExapansionChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+    public EventCallback<PageChangeEventArgs> PageChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
+    public EventCallback<RowsPerPageChangeEventArgs> RowsPerPageChanged { get; set; }
 
     private TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 

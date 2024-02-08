@@ -15,9 +15,9 @@
                    SelectedLogMessageIndex="SelectedLogMessageIndex"
                    EventLogTableState="EventLogTableState"
                    LogMessageSelected="LogMessageSelected"
-                   PageChanged="PageChanged"
-                   RowsPerPageChanged="RowsPerPageChanged" 
-                   ItemsOrdered="ItemsOrdered" />
+                   OnPageChange="PageChanged"
+                   OnRowsPerPageChange="RowsPerPageChanged" 
+                   OnItemsSort="ItemsOrdered" />
 </div>
 
 
@@ -43,13 +43,13 @@
     public EventCallback<EventLogLevelFilterTextChangedArgs> LogFilterTextChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+    public EventCallback<PageChangeEventArgs> PageChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
+    public EventCallback<RowsPerPageChangeEventArgs> RowsPerPageChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TableOrderingChangedArgs> ItemsOrdered { get; set; }
+    public EventCallback<ItemsSortEventArgs> ItemsOrdered { get; set; }
 
     private List<LogMessage> FilteredLogMessages
     {
