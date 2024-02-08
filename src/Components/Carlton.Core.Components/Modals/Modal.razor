@@ -18,9 +18,9 @@
     [Parameter]
     public RenderFragment<ModalRenderFragmentState> ModalContent { get; set; }
     [Parameter]
-    public EventCallback ModalDismissed { get; set; }
-    [Parameter]
     public EventCallback ModalClosed { get; set; }
+    [Parameter]
+    public EventCallback ModalDismissed { get; set; }
 
     private ModalRenderFragmentState RenderFragmentState => new ModalRenderFragmentState
         {
