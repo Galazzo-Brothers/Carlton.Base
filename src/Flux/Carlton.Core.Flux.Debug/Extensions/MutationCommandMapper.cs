@@ -28,21 +28,21 @@ internal partial class MutationCommandMapper
     internal static partial ChangeEventLogFilterTextCommand ToCommand(EventLogLevelFilterTextChangedArgs args);
 
 
-    [MapProperty(nameof(TableRowsPerPageChangedArgs.SelectedRowsPerPageIndex), nameof(ChangeEventLogMessageTableRowsPerPageOptsCommand.SelectedRowsPerPageIndex))]
-    internal static partial ChangeEventLogMessageTableRowsPerPageOptsCommand ToCommandEventLogTableRowsPerPage(TableRowsPerPageChangedArgs args);
+    [MapProperty(nameof(RowsPerPageChangeEventArgs.SelectedRowsPerPageIndex), nameof(ChangeEventLogMessageTableRowsPerPageOptsCommand.SelectedRowsPerPageIndex))]
+    internal static partial ChangeEventLogMessageTableRowsPerPageOptsCommand ToCommandEventLogTableRowsPerPage(RowsPerPageChangeEventArgs args);
 
-    [MapProperty(nameof(TableRowsPerPageChangedArgs.SelectedRowsPerPageIndex), nameof(ChangeTraceLogMessageTableRowsPerPageOptsCommand.SelectedRowsPerPageIndex))]
-    internal static partial ChangeTraceLogMessageTableRowsPerPageOptsCommand ToCommandTraceLogTableRowsPerPage(TableRowsPerPageChangedArgs args);
+    [MapProperty(nameof(RowsPerPageChangeEventArgs.SelectedRowsPerPageIndex), nameof(ChangeTraceLogMessageTableRowsPerPageOptsCommand.SelectedRowsPerPageIndex))]
+    internal static partial ChangeTraceLogMessageTableRowsPerPageOptsCommand ToCommandTraceLogTableRowsPerPage(RowsPerPageChangeEventArgs args);
 
-    [MapProperty(nameof(TablePageChangedArgs.CurrentPage), nameof(ChangeEventLogPageCommand.SelectedPageIndex))]
-    internal static partial ChangeEventLogPageCommand ToCommandEventLogTablePageChange(TablePageChangedArgs args);
+    [MapProperty(nameof(PageChangeEventArgs.CurrentPage), nameof(ChangeEventLogPageCommand.SelectedPageIndex))]
+    internal static partial ChangeEventLogPageCommand ToCommandEventLogTablePageChange(PageChangeEventArgs args);
 
-    [MapProperty(nameof(TablePageChangedArgs.CurrentPage), nameof(ChangeTraceLogPageCommand.SelectedPageIndex))]
-    internal static partial ChangeTraceLogPageCommand ToCommandTraceLogTablePageChange(TablePageChangedArgs args);
+    [MapProperty(nameof(PageChangeEventArgs.CurrentPage), nameof(ChangeTraceLogPageCommand.SelectedPageIndex))]
+    internal static partial ChangeTraceLogPageCommand ToCommandTraceLogTablePageChange(PageChangeEventArgs args);
 
-    [MapProperty(nameof(TableOrderingChangedArgs.OrderColumn), nameof(ChangeEventLogTableOrderingCommand.OrderByColum))]
-    [MapProperty(nameof(TableOrderingChangedArgs.OrderAscending), nameof(ChangeEventLogTableOrderingCommand.OrderAscending))]
-    internal static partial ChangeEventLogTableOrderingCommand ToCommand(TableOrderingChangedArgs args);
+    [MapProperty(nameof(ItemsSortEventArgs.SortColumn), nameof(ChangeEventLogTableOrderingCommand.OrderByColum))]
+    [MapProperty(nameof(ItemsSortEventArgs.SortAscending), nameof(ChangeEventLogTableOrderingCommand.OrderAscending))]
+    internal static partial ChangeEventLogTableOrderingCommand ToCommand(ItemsSortEventArgs args);
 }
 
 

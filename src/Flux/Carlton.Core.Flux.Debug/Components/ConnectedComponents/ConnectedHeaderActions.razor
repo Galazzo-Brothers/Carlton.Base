@@ -48,13 +48,10 @@
             });
 
 
-    private async Task ClearLocalStorageConfirmed(object args)
+    private async Task ClearLocalStorageConfirmed(ModalCloseEventArgs args)
     {
-        //Cast the modal params
-        var userConfirmed = (bool)args;
-
         //Check if user confirmed the action
-        if (!userConfirmed)
+        if (!args.UserConfirmed)
             return;
 
         //Clear localstorage

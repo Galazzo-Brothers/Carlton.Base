@@ -12,11 +12,13 @@
            RowsPerPageOpts="EventLogTableState.RowsPerPageOpts"
            ZebraStripped="true"
            Hoverable="true"
-           PageChanged="PageChanged"
-           RowsPerPageChanged="RowsPerPageChanged"
-           ItemsOrdered="ItemsOrdered">
+           OnPageChange="OnPageChange"
+           OnRowsPerPageChange="OnRowsPerPageChange"
+           OnItemsSort="OnItemsSort">
         <RowTemplate Context="item">
-            <EventLogTableRow LogEntry="item" LogMessageSelected="OnLogMessageSelected" IsSelected="item==SelectedLogMessage" />
+            <EventLogTableRow LogEntry="item"
+                              LogMessageSelected="OnLogMessageSelected"
+                              IsSelected="item==SelectedLogMessage" />
         </RowTemplate>
     </Table>
 </div>
@@ -35,13 +37,13 @@
     public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
 
     [Parameter]
-    public EventCallback<TablePageChangedArgs> PageChanged { get; set; }
+    public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
 
     [Parameter]
-    public EventCallback<TableRowsPerPageChangedArgs> RowsPerPageChanged { get; set; }
+    public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
     [Parameter]
-    public EventCallback<TableOrderingChangedArgs> ItemsOrdered { get; set; }
+    public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
     private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
 
