@@ -1,0 +1,8 @@
+﻿@namespace Carlton.Core.Components.Modals
+
+<span class="close" @onclick="@Dismiss">&times;</span>
+
+@code{
+    [Parameter]
+    public EventCallback Dismiss {get;set;}
+}

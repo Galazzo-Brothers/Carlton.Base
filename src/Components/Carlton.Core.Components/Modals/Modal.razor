@@ -2,11 +2,9 @@
 
 <div class="@ModalClass">
     <div class="modal-content">
-        <span class="close" @onclick="@OnDismiss">&times;</span>
         @ModalContent(RenderFragmentState)
     </div>
 </div>
-
 
 @code {
     [Parameter]
@@ -18,7 +16,7 @@
     [Parameter]
     public RenderFragment<ModalRenderFragmentState> ModalContent { get; set; }
     [Parameter]
-    public EventCallback ModalClosed { get; set; }
+    public EventCallback<ModalClosedArgs> ModalClosed { get; set; }
     [Parameter]
     public EventCallback ModalDismissed { get; set; }
 
@@ -30,7 +28,7 @@
             DissmissCallback = OnDismiss
         };
 
-    private async Task OnClose(object args)
+    private async Task OnClose(ModalClosedArgs args)
     {
         IsVisible = false;
         await ModalClosed.InvokeAsync(args);

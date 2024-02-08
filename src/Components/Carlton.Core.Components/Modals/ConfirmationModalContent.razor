@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Modals
 
+<ModalDismissMark Dismiss="@State.DissmissCallback" />
 
 <div class="modal-header">
     <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
@@ -12,7 +13,7 @@
 </div>
 <div class="modal-actions">
     <button class="btn-cancel" @onclick="@State.DissmissCallback">Cancel</button>
-    <button class="btn-confirm" @onclick="() => State.CloseModalCallback(true)">Delete</button>
+    <button class="btn-confirm" @onclick="() => State.CloseModalCallback(new ModalClosedArgs(true))">Delete</button>
 </div>
 
 
