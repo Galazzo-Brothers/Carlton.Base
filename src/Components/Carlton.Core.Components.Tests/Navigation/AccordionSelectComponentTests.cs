@@ -235,7 +235,7 @@ public class AccordionSelectComponentTests : TestContext
             .Add(p => p.Title, expectedTitle)
             .Add(p => p.IsExpanded, true)
             .Add(p => p.Items, items)
-            .Add(p => p.SelectedItemChanged, (selected) => { eventCalled = true; selectedItem = selected; }));
+            .Add(p => p.OnItemSelected, (selected) => { eventCalled = true; selectedItem = selected; }));
 
         var itemElms = cut.FindAll(".item");
         var selectedElement = itemElms[selectedIndex];

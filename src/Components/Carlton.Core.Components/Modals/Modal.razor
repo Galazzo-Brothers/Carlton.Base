@@ -16,28 +16,28 @@
     [Parameter]
     public RenderFragment<ModalRenderFragmentState> ModalContent { get; set; }
     [Parameter]
-    public EventCallback<ModalClosedArgs> ModalClosed { get; set; }
+    public EventCallback<ModalCloseEventArgs> OnClose { get; set; }
     [Parameter]
-    public EventCallback ModalDismissed { get; set; }
+    public EventCallback OnDismiss { get; set; }
 
     private ModalRenderFragmentState RenderFragmentState => new ModalRenderFragmentState
         {
             ModalPrompt = ModalPrompt,
             ModalMessage = ModalMessage,
-            CloseModalCallback = OnClose,
-            DissmissCallback = OnDismiss
+            HandleClose = HandleClose,
+            HandleDismiss = HandleDismiss
         };
 
-    private async Task OnClose(ModalClosedArgs args)
+    private async Task HandleClose(ModalCloseEventArgs args)
     {
         IsVisible = false;
-        await ModalClosed.InvokeAsync(args);
+        await OnClose.InvokeAsync(args);
     }
 
-    private async Task OnDismiss()
+    private async Task HandleDismiss()
     {
         IsVisible = false;
-        await ModalDismissed.InvokeAsync();
+        await OnDismiss.InvokeAsync();
     }
 
     private string ModalClass

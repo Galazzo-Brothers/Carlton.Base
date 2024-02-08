@@ -43,7 +43,7 @@ public class IconButtonComponentTests : TestContext
         var eventCalled = false;
         var cut = RenderComponent<IconButton>(parameters => parameters
             .Add(p => p.Icon, expectedIconClass)
-            .Add(p => p.OnClickCallback, () => { eventCalled = true; }));
+            .Add(p => p.OnClick, () => { eventCalled = true; }));
 
         //Act
         cut.Find(".icon-btn").Click();

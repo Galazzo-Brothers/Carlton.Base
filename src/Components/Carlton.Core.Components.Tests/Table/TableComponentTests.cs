@@ -447,7 +447,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.CurrentPage, expectedCurrentPage)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.PageChanged, args =>
+            .Add(p => p.OnPageChange, args =>
             {
                 eventFired = true;
                 actualPage = args.CurrentPage;
@@ -481,7 +481,7 @@ public class TableComponentTests : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, expectedIndexToSelect)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.RowsPerPageChanged, args =>
+            .Add(p => p.OnRowsPerPageChange, args =>
             {
                 eventFired = true;
                 actualSelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
@@ -518,11 +518,11 @@ public class TableComponentTests : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.ItemsOrdered, args =>
+            .Add(p => p.OnItemsSort, args =>
             {
                 eventFired = true;
-                actualOrderColumn = args.OrderColumn;
-                actualOrderAscending = args.OrderAscending;
+                actualOrderColumn = args.SortColumn;
+                actualOrderAscending = args.SortAscending;
             }));
 
         var headerRowItems = cut.FindAll(".header-cell");
@@ -557,11 +557,11 @@ public class TableComponentTests : TestContext
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
             .Add(p => p.ShowPaginationRow, true)
-            .Add(p => p.ItemsOrdered, args =>
+            .Add(p => p.OnItemsSort, args =>
             {
                 eventFired = true;
-                actualOrderColumn = args.OrderColumn;
-                actualOrderAscending = args.OrderAscending;
+                actualOrderColumn = args.SortColumn;
+                actualOrderAscending = args.SortAscending;
             }));
 
         var headerRowItems = cut.FindAll(".header-cell");

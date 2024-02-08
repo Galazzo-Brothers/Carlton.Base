@@ -36,7 +36,7 @@ public class DynamicEventCaptureWrapperComponentTests : TestContext
         //Arrange
         var eventRaised = false;
 
-        var expectedEventName = "CheckboxValueChangedCallback";
+        var expectedEventName = "OnValueChange";
         var expectedEventArgs = !expectedIsChecked;
 
         var eventName = string.Empty;
@@ -51,7 +51,7 @@ public class DynamicEventCaptureWrapperComponentTests : TestContext
         var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
             .Add(p => p.ComponentType, checkboxComponentType)
             .Add(p => p.ComponentParameters, ComponentParameters)
-            .Add(p => p.ComponentEventRaised, (args) =>
+            .Add(p => p.OnCapturedComponentEvent, (args) =>
             {
                 eventRaised = true;
                 eventName = args.EventName;
@@ -73,7 +73,7 @@ public class DynamicEventCaptureWrapperComponentTests : TestContext
     {
         //Arrange
         var eventRaised = false;
-        var expectedEventName = "OnClickCallback";
+        var expectedEventName = "OnClick";
         var eventName = string.Empty;
         object eventArgs = null;
 
@@ -86,7 +86,7 @@ public class DynamicEventCaptureWrapperComponentTests : TestContext
         var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
             .Add(p => p.ComponentType, actionButtonComponentType)
             .Add(p => p.ComponentParameters, ComponentParameters)
-            .Add(p => p.ComponentEventRaised, (args) =>
+            .Add(p => p.OnCapturedComponentEvent, (args) =>
             {
                 eventRaised = true;
                 eventName = args.EventName;

@@ -189,12 +189,12 @@ public class AccordionSelectGroupComponentTests : TestContext
         var selectedGroupIndex = RandomUtilities.GetRandomIndex(expectedGroups.Count());
         var selectedItemIndex = RandomUtilities.GetRandomIndex(expectedGroups.ElementAt(selectedGroupIndex).Items.Count());
         var eventCalled = false;
-        SelectItemChangedEventArgs<int>? evt = null;
+        ItemSelectedEventArgs<int>? evt = null;
         var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
             .Add(p => p.Groups, expectedGroups)
             .Add(p => p.SelectedGroupIndex, selectedGroupIndex)
             .Add(p => p.SelectedItemIndex, selectedItemIndex)
-            .Add(p => p.SelectedItemChanged, (_) => { eventCalled = true; evt = _; }));
+            .Add(p => p.OnItemSelected, (_) => { eventCalled = true; evt = _; }));
 
         var itemToClick = cut.Find($".accordion-select-group > .accordion-select:nth-child({selectedGroupIndex + 1}) > .content > .item-container > .item:nth-child({selectedItemIndex + 1})");
 

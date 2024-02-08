@@ -4,7 +4,7 @@
 
 @foreach (var (heading, i) in Headings.WithIndex())
 {
-    <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HeaderRowItemClick(heading.OrderingName)">
+    <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HandleItemsSort(heading.OrderingName)">
         <div class="heading-container">
             <span class="heading-text">@heading.DisplayName</span>
             <div class="sort-arrows">
@@ -27,7 +27,7 @@
     public bool OrderAscending { get; set; } = true;
 
     [Parameter]
-    public EventCallback<TableOrderingChangedArgs> ItemsOrdered { get; set; }
+    public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
     protected override void OnInitialized()
     {
@@ -50,20 +50,16 @@
                 .Build();
     }
 
-    private async Task HeaderRowItemClick(string selectedOrderColumn)
+    private async Task HandleItemsSort(string selectedOrderColumn)
     {
         OrderAscending = (SelectedOrderColumn == selectedOrderColumn) ? !OrderAscending : true;
         SelectedOrderColumn = selectedOrderColumn;
-        await OrderItems();
-    }
 
-    private async Task OrderItems()
-    {
-        //If no oreder column is specified 
+        //If no oreder column is specified
         //do not trigger an ordering
         if (string.IsNullOrEmpty(SelectedOrderColumn))
             return;
 
-        await ItemsOrdered.InvokeAsync(new TableOrderingChangedArgs(SelectedOrderColumn, OrderAscending));
+        await OnItemsSort.InvokeAsync(new ItemsSortEventArgs(SelectedOrderColumn, OrderAscending));
     }
 }

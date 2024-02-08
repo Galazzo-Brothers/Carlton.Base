@@ -23,7 +23,7 @@ public class ModalDismissMarkComponentTests : TestContext
         //Arrange
         var eventFired = false; ;
         var cut = RenderComponent<ModalDismissMark>(parameters =>
-            parameters.Add(p => p.Dismiss, () => eventFired = true));
+            parameters.Add(p => p.OnDismiss, () => eventFired = true));
 
         //Act
         cut.Find(".close").Click();

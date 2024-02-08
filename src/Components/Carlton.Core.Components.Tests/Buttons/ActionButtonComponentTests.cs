@@ -39,7 +39,7 @@ public class ActionButtonComponentTests : TestContext
         var eventCalled = false;
         var cut = RenderComponent<ActionButton>(parameters => parameters
             .Add(p => p.Text, expectedText)
-            .Add(p => p.OnClickCallback, () => { eventCalled = true; }));
+            .Add(p => p.OnClick, () => { eventCalled = true; }));
 
         //Act
         cut.Find(".action-btn").Click();

@@ -215,7 +215,7 @@ public class TablePaginationRowComponentTests : TestContext
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, 1)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
-            .Add(p => p.RowsPerPageChanged, args =>
+            .Add(p => p.OnRowsPerPageChange, args =>
             {
                 eventFired = true;
                 actualSelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
@@ -251,7 +251,7 @@ public class TablePaginationRowComponentTests : TestContext
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, expectedCurrentPage)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
-            .Add(p => p.RowsPerPageChanged, args =>
+            .Add(p => p.OnRowsPerPageChange, args =>
             {
                 eventFired = true;
             }));
@@ -282,7 +282,7 @@ public class TablePaginationRowComponentTests : TestContext
             .Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
             .Add(p => p.CurrentPage, expectedCurrentPage)
             .Add(p => p.SelectedRowsPerPageIndex, 0)
-            .Add(p => p.PageChanged, args =>
+            .Add(p => p.OnPageChange, args =>
             {
                 eventFired = true;
                 actualPage = args.CurrentPage;

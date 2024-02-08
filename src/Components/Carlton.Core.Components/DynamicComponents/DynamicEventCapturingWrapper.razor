@@ -12,7 +12,7 @@
     public IDictionary<string, object> ComponentParameters { get; set; } = new Dictionary<string, object>();
 
     [Parameter]
-    public EventCallback<CapturedEventRaisedArgs> ComponentEventRaised { get; set; }
+    public EventCallback<CapturedComponentEventArgs> OnCapturedComponentEvent { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -51,7 +51,7 @@
     private object CreateNonGenericEventCallback(PropertyInfo evtCallback)
     {
         //Create a non-generic delegate to assign
-        return EventCallback.Factory.Create(this, () => ComponentEventRaised.InvokeAsync(new CapturedEventRaisedArgs { EventName = evtCallback.Name }));
+        return EventCallback.Factory.Create(this, () => OnCapturedComponentEvent.InvokeAsync(new CapturedComponentEventArgs { EventName = evtCallback.Name }));
     }
 
     private object CreateGenericEventCallback(PropertyInfo evtCallback)
@@ -102,6 +102,6 @@
 
     private void GenericCallback<T>(string callbackName, T obj)
     {
-        ComponentEventRaised.InvokeAsync(new CapturedEventRaisedArgs { EventName = callbackName, EventArgs = obj });
+        OnCapturedComponentEvent.InvokeAsync(new CapturedComponentEventArgs { EventName = callbackName, EventArgs = obj });
     }
 }

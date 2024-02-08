@@ -1,11 +1,11 @@
 ﻿@namespace Carlton.Core.Components.Buttons
 
-<div @onclick="OnClickCallback" class="action-btn"><span>@Text</span></div>
+<div @onclick="OnClick" class="action-btn"><span>@Text</span></div>
 
 @code {
     [Parameter]
     public string Text { get; set; }
 
     [Parameter]
-    public EventCallback OnClickCallback { get; set; }
+    public EventCallback OnClick { get; set; }
 }

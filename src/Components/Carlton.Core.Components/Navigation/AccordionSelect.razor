@@ -3,7 +3,7 @@
 
 <div class="accordion-select">
     <div class="content">
-        <div class="@AccordionHeaderCssClass" @onclick="() => OnAccordionClick()">
+        <div class="@AccordionHeaderCssClass" @onclick="() => HandleItemExpansionChange()">
             <span class="@AccordionIconBtnCssClass"></span>
             <span class="item-group-name">
                 @Title
@@ -12,7 +12,7 @@
         <div class="@ItemContainerCssClass">
             @foreach (var item in Items)
             {
-                <div class="@ItemCss(item.Index)" @onclick="() => OnItemSelected(item)">
+                <div class="@ItemCss(item.Index)" @onclick="() => HandleItemSelected(item)">
                     <span class="@ItemIconCss"></span>
                     <span class="item-name">
                         @item.Name
@@ -37,10 +37,10 @@
     public bool IsExpanded { get; set; }
 
     [Parameter]
-    public EventCallback<SelectItem<TValue>> SelectedItemChanged { get; set; }
+    public EventCallback<SelectItem<TValue>> OnItemSelected { get; set; }
 
     [Parameter]
-    public EventCallback<bool> ExpandedStateChanged { get; set; }
+    public EventCallback<bool> OnItemExpansionChange { get; set; }
 
     public TValue SelectedValue { get => SelectedIndex == -1 ? default(TValue) : Items.ElementAt(SelectedIndex).Value; }
 
@@ -56,16 +56,16 @@
         base.OnInitialized();
     }
 
-    private async Task OnAccordionClick()
+    private async Task HandleItemExpansionChange()
     {
         IsExpanded = !IsExpanded;
-        await ExpandedStateChanged.InvokeAsync(IsExpanded);
+        await OnItemExpansionChange.InvokeAsync(IsExpanded);
     }
 
-    private async Task OnItemSelected(SelectItem<TValue> item)
+    private async Task HandleItemSelected(SelectItem<TValue> item)
     {
         SelectedIndex = item.Index;
-        await SelectedItemChanged.InvokeAsync(item);
+        await OnItemSelected.InvokeAsync(item);
     }
 
     private string AccordionHeaderCssClass

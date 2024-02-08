@@ -4,7 +4,7 @@
     <Console Text="@JsonObj"
              IsReadOnly="@IsReadOnly"
              IsValid="@IsValid"
-             OnChangeCallback="OnTextChange" />
+             OnValueChange="HandleValueChange" />
 </div>
 
 
@@ -16,7 +16,7 @@
     public bool IsReadOnly { get; set; }
 
     [Parameter]
-    public EventCallback<object> OnChangeCallback { get; set; }
+    public EventCallback<object> OnValueChange{ get; set; }
 
     private bool IsValid { get; set; } = true;
     private string JsonObj { get; set; } = string.Empty;
@@ -28,7 +28,7 @@
         base.OnParametersSet();
     }
 
-    private async Task OnTextChange(string vmStr)
+    private async Task HandleValueChange(string vmStr)
     {
         try
         {
@@ -38,7 +38,7 @@
             IsValid = true;
 
             //If Parse succeeds Send ComponentEvent    
-            await OnChangeCallback.InvokeAsync(deserializedObj);
+            await OnValueChange.InvokeAsync(deserializedObj);
         }
         catch(Exception)
         {

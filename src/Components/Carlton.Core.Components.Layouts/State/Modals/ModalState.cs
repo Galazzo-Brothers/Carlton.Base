@@ -23,7 +23,7 @@ public class ModalState : IModalState
         RaiseModalStateChangedEvent();
     }
 
-    private Func<ModalClosedArgs, Task> WrapCloseModalCallback(Func<ModalClosedArgs, Task> closeModalCallback) =>
+    private Func<ModalCloseEventArgs, Task> WrapCloseModalCallback(Func<ModalCloseEventArgs, Task> closeModalCallback) =>
         async (args) =>
         {
             IsVisible = false;
