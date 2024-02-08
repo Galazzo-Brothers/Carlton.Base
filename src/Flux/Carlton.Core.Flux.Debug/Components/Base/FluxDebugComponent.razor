@@ -1,13 +1,18 @@
-﻿@using Carlton.Core.Flux.Components
+﻿@using Carlton.Core.Components.Spinners
+@using Carlton.Core.Flux.Components
 @namespace Carlton.Core.Flux.Debug
 @typeparam TViewModel
 
 
-<FluxComponent TViewModel="TViewModel" TState="FluxDebugState">
+<FluxComponent TViewModel="TViewModel"
+               TState="FluxDebugState">
     <SpinnerContent>
         <Spinner />
     </SpinnerContent>
     <ErrorPrompt Context="error">
-          <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="@error.Recover" />
+        <ErrorPrompt ErrorHeader="@error.Header"
+                     ErrorIconClass="@error.IconClass"
+                     ErrorMessage="@error.Message"
+                     Retry="@error.Recover" />
     </ErrorPrompt>
 </FluxComponent>

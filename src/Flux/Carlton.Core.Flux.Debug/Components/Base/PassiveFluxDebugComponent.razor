@@ -1,18 +1,24 @@
-﻿@using Carlton.Core.Flux.Components
+﻿@using Carlton.Core.Components.Spinners
+@using Carlton.Core.Flux.Components
 @namespace Carlton.Core.Flux.Debug
 @typeparam TViewModel
 
 
-<PassiveFluxComponent TViewModel="TViewModel" TState="FluxDebugState" PassiveViewModel="PassiveViewModel">
+<PassiveFluxComponent TState="FluxDebugState"
+                      TViewModel="TViewModel"
+                      PassiveViewModel="PassiveViewModel">
     <SpinnerContent>
         <Spinner />
     </SpinnerContent>
     <ErrorPrompt Context="error">
-        <ErrorPrompt ErrorHeader="@error.Header" ErrorIconClass="@error.IconClass" ErrorMessage="@error.Message" OnClick="@error.Recover" />
+        <ErrorPrompt ErrorHeader="@error.Header"
+                     ErrorIconClass="@error.IconClass"
+                     ErrorMessage="@error.Message"
+                     Retry="@error.Recover" />
     </ErrorPrompt>
 </PassiveFluxComponent>
 
-@code{
+@code {
     [Parameter]
-    public TViewModel PassiveViewModel {get; set;}
+    public TViewModel PassiveViewModel { get; set; }
 }

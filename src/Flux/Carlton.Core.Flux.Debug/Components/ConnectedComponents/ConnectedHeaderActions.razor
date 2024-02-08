@@ -1,5 +1,5 @@
 ﻿@using Carlton.Core.Components
-@using Carlton.Core.Components.DropdownMenu
+@using Carlton.Core.Components.Dropdowns
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Components.Layouts.State.Modals
 @using Carlton.Core.Components.Layouts.State.Theme
@@ -19,8 +19,7 @@
 <FluxDebugHeaderActions 
        UserName="@ViewModel.UserName"
        AvatarUrl="@ViewModel.AvatarUrl"
-       DropdownMenuItems="DropdownMenuItems"
-    />
+       DropdownMenuItems="DropdownMenuItems"/>
 
 
 @code {
@@ -39,7 +38,14 @@
     }
 
     private void RaiseClearLocalStorageConfirmationModal()
-        => ModalState.RaiseModal<ConfirmationModal>("Are you sure", "Are you sure you want to clear the local storage logs?", null, ClearLocalStorageConfirmed);
+        => ModalState.RaiseModal(ModalTypes.ConfirmationModal,
+            new ModalViewModel
+            {
+               ModalPrompt = "Are you sure",
+               ModalMessage = "Are you sure you want to clear the local storage logs?",
+               CloseModal = ClearLocalStorageConfirmed,
+               DismissModal = null
+            });
 
 
     private async Task ClearLocalStorageConfirmed(object args)
