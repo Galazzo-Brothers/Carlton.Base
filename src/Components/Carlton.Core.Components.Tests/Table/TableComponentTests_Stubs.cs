@@ -170,7 +170,8 @@ public class TableComponentTests_Stubs : TestContext
     public void Table_ItemsParameter_RendersCorrectly(
        IEnumerable<TableHeadingItem> expectedHeadings,
        IEnumerable<TableTestObject> expectedItems,
-       IEnumerable<int> rowsPerPageOpts)
+       IEnumerable<int> rowsPerPageOpts,
+       bool expectedShowPaginationRow)
     {
         //Arrange
         var expectedItemCount = expectedItems.Count();
@@ -183,10 +184,12 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.Items, expectedItems)
             .Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
             .Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
-            .Add(p => p.ShowPaginationRow, true));
+            .Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
 
         var tableRows = cut.FindAll(".table-row");
-        var actualItemCount = tableRows.Count - 2; //Exclude the header and action rows
+        var actualItemCount = expectedShowPaginationRow ?
+            tableRows.Count - 2 : //Exclude the header and pagination rows
+            tableRows.Count - 1; //Exclude the header row
         var expectedDisplayValues = expectedItems.Select(item => new TableTestObject(item.ID, item.DisplayName, item.CreatedDate))
             .SelectMany(_ => new[] { _.ID.ToString(), _.DisplayName, _.CreatedDate.ToString("d", CultureInfo.InvariantCulture) });
         var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
@@ -220,7 +223,9 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
 
         var rowElements = cut.FindAll(".table-row");
-        var itemRowElements = rowElements.Skip(1).Take(rowElements.Count - 2);
+        var itemRowElements = expectedShowPaginationRow ?
+            rowElements.Skip(1).Take(rowElements.Count - 2) : //throw away the header and pagination rows
+            rowElements.Skip(1); //throw away the header row
         var expectedContent = expectedItems.Select(_ => string.Format(expectedRowTemplate, _.ID, _.DisplayName, _.CreatedDate.ToString("d", CultureInfo.InvariantCulture)));
         var actualContent = itemRowElements.Select(_ => _.OuterHtml);
 
