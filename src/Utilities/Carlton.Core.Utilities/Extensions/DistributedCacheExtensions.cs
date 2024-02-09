@@ -1,6 +1,4 @@
-﻿using JsonSerializer = System.Text.Json.JsonSerializer;
-
-namespace Carlton.Core.Utilities.Caching;
+﻿namespace Carlton.Core.Utilities.DistributedCacheExtensions;
 
 public static class DistributedCacheExtensions
 {

@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Utilities;
+﻿namespace Carlton.Core.Utilities.Proxy;
 
 public class DispatchProxyLoggingDecorator<TDecorated> : DispatchProxy
   where TDecorated : class

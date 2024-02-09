@@ -14,7 +14,6 @@ public class LogMessageConverter : JsonConverter<Exception>
         writer.WriteString("ExceptionType", value.GetType().FullName);
         writer.WriteString("Message", value.Message);
         writer.WriteString("StackTrace", value.StackTrace);
-        // You can include additional properties as needed for your use case
         writer.WriteEndObject();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-namespace Carlton.Core.Utilities.Validations;
+namespace Carlton.Core.Utilities.Validation;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class NonNegativeIntegerAttribute : ValidationAttribute
