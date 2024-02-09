@@ -1,4 +1,5 @@
 ﻿@using Carlton.Core.Components.Toasts
+@using Carlton.Core.Utilities.DataStructures
 @namespace Carlton.Core.Components.Layouts.Toasts
 
 <div class="layout-toaster">
@@ -8,14 +9,18 @@
     }
 
     <div class="content" style="@ContentStyle">
-        @foreach (var vm in Toasts)
+        @foreach (var toast in ToastsCircularStack)
         {
-            <Toast ViewModel="@vm" />
+            @if(!toast.Toasted)
+            {
+                <Toast ViewModel="toast" OnToasted="() =>
+                    {
+                        toast.MarkAsToasted();
+                    }"/>
+            }
         }
     </div>
 </div>
-
-
 
 @code {
     [Parameter]
@@ -27,14 +32,14 @@
     [Parameter]
     public int Right { get; set; }
 
+    private const int MaxToastCount = 3;
     private int ToastIndex { get; set; }
 
-    private List<ToastViewModel> Toasts { get; } = new List<ToastViewModel>();
+    private CircularStack<ToastViewModel> ToastsCircularStack { get; } = new(MaxToastCount);
 
     public void GenerateNotification(ToastViewModel newToast)
     {
-        Toasts.Add(newToast);
-        ToastIndex++;
+        ToastsCircularStack.Push(newToast);
         StateHasChanged();
     }
 
