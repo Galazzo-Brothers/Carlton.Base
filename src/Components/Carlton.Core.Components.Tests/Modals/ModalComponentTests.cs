@@ -80,7 +80,7 @@ public class ModalComponentTests : TestContext
          }));
 
         //Act
-        cut.Find(".close").Click();
+        cut.Find(".dismiss").Click();
 
         //Assert
         eventFired.ShouldBeTrue();

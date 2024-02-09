@@ -8,7 +8,7 @@ public class ModalDismissMarkComponentTests : TestContext
     public void ModalDismissMark_Markup_RendersCorrectly()
     {
         //Arrange
-        var expectedMarkup = @$"<span class=""close"">&times;</span>";
+        var expectedMarkup = @$"<span class=""dismiss"">&times;</span>";
 
         //Act
         var cut = RenderComponent<ModalDismissMark>();
@@ -26,7 +26,7 @@ public class ModalDismissMarkComponentTests : TestContext
             parameters.Add(p => p.OnDismiss, () => eventFired = true));
 
         //Act
-        cut.Find(".close").Click();
+        cut.Find(".dismiss").Click();
 
         //Assert
         eventFired.ShouldBeTrue();
