@@ -1,17 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
-
-namespace Carlton.Core.Utilities.Extensions;
+﻿namespace Carlton.Core.Utilities.Extensions;
 
 public static class CollectionExtensions
 {
-    public static IReadOnlyCollection<T> AsReadOnly<T>(this ConcurrentBag<T> concurrentBag)
-    {
-        return concurrentBag == null
-            ? throw new ArgumentNullException(nameof(concurrentBag))
-            : (IReadOnlyCollection<T>)new ReadOnlyCollection<T>(concurrentBag.ToList());
-    }
-
     public static T GetValue<T>(this IDictionary<string, object> dictionary, string key)
     {
         return (T) dictionary[key];
@@ -31,5 +21,10 @@ public static class CollectionExtensions
             return enumerable.ElementAt(index);
 
         return default;
+    }
+
+    public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> source)
+    {
+        return source.Select((item, index) => (item, index));
     }
 }

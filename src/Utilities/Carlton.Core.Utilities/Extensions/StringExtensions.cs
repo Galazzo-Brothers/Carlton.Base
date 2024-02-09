@@ -25,18 +25,15 @@ public static class StringExtensions
 
     public static string TrimTrailingComma(this string str)
     {
-        char[] charsToTrim = { ' ', ',' };
-
+        char[] charsToTrim = [' ', ','];
         return str.TrimEnd(charsToTrim);
     }
 
     public static string AddSpacesToCamelCase(this string input)
     {
         if (string.IsNullOrEmpty(input))
-        {
             return input;
-        }
-
+        
         var result = new StringBuilder(input.Length * 2); // Create a StringBuilder to build the result.
 
         // Add the first character as is.

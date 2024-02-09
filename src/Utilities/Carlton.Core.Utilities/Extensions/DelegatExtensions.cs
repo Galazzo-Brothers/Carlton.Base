@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Utilities.Events.Extensions;
+﻿namespace Carlton.Core.Utilities.Extensions;
 
 public static class DelegatExtensions
 {
