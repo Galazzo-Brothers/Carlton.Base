@@ -14,8 +14,11 @@
     [Parameter]
     public int NotificationCount { get; set; }
 
+    private int index = 0;
+
     public void OnClick()
     {
-        ToastState.RaiseToast("Test", "Testing 123", ToastTypes.Success);
+        ToastState.RaiseToast(index.ToString(), "Testing 123", ToastTypes.Success);
+        index = (index + 1) % 3;
     }
 }

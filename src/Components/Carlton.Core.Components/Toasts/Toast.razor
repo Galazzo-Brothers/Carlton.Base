@@ -17,23 +17,45 @@
     [Parameter]
     public ToastViewModel ViewModel { get; set; }
 
+    [Parameter]
+    public EventCallback OnToasted { get; set; }
+
+    private bool IsDismissed { get; set; } = false;
+
     private string ToastId { get => $"toast-{ViewModel.ToastIndex}"; }
 
-    private bool IsDismissed { get; set; }
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        await using (var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
-            await module.InvokeAsync<Task>("initNewToast", ViewModel.ToastIndex);
+        IsDismissed = ViewModel.Toasted;
+        var tasks = new List<Task>();
 
-        if (ViewModel.FadeOutEnabled)
+        if (ViewModel.FadeOutEnabled && !ViewModel.Toasted)
+            IsDismissed = false;
+
+        await base.OnParametersSetAsync();
+
+        await Task.Run(async () =>
         {
-            //Let notification linger for a few seconds
-            await Task.Delay(3000);
             IsDismissed = true;
+            await Task.Delay(3000);
+        });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await using (var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
+                await module.InvokeAsync<Task>("initNewToast", DotNetObjectReference.Create(this), nameof(HandleDismiss), ViewModel.ToastIndex);
         }
 
-        await base.OnInitializedAsync();
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    [JSInvokable("HandleDismiss")]
+    public async Task HandleDismiss()
+    {
+        await OnToasted.InvokeAsync();
     }
 
     private string IconCss
