@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Toasts;
+﻿using Carlton.Core.Components.Layouts.Toasts;
 
 namespace Carlton.Core.Components.Layouts.State.Toasts;
 

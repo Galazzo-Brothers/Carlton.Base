@@ -1,33 +1,17 @@
-﻿@using Carlton.Core.Components.Toasts
+﻿@* @using Carlton.Core.Components.Toasts
 @namespace Carlton.Core.Components.Layouts.Toasts
 
 <div class="test-btns">
-    <button class="success-btn" @onclick="@(
-                () => GenerateNotification(new ToastViewModel(ToastIndex, "Test", "Test", ToastTypes.Success)
-                {
-                    FadeOutEnabled = false
-                }))">
+    <button class="success-btn" @onclick="() => GenerateNotification(SuccessNotification)">
         Success
     </button>
-    <button class="info-btn" @onclick="@(
-                () => GenerateNotification(new ToastViewModel(ToastIndex, "Test", "Test", ToastTypes.Info)
-                {
-                    FadeOutEnabled = false
-                }))">
+    <button class="info-btn" @onclick="@(() => GenerateNotification(InfoNotification))">
         Info
     </button>
-    <button class="warning-btn" @onclick="@(
-                () => GenerateNotification(new ToastViewModel(ToastIndex, "Test", "Test", ToastTypes.Warning)
-                {
-                    FadeOutEnabled = false
-                }))">
+    <button class="warning-btn" @onclick="@(() => GenerateNotification(WarnNotification))">
         Warning
     </button>
-    <button class="error-btn" @onclick="@(
-                () => GenerateNotification(new ToastViewModel(ToastIndex, "Test", "Test", ToastTypes.Error)
-                {
-                    FadeOutEnabled = false
-                }))">
+    <button class="error-btn" @onclick="@(() => GenerateNotification(ErrorNotification))">
         Error
     </button>
 </div>
@@ -38,4 +22,40 @@
     public int ToastIndex { get; set; }
     [Parameter]
     public Action<ToastViewModel> GenerateNotification { get; set; }
-}
+
+    private static ToastViewModel SuccessNotification =>
+        new ToastViewModel
+        {
+            Title = "Test",
+            Message = "Test",
+            ToastType = ToastTypes.Success,
+            FadeOutEnabled = true
+        };
+
+    private static ToastViewModel InfoNotification =>
+        new ToastViewModel
+        {
+            Title = "Test",
+            Message = "Test",
+            ToastType = ToastTypes.Info,
+            FadeOutEnabled = true
+        };
+
+    private static ToastViewModel WarnNotification =>
+       new ToastViewModel
+           {
+               Title = "Test",
+               Message = "Test",
+               ToastType = ToastTypes.Warning,
+               FadeOutEnabled = true
+           };
+
+    private static ToastViewModel ErrorNotification =>
+       new ToastViewModel
+       {
+           Title = "Test",
+           Message = "Test",
+           ToastType = ToastTypes.Error,
+           FadeOutEnabled = true
+       };
+} *@
