@@ -1,13 +1,15 @@
 ﻿@using Microsoft.JSInterop
 @namespace Carlton.Core.Components.Toasts
+@implements IAsyncDisposable
 @inject IJSRuntime JS;
+
 
 <div id="@ToastId" class="@ToastCss">
     <div class="content">
         <span class="@IconCss"></span>
         <div class="message-container">
-            <span class="title">@ViewModel.Title</span>
-            <span class="message">@ViewModel.Message</span>
+            <span class="title">@Title</span>
+            <span class="message">@Message</span>
         </div>
         <span class="@DismissCss" @onclick="@Dismiss"></span>
     </div>
@@ -15,38 +17,54 @@
 
 @code {
     [Parameter]
-    public ToastViewModel ViewModel { get; set; }
-
+    public string Title { get; set; }
     [Parameter]
-    public EventCallback OnToasted { get; set; }
+    public string Message { get; set; }
+    [Parameter]
+    public ToastTypes ToastType { get; set; }
+    [Parameter]
+    public bool FadeOutEnabled { get; set; }
+    [Parameter]
+    public bool IsDismissed { get; set; } = false;
+    [Parameter]
+    public EventCallback OnDismissed { get; set; }
 
-    private bool IsDismissed { get; set; } = false;
+    private static int ToastCount = 0;
 
-    private string ToastId { get => $"toast-{ViewModel.ToastIndex}"; }
+    private int ToastIndex { get; set; }
+
+    private string ToastId { get => $"toast-{ToastIndex}"; }
 
     protected override async Task OnParametersSetAsync()
     {
-        IsDismissed = ViewModel.Toasted;
         var tasks = new List<Task>();
+        tasks.Add(base.OnParametersSetAsync());
 
-        if (ViewModel.FadeOutEnabled && !ViewModel.Toasted)
-            IsDismissed = false;
-
-        await base.OnParametersSetAsync();
-
-        await Task.Run(async () =>
+        if(FadeOutEnabled && !IsDismissed)
         {
-            IsDismissed = true;
-            await Task.Delay(3000);
-        });
+            tasks.Add(Task.Run(async () =>
+            {
+                IsDismissed = true;
+                await Task.Delay(3000);
+            }));
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
+    protected override void OnInitialized()
+    {
+        ToastCount++;
+        ToastIndex = ToastCount;
+        base.OnInitialized();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
         {
-            await using (var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
-                await module.InvokeAsync<Task>("initNewToast", DotNetObjectReference.Create(this), nameof(HandleDismiss), ViewModel.ToastIndex);
+            await using(var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
+                await module.InvokeAsync<Task>("initNewToast", DotNetObjectReference.Create(this), nameof(HandleDismiss), ToastIndex);
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -55,39 +73,41 @@
     [JSInvokable("HandleDismiss")]
     public async Task HandleDismiss()
     {
-        await OnToasted.InvokeAsync();
+        await OnDismissed.InvokeAsync();
     }
 
-    private string IconCss
-    {
-        get => new CssBuilder("icon")
-                .AddClass("mdi mdi-24px")
-                .AddClass("mdi-check-circle", ViewModel.ToastType == ToastTypes.Success)
-                .AddClass("mdi-alert-circle-outline", ViewModel.ToastType == ToastTypes.Info)
-                .AddClass("mdi-alert", ViewModel.ToastType == ToastTypes.Warning)
-                .AddClass("mdi-alert-circle-outline", ViewModel.ToastType == ToastTypes.Error)
-                .Build();
+    private string IconCss =>
+        new CssBuilder("icon")
+            .AddClass("mdi mdi-24px")
+            .AddClass("mdi-check-circle", ToastType == ToastTypes.Success)
+            .AddClass("mdi-alert-circle-outline", ToastType == ToastTypes.Info)
+            .AddClass("mdi-alert", ToastType == ToastTypes.Warning)
+            .AddClass("mdi-alert-circle-outline", ToastType == ToastTypes.Error)
+            .Build();
 
-    }
 
-    private string ToastCss
-    {
-        get => new CssBuilder("toast")
-                .AddClass("success", ViewModel.ToastType == ToastTypes.Success)
-                .AddClass("info", ViewModel.ToastType == ToastTypes.Info)
-                .AddClass("warning", ViewModel.ToastType == ToastTypes.Warning)
-                .AddClass("error", ViewModel.ToastType == ToastTypes.Error)
-                .AddClass("dismissed", IsDismissed)
-                .Build();
-    }
+
+    private string ToastCss =>
+        new CssBuilder("toast")
+            .AddClass("success", ToastType == ToastTypes.Success)
+            .AddClass("info", ToastType == ToastTypes.Info)
+            .AddClass("warning", ToastType == ToastTypes.Warning)
+            .AddClass("error", ToastType == ToastTypes.Error)
+            .AddClass("dismissed", IsDismissed)
+             .Build();
+
 
     private string DismissCss
-    {
-        get => new CssBuilder("dismiss")
-                .AddClass("mdi mdi-18px mdi-close")
-                .Build();
-    }
+        => new CssBuilder("dismiss")
+            .AddClass("mdi mdi-18px mdi-close")
+            .Build();
 
     private void Dismiss()
         => IsDismissed = true;
+
+    public async ValueTask DisposeAsync()
+    {
+        await using(var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
+            await module.InvokeAsync<Task>("disposeToast", DotNetObjectReference.Create(this), nameof(HandleDismiss), ToastIndex);
+    }
 }

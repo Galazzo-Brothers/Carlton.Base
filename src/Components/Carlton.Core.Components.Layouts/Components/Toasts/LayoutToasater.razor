@@ -3,20 +3,22 @@
 @namespace Carlton.Core.Components.Layouts.Toasts
 
 <div class="layout-toaster">
-    @if (IsTestMode)
+    @if(IsTestMode)
     {
-       <LayoutToasterTestPanel ToastIndex="ToastIndex" GenerateNotification="GenerateNotification" />
+        <LayoutToasterTestPanel ToastIndex="ToastIndex" GenerateNotification="GenerateNotification" />
     }
 
     <div class="content" style="@ContentStyle">
-        @foreach (var toast in ToastsCircularStack)
+        @foreach(var toast in ToastsCircularStack)
         {
-            @if(!toast.Toasted)
+            @if(!toast.IsDismissed)
             {
-                <Toast ViewModel="toast" OnToasted="() =>
-                    {
-                        toast.MarkAsToasted();
-                    }"/>
+                <Toast Title="@toast.Title"
+                       Message="@toast.Message"
+                       ToastType="@toast.ToastType"
+                       FadeOutEnabled="!toast.FadeOutEnabled"
+                       IsDismissed="toast.IsDismissed"
+                       OnDismissed="() => toast.MarkAsDismissed()" />
             }
         }
     </div>

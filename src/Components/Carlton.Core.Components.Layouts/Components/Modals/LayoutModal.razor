@@ -5,8 +5,8 @@
 <Modal IsVisible="IsVisible"
        ModalPrompt="@ViewModel.ModalPrompt"
        ModalMessage="@ViewModel.ModalMessage"
-       ModalClosed="@ViewModel.CloseModal"
-       ModalDismissed="@ViewModel.DismissModal">
+       OnClose="@ViewModel.CloseModal"
+       OnDismiss="@ViewModel.DismissModal">
     <ModalContent Context="state">
         @switch (ModalTypes)
         {
