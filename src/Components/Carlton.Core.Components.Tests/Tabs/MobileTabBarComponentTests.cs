@@ -1,7 +1,6 @@
 ﻿using Carlton.Core.Components.Tabs;
-using Carlton.Core.Components.Tests.Tabs;
 using static Carlton.Core.Components.Tests.Tabs.TabTestHelper;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Tabs;
 
 [Trait("Component", nameof(MobileDrawerTabBar))]
 public class MobileTabBarComponentTests : TestContext

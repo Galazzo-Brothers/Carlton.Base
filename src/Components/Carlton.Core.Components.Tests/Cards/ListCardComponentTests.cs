@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Cards;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Cards;
 
 [Trait("Component", nameof(ListCard<int>))]
 public class ListCardComponentTests : TestContext

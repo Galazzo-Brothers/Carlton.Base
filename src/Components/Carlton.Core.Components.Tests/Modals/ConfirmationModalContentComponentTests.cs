@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Components.Modals;
-
 namespace Carlton.Core.Components.Tests.Modals;
 
 [Trait("Component", nameof(ConfirmationModalContent))]

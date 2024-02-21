@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Tests;
+﻿namespace Carlton.Core.Components.Tests.Error;
 
 
 [Trait("Component", nameof(ErrorPrompt))]

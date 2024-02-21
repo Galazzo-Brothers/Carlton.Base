@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Pills;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Pills;
 
 [Trait("Component", nameof(Pill))]
 public class PillComponentTests : TestContext

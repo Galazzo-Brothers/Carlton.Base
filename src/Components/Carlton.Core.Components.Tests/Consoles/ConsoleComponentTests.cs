@@ -1,5 +1,5 @@
 ﻿using Console = Carlton.Core.Components.Consoles.Console;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Consoles;
 
 
 [Trait("Component", nameof(Console))]

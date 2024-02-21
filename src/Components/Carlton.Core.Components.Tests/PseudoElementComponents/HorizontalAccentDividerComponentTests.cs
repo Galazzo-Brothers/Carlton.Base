@@ -1,5 +1,5 @@
-﻿using Carlton.Core.Components.PsudoElementComponents;
-namespace Carlton.Core.Components.Tests;
+﻿using Carlton.Core.Components.PseudoElementComponents;
+namespace Carlton.Core.Components.Tests.PseudoElementComponents;
 
 [Trait("Component", nameof(HorizontalAccentDivider))]
 public class HorizontalAccentDividerComponentTests : TestContext

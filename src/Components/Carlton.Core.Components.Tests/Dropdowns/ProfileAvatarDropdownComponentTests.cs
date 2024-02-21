@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Dropdowns;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Dropdowns;
 
 
 [Trait("Component", nameof(ProfileAvatarDropdown))]
