@@ -55,7 +55,7 @@
         OrderAscending = (SelectedOrderColumn == selectedOrderColumn) ? !OrderAscending : true;
         SelectedOrderColumn = selectedOrderColumn;
 
-        //If no oreder column is specified
+        //If no order column is specified
         //do not trigger an ordering
         if (string.IsNullOrEmpty(SelectedOrderColumn))
             return;
