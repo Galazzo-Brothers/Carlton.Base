@@ -75,7 +75,7 @@ public class DynamicEventCaptureWrapperComponentTests : TestContext
         var eventRaised = false;
         var expectedEventName = "OnClick";
         var eventName = string.Empty;
-        object eventArgs = null;
+        object? eventArgs = null;
 
         var actionButtonComponentType = typeof(ActionButton);
         var ComponentParameters = new Dictionary<string, object>

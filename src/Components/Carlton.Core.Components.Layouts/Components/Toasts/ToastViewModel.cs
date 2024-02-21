@@ -4,6 +4,7 @@ namespace Carlton.Core.Components.Layouts.Toasts;
 
 public class ToastViewModel
 {
+    public required int Id { get; init; }
     public required string Title { get; init; }
     public required string Message { get; init; } 
     public required ToastTypes ToastType { get; init; }

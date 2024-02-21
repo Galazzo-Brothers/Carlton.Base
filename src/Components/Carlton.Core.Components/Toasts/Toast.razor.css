@@ -8,6 +8,7 @@
     .toast {
         opacity: 1;
         transition: opacity .3s ease-in-out; /* Transition for opacity property */
+        border-radius: 5px;
     }
 
         .toast.success {
@@ -70,7 +71,7 @@
 
     .content .dismiss {
         flex-basis: 5%;
-        color: var(--notification-message-text-color);
+        color: white;
         margin-top: auto;
         margin-bottom: auto;
         margin-left: 50px;

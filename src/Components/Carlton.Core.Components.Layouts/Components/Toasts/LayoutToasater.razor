@@ -1,4 +1,5 @@
-﻿@using Carlton.Core.Components.Toasts
+﻿@using Carlton.Core.Components.Layouts.Components.Toasts
+@using Carlton.Core.Components.Toasts
 @using Carlton.Core.Utilities.DataStructures
 @namespace Carlton.Core.Components.Layouts.Toasts
 
@@ -13,7 +14,8 @@
         {
             @if(!toast.IsDismissed)
             {
-                <Toast Title="@toast.Title"
+                <Toast Id="@toast.Id"
+                       Title="@toast.Title"
                        Message="@toast.Message"
                        ToastType="@toast.ToastType"
                        FadeOutEnabled="!toast.FadeOutEnabled"
