@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Tests;
+﻿namespace Carlton.Core.Components.Tests.JavaScriptComponents;
 
 [Trait("Component", nameof(JavaScriptMarkupViewer))]
 public class JavaScriptMarkupViewerComponentTests : TestContext

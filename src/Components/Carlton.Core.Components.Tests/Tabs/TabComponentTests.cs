@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Tabs;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Tabs;
 
 [Trait("Component", nameof(TabComponentTests))]
 public class TabComponentTests : TestContext

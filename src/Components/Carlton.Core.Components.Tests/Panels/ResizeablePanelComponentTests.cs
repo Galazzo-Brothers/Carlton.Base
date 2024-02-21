@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Panels;
-namespace Carlton.Core.Components.Tests;
+namespace Carlton.Core.Components.Tests.Panels;
 
 [Trait("Component", nameof(ResizablePanel))]
 public class ResizeablePanelComponentTests : TestContext

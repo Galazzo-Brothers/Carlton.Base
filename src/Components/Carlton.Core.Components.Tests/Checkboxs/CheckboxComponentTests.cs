@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Components.Tests;
+﻿namespace Carlton.Core.Components.Tests.Checkboxes;
 
 [Trait("Component", nameof(Checkbox))]
 public class CheckboxComponentTests : TestContext
