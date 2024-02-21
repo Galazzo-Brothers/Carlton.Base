@@ -16,6 +16,12 @@
 </div>
 
 @code {
+    public const string ImportPath = $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js";
+    public const string InitNewToast = "initNewToast";
+    public const string DisposeToast = "disposeToast";
+
+    [Parameter]
+    public int Id { get; set; }
     [Parameter]
     public string Title { get; set; }
     [Parameter]
@@ -29,18 +35,22 @@
     [Parameter]
     public EventCallback OnDismissed { get; set; }
 
-    private static int ToastCount = 0;
+    private string ToastId { get => $"toast-{Id}"; }
 
-    private int ToastIndex { get; set; }
+    private IJSObjectReference _module;
 
-    private string ToastId { get => $"toast-{ToastIndex}"; }
+    protected override async Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+    }
 
     protected override async Task OnParametersSetAsync()
     {
         var tasks = new List<Task>();
         tasks.Add(base.OnParametersSetAsync());
 
-        if(FadeOutEnabled && !IsDismissed)
+        if (FadeOutEnabled && !IsDismissed)
         {
             tasks.Add(Task.Run(async () =>
             {
@@ -52,19 +62,12 @@
         await Task.WhenAll(tasks);
     }
 
-    protected override void OnInitialized()
-    {
-        ToastCount++;
-        ToastIndex = ToastCount;
-        base.OnInitialized();
-    }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
-            await using(var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
-                await module.InvokeAsync<Task>("initNewToast", DotNetObjectReference.Create(this), nameof(HandleDismiss), ToastIndex);
+            _module = await JS.InvokeAsync<IJSObjectReference>(Constants.Import, ImportPath);
+            await _module.InvokeAsync<Task>(InitNewToast, DotNetObjectReference.Create(this), nameof(HandleDismiss), Id);
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -107,7 +110,7 @@
 
     public async ValueTask DisposeAsync()
     {
-        await using(var module = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js"))
-            await module.InvokeAsync<Task>("disposeToast", DotNetObjectReference.Create(this), nameof(HandleDismiss), ToastIndex);
+        await _module.InvokeAsync<Task>(DisposeToast, DotNetObjectReference.Create(this), nameof(HandleDismiss), Id);
+        await _module.DisposeAsync();
     }
 }
