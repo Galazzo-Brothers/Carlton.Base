@@ -46,13 +46,19 @@ public static class TableTestHelper
         int expectedOrderColumnIndex = -1,
         bool isAscending = true)
     {
+        var rowsPerPage = rowsPerPageOpts.ElementAt(selectedRowsPerPageIndex);
+        var skip = currentPage == 1 ? 0 : rowsPerPage * (currentPage - 1);
+
+        var itemRows = includePaginationRow ? BuildExpectedPaginatedItemRows(items, rowTemplate, skip, rowsPerPage) :
+            BuildAllExpectedItemRows(items, rowTemplate);
+
         return @$"
   <div class=""table-container {(isZebraStriped ? "zebra" : string.Empty)} {(isHoverable ? "hoverable" : string.Empty)}"">
     <div class=""header table-row"">
         {BuildExpectedHeaderMarkup(headings, isAscending, expectedOrderColumnIndex)}
     </div>
     <div class=""body"">
-        {BuildExpectedItemRows(items, rowTemplate)}
+        {itemRows}
     </div>
     {
     (includePaginationRow ? 
@@ -76,9 +82,14 @@ public static class TableTestHelper
 </div>"));
     }
 
-    public static string BuildExpectedItemRows(IEnumerable<TableTestObject> items, string rowTemplate)
+    public static string BuildAllExpectedItemRows(IEnumerable<TableTestObject> items, string rowTemplate)
     {
         return string.Join(Environment.NewLine, items.Select(item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
+    }
+
+    public static string BuildExpectedPaginatedItemRows(IEnumerable<TableTestObject> items, string rowTemplate, int skip, int rowsPerPage)
+    {
+        return string.Join(Environment.NewLine, items.Skip(skip).Take(rowsPerPage).Select(item => string.Format(rowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture))));
     }
 
     public static string BuildExpectedPaginationRow(int itemTotal, int currentPage, IEnumerable<int> rowsPerPage, int selectedRowsPerPageIndex)
