@@ -19,7 +19,7 @@ public class CardComponentTests : TestContext
     <div class=""content"">
         <div class=""title-content"">
             <span class=""card-title"">{expectedCardTitle}</span>
-            <div class=""status-icon"">{expectedActionBarContent}</div>
+            <div class=""action-content"">{expectedActionBarContent}</div>
         </div>
         <div class=""header-content"">
             {expectedHeaderContent}
@@ -75,7 +75,7 @@ public class CardComponentTests : TestContext
             .Add(p => p.HeaderContent, expectedHeaderContent)
             .Add(p => p.PrimaryCardContent, expectedPrimaryCardContent));
 
-        var actualActionBarContent = cut.Find(".status-icon").InnerHtml;
+        var actualActionBarContent = cut.Find(".action-content").InnerHtml;
 
         //Assert
         actualActionBarContent.ShouldBe(expectedActionBarContent);

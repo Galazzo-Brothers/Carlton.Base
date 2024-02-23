@@ -5,18 +5,21 @@ namespace Carlton.Core.Components.Tests.Modals;
 public class ConfirmationModalContentComponentTests : TestContext
 {
     private const string ExpectedMarkup = @"
-    <div class=""modal-header"">
-        <div class=""mdi mdi-48px mdi-alert-circle-outline""></div>
-    </div>
-    <div class=""modal-prompt-message"">
-        <span class=""message-text"">{0}</span>
-    </div>
-    <div class=""modal-message"">
-        <span class=""message-text"">{1}</span>
-    </div>
-    <div class=""modal-actions"">
-        <button class=""btn-cancel"">Cancel</button>
-        <button class=""btn-confirm"">Delete</button>
+    <div class=""confirmation-modal-content"">
+        {0}
+        <div class=""modal-header"">
+            <div class=""mdi mdi-48px mdi-alert-circle-outline""></div>
+        </div>
+        <div class=""modal-prompt-message"">
+            <span class=""message-text"">{1}</span>
+        </div>
+        <div class=""modal-message"">
+            <span class=""message-text"">{2}</span>
+        </div>
+        <div class=""modal-actions"">
+            <button class=""btn-cancel"">Cancel</button>
+            <button class=""btn-confirm"">Delete</button>
+        </div>
     </div>";
 
     [Theory(DisplayName = "Markup Test"), AutoData]
@@ -25,9 +28,8 @@ public class ConfirmationModalContentComponentTests : TestContext
         string expectedModalMessage)
     {
         //Arrange
-        var expectedMarkup = 
-            $@"<span class=""dismiss"">×</span>
-            {string.Format(ExpectedMarkup, expectedModalPrompt, expectedModalMessage)}";
+        var dismissMarkup = @"<span class=""dismiss"">×</span>";
+        var expectedMarkup = string.Format(ExpectedMarkup, dismissMarkup, expectedModalPrompt, expectedModalMessage);
 
         //Act
         var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
@@ -50,9 +52,8 @@ public class ConfirmationModalContentComponentTests : TestContext
     {
         //Arrange
         ComponentFactories.AddStub<ModalDismissMark>(@"<span class=""stub"">x</span>");
-        var expectedMarkup =
-           $@"<span class=""stub"">x</span>
-            {string.Format(ExpectedMarkup, expectedModalPrompt, expectedModalMessage)}";
+        var stubMarkup = @"<span class=""stub"">x</span>";
+        var expectedMarkup = string.Format(ExpectedMarkup, stubMarkup, expectedModalPrompt, expectedModalMessage);
 
         //Act
         var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
