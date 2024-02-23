@@ -59,7 +59,6 @@
     [Parameter]
     public EventCallback<ValueChangeArgs<T>> OnValueChange{ get; set; }
 
-
     private bool IsPristine { get; set; } = true;
 
     public string SelectedKey => Options.Any() ? Options.ElementAt(SelectedIndex).Key : default;
