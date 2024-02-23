@@ -1,21 +1,22 @@
 ﻿@namespace Carlton.Core.Components.Modals
 
-<ModalDismissMark OnDismiss="@State.HandleDismiss" />
+<div class="confirmation-modal-content">
+    <ModalDismissMark OnDismiss="@State.HandleDismiss" />
 
-<div class="modal-header">
-    <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
+    <div class="modal-header">
+        <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
+    </div>
+    <div class="modal-prompt-message">
+        <span class="message-text">@State.ModalPrompt</span>
+    </div>
+    <div class="modal-message">
+        <span class="message-text">@State.ModalMessage</span>
+    </div>
+    <div class="modal-actions">
+        <button class="btn-cancel" @onclick="() => State.HandleClose(new ModalCloseEventArgs(false))">Cancel</button>
+        <button class="btn-confirm" @onclick="() => State.HandleClose(new ModalCloseEventArgs(true))">Delete</button>
+    </div>
 </div>
-<div class="modal-prompt-message">
-    <span class="message-text">@State.ModalPrompt</span>
-</div>
-<div class="modal-message">
-    <span class="message-text">@State.ModalMessage</span>
-</div>
-<div class="modal-actions">
-    <button class="btn-cancel" @onclick="() => State.HandleClose(new ModalCloseEventArgs(false))">Cancel</button>
-    <button class="btn-confirm" @onclick="() => State.HandleClose(new ModalCloseEventArgs(true))">Delete</button>
-</div>
-
 
 
 @code {

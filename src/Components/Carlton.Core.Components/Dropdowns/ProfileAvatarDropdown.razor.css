@@ -1,4 +1,9 @@
-﻿.header {
+﻿.profile-avatar{
+	--avatar-img-height: 40px;
+	--avatar-img-width: 40px;
+}
+
+.header {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
@@ -27,8 +32,8 @@
 }
 
 	.profile-avatar .avatar-img {
-		height: 40px;
-		width: 40px;
+		height: var(--avatar-img-height);
+		width: var(--avatar-img-width);
 		border-radius: 20px;
 	}
 

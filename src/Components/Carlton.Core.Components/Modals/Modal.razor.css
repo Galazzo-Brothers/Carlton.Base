@@ -1,4 +1,9 @@
-﻿.modal {
+﻿
+.modal {
+	--modal-background-color: #fefefe;
+}
+
+.modal {
 	display: none;
 	position: fixed;
 	top: 0;
@@ -16,12 +21,9 @@
 	}
 
 .modal-content {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
 	position: relative;
 	min-width: 10%;
-	background-color: #fefefe;
+	background-color: var(--modal-background-color);
 	padding: 20px;
 	border: none;
 	border-radius: 5px;

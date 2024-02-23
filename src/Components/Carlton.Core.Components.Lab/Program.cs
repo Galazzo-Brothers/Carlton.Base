@@ -9,6 +9,8 @@ using Carlton.Core.Components.Tables;
 using Carlton.Core.Lab.Extensions;
 using Microsoft.Extensions.Logging;
 using Carlton.Core.Components.Spinners;
+using Carlton.Core.Components.Pills;
+using Carlton.Core.Components.Toasts;
 
 namespace Carlton.Core.Library.Lab;
 
@@ -58,9 +60,14 @@ public static class Program
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
                    .AddComponentState<Dropdown<int>>(DropdownTestStates.Default)
                    .AddComponentState<KebabMenu<int>>(KebabMenuTestStates.Default)
-                   //.AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
-                   //.AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
-                   //.AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
+                   .AddComponentState<Pill>(PillTestStates.Default)
+                   .AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
+                   .AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
+                   .AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
+                   .AddComponentState<Toast>("Success", ToastTestStates.Success)
+                   .AddComponentState<Toast>("Info", ToastTestStates.Info)
+                   .AddComponentState<Toast>("Warning", ToastTestStates.Warning)
+                   .AddComponentState<Toast>("Error", ToastTestStates.Error)
                    .Build();
         });
 

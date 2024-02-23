@@ -1,5 +1,11 @@
 ﻿
 .tab-bar {
+	--tab-bar-slide-btn-width: 100px;
+	--tab-bar-content-min-height: 50px;
+	--tab-bar-tab-height: 50px;
+}
+
+.tab-bar {
 	display: flex;
 	flex-direction: column;
 }
@@ -7,7 +13,7 @@
 .slide-button {
 	cursor: pointer;
 	display: block;
-	width: 100px;
+	width: var(--tab-bar-slide-btn-width);
 	margin: 0 auto;
 	padding: 15px 0;
 	border: 0;
@@ -16,10 +22,10 @@
 	border-top-right-radius: 10px;
 }
 
-.content{
+.content {
 	display: none;
 	color: #fff;
-	min-height: 50px;
+	min-height: var(--tab-bar-content-min-height);
 	text-align: left;
 }
 
@@ -30,7 +36,7 @@
 
 .tabs {
 	display: flex;
-	height: 50px;
+	height: var(--tab-bar-tab-height);
 }
 
 .tab {

@@ -1,4 +1,8 @@
-﻿.javascript-markup-viewer {
+﻿.javascript-markup-viewer{
+	--javascript-markup-viewer-height: 230px;
+}
+
+.javascript-markup-viewer {
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
@@ -8,7 +12,7 @@ pre{
 	margin: 0;
 }
 
-code{
-	height: 230px;
+code {
+	height: var(--javascript-markup-viewer-height);
 	overflow-y: scroll;
 }

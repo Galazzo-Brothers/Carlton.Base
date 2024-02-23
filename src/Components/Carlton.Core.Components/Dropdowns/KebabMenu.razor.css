@@ -1,4 +1,10 @@
-﻿
+﻿.kebab-dropdown {
+	--kebab-menu-max-width: 250px;
+	--kebab-menu-max-height: 250px;
+	--kebab-menu-options-top: 30px;
+	--kebab-menu-options-right: 0px;
+}
+
 .kebab-dropdown {
 	position: relative;
 }
@@ -18,27 +24,27 @@ i {
 .options {
 	visibility: hidden;
 	max-height: 0;
-	max-width: 250px;
+	max-width: var(--kebab-menu-max-width);
 	overflow: hidden;
 	height: auto;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 	position: absolute;
-	top: 30px;
-	right: 0px;
+	top: var(--kebab-menu-options-top);
+	right: var(--kebab-menu-options-right);
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 5px;
 	color: var(--primary-text-color);
-	background-color: #F5F5F5;
+	background-color: var(--card-background-color);
 	border: 0.5px solid #c9c9c9;
 	transition: 0.5s opacity ease-in-out, 0.5s max-height ease-in-out;
 }
 
 	.options.active {
 		visibility: inherit;
-		max-height: 250px;
+		max-height: var(--kebab-menu-max-height);
 	}
 
 .option {

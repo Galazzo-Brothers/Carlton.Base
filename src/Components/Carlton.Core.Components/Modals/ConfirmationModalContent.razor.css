@@ -1,8 +1,21 @@
 ﻿
+
+.confirmation-modal-content {
+	--confirmation-modal-header-color: #e46a76;
+	--confirmation-modal-confirm-btn-color: #e46a76;
+	--confirmation-modal-cancel-btn-color: gray;
+}
+
+.confirmation-modal-content {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
 .modal-header {
 	margin-left: auto;
 	margin-right: auto;
-	color: #e46a76;
+	color: var(--confirmation-modal-header-color);
 }
 
 
@@ -43,10 +56,10 @@
 		cursor: pointer;
 	}
 
-	.modal-actions .btn-cancel{
-		background-color: gray;
+	.modal-actions .btn-cancel {
+		background-color: var(--confirmation-modal-cancel-btn-color);
 	}
 
 	.modal-actions .btn-confirm {
-		background-color: #e46a76;
+		background-color: var(--confirmation-modal-confirm-btn-color);
 	}

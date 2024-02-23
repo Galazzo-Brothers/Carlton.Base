@@ -1,21 +1,31 @@
-﻿
+﻿.icon-btn {
+	--btn-width: 30px;
+	--btn-height: 30px;
+	--btn-padding: 5px;
+	--btn-border-radius: 25px;
+	--btn-box-shadow: 0 6px 10px 0 #667;
+	--btn-color: #FFF;
+	--btn-background-color: var(--selected-color);
+	--btn-transition-duration: 0.1s;
+}
+
 .icon-btn {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
-	width: 30px;
-	height: 30px;
-	padding: 5px;
-	border-radius: 25px;
-	box-shadow: 0 6px 10px 0 #666;
-	color: white;
-	background-color: var(--selected-color);
-	transition: all 0.1s ease-in-out;
+	width: var(--btn-width);
+	height: var(--btn-height);
+	padding: var(--btn-padding);
+	border-radius: var(--btn-border-radius);
+	box-shadow: var(--btn-box-shadow);
+	color: var(--btn-color);
+	background-color: var(--btn-background-color);
+	transition: all var(--btn-transition-duration) ease-in-out;
 	cursor: pointer;
 }
 
 	.icon-btn:hover {
-		box-shadow: 0 6px 14px 0 #666;
+		box-shadow: 0 6px 14px 0 #667;
 		transform: scale(1.05);
 	}

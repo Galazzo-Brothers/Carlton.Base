@@ -1,8 +1,13 @@
-﻿
+﻿.error-prompt {
+    --error-prompt-height: 200px;
+    --error-prompt-width: 200px;
+    --error-prompt-background-color: #e46a76;
+    --error-prompt-retry-btn-background-color: #e46a76;
+}
 
 .error-prompt {
-    height: 200px;
-    width: 200px;
+    height: var(--error-prompt-height);
+    width: var(--error-prompt-width);
     display: flex;
     flex-direction: column;
     margin-left: auto;
@@ -12,7 +17,7 @@
 .error-header {
     height: 50%;
     text-align: center;
-    background-color: #e46a76;
+    background-color: var(--error-prompt-background-color);
 }
 
     .error-header .content {
@@ -47,7 +52,7 @@
 
         .error-body .content .error-message {
             color: var(--primary-text-color);
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         .error-body .content .retry-btn {
@@ -55,7 +60,7 @@
             width: 75px;
             margin-left: auto;
             margin-right: auto;
-            background-color: #e46a76;
+            background-color: var(--error-prompt-retry-btn-background-color);
             color: white;
             border-radius: 20px;
             border-color: transparent;
