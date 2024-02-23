@@ -4,15 +4,8 @@
     <div class="content">
         <div class="title-content">
             <span class="card-title">@CardTitle</span>
-            <div class="status-icon">
-                @if(ActionBarContent == null)
-                {
-                   @* <KebabMenu />*@
-                }
-                else
-                {
-                    @ActionBarContent
-                }
+            <div class="action-content">
+                @ActionBarContent
             </div>
         </div>
         <div class="header-content">

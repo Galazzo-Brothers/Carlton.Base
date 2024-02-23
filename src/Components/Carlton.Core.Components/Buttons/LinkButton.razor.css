@@ -1,17 +1,26 @@
 ﻿.link-btn {
+	--btn-height: 35px;
+	--btn-color: var(--selected-color);
+	--btn-background-color-hover: rgba(33, 193, 214, 0.25);
+	--btn-padding-left-hover: 10px;
+	--btn-padding-right-hover: 10px;
+	--btn-border-radius-hover: 5px;
+}
+
+.link-btn {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
 	width: auto;
-	height: 35px;
-	color: var(--selected-color);
+	height: var(--btn-height);
+	color: var(--btn-color);
 	cursor: pointer;
 }
 
 	.link-btn:hover {
-		padding-left: 10px;
-		padding-right: 10px;
-		border-radius: 5px;
-		background-color: rgba(33, 193, 214, 0.25);
+		padding-left: var(--btn-padding-left-hover);
+		padding-right: var(--btn-padding-right-hover);
+		border-radius: var(--btn-border-radius-hover);
+		background-color: var(--btn-background-color-hover);
 	}

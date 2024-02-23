@@ -31,7 +31,7 @@
         overflow: hidden;
         transition: 0.5s opacity ease-in-out, 0.5s max-height ease-in-out;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-        background-color: #F5F5F5;
+        background-color: var(--card-background-color);
         border: 0.5px solid #c9c9c9;
         border-radius: 5px;
     }

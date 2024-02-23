@@ -45,7 +45,7 @@ public static class TableTestStates
         get => new()
         {
             { nameof(Table<int>.Headings), Headings },
-            { nameof(Table<int>.Items), SmallItemList },
+            { nameof(Table<int>.Items), SmallList },
             { nameof(Table<int>.RowTemplate), RowTemplate },
             { nameof(Table<int>.ShowPaginationRow), true },
             { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
@@ -57,7 +57,7 @@ public static class TableTestStates
         get => new()
         {
             { nameof(Table<int>.Headings), Headings },
-            { nameof(Table<int>.Items), SmallItemList },
+            { nameof(Table<int>.Items), SmallList },
             { nameof(Table<int>.RowTemplate), RowTemplate },
             { nameof(Table<int>.ShowPaginationRow), false },
             { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }

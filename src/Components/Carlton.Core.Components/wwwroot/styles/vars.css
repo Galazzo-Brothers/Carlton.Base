@@ -39,11 +39,11 @@
     /*Tabs*/
     --tab-font-size: 14px;
     --tab-hover-color: #7c848a;
-    /*Notifications*/
-    --success-notification-background-color: #00897b;
-    --info-notification-background-color: #1e88e5;
-    --warning-notification-background-color: #f0a810;
-    --error-notification-background-color: #e46a76;
+    /*Toasts*/
+    --success-toast-background-color: #00897b;
+    --info-toast-background-color: #1e88e5;
+    --warning-toast-background-color: #f0a810;
+    --error-toast-background-color: #e46a76;
     /*Tables*/
     --table-row-selected-background-color: #c7e0f4;
     /*Spinner*/
@@ -93,10 +93,10 @@
     --tab-font-size: 14px;
     --tab-hover-color: #7c848a;
     /*Notifications*/
-    --success-notification-background-color: #00897b;
-    --info-notification-background-color: #1e88e5;
-    --warning-notification-background-color: #f0a810;
-    --error-notification-background-color: #e46a76;
+    --success-toast-background-color: #00897b;
+    --info-toast-background-color: #1e88e5;
+    --warning-toast-background-color: #f0a810;
+    --error-toast-background-color: #e46a76;
     /*Tables*/
     --table-row-selected-background-color: #21c1d6;
     /*Spinner*/

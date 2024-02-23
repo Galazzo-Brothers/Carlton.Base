@@ -1,5 +1,9 @@
 ﻿
 .text-tab {
+	--text-tab-title-font-weight: 600;
+}
+
+.text-tab {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -15,7 +19,7 @@
 	padding: 10px;
 	text-transform: uppercase;
 	font-size: var(--tab-font-size);
-	font-weight: 600;
+	font-weight: var(--text-tab-title-font-weight);
 	color: var(--primary-text-color);
 	text-align: center;
 }
