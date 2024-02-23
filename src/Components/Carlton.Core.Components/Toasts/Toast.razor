@@ -3,7 +3,7 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS;
 
-
+@* Represents a toast component for displaying toast notification content. *@
 <div id="@ToastId" class="@ToastCss">
     <div class="content">
         <span class="@IconCss"></span>
@@ -16,22 +16,60 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Represents the path for importing the Toast JavaScript file.
+    /// </summary>
     public const string ImportPath = $"./_content/{Constants.ProjectName}/Toasts/Toast.razor.js";
+
+    /// <summary>
+    /// Represents the name of the JavaScript function used to initialize a new toast.
+    /// </summary>
     public const string InitNewToast = "initNewToast";
+
+    /// <summary>
+    /// Represents the name of the JavaScript function used to dispose of a toast.
+    /// </summary>
     public const string DisposeToast = "disposeToast";
 
+    /// <summary>
+    /// Gets or sets the ID of the toast. Used so JavaScript setup and tear down can identify individual toasts/
+    /// </summary>
     [Parameter]
     public int Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the title of the toast.
+    /// </summary>
     [Parameter]
     public string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the message content of the toast.
+    /// </summary>
     [Parameter]
     public string Message { get; set; }
+
+    /// <summary>
+    /// Gets or sets the type of toast.
+    /// </summary>
     [Parameter]
     public ToastTypes ToastType { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether fade-out animation is enabled for the toast.
+    /// </summary>
     [Parameter]
     public bool FadeOutEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the toast is dismissed.
+    /// </summary>
     [Parameter]
     public bool IsDismissed { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the callback invoked when the toast is dismissed.
+    /// </summary>
     [Parameter]
     public EventCallback OnDismissed { get; set; }
 
@@ -41,7 +79,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         await base.OnInitializedAsync();
     }
 
@@ -73,6 +110,9 @@
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    /// <summary>
+    /// Handles the dismissal of the toast.
+    /// </summary>
     [JSInvokable("HandleDismiss")]
     public async Task HandleDismiss()
     {
@@ -108,6 +148,9 @@
     private void Dismiss()
         => IsDismissed = true;
 
+    /// <summary>
+    /// Disposes the component asynchronously.
+    /// </summary>
     public async ValueTask DisposeAsync()
     {
         await _module.InvokeAsync<Task>(DisposeToast, DotNetObjectReference.Create(this), nameof(HandleDismiss), Id);

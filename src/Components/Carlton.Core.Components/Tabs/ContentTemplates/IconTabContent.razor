@@ -1,8 +1,12 @@
 ﻿@namespace Carlton.Core.Components.Tabs
 
+@*Tab Content for displaying tabs as mobile icons*@
 <i class="mdi mdi-24px @Tab.Icon"></i>
 
 @code {
+    /// <summary>
+    /// Gets or sets the tab object representing the configuration and state of the tab.
+    /// </summary>
     [Parameter]
     public Tab Tab { get; set; }
 }

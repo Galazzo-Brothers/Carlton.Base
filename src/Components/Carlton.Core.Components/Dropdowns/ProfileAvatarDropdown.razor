@@ -2,6 +2,7 @@
 @using Carlton.Core.Components.PseudoElementComponents
 @namespace Carlton.Core.Components
 
+@* Represents a profile avatar dropdown component for displaying user information and options. *@
 <div class="profile-avatar-dropdown">
     <DropdownMenu MenuItems="DropdownMenuItems">
         <MenuTemplate>
@@ -22,10 +23,21 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the URL of the avatar image.
+    /// </summary>
     [Parameter]
     public string AvatarImgUrl { get; set; }
+
+    /// <summary>
+    /// Gets or sets the username to be displayed.
+    /// </summary>
     [Parameter]
     public string Username { get; set; }
+
+    /// <summary>
+    /// Gets or sets the collection of dropdown menu items.
+    /// </summary>
     [Parameter]
     public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; set; } = new List<DropdownMenuItem<int>>();
 }   

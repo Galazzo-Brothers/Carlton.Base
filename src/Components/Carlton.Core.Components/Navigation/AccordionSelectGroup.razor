@@ -1,6 +1,10 @@
 ﻿@namespace Carlton.Core.Components.Navigation
 @typeparam TValue
 
+@*
+    Represents a group of accordion select components.
+    TValue: The type of value associated with each item in the select groups.
+*@
 
 <div class="accordion-select-group">
     @foreach (var (group, index) in Groups.WithIndex())
@@ -16,34 +20,52 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the collection of select groups to be displayed.
+    /// </summary>
     [Parameter]
     public IEnumerable<SelectGroup<TValue>> Groups { get; set; }
 
+    /// <summary>
+    /// Event callback invoked when the expansion state of an item within a group changes.
+    /// </summary>
     [Parameter]
     public EventCallback<ItemExpansionChangeEventArgs> OnItemExpansionChange { get; set; }
 
+    /// <summary>
+    /// Event callback invoked when an item within a group is selected.
+    /// </summary>
     [Parameter]
     public EventCallback<ItemSelectedEventArgs<TValue>> OnItemSelected { get; set; }
 
+    /// <summary>
+    /// Gets or sets the index of the currently selected group.
+    /// </summary>
     [Parameter]
     public int SelectedGroupIndex { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets the index of the currently selected item within the group.
+    /// </summary>
     [Parameter]
     public int SelectedItemIndex { get; set; } = 0;
 
+    /// <summary>
+    /// Gets the value of the currently selected item.
+    /// </summary>
     public TValue SelectedValue { get => (SelectedGroupIndex == -1 || SelectedItemIndex == -1) ? default  :
         Groups.ElementAt(SelectedGroupIndex).Items.ElementAt(SelectedItemIndex).Value; }
 
     protected override void OnInitialized()
     {
-        var indiciesAreInvalid = SelectedGroupIndex < -1 || //Index less than -1 not allowed
+        var indicesAreInvalid = SelectedGroupIndex < -1 || //Index less than -1 not allowed
                                  SelectedItemIndex < -1 || //Index less than -1 not allowed
                                  (!Groups.Any() && SelectedGroupIndex != -1) || //Empty groups must have index -1
                                  (Groups.Any() && SelectedGroupIndex > Groups.Count() - 1) || //Non-Empty groups must have index within group count
                                  (Groups.Any() && !Groups.ElementAt(SelectedGroupIndex).Items.Any() && SelectedItemIndex != -1) || //Empty items must have index -1
                                  (Groups.Any() && Groups.ElementAt(SelectedGroupIndex).Items.Any()  && SelectedItemIndex > Groups.ElementAt(SelectedGroupIndex).Items.Count() - 1); //Non-Empty items must have index withi items count
 
-        if (indiciesAreInvalid)
+        if (indicesAreInvalid)
             throw new ArgumentException("The provided index parameters are not valid.");
 
         base.OnInitialized();

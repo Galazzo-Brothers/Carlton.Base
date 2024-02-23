@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components
 
+@* Represents a component for displaying an error prompt with customizable content. *@
 <div class="error-prompt">
     <div class="error-header">
         <div class="content">
@@ -16,15 +17,27 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the header message of the error prompt.
+    /// </summary>
     [Parameter]
     public string ErrorHeader { get; set; }
 
+    /// <summary>
+    /// Gets or sets the body message of the error prompt.
+    /// </summary>
     [Parameter]
     public string ErrorMessage { get; set; }
 
+    /// <summary>
+    /// Gets or sets the CSS class for the error icon.
+    /// </summary>
     [Parameter]
     public string ErrorIconClass { get; set; }
 
+    /// <summary>
+    /// Event callback invoked when the user clicks the retry button.
+    /// </summary>
     [Parameter]
     public EventCallback OnRetry { get; set; }
 

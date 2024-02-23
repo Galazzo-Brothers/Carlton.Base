@@ -1,9 +1,9 @@
 ﻿namespace Carlton.Core.Components.Navigation;
 
-public record ItemExpansionChangeEventArgs(int GroupIndexID, bool IsExpanded);
-public record ItemSelectedEventArgs<TValue>(int GroupIndexID, int ItemIndexID, TValue Item);
+public sealed record ItemExpansionChangeEventArgs(int GroupIndexID, bool IsExpanded);
+public sealed record ItemSelectedEventArgs<TValue>(int GroupIndexID, int ItemIndexID, TValue Item);
 
-public record SelectGroup<TValue>
+public sealed record SelectGroup<TValue>
 {
     public required string Name { get; init; }
     public required int Index { get; init; }
@@ -16,7 +16,7 @@ public record SelectGroup<TValue>
 };
 
 
-public record SelectItem<TValue>
+public sealed record SelectItem<TValue>
 {
     public required string Name { get; init; }
     public required TValue Value { get; init; }

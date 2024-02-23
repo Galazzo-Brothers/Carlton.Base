@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Consoles
 
+@* Represents a text viewer console component. *@
 <div class="console">
     <textarea rows="15"
               disabled="@IsReadOnly"
@@ -10,12 +11,27 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the text displayed in the console.
+    /// </summary>
     [Parameter]
     public string Text { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the console is read-only.
+    /// </summary>
     [Parameter]
     public bool IsReadOnly { get; set; }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the console is in a valid state.
+    /// </summary>
     [Parameter]
     public bool IsValid { get; set; } = true;
+   
+    /// <summary>
+    /// Event callback invoked when the value of the console changes.
+    /// </summary>
     [Parameter]
     public EventCallback<string> OnValueChange { get; set; }
 

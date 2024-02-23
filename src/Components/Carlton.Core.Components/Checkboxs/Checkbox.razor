@@ -1,13 +1,20 @@
 ﻿@namespace Carlton.Core.Components
 
+@* Represents a custom checkbox component. *@
 <div class="@CheckboxCss" @onclick="() => HandleValueChange(IsChecked ? false : true )"></div>
 
 @code {
-    [Parameter]
-    public EventCallback<bool> OnValueChange { get; set; }
-
+    /// <summary>
+    /// Gets or sets the value indicating whether the checkbox is checked.
+    /// </summary>
     [Parameter]
     public bool IsChecked { get; set; }
+    
+    /// <summary>
+    /// Event callback invoked when the checkbox value changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OnValueChange { get; set; }
 
     private string CheckboxCss
     {

@@ -1,6 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Dropdowns
 @typeparam T
 
+@* Represents a dropdown component for selecting from a list of options. *@
 <div class="dropdown">
     <input readonly placeholder=" " value="@((IsPristineEnabled && IsPristine) ? null : SelectedKey)" />
     <div class="label">@Label</div>
@@ -22,21 +23,39 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown is disabled.
+    /// </summary>
     [Parameter]
     public bool IsDisabled { get; set; }
 
+    /// <summary>
+    /// Gets or sets the label displayed above the dropdown.
+    /// </summary>
     [Parameter]
     public string Label { get; set; }
 
+    /// <summary>
+    /// Gets or sets the options available in the dropdown.
+    /// </summary>
     [Parameter]
     public IReadOnlyDictionary<string, T> Options { get; set; } = new Dictionary<string, T>();
 
+    /// <summary>
+    /// Gets or sets the index of the selected option.
+    /// </summary>
     [Parameter]
     public int SelectedIndex { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the pristine state is enabled.
+    /// </summary>
     [Parameter]
     public bool IsPristineEnabled { get; set; }
 
+    /// <summary>
+    /// Event callback invoked when the value of the dropdown changes.
+    /// </summary>
     [Parameter]
     public EventCallback<ValueChangeArgs<T>> OnValueChange{ get; set; }
 

@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Cards
 
+@* Represents a count card component displaying numerical counts with an associated message and icon. *@
 <div class="@CountCardCss">
     <div class="content">
         <div class="@IconCss"></div>
@@ -9,15 +10,33 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets the count value for the card.
+    /// </summary>
     [Parameter]
     public int Count { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the message template for the card.
+    /// </summary>
     [Parameter]
     public string MessageTemplate { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the icon for the card.
+    /// </summary>
     [Parameter]
     public string Icon { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the theme for the card.
+    /// </summary>
     [Parameter]
-    public CountCardTheme Theme { get; set; }
+    public CountCardThemes Theme { get; set; }
 
+    /// <summary>
+    /// Composes the message displayed on the count card.
+    /// </summary>
     public string Message
     {
         get => $"{Count} {MessageTemplate}";

@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Modals
 
+@* Represents a modal component for displaying modal content. *@
 <div class="@ModalClass">
     <div class="modal-content">
         @ModalContent(RenderFragmentState)
@@ -7,16 +8,39 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets a value indicating whether the modal is currently visible.
+    /// </summary>
     [Parameter]
     public bool IsVisible { get; set; }
+
+    /// <summary>
+    /// Gets or sets the prompt message displayed in the modal header.
+    /// </summary>
     [Parameter]
     public string ModalPrompt { get; set; }
+
+    /// <summary>
+    /// Gets or sets the main message displayed in the modal content.
+    /// </summary>
     [Parameter]
     public string ModalMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the render fragment representing the content of the modal.
+    /// </summary>
     [Parameter]
     public RenderFragment<ModalRenderFragmentState> ModalContent { get; set; }
+
+    /// <summary>
+    /// Event callback invoked when the modal is closed.
+    /// </summary>
     [Parameter]
     public EventCallback<ModalCloseEventArgs> OnClose { get; set; }
+
+    /// <summary>
+    /// Event callback invoked when the modal is dismissed.
+    /// </summary>
     [Parameter]
     public EventCallback OnDismiss { get; set; }
 

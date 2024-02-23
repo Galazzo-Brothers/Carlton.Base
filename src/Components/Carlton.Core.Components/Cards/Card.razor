@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Cards
 
+@* Represents a card component with customizable title, action bar, header, and primary content. *@
 <div class="card">
     <div class="content">
         <div class="title-content">
@@ -18,12 +19,27 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the title of the card.
+    /// </summary>
     [Parameter]
     public string CardTitle { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the content for the action bar of the card.
+    /// </summary>
     [Parameter]
     public RenderFragment ActionBarContent { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the content for the header of the card.
+    /// </summary>
     [Parameter]
     public RenderFragment HeaderContent { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the primary content of the card.
+    /// </summary>
     [Parameter]
     public RenderFragment PrimaryCardContent { get; set; }
 }

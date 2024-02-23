@@ -2,47 +2,76 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 
+@* Represents a component for displaying JavaScript markup code with syntax highlighting.
+   This component uses a JavaScript interop to highlight the code using a JavaScript library.
+*@
 <div class="javascript-markup-viewer">
     <pre><code class="@Language"></code></pre>
 </div>
 
 @code {
+    /// <summary>
+    /// The import path for the JavaScript moduledused by this component for highlighting code.
+    /// </summary>
     public const string ImportPath = $"./_content/Carlton.Core.Components/JavaScriptComponents/{nameof(JavaScriptMarkupViewer)}.razor.js";
+
+    /// <summary>
+    /// The JavaScript function to highlight the code block.
+    /// </summary>
     public const string HighlightCodeBlock = "highlightCodeBlock";
+
+    /// <summary>
+    /// The JavaScript function to get the output source.
+    /// </summary>
     public const string GetOutputSource = "getOutputSource";
+
+    /// <summary>
+    /// The JavaScript function to set the code block.
+    /// </summary>
     public const string SetCodeBlock = "setCodeBlock";
+
+    /// <summary>
+    /// The selector for the code block element.
+    /// </summary>
     public const string Selector = "pre code";
 
-    private IJSObjectReference _module;
-
+    /// <summary>
+    /// Gets or sets the source code to be displayed.
+    /// </summary>
     [Parameter]
     public string Source { get; set; }
 
+    /// <summary>
+    /// Gets or sets the language of the source code.
+    /// </summary>
     [Parameter]
     public string Language { get; set; }
 
+    private IJSObjectReference Module { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
-        _module = await JSRuntime.InvokeAsync<IJSObjectReference>(Constants.Import, ImportPath);
+        Module = await JSRuntime.InvokeAsync<IJSObjectReference>(Constants.Import, ImportPath);
         await base.OnInitializedAsync();
     }
 
     protected async override Task OnParametersSetAsync()
     {
-        await _module.InvokeVoidAsync(SetCodeBlock, Selector, Source);
+        await Module.InvokeVoidAsync(SetCodeBlock, Selector, Source);
         await base.OnParametersSetAsync();
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        if(_module != null)
-            await _module.InvokeVoidAsync(JavaScriptMarkupViewer.HighlightCodeBlock, Selector);
+        if(Module != null)
+            await Module.InvokeVoidAsync(JavaScriptMarkupViewer.HighlightCodeBlock, Selector);
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
-        await _module.DisposeAsync();
+        await Module.DisposeAsync();
     }
 }

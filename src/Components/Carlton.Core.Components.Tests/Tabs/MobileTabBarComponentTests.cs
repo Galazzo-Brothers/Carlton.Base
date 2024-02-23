@@ -126,7 +126,7 @@ public class MobileTabBarComponentTests : TestContext
         </div>"));
 
         var tabBar = @$"
-        <div class=""mobile-collapsable-tab-bar"">
+        <div class=""mobile-collapsible-tab-bar"">
             <div class=""tab-bar"">
                 {slideButton}
                 <div class=""content"">

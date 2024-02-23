@@ -9,7 +9,7 @@ public class CountCardComponentTests : TestContext
         int expectedCount,
         string expectedIconClass,
         string expectedMessageTemplate,
-        CountCardTheme expectedTheme)
+        CountCardThemes expectedTheme)
     {
         //Arrange
         var expectedMarkup = 
@@ -36,7 +36,7 @@ public class CountCardComponentTests : TestContext
         int expectedCount,
         string expectedIconClass,
         string expectedMessageTemplate,
-        CountCardTheme expectedTheme)
+        CountCardThemes expectedTheme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
@@ -56,7 +56,7 @@ public class CountCardComponentTests : TestContext
         int expectedCount,
         string expectedIconClass,
         string expectedMessageTemplate,
-        CountCardTheme expectedTheme)
+        CountCardThemes expectedTheme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
@@ -78,7 +78,7 @@ public class CountCardComponentTests : TestContext
         int expectedCount,
         string expectedIcon,
         string expectedMessageTemplate,
-        CountCardTheme expectedTheme)
+        CountCardThemes expectedTheme)
     {
         //Act
         var cut = RenderComponent<CountCard>(parameters => parameters
@@ -94,12 +94,12 @@ public class CountCardComponentTests : TestContext
     }
 
     [Theory(DisplayName = "Theme Parameter Test")]
-    [InlineAutoData(CountCardTheme.Red)]
-    [InlineAutoData(CountCardTheme.Blue)]
-    [InlineAutoData(CountCardTheme.Green)]
-    [InlineAutoData(CountCardTheme.Purple)]
+    [InlineAutoData(CountCardThemes.Red)]
+    [InlineAutoData(CountCardThemes.Blue)]
+    [InlineAutoData(CountCardThemes.Green)]
+    [InlineAutoData(CountCardThemes.Purple)]
     public void CountCard_ThemeParameter_RendersCorrectly(
-        CountCardTheme expectedTheme,
+        CountCardThemes expectedTheme,
         int expectedCount,
         string expectedClassIcon,
         string expectedMessageTemplate)
