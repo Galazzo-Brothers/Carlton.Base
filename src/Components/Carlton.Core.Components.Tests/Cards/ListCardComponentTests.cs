@@ -161,8 +161,8 @@ public class ListCardComponentTests : TestContext
   <div class=""content"">
     <div class=""title-content"">
       <span class=""card-title"">{title}</span>
-      <div class=""status-icon"">
-       <div class=""kebab-dropdown"" >
+      <div class=""action-content"">
+        <div class=""kebab-dropdown"" >
           <i class=""mdi mdi-24px disabled mdi-dots-vertical""  ></i>
           <div class=""options"" ></div>
         </div>
