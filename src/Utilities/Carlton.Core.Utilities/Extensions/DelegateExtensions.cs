@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Utilities.Extensions;
 
-public static class DelegatExtensions
+public static class DelegateExtensions
 {
     public static async Task RaiseAsyncDelegates<TArgs>(this Delegate[] delegates, TArgs args)
     {
