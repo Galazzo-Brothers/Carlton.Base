@@ -23,7 +23,7 @@ internal partial class MutationCommandMapper
     internal static partial RecordEventCommand ToCommand(CapturedComponentEventArgs args);
 
     internal static ClearEventsCommand ToClearEventsCommand(object args) => new();
-    internal static UpdateParametersCommand ToUpdateParametersCommand(ComponentParameters args) => new() { Parameters = args };
+    internal static UpdateParametersCommand ToUpdateParametersCommand(object args) => new() { Parameters = args };
 }
 
 

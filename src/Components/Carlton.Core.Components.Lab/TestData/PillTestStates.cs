@@ -1,14 +1,12 @@
-﻿using Carlton.Core.Components.Pills;
+﻿namespace Carlton.Core.Components.Lab.TestData;
 
-namespace Carlton.Core.Components.Lab.TestData;
-
-public class PillTestStates
+internal class PillTestStates
 {
-    public static Dictionary<string, object> Default
+    public static object Default
     {
-        get => new()
+        get => new
         {
-            { nameof(Pill.Text), "This is a pill" }
+            Text = "This is a pill"
         };
     }
 }

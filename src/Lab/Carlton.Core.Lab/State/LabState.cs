@@ -13,7 +13,7 @@ public record LabState
     [JsonConverter(typeof(JsonTypeConverter))]
     public Type SelectedComponentType { get { return ComponentStates.ElementAt(SelectedComponentIndex).ComponentType; } }
     public string SelectedComponentMarkup { get; init; }
-    public ComponentParameters SelectedComponentParameters { get; init; } = new Dictionary<string, object>();
+    public object SelectedComponentParameters { get; init; }
     public IEnumerable<ComponentRecordedEvent> ComponentEvents 
     {
         get { return _componentEvents; }

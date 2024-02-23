@@ -3,6 +3,6 @@
 public sealed record UpdateParametersCommand
 {
     [Required]
-    public required ComponentParameters Parameters { get; init; }
+    public required object Parameters { get; init; }
 };
 

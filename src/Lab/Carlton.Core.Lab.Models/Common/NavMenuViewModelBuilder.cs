@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Lab.Models.Common;
 
-internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, ComponentParameters ComponentParameters);
+internal sealed record NavMenuBuilderItemState(string DisplayName, Type ComponentType, object ComponentParameters);
 
 public sealed class NavMenuViewModelBuilder
 {
@@ -16,12 +16,12 @@ public sealed class NavMenuViewModelBuilder
         return AddComponentState<T>("Default", new Dictionary<string, object>());
     }
 
-    public NavMenuViewModelBuilder AddComponentState<T>(ComponentParameters componentParameters)
+    public NavMenuViewModelBuilder AddComponentState<T>(object componentParameters)
     {
         return AddComponentState<T>("Default", componentParameters);
     }
 
-    public NavMenuViewModelBuilder AddComponentState<T>(string displayName, ComponentParameters componentParameters)
+    public NavMenuViewModelBuilder AddComponentState<T>(string displayName, object componentParameters)
     {
         var testComp = new NavMenuBuilderItemState(displayName, typeof(T), componentParameters);
         _internalState.Add(testComp);

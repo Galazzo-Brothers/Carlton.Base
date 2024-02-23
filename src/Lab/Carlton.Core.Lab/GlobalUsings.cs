@@ -7,6 +7,5 @@ global using Carlton.Core.Flux.Contracts;
 global using Carlton.Core.Lab.Models.Common;
 global using Carlton.Core.Lab.Models.Commands;
 global using Carlton.Core.Lab.Models.ViewModels;
-global using ComponentParameters = System.Collections.Generic.IDictionary<string, object>;
 
 

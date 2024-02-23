@@ -7,6 +7,7 @@
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
 
 <DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"
-                              ComponentParameters="@ViewModel.ComponentParameters"
+                              ComponentParameters="@ViewModel.ComponentParameters.ConvertToDictionary()"
                               OnCapturedComponentEvent="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
+
 
