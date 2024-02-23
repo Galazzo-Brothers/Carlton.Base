@@ -1,21 +1,20 @@
-﻿using Carlton.Core.Components.Buttons;
-namespace Carlton.Core.Components.Lab.TestData;
+﻿namespace Carlton.Core.Components.Lab.TestData;
 
 internal static class ButtonTestStates
 {
-    internal static Dictionary<string, object> ButtonState
+    public static object ButtonState
     {
-        get => new()
+        get => new
         {
-            {  nameof(ActionButton.Text), "Click Me" }
+              Text = "Click Me" 
         };
     }
 
-    public static Dictionary<string, object> IconButtonState
+    public static object IconButtonState
     {
-        get => new()
+        get => new
         {
-            { nameof(IconButton.Icon),"delete" }
+            Icon = "delete" 
         };
     }
 }

@@ -2,5 +2,5 @@
 public sealed record ParametersViewerViewModel
 {
     [Required]
-    public required ComponentParameters ComponentParameters { get; init; }
+    public required object ComponentParameters { get; init; }
 };

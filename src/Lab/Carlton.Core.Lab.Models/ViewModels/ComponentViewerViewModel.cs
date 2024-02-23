@@ -10,5 +10,5 @@ public sealed record ComponentViewerViewModel
     public required Type ComponentType { get; init; }
 
     [Required]
-    public required IDictionary<string, object> ComponentParameters { get; init; } = new Dictionary<string, object>();
+    public required object ComponentParameters { get; init; }
 };

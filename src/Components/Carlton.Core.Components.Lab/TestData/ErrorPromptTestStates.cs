@@ -1,14 +1,14 @@
 ﻿namespace Carlton.Core.Components.Library.Lab.TestData;
 
-public class ErrorPromptTestStates
+internal class ErrorPromptTestStates
 {
-    public static Dictionary<string, object> DefaultState
+    public static object DefaultState
     {
-        get => new()
+        get => new
         {
-            { nameof(ErrorPrompt.ErrorHeader), "Error" },
-            { nameof(ErrorPrompt.ErrorMessage), "This is an unhandled error." },
-            { nameof(ErrorPrompt.ErrorIconClass), "mdi-alert-circle-outline" }
+            ErrorHeader = "Error",
+            ErrorMessage = "This is an unhandled error.",
+            ErrorIconClass = "mdi-alert-circle-outline"
         };
     }
 }

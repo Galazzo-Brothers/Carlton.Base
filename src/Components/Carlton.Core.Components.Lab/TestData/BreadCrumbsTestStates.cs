@@ -1,45 +1,44 @@
-﻿using Carlton.Core.Components.Navigation;
-namespace Carlton.Core.Components.Library.Lab.TestData;
+﻿namespace Carlton.Core.Components.Library.Lab.TestData;
 
 internal static class BreadCrumbsTestStates
 {
-    public static Dictionary<string, object> CarrotSingleCrumb
+    public static object CarrotSingleCrumb
     {
-        get => new()
+        get => new
         {
-            { nameof(BreadCrumbs.Title), "Home Page" },
-            { nameof(BreadCrumbs.Separator), '>' },
-            { nameof(BreadCrumbs.BreadCrumbItems), new List <string> { "Home" } }
+            Title = "Home Page",
+            Separator = '>',
+            BreadCrumbItems = new List<string> { "Home" }
         };
     }
 
-    public static Dictionary<string, object> CarrotMultiCrumb
+    public static object CarrotMultiCrumb
     {
-        get => new()
+        get => new
         {
-            { nameof(BreadCrumbs.Title), "Home Page" },
-            { nameof(BreadCrumbs.Separator), '>' },
-            { nameof(BreadCrumbs.BreadCrumbItems), new List <string> { "Home", "Test" } }
+            Title = "Home Page",
+            Separator = '>',
+            BreadCrumbItems = new List<string> { "Home", "Test" }
         };
     }
 
-    public static Dictionary<string, object> SlashSingleCrumb
+    public static object SlashSingleCrumb
     {
-        get => new()
+        get => new
         {
-            { nameof(BreadCrumbs.Title), "Home Page" },
-            { nameof(BreadCrumbs.Separator), '/' },
-            { nameof(BreadCrumbs.BreadCrumbItems), new List <string> { "Home" } }
+            Title = "Home Page",
+            Separator = '/',
+            BreadCrumbItems = new List<string> { "Home" }
         };
     }
 
-    public static Dictionary<string, object> SlashMultiCrumb
+    public static object SlashMultiCrumb
     {
-        get => new()
+        get => new
         {
-            { nameof(BreadCrumbs.Title), "Home Page" },
-            { nameof(BreadCrumbs.Separator), '/' },
-            { nameof(BreadCrumbs.BreadCrumbItems), new List <string> { "Home", "Test" } }
+            Title = "Home Page",
+            Separator = '/',
+            BreadCrumbItems = new List<string> { "Home", "Test" }
         };
     }
 }

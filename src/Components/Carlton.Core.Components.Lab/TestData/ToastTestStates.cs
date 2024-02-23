@@ -1,47 +1,45 @@
-﻿using Carlton.Core.Components.Tables;
-using Carlton.Core.Components.Toasts;
-
+﻿using Carlton.Core.Components.Toasts;
 namespace Carlton.Core.Components.Lab.TestData;
 
-public static class ToastTestStates
+internal static class ToastTestStates
 {
-    public static Dictionary<string, object> Success
+    public static object Success
     {
-        get => new()
+        get => new
         {
-            { nameof(Toast.Title), "Test" },
-            { nameof(Toast.Message), "Message" },
-            { nameof(Toast.ToastType), ToastTypes.Success }
+            Title = "Test",
+            Message = "Message",
+            ToastType = ToastTypes.Success
         };
     }
 
-    public static Dictionary<string, object> Info
+    public static object Info
     {
-        get => new()
+        get => new
         {
-            { nameof(Toast.Title), "Test" },
-            { nameof(Toast.Message), "Message" },
-            { nameof(Toast.ToastType), ToastTypes.Info }
+            Title = "Test",
+            Message = "Message",
+            ToastType = ToastTypes.Info
         };
     }
 
-    public static Dictionary<string, object> Warning
+    public static object Warning
     {
-        get => new()
+        get => new
         {
-            { nameof(Toast.Title), "Test" },
-            { nameof(Toast.Message), "Message" },
-            { nameof(Toast.ToastType), ToastTypes.Warning }
+            Title = "Test",
+            Message = "Message",
+            ToastType = ToastTypes.Warning
         };
     }
 
-    public static Dictionary<string, object> Error
+    public static object Error
     {
-        get => new()
+        get => new
         {
-            { nameof(Toast.Title), "Test" },
-            { nameof(Toast.Message), "Message" },
-            { nameof(Toast.ToastType), ToastTypes.Error }
+            Title = "Test",
+            Message = "Message",
+            ToastType = ToastTypes.Error
         };
     }
 }

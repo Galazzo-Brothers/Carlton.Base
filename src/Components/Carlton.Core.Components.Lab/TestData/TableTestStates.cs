@@ -1,7 +1,7 @@
 ﻿using Carlton.Core.Components.Tables;
 
 namespace Carlton.Core.Components.Library.Lab.TestData;
-public static class TableTestStates
+internal static class TableTestStates
 {
     public record TableTestDate
     {
@@ -28,73 +28,73 @@ public static class TableTestStates
 
     }
 
-    public static Dictionary<string, object> LargeItemList
+    public static object LargeItemList
     {
-        get => new()
+        get => new
         {
-            { nameof(Table<int>.Headings), Headings },
-            { nameof(Table<int>.Items), BigList },
-            { nameof(Table<int>.RowTemplate), RowTemplate },
-            { nameof(Table<int>.ShowPaginationRow), true },
-            { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
+            Headings,
+            RowTemplate,
+            Items = BigList,
+            ShowPaginationRow = true,
+            RowsPerPageOpts = RowsPerPageOptions
         };
     }
 
-    public static Dictionary<string, object> SmallItemList
+    public static object SmallItemList
     {
-        get => new()
+        get => new
         {
-            { nameof(Table<int>.Headings), Headings },
-            { nameof(Table<int>.Items), SmallList },
-            { nameof(Table<int>.RowTemplate), RowTemplate },
-            { nameof(Table<int>.ShowPaginationRow), true },
-            { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
+            Headings,
+            RowTemplate,
+            Items = SmallList,
+            ShowPaginationRow = true,
+            RowsPerPageOpts = RowsPerPageOptions
         };
     }
 
-    public static Dictionary<string, object> WithOutPaginationRow
+    public static object WithOutPaginationRow
     {
-        get => new()
+        get => new
         {
-            { nameof(Table<int>.Headings), Headings },
-            { nameof(Table<int>.Items), SmallList },
-            { nameof(Table<int>.RowTemplate), RowTemplate },
-            { nameof(Table<int>.ShowPaginationRow), false },
-            { nameof(Table<int>.RowsPerPageOpts), RowsPerPageOptions }
+            Headings,
+            RowTemplate,
+            Items = SmallList,
+            ShowPaginationRow = false,
+            RowsPerPageOpts = RowsPerPageOptions
         };
     }
 
     private static readonly List<TableHeadingItem> Headings =
             [
-                    new TableHeadingItem(nameof(TableTestObject.ID)),
-                    new TableHeadingItem(nameof(TableTestObject.DisplayName)),
-                    new TableHeadingItem(nameof(TableTestObject.CreatedDate))
+                new TableHeadingItem(nameof(TableTestObject.ID)),
+                new TableHeadingItem(nameof(TableTestObject.DisplayName)),
+                new TableHeadingItem(nameof(TableTestObject.CreatedDate))
             ];
 
     private static readonly List<TableTestObject> BigList =
         [
-                new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-                new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-                new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
-                new TableTestObject(4, "Item 1", new DateTime(2023, 10, 9)),
-                new TableTestObject(5, "Item 2", new DateTime(2022, 2, 3)),
-                new TableTestObject(6, "Item 3", new DateTime(2021, 5, 19)),
-                new TableTestObject(7, "Additional Item A", new DateTime(2023, 10, 9)),
-                new TableTestObject(8, "Additional Item B", new DateTime(2022, 2, 3)),
-                new TableTestObject(9, "Additional Item C", new DateTime(2021, 5, 19)),
-                new TableTestObject(10, "Additional Item 1", new DateTime(2023, 10, 9)),
-                new TableTestObject(11, "Additional Item 2", new DateTime(2022, 2, 3)),
-                new TableTestObject(12, "Additional Item 3", new DateTime(2021, 5, 19)),
-                new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
-                new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
-                new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
+            new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+            new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+            new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
+            new TableTestObject(4, "Item 1", new DateTime(2023, 10, 9)),
+            new TableTestObject(5, "Item 2", new DateTime(2022, 2, 3)),
+            new TableTestObject(6, "Item 3", new DateTime(2021, 5, 19)),
+            new TableTestObject(7, "Additional Item A", new DateTime(2023, 10, 9)),
+            new TableTestObject(8, "Additional Item B", new DateTime(2022, 2, 3)),
+            new TableTestObject(9, "Additional Item C", new DateTime(2021, 5, 19)),
+            new TableTestObject(10, "Additional Item 1", new DateTime(2023, 10, 9)),
+            new TableTestObject(11, "Additional Item 2", new DateTime(2022, 2, 3)),
+            new TableTestObject(12, "Additional Item 3", new DateTime(2021, 5, 19)),
+            new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
+            new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
+            new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
         ];
 
     private static readonly List<TableTestObject> SmallList =
         [
-                new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-                new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-                new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
+            new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
+            new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
+            new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
         ];
 
     private static readonly RenderFragment<TableTestObject> RowTemplate = item =>
