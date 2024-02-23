@@ -1,7 +1,10 @@
 ﻿@namespace Carlton.Core.Components.Tables
 @typeparam TItem
 
-
+@* 
+    Represents the header of the table, displaying the column headings.
+    TItem: The type of items in the table.
+*@
 @foreach (var (heading, i) in Headings.WithIndex())
 {
     <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HandleItemsSort(heading.OrderingName)">
@@ -17,15 +20,27 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets the list of headings for the table columns.
+    /// </summary>
     [Parameter]
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
+    /// <summary>
+    /// Gets or sets the name of the currently selected order column.
+    /// </summary>
     [Parameter]
     public string SelectedOrderColumn { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the sorting order is ascending.
+    /// </summary>
     [Parameter]
     public bool OrderAscending { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the callback invoked when the items in the table are sorted.
+    /// </summary>
     [Parameter]
     public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 

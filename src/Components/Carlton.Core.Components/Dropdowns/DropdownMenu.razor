@@ -1,6 +1,7 @@
 ﻿@namespace Carlton.Core.Components.Dropdowns
 @typeparam T
 
+@* Represents a dropdown menu component with customizable menu items and templates. *@
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
     <div class="menu-template">@MenuTemplate</div>
     <div class="@DropdownMenuCss">
@@ -18,10 +19,21 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the collection of menu items to be displayed in the dropdown.
+    /// </summary>
     [Parameter]
     public IEnumerable<DropdownMenuItem<T>> MenuItems { get; set; } = new List<DropdownMenuItem<T>>();
+
+    /// <summary>
+    /// Gets or sets the template for the menu content.
+    /// </summary>
     [Parameter]
     public RenderFragment MenuTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the template for the header content.
+    /// </summary>
     [Parameter]
     public RenderFragment HeaderTemplate { get; set; }
 

@@ -1,9 +1,9 @@
 ﻿@using Carlton.Core.Components.Dropdowns
 @namespace Carlton.Core.Components.Cards
-
 @inherits Card
 @typeparam TItem
 
+@* Represents a custom card component for displaying a list of items. *@
 <Card CardTitle="@CardTitle">
     <HeaderContent>
         @HeaderContent
@@ -15,7 +15,6 @@
 
     <PrimaryCardContent>
         <div class="sub-title">@SubTitle</div>
-
         <ul>
             @foreach (var item in Items)
             {
@@ -28,12 +27,27 @@
 </Card>
 
 @code {
+    /// <summary>
+    /// Gets or sets the subtitle of the card.
+    /// </summary>
     [Parameter]
     public string SubTitle { get; set; }
+   
+    /// <summary>
+    /// Gets or sets the item template to render for each item.
+    /// </summary>
     [Parameter]
     public RenderFragment<TItem> ItemTemplate { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the list of items to render.
+    /// </summary>
     [Parameter]
     public IEnumerable<TItem> Items { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the list of menu items for the kebab menu.
+    /// </summary>
     [Parameter]
     public IEnumerable<DropdownMenuItem<int>> MenuItems { get; set; } = Enumerable.Empty<DropdownMenuItem<int>>();
 }

@@ -1,7 +1,12 @@
 ﻿@namespace Carlton.Core.Components.Tables
 @typeparam TItem
 
+@*
+    Represents a reusable table component for displaying tabular data with sortable headers and pagination.
+    TItem: The type of items in the table.
+*@
 <div class="@TableCssClass">
+    <!--Table Header-->
     <div class="header table-row">
         <TableHeader TItem="TItem"
                      Headings="Headings"
@@ -9,12 +14,14 @@
                      OrderAscending="OrderAscending"
                      OnItemsSort="(args)=>HandleItemsSort(args)" />
     </div>
+    <!--Table Body-->
     <div class="body">
         @foreach (var item in Items)
         {
             @RowTemplate(item)
         }
     </div>
+    <!--Table Pagination Row-->
     @if (ShowPaginationRow)
     {
         <div class="pagination table-row">
@@ -30,48 +37,93 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the headings for the table columns.
+    /// </summary>
     [Parameter]
     public IEnumerable<TableHeadingItem> Headings { get; set; }
 
+    /// <summary>
+    /// Gets or sets the items to be displayed in the table.
+    /// </summary>
     [Parameter]
     public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
 
+    /// <summary>
+    /// Gets or sets the template for rendering each row in the table.
+    /// </summary>
     [Parameter]
     public RenderFragment<TItem> RowTemplate { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether zebra-striped styling should be applied to the table rows.
+    /// </summary>
     [Parameter]
     public bool ZebraStripped { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether hoverable styling should be applied to the table rows.
+    /// </summary>
     [Parameter]
     public bool Hoverable { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the pagination row should be displayed.
+    /// </summary>
     [Parameter]
     public bool ShowPaginationRow { get; set; }
 
+    /// <summary>
+    /// Gets or sets the options for the number of rows per page.
+    /// </summary>
     [Parameter]
     public IEnumerable<int> RowsPerPageOpts { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current page number.
+    /// </summary>
     [Parameter]
     public int CurrentPage { get; set; } = 1;
 
+    /// <summary>
+    /// Gets or sets the index of the selected rows per page option.
+    /// </summary>
     [Parameter]
     public int SelectedRowsPerPageIndex { get; set; } = 0;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether sortable headers are enabled.
+    /// </summary>
     [Parameter]
     public bool SortableHeadersEnabled { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the column used for ordering items.
+    /// </summary>
     [Parameter]
     public string OrderColumn { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the items are ordered in ascending or descending order.
+    /// </summary>
     [Parameter]
     public bool OrderAscending { get; set; } = true;
 
+    /// <summary>
+    /// Event callback invoked when the page changes.
+    /// </summary>
     [Parameter]
     public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
 
+    /// <summary>
+    /// Event callback invoked when the rows per page value changes.
+    /// </summary>
     [Parameter]
     public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
+    /// <summary>
+    /// Event callback invoked when the items are sorted.
+    /// </summary>
     [Parameter]
     public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 

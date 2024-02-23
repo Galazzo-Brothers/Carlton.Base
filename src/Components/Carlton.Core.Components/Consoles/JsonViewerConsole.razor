@@ -1,5 +1,6 @@
 ﻿@namespace Carlton.Core.Components.Consoles
 
+@* Represents a JSON viewer console component for displaying and interacting with JSON data. *@
 <div class="json-viewer-console">
     <Console Text="@JsonObj"
              IsReadOnly="@IsReadOnly"
@@ -9,12 +10,21 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets the object to be displayed as JSON in the console.
+    /// </summary>
     [Parameter]
     public object Obj { get; set; } = new object();
-
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the console is read-only.
+    /// </summary>
     [Parameter]
     public bool IsReadOnly { get; set; }
-
+    
+    /// <summary>
+    /// Event callback invoked when the value of the console changes.
+    /// </summary>
     [Parameter]
     public EventCallback<object> OnValueChange{ get; set; }
 

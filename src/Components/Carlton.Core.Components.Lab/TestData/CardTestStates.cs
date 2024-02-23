@@ -30,7 +30,7 @@ internal static class CardTestStates
             Count = 7,
             MessageTemplate = "This is a test",
             Icon = "mdi-camera",
-            Theme = CountCardTheme.Blue
+            Theme = CountCardThemes.Blue
         };
     }
 
@@ -41,7 +41,7 @@ internal static class CardTestStates
             Count = 7 ,
             MessageTemplate = "This is a test",
             Icon = "mdi-camera",
-            Theme = CountCardTheme.Green
+            Theme = CountCardThemes.Green
         };
     }
 
@@ -52,7 +52,7 @@ internal static class CardTestStates
             Count = 7,
             MessageTemplate = "This is a test",
             Icon = "mdi-camera",
-            Theme = CountCardTheme.Red
+            Theme = CountCardThemes.Red
         };
     }
 
@@ -63,7 +63,7 @@ internal static class CardTestStates
             Count = 7,
             MessageTemplate = "This is a test",
             Icon = "mdi-camera",
-            Theme = CountCardTheme.Purple
+            Theme = CountCardThemes.Purple
         };
     }
 

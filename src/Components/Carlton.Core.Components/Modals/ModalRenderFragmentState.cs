@@ -1,11 +1,27 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿namespace Carlton.Core.Components.Modals;
 
-namespace Carlton.Core.Components.Modals;
-
-public record ModalRenderFragmentState
+/// <summary>
+/// Represents the state for rendering a modal component.
+/// </summary>
+public sealed record ModalRenderFragmentState
 {
+    /// <summary>
+    /// Gets the prompt message for the modal.
+    /// </summary>
     public required string ModalPrompt { get; init; }
+
+    /// <summary>
+    /// Gets the message displayed in the modal.
+    /// </summary>
     public required string ModalMessage { get; init; }
+
+    /// <summary>
+    /// Gets the function to handle closing the modal.
+    /// </summary>
     public required Func<ModalCloseEventArgs, Task> HandleClose { get; init; }
+
+    /// <summary>
+    /// Gets the function to handle dismissing the modal.
+    /// </summary>
     public required Func<Task> HandleDismiss { get; init; }
 }

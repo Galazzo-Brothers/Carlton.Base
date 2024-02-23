@@ -1,3 +1,23 @@
 ﻿namespace Carlton.Core.Components.Dropdowns;
 
-public record ValueChangeArgs<T>(int SelectedIndex, string SelectedKey, T SelectedValue);
+
+/// <summary>
+/// Represents the arguments passed when the value of a dropdown component changes.
+/// </summary>
+/// <typeparam name="T">The type of the selected value.</typeparam>
+public sealed record ValueChangeArgs<T>(
+    /// <summary>
+    /// Gets the index of the selected item.
+    /// </summary>
+    int SelectedIndex,
+
+    /// <summary>
+    /// Gets the key of the selected item.
+    /// </summary>
+    string SelectedKey,
+
+    /// <summary>
+    /// Gets the selected value.
+    /// </summary>
+    T SelectedValue
+);
