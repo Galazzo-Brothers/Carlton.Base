@@ -1,35 +1,29 @@
 ﻿@namespace Carlton.Core.Components.Layouts
 
-<div class="@SlideOutNavCss">
-    <a href="#" @onclick:preventDefault @onclick="() => MenuVisible=!MenuVisible">
+<div class="slide-out-nav">
+    <a href="#" @onclick:preventDefault @onclick="() => IsExpanded=!IsExpanded">
         <span class="@SlideOutNavIconCss" />
     </a>
 </div>
 
-<div class="menu-content-container @(MenuVisible ? "active" : string.Empty)">
-    @NavMenuContent
+<div class="content-container @(IsExpanded ? "active" : string.Empty)">
+    @Content
 </div>
 
 
 @code{
     [Parameter]
-    public RenderFragment NavMenuContent { get; set; }
+    public bool IsExpanded { get; set; }
 
-    private bool MenuVisible { get; set; } 
-
-    private string SlideOutNavCss
-    {
-        get => new CssBuilder("slide-out-nav")
-                .AddClass("menu", MenuVisible)
-                .Build();
-    }
+    [Parameter]
+    public RenderFragment Content { get; set; }
 
     private string SlideOutNavIconCss
     {
         get => new CssBuilder("icon")
             .AddClass("mdi mdi-24px")
-            .AddClass("mdi-close", MenuVisible)
-            .AddClass("mdi-menu", !MenuVisible)
+            .AddClass("mdi-close", IsExpanded)
+            .AddClass("mdi-menu", !IsExpanded)
             .Build();
     }
 
