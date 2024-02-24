@@ -1,8 +1,17 @@
-﻿.logo {
+﻿
+.logo{
+	--logo-height: 75px;
+	--logo-img-height: 50px;
+	--logo-img-width: 50px;
+}
+
+.logo {
 	display: flex;
 	background-color: var(--logo-background-color);
-	height: 75px;
-	line-height: 75px;
+	width: 100%;
+	max-width: 200px;
+	height: var(--logo-height);
+	line-height: var(--logo-height);
 	margin-bottom: 0px;
 	justify-content: center;
 }
@@ -23,8 +32,8 @@
 		}
 
 		.logo .content img {
-			height: 50px;
-			width: 50px;
+			height: var(--logo-img-height);
+			width: var(--logo-img-width);
 			margin-top: auto;
 			margin-bottom: auto;
 			vertical-align: middle;

@@ -13,6 +13,7 @@ using Carlton.Core.Components.Pills;
 using Carlton.Core.Components.Toasts;
 using Carlton.Core.Components.Checkboxes;
 using Carlton.Core.Components.Error;
+using Carlton.Core.Components.Logos;
 
 namespace Carlton.Core.Library.Lab;
 
@@ -57,6 +58,8 @@ public static class Program
                    .AddComponentState<BreadCrumbs>("Slash MultiCrumb", BreadCrumbsTestStates.SlashMultiCrumb)
                    .AddComponentState<BreadCrumbs>("Slash SingleCrumb", BreadCrumbsTestStates.SlashSingleCrumb)
                    .AddComponent<Spinner>()
+                   .AddComponentState<Logo>("Expanded", LogoTestStates.Expanded)
+                      .AddComponentState<Logo>("Collapsed", LogoTestStates.Collapsed)
                    .AddComponentState<ErrorPrompt>(ErrorPromptTestStates.DefaultState)
                    .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
                    .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
