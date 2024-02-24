@@ -64,7 +64,7 @@ public class ViewportState : IViewportState, IAsyncDisposable
     {
         await initTask.ConfigureAwait(false);
 
-        var viewportChanged = currentViewport.IsMoible != updatedViewport.IsMoible;
+        var viewportChanged = currentViewport.IsMobile != updatedViewport.IsMobile;
         currentViewport = updatedViewport;
 
         if (viewportChanged)

@@ -18,12 +18,11 @@
 @inject ILayoutSettings LayoutSettings
 
 <div class="layout-manager" data-theme="@ThemeState.Theme.ToString()">
-    <CascadingValue Value="CascadingState">
+    <CascadingValue Value="LayoutState">
         @Body
     </CascadingValue>
 
-    <LayoutToasater @ref="LayoutToaster"
-                    IsTestMode="false"
+    <LayoutToaster @ref="LayoutToaster"
                     FadeOutEnabled="true"
                     Top="50"
                     Right="10" />
@@ -35,9 +34,9 @@
 
 
 @code {
-    private LayoutToasater LayoutToaster { get; set; }
+    private LayoutToaster LayoutToaster { get; set; }
 
-    private LayoutManagerCascadingState CascadingState
+    private LayoutManagerCascadingState LayoutState
     {
         get => new LayoutManagerCascadingState
             {
@@ -65,10 +64,8 @@
         => StateHasChanged();
 
     private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
-    {
-        LayoutToaster.GenerateNotification(args.RaisedToast);
-        StateHasChanged();
-    }
+        => LayoutToaster.GenerateNotification(args.RaisedToast);
+    
 
     public void Dispose()
     {
