@@ -1,10 +1,8 @@
 ﻿namespace Carlton.Core.Components.Layouts.State.Viewport;
 
-public record ViewportModel
+public record ViewportModel(double Height, double Width)
 {
     public const double MobileMaxWidth = 767.98;
-    public double Height { get; init; }
-    public double Width { get; init; }
-    public bool IsMoible { get => Width <= MobileMaxWidth; }
+    public bool IsMobile { get => Width <= MobileMaxWidth; }
 }
 

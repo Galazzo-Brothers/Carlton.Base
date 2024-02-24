@@ -1,14 +1,8 @@
-﻿@using Carlton.Core.Components.Layouts.Components.Toasts
-@using Carlton.Core.Components.Toasts
+﻿@using Carlton.Core.Components.Toasts
 @using Carlton.Core.Utilities.DataStructures
 @namespace Carlton.Core.Components.Layouts.Toasts
 
 <div class="layout-toaster">
-    @if(IsTestMode)
-    {
-        <LayoutToasterTestPanel ToastIndex="ToastIndex" GenerateNotification="GenerateNotification" />
-    }
-
     <div class="content" style="@ContentStyle">
         @foreach(var toast in ToastsCircularStack)
         {
@@ -27,8 +21,6 @@
 </div>
 
 @code {
-    [Parameter]
-    public bool IsTestMode { get; set; }
     [Parameter]
     public bool FadeOutEnabled { get; set; }
     [Parameter]

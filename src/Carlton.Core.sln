@@ -46,6 +46,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Web", "Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj", "{06C223B6-C862-44D6-8B31-BF8991216A52}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts.Test", "Components\Carlton.Core.Components.Layouts.Test\Carlton.Core.Components.Layouts.Test.csproj", "{4A435FA3-181E-4B44-AA5D-DF3231393BCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{06C223B6-C862-44D6-8B31-BF8991216A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06C223B6-C862-44D6-8B31-BF8991216A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06C223B6-C862-44D6-8B31-BF8991216A52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A435FA3-181E-4B44-AA5D-DF3231393BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A435FA3-181E-4B44-AA5D-DF3231393BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A435FA3-181E-4B44-AA5D-DF3231393BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A435FA3-181E-4B44-AA5D-DF3231393BCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{6B07C815-E7F2-4BFE-AC90-87710E304258} = {FEE15A36-7F78-45C4-BEAD-0829FF476557}
 		{0B69DECE-5E3A-4C6D-9F95-66B79BF33469} = {FEE15A36-7F78-45C4-BEAD-0829FF476557}
 		{06C223B6-C862-44D6-8B31-BF8991216A52} = {FEE15A36-7F78-45C4-BEAD-0829FF476557}
+		{4A435FA3-181E-4B44-AA5D-DF3231393BCE} = {74CF6108-5B0A-408F-B8F1-90F324CDEED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}
