@@ -2,7 +2,7 @@
     color: white;
 }
 
-.menu-content-container {
+.content-container {
     display: none;
     height: 100vh;
     background-color: var(--layout-nav-background-color);
@@ -10,7 +10,7 @@
     transition: left 1s;
 }
 
-    .menu-content-container.active {
+    .content-container.active {
         display: block;
         position: fixed;
         left: 0;
