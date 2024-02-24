@@ -28,8 +28,8 @@
 
     <Modal IsVisible="ModalState.IsVisible"
            ModalTypes="ModalState.ModalType"
-           ModalPrompt="ModalState.ModalModel?.ModalPrompt"
-           ModalMessage="ModalState.ModalModel?.Message"
+           ModalPrompt="@ModalState?.ModalModel?.ModalPrompt"
+           ModalMessage="@ModalState?.ModalModel?.ModalMessage"
            CloseModal="ModalState?.ModalModel?.CloseModal"
            DismissModal="ModalState?.ModalModel?.DismissModal" />
 </div>

@@ -3,8 +3,8 @@
 
 @* Represents a flexible modal component that can display different types of modals based on the provided content. *@
 <ModalTemplate IsVisible="IsVisible"
-               ModalPrompt="ModalPrompt"
-               ModalMessage="ModalMessage"
+               ModalPrompt="@ModalPrompt"
+               ModalMessage="@ModalMessage"
                OnClose="CloseModal"
                OnDismiss="DismissModal">
     <ModalContent Context="state">
