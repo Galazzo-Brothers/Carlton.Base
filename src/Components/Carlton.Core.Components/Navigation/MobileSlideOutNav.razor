@@ -1,5 +1,6 @@
-﻿@namespace Carlton.Core.Components.Layouts
+﻿@namespace Carlton.Core.Components.Navigation
 
+@*  Represents a slide-out navigation component with toggleable visibility. *@
 <div class="slide-out-nav">
     <a href="#" @onclick:preventDefault @onclick="() => IsExpanded=!IsExpanded">
         <span class="@SlideOutNavIconCss" />
@@ -12,9 +13,15 @@
 
 
 @code{
+    /// <summary>
+    /// Gets or sets a value indicating whether the content is expanded or collapsed.
+    /// </summary>
     [Parameter]
     public bool IsExpanded { get; set; }
 
+    /// <summary>
+    /// Gets or sets the content to be displayed within the slide-out navigation.
+    /// </summary>
     [Parameter]
     public RenderFragment Content { get; set; }
 

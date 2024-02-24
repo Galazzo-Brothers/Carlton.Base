@@ -1,11 +1,24 @@
-﻿@namespace Carlton.Core.Components.Modals
+﻿@using Carlton.Core.Components.Modals
+@namespace Carlton.Core.Components.Modals
 
-@* Represents a modal component for displaying modal content. *@
-<div class="@ModalClass">
-    <div class="modal-content">
-        @ModalContent(RenderFragmentState)
-    </div>
-</div>
+@* Represents a flexible modal component that can display different types of modals based on the provided content. *@
+<ModalTemplate IsVisible="IsVisible"
+               ModalPrompt="ModalPrompt"
+               ModalMessage="ModalMessage"
+               OnClose="CloseModal"
+               OnDismiss="DismissModal">
+    <ModalContent Context="state">
+        @switch (ModalTypes)
+        {
+            case ModalTypes.SingleActionModal:
+                <SingleActionModalContent State="state" />
+                break;
+            case ModalTypes.ConfirmationModal:
+                <ConfirmationModalContent State="state" />
+                break;
+        }
+    </ModalContent>
+</ModalTemplate>
 
 @code {
     /// <summary>
@@ -13,7 +26,13 @@
     /// </summary>
     [Parameter]
     public bool IsVisible { get; set; }
-
+   
+    /// <summary>
+    /// Gets or sets the type of modal to display.
+    /// </summary>
+    [Parameter]
+    public ModalTypes ModalTypes { get; set; }
+   
     /// <summary>
     /// Gets or sets the prompt message displayed in the modal header.
     /// </summary>
@@ -25,51 +44,17 @@
     /// </summary>
     [Parameter]
     public string ModalMessage { get; set; }
-
+   
     /// <summary>
-    /// Gets or sets the render fragment representing the content of the modal.
+    /// Gets the callback to handle closing the modal and provides event arguments containing modal close information.
     /// </summary>
     [Parameter]
-    public RenderFragment<ModalRenderFragmentState> ModalContent { get; set; }
+    public EventCallback<ModalCloseEventArgs> CloseModal { get; init; }
 
     /// <summary>
-    /// Event callback invoked when the modal is closed.
+    /// Gets the callback to handle dismissing the modal without providing additional event arguments.
     /// </summary>
     [Parameter]
-    public EventCallback<ModalCloseEventArgs> OnClose { get; set; }
-
-    /// <summary>
-    /// Event callback invoked when the modal is dismissed.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnDismiss { get; set; }
-
-    private ModalRenderFragmentState RenderFragmentState => new ModalRenderFragmentState
-        {
-            ModalPrompt = ModalPrompt,
-            ModalMessage = ModalMessage,
-            HandleClose = HandleClose,
-            HandleDismiss = HandleDismiss
-        };
-
-    private async Task HandleClose(ModalCloseEventArgs args)
-    {
-        IsVisible = false;
-        await OnClose.InvokeAsync(args);
-    }
-
-    private async Task HandleDismiss()
-    {
-        IsVisible = false;
-        await OnDismiss.InvokeAsync();
-    }
-
-    private string ModalClass
-    {
-        get => new CssBuilder("modal")
-                .AddClass("visible", IsVisible)
-                .Build();
-    }
+    public EventCallback DismissModal { get; init; }
 }
-
 

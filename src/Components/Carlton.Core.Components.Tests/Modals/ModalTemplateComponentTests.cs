@@ -1,8 +1,8 @@
 ﻿using Carlton.Core.Components.Modals;
 namespace Carlton.Core.Components.Tests.Modals;
 
-[Trait("Component", nameof(Modal))]
-public class ModalComponentTests : TestContext
+[Trait("Component", nameof(ModalTemplate))]
+public class ModalTemplateComponentTests : TestContext
 {
     private const string ModalContentTemplate = @"<span class=""modal-prompt"">{0}</span><span class=""modal-message"">{1}</span>";
     
@@ -21,7 +21,7 @@ public class ModalComponentTests : TestContext
 </div>";
 
         //Act
-        var cut = RenderComponent<Modal>(parameters => parameters
+        var cut = RenderComponent<ModalTemplate>(parameters => parameters
          .Add(p => p.IsVisible, expectedIsVisible)
          .Add(p => p.ModalPrompt, expectedModalPrompt)
          .Add(p => p.ModalMessage, expectedModalMessage)
@@ -40,7 +40,7 @@ public class ModalComponentTests : TestContext
         //Arrange
         var eventFired = false;
         var modalConfiremd = false;
-        var cut = RenderComponent<Modal>(parameters => parameters
+        var cut = RenderComponent<ModalTemplate>(parameters => parameters
          .Add(p => p.IsVisible, expectedIsVisible)
          .Add(p => p.ModalPrompt, expectedModalPrompt)
          .Add(p => p.ModalMessage, expectedModalMessage)
@@ -68,7 +68,7 @@ public class ModalComponentTests : TestContext
     {
         //Arrange
         var eventFired = false;
-        var cut = RenderComponent<Modal>(parameters => parameters
+        var cut = RenderComponent<ModalTemplate>(parameters => parameters
          .Add(p => p.IsVisible, expectedIsVisible)
          .Add(p => p.ModalPrompt, expectedModalPrompt)
          .Add(p => p.ModalMessage, expectedModalMessage)
