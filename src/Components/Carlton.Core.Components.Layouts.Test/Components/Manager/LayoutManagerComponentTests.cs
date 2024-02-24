@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Components.Layouts.Modals;
-using Carlton.Core.Components.Layouts.State.FullScreen;
+﻿using Carlton.Core.Components.Layouts.State.FullScreen;
 using Carlton.Core.Components.Layouts.State.LayoutSettings;
 using Carlton.Core.Components.Layouts.State.Modals;
 using Carlton.Core.Components.Layouts.State.Theme;
@@ -32,7 +31,7 @@ public class LayoutManagerComponentTests : TestContext
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<LayoutModal>();
+        ComponentFactories.AddStub<Modal>();
 
         themeStateMock.Theme.Returns(expectedTheme);
 
@@ -64,7 +63,7 @@ public class LayoutManagerComponentTests : TestContext
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<LayoutModal>();
+        ComponentFactories.AddStub<Modal>();
 
         var cut = RenderComponent<LayoutManager>();
 
@@ -97,7 +96,7 @@ public class LayoutManagerComponentTests : TestContext
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<LayoutModal>();
+        ComponentFactories.AddStub<Modal>();
 
         themeStateMock.Theme.Returns(expectedTheme);
         var cut = RenderComponent<LayoutManager>();
@@ -133,7 +132,7 @@ public class LayoutManagerComponentTests : TestContext
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<LayoutModal>();
+        ComponentFactories.AddStub<Modal>();
         var cut = RenderComponent<LayoutManager>();
 
         //Act
@@ -163,7 +162,7 @@ public class LayoutManagerComponentTests : TestContext
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<LayoutModal>();
+        ComponentFactories.AddStub<Modal>();
         var cut = RenderComponent<LayoutManager>();
 
         //Act
