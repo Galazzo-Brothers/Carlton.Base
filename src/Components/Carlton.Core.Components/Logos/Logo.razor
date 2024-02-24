@@ -1,5 +1,6 @@
-﻿@namespace Carlton.Core.Components.Layouts
+﻿@namespace Carlton.Core.Components.Logos
 
+@* Represents a logo component with an optional title and image. *@
 <div class="@LogoCss">
     <div class="content">
         <img src="@LogoUrl" />
@@ -9,10 +10,21 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets the title of the logo.
+    /// </summary>
     [Parameter]
     public string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the URL of the logo image.
+    /// </summary>
     [Parameter]
     public string LogoUrl { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the logo is collapsed.
+    /// </summary>
     [Parameter]
     public bool IsCollapsed { get; set; }
 
