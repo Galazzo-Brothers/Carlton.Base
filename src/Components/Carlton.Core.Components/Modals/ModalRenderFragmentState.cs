@@ -8,12 +8,12 @@ public sealed record ModalRenderFragmentState
     /// <summary>
     /// Gets the prompt message for the modal.
     /// </summary>
-    public required string ModalPrompt { get; init; }
+    public required string Prompt { get; init; }
 
     /// <summary>
     /// Gets the message displayed in the modal.
     /// </summary>
-    public required string ModalMessage { get; init; }
+    public required string Message { get; init; }
 
     /// <summary>
     /// Gets the function to handle closing the modal.

@@ -3,12 +3,12 @@
 
 @* Represents a flexible modal component that can display different types of modals based on the provided content. *@
 <ModalTemplate IsVisible="IsVisible"
-               ModalPrompt="@ModalPrompt"
-               ModalMessage="@ModalMessage"
+               Prompt="@ModalPrompt"
+               Message="@ModalMessage"
                OnClose="CloseModal"
                OnDismiss="DismissModal">
     <ModalContent Context="state">
-        @switch (ModalTypes)
+        @switch (ModalType)
         {
             case ModalTypes.SingleActionModal:
                 <SingleActionModalContent State="state" />
@@ -31,7 +31,7 @@
     /// Gets or sets the type of modal to display.
     /// </summary>
     [Parameter]
-    public ModalTypes ModalTypes { get; set; }
+    public ModalTypes ModalType { get; set; }
    
     /// <summary>
     /// Gets or sets the prompt message displayed in the modal header.
