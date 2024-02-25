@@ -1,7 +1,7 @@
 ﻿using Carlton.Core.Components.Modals;
 namespace Carlton.Core.Components.Layouts.State.Modals;
 
-public class ModalState : IModalState
+public sealed class ModalState : IModalState
 {
     public event EventHandler<ModalStateChangedEventArgs> ModalStateChanged;
 

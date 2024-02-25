@@ -3,15 +3,15 @@ using System.Threading;
 
 namespace Carlton.Core.Components.Layouts.State.Viewport;
 
-public class ViewportState : IViewportState, IAsyncDisposable
+public sealed class ViewportState : IViewportState, IAsyncDisposable
 {
-    const string ModulePath = $"./_content/{Constants.ProjectName}/scripts/viewport.js";
+    public const string ModulePath = $"./_content/{Constants.ProjectName}/scripts/viewport.js";
     public event EventHandler<ViewportChangedEventArgs> ViewportChanged;
     
     private readonly IJSRuntime _js;
     private readonly SemaphoreSlim _semaphore = new(1);
     private IJSObjectReference _module;
-    private bool IsInitalized = false;
+    private bool IsInitialized = false;
     private ViewportModel currentViewport;
 
     private readonly Task initTask;
@@ -34,11 +34,11 @@ public class ViewportState : IViewportState, IAsyncDisposable
         {
             await _semaphore.WaitAsync();
 
-            if (IsInitalized == true)
+            if (IsInitialized == true)
                 return;
 
             //Set module
-            _module = await _js.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            _module = await _js.InvokeAsync<IJSObjectReference>(Constants.Import, ModulePath);
 
             //Get current viewport
             currentViewport = await _module.InvokeAsync<ViewportModel>("viewport.getViewport");
@@ -46,7 +46,7 @@ public class ViewportState : IViewportState, IAsyncDisposable
             //Register Callback
             await _module.InvokeAsync<ViewportModel>("viewport.registerViewportChangedHandler", DotNetObjectReference.Create(this), nameof(ViewportUpdated));
 
-            IsInitalized = true;
+            IsInitialized = true;
         }
         finally 
         {

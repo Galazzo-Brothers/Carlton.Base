@@ -35,8 +35,8 @@ public class ConfirmationModalContentComponentTests : TestContext
         var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
             .Add(p => p.State, new ModalRenderFragmentState
             {
-                ModalPrompt = expectedModalPrompt,
-                ModalMessage = expectedModalMessage,
+                Prompt = expectedModalPrompt,
+                Message = expectedModalMessage,
                 HandleClose = (args) => Task.CompletedTask,
                 HandleDismiss = () => Task.CompletedTask
             }));
@@ -59,8 +59,8 @@ public class ConfirmationModalContentComponentTests : TestContext
         var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
             .Add(p => p.State, new ModalRenderFragmentState
             {
-                ModalPrompt = expectedModalPrompt,
-                ModalMessage = expectedModalMessage,
+                Prompt = expectedModalPrompt,
+                Message = expectedModalMessage,
                 HandleClose = (args) => Task.CompletedTask,
                 HandleDismiss = () => Task.CompletedTask
             }));
@@ -83,8 +83,8 @@ public class ConfirmationModalContentComponentTests : TestContext
         var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
             .Add(p => p.State, new ModalRenderFragmentState
             {
-                ModalPrompt = expectedModalPrompt,
-                ModalMessage = expectedModalMessage,
+                Prompt = expectedModalPrompt,
+                Message = expectedModalMessage,
                 HandleClose = (args) => 
                 {
                     eventFired = true;
@@ -114,8 +114,8 @@ public class ConfirmationModalContentComponentTests : TestContext
         var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
             .Add(p => p.State, new ModalRenderFragmentState
             {
-                ModalPrompt = expectedModalPrompt,
-                ModalMessage = expectedModalMessage,
+                Prompt = expectedModalPrompt,
+                Message = expectedModalMessage,
                 HandleClose = (args) => Task.CompletedTask,
                 HandleDismiss = () =>
                 {

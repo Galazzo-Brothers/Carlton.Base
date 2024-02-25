@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Components.Layouts.State.FullScreen;
 
-public class FullScreenState(bool isCollapsed) : IFullScreenState
+public sealed class FullScreenState(bool isCollapsed) : IFullScreenState
 {
     public event EventHandler<FullScreenStateChangedEventArgs> FullScreenStateChanged;
 
@@ -14,7 +14,6 @@ public class FullScreenState(bool isCollapsed) : IFullScreenState
     {
         IsFullScreen = !IsFullScreen;
         var args = new FullScreenStateChangedEventArgs(IsFullScreen);
-
         FullScreenStateChanged?.Invoke(this, args);
     }
 }

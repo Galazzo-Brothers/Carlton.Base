@@ -1,8 +1,7 @@
 ﻿using Carlton.Core.Components.Toasts;
-
 namespace Carlton.Core.Components.Layouts.Toasts;
 
-public class ToastViewModel
+public sealed class ToastViewModel
 {
     public required int Id { get; init; }
     public required string Title { get; init; }
