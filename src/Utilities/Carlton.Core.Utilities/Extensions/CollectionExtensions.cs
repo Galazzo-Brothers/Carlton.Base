@@ -7,6 +7,11 @@ public static class CollectionExtensions
         return (T) dictionary[key];
     }
 
+    public static T GetValue<T>(this IReadOnlyDictionary<string, object> dictionary, string key)
+    {
+        return (T)dictionary[key];
+    }
+
     public static T SafeGetAtIndex<T>(this IList<T> list, int index)
     {
         if (index >= 0 && index < list.Count)

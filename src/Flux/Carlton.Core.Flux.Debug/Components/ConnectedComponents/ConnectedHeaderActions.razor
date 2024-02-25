@@ -41,8 +41,8 @@
         => ModalState.RaiseModal(ModalTypes.ConfirmationModal,
             new ModalViewModel
             {
-               ModalPrompt = "Are you sure",
-               ModalMessage = "Are you sure you want to clear the local storage logs?",
+               Prompt = "Are you sure",
+               Message = "Are you sure you want to clear the local storage logs?",
                CloseModal = ClearLocalStorageConfirmed,
                DismissModal = null
             });

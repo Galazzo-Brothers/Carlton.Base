@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Components.Layouts.State.LayoutSettings;
 
-public class LayoutSettingsBuilder
+public sealed class LayoutSettingsBuilder
 {
     private readonly Dictionary<string, object> _settings = [];
 

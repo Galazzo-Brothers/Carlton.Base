@@ -33,7 +33,7 @@
 
     private CircularStack<ToastViewModel> ToastsCircularStack { get; } = new(MaxToastCount);
 
-    public void GenerateNotification(ToastViewModel newToast)
+    public void GenerateToast(ToastViewModel newToast)
     {
         ToastsCircularStack.Push(newToast);
         StateHasChanged();

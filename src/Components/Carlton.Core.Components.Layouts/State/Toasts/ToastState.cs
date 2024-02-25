@@ -4,8 +4,10 @@ namespace Carlton.Core.Components.Layouts.State.Toasts;
 
 public class ToastState : IToastState
 {
+    private readonly Stack<ToastViewModel> _toasts = new();
+
     public event EventHandler<ToastRaisedEventArgs> ToastAdded;
-    public Stack<ToastViewModel> Toasts { get; private set; } = new Stack<ToastViewModel>();
+    public List<ToastViewModel> Toasts { get => _toasts.ToList(); }
     public int ToastsIndex { get; private set; }
 
     public void RaiseToast(string title, string message, ToastTypes toastType)
@@ -18,7 +20,7 @@ public class ToastState : IToastState
             ToastType = toastType,
             FadeOutEnabled = true
         };
-        Toasts.Push(toast);
+        _toasts.Push(toast);
         var args = new ToastRaisedEventArgs(toast);
         ToastAdded?.Invoke(this, args);
         ToastsIndex++;

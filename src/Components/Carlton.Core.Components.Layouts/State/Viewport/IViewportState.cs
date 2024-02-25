@@ -1,6 +1,4 @@
-﻿using Microsoft.JSInterop;
-
-namespace Carlton.Core.Components.Layouts.State.Viewport;
+﻿namespace Carlton.Core.Components.Layouts.State.Viewport;
 
 public interface IViewportState
 {

@@ -23,8 +23,8 @@ public class ModalTemplateComponentTests : TestContext
         //Act
         var cut = RenderComponent<ModalTemplate>(parameters => parameters
          .Add(p => p.IsVisible, expectedIsVisible)
-         .Add(p => p.ModalPrompt, expectedModalPrompt)
-         .Add(p => p.ModalMessage, expectedModalMessage)
+         .Add(p => p.Prompt, expectedModalPrompt)
+         .Add(p => p.Message, expectedModalMessage)
          .Add(p => p.ModalContent, state => string.Format(ModalContentTemplate, expectedModalPrompt, expectedModalMessage)));
 
         //Assert
@@ -42,8 +42,8 @@ public class ModalTemplateComponentTests : TestContext
         var modalConfiremd = false;
         var cut = RenderComponent<ModalTemplate>(parameters => parameters
          .Add(p => p.IsVisible, expectedIsVisible)
-         .Add(p => p.ModalPrompt, expectedModalPrompt)
-         .Add(p => p.ModalMessage, expectedModalMessage)
+         .Add(p => p.Prompt, expectedModalPrompt)
+         .Add(p => p.Message, expectedModalMessage)
          .Add<ConfirmationModalContent, ModalRenderFragmentState>(p => p.ModalContent, value =>
             childParams => childParams.Add(_ => _.State, value))
          .Add(p => p.OnClose, (args) =>
@@ -70,8 +70,8 @@ public class ModalTemplateComponentTests : TestContext
         var eventFired = false;
         var cut = RenderComponent<ModalTemplate>(parameters => parameters
          .Add(p => p.IsVisible, expectedIsVisible)
-         .Add(p => p.ModalPrompt, expectedModalPrompt)
-         .Add(p => p.ModalMessage, expectedModalMessage)
+         .Add(p => p.Prompt, expectedModalPrompt)
+         .Add(p => p.Message, expectedModalMessage)
          .Add<ConfirmationModalContent, ModalRenderFragmentState>(p => p.ModalContent, value =>
             childParams => childParams.Add(_ => _.State, value))
          .Add(p => p.OnDismiss, () =>

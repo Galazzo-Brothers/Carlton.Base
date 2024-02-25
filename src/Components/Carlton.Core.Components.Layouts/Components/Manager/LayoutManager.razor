@@ -22,16 +22,16 @@
     </CascadingValue>
 
     <LayoutToaster @ref="LayoutToaster"
-                    FadeOutEnabled="true"
-                    Top="50"
-                    Right="10" />
+                   FadeOutEnabled="true"
+                   Top="50"
+                   Right="10" />
 
     <Modal IsVisible="ModalState.IsVisible"
-           ModalTypes="ModalState.ModalType"
-           ModalPrompt="@ModalState?.ModalModel?.ModalPrompt"
-           ModalMessage="@ModalState?.ModalModel?.ModalMessage"
-           CloseModal="ModalState?.ModalModel?.CloseModal"
-           DismissModal="ModalState?.ModalModel?.DismissModal" />
+           ModalType="ModalState.ModalType"
+           ModalPrompt="@ModalState?.ModalModel?.Prompt"
+           ModalMessage="@ModalState?.ModalModel?.Message"
+           CloseModal="CloseModalOrDefault"
+           DismissModal="DismissModalOrDefault" />
 </div>
 
 
@@ -66,8 +66,29 @@
         => StateHasChanged();
 
     private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
-        => LayoutToaster.GenerateNotification(args.RaisedToast);
-    
+        => LayoutToaster.GenerateToast(args.RaisedToast);
+
+    private Func<ModalCloseEventArgs, Task> CloseModalOrDefault
+    {
+        get
+        {
+            if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.CloseModal == null)
+                return (args) => Task.CompletedTask;
+
+            return ModalState.ModalModel.CloseModal;
+        }
+    }
+
+    private Func<Task> DismissModalOrDefault
+    {
+        get
+        {
+            if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.DismissModal == null)
+                return () => Task.CompletedTask;
+
+            return ModalState.ModalModel.DismissModal;
+        }
+    }
 
     public void Dispose()
     {

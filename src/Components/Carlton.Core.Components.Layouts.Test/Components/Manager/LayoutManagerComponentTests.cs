@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Components.Layouts.State.FullScreen;
+﻿using Bunit.TestDoubles;
+using Carlton.Core.Components.Layouts.State.FullScreen;
 using Carlton.Core.Components.Layouts.State.LayoutSettings;
 using Carlton.Core.Components.Layouts.State.Modals;
 using Carlton.Core.Components.Layouts.State.Theme;
@@ -42,6 +43,36 @@ public class LayoutManagerComponentTests : TestContext
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
+    }
+
+    [Theory(DisplayName = "Stub Child Parameters Test"), AutoData]
+    public void LayoutManager_Parameters_RendersCorrectly(
+    ToastViewModel expectedToastViewModel)
+    {
+        //Arrange
+        var navStateMock = Substitute.For<IFullScreenState>();
+        var themeStateMock = Substitute.For<IThemeState>();
+        var modalStateMock = Substitute.For<IModalState>();
+        var toastStateMock = Substitute.For<IToastState>();
+        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
+
+        Services.AddSingleton(navStateMock);
+        Services.AddSingleton(themeStateMock);
+        Services.AddSingleton(modalStateMock);
+        Services.AddSingleton(toastStateMock);
+        Services.AddSingleton(layoutSettingsMock);
+
+        var layoutToasterMock = Substitute.For<LayoutToaster>();
+        ComponentFactories.Add(layoutToasterMock);
+        ComponentFactories.AddStub<Modal>();
+        var cut = RenderComponent<LayoutManager>();
+
+        //Act
+        var args = new ToastRaisedEventArgs(expectedToastViewModel);
+        cut.InvokeAsync(() => toastStateMock.ToastAdded += Raise.Event<EventHandler<ToastRaisedEventArgs>>(new object(), args));
+
+        //Assert
+        cut.RenderCount.ShouldBe(2); //second render from the event triggering a stateHasChanged call
     }
 
     [Theory(DisplayName = "LayoutChanged Event Test"), AutoData]
@@ -145,7 +176,8 @@ public class LayoutManagerComponentTests : TestContext
 
     [Theory(DisplayName = "ToastRaised Event Test"), AutoData]
     public void LayoutManager_ToastRaised_FiresEvent(
-        ToastViewModel expectedToastViewModel)
+        ModalTypes expectedModalType,
+        ModalViewModel expectedModalModel)
     {
         //Arrange
         var navStateMock = Substitute.For<IFullScreenState>();
@@ -160,16 +192,20 @@ public class LayoutManagerComponentTests : TestContext
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(layoutSettingsMock);
 
+        modalStateMock.ModalType.Returns(expectedModalType);
+        modalStateMock.ModalModel.Returns(expectedModalModel); 
+
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
         ComponentFactories.AddStub<Modal>();
-        var cut = RenderComponent<LayoutManager>();
 
         //Act
-        var args = new ToastRaisedEventArgs(expectedToastViewModel);
-        cut.InvokeAsync(() => toastStateMock.ToastAdded += Raise.Event<EventHandler<ToastRaisedEventArgs>>(new object(), args));
-       
+        var cut = RenderComponent<LayoutManager>();
+        var stubbedModal = cut.FindComponent<Stub<Modal>>();
+
         //Assert
-        cut.RenderCount.ShouldBe(2); //second render from the event triggering a stateHasChanged call
+        stubbedModal.Instance.Parameters.Get(_ => _.ModalType).ShouldBe(expectedModalType);
+        stubbedModal.Instance.Parameters.Get(_ => _.ModalPrompt).ShouldBe(expectedModalModel.Prompt);
+        stubbedModal.Instance.Parameters.Get(_ => _.ModalMessage).ShouldBe(expectedModalModel.Message);
     }
 }

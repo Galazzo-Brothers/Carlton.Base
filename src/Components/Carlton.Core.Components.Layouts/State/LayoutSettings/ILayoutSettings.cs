@@ -2,5 +2,5 @@
 
 public interface ILayoutSettings
 {
-    public IDictionary<string, object> Settings { get; }
+    public IReadOnlyDictionary<string, object> Settings { get; }
 }
