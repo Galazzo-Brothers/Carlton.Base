@@ -5,8 +5,8 @@
     <div class="modal-content">
         @ModalContent(new ModalRenderFragmentState
         {
-            ModalPrompt = ModalPrompt,
-            ModalMessage = ModalMessage,
+            Prompt = Prompt,
+            Message = Message,
             HandleClose = HandleClose,
             HandleDismiss = HandleDismiss
         })
@@ -24,13 +24,13 @@
     /// Gets or sets the prompt message displayed in the modal header.
     /// </summary>
     [Parameter]
-    public string ModalPrompt { get; set; }
+    public string Prompt { get; set; }
 
     /// <summary>
     /// Gets or sets the main message displayed in the modal content.
     /// </summary>
     [Parameter]
-    public string ModalMessage { get; set; }
+    public string Message { get; set; }
 
     /// <summary>
     /// Gets or sets the render fragment representing the content of the modal.
