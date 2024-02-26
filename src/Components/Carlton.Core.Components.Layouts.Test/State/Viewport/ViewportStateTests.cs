@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Layouts.State.Viewport;
+﻿using Carlton.Core.Components.Layouts.Viewport;
 using Microsoft.JSInterop;
 namespace Carlton.Core.Components.Layouts.Test.State.Viewport;
 

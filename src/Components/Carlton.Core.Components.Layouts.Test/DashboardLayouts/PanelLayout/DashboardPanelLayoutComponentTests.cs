@@ -1,6 +1,7 @@
 ﻿using Bunit.TestDoubles;
 using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout;
-using Carlton.Core.Components.Layouts.State.Viewport;
+using Carlton.Core.Components.Layouts.Manager;
+using Carlton.Core.Components.Layouts.Viewport;
 namespace Carlton.Core.Components.Layouts.Test.DashboardLayouts.PanelLayout;
 
 [Trait("Component", nameof(DashboardPanelLayout))]
