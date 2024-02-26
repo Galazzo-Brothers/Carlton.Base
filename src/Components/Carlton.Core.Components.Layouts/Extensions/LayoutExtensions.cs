@@ -1,9 +1,9 @@
-﻿using Carlton.Core.Components.Layouts.State.FullScreen;
-using Carlton.Core.Components.Layouts.State.LayoutSettings;
-using Carlton.Core.Components.Layouts.State.Modals;
-using Carlton.Core.Components.Layouts.State.Theme;
-using Carlton.Core.Components.Layouts.State.Toasts;
-using Carlton.Core.Components.Layouts.State.Viewport;
+﻿using Carlton.Core.Components.Layouts.FullScreen;
+using Carlton.Core.Components.Layouts.Manager;
+using Carlton.Core.Components.Layouts.Modals;
+using Carlton.Core.Components.Layouts.Theme;
+using Carlton.Core.Components.Layouts.Toasts;
+using Carlton.Core.Components.Layouts.Viewport;
 using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.Components.Layouts.Extensions;
 

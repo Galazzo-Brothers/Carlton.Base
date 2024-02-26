@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.DashboardLayouts.TabbedPanelLayout;
-using Carlton.Core.Components.Layouts.State.Viewport;
+using Carlton.Core.Components.Layouts.Viewport;
 namespace Carlton.Core.Components.Layouts.Test.DashboardLayouts.TabbedPanelLayout;
 
 

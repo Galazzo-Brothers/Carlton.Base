@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Layouts.State.FullScreen;
+﻿using Carlton.Core.Components.Layouts.FullScreen;
 namespace Carlton.Core.Components.Layouts.Test.Components.Collapser;
 
 [Trait("Component", nameof(HamburgerCollapser))]

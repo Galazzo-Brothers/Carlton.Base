@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout;
-using Carlton.Core.Components.Layouts.State.FullScreen;
+using Carlton.Core.Components.Layouts.FullScreen;
 using Carlton.Core.Components.Panels;
 namespace Carlton.Core.Components.Layouts.Test.DashboardLayouts.PanelLayout;
 

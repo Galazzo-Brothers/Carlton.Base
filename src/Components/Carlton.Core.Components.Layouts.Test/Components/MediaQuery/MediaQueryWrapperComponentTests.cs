@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Components.Layouts.MediaQuery;
-using Carlton.Core.Components.Layouts.State.Viewport;
+﻿using Carlton.Core.Components.Layouts.Viewport;
 namespace Carlton.Core.Components.Layouts.Test.Components.MediaQuery;
 
 

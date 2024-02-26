@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Components.Layouts.State.Theme;
+﻿using Carlton.Core.Components.Layouts.Theme;
 namespace Carlton.Core.Components.Layouts.Test.Components.Theme;
 
 [Trait("Component", nameof(ThemeMenu))]
