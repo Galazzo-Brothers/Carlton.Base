@@ -1,14 +1,21 @@
-﻿@namespace Carlton.Core.Components.Layouts.DashboardPanelLayout
+﻿@namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 @inherits LayoutComponentBase
 @layout LayoutManager
 
 
 <MediaQueryWrapper>
     <DesktopContent>
-        <DashboardPanelDesktopLayout BodyContent="@Body" AppName="@AppName" LogoUrl="@LogoUrl"  IsFullScreen="CascadingState.IsFullScreen" />
+        <DashboardPanelDesktopLayout
+            BodyContent="@Body" 
+            AppName="@AppName" 
+            LogoUrl="@LogoUrl"
+            IsFullScreen="CascadingState.IsFullScreen" />
     </DesktopContent>
     <MobileContent>
-      <DashboardPanelMobileLayout BodyContent="@Body" LogoUrl="@LogoUrl" IsFullScreen="CascadingState.IsFullScreen" />
+      <DashboardPanelMobileLayout
+          BodyContent="@Body"
+          LogoUrl="@LogoUrl"
+          IsFullScreen="CascadingState.IsFullScreen" />
     </MobileContent>
 </MediaQueryWrapper>
 
@@ -22,6 +29,7 @@
     public string LogoUrl { get => CascadingState.LayoutSettings.GetValue<string>("LogoUrl"); }
 
     public bool ShowPanel { get => CascadingState.LayoutSettings.GetValue<bool>("ShowPanel"); }
+
 
     private string LayoutContainerCss
     {
