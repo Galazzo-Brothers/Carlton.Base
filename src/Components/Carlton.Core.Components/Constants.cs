@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides constants used within the Carlton.Core.Components namespace.
 /// </summary>
-public static class Constants
+internal static class Constants
 {
     /// <summary>
     /// Represents the import key used for JavaScript module import.

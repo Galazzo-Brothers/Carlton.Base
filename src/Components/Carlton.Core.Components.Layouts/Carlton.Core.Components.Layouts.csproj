@@ -18,4 +18,8 @@
 		<NoWarn>8618;</NoWarn>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Carlton.Core.Components.Layouts.Test" />
+	</ItemGroup>
+
 </Project>

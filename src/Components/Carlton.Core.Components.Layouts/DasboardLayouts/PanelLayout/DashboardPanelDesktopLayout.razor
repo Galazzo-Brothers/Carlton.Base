@@ -3,6 +3,7 @@
 @using Carlton.Core.Components.PseudoElementComponents
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 
+@* Represents a layout component for rendering a dashboard panel layout. *@
 <div class="@LayoutContainerCss">
     <header>
         <div>
@@ -43,15 +44,31 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the body content to be displayed.
+    /// </summary>
     [Parameter]
     public RenderFragment BodyContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the application.
+    /// </summary>
     [Parameter]
     public string AppName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the URL of the application logo.
+    /// </summary>
     [Parameter]
     public string LogoUrl { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the layout is in full-screen mode.
+    /// </summary>
     [Parameter]
     public bool IsFullScreen { get; set; }
 
+    // CSS class for the layout container
     private string LayoutContainerCss
     {
         get => new CssBuilder("layout-container")

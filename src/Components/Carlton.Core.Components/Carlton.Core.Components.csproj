@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Carlton.Core.Components.Test" />
+	</ItemGroup>
+
 </Project>

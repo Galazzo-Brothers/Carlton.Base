@@ -2,6 +2,7 @@
 @using Carlton.Core.Components.Navigation
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 
+@*  Represents the panel layout for the dashboard. *@
 <div class="@LayoutContainerCss">
     <header>
         <div class="header-bar">
@@ -35,14 +36,25 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets the URL of the logo.
+    /// </summary>
     [Parameter]
     public string LogoUrl { get; set; }
+
+    /// <summary>
+    /// Gets or sets the body content to be rendered.
+    /// </summary>
     [Parameter]
     public RenderFragment BodyContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the layout is in full screen mode.
+    /// </summary>
     [Parameter]
     public bool IsFullScreen { get; set; }
 
+    /// Gets the CSS classes for the layout container.
     private string LayoutContainerCss
     {
         get => new CssBuilder("layout-container")
