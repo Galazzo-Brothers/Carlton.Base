@@ -1,5 +1,4 @@
-﻿
-namespace Carlton.Core.Components.Layouts;
+﻿namespace Carlton.Core.Components.Layouts.Manager;
 
 /// <summary>
 /// Represents the cascading state of the layout manager.

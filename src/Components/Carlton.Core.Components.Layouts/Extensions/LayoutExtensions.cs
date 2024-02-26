@@ -10,7 +10,7 @@ namespace Carlton.Core.Components.Layouts.Extensions;
 /// <summary>
 /// Extension methods for configuring Carlton layout services.
 /// </summary>
-public static class Extensions
+public static class LayoutExtensions
 {
     /// <summary>
     /// Adds Carlton layout services to the specified <see cref="IServiceCollection"/>.
