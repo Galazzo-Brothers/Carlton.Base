@@ -2,7 +2,7 @@
 @inherits LayoutComponentBase
 @layout LayoutManager
 
-
+@* Represents the panel layout for the dashboard. *@
 <MediaQueryWrapper>
     <DesktopContent>
         <DashboardPanelDesktopLayout
@@ -21,16 +21,28 @@
 
 
 @code {
+    /// <summary>
+    /// Cascading parameter for managing layout states.
+    /// </summary>
     [CascadingParameter]
     public LayoutManagerCascadingState CascadingState { get; set; }
 
+    /// <summary>
+    /// Gets the application name from layout settings.
+    /// </summary>
     public string AppName { get => CascadingState.LayoutSettings.GetValue<string>("AppName"); }
 
+    /// <summary>
+    /// Gets the URL of the logo from layout settings.
+    /// </summary>
     public string LogoUrl { get => CascadingState.LayoutSettings.GetValue<string>("LogoUrl"); }
 
+    /// <summary>
+    /// Determines whether to show the panel based on layout settings.
+    /// </summary>
     public bool ShowPanel { get => CascadingState.LayoutSettings.GetValue<bool>("ShowPanel"); }
 
-
+    // Gets the CSS classes for the layout container.
     private string LayoutContainerCss
     {
         get => new CssBuilder("layout-container")
@@ -38,6 +50,7 @@
                 .Build();
     }
 
+    // Static objects for various content sections
     public static object Nav = new();
     public static object Logo = new();
     public static object HeaderPageTitle = new();
