@@ -4,6 +4,8 @@
     Project Carlton
 </br>
 
+![Carlton_Logo](wwwroot/images/CarltonLogo.png)
+
 # Carlton.Core.Components 
 
 A Blazor Component Library is a comprehensive collection of reusable components designed to simplify and accelerate the development of Blazor applications and create a uniform experience across the Project Carlton ecosystem.
