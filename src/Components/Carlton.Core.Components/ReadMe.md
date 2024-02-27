@@ -1,23 +1,46 @@
-﻿# Carlton.Core.Components
+﻿<h1 align="center">
+    <img src=""wwwroot/images/CarltonLogo.png" width="200" />
+</br>
+    Project Carlton
+</br>
 
-Blazor Component Library for building web UIs
+# Carlton.Core.Components 
 
-## Description
+A Blazor Component Library is a comprehensive collection of reusable components designed to simplify and accelerate the development of Blazor applications and create a uniform experience across the Project Carlton ecosystem.
 
-The Blazor Component Library for UI Enhancement is a comprehensive collection of reusable components designed to simplify and accelerate the development of Blazor applications. With a focus on enhancing user interfaces and improving user experience, our library offers a wide range of components tailored to various use cases and scenarios.
+![C#](https://img.shields.io/badge/language-C%23-blue)
+![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
+![Blazor](https://img.shields.io/badge/Blazor-blue)
 
+## Key Features
+
+* Buttons
+* Dashboard Cards
+* Checkboxes  
+* Consoles
+* Dropdowns
+* Dynamic Component Wrappers
+* Error Prompts
+* Logo
+* Footer
+* Navigation
+* Pills
+* Spinner
+* Tables
+* Tabs
+* Toasts
+
+## Dependencies
+
+* Carlton.Core.Foundation.Web
 
 ## Getting Started
 
-### Dependencies
-
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
-
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+```bash
+dotnet add package Carlton.Core.Components
+```
 
 ### Executing program
 
@@ -27,16 +50,13 @@ The Blazor Component Library for UI Enhancement is a comprehensive collection of
 code blocks for commands
 ```
 
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
-
 ## Authors
 
 Contributors names and contact info
 
 Nicholas Galazzo  
 nicholas.galazzo@gmail.com
+
+Stephen Galazzo  
+Stephen.Galazzo@gmail.com
+
