@@ -6,7 +6,7 @@
     TItem: The type of items in the table.
 *@
 
-<div class="table-header-row">
+<div class="header-row table-row">
     @foreach (var (heading, i) in Headings.WithIndex())
     {
         <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HandleItemsSort(heading.OrderingName)">

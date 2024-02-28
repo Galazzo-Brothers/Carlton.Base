@@ -239,7 +239,7 @@ public class DropdownComponentTests : TestContext
 
         return
         @$"
-        <div class=""dropdown""><input readonly placeholder="" "" value=""{(isPristineEnabled ? null : selectedItem)}"" />
+        <div class=""dropdown""><input readonly class=""dropdown-input {(isDisabled ? "disabled" : string.Empty)}"" placeholder="" "" value=""{(isPristineEnabled ? null : selectedItem)}"" />
             <div class=""label"">{labelText}</div>
             <div {(isDisabled ? "disabled = \"\"" : string.Empty)} class=""options"">
                 {optionsMarkup}

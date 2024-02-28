@@ -12,14 +12,14 @@ public class MobileSlideOutNavComponentTests : TestContext
     {
         //Arrange
         var expectedMarkup = $@"
-            <div class=""slide-out-nav"">
-                <a href = ""#"" >
-                    <span class=""icon mdi mdi-24px {(expectedIsExpanded ? "mdi-close" : "mdi-menu")}"" />
-                </a>
-            </div>
-            <div class=""content-container {(expectedIsExpanded ? "active" : string.Empty)}"">
+        <div class=""slide-out-nav"">
+            <a href = ""#"" >
+                <span class=""icon mdi mdi-24px {(expectedIsExpanded ? "mdi-close" : "mdi-menu")}"" />
+            </a>
+                <div class=""content-container {(expectedIsExpanded ? "active" : string.Empty)}"">
                 {expectedContent}
-            </div>";
+            </div>
+        </div>";
 
 
         //Act

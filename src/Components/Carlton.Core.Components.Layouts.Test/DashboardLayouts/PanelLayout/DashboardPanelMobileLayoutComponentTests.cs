@@ -29,8 +29,8 @@ public class DashboardPanelMobileLayoutComponentTests : TestContext
                   <a href=""#""   >
                     <span class=""icon mdi mdi-24px mdi-menu"" ></span>
                   </a>
+                  <div class=""content-container "" ></div>
                 </div>
-                <div class=""content-container "" ></div>
               </div>
               <div class=""logo"" >
                 <div class=""logo collapsed"" >

@@ -7,13 +7,12 @@
 *@
 <div class="@TableCssClass">
     <!--Table Header-->
-    <div class="header table-row">
-        <TableHeader TItem="TItem"
-                     Headings="Headings"
-                     SelectedOrderColumn="@OrderColumn"
-                     OrderAscending="OrderAscending"
-                     OnItemsSort="(args)=>HandleItemsSort(args)" />
-    </div>
+    <TableHeader TItem="TItem"
+                 Headings="Headings"
+                 SelectedOrderColumn="@OrderColumn"
+                 OrderAscending="OrderAscending"
+                 OnItemsSort="(args)=>HandleItemsSort(args)" />
+
 
     <!--Table Body-->
     <div class="body">
@@ -26,15 +25,13 @@
     <!--Table Pagination Row-->
     @if (ShowPaginationRow)
     {
-        <div class="pagination table-row">
-            <TablePaginationRow TItem="TItem"
-                                RowsPerPageOpts="RowsPerPageOpts"
-                                TotalItemCount="AllItems.Count()"
-                                CurrentPage="CurrentPage"
-                                SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
-                                OnPageChange="OnPageChange"
-                                OnRowsPerPageChange="OnRowsPerPageChange" />
-        </div>
+        <TablePaginationRow TItem="TItem"
+                            RowsPerPageOpts="RowsPerPageOpts"
+                            TotalItemCount="AllItems.Count()"
+                            CurrentPage="CurrentPage"
+                            SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
+                            OnPageChange="OnPageChange"
+                            OnRowsPerPageChange="OnRowsPerPageChange" />
     }
 </div>
 

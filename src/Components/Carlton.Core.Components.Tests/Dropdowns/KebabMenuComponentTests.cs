@@ -120,7 +120,7 @@ public class KebabMenuComponentTests : TestContext
         return
         @$"
         <div class=""kebab-dropdown"">
-            <i class=""{(isDisabled ? "disabled" : string.Empty )} mdi mdi-24px mdi-dots-vertical""  ></i>
+            <i class=""kebab-icon {(isDisabled ? "disabled" : string.Empty )} mdi mdi-24px mdi-dots-vertical""  ></i>
             <div class=""options"">
                 {optionsMarkup}
             </div>

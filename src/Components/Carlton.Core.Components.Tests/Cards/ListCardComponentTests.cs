@@ -24,7 +24,7 @@ public class ListCardComponentTests : TestContext
           .Add(p => p.Items, expectedItems));
 
         //Assert
-        var expectedMarkup = BuildExpectedMarktup(expectedTitle, expectedSubtitle, expectedHeaderContent, expectedItemTemplate, expectedItems);
+        var expectedMarkup = BuildExpectedMarkup(expectedTitle, expectedSubtitle, expectedHeaderContent, expectedItemTemplate, expectedItems);
         cut.MarkupMatches(expectedMarkup);
     }
 
@@ -147,7 +147,7 @@ public class ListCardComponentTests : TestContext
         actualContent.ShouldBe(expectedContent);
     }
 
-    private static string BuildExpectedMarktup(string title, string subtitle, string headerContent, string itemTemplate, IEnumerable<int> items)
+    private static string BuildExpectedMarkup(string title, string subtitle, string headerContent, string itemTemplate, IEnumerable<int> items)
     {
         var itemMarkup = string.Join(Environment.NewLine, items
            .Select(item => $@"
@@ -157,27 +157,30 @@ public class ListCardComponentTests : TestContext
                 "));
 
         return
-@$"<div class=""card"">
-  <div class=""content"">
-    <div class=""title-content"">
-      <span class=""card-title"">{title}</span>
-      <div class=""action-content"">
-        <div class=""kebab-dropdown"" >
-          <i class=""mdi mdi-24px disabled mdi-dots-vertical""  ></i>
-          <div class=""options"" ></div>
+@$"
+<div class=""list-card"">
+    <div class=""card"">
+      <div class=""content"">
+        <div class=""title-content"">
+          <span class=""card-title"">{title}</span>
+          <div class=""action-content"">
+            <div class=""kebab-dropdown"" >
+              <i class=""kebab-icon mdi mdi-24px disabled mdi-dots-vertical""  ></i>
+              <div class=""options"" ></div>
+            </div>
+          </div>
+        </div>
+        <div class=""header-content"">
+          {headerContent}
+        </div>
+        <div class=""primary-content"">
+          <div class=""sub-title"">{subtitle}</div>
+          <ul>
+            {itemMarkup}
+          </ul>
         </div>
       </div>
     </div>
-    <div class=""header-content"">
-      {headerContent}
-    </div>
-    <div class=""primary-content"">
-      <div class=""sub-title"">{subtitle}</div>
-      <ul>
-        {itemMarkup}
-      </ul>
-    </div>
-  </div>
 </div>";
     }
 }

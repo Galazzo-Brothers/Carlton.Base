@@ -53,33 +53,29 @@ public static class TableTestHelper
             BuildAllExpectedItemRows(items, rowTemplate);
 
         return @$"
-  <div class=""table-container {(isZebraStriped ? "zebra" : string.Empty)} {(isHoverable ? "hoverable" : string.Empty)}"">
-    <div class=""header table-row"">
-        {BuildExpectedHeaderMarkup(headings, isAscending, expectedOrderColumnIndex)}
-    </div>
-    <div class=""body"">
-        {itemRows}
-    </div>
-    {
-    (includePaginationRow ? 
-        @$"<div class=""pagination table-row""> 
-            {BuildExpectedPaginationRow(items.Count(), currentPage, rowsPerPageOpts, selectedRowsPerPageIndex)}
-          </div>" : string.Empty)}";
+        <div class=""table-container {(isZebraStriped ? "zebra" : string.Empty)} {(isHoverable ? "hoverable" : string.Empty)}"">
+            {BuildExpectedHeaderMarkup(headings, isAscending, expectedOrderColumnIndex)}
+        <div class=""body"">
+            {itemRows}
+        </div>
+            {(includePaginationRow ? BuildExpectedPaginationRow(items.Count(), currentPage, rowsPerPageOpts, selectedRowsPerPageIndex) : string.Empty)}";
     }
 
     public static string BuildExpectedHeaderMarkup(IEnumerable<TableHeadingItem> headings, bool isAscending, int selectedOrderIndex = -1)
     {
-        return string.Join(Environment.NewLine, headings.Select((item, i) =>
+        var headerCells = string.Join(Environment.NewLine, headings.Select((item, i) =>
         @$"
-<div class=""header-cell table-cell {(i == selectedOrderIndex ? "selected" : string.Empty)} {(isAscending ? "ascending" : "descending")} heading-{i}"">
-    <div class=""heading-container"">
-        <span class=""heading-text"">{item.DisplayName}</span>
-            <div class=""sort-arrows"">
-                <span class=""arrow-ascending mdi mdi-arrow-up""></span>
-                <span class=""arrow-descending mdi mdi-arrow-down""></span>
-            </div>
-    </div>
-</div>"));
+            <div class=""header-cell table-cell {(i == selectedOrderIndex ? "selected" : string.Empty)} {(isAscending ? "ascending" : "descending")} heading-{i}"">
+                <div class=""heading-container"">
+                    <span class=""heading-text"">{item.DisplayName}</span>
+                     <div class=""sort-arrows"">
+                        <span class=""arrow-ascending mdi mdi-arrow-up""></span>
+                        <span class=""arrow-descending mdi mdi-arrow-down""></span>
+                     </div>
+                </div>
+        </div>"));
+
+        return $@"<div class=""header-row table-row"">{headerCells}</div>";
     }
 
     public static string BuildAllExpectedItemRows(IEnumerable<TableTestObject> items, string rowTemplate)
@@ -105,11 +101,11 @@ public static class TableTestHelper
 
         return
 @$"
-    <div class=""pagination-row"">
+    <div class=""pagination-row table-row"">
         <div class=""rows-per-page"">
             <span class=""rows-per-page-label"">Rows Per Page</span>
             <div class=""dropdown"">
-                <input readonly placeholder="" "" value=""{selectedRowsPerPage}"" />
+                <input readonly class=""dropdown-input"" placeholder="" "" value=""{selectedRowsPerPage}"" />
                 <div class=""label""></div>
                 <div class=""options"">
                     {optionsMarkup}
