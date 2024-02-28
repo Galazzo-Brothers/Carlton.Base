@@ -251,7 +251,7 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, false));
 
         var tableRows = cut.FindAll(".table-row");
-        var actualItemCount = tableRows.Count - 1; //Exclude the header row
+        var actualItemCount = tableRows.Count;
 
         var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
 
@@ -292,7 +292,7 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, true));
 
         var tableRows = cut.FindAll(".table-row");
-        var actualItemCount = tableRows.Count - 2; //Exclude the header row and pagination row
+        var actualItemCount = tableRows.Count;
         var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
 
         //Assert
@@ -323,8 +323,7 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, false));
 
         var rowElements = cut.FindAll(".table-row");
-        var itemRowElements = rowElements.Skip(1); //skip header row
-        var actualContent = itemRowElements.Select(_ => _.OuterHtml);
+        var actualContent = rowElements.Select(_ => _.OuterHtml);
 
         //Assert
         actualContent.ShouldBe(expectedContent);
@@ -374,7 +373,7 @@ public class TableComponentTests_Stubs : TestContext
             .Add(p => p.ShowPaginationRow, true));
 
         var rowElements = cut.FindAll(".table-row");
-        var itemRowElements = rowElements.Skip(1).Take(rowElements.Count - 2); //skip header and pagination rows
+        var itemRowElements = rowElements.Take(rowElements.Count);
         var actualContent = itemRowElements.Select(_ => _.OuterHtml);
 
         //Assert

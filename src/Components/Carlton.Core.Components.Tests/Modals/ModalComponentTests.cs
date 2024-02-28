@@ -29,20 +29,22 @@ public class ModalComponentTests : TestContext
   </div>";
 
     public const string SingleActionModalTemplate = @"
-      <div class=""modal {0}"" >
+    <div class=""modal {0}"" >
           <div class=""modal-content"" >
-            <span class=""dismiss"">×</span>
-            <div class=""modal-prompt-message"" >
-              <span class=""message-text"" >{1}</span>
+                <div class=""single-action-modal-content"" >
+                    <span class=""dismiss"">×</span>
+                <div class=""modal-prompt-message"" >
+                    <span class=""message-text"" >{1}</span>
+                </div>
+                <div class=""modal-message"">
+                    <span class=""message-text"">{2}</span>
+                </div>
+                <div class=""modal-actions"" >
+                    <button class=""btn-ok""  >Ok</button>
+                </div>
             </div>
-            <div class=""modal-message"">
-              <span class=""message-text"">{2}</span>
-            </div>
-            <div class=""modal-actions"" >
-              <button class=""btn-ok""  >Ok</button>
-            </div>
-          </div>
-        </div>";
+        </div>
+    </div>";
 
     [Theory(DisplayName = "Markup Test")]
     [InlineAutoData(true, ModalTypes.ConfirmationModal, ConfirmationModalTemplate)]

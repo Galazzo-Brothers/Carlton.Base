@@ -5,14 +5,17 @@ namespace Carlton.Core.Components.Tests.Modals;
 public class SingleActionContentModalComponent : TestContext
 {
     private const string ExpectedMarkup = @"
-    <div class=""modal-prompt-message"">
-        <span class=""message-text"">{0}</span>
-    </div>
-    <div class=""modal-message"">
-        <span class=""message-text"">{1}</span>
-    </div>
-    <div class=""modal-actions"">
-        <button class=""btn-ok"">Ok</button>
+    <div class=""single-action-modal-content"" >
+        <span class=""dismiss"">×</span>
+        <div class=""modal-prompt-message"">
+            <span class=""message-text"">{0}</span>
+        </div>
+        <div class=""modal-message"">
+            <span class=""message-text"">{1}</span>
+        </div>
+        <div class=""modal-actions"">
+            <button class=""btn-ok"">Ok</button>
+        </div>
     </div>";
 
     [Theory(DisplayName = "Markup Test"), AutoData]
@@ -21,9 +24,7 @@ public class SingleActionContentModalComponent : TestContext
         string expectedModalMessage)
     {
         //Arrange
-        var expectedMarkup =
-            $@"<span class=""dismiss"">×</span>
-            {string.Format(ExpectedMarkup, expectedModalPrompt, expectedModalMessage)}";
+        var expectedMarkup = string.Format(ExpectedMarkup, expectedModalPrompt, expectedModalMessage);
 
         //Act
         var cut = RenderComponent<SingleActionModalContent>(parameters => parameters
@@ -45,10 +46,8 @@ public class SingleActionContentModalComponent : TestContext
        string expectedModalMessage)
     {
         //Arrange
-        ComponentFactories.AddStub<ModalDismissMark>(@"<span class=""stub"">x</span>");
-        var expectedMarkup =
-           $@"<span class=""stub"">x</span>
-            {string.Format(ExpectedMarkup, expectedModalPrompt, expectedModalMessage)}";
+        ComponentFactories.AddStub<ModalDismissMark>(@"<span class=""dismiss"">×</span>");
+        var expectedMarkup = string.Format(ExpectedMarkup, expectedModalPrompt, expectedModalMessage);
 
         //Act
         var cut = RenderComponent<SingleActionModalContent>(parameters => parameters
