@@ -42,7 +42,7 @@
     /// Gets or sets the collection of selectable items.
     /// </summary>
     [Parameter]
-    public IEnumerable<SelectItem<TValue>> Items { get; set; } = new List<SelectItem<TValue>>();
+    public IEnumerable<AccordionSelectModel<TValue>> Items { get; set; } = new List<AccordionSelectModel<TValue>>();
 
     /// <summary>
     /// Gets or sets the index of the currently selected item.
@@ -60,7 +60,7 @@
     /// Event callback invoked when an item is selected.
     /// </summary>
     [Parameter]
-    public EventCallback<SelectItem<TValue>> OnItemSelected { get; set; }
+    public EventCallback<AccordionSelectModel<TValue>> OnItemSelected { get; set; }
 
     /// <summary>
     /// Event callback invoked when the accordion expansion state changes.
@@ -91,7 +91,7 @@
         await OnItemExpansionChange.InvokeAsync(IsExpanded);
     }
 
-    private async Task HandleItemSelected(SelectItem<TValue> item)
+    private async Task HandleItemSelected(AccordionSelectModel<TValue> item)
     {
         SelectedIndex = item.Index;
         await OnItemSelected.InvokeAsync(item);

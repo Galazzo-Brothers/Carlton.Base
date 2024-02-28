@@ -14,7 +14,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -39,7 +39,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = -1;
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -98,7 +98,7 @@ public class AccordionSelectComponentTests : TestContext
         bool expectedIsExapnded)
     {
         //Arrange
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -127,7 +127,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -152,7 +152,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -176,7 +176,7 @@ public class AccordionSelectComponentTests : TestContext
         bool expectedIsExpanded)
     {
         //Arrange
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -202,7 +202,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = expectedItems.Count + 10; //Index out of range
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -224,11 +224,11 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
         var eventCalled = false;
-        SelectItem<int>? selectedItem = null;
+        AccordionSelectModel<int>? selectedItem = null;
         var expectedValue = items.ElementAt(selectedIndex).Value;
 
         var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
@@ -257,7 +257,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
 
@@ -284,7 +284,7 @@ public class AccordionSelectComponentTests : TestContext
     {
         //Arrange
         var selectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
-        var items = new AccordionSelectItemBuilder<int>()
+        var items = new AccordionSelectModelBuilder<int>()
                         .AddItems(expectedItems)
                         .Build();
         var selectedValue = items.ElementAt(selectedIndex).Value;
@@ -306,7 +306,7 @@ public class AccordionSelectComponentTests : TestContext
     }
 
     
-    private static string GenerateExpectedMarkup(string title, bool isExpanded, int selectedIndex, IEnumerable<SelectItem<int>> items)
+    private static string GenerateExpectedMarkup(string title, bool isExpanded, int selectedIndex, IEnumerable<AccordionSelectModel<int>> items)
     {
         var iconType = isExpanded ? "minus" : "plus";
         var itemMarkup = string.Join(Environment.NewLine, items

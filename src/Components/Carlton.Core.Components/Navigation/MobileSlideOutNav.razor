@@ -2,17 +2,20 @@
 
 @*  Represents a slide-out navigation component with toggleable visibility. *@
 <div class="slide-out-nav">
+    <!-- Menu Icon -->
     <a href="#" @onclick:preventDefault @onclick="() => IsExpanded=!IsExpanded">
         <span class="@SlideOutNavIconCss" />
     </a>
+
+    <!-- Nav Content -->
+    <div class="content-container @(IsExpanded ? "active" : string.Empty)">
+        @Content
+    </div>
 </div>
 
-<div class="content-container @(IsExpanded ? "active" : string.Empty)">
-    @Content
-</div>
 
 
-@code{
+@code {
     /// <summary>
     /// Gets or sets a value indicating whether the content is expanded or collapsed.
     /// </summary>
@@ -33,6 +36,5 @@
             .AddClass("mdi-menu", !IsExpanded)
             .Build();
     }
-
 }
 

@@ -1,51 +1,72 @@
-﻿
+﻿/* Table Container Variables */
+.table-container {
+	--table-row-selected-background-color: var(--component-selected-row-background-color);
+	--table-background-color: var(--component-background-color);
+	--table-secondary-background-color: var(--component-secondary-background-color);
+	--table-hover-background-color: var(--component-hover-background-color);
+	--table-container-margin: 0 auto;
+	--table-container-border-radius: 5px;
+	--table-container-border-bottom: 1px solid #DADADA;
+	--table-container-hover-box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
+	--table-container-row-border-bottom: 1px solid #dadada;
+	--table-container-row-table-cell-font-size: 14px;
+	--table-container-row-table-cell-padding: 8px 5px;
+	--table-container-row-table-cell-transition: all 0.15s ease-in-out;
+}
+
+/* Table Container Base Styles */
 .table-container {
 	display: flex;
 	flex-flow: column nowrap;
-	margin: 0 auto;
-	background-color: var(--card-background-color);
-	border-radius: 4px;
-	border-bottom: 1px solid #DADADA;
-	box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
+	margin: var(--table-container-margin);
+	background-color: var(--table-background-color);
+	border-radius: var(--table-container-border-radius);
+	border-bottom: var(--table-container-border-bottom);
 }
 
+	/* Zebra Striping for Even Rows */
 	.table-container.zebra ::deep.table-row:nth-child(even) {
-		background-color: var(--card-secondary-background-color);
+		background-color: var(--table-secondary-background-color);
 	}
 
+	/* Selected Row Styling for Even Rows */
 	.table-container.zebra ::deep.table-row.selected:nth-child(even) {
 		background-color: var(--table-row-selected-background-color);
 	}
 
+	/* Remove Borders for Non-Header and Non-Pagination Rows */
 	.table-container.zebra ::deep.table-row:not(.header, .pagination) {
 		border-bottom: none;
 		border-top: none;
 	}
 
-
+	/* Hover Effect for Rows */
 	.table-container.hoverable ::deep .table-row:hover:not(.selected) {
 		cursor: pointer;
-		background-color: var(--card-hover-background-color);
-		box-shadow: 0px 1px 4px rgba(0, 0, 0, .08);
+		background-color: var(--table-hover-background-color);
+		box-shadow: var(--table-container-hover-box-shadow);
 	}
 
-
+/* Table Row Styles */
 ::deep .table-row {
 	display: flex;
 	flex-flow: row nowrap;
-	border-bottom: 1px solid #dadada;
+	border-bottom: var(--table-container-border-bottom);
 }
 
+	/* Selected Row Styles */
 	::deep .table-row.selected {
 		background-color: var(--table-row-selected-background-color);
 	}
 
+/* Table Cell Styles */
 ::deep .table-cell {
 	display: flex;
-	flex: 1;
-	font-size: 14px;
-	padding: 8px 5px;
+	width: 100%;
+	justify-content: center;
+	font-size: var(--table-container-row-table-cell-font-size);
+	padding: var(--table-container-row-table-cell-padding);
 	align-items: center;
 	color: var(--primary-text-color);
-	transition: all 0.15s ease-in-out;
+	transition: var(--table-container-row-table-cell-transition);
 }

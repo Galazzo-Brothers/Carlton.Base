@@ -1,8 +1,14 @@
-﻿
+﻿/* Modal Variables */
 .modal {
-	--modal-background-color: #fefefe;
+	--modal-background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	--modal-z-index: 1;
+	--modal-content-min-width: 15%;
+	--modal-content-background-color: #fefefe;
+	--modal-content-padding: 20px;
+	--modal-content-border-radius: 5px;
 }
 
+/* Modal Base Styles */
 .modal {
 	display: none;
 	position: fixed;
@@ -12,20 +18,21 @@
 	height: 100%;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	z-index: 1;
+	background-color: var(--modal-background-color);
+	z-index: var(--modal-z-index);
 }
 
+	/* Visible Modal Styles */
 	.modal.visible {
 		display: flex;
 	}
 
+/* Modal Content Styles */
 .modal-content {
 	position: relative;
-	min-width: 10%;
+	min-width: var(--modal-content-min-width);
 	background-color: var(--modal-background-color);
-	padding: 20px;
+	padding: var(--modal-content-padding);
 	border: none;
-	border-radius: 5px;
+	border-radius: var(--modal-content-border-radius);
 }
-

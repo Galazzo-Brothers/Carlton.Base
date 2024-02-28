@@ -1,8 +1,11 @@
-﻿
+﻿/* Text Tab Variables */
 .text-tab {
+	--tab-font-size: 14px;
+	--tab-hover-color: #7c848a;
 	--text-tab-title-font-weight: 600;
 }
 
+/* Base Styles for Text Tab */
 .text-tab {
 	display: flex;
 	flex-direction: column;
@@ -11,7 +14,7 @@
 	margin-right: auto;
 }
 
-
+/* Styles for Tab Title */
 .tab-title {
 	position: relative;
 	display: inline-block;
@@ -29,7 +32,7 @@
 		color: var(--tab-hover-color);
 	}
 
-
+/* Horizontal Spacer Styles */
 ::deep .horizontal-spacer::after {
 	opacity: 1;
 	background-color: var(--selected-color);

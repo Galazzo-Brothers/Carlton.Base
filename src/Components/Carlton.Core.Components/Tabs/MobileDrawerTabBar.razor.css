@@ -1,5 +1,5 @@
 ﻿
-
+/* Mobile Collapsible Tab Bar Styles */
 .mobile-collapsible-tab-bar ::deep .slide-button {
 	background-color: var(--layout-footer-background-color);
 }

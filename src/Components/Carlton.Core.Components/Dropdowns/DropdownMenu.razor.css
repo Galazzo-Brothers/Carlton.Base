@@ -1,13 +1,19 @@
-﻿
+﻿/* Dropdown Menu Variables */
 .dropdown-menu {
-	--dropdown-items-width: 250px;
-	--dropdown-items-max-height: 350px;
-	--dropdown-items-top: 45px;
-	--dropdown-items-left: -115px;
-	--dropdown-items-mobile-top: 75px;
-	--dropdown-items-mobile-left: 0px;
+	--dropdown-items-width: 250px; /* Width of the dropdown menu */
+	--dropdown-items-max-height: 350px; /* Maximum height of the dropdown menu */
+	--dropdown-items-top: 45px; /* Top position of the dropdown menu */
+	--dropdown-items-left: -115px; /* Left position of the dropdown menu */
+	--dropdown-items-mobile-top: 75px; /* Top position of the dropdown menu on mobile */
+	--dropdown-items-mobile-left: 0px; /* Left position of the dropdown menu on mobile */
+	--dropdown-items-border: 0.5px solid #c9c9c9; /* Border of the dropdown menu */
+	--dropdown-items-border-radius: 5px; /* Border radius of the dropdown menu */
+	--dropdown-items-z-index: 3; /* Z-index of the dropdown menu */
+	--dropdown-items-transition: 0.5s max-height ease-in-out; /* Transition duration for dropdown menu animations */
+	--dropdown-items-a-padding: 1em 18px; /* Padding for anchor tags within dropdown menu */
 }
 
+/* Dropdown Menu Base Styles */
 .dropdown-menu {
 	cursor: pointer;
 	position: relative;
@@ -15,6 +21,7 @@
 	box-sizing: border-box;
 }
 
+/* Dropdown Items Styles */
 .dropdown-items {
 	max-height: 0px;
 	overflow: hidden;
@@ -22,20 +29,22 @@
 	width: var(--dropdown-items-width);
 	top: var(--dropdown-items-top);
 	left: var(--dropdown-items-left);
-	border-radius: 5px;
+	border-radius: var(--dropdown-items-border-radius);
 	opacity: 0;
-	z-index: 3;
-	transition: 0.5s max-height ease-in-out;
+	z-index: var(--dropdown-items-z-index);
+	transition: var(--dropdown-items-transition);
 }
 
+	/* Remove default margin for UL */
 	.dropdown-items ul {
 		margin: 0;
 	}
 
+	/* Dropdown Items Active Styles */
 	.dropdown-items.active {
 		max-height: var(--dropdown-items-max-height);
-		background-color: var(--card-background-color);
-		border: 0.5px solid #c9c9c9;
+		background-color: var(--component-background-color);
+		border: var(--dropdown-items-border);
 		opacity: 1;
 		display: inherit;
 	}
@@ -45,16 +54,17 @@
 		width: 100%;
 	}
 
-a {
-	width: 100%;
-	padding: 1em 18px;
-	display: inline-block;
-	white-space: pre;
-	box-sizing: border-box;
-	text-align: left;
-	color: var(--primary-text-color);
-}
+		.dropdown-items li a {
+			width: 100%;
+			padding: var(--dropdown-items-a-padding);
+			display: inline-block;
+			white-space: pre;
+			box-sizing: border-box;
+			text-align: left;
+			color: var(--primary-text-color);
+		}
 
+/* Accent Colors */
 .accent-color-1 {
 	color: var(--accent-color-1);
 }

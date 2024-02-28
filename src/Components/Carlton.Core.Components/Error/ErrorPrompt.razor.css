@@ -1,68 +1,71 @@
-﻿.error-prompt {
-    --error-prompt-height: 200px;
-    --error-prompt-width: 200px;
-    --error-prompt-background-color: #e46a76;
-    --error-prompt-retry-btn-background-color: #e46a76;
-}
-
+﻿/* Error Prompt Variables */
 .error-prompt {
-    height: var(--error-prompt-height);
-    width: var(--error-prompt-width);
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
+	--error-prompt-height: 200px;
+	--error-prompt-width: 200px;
+	--error-prompt-background-color: #e46a76;
+	--error-prompt-retry-btn-background-color: #e46a76;
+	--error-prompt-message-color: #5e5e5e;
+	--error-message-font-size: 10pt;
+	--error-message-retry-btn-height: 25px;
+	--error-message-retry-btn-width: 75px;
+	--error-message-retry-btn-color: #fff;
+	--error-message-retry-btn-border-radius: 20px;
 }
 
+/* Error Prompt Base Styles */
+.error-prompt {
+	height: var(--error-prompt-height);
+	width: var(--error-prompt-width);
+	display: flex;
+	flex-direction: column;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Error Header Styles */
 .error-header {
-    height: 50%;
-    text-align: center;
-    background-color: var(--error-prompt-background-color);
+	height: 50%;
+	text-align: center;
+	background-color: var(--error-prompt-background-color);
 }
 
-    .error-header .content {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+	.error-header .content {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		color: white;
+	}
 
-        .error-header .content .icon {
-            color: white;
-        }
-
-        .error-header .content .error-header-message {
-            color: white;
-        }
-
+/* Error Body Styles */
 .error-body {
-    height: 50%;
-    background-color: white;
+	height: 50%;
+	background-color: white;
 }
 
-    .error-body .content {
-        height: 100%;
-        width: 75%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        margin-left: auto;
-        margin-right: auto;
-    }
+	.error-body .content {
+		height: 100%;
+		width: 75%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		margin-left: auto;
+		margin-right: auto;
+	}
 
-        .error-body .content .error-message {
-            color: var(--primary-text-color);
-            font-size: 10pt;
-        }
+		.error-body .content .error-message {
+			color: var(--error-prompt-message-color);
+			font-size: var( --error-message-font-size);
+		}
 
-        .error-body .content .retry-btn {
-            height: 25px;
-            width: 75px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: var(--error-prompt-retry-btn-background-color);
-            color: white;
-            border-radius: 20px;
-            border-color: transparent;
-            cursor: pointer;
-        }
+		.error-body .content .retry-btn {
+			height: var(--error-message-retry-btn-height);
+			width: var(--error-message-retry-btn-width);
+			margin-left: auto;
+			margin-right: auto;
+			background-color: var(--error-prompt-retry-btn-background-color);
+			color: var(--error-message-retry-btn-color);
+			border-radius: var(--error-message-retry-btn-border-radius);
+			border-color: transparent;
+			cursor: pointer;
+		}

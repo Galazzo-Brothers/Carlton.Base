@@ -4,15 +4,15 @@
 /// Builder class for creating individual accordion select items.
 /// </summary>
 /// <typeparam name="TValue">The type of value associated with each item.</typeparam>
-public sealed class AccordionSelectItemBuilder<TValue>
+public sealed class AccordionSelectModelBuilder<TValue>
 {
-    private readonly List<SelectItem<TValue>> _items;
+    private readonly List<AccordionSelectModel<TValue>> _items;
     private int _itemIndex;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AccordionSelectItemBuilder{TValue}"/> class.
+    /// Initializes a new instance of the <see cref="AccordionSelectModelBuilder{TValue}"/> class.
     /// </summary>
-    public AccordionSelectItemBuilder()
+    public AccordionSelectModelBuilder()
     {
         _items = [];
         _itemIndex = 0;
@@ -21,9 +21,9 @@ public sealed class AccordionSelectItemBuilder<TValue>
     /// <summary>
     /// Adds an individual accordion select item with a name and value.
     /// </summary>
-    public AccordionSelectItemBuilder<TValue> AddItem(string name, TValue value)
+    public AccordionSelectModelBuilder<TValue> AddItem(string name, TValue value)
     {
-        _items.Add(new SelectItem<TValue>
+        _items.Add(new AccordionSelectModel<TValue>
         {
             Index = _itemIndex,
             Name = name,
@@ -36,11 +36,11 @@ public sealed class AccordionSelectItemBuilder<TValue>
     /// <summary>
     /// Adds multiple accordion select items from a dictionary of names and values.
     /// </summary>
-    public AccordionSelectItemBuilder<TValue> AddItems(IDictionary<string, TValue> items)
+    public AccordionSelectModelBuilder<TValue> AddItems(IDictionary<string, TValue> items)
     {
         foreach (var item in items)
         {
-            _items.Add(new SelectItem<TValue>
+            _items.Add(new AccordionSelectModel<TValue>
             {
                 Index = _itemIndex,
                 Name = item.Key,
@@ -55,7 +55,7 @@ public sealed class AccordionSelectItemBuilder<TValue>
     /// <summary>
     /// Builds and returns the list of select items.
     /// </summary>
-    public IEnumerable<SelectItem<TValue>> Build()
+    public IEnumerable<AccordionSelectModel<TValue>> Build()
     {
         return _items;
     }

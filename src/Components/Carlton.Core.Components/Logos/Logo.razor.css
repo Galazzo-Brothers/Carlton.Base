@@ -1,21 +1,27 @@
-﻿
-.logo{
+﻿/* Logo Variables */
+.logo {
 	--logo-height: 75px;
+	--logo-max-width: 200px;
 	--logo-img-height: 50px;
 	--logo-img-width: 50px;
+	--logo-background-color: #212120;
+	--logo-color: #fff;
+	--logo-font-size: 12pt;
 }
 
+/* Logo Base Styles */
 .logo {
 	display: flex;
 	background-color: var(--logo-background-color);
 	width: 100%;
-	max-width: 200px;
+	max-width: var(--logo-max-width);
 	height: var(--logo-height);
 	line-height: var(--logo-height);
 	margin-bottom: 0px;
 	justify-content: center;
 }
 
+	/* Logo Content Styles */
 	.logo .content {
 		display: flex;
 		flex-basis: 85%;
@@ -39,6 +45,7 @@
 			vertical-align: middle;
 		}
 
+	/* Logo Content Styles */
 	.logo.collapsed .content {
 		display: flex;
 		margin-left: auto;
@@ -54,7 +61,7 @@
 		display: none;
 	}
 
-
+/* Responsive Styles */
 @media (max-width: 767.98px) {
 	.logo .title {
 		display: none;

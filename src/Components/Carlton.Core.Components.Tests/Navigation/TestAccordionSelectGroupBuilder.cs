@@ -4,11 +4,11 @@ namespace Carlton.Core.Components.Tests.Navigation;
 
 internal static class TestAccordionSelectGroupBuilder<TValue>
 {
-    public static IEnumerable<SelectGroup<TValue>> BuildTestSelectGroups()
+    public static IEnumerable<AccordionSelectGroupModel<TValue>> BuildTestSelectGroups()
     {
         var fixture = new Fixture();
         var numOfGroups = fixture.Create<int>();
-        var builder = new AccordionSelectGroupBuilder<TValue>();
+        var builder = new AccordionSelectGroupModelBuilder<TValue>();
 
         for (var i = 0; i < numOfGroups; i++)
         {

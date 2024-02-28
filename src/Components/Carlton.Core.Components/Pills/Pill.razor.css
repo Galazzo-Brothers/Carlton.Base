@@ -1,18 +1,23 @@
-﻿.pill{
+﻿/* Pill Variables */
+.pill {
 	--pill-width: 75px;
 	--pill-background-color: gray;
 	--pill-color: white;
+	--pill-padding: 10px 10px;
+	--pill-border-radius: 25px;
+	--pill-font-family: Arial, sans-serif
 }
 
+/* Pill Base Styles */
 .pill {
 	display: inline-block;
 	width: var(--pill-width);
 	margin-left: auto;
 	margin-right: auto;
-	padding: 10px 10px;
+	padding: var(--pill-padding);
 	text-align: center;
 	background-color: var(--pill-background-color);
 	color: var(--pill-color);
-	border-radius: 25px;
-	font-family: Arial, sans-serif;
+	border-radius: var(--pill-border-radius);
+	font-family: var(--pill-font-family);
 }

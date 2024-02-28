@@ -1,8 +1,10 @@
-﻿.dynamic-event-capturing-wrapper {
+﻿/* Dynamic Event Capturing Wrapper Styles */
+.dynamic-event-capturing-wrapper {
     display: flex;
     justify-content: center;
 }
 
+/* Media Query for Small Screens */
 @media (max-width: 767.98px) {
     .dynamic-event-capturing-wrapper {
         align-items: center;

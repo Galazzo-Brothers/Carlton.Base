@@ -1,4 +1,10 @@
-﻿
+﻿.resizable-panel {
+    --resizable-panel-splitter-height: 20px;
+    --resizable-panel-background-color: #535353;
+    --resizable-panel-z-index: 2;
+    --resizable-panel-bottom-padding: 10px;
+}
+
 .panel-top {
     /* only manually resize */
     padding: 10px;
@@ -14,13 +20,13 @@
     }
 
 .splitter-horizontal {
-    height: 20px;
-    background: #535353;
+    height: var(--resizable-panel-splitter-height);
+    background: var(--resizable-panel-background-color);
     cursor: row-resize;
-    z-index: 2;
+    z-index: var(--resizable-panel-z-index);
     -webkit-user-select: none;
 }
 
 .panel-bottom {
-    padding: 10px;
+    padding: var(--resizable-panel-bottom-padding);
 }
