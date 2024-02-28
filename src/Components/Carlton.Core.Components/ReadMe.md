@@ -42,12 +42,36 @@ A Blazor Component Library is a comprehensive collection of reusable components 
 dotnet add package Carlton.Core.Components
 ```
 
-### Executing program
+### Customizing and Theming Instructions
 
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
+1. **Locate the CSS Variables File**: Find the `vars.css` file within the root directory of the component library.
+
+2. **Replace the CSS Variables File**:
+   - Replace the original `vars.css` file with your own custom version containing updated CSS variables reflecting your desired styles.
+
+2. **Verify Inclusion in `index.html`**:
+   - Ensure that the updated `vars.css` file is included in the `index.html` file of your project. You can do this by adding a `<link>` tag to reference the CSS file within the `<head>` section of the HTML document.
+
+```html
+   <head>
+       <!-- Other meta tags and external CSS files -->
+       <link rel="stylesheet" href="path/to/your/vars.css">
+   </head>
+   ```
+
+#### Sample CSS Variables from `vars.css`
+
+Below are examples of CSS variables defined in the `vars.css` file along with their default values:
+
+```css
+/* Sample CSS Variables */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --text-color: #212529;
+    --background-color: #ffffff;
+    /* Add more CSS variables here */
+}
 ```
 
 ## Authors
