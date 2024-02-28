@@ -13,7 +13,7 @@ public sealed class NavMenuViewModelBuilder
 
     public NavMenuViewModelBuilder AddComponent<T>()
     {
-        return AddComponentState<T>("Default", new Dictionary<string, object>());
+        return AddComponentState<T>("Default", new object());
     }
 
     public NavMenuViewModelBuilder AddComponentState<T>(object componentParameters)

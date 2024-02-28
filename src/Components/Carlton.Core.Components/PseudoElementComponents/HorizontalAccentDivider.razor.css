@@ -1,14 +1,22 @@
-﻿.horizontal-spacer::after {
-    display: block;
-    content: "";
-    position: relative;
-    z-index: 2;
-    background-color: var(--spacer-color);
-    opacity: .5;
-    height: var(--spacer-height);
-    margin-left: auto;
-    margin-right: auto;
-    width: var(--spacer-width);
+﻿/* Horizontal Spacer Variables */
+.horizontal-spacer {
+    --horizonal-spacer-color: #5e5e5e; /* Color of the horizontal spacer */
+    --horizonal-spacer-z-index: 2; /* Z-index of the horizontal spacer */
+    --horizonal-spacer-opacity: .5; /* Opacity of the horizontal spacer */
 }
+
+    /* Horizontal Spacer Base Styles */
+    .horizontal-spacer::after {
+        display: block;
+        content: "";
+        position: relative;
+        z-index: var(--horizonal-spacer-z-index);
+        background-color: var(--horizonal-spacer-color);
+        opacity: var(--horizonal-spacer-opacity);
+        height: var(--spacer-height);
+        margin-left: auto;
+        margin-right: auto;
+        width: var(--spacer-width);
+    }
 
 

@@ -6,9 +6,9 @@
 	.flux-debug-header-actions .icon {
 		margin-top: auto;
 		margin-block: auto;
-		color: var(--icon-color);
+		color: var(--layout-header-icon-color);
 	}
 
 	.flux-debug-header-actions ::deep .vertical-spacer {
-		border-left-color: var(--icon-color);
+		border-left-color: var(--layout-header-icon-color);
 	}

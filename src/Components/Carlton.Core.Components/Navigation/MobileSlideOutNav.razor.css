@@ -1,21 +1,30 @@
-﻿.slide-out-nav .icon{
-    color: white;
+﻿/* Slide Out Nav Variables */
+.slide-out-nav {
+	--slide-out-nav-icon-color: white;
+	--slide-out-nav-content-container-z-index: 11;
+	--slide-out-nav-content-container-transition: left 1s;
+	--slide-out-nav-content-container-margin-top: 75px;
 }
 
+/* Icon Styles */
+.icon {
+	color: var(--slide-out-nav-icon-color);
+}
+
+/* Content Container Styles */
 .content-container {
-    display: none;
-    height: 100vh;
-    background-color: var(--layout-nav-background-color);
-    z-index: 11;
-    transition: left 1s;
+	display: none;
+	height: 100vh;
+	background-color: var(--layout-nav-background-color);
+	z-index: var(--slide-out-nav-content-container-z-index);
+	transition: var(--slide-out-nav-content-container-transition);
 }
 
-    .content-container.active {
-        display: block;
-        position: fixed;
-        left: 0;
-        top: 0;
-        margin-top: 75px;
-    }
-
-
+	/* Active Content Container Styles */
+	.content-container.active {
+		display: block;
+		position: fixed;
+		left: 0;
+		top: 0;
+		margin-top: var(--slide-out-nav-content-container-margin-top);
+	}

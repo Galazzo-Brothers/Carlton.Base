@@ -1,17 +1,26 @@
-﻿
-.console{
-    display: flex;
-    width: 100%;
+﻿/* Console Variables */
+.console {
+	--console-background-color: #282c34;
+	--console-color: #7FFF00;
+	--console-error-color: #ff0000;
 }
 
+/* Console Base Styles */
+.console {
+	display: flex;
+	width: 100%;
+}
+
+/* Textarea Styles */
 textarea {
-    width: 100%;
-    background-color: var(--console-background-color);
-    color: var(--console-color);
-    resize: none;
-    border: none;
+	width: 100%;
+	background-color: var(--console-background-color);
+	color: var(--console-color);
+	resize: none;
+	border: none;
 }
 
-    textarea.error {
-        color: var(--console-error-color);
-    }
+	/* Error Textarea Styles */
+	textarea.error {
+		color: var(--console-error-color);
+	}

@@ -1,13 +1,23 @@
-﻿.dismiss {
-	position: absolute;
-	top: 0px;
-	right: 10px;
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
+﻿/* Dismiss Variables */
+.dismiss {
+	--modal-dismiss-mark-top: 0px;
+	--modal-dismiss-mark-right: 10px;
+	--modal-dismiss-mark-color: #aaa;
+	--modal-dismiss-mark-font-size: 30px;
+	--modal-dismiss-mark-font-weight: bold;
 }
 
+/* Dismiss Base Styles */
+.dismiss {
+	position: absolute;
+	top: var(--modal-dismiss-mark-top);
+	right: var(--modal-dismiss-mark-right);
+	color: var(--modal-dismiss-mark-color);
+	font-size: var(--modal-dismiss-mark-font-size);
+	font-weight: var(--modal-dismiss-mark-font-weight);
+}
+
+	/* Dismiss Hover and Focus Styles */
 	.dismiss:hover,
 	.dismiss:focus {
 		color: black;

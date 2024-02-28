@@ -1,17 +1,21 @@
-﻿.javascript-markup-viewer{
+﻿/* JavaScript Markup Viewer Variables */
+.javascript-markup-viewer {
 	--javascript-markup-viewer-height: 230px;
 }
 
+/* JavaScript Markup Viewer Base Styles */
 .javascript-markup-viewer {
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 }
 
+/* Pre Styles */
 pre{
 	margin: 0;
 }
 
+/* Code Styles */
 code {
 	height: var(--javascript-markup-viewer-height);
 	overflow-y: scroll;

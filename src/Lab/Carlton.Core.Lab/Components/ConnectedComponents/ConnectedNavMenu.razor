@@ -14,7 +14,7 @@
 
 
 @code {
-    private IEnumerable<SelectGroup<ComponentState>> ComponentStateGroups { get; set; }
+    private IEnumerable<AccordionSelectGroupModel<ComponentState>> ComponentStateGroups { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -26,7 +26,7 @@
     {
         var components = ViewModel.MenuItems;
 
-        var builder = new AccordionSelectGroupBuilder<ComponentState>();
+        var builder = new AccordionSelectGroupModelBuilder<ComponentState>();
 
         foreach (var component in components)
         {

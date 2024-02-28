@@ -3,9 +3,15 @@
 
 @* Represents a dropdown menu component with customizable menu items and templates. *@
 <div class="dropdown-menu" @onclick="() => IsActive = !IsActive">
+    <!--Menu Template-->
     <div class="menu-template">@MenuTemplate</div>
-    <div class="@DropdownMenuCss">
+    
+    <!--Dropdown Items-->
+    <div class="@DropdownItemsCss">
+        <!-- Header Template -->
         <div class="header-template">@HeaderTemplate</div>
+
+        <!-- Dropdown Items -->
         <ul>
             @foreach (var item in MenuItems)
             {
@@ -47,7 +53,7 @@
                 .Build();
     }
 
-    private string DropdownMenuCss
+    private string DropdownItemsCss
     {
         get => new CssBuilder("dropdown-items")
             .AddClass("active", IsActive)

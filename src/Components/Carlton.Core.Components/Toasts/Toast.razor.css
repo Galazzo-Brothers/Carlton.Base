@@ -1,79 +1,95 @@
-﻿.toast {
-    --toast-width: 250px;
-    --toast-height: 50px;
-    --toast-title-text-color: #fff;
-    --toast-message-text-color: #fff;
+﻿/* Toast Variables */
+.toast {
+	--toast-width: 250px;
+	--toast-height: 50px;
+	--toast-border-radius: 5px;
+	--toast-title-text-color: #fff;
+	--toast-message-text-color: #fff;
+	--toast-message-font-size: 8pt;
+	--toast-success-background-color: #00897b;
+	--toast-info-background-color: #1e88e5;
+	--toast-warning-background-color: #f0a810;
+	--toast-error-background-color: #e46a76;
+	--toast-transition: opacity .3s ease-in-out; /* Transition for opacity property */
+	--toast-content-gap: 5px;
+	--toast-content-margin-bottom: 10px;
+	--toast-content-margin-padding: 10px;
+	--toast-content-margin-border-radius: 5px;
+	--toast-message-container-padding-left: 10px;
+	--toast-message-dismiss-margin-left: 50px;
 }
 
-    .toast {
-        opacity: 1;
-        transition: opacity .3s ease-in-out; /* Transition for opacity property */
-        border-radius: 5px;
-    }
+/* Toast Styles */
+.toast {
+	opacity: 1;
+	transition: var(--toast-transition);
+	border-radius: var(--toast-border-radius);
+}
 
-        .toast.success {
-            background-color: var(--success-toast-background-color);
-        }
+	.toast.success {
+		background-color: var(--toast-success-background-color);
+	}
 
-        .toast.info {
-            background-color: var(--info-toast-background-color);
-        }
+	.toast.info {
+		background-color: var(--toast-info-background-color);
+	}
 
-        .toast.warning {
-            background-color: var(--warning-toast-background-color);
-        }
+	.toast.warning {
+		background-color: var(--toast-warning-background-color);
+	}
 
-        .toast.error {
-            background-color: var(--error-toast-background-color);
-        }
+	.toast.error {
+		background-color: var(--toast-error-background-color);
+	}
 
-        .toast.dismissed {
-            opacity: 0;
-        }
+	.toast.dismissed {
+		opacity: 0;
+	}
 
+/* Toast Content Styles */
 .content {
-    display: flex;
-    width: var(--toast-width);
-    height: var(--toast-height);
-    gap: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: var(--toast-background-color);
+	display: flex;
+	width: var(--toast-width);
+	height: var(--toast-height);
+	gap: var(--toast-content-gap);
+	margin-bottom: var(--toast-content-margin-bottom);
+	padding: var(--toast-content-margin-padding);
+	border-radius: var(--toast-content-margin-border-radius);
+	background-color: var(--toast-background-color);
 }
 
-    .content .icon {
-        flex-basis: 10%;
-        margin-top: auto;
-        margin-bottom: auto;
-        color: var(--toast-title-text-color);
-    }
+	.content .icon {
+		flex-basis: 10%;
+		margin-top: auto;
+		margin-bottom: auto;
+		color: var(--toast-title-text-color);
+	}
 
-    .content .message-container {
-        flex-basis: 90%;
-        display: flex;
-        flex-direction: column;
-        margin-top: auto;
-        margin-bottom: auto;
-        padding-left: 10px;
-    }
+	.content .message-container {
+		flex-basis: 90%;
+		display: flex;
+		flex-direction: column;
+		margin-top: auto;
+		margin-bottom: auto;
+		padding-left: var(--toast-message-container-padding-left);
+	}
 
-        .content .message-container .title {
-            font-weight: bold;
-            color: var(--toast-title-text-color);
-        }
+		.content .message-container .title {
+			font-weight: bold;
+			color: var(--toast-title-text-color);
+		}
 
 
-        .content .message-container .message {
-            color: var(--toast-message-text-color);
-            font-size: 8pt;
-        }
+		.content .message-container .message {
+			color: var(--toast-message-text-color);
+			font-size: var(--toast-message-font-size);
+		}
 
-    .content .dismiss {
-        flex-basis: 5%;
-        color: white;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: 50px;
-        cursor: pointer;
-    }
+	.content .dismiss {
+		flex-basis: 5%;
+		color: white;
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: var(--toast-message-dismiss-margin-left);
+		cursor: pointer;
+	}

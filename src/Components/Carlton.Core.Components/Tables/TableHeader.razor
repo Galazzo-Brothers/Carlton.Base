@@ -1,23 +1,25 @@
 ﻿@namespace Carlton.Core.Components.Tables
 @typeparam TItem
 
-@* 
+@*
     Represents the header of the table, displaying the column headings.
     TItem: The type of items in the table.
 *@
-@foreach (var (heading, i) in Headings.WithIndex())
-{
-    <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HandleItemsSort(heading.OrderingName)">
-        <div class="heading-container">
-            <span class="heading-text">@heading.DisplayName</span>
-            <div class="sort-arrows">
-                <span class="arrow-ascending mdi mdi-arrow-up"></span>
-                <span class="arrow-descending mdi mdi-arrow-down"></span>
+
+<div class="table-header-row">
+    @foreach (var (heading, i) in Headings.WithIndex())
+    {
+        <div class="@HeaderCellCss(heading.OrderingName, i)" @onclick="()=>HandleItemsSort(heading.OrderingName)">
+            <div class="heading-container">
+                <span class="heading-text">@heading.DisplayName</span>
+                <div class="sort-arrows">
+                    <span class="arrow-ascending mdi mdi-arrow-up"></span>
+                    <span class="arrow-descending mdi mdi-arrow-down"></span>
+                </div>
             </div>
         </div>
-    </div>
-}
-
+    }
+</div>
 
 @code {
     /// <summary>

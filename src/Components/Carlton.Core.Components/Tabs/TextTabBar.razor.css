@@ -1,3 +1,4 @@
-﻿::deep .tabs{
+﻿/* TextTabBar Tabs Styles */
+::deep .tabs{
 	margin-bottom: 10px;
 }

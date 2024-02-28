@@ -14,6 +14,7 @@
                      OrderAscending="OrderAscending"
                      OnItemsSort="(args)=>HandleItemsSort(args)" />
     </div>
+
     <!--Table Body-->
     <div class="body">
         @foreach (var item in Items)
@@ -21,6 +22,7 @@
             @RowTemplate(item)
         }
     </div>
+
     <!--Table Pagination Row-->
     @if (ShowPaginationRow)
     {

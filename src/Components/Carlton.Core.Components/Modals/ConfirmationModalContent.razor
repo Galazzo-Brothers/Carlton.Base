@@ -1,17 +1,26 @@
 ﻿@namespace Carlton.Core.Components.Modals
 
+@* Represents the content of a confirmation modal. *@
 <div class="confirmation-modal-content">
+    <!--Modal DismissMark -->
     <ModalDismissMark OnDismiss="@State.HandleDismiss" />
 
+    <!-- Modal Header -->
     <div class="modal-header">
         <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
     </div>
+
+    <!-- Prompt Message -->
     <div class="modal-prompt-message">
         <span class="message-text">@State.Prompt</span>
     </div>
+
+    <!-- Modal Message -->
     <div class="modal-message">
         <span class="message-text">@State.Message</span>
     </div>
+
+    <!-- Modal Actions -->
     <div class="modal-actions">
         <button class="btn-cancel" @onclick="() => State.HandleClose(new ModalCloseEventArgs(false))">Cancel</button>
         <button class="btn-confirm" @onclick="() => State.HandleClose(new ModalCloseEventArgs(true))">Delete</button>
@@ -20,6 +29,9 @@
 
 
 @code {
+    /// <summary>
+    /// Gets or sets the state of the confirmation modal.
+    /// </summary>
     [Parameter]
     public ModalRenderFragmentState State { get; set; }
 }

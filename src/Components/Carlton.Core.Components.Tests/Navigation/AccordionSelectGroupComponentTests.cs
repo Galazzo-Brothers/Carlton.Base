@@ -83,7 +83,7 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_EmptyGroups_SelectedIndexParameter_RendersCorrectly()
     {
         //Arrange
-        var expectedGroups = Enumerable.Empty<SelectGroup<int>>();
+        var expectedGroups = Enumerable.Empty<AccordionSelectGroupModel<int>>();
         var selectedGroupIndex = -1;
         var selectedItemIndex = -1;
 
@@ -106,7 +106,7 @@ public class AccordionSelectGroupComponentTests : TestContext
     public void AccordionSelectGroup_EmptyItems_SelectedIndexParameter_RendersCorrectly()
     {
         //Arrange
-        var expectedGroups = Enumerable.Empty<SelectGroup<int>>();
+        var expectedGroups = Enumerable.Empty<AccordionSelectGroupModel<int>>();
         var selectedGroupIndex = -1;
         var selectedItemIndex = -1;
 
@@ -263,7 +263,7 @@ public class AccordionSelectGroupComponentTests : TestContext
         value.ShouldBe(expectedValue);
     }
 
-    private static string BuildExpectedGroupsMarkup(IEnumerable<SelectGroup<int>> groups , int selectedGroupIndex, int selectedItemIndex)
+    private static string BuildExpectedGroupsMarkup(IEnumerable<AccordionSelectGroupModel<int>> groups , int selectedGroupIndex, int selectedItemIndex)
     {
         var groupMarkup = string.Join(Environment.NewLine, groups
             .Select((group, i) => $@"
@@ -285,7 +285,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 </div>";
     }
 
-    private static string BuildExpectedItemsMarkup(IEnumerable<SelectItem<int>> items, int selectedItemIndex)
+    private static string BuildExpectedItemsMarkup(IEnumerable<AccordionSelectModel<int>> items, int selectedItemIndex)
     {
         return string.Join(Environment.NewLine, items.Select((item, i) =>
 @$"<div class=""item {(selectedItemIndex == i ? "selected" : string.Empty)}"">

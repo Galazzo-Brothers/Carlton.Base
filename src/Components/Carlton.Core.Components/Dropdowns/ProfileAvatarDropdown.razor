@@ -5,6 +5,7 @@
 @* Represents a profile avatar dropdown component for displaying user information and options. *@
 <div class="profile-avatar-dropdown">
     <DropdownMenu MenuItems="DropdownMenuItems">
+        <!-- Profile Avatar Menu -->
         <MenuTemplate>
             <div class="profile-avatar">
                 <img class="avatar-img text-center" src="@AvatarImgUrl" />
@@ -12,6 +13,8 @@
                 <span class="icon mdi mdi-24px mdi-chevron-down mobile-hide"></span>
             </div>
         </MenuTemplate>
+
+        <!-- Dropdown Header -->
         <HeaderTemplate>
             <div class="header">
                 <span class="user">Stephen Galazzo</span>
@@ -19,6 +22,8 @@
                 <HorizontalAccentDivider WidthPercentage="85" />
             </div>
         </HeaderTemplate>
+
+        <!--Dropdown Items (not shown)-->
     </DropdownMenu>
 </div>
 

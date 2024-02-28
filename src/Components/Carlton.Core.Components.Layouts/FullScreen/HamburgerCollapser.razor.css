@@ -3,7 +3,7 @@
 }
 
     .collapser span {
-        color: var(--icon-color);
+        color: var(--layout-header-icon-color);
         font-size: 16pt;
         vertical-align: middle;
     }

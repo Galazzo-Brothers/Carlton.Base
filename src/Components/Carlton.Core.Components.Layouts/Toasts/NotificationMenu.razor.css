@@ -4,9 +4,9 @@
     margin-bottom: auto;
 }
 
-.notifications i {
-    color: var(--icon-color);
-}
+    .notifications i {
+        color: var(--layout-header-icon-color);
+    }
 
 .notifications .notify {
     position: relative;
@@ -30,7 +30,7 @@
 /*Media Queries*/
 @media (max-width: 768px) {
     .notifications i {
-        color: var(--mobile-icon-color);
+        color: var(--layout-mobile-header-icon-color);
     }
 }
 

@@ -3,18 +3,25 @@
 
 @* Represents a dropdown component for selecting from a list of options. *@
 <div class="dropdown">
-    <input readonly placeholder=" " value="@((IsPristineEnabled && IsPristine) ? null : SelectedKey)" />
+    <!-- Input holding dropdown selected value -->
+    <input readonly class="@DropdownInputCss" placeholder=" " value="@DropdownValue" />
+
+    <!-- Label for the dropdown -->
     <div class="label">@Label</div>
 
+    <!-- Options container -->
     @if (IsDisabled)
     {
+        <!-- Disabled state for options when the dropdown is disabled -->
         <div disabled class="options"></div>
     }
     else
     {
+        <!-- Render options when the dropdown is not disabled -->
         <div class="options">
             @foreach (var (opt, i) in Options.WithIndex())
             {
+                <!-- Individual option items -->
                 <div class="option" @onclick="()=>HandleValueChange(new ValueChangeArgs<T>(i, opt.Key, opt.Value))">@opt.Key</div>
             }
         </div>
@@ -57,7 +64,7 @@
     /// Event callback invoked when the value of the dropdown changes.
     /// </summary>
     [Parameter]
-    public EventCallback<ValueChangeArgs<T>> OnValueChange{ get; set; }
+    public EventCallback<ValueChangeArgs<T>> OnValueChange { get; set; }
 
     private bool IsPristine { get; set; } = true;
 
@@ -70,7 +77,7 @@
         if (SelectedIndex < 0 || SelectedIndex >= Options.Count)
             throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
 
-            base.OnInitialized();
+        base.OnInitialized();
     }
 
     protected async Task HandleValueChange(ValueChangeArgs<T> opt)
@@ -79,4 +86,12 @@
         SelectedIndex = opt.SelectedIndex;
         await OnValueChange.InvokeAsync(opt);
     }
+
+    private String DropdownInputCss =>
+        new CssBuilder("dropdown-input")
+        .AddClass("disabled", IsDisabled)
+        .Build();
+
+    private string DropdownValue =>
+        (IsPristineEnabled && IsPristine) ? null : SelectedKey;
 }

@@ -17,7 +17,7 @@
 }
 
 .table-row.child-row {
-	background-color: var(--card-secondary-background-color);
+	background-color: var(--component-secondary-background-color);
 	border-bottom: transparent;
 }
 

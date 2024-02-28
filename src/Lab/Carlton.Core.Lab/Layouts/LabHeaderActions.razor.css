@@ -6,9 +6,9 @@
     .component-lab-header-actions .icon {
         margin-top: auto;
         margin-block: auto;
-        color: var(--icon-color);
+        color: var(--layout-header-icon-color);
     }
 
     .component-lab-header-actions ::deep .vertical-spacer {
-        border-left-color: var(--icon-color);
+        border-left-color: var(--layout-header-icon-color);
     }
