@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Test\Carlton.Core.Foundation.Test.csproj" />
+		<ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Test\Carlton.Core.Foundation.Tests.csproj" />
 		<ProjectReference Include="..\Carlton.Core.Components\Carlton.Core.Components.csproj" />
 	</ItemGroup>
 </Project>

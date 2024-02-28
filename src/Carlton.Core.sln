@@ -42,11 +42,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation", "Foundation\Carlton.Core.Foundation\Carlton.Core.Foundation.csproj", "{6B07C815-E7F2-4BFE-AC90-87710E304258}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Test", "Foundation\Carlton.Core.Foundation.Test\Carlton.Core.Foundation.Test.csproj", "{0B69DECE-5E3A-4C6D-9F95-66B79BF33469}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Tests", "Foundation\Carlton.Core.Foundation.Test\Carlton.Core.Foundation.Tests.csproj", "{0B69DECE-5E3A-4C6D-9F95-66B79BF33469}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Web", "Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj", "{06C223B6-C862-44D6-8B31-BF8991216A52}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts.Test", "Components\Carlton.Core.Components.Layouts.Test\Carlton.Core.Components.Layouts.Test.csproj", "{4A435FA3-181E-4B44-AA5D-DF3231393BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts.Tests", "Components\Carlton.Core.Components.Layouts.Test\Carlton.Core.Components.Layouts.Tests.csproj", "{4A435FA3-181E-4B44-AA5D-DF3231393BCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
