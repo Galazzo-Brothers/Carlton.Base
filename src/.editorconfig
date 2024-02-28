@@ -22,6 +22,9 @@ csharp_style_expression_bodied_local_functions = false:silent
 dotnet_diagnostic.CS8602.severity = none
 csharp_style_prefer_primary_constructors = true:suggestion
 
+# xUnit1012: Null should only be used for nullable parameters
+dotnet_diagnostic.xUnit1012.severity = silent
+
 [*.{cs,vb}]
 #### Naming styles ####
 
@@ -81,3 +84,5 @@ dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_collection_expression = true:suggestion
+dotnet_style_prefer_conditional_expression_over_return = true:silent

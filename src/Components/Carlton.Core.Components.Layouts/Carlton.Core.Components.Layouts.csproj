@@ -19,7 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Carlton.Core.Components.Layouts.Test" />
+		<InternalsVisibleTo Include="Carlton.Core.Components.Layouts.Tests" />
 	</ItemGroup>
 
 </Project>
