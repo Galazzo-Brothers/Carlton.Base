@@ -1,5 +1,5 @@
 ﻿<h1 align="center">
-    <img src=""wwwroot/images/CarltonLogo.png" width="200" />
+    <img src=""../Carlton.Core.Components/wwwroot/images/CarltonLogo.png" width="200" />
 </br>
     Project Carlton
 </br>
