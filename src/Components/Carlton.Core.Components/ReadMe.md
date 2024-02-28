@@ -1,8 +1,10 @@
 ﻿<h1 align="center">
-    <img src=""wwwroot/images/CarltonLogo.png" width="200" />
+   <img src="wwwroot/images/CarltonLogo.png" alt="Image Alt Text" width="200" />
 </br>
     Project Carlton
 </br>
+
+
 
 # Carlton.Core.Components 
 
