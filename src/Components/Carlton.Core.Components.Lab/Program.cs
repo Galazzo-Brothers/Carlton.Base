@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Components;
-using Carlton.Core.Components.Buttons;
+﻿using Carlton.Core.Components.Buttons;
 using Carlton.Core.Components.Cards;
 using Carlton.Core.Components.Lab.TestData;
 using Carlton.Core.Components.Layouts.Extensions;
@@ -35,11 +34,11 @@ public static class Program
             loggingBuilder => loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"))
                                             .AddSeq("http://localhost:5341/")
         );
+        builder.Services.AddCarltonLayout(opt =>
+        {
+            opt.ShowPanel = true;
+        }); 
 
-        builder.Services.AddCarltonLayout(b =>
-            b.AddSetting("AppName", "Carlton Test Lab")
-             .AddSetting("LogoUrl", "_content/Carlton.Core.Components/images/CarltonLogo.png")
-             .AddSetting("ShowPanel", true)); ;
         builder.Services.AddCarltonTestLab(builder =>
         {
             //Base Components

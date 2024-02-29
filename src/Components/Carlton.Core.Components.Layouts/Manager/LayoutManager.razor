@@ -1,4 +1,6 @@
-﻿@using Carlton.Core.Components.Layouts.Theme
+﻿@using Carlton.Core.Components.Layouts.Extensions
+@using Carlton.Core.Components.Layouts.Panel
+@using Carlton.Core.Components.Layouts.Theme
 @using Carlton.Core.Components.Modals
 @using Carlton.Core.Components.Toasts
 @using Carlton.Core.Components.Layouts.Toasts
@@ -11,15 +13,13 @@
 @inject IThemeState ThemeState
 @inject IModalState ModalState
 @inject IToastState ToastState
-@inject ILayoutSettings LayoutSettings
+@inject IPanelState PanelState
 
 
 @* This component manages the layout of the application including modals and toasts. *@
 <div class="layout-manager" data-theme="@ThemeState.Theme.ToString()">
-    <!--Cascading LayoutState-->
-    <CascadingValue Value="LayoutState">
-        @Body
-    </CascadingValue>
+    <!-- Body Content -->
+    @Body
 
     <!--Layout Toaster-->
     <LayoutToaster @ref="LayoutToaster"
@@ -40,20 +40,12 @@
 @code {
     private LayoutToaster LayoutToaster { get; set; }
 
-    private LayoutManagerCascadingState LayoutState
-    {
-        get => new LayoutManagerCascadingState
-            {
-                IsFullScreen = NavMenuState.IsFullScreen,
-                LayoutSettings = LayoutSettings.Settings
-            };
-    }
-
     protected override void OnInitialized()
     {
         NavMenuState.FullScreenStateChanged += OnLayoutChanged;
         ThemeState.ThemeChanged += OnThemeChanged;
         ModalState.ModalStateChanged += OnModalStateChanged;
+        PanelState.PanelVisibilityChangedChanged += OnPanelVisibilityChanged;
         ToastState.ToastAdded += OnToastRaised;
         base.OnInitialized();
     }
@@ -66,6 +58,9 @@
 
     private void OnModalStateChanged(object? sender, ModalStateChangedEventArgs args)
         => StateHasChanged();
+
+    private void OnPanelVisibilityChanged(object? sender, PanelVisibilityChangedEventArgs args)
+       => StateHasChanged();
 
     private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
         => LayoutToaster.GenerateToast(args.RaisedToast);
@@ -97,6 +92,7 @@
         NavMenuState.FullScreenStateChanged -= OnLayoutChanged;
         ThemeState.ThemeChanged -= OnThemeChanged;
         ModalState.ModalStateChanged -= OnModalStateChanged;
+        PanelState.PanelVisibilityChangedChanged -= OnPanelVisibilityChanged;
         ToastState.ToastAdded -= OnToastRaised;
     }
 }
