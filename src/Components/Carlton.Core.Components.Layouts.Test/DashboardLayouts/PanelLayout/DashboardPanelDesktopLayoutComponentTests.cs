@@ -21,7 +21,7 @@ public class DashboardPanelDesktopLayoutComponentTests : TestContext
         var navStateMock = Substitute.For<IFullScreenState>();
         Services.AddSingleton(navStateMock);
 
-        var expectedMarkup = $@" <div class=""layout-container {(expectedIsFullScreen ? "collapsed" : string.Empty)}"" >
+        var expectedMarkup = $@" <div class=""dashboard-panel-layout {(expectedIsFullScreen ? "collapsed" : string.Empty)}"" >
           <header >
             <div >
               <div class=""header-bar"" >

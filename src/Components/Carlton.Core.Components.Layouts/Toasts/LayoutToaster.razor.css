@@ -1,11 +1,12 @@
-﻿
-
+﻿/* LayoutToaster Variables */
 .layout-toaster {
+	--layout-toast-z-index: 3;
 }
 
+	/* LayoutToaster Content Styles */
 	.layout-toaster .content {
 		position: fixed;
 		top: var(--toast-top);
 		right: var(--toast-right);
-		z-index: 3;
+		z-index: var(--layout-toast-z-index);
 	}

@@ -1,33 +1,40 @@
-﻿.media-query-wrapper {
+﻿/* Define styles for the media query wrapper */
+.media-query-wrapper {
     height: 100%;
 }
 
+    /* Styles for elements with the 'mobile' class inside the media query wrapper */
     .media-query-wrapper .mobile {
         height: 100%;
     }
 
+/* Media query for screens with a maximum width of 767.98px */
 @media (max-width: 767.98px) {
     .media-query-wrapper .mobile {
         display: inherit;
     }
 }
 
+/* Media query for screens with a minimum width of 767.98px */
 @media (min-width: 767.98px) {
     .media-query-wrapper .mobile {
         display: none;
     }
 }
 
+/* Styles for elements with the 'desktop' class inside the media query wrapper */
 .media-query-wrapper .desktop {
     height: 100%;
 }
 
+/* Media query for screens with a maximum width of 767.98px */
 @media (max-width: 767.98px) {
     .media-query-wrapper .desktop {
         display: none;
     }
 }
 
+/* Media query for screens with a minimum width of 767.98px */
 @media (min-width: 767.98px) {
     .media-query-wrapper .desktop {
         display: inherit;

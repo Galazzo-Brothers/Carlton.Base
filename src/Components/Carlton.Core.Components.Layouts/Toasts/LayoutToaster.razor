@@ -2,15 +2,15 @@
 @using Carlton.Core.Utilities.DataStructures
 @namespace Carlton.Core.Components.Layouts.Toasts
 
-@* Represents a component responsible for managing and displaying toast notifications. *@
+<!-- Represents a component responsible for managing and displaying toast notifications. -->
 <div class="layout-toaster">
     <div class="content" style="@ContentStyle">
         @foreach(var toast in ToastsCircularStack)
         {
-            @* Display non-dismissed toasts *@
+            <!-- Display non-dismissed toasts -->
             @if(!toast.IsDismissed)
             {
-                @* Render individual toast components *@
+                <!-- Render individual toast components -->
                 <Toast Id="@toast.Id"
                        Title="@toast.Title"
                        Message="@toast.Message"

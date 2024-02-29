@@ -1,6 +1,15 @@
-﻿
-/*Layout*/
-.layout-container {
+﻿/* DashboardPanelLayout Variables */
+.dashboard-panel-layout {
+	--dashboard-panel-layout-header-bar-height: 75px;
+	--dashboard-panel-layout-header-bar-title-color: #FFF;
+	--dashboard-panel-layout-header-bar-action-margin-right: 10px;
+	--dashboard-panel-layout-main-padding-top: 20px;
+	--dashboard-panel-layout-footer-z-index: 10;
+}
+
+
+/* DashboardPanelLayout Base Styles */
+.dashboard-panel-layout {
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	grid-template-columns: 15% 1fr 1fr;
@@ -10,67 +19,71 @@
 		"navsidebar footer footer";
 }
 
-	.layout-container header {
-		grid-area: header;
-	}
-
-	.layout-container nav {
-		grid-area: navsidebar;
-		background-color: var(--layout-nav-background-color);
-		height: 100vh;
-	}
-
-	.layout-container main {
-		grid-area: main;
-		height: 100vh;
-		padding-top: 20px;
-		background-color: var(--layout-main-background-color);
-	}
-
-	.layout-container footer {
-		grid-area: footer;
-		position: absolute;
-		bottom: 0;
-		width: 85%;
-		margin-left: 15%;
-		z-index: 10;
-		background: var(--layout-footer-background-color);
-		color: var(--layout-footer-color);
-	}
-
-/*Header*/
-.header-bar {
-	display: flex;
-	height: 75px;
-	background-color: var(--layout-header-background-color);
+/* Header Styles */
+header {
+	grid-area: header;
 }
 
-	.header-bar .menu {
-		flex-basis: 5%;
-		margin-top: auto;
-		margin-bottom: auto;
+	header .header-bar {
+		display: flex;
+		height: var(--dashboard-panel-layout-header-bar-height);
+		background-color: var(--layout-header-background-color);
 	}
 
-	.header-bar .title {
-		flex-basis: 25%;
-		margin-top: auto;
-		margin-bottom: auto;
-		color: white;
-	}
+		header .header-bar .menu {
+			flex-basis: 5%;
+			margin-top: auto;
+			margin-bottom: auto;
+		}
 
-	.header-bar .action {
-		margin-top: auto;
-		margin-bottom: auto;
-		margin-left: auto;
-		margin-right: 10px;
-	}
+		header .header-bar .title {
+			flex-basis: 25%;
+			margin-top: auto;
+			margin-bottom: auto;
+			color: var(--dashboard-panel-layout-header-bar-title-color);
+		}
+
+		header .header-bar .action {
+			margin-top: auto;
+			margin-bottom: auto;
+			margin-left: auto;
+			margin-right: var(--dashboard-panel-layout-header-bar-action-margin-right);
+		}
+
+/* Nav Styles */
+nav {
+	grid-area: navsidebar;
+	background-color: var(--layout-nav-background-color);
+	height: 100vh;
+}
+
+/* Main Styles */
+main {
+	grid-area: main;
+	height: 100vh;
+	padding-top: var(--dashboard-panel-layout-main-padding-top);
+	background-color: var(--layout-main-background-color);
+}
+
+/* Footer Styles */
+footer {
+	grid-area: footer;
+	position: absolute;
+	bottom: 0;
+	width: 85%;
+	margin-left: 15%;
+	z-index: var(--dashboard-panel-layout-footer-z-index);
+	background: var(--layout-footer-background-color);
+	color: var(--layout-footer-color);
+}
+
 
 /*Collapsed Nav*/
-.layout-container.collapsed {
+.dashboard-panel-layout.collapsed {
 	grid-template-columns: 5% 1fr 1fr;
 }
 
-	.layout-container.collapsed footer {
+	.dashboard-panel-layout.collapsed footer {
 		width: 95%;
 		margin-left: 5%;
 	}

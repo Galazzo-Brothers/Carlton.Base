@@ -5,16 +5,22 @@
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 
 @* Represents a layout component for rendering a dashboard panel layout. *@
-<div class="@LayoutContainerCss">
+<div class="@DashboardPanelLayoutCss">
+    <!-- Header Section -->
     <header>
         <div>
             <div class="header-bar">
+                <!-- Hamburger Menu -->
                 <div class="menu">
                     <HamburgerCollapser />
                 </div>
+                
+                <!-- Title Content Section -->
                 <div class="title">
                     <SectionOutlet SectionId="DashboardPanelLayout.HeaderPageTitle" />
                 </div>
+
+                <!-- Action Content Section -->
                 <div class="action">
                     <SectionOutlet SectionId="DashboardPanelLayout.HeaderActionContent" />
                 </div>
@@ -22,6 +28,8 @@
             <HorizontalAccentDivider WidthPercentage="100" />
         </div>
     </header>
+    
+    <!-- Navigation -->
     <nav>
         <Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="IsFullScreen" />
         @if (!IsFullScreen)
@@ -29,16 +37,23 @@
             <SectionOutlet SectionId="DashboardPanelLayout.Nav" />
         }
     </nav>
+
+    <!-- Main Content -->
     <main>
         <ResizablePanel>
+            <!-- Top Content -->
             <TopContent>
                 @BodyContent
             </TopContent>
+
+            <!--Bottom Content -->
             <BottomContent>
                 <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
             </BottomContent>
         </ResizablePanel>
     </main>
+
+    <!-- Footer -->
     <footer>
         <SectionOutlet SectionId="DashboardPanelLayout.Footer" />
     </footer>
@@ -70,9 +85,9 @@
     public bool IsFullScreen { get; set; }
 
     // CSS class for the layout container
-    private string LayoutContainerCss
+    private string DashboardPanelLayoutCss
     {
-        get => new CssBuilder("layout-container")
+        get => new CssBuilder("dashboard-panel-layout")
                 .AddClass("collapsed", IsFullScreen)
                 .Build();
     }

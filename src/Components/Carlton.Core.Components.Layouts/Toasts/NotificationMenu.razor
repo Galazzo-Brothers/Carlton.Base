@@ -3,10 +3,10 @@
 @inject IToastState ToastState
 
 @* Represents a component for displaying notifications and raising toast messages. *@
-<div class="notifications" @onclick="@OnClick">
-    <i class="mdi mdi-24px mdi-bell-outline"></i>
-    <div class="notify">
-        <span class="point">@NotificationCount</span>
+<div class="notifications-menu" @onclick="@OnClick">
+    <i class="icon mdi mdi-24px mdi-bell-outline"></i>
+    <div class="notification-count-content">
+        <span class="notification-count">@NotificationCount</span>
     </div>
 </div>
 

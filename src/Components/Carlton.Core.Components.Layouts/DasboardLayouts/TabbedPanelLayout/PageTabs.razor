@@ -5,6 +5,7 @@
 @* Represents the tabbed panel layout for the dashboard. *@
 <SectionContent SectionId="DashboardTabbedPanelLayout.Tabs">
     <MediaQueryWrapper>
+        <!-- Desktop Content -->
         <DesktopContent>
             <TextTabBar ContentLocation="ContentLocations.Below">
                 <ChildContent>
@@ -12,6 +13,8 @@
                 </ChildContent>
             </TextTabBar>
         </DesktopContent>
+
+        <!-- Mobile Content -->
         <MobileContent>
             <MobileDrawerTabBar>
                 <ChildContent>
