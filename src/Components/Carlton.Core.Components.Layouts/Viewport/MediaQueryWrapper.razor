@@ -10,12 +10,14 @@
     {
         //do nothing on prerender
     }
+    //Mobile
     else if (CurrentViewport.IsMobile)
     {
         <div class="mobile">
             @MobileContent
         </div>
     }
+    //Desktop
     else
     {
         <div class="desktop">

@@ -6,6 +6,7 @@
 
 @* Represents the panel layout for the dashboard. *@
 <MediaQueryWrapper>
+    <!-- Desktop Content -->
     <DesktopContent>
         <DashboardPanelDesktopLayout
             BodyContent="@Body" 
@@ -13,6 +14,8 @@
             LogoUrl="@LogoUrl"
             IsFullScreen="CascadingState.IsFullScreen" />
     </DesktopContent>
+
+    <!-- Mobile Content -->
     <MobileContent>
       <DashboardPanelMobileLayout
           BodyContent="@Body"
@@ -44,13 +47,6 @@
     /// </summary>
     public bool ShowPanel { get => CascadingState.LayoutSettings.GetValue<bool>("ShowPanel"); }
 
-    // Gets the CSS classes for the layout container.
-    private string LayoutContainerCss
-    {
-        get => new CssBuilder("layout-container")
-                .AddClass("collapsed", CascadingState.IsFullScreen)
-                .Build();
-    }
 
     // Static objects for various content sections
     public static object Nav = new();

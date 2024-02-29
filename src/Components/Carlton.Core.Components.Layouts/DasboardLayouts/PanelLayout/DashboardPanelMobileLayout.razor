@@ -3,9 +3,11 @@
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 
 @*  Represents the panel layout for the dashboard. *@
-<div class="@LayoutContainerCss">
+<div class="@DashboardPanelLayoutCss">
+    <!-- Header -->
     <header>
         <div class="header-bar">
+            <!-- Nav -->
             <div class="nav">
                 <MobileSlideOutNav>
                     <Content>
@@ -13,21 +15,32 @@
                     </Content>
                 </MobileSlideOutNav>
             </div>
+
+            <!-- Logo Content -->
             <div class="logo">
                 <Logo LogoUrl="@LogoUrl" IsCollapsed="true" />
             </div>
+
+            <!-- Title Content -->
             <div class="title">
                 <SectionOutlet SectionId="DashboardPanelLayout.HeaderPageTitle" />
             </div>
+
+            <!-- Action Content-->
             <div class="action">
                 <SectionOutlet SectionId="DashboardPanelLayout.HeaderActionContent" />
             </div>
         </div>
     </header>
+
+    <!-- Main -->
     <main>
+        <!-- Body -->
         <div class="mobile-body-content">
             @BodyContent
         </div>
+
+        <!-- Panel -->
         <div class="mobile-panel-content">
             <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
         </div>
@@ -55,9 +68,9 @@
     public bool IsFullScreen { get; set; }
 
     /// Gets the CSS classes for the layout container.
-    private string LayoutContainerCss
+    private string DashboardPanelLayoutCss
     {
-        get => new CssBuilder("layout-container")
+        get => new CssBuilder("dashboard-panel-layout")
                 .AddClass("collapsed", IsFullScreen)
                 .Build();
     }
