@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.FullScreen;
-namespace Carlton.Core.Components.Layouts.Test.State.FullScreen;
+namespace Carlton.Core.Components.Layouts.Tests.FullScreen;
 
 public class FullScreenStateTests
 {

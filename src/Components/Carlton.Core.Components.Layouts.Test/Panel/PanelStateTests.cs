@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.Panel;
-namespace Carlton.Core.Components.Layouts.Tests.State.Panel;
+namespace Carlton.Core.Components.Layouts.Tests.Panel;
 
 public class PanelStateTests
 {

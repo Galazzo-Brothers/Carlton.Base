@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Layouts.Toasts;
 using Carlton.Core.Components.Toasts;
-namespace Carlton.Core.Components.Layouts.Test.State.Toasts;
+namespace Carlton.Core.Components.Layouts.Tests.Toasts;
 
 public class ToastStateTests
 {
@@ -39,7 +39,7 @@ public class ToastStateTests
         sut.ToastAdded += (sender, args) => eventFired = true;
 
         //Act
-        foreach(var i in Enumerable.Range(0, expectedToastCount))
+        foreach (var i in Enumerable.Range(0, expectedToastCount))
             sut.RaiseToast(expectedTitle, expectedMessage, expectedToastType);
 
         //Assert

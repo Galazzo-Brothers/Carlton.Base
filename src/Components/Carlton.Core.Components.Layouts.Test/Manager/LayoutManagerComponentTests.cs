@@ -6,7 +6,7 @@ using Carlton.Core.Components.Layouts.Panel;
 using Carlton.Core.Components.Layouts.Theme;
 using Carlton.Core.Components.Layouts.Toasts;
 using Carlton.Core.Components.Modals;
-namespace Carlton.Core.Components.Layouts.Test.Components.Manager;
+namespace Carlton.Core.Components.Layouts.Tests.Manager;
 
 
 [Trait("Component", nameof(LayoutManager))]
@@ -24,14 +24,12 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
-
+ 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
@@ -58,14 +56,12 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
@@ -90,14 +86,12 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
@@ -125,14 +119,12 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
@@ -163,14 +155,12 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
@@ -197,14 +187,12 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);
@@ -230,17 +218,15 @@ public class LayoutManagerComponentTests : TestContext
         var modalStateMock = Substitute.For<IModalState>();
         var toastStateMock = Substitute.For<IToastState>();
         var panelStateMock = Substitute.For<IPanelState>();
-        var layoutSettingsMock = Substitute.For<ILayoutSettings>();
 
         Services.AddSingleton(navStateMock);
         Services.AddSingleton(themeStateMock);
         Services.AddSingleton(modalStateMock);
         Services.AddSingleton(toastStateMock);
         Services.AddSingleton(panelStateMock);
-        Services.AddSingleton(layoutSettingsMock);
 
         modalStateMock.ModalType.Returns(expectedModalType);
-        modalStateMock.ModalModel.Returns(expectedModalModel); 
+        modalStateMock.ModalModel.Returns(expectedModalModel);
 
         var layoutToasterMock = Substitute.For<LayoutToaster>();
         ComponentFactories.Add(layoutToasterMock);

@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.FullScreen;
-namespace Carlton.Core.Components.Layouts.Test.Components.Collapser;
+namespace Carlton.Core.Components.Layouts.Tests.FullScreen;
 
 [Trait("Component", nameof(HamburgerCollapser))]
 public class HamburgerCollapserComponentTests : TestContext

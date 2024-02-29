@@ -18,8 +18,4 @@
 		<ProjectReference Include="..\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Components\Footer\" />
-	</ItemGroup>
-
 </Project>
