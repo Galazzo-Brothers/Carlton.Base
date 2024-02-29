@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Navigation;
-namespace Carlton.Core.Components.Layouts.Test.Components.Nav;
+namespace Carlton.Core.Components.Test.Navigation;
 
 
 [Trait("Component", nameof(MobileSlideOutNav))]

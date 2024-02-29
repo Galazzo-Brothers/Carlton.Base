@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Layouts.Modals;
 using Carlton.Core.Components.Modals;
-namespace Carlton.Core.Components.Layouts.Test.State.Modals;
+namespace Carlton.Core.Components.Layouts.Tests.Modals;
 
 public class ModalStateTests
 {

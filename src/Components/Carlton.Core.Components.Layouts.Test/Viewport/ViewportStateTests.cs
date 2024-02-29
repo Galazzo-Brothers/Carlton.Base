@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Layouts.Viewport;
 using Microsoft.JSInterop;
-namespace Carlton.Core.Components.Layouts.Test.State.Viewport;
+namespace Carlton.Core.Components.Layouts.Tests.Viewport;
 
 public class ViewportStateTests
 {

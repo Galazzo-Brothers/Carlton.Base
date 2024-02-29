@@ -1,7 +1,7 @@
 ﻿using Carlton.Core.Components.Layouts.Toasts;
 using Carlton.Core.Components.Modals;
 using Carlton.Core.Components.Toasts;
-namespace Carlton.Core.Components.Layouts.Test.Components.Toasts;
+namespace Carlton.Core.Components.Layouts.Tests.Toasts;
 
 
 [Trait("Component", nameof(LayoutToaster))]

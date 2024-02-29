@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.Viewport;
-namespace Carlton.Core.Components.Layouts.Test.Components.MediaQuery;
+namespace Carlton.Core.Components.Layouts.Tests.Viewport;
 
 
 [Trait("Component", nameof(MediaQueryWrapper))]
@@ -35,8 +35,8 @@ public class MediaQueryWrapperComponentTests : TestContext
         var expectedViewportState = new ViewportModel(expectedHeight, expectedWidth);
         Services.AddSingleton(viewportStateMock);
         viewportStateMock.GetCurrentViewport().Returns(expectedViewportState);
-        
-       
+
+
         //Act
         var cut = RenderComponent<MediaQueryWrapper>(parameters =>
             parameters.Add(p => p.DesktopContent, DesktopContent)

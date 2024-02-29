@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.Theme;
-namespace Carlton.Core.Components.Layouts.Test.Components.Theme;
+namespace Carlton.Core.Components.Layouts.Tests.Theme;
 
 [Trait("Component", nameof(ThemeMenu))]
 public class ThemeMenuComponentTests : TestContext

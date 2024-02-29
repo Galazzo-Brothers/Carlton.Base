@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.Theme;
-namespace Carlton.Core.Components.Layouts.Test.State.LayoutSettings;
+namespace Carlton.Core.Components.Layouts.Tests.Theme;
 
 public class ThemeStateTests
 {
