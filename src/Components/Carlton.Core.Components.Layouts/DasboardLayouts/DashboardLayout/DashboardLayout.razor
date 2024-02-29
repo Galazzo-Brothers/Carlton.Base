@@ -1,27 +1,27 @@
-﻿@using Carlton.Core.Components.Layouts.Extensions
+﻿@using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
+@using Carlton.Core.Components.Layouts.Extensions
 @using Carlton.Core.Components.Layouts.FullScreen
 @using Carlton.Core.Components.Layouts.Manager
 @using Carlton.Core.Components.Layouts.Panel
 @using Carlton.Core.Components.Layouts.Viewport
-@namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
+@namespace Carlton.Core.Components.Layouts.DashboardLayouts
 @inherits LayoutComponentBase
 @inject IFullScreenState FullScreenState
-@inject IPanelState PanelState
 
-@* Represents the panel layout for the dashboard. *@
+@* Represents the standard dashboard layout. *@
 <MediaQueryWrapper>
     <!-- Desktop Content -->
     <DesktopContent>
         <DashboardPanelDesktopLayout BodyContent="@Body"
                                      IsFullScreen="FullScreenState.IsFullScreen"
-                                     ShowPanel="PanelState.IsPanelVisible" />
+                                     ShowPanel="false" />
     </DesktopContent>
 
     <!-- Mobile Content -->
     <MobileContent>
         <DashboardPanelMobileLayout BodyContent="@Body"
                                     IsFullScreen="FullScreenState.IsFullScreen"
-                                    ShowPanel="PanelState.IsPanelVisible" />
+                                    ShowPanel="false" />
     </MobileContent>
 </MediaQueryWrapper>
 
@@ -35,6 +35,3 @@
     public static object Panel = new();
     public static object Footer = new();
 }
-
-
-

@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Layouts.FullScreen;
-using Carlton.Core.Components.Layouts.Manager;
 using Carlton.Core.Components.Layouts.Modals;
+using Carlton.Core.Components.Layouts.Panel;
 using Carlton.Core.Components.Layouts.Theme;
 using Carlton.Core.Components.Layouts.Toasts;
 using Carlton.Core.Components.Layouts.Viewport;
@@ -17,18 +17,19 @@ public static class LayoutExtensions
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
     /// <param name="act">An action to configure layout settings.</param>
-    public static void AddCarltonLayout(this IServiceCollection services, Action<LayoutSettingsBuilder> act)
+    public static void AddCarltonLayout(this IServiceCollection services, 
+        Action<LayoutOptions>? options = null)
     {
-        // Create a new LayoutSettingsBuilder instance and apply configuration
-        var builder = new LayoutSettingsBuilder();
-        act(builder);
+        //Layout Options
+        var layoutOptions = new LayoutOptions();
+        options?.Invoke(layoutOptions);
 
-        // Register layout state services and layout settings
-        services.AddSingleton<IFullScreenState, FullScreenState>();
-        services.AddSingleton<IThemeState, ThemeState>();
+        // Register layout state services
         services.AddSingleton<IModalState, ModalState>();
         services.AddSingleton<IToastState, ToastState>();
         services.AddSingleton<IViewportState, ViewportState>();
-        services.AddSingleton<ILayoutSettings>(builder.Build());
+        services.AddSingleton<IFullScreenState, FullScreenState>(_ => new FullScreenState(layoutOptions.IsFullScreen));
+        services.AddSingleton<IThemeState, ThemeState>(_ => new ThemeState(layoutOptions.Theme));
+        services.AddSingleton<IPanelState, PanelState>(_ => new PanelState(layoutOptions.ShowPanel));
     }
 }

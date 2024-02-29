@@ -1,10 +1,14 @@
 ﻿@using Carlton.Core.Components.Footers
+@using Carlton.Core.Components.Layouts.Extensions
 @using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 @using Carlton.Core.Components.Layouts.DashboardLayouts.TabbedPanelLayout
+@using Carlton.Core.Components.Layouts.FullScreen
+@using Carlton.Core.Components.Layouts.Manager
+@using Carlton.Core.Components.Logos
 @namespace Carlton.Core.Lab.Layouts
 @inherits LayoutComponentBase
 @layout DashboardTabbedPanelLayout
-
+@inject IFullScreenState FullScreenState
 @Body
 
 
@@ -20,6 +24,17 @@
     <LabHeaderActions />
 </SectionContent>
 
+<SectionContent SectionId="DashboardPanelLayout.Logo">
+    <Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="FullScreenState.IsFullScreen" />
+</SectionContent>
+
 <SectionContent SectionId="DashboardPanelLayout.Footer">
     <Footer />
 </SectionContent>
+
+
+@code{
+    private const string AppName = "Carlton Test Lab"; 
+    private const string LogoUrl = "_content/Carlton.Core.Components/images/CarltonLogo.png"; 
+}
+

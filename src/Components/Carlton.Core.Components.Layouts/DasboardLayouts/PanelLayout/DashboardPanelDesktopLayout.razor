@@ -14,7 +14,7 @@
                 <div class="menu">
                     <HamburgerCollapser />
                 </div>
-                
+
                 <!-- Title Content Section -->
                 <div class="title">
                     <SectionOutlet SectionId="DashboardPanelLayout.HeaderPageTitle" />
@@ -28,10 +28,13 @@
             <HorizontalAccentDivider WidthPercentage="100" />
         </div>
     </header>
-    
+
     <!-- Navigation -->
     <nav>
-        <Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="IsFullScreen" />
+        <!-- Logo Content Section -->
+        <SectionOutlet SectionId="DashboardPanelLayout.Logo" />
+
+        <!-- Nav Content Section -->
         @if (!IsFullScreen)
         {
             <SectionOutlet SectionId="DashboardPanelLayout.Nav" />
@@ -40,17 +43,24 @@
 
     <!-- Main Content -->
     <main>
-        <ResizablePanel>
-            <!-- Top Content -->
-            <TopContent>
-                @BodyContent
-            </TopContent>
+        @if (ShowPanel)
+        {
+            <ResizablePanel>
+                <!-- Top Content -->
+                <TopContent>
+                    @BodyContent
+                </TopContent>
 
-            <!--Bottom Content -->
-            <BottomContent>
-                <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
-            </BottomContent>
-        </ResizablePanel>
+                <!--Bottom Content -->
+                <BottomContent>
+                    <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
+                </BottomContent>
+            </ResizablePanel>
+        }
+        else
+        {
+            @BodyContent
+        }
     </main>
 
     <!-- Footer -->
@@ -67,22 +77,16 @@
     public RenderFragment BodyContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the name of the application.
-    /// </summary>
-    [Parameter]
-    public string AppName { get; set; }
-
-    /// <summary>
-    /// Gets or sets the URL of the application logo.
-    /// </summary>
-    [Parameter]
-    public string LogoUrl { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether the layout is in full-screen mode.
     /// </summary>
     [Parameter]
     public bool IsFullScreen { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the layout panel is displayed.
+    /// </summary>
+    [Parameter]
+    public bool ShowPanel { get; set; }
 
     // CSS class for the layout container
     private string DashboardPanelLayoutCss

@@ -2,7 +2,7 @@
 @using Carlton.Core.Components.Navigation
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 
-@*  Represents the panel layout for the dashboard. *@
+@* Represents the panel layout for the dashboard. *@
 <div class="@DashboardPanelLayoutCss">
     <!-- Header -->
     <header>
@@ -18,7 +18,7 @@
 
             <!-- Logo Content -->
             <div class="logo">
-                <Logo LogoUrl="@LogoUrl" IsCollapsed="true" />
+                <SectionOutlet SectionId="DashboardPanelLayout.Logo" />
             </div>
 
             <!-- Title Content -->
@@ -35,26 +35,27 @@
 
     <!-- Main -->
     <main>
-        <!-- Body -->
-        <div class="mobile-body-content">
-            @BodyContent
-        </div>
+        @if (ShowPanel)
+        {
+            <!-- Body -->
+            <div class="mobile-body-content">
+                @BodyContent
+            </div>
 
-        <!-- Panel -->
-        <div class="mobile-panel-content">
+            <!-- Panel -->
+            <div class="mobile-panel-content">
             <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
-        </div>
+            </div>
+        }
+        else
+        {
+            @BodyContent
+        }
     </main>
 </div>
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the URL of the logo.
-    /// </summary>
-    [Parameter]
-    public string LogoUrl { get; set; }
-
     /// <summary>
     /// Gets or sets the body content to be rendered.
     /// </summary>
@@ -66,6 +67,12 @@
     /// </summary>
     [Parameter]
     public bool IsFullScreen { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the layout panel is displayed.
+    /// </summary>
+    [Parameter]
+    public bool ShowPanel { get; set; }
 
     /// Gets the CSS classes for the layout container.
     private string DashboardPanelLayoutCss
