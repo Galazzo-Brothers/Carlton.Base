@@ -1,5 +1,5 @@
 ﻿<h1 align="center">
-    <img src="../Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </br>
     Project Carlton
 </br>
@@ -27,6 +27,6 @@ The Carlton.Core.Foundation package serves as the foundational backbone for Carl
 ### Installing
 
 ```bash
-dotnet add package Carlton.Core.Components.Layouts
+dotnet add package Carlton.Core.Components.Foundation
 ```
 
