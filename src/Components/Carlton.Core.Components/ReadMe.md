@@ -61,19 +61,73 @@ dotnet add package Carlton.Core.Components
    </head>
    ```
 
-#### Sample CSS Variables from `vars.css`
+#### CSS Variables from `vars.css`
 
-Below are examples of CSS variables defined in the `vars.css` file along with their default values:
+Below are the CSS variables defined in the `vars.css` file along with their default values:
 
 ```css
-/* Sample CSS Variables */
-:root {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --text-color: #212529;
-    --background-color: #ffffff;
-    /* Add more CSS variables here */
+:root [data-theme="light"] {
+	/* Text */
+	--primary-text-color: #5e5e5e;
+	--secondary-text-color: #9a9a9a;
+	--selected-color: #21c1d6;
+	--font-family: 'Roboto', sans-serif;
+	/* Accents */
+	--accent-neutral: #808080;
+	--accent-color-1: #1e88e5;
+	--accent-color-2: #00897b;
+	--accent-color-3: #e46a76;
+	--accent-color-4: #ab8ce4;
+	--accent-color-5: #c78c04;
+	--accent-color-6: #b22222;
+	/* Layout Theming */
+	--layout-main-background-color: #f4f3ef;
+	--layout-nav-background-color: #212120;
+	--layout-footer-background-color: #272b34;
+	--layout-footer-color: #fff;
+	--layout-header-background-color: #f4f3ef;
+	--layout-header-icon-color: #5e5e5e;
+	--layout-mobile-header-background-color: #212120;
+	--layout-mobile-header-primary-text-color: #fff;
+	--layout-mobile-header-icon-color: #fff;
+	/* Component */
+	--component-background-color: #fff;
+	--component-secondary-background-color: #f2f2f2;
+	--component-hover-background-color: #e9ecef;
+	--component-selected-row-background-color: #c7e0f4;
 }
+
+:root [data-theme="dark"] {
+	/* Text */
+	--primary-text-color: #fff;
+	--secondary-text-color: #a1aab2;
+	--selected-color: #21c1d6;
+	--font-family: 'Roboto', sans-serif;
+	/* Accents */
+	--accent-neutral: #808080;
+	--accent-color-1: #1e88e5;
+	--accent-color-2: #00897b;
+	--accent-color-3: #e46a76;
+	--accent-color-4: #ab8ce4;
+	--accent-color-5: #c78c04;
+	--accent-color-6: #b22222;
+	/* Layout Theming */
+	--layout-main-background-color: #323743;
+	--layout-nav-background-color: #212120;
+	--layout-footer-background-color: #272b34;
+	--layout-footer-color: #fff;
+	--layout-header-background-color: #323743;
+	--layout-header-icon-color: #fff;
+	--layout-mobile-header-background-color: #212120;
+	--layout-mobile-header-primary-text-color: #fff;
+	--layout-mobile-header-icon-color: #fff;
+	/* Component */
+	--component-background-color: #272b34;
+	--component-secondary-background-color: #333742;
+	--component-hover-background-color: #828487;
+	--component-selected-row-background-color: #21c1d6;
+}
+
 ```
 
 ## Authors
