@@ -1,14 +1,22 @@
-﻿namespace Carlton.Core.Utilities.Proxy;
+﻿using Microsoft.Extensions.Logging;
+using System.Reflection;
+namespace Carlton.Core.Utilities.Proxy;
 
+/// <summary>
+/// Decorates a target object with logging functionality using the DispatchProxy pattern.
+/// </summary>
+/// <typeparam name="TDecorated">The type of the object being decorated.</typeparam>
 public class DispatchProxyLoggingDecorator<TDecorated> : DispatchProxy
   where TDecorated : class
 {
     private ILogger _logger;
 
-    // Expose the target object as a read-only property so that users can access
-    // fields or other implementation-specific details not available through the interface
+    /// <summary>
+    /// Gets the target object being decorated.
+    /// </summary>
     public TDecorated Target { get; private set; }
 
+    /// <inheritdoc/>
     protected override object Invoke(MethodInfo targetMethod, object[] args)
     {
         try
@@ -50,6 +58,12 @@ public class DispatchProxyLoggingDecorator<TDecorated> : DispatchProxy
         }
     }
 
+    /// <summary>
+    /// Decorates the specified target object with logging functionality.
+    /// </summary>
+    /// <param name="target">The target object to decorate.</param>
+    /// <param name="logger">The logger instance to use for logging.</param>
+    /// <returns>The decorated object.</returns>
     public static TDecorated Decorate(TDecorated target, ILogger logger)
     {
         // DispatchProxy.Create creates proxy objects

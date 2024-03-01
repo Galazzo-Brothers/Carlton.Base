@@ -1,24 +1,13 @@
-﻿namespace Carlton.Core.Utilities.UnitTesting;
+﻿using System.Xml.Linq;
+using Constants = Carlton.Core.Utilities.UnitTesting.UnitTestingConstants;
+namespace Carlton.Core.Utilities.UnitTesting;
 
+/// <summary>
+/// Parses TRX test results files.
+/// </summary>
 public class TrxTestResultsParser : ITestResultsParser
 {
-    //Tag Local Names
-    private const string TestRun = "TestRun";
-    private const string Results = "Results";
-    private const string TestDefinitions = "TestDefinitions";
-    private const string UnitTest = "UnitTest";
-    private const string TestCategory = "TestCategory";
-    private const string TestCategoryItem = "TestCategoryItem";
-
-    //Results Attributes
-    private const string TestName = "testName";
-    private const string Outcome = "outcome";
-    private const string Duration = "duration";
-
-    //Other
-    private const string Default = "default";
-
-
+    /// <inheritdoc/>
     public TestResultsReport ParseTestResults(string content)
     {
         try
@@ -26,16 +15,16 @@ public class TrxTestResultsParser : ITestResultsParser
             var document = XDocument.Parse(content);
 
             var results = document.Elements()
-                                   .First(_ => _.Name.LocalName == TestRun)
+                                   .First(_ => _.Name.LocalName == Constants.TestRun)
                                    .Elements()
-                                   .Where(_ => _.Name.LocalName == Results)
+                                   .Where(_ => _.Name.LocalName == Constants.Results)
                                    .Elements()
                                    .Select(_ =>
                                    {
                                        var resultAttributes = _.Attributes().ToDictionary(attrib => attrib.Name, attrib => attrib.Value);
-                                       var testName = resultAttributes[TestName];
-                                       var testResult = (TestResultOutcomes)Enum.Parse(typeof(TestResultOutcomes), resultAttributes[Outcome]);
-                                       var duration = Math.Round(TimeSpan.Parse(resultAttributes[Duration]).TotalMilliseconds, 2);
+                                       var testName = resultAttributes[Constants.TestName];
+                                       var testResult = (TestResultOutcomes)Enum.Parse(typeof(TestResultOutcomes), resultAttributes[Constants.Outcome]);
+                                       var duration = Math.Round(TimeSpan.Parse(resultAttributes[Constants.Duration]).TotalMilliseconds, 2);
 
                                        return new TestResult(testName, testResult, duration);
 
@@ -51,6 +40,7 @@ public class TrxTestResultsParser : ITestResultsParser
         }
     }
 
+    /// <inheritdoc/>
     public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content)
     {
         var groupedTestResults = new Dictionary<string, List<TestResult>>();
@@ -84,6 +74,7 @@ public class TrxTestResultsParser : ITestResultsParser
         return groupedTestResults.ToDictionary(_ => _.Key, _ => new TestResultsReport(_.Value));
     }
 
+    /// <inheritdoc/>
     public IDictionary<string, TestResultsReport> ParseTestResultsByGroup(string content, string groupKey)
     {
         throw new NotImplementedException();
@@ -91,12 +82,12 @@ public class TrxTestResultsParser : ITestResultsParser
 
     private static void AddToDefaultGroup(Dictionary<string, List<TestResult>> groupedTestResults, TestResult testResult)
     {
-        if(!groupedTestResults.ContainsKey(Default))
+        if(!groupedTestResults.ContainsKey(Constants.Default))
         {
-            groupedTestResults.Add(Default, new List<TestResult>());
+            groupedTestResults.Add(Constants.Default, new List<TestResult>());
         }
 
-        groupedTestResults[Default].Add(testResult);
+        groupedTestResults[Constants.Default].Add(testResult);
     }
 
     private static Dictionary<string, IEnumerable<string>> ParseCategories(string content)
@@ -104,26 +95,26 @@ public class TrxTestResultsParser : ITestResultsParser
         var document = XDocument.Parse(content);
         var lookup = new Dictionary<string, IEnumerable<string>>();
         document.Elements()
-                .First(_ => _.Name.LocalName == TestRun)
+                .First(_ => _.Name.LocalName == Constants.TestRun)
                 .Elements()
-                .Where(_ => _.Name.LocalName == TestDefinitions)
+                .Where(_ => _.Name.LocalName == Constants.TestDefinitions)
                 .Elements()
-                .Where(_ => _.Name.LocalName == UnitTest)
+                .Where(_ => _.Name.LocalName == Constants.UnitTest)
                 .ToList()
                 .ForEach(_ =>
                 {
                     var name = _.Attribute("name").Value;
                     var categoryItems = _.Elements()
-                        ?.FirstOrDefault(el => el.Name.LocalName == TestCategory)
+                        ?.FirstOrDefault(el => el.Name.LocalName == Constants.TestCategory)
                         ?.Elements()
-                        ?.Where(el => el.Name.LocalName == TestCategoryItem);
+                        ?.Where(el => el.Name.LocalName == Constants.TestCategoryItem);
 
                     if(categoryItems == null || !categoryItems.Any())
                         return;
 
                     var categories = new List<string>();
                     foreach(var item in categoryItems)
-                        categories.Add(item.Attribute(TestCategory).Value);
+                        categories.Add(item.Attribute(Constants.TestCategory).Value);
 
                     lookup.Add(name, categories);
                 });

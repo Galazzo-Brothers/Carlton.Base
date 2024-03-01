@@ -1,13 +1,14 @@
-﻿namespace Carlton.Core.Utilities.Resilience;
+﻿using System.Net.Http;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Wrap;
+using System.Net;
 
-public class HttpResiliencePolicyHandler : IResiliencePolicyHandler<HttpResponseMessage>
+namespace Carlton.Core.Utilities.Resilience;
+
+public class HttpResiliencePolicyHandler(ILogger<HttpResiliencePolicyHandler> logger) : IResiliencePolicyHandler<HttpResponseMessage>
 {
-    private readonly ILogger<HttpResiliencePolicyHandler> _logger;
-
-    public HttpResiliencePolicyHandler(ILogger<HttpResiliencePolicyHandler> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<HttpResiliencePolicyHandler> _logger = logger;
 
     public AsyncPolicyWrap<HttpResponseMessage> CreatePolicyWrap()
     {
@@ -25,7 +26,7 @@ public class HttpResiliencePolicyHandler : IResiliencePolicyHandler<HttpResponse
            .RetryAsync(3, (exception, retryCount, context) =>
            {
                var methodThatRaisedException = context["methodName"];
-               _logger.LogWarning(exception.Exception, $"Exception occured in method {methodThatRaisedException}, retrying HTTP call. Retry Count {retryCount}");
+               _logger.LogWarning(exception.Exception, $"Exception occurred in method {methodThatRaisedException}, retrying HTTP call. Retry Count {retryCount}");
            });
 
         var policyWrap = Policy.WrapAsync(policy);

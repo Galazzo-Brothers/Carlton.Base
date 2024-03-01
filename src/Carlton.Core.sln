@@ -56,6 +56,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Lay
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts.Tests", "Layouts\Carlton.Core.Components.Layouts.Tests\Carlton.Core.Components.Layouts.Tests.csproj", "{FA04189E-438D-4450-BD9D-00E1DC1DF66D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carlton.Core.Foundation.API", "Carlton.Core.Foundation.API\Carlton.Core.Foundation.API.csproj", "{70422C4A-1ECF-4E38-A972-D84DFA72FDCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,10 @@ Global
 		{FA04189E-438D-4450-BD9D-00E1DC1DF66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA04189E-438D-4450-BD9D-00E1DC1DF66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA04189E-438D-4450-BD9D-00E1DC1DF66D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70422C4A-1ECF-4E38-A972-D84DFA72FDCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70422C4A-1ECF-4E38-A972-D84DFA72FDCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70422C4A-1ECF-4E38-A972-D84DFA72FDCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70422C4A-1ECF-4E38-A972-D84DFA72FDCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +148,7 @@ Global
 		{06C223B6-C862-44D6-8B31-BF8991216A52} = {FEE15A36-7F78-45C4-BEAD-0829FF476557}
 		{F48DC0D7-FBD0-4A3B-966A-C2FCDC999983} = {34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}
 		{FA04189E-438D-4450-BD9D-00E1DC1DF66D} = {34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}
+		{70422C4A-1ECF-4E38-A972-D84DFA72FDCB} = {FEE15A36-7F78-45C4-BEAD-0829FF476557}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}
