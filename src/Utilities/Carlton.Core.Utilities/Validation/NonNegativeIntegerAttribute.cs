@@ -1,6 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace Carlton.Core.Utilities.Validation;
 
+
+/// <summary>
+/// Validates that the value of a property, field, or parameter is a non-negative integer.
+/// </summary>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class NonNegativeIntegerAttribute : ValidationAttribute
 {

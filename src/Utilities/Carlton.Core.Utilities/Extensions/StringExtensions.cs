@@ -1,7 +1,17 @@
-﻿namespace Carlton.Core.Utilities.Extensions;
+﻿using System.Globalization;
+using System.Text;
+namespace Carlton.Core.Utilities.Extensions;
 
+/// <summary>
+/// Provides extension methods for string manipulation.
+/// </summary>
 public static class StringExtensions
 {
+    /// <summary>
+    /// Converts the specified string to kebab case.
+    /// </summary>
+    /// <param name="str">The string to convert.</param>
+    /// <returns>The string converted to kebab case.</returns>
     public static string ToKebabCase(this string str)
     {
         str = char.ToLowerInvariant(str[0]) + str.Substring(1);
@@ -23,12 +33,22 @@ public static class StringExtensions
         return newStr;
     }
 
+    /// <summary>
+    /// Trims trailing comma and space characters from the specified string.
+    /// </summary>
+    /// <param name="str">The string to trim.</param>
+    /// <returns>The string with trailing comma and space characters trimmed.</returns>
     public static string TrimTrailingComma(this string str)
     {
         char[] charsToTrim = [' ', ','];
         return str.TrimEnd(charsToTrim);
     }
 
+    /// <summary>
+    /// Adds spaces to camel case string.
+    /// </summary>
+    /// <param name="input">The input string in camel case.</param>
+    /// <returns>The input string with spaces added between camel case words.</returns>
     public static string AddSpacesToCamelCase(this string input)
     {
         if (string.IsNullOrEmpty(input))

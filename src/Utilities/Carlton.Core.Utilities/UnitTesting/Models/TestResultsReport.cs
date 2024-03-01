@@ -1,15 +1,32 @@
 ﻿namespace Carlton.Core.Utilities.UnitTesting;
 
+/// <summary>
+/// Represents a report containing test results and a summary of those results.
+/// </summary>
 public record TestResultsReport
 {
+    // <summary>
+    /// Gets or initializes the collection of test results.
+    /// </summary>
     public IEnumerable<TestResult> TestResults { get; init; } = new List<TestResult>();
+
+    /// <summary>
+    /// Gets or initializes the summary of the test results.
+    /// </summary>
     public TestResultsSummary Summary { get; init; } = new TestResultsSummary(0, 0, 0, 0);
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TestResultsReport"/> class.
+    /// </summary>
     public TestResultsReport()
     {
         //Empty Report
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TestResultsReport"/> class with the specified test results.
+    /// </summary>
+    /// <param name="testResults">The collection of test results.</param>
     public TestResultsReport(IEnumerable<TestResult> testResults)
     {
         TestResults = testResults;

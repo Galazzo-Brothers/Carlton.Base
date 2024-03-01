@@ -1,15 +1,18 @@
-﻿using System.Collections.Concurrent;
+﻿using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using System.Threading;
-
 namespace Carlton.Core.Utilities.Logging;
 
-
+/// <summary>
+/// Represents a memory logger that stores log messages in a concurrent queue.
+/// </summary>
 public class MemoryLogger : ILogger
 {
     private readonly ConcurrentQueue<LogMessage> logMessages = new();
     private readonly AsyncLocal<ConcurrentStack<LogScope>> _currentScopes = new();
 
+    /// <inheritdoc/>
     public IDisposable BeginScope<TState>(TState state)
     {
         var scope = new LogScope(state, () => PopScope());
@@ -18,11 +21,13 @@ public class MemoryLogger : ILogger
         return scope;
     }
 
+    /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel)
     {
         return true; // Log all levels for simplicity.
     }
 
+    /// <inheritdoc/>
     public void Log<TState>(
         LogLevel logLevel,
         EventId eventId,
@@ -46,18 +51,28 @@ public class MemoryLogger : ILogger
         logMessages.Enqueue(message);
     }
 
-    // Add methods to access log messages as needed.
+    /// <summary>
+    /// Retrieves all the log messages currently stored in the memory logger.
+    /// </summary>
+    /// <returns>An array of log messages.</returns>
     public LogMessage[] GetLogMessages()
     {
         return [.. logMessages];
     }
 
+    /// <summary>
+    /// Clears all log messages from the memory logger.
+    /// </summary>
     public void ClearLogMessages()
     {
         while (logMessages.TryDequeue(out _))
         { }
     }
 
+    /// <summary>
+    /// Clears all log messages from the memory logger except for the most recent ones, keeping a specified number.
+    /// </summary>
+    /// <param name="keepCount">The number of log messages to keep.</param>
     public void ClearAllButMostRecent(int keepCount)
     {
         while (logMessages.Count > keepCount)
@@ -109,19 +124,4 @@ public class MemoryLogger : ILogger
     }
 }
 
-
-public class LogScope(object state, Action disposeAct) : IDisposable
-{
-    public object State { get; } = state;
-    private readonly Action _disposeAct = disposeAct;
-
-    public void Dispose()
-    {
-        //Remove the scope for the list of scopes
-        //as it is being disposed
-        _disposeAct();
-    }
-
-    public override string ToString() => State.ToString();
-}
 
