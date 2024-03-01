@@ -2,8 +2,7 @@
 using Carlton.Core.Components.Layouts.FullScreen;
 using Carlton.Core.Components.Layouts.Panel;
 using Carlton.Core.Components.Layouts.Viewport;
-using Microsoft.AspNetCore.Components.Sections;
-namespace Carlton.Core.Components.Layouts.Test.DashboardLayouts.PanelLayout;
+namespace Carlton.Core.Components.Layouts.Tests.DashboardLayouts.PanelLayout;
 
 [Trait("Component", nameof(DashboardPanelLayout))]
 public class DashboardPanelLayoutComponentTests : TestContext

@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Components.Layouts.DashboardLayouts.TabbedPanelLayout;
 using Carlton.Core.Components.Layouts.Viewport;
-namespace Carlton.Core.Components.Layouts.Test.DashboardLayouts.TabbedPanelLayout;
+namespace Carlton.Core.Components.Layouts.Tests.DashboardLayouts.TabbedPanelLayout;
 
 
 [Trait("Component", nameof(PageTabs))]

@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Components.Layouts.DashboardLayouts.TabbedPanelLayout;
-namespace Carlton.Core.Components.Layouts.Test.DashboardLayouts.TabbedPanelLayout;
+namespace Carlton.Core.Components.Layouts.Tests.DashboardLayouts.TabbedPanelLayout;
 
 [Trait("Component", nameof(DashboardTabbedPanelLayout))]
 public class DashboardTabbedPanelLayoutComponentTests : TestContext
