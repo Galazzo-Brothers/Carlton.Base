@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Components\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
     <ProjectReference Include="..\..\Flux\Carlton.Core.Flux.Debug\Carlton.Core.Flux.Debug.csproj" />
+    <ProjectReference Include="..\..\Layouts\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
     <ProjectReference Include="..\Carlton.Core.Lab.Models\Carlton.Core.Lab.Models.csproj" />
   </ItemGroup>
