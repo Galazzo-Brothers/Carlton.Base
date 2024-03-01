@@ -25,4 +25,10 @@
     <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Carlton.Core.Flux.Tests" />
+		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+	</ItemGroup>
+
+
 </Project>
