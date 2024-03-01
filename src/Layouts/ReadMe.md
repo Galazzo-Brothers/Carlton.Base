@@ -16,8 +16,8 @@ The `Carlton.Core.Layouts.Test` project, on the other hand, contains unit tests 
 
 ## Contents
 
-- [Carlton.Core.Layouts](Carlton.Core.Layouts/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Layouts.Tests](Carlton.Core.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Layouts](Carlton.Core.Components.Layouts/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Layouts.Tests](Carlton.Core.Components.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
 
 ## Getting Started
 
