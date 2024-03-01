@@ -35,16 +35,22 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.BrowserStroage", "Flux\Carlton.Core.BrowserStroage\Carlton.Core.BrowserStroage.csproj", "{8CDF30FA-FC18-4E47-BE7B-28E3F65B312D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundation", "Foundation", "{FEE15A36-7F78-45C4-BEAD-0829FF476557}"
+	ProjectSection(SolutionItems) = preProject
+		Foundation\README.md = Foundation\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Tests", "Components\Carlton.Core.Components.Tests\Carlton.Core.Components.Tests.csproj", "{A426C3C1-7AE5-40BF-B9CB-B68BE96FD006}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation", "Foundation\Carlton.Core.Foundation\Carlton.Core.Foundation.csproj", "{6B07C815-E7F2-4BFE-AC90-87710E304258}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Tests", "Foundation\Carlton.Core.Foundation.Test\Carlton.Core.Foundation.Tests.csproj", "{0B69DECE-5E3A-4C6D-9F95-66B79BF33469}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Tests", "Foundation\Carlton.Core.Foundation.Tests\Carlton.Core.Foundation.Tests.csproj", "{0B69DECE-5E3A-4C6D-9F95-66B79BF33469}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Web", "Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj", "{06C223B6-C862-44D6-8B31-BF8991216A52}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layouts", "Layouts", "{34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}"
+	ProjectSection(SolutionItems) = preProject
+		Layouts\ReadMe.md = Layouts\ReadMe.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Layouts", "Layouts\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj", "{F48DC0D7-FBD0-4A3B-966A-C2FCDC999983}"
 EndProject
