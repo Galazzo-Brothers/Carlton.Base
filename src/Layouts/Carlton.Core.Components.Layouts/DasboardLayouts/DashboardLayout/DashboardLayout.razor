@@ -5,25 +5,11 @@
 @using Carlton.Core.Components.Layouts.Panel
 @using Carlton.Core.Components.Layouts.Viewport
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts
-@inherits LayoutComponentBase
+@inherits LayoutManager
+@layout LayoutManager
 @inject IFullScreenState FullScreenState
 
-@* Represents the standard dashboard layout. *@
-<MediaQueryWrapper>
-    <!-- Desktop Content -->
-    <DesktopContent>
-        <DashboardPanelDesktopLayout BodyContent="@Body"
-                                     IsFullScreen="FullScreenState.IsFullScreen"
-                                     ShowPanel="false" />
-    </DesktopContent>
-
-    <!-- Mobile Content -->
-    <MobileContent>
-        <DashboardPanelMobileLayout BodyContent="@Body"
-                                    IsFullScreen="FullScreenState.IsFullScreen"
-                                    ShowPanel="false" />
-    </MobileContent>
-</MediaQueryWrapper>
+@Body
 
 
 @code {
