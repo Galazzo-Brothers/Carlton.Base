@@ -6,7 +6,7 @@
 
 # Carlton.Core.Foundation 
 
-The Carlton.Core.Foundation.Tests package serves as the foundational backbone for test projects within the Carlton Organization ecosystem, encompassing essential third-party libraries and utilities required to rigorously test applications. This comprehensive toolkit empowers developers to conduct thorough and reliable testing of their applications, ensuring robustness, correctness, and adherence to quality standards across the organization's software projects.
+`Carlton.Core.Foundation.Tests` package serves as the foundational backbone for test projects within the Carlton Organization ecosystem, encompassing essential third-party libraries and utilities required to rigorously test applications. This comprehensive toolkit empowers developers to conduct thorough and reliable testing of their applications, ensuring robustness, correctness, and adherence to quality standards across the organization's software projects.
 
 ![C#](https://img.shields.io/badge/language-C%23-blue)
 ![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
