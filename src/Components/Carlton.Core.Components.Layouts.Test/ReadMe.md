@@ -6,7 +6,7 @@
 
 # Carlton.Core.Components.Layouts.Test 
 
-This unit test project aims to validate the functionality and behavior of components within the Carlton.Core.Components.Layouts library. It includes various test cases covering different scenarios to ensure robustness and consistency across the components.
+This `Carlton.Core.Components.Layouts.Tests` unit test project aims to validate the functionality and behavior of components within the Carlton.Core.Components.Layouts library. It includes various test cases covering different scenarios to ensure robustness and consistency across the components.
 
 ![C#](https://img.shields.io/badge/language-C%23-blue)
 ![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
