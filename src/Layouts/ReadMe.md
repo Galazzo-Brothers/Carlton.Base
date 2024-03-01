@@ -21,7 +21,9 @@ The `Carlton.Core.Layouts.Test` project, on the other hand, contains unit tests 
 
 ## Getting Started
 
-For detailed usage instructions and documentation for each package, please refer to their respective readme files.
+To get started with the Carlton.Core.Layouts library, refer to the README file in the `Carlton.Core.Layouts` directory. It provides installation instructions, usage guidelines, and examples for integrating layouts into your Blazor applications.
+
+For developers contributing to the project or interested in running unit tests, navigate to the `Carlton.Core.Layouts.Test` directory and follow the instructions provided in its README file.
 
 ## Feedback and Contributions
 
