@@ -1,15 +1,26 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
-using Carlton.Core.Components.Flux.Test.Common;
-using Microsoft.AspNetCore.Components;
-using Carlton.Core.Components.Flux.Attributes;
+using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Components;
+using Carlton.Core.Flux.Tests.Common;
 
-namespace Carlton.Core.Components.Flux.Test.ComponentTests;
+namespace Carlton.Core.Flux.Tests.ComponentTests;
 
 [ObserveStateEvents("TestEvent")]
 [ObserveStateEvents("TestEvent2")]
 [ObserveStateEvents("TestEvent3")]
 public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 {
+    public DummyConnectedComponent(DummyComponentService service)
+    {
+        Command = service.Command;
+    }
+
+    public TestCommand1 Command { get; set; }
+
+    public DummyConnectedComponent() 
+    {
+    }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         base.BuildRenderTree(builder);
@@ -32,8 +43,7 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
         builder.AddContent(10, ViewModel.Description);
         builder.CloseElement();
         // Add event callback
-        var command = new TestCommand1("Test Command", "This is a test");
-        var eventCallback = EventCallback.Factory.Create(this, () => base.OnComponentEvent.InvokeAsync(command));
+        var eventCallback = EventCallback.Factory.Create(this, () => base.OnComponentEvent.InvokeAsync(Command));
         builder.OpenElement(11, "button");
         builder.AddAttribute(12, "onclick", eventCallback);
         builder.AddContent(13, "Command Event Test");
@@ -43,3 +53,5 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
     }
 }
 
+
+public record DummyComponentService(TestCommand1 Command);
