@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="./Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </br>
     Project Carlton
 </br>
@@ -16,8 +16,8 @@ The `Carlton.Core.Layouts.Test` project, on the other hand, contains unit tests 
 
 ## Contents
 
-- [Carlton.Core.Layouts](./Carlton.Core.Layouts/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Layouts.Test](./Carlton.Core.Layouts.Test/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Layouts](./Carlton.Core.Components.Layouts/Carlton.Core.Layouts/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Layouts.Test](./Carlton.Core.Components.Layouts.Tests/Carlton.Core.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
 
 ## Getting Started
 
