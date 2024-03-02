@@ -1,41 +1,35 @@
-//using AutoFixture.AutoMoq;
-//using Carlton.Core.Flux.Contracts;
-//using Carlton.Core.Flux.Dispatchers;
-//using Carlton.Core.Flux.Models;
-//using Carlton.Core.Flux.Tests.Common;
-//using Carlton.Core.Flux.Tests.Common.Extensions;
+using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Dispatchers;
+using Carlton.Core.Flux.Tests.Common;
+using Carlton.Core.Foundation.Test;
+using Carlton.Core.Components.Flux.Tests.Common.Extensions;
+using Carlton.Core.Flux.Test.Common.Extensions;
+using Carlton.Core.Flux.Models;
+namespace Carlton.Core.Flux.Tests.DispatcherTests;
 
-//namespace Carlton.Core.Flux.Tests.DispatcherTests;
+public class ViewModelQueryDispatcherTests
+{
+    [Theory, AutoNSubstituteData]
+    public async Task Dispatch_AssertHandlerCalled_AssertViewModelResponse(
+        [Frozen] IServiceProvider serviceProvider,
+        [Frozen] IViewModelQueryHandler<TestState> handler,
+        ViewModelQueryDispatcher<TestState> sut,
+        object sender,
+        ViewModelQueryContext<TestViewModel> queryContext,
+        TestViewModel expectedViewModel)
+    {
+        //Arrange
+        serviceProvider.SetupServiceProvider<IViewModelQueryHandler<TestState>>(handler);
+        handler.SetupHandler(expectedViewModel);
 
-//public class ViewModelQueryDispatcherTests
-//{
-//    private readonly IFixture _fixture;
+        //Act
+        var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
 
-//    public ViewModelQueryDispatcherTests()
-//    {
-//        _fixture = new Fixture().Customize(new AutoMoqCustomization());
-//    }
-
-//    [Theory, AutoData]
-//    public async Task Dispatch_AssertHandlerCalled_AssertViewModelResponse(TestViewModel expectedViewModel)
-//    {
-//        //Arrange
-//        var provider = _fixture.Freeze<Mock<IServiceProvider>>();
-//        var handler = _fixture.Freeze<Mock<IViewModelQueryHandler<TestState>>>();
-//        var sender = _fixture.Create<object>();
-//        var query = _fixture.Create<ViewModelQuery>();
-//        var sut = _fixture.Create<ViewModelQueryDispatcher<TestState>>();
-//        provider.SetupServiceProvider<IViewModelQueryHandler<TestState>>(handler.Object);
-//        handler.SetupHandler(expectedViewModel);
-
-//        //Act
-//        var result = await sut.Dispatch<TestViewModel>(sender,query, CancellationToken.None);
-
-//        //Assert
-//        handler.VerifyHandler<TestViewModel>();
-//        Assert.Equal(expectedViewModel, result);
-//    }
-//}
+        //Assert
+        handler.VerifyHandler<TestViewModel>();
+        result.ShouldBe(expectedViewModel);
+    }
+}
 
 
 

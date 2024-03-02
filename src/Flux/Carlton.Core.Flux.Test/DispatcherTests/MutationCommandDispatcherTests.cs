@@ -1,38 +1,29 @@
-﻿//using AutoFixture.AutoMoq;
-//using Carlton.Core.Flux.Contracts;
-//using Carlton.Core.Flux.Dispatchers;
-//using Carlton.Core.Flux.Models;
-//using Carlton.Core.Flux.Tests.Common;
-//using Carlton.Core.Flux.Tests.Common.Extensions;
+﻿using Carlton.Core.Components.Flux.Tests.Common.Extensions;
+using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Dispatchers;
+using Carlton.Core.Flux.Test.Common.Extensions;
+using Carlton.Core.Flux.Tests.Common;
+using Carlton.Core.Foundation.Test;
+namespace Carlton.Core.Flux.Tests.DispatcherTests;
 
-//namespace Carlton.Core.Flux.Tests.DispatcherTests;
+public class MutationCommandDispatcherTests
+{
+    [Theory, AutoNSubstituteData]
+    public async Task Dispatch_AssertHandlerCalled(
+        [Frozen] IServiceProvider serviceProvider,
+        [Frozen] IMutationCommandHandler<TestState> handler,
+        MutationCommandDispatcher<TestState> sut,
+        object sender,
+        TestCommand1 command)
+    {
+        //Arrange
+        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState>>(handler);
+        handler.SetupHandler<TestCommand1>();
 
-//public class MutationCommandDispatcherTests
-//{
-//    private readonly IFixture _fixture;
+        //Act
+        await sut.Dispatch(sender, command, CancellationToken.None);
 
-//    public MutationCommandDispatcherTests()
-//    {
-//        _fixture = new Fixture().Customize(new AutoMoqCustomization());
-//    }
-
-//    [Theory, AutoData]
-//    public async Task Dispatch_AssertHandlerCalled(MutationCommand command)
-//    {
-//        //Arrange
-//        var serviceProvider = _fixture.Freeze<Mock<IServiceProvider>>();
-//        var handler = _fixture.Freeze<Mock<IMutationCommandHandler<TestState>>>();
-//        var sender = _fixture.Create<object>();
-//        var sut = _fixture.Create<MutationCommandDispatcher<TestState>>();
-
-//        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState>>(handler.Object);
-//        handler.SetupHandler<MutationCommand>();
-      
-
-//        //Act
-//        await sut.Dispatch(sender, command, CancellationToken.None);
-
-//        //Assert
-//        handler.VerifyHandler<MutationCommand>();
-//    }  
-//}
+        //Assert
+        handler.VerifyHandler(command);
+    }
+}
