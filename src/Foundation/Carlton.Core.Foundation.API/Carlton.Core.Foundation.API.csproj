@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Foundation\Carlton.Core.Foundation\Carlton.Core.Foundation.csproj" />
+    <ProjectReference Include="..\Carlton.Core.Foundation\Carlton.Core.Foundation.csproj" />
   </ItemGroup>
 
 </Project>
