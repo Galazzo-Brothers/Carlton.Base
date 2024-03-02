@@ -4,24 +4,31 @@ namespace Carlton.Core.Components.Tests.Toasts;
 [Trait("Component", nameof(Toast))]
 public class ToastComponentTests : TestContext
 {
+    private readonly BunitJSInterop _moduleInterop;
+
+    //Arrange
+    public ToastComponentTests()
+    {
+        _moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
+        _moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
+        _moduleInterop.Setup<Task>(Toast.DisposeToast, _ => true);
+    }
+
     [Theory(DisplayName = "Markup Test")]
     [InlineAutoData(ToastTypes.Success)]
     [InlineAutoData(ToastTypes.Info)]
     [InlineAutoData(ToastTypes.Warning)]
     [InlineAutoData(ToastTypes.Error)]
-
     public void Toast_Markup_RendersCorrectly(
        ToastTypes expectedToastType,
        int expectedId,
        string expectedTitle,
        string expectedMessage,
-       bool expectedIsDissmissed)
+       bool expectedIsDismissed)
     {
         //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
         var expectedMarkup =
-@$"<div id=""toast-{expectedId}"" class=""toast {expectedToastType.ToString().ToLower()} {(expectedIsDissmissed ? "dismissed" : string.Empty)}"">
+@$"<div id=""toast-{expectedId}"" class=""toast {expectedToastType.ToString().ToLower()} {(expectedIsDismissed ? "dismissed" : string.Empty)}"">
     <div class=""content"">
         <span class=""icon mdi mdi-24px {ExpectedToastIconClass(expectedToastType)}""></span>
         <div class=""message-container"">
@@ -39,7 +46,7 @@ public class ToastComponentTests : TestContext
             .Add(p => p.Message, expectedMessage)
             .Add(p => p.ToastType, expectedToastType)
             .Add(p => p.FadeOutEnabled, false)
-            .Add(p => p.IsDismissed, expectedIsDissmissed));
+            .Add(p => p.IsDismissed, expectedIsDismissed));
 
         //Assert
         cut.MarkupMatches(expectedMarkup);
@@ -51,12 +58,8 @@ public class ToastComponentTests : TestContext
        string expectedTitle,
        string expectedMessage,
        ToastTypes expectedToastType,
-       bool expectedIsDissmissed)
+       bool expectedIsDismissed)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -64,7 +67,7 @@ public class ToastComponentTests : TestContext
             .Add(p => p.Message, expectedMessage)
             .Add(p => p.ToastType, expectedToastType)
             .Add(p => p.FadeOutEnabled, false)
-            .Add(p => p.IsDismissed, expectedIsDissmissed));
+            .Add(p => p.IsDismissed, expectedIsDismissed));
 
         var expectedToastId = $"toast-{expectedId}"; ;
         var actualId = cut.Find(".toast").Id;
@@ -79,12 +82,8 @@ public class ToastComponentTests : TestContext
         string expectedTitle,
         string expectedMessage,
         ToastTypes expectedToastType,
-        bool expectedIsDissmissed)
+        bool expectedIsDismissed)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -92,7 +91,7 @@ public class ToastComponentTests : TestContext
             .Add(p => p.Message, expectedMessage)
             .Add(p => p.ToastType, expectedToastType)
             .Add(p => p.FadeOutEnabled, false)
-            .Add(p => p.IsDismissed, expectedIsDissmissed));
+            .Add(p => p.IsDismissed, expectedIsDismissed));
 
         var actualTitle = cut.Find(".title").TextContent;
 
@@ -107,12 +106,8 @@ public class ToastComponentTests : TestContext
         string expectedTitle,
         string expectedMessage,
         ToastTypes expectedToastType,
-        bool expectedIsDissmissed)
+        bool expectedIsDismissed)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -120,7 +115,7 @@ public class ToastComponentTests : TestContext
             .Add(p => p.Message, expectedMessage)
             .Add(p => p.ToastType, expectedToastType)
             .Add(p => p.FadeOutEnabled, false)
-            .Add(p => p.IsDismissed, expectedIsDissmissed));
+            .Add(p => p.IsDismissed, expectedIsDismissed));
 
         var actualMessage = cut.Find(".message").TextContent;
 
@@ -138,12 +133,8 @@ public class ToastComponentTests : TestContext
       int expectedId,
       string expectedTitle,
       string expectedMessage,
-      bool expectedIsDissmissed)
+      bool expectedIsDismissed)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -151,7 +142,7 @@ public class ToastComponentTests : TestContext
             .Add(p => p.Message, expectedMessage)
             .Add(p => p.ToastType, expectedToastType)
             .Add(p => p.FadeOutEnabled, false)
-            .Add(p => p.IsDismissed, expectedIsDissmissed));
+            .Add(p => p.IsDismissed, expectedIsDismissed));
 
         var actualToastClassList = cut.Find(".toast").ClassList;
         var actualIconClassList = cut.Find(".icon").ClassList;
@@ -171,10 +162,6 @@ public class ToastComponentTests : TestContext
      string expectedMessage,
      ToastTypes expectedToastType)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -194,16 +181,12 @@ public class ToastComponentTests : TestContext
     [InlineAutoData(true)]
     [InlineAutoData(false)]
     public void Toast_IsDismissedParameter_RendersCorrectly(
-      bool expectedIsDissmissed,
+      bool expectedIsDismissed,
       int expectedId,
       string expectedTitle,
       string expectedMessage,
       ToastTypes expectedToastType)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -211,13 +194,13 @@ public class ToastComponentTests : TestContext
             .Add(p => p.Message, expectedMessage)
             .Add(p => p.ToastType, expectedToastType)
             .Add(p => p.FadeOutEnabled, false)
-            .Add(p => p.IsDismissed, expectedIsDissmissed));
+            .Add(p => p.IsDismissed, expectedIsDismissed));
 
         var toastClassList = cut.Find(".toast").ClassList;
         var actualDismissedClassExists = toastClassList.Contains("dismissed");
 
         //Assert
-        actualDismissedClassExists.ShouldBe(expectedIsDissmissed);
+        actualDismissedClassExists.ShouldBe(expectedIsDismissed);
     }
 
     [Theory(DisplayName = "Dismiss Click Test"), AutoData]
@@ -227,10 +210,6 @@ public class ToastComponentTests : TestContext
     string expectedMessage,
     ToastTypes expectedToastType)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
             .Add(p => p.Title, expectedTitle)
@@ -259,8 +238,6 @@ public class ToastComponentTests : TestContext
     {
         //Arrange
         var eventFired = false;
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
 
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -281,16 +258,12 @@ public class ToastComponentTests : TestContext
     }
 
     [Theory(DisplayName = "JavaScript Interop Init Test"), AutoData]
-    public void Toast_OnAfterRender_ShouldFireJavascript(
+    public void Toast_OnAfterRender_ShouldFireJavaScript(
     int expectedId,
     string expectedTitle,
     string expectedMessage,
     ToastTypes expectedToastType)
     {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-
         //Act
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
@@ -301,21 +274,17 @@ public class ToastComponentTests : TestContext
             .Add(p => p.IsDismissed, false));
 
         //Assert
-        moduleInterop.VerifyInvoke(Toast.InitNewToast);
+        _moduleInterop.VerifyInvoke(Toast.InitNewToast);
     }
 
     [Theory(DisplayName = "JavaScript Interop Dispose Test"), AutoData]
-    public void Toast_OnDisposed_ShouldFireJavascript(
+    public void Toast_OnDisposed_ShouldFireJavaScript(
        int expectedId,
        string expectedTitle,
        string expectedMessage,
        ToastTypes expectedToastType)
     {
         //Arrange
-        var moduleInterop = JSInterop.SetupModule(Toast.ImportPath);
-        moduleInterop.Setup<Task>(Toast.InitNewToast, _ => true);
-        moduleInterop.Setup<Task>(Toast.DisposeToast, _ => true);
-
         var cut = RenderComponent<Toast>(parameters => parameters
             .Add(p => p.Id, expectedId)
             .Add(p => p.Title, expectedTitle)
@@ -328,7 +297,7 @@ public class ToastComponentTests : TestContext
         DisposeComponents();
 
         //Assert
-        moduleInterop.VerifyInvoke(Toast.DisposeToast);
+        _moduleInterop.VerifyInvoke(Toast.DisposeToast);
     }
 
     private static string ExpectedToastIconClass(ToastTypes expectedToastType)
