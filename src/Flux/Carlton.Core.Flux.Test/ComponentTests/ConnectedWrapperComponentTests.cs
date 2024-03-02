@@ -1,32 +1,41 @@
-﻿using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Models;
-using Carlton.Core.Flux.Tests.Common;
-using Castle.Core.Internal;
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
-using System.Reflection;
+using Carlton.Core.Flux.Components;
+using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Tests.Common;
+using Carlton.Core.Flux.Tests.Common.Extensions;
 namespace Carlton.Core.Flux.Tests.ComponentTests;
 
 public class ConnectedWrapperComponentTests : TestContext
 {
+    private readonly IViewModelQueryDispatcher<TestState> _mockQueryDispatcher;
+    private readonly IMutationCommandDispatcher<TestState> _mockCommandDispatcher;
+    private readonly IFluxStateObserver<TestState> _mockObserver;
+    private readonly ILogger<FluxWrapper<TestState, TestViewModel>> _mockLogger;
+
+    //Arrange
+    public ConnectedWrapperComponentTests()
+    {
+        //Create Mocks
+        _mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
+        _mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
+        _mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
+        _mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
+
+        //Container Registrations
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
+        Services.AddSingleton(_mockQueryDispatcher);
+        Services.AddSingleton(_mockCommandDispatcher);
+        Services.AddSingleton(_mockObserver);
+        Services.AddSingleton(_mockLogger);
+    }
+
+
     [Theory, AutoData]
     public void ConnectedWrapper_RendersCorrectly(TestViewModel vm)
     {
         //Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
         var expectedMarkup = @$"
             <div class=""vm-props"">
               <span class=""id"">{vm.ID}</span>
@@ -35,7 +44,7 @@ public class ConnectedWrapperComponentTests : TestContext
               <button>Command Event Test</button>
             </div>";
 
-        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(vm));
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
 
         // Act
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
@@ -48,28 +57,13 @@ public class ConnectedWrapperComponentTests : TestContext
     public void ConnectedWrapper_InitializesCorrectly(TestViewModel vm)
     {
         //Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
-        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(vm));
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
 
         // Act
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 
         // Assert
-        mockQueryDispatcher.Received(1).Dispatch(
-            Arg.Any<object>(),
-            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-            Arg.Any<CancellationToken>());
+        _mockQueryDispatcher.VerifyQueryDispatcher(1);
     }
 
 
@@ -77,19 +71,7 @@ public class ConnectedWrapperComponentTests : TestContext
     public async Task ConnectedWrapper_OnComponentEvent_CallsMutationDispatcher(TestViewModel vm, TestCommand1 command)
     {
         //Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>> ();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-      
-        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(vm));
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
 
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
         var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
@@ -98,33 +80,17 @@ public class ConnectedWrapperComponentTests : TestContext
         await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
 
         // Assert
-        await mockCommandDispatcher.Received(1).Dispatch(
-            Arg.Any<object>(),
-            Arg.Is<MutationCommandContext<object>>(_ => _.MutationCommand == command),
-            Arg.Any<CancellationToken>());
+        _mockCommandDispatcher.VerifyCommandDispatcher(1, command);
     }
 
     [Theory, AutoData]
     public void ConnectedWrapper_ObservableStateEvents_InitializeCorrectly(TestViewModel vm)
     {
         //Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
 
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
-        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(vm));
-    
         // Act
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
-
 
         // Assert
         Assert.Collection(cut.Instance.ObservableStateEvents,
@@ -139,31 +105,15 @@ public class ConnectedWrapperComponentTests : TestContext
         TestViewModel vm)
     {
         // Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestViewModel, TestState>>>();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
-        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
-           .Returns(Task.FromResult(vm));
-
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
         RenderComponent<FluxWrapper<TestState, TestViewModel>>();
         var expectedTimes = 2; //Once for the component init and once again for the state change
 
         //Act
-        mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
+        _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
 
         // Assert
-        mockQueryDispatcher.Received(expectedTimes).Dispatch(
-            Arg.Any<object>(),
-            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-            Arg.Any<CancellationToken>());
+        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
     }
 
     [Theory, AutoData]
@@ -171,88 +121,38 @@ public class ConnectedWrapperComponentTests : TestContext
         TestViewModel vm)
     {
         // Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
-        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
-           .Returns(Task.FromResult(vm));
-
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
         RenderComponent<FluxWrapper<TestState, TestViewModel>>();
         var expectedTimes = 1; //One and only time for the component init
 
         //Act
-        mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("Some not relevant event"));
+        _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("Some not relevant event"));
 
         // Assert
-        mockQueryDispatcher.Received(expectedTimes).Dispatch(
-            Arg.Any<object>(),
-            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-            Arg.Any<CancellationToken>());
+        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
     }
 
     [Theory, AutoData]
     public void ConnectedWrapper_DisposesCorrectly(TestViewModel vm)
     {
         //Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
-        mockQueryDispatcher.Dispatch(
-            Arg.Any<object>(),
-            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-            Arg.Any<CancellationToken>())
-           .Returns(Task.FromResult(vm));
-
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
         RenderComponent<FluxWrapper<TestState, TestViewModel>>();
         var expectedTimes = 1; //One and only time for the component init, event handler removed correctly during dispose
         DisposeComponents();
 
         //Act
-        mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
+        _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
 
         // Assert
-        mockQueryDispatcher.Received(expectedTimes).Dispatch(
-           Arg.Any<object>(),
-           Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-           Arg.Any<CancellationToken>());
+        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
     }
 
     [Theory, AutoData]
     public void ConnectedWrapper_LoadingContent(TestViewModel vm)
     {
         //Arrange
-        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
-        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
-        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
-        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
-
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
-        Services.AddSingleton(mockQueryDispatcher);
-        Services.AddSingleton(mockCommandDispatcher);
-        Services.AddSingleton(mockObserver);
-        Services.AddSingleton(mockLogger);
-
-        mockQueryDispatcher.Dispatch(
-           Arg.Any<object>(),
-           Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-           Arg.Any<CancellationToken>())
-          .Returns(Task.FromResult(vm));
+        _mockQueryDispatcher.SetupQueryDispatcher(vm);
 
         var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
         var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
