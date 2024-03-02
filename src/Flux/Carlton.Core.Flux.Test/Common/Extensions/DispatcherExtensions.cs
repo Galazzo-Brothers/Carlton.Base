@@ -2,7 +2,7 @@
 using Carlton.Core.Flux.Models;
 namespace Carlton.Core.Flux.Tests.Common.Extensions;
 
-public static class MockDispatcherExtensions
+public static class DispatcherExtensions
 {
     public static void SetupQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, TestViewModel vm)
     {
