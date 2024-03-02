@@ -37,7 +37,7 @@
 //        await sut.Dispatch(sender, command, CancellationToken.None);
 
 //        //Assert
-//         mockHttp.VerifyMockHttpHandler("POST", "http://test.carlton.com/");
+//        mockHttp.VerifyMockHttpHandler("POST", "http://test.carlton.com/");
 //        _decorated.VerifyDispatchCalled(command);
 //    }
 
@@ -215,7 +215,8 @@
 
 //        //Assert
 //        Assert.Equal(LogEvents.Mutation_HTTP_Response_Update_Error, ex.EventID);
-//        Assert.Equal(LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, ex.Message); ;
+//        Assert.Equal(LogEvents.Mutation_HTTP_Response_Update_ErrorMsg, ex.Message);
+//        ;
 //    }
 
 //    [Fact]

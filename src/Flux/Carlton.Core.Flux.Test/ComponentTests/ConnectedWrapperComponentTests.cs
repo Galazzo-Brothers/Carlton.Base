@@ -1,13 +1,13 @@
-﻿using Carlton.Core.Flux.Components;
+﻿using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Components;
 using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Models;
 using Carlton.Core.Flux.Tests.Common;
+using Castle.Core.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using Polly;
 using System.Reflection;
-using System.Threading;
 namespace Carlton.Core.Flux.Tests.ComponentTests;
 
 public class ConnectedWrapperComponentTests : TestContext
@@ -82,22 +82,20 @@ public class ConnectedWrapperComponentTests : TestContext
         var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
         var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>> ();
 
-       
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
         Services.AddSingleton(mockQueryDispatcher);
         Services.AddSingleton(mockCommandDispatcher);
         Services.AddSingleton(mockObserver);
         Services.AddSingleton(mockLogger);
-        Services.AddSingleton(new DummyComponentService(command));
-        Services.AddSingleton<IConnectedComponent<TestViewModel>>(_ => new DummyConnectedComponent(_.GetService<DummyComponentService>()));
-
+      
         mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(vm));
 
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
-        var buttonElement = cut.Find("button");
+        var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
 
         // Act
-        buttonElement.Click();
+        await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
 
         // Assert
         await mockCommandDispatcher.Received(1).Dispatch(
@@ -106,102 +104,170 @@ public class ConnectedWrapperComponentTests : TestContext
             Arg.Any<CancellationToken>());
     }
 
-    //[Fact]
-    //public void ConnectedWrapper_ObservableStateEvents_InitializeCorrectly()
-    //{
-    //    //Arrange
-    //    var vm = _fixture.Create<TestViewModel>();
-    //    _vmDispatcher.SetupDispatcher(vm);
+    [Theory, AutoData]
+    public void ConnectedWrapper_ObservableStateEvents_InitializeCorrectly(TestViewModel vm)
+    {
+        //Arrange
+        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
+        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
+        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
+        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
 
-    //    // Act
-    //    var cut = RenderComponent<ConnectedWrapper<TestViewModel, TestState>>();
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
+        Services.AddSingleton(mockQueryDispatcher);
+        Services.AddSingleton(mockCommandDispatcher);
+        Services.AddSingleton(mockObserver);
+        Services.AddSingleton(mockLogger);
 
-    //    // Assert
-    //    Assert.Collection(cut.Instance.ObservableStateEvents,
-    //      evt => Assert.Equal("TestEvent", evt),
-    //      evt => Assert.Equal("TestEvent2", evt),
-    //      evt => Assert.Equal("TestEvent3", evt)
-    //  );  
-    //}
+        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(vm));
+    
+        // Act
+        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 
-    //[Fact]
-    //public void ConnectedWrapper_OnStateChangeTestEvent_CallsViewModelDispatcher()
-    //{
-    //    // Arrange
-    //    var vm = _fixture.Create<TestViewModel>();
-    //    _vmDispatcher.SetupDispatcher(vm);
 
-    //    RenderComponent<FluxWrapper<TestViewModel, TestState>>();
-    //    var times = 2; //Once for the component init and once again for the state change
+        // Assert
+        Assert.Collection(cut.Instance.ObservableStateEvents,
+          evt => evt.ShouldBe("TestEvent"),
+          evt => evt.ShouldBe("TestEvent2"),
+          evt => evt.ShouldBe("TestEvent3")
+      );
+    }
 
-    //    //Act
-    //    _observer.Raise(_ => _.StateChanged += null, "TestEvent");
+    [Theory, AutoData]
+    public void ConnectedWrapper_OnStateChangeTestEvent_CallsViewModelDispatcher(
+        TestViewModel vm)
+    {
+        // Arrange
+        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
+        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
+        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
+        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestViewModel, TestState>>>();
 
-    //    // Assert
-    //    _vmDispatcher.VerifyDispatcher<TestViewModel>(times);
-    //}
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
+        Services.AddSingleton(mockQueryDispatcher);
+        Services.AddSingleton(mockCommandDispatcher);
+        Services.AddSingleton(mockObserver);
+        Services.AddSingleton(mockLogger);
 
-    //[Theory, AutoData]
-    //public void ConnectedWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(string stateEventName)
-    //{
-    //    // Arrange
-    //    var vm = _fixture.Create<TestViewModel>();
-    //    _vmDispatcher.SetupDispatcher(vm);
+        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
+           .Returns(Task.FromResult(vm));
 
-    //    RenderComponent<FluxWrapper<TestViewModel, TestState>>();
-    //    var times = 1; //One and only time for the component init
+        RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        var expectedTimes = 2; //Once for the component init and once again for the state change
 
-    //    //Act
-    //    _observer.Raise(_ => _.StateChanged += null, stateEventName);
+        //Act
+        mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
 
-    //    // Assert
-    //    _vmDispatcher.VerifyDispatcher<TestViewModel>(times);
-    //}
+        // Assert
+        mockQueryDispatcher.Received(expectedTimes).Dispatch(
+            Arg.Any<object>(),
+            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+            Arg.Any<CancellationToken>());
+    }
 
-    //[Fact]
-    //public void ConnectedWrapperDisposesCorrectly()
-    //{
-    //    //Arrange
-    //    var vm = _fixture.Create<TestViewModel>();
-    //    _vmDispatcher.SetupDispatcher(vm);
+    [Theory, AutoData]
+    public void ConnectedWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(
+        TestViewModel vm)
+    {
+        // Arrange
+        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
+        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
+        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
+        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
 
-    //    RenderComponent<FluxWrapper<TestViewModel, TestState>>();
-    //    var times = 1; //One and only time for the component init, event handler removed correctly during dispose
-    //    DisposeComponents();
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
+        Services.AddSingleton(mockQueryDispatcher);
+        Services.AddSingleton(mockCommandDispatcher);
+        Services.AddSingleton(mockObserver);
+        Services.AddSingleton(mockLogger);
 
-    //    //Act
-    //    _observer.Raise(_ => _.StateChanged += null, "TestEvent");
+        mockQueryDispatcher.Dispatch(Arg.Any<object>(), Arg.Any<ViewModelQueryContext<TestViewModel>>(), Arg.Any<CancellationToken>())
+           .Returns(Task.FromResult(vm));
 
-    //    // Assert
-    //    _vmDispatcher.VerifyDispatcher<TestViewModel>(times);
-    //}
+        RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        var expectedTimes = 1; //One and only time for the component init
 
-    //[Fact]
-    //public void ConnectedWrapper_LoadingContent()
-    //{
-    //    //Arrange
-    //    var vm = _fixture.Create<TestViewModel>();
-    //    _vmDispatcher.SetupDispatcher(vm);
+        //Act
+        mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("Some not relevant event"));
 
-    //    var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
-    //    var renderFragment = new RenderFragment(builder =>
-    //    {
-    //        builder.AddMarkupContent(0, spinnerMarkup);
-    //    });
+        // Assert
+        mockQueryDispatcher.Received(expectedTimes).Dispatch(
+            Arg.Any<object>(),
+            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+            Arg.Any<CancellationToken>());
+    }
 
-    //    var propInfo = typeof(FluxWrapper<TestViewModel, TestState>)
-    //        .GetProperty("IsLoading");
+    [Theory, AutoData]
+    public void ConnectedWrapper_DisposesCorrectly(TestViewModel vm)
+    {
+        //Arrange
+        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
+        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
+        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
+        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
 
-    //    var cut = RenderComponent<FluxWrapper<TestViewModel, TestState>>(parameters => parameters
-    //        .Add(p => p.SpinnerContent, renderFragment));
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
+        Services.AddSingleton(mockQueryDispatcher);
+        Services.AddSingleton(mockCommandDispatcher);
+        Services.AddSingleton(mockObserver);
+        Services.AddSingleton(mockLogger);
 
-    //    //Act
-    //    propInfo.SetValue(cut.Instance, true);
-    //    cut.Render();
+        mockQueryDispatcher.Dispatch(
+            Arg.Any<object>(),
+            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+            Arg.Any<CancellationToken>())
+           .Returns(Task.FromResult(vm));
 
-    //    //Assert
-    //    cut.MarkupMatches(spinnerMarkup);
-    //}
+        RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        var expectedTimes = 1; //One and only time for the component init, event handler removed correctly during dispose
+        DisposeComponents();
+
+        //Act
+        mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
+
+        // Assert
+        mockQueryDispatcher.Received(expectedTimes).Dispatch(
+           Arg.Any<object>(),
+           Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+           Arg.Any<CancellationToken>());
+    }
+
+    [Theory, AutoData]
+    public void ConnectedWrapper_LoadingContent(TestViewModel vm)
+    {
+        //Arrange
+        var mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
+        var mockCommandDispatcher = Substitute.For<IMutationCommandDispatcher<TestState>>();
+        var mockObserver = Substitute.For<IFluxStateObserver<TestState>>();
+        var mockLogger = Substitute.For<ILogger<FluxWrapper<TestState, TestViewModel>>>();
+
+        Services.AddSingleton<IConnectedComponent<TestViewModel>>(new DummyConnectedComponent());
+        Services.AddSingleton(mockQueryDispatcher);
+        Services.AddSingleton(mockCommandDispatcher);
+        Services.AddSingleton(mockObserver);
+        Services.AddSingleton(mockLogger);
+
+        mockQueryDispatcher.Dispatch(
+           Arg.Any<object>(),
+           Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+           Arg.Any<CancellationToken>())
+          .Returns(Task.FromResult(vm));
+
+        var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
+        var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
+            .GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>(parameters => parameters
+            .Add(p => p.SpinnerContent, spinnerMarkup));
+
+        //Act
+        propInfo.SetValue(cut.Instance, true);
+        cut.Render();
+
+        //Assert
+        cut.MarkupMatches(spinnerMarkup);
+    }
 }
 
 
