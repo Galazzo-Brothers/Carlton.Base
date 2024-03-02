@@ -12,6 +12,35 @@ namespace Carlton.Core.Components.Layouts.Tests.Manager;
 [Trait("Component", nameof(LayoutManager))]
 public class LayoutManagerComponentTests : TestContext
 {
+    private readonly IFullScreenState _navStateMock = Substitute.For<IFullScreenState>();
+    private readonly IThemeState _themeStateMock = Substitute.For<IThemeState>();
+    private readonly IModalState _modalStateMock = Substitute.For<IModalState>();
+    private readonly IToastState _toastStateMock = Substitute.For<IToastState>();
+    private readonly IPanelState _panelStateMock = Substitute.For<IPanelState>();
+
+    //Arrange
+    public LayoutManagerComponentTests()
+    {
+        //Mocks
+        _navStateMock = Substitute.For<IFullScreenState>();
+        _themeStateMock = Substitute.For<IThemeState>();
+        _modalStateMock = Substitute.For<IModalState>();
+        _toastStateMock = Substitute.For<IToastState>();
+        _panelStateMock = Substitute.For<IPanelState>();
+
+        //Container Registrations
+        Services.AddSingleton(_navStateMock);
+        Services.AddSingleton(_themeStateMock);
+        Services.AddSingleton(_modalStateMock);
+        Services.AddSingleton(_toastStateMock);
+        Services.AddSingleton(_panelStateMock);
+
+        //Component Stubs
+        var layoutToasterMock = Substitute.For<LayoutToaster>();
+        ComponentFactories.Add(layoutToasterMock);
+        ComponentFactories.AddStub<Modal>();
+    }
+
     [Theory(DisplayName = "Markup Test")]
     [InlineData(Themes.light)]
     [InlineData(Themes.dark)]
@@ -19,25 +48,8 @@ public class LayoutManagerComponentTests : TestContext
         Themes expectedTheme)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
- 
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
-
-        themeStateMock.Theme.Returns(expectedTheme);
-
-        var expectedMarkup = $@"<div class=""layout-manager"" data-theme=""{expectedTheme.ToString()}"" ></div>";
+        _themeStateMock.Theme.Returns(expectedTheme);
+        var expectedMarkup = $@"<div class=""layout-manager"" data-theme=""{expectedTheme}"" ></div>";
 
         //Act
         var cut = RenderComponent<LayoutManager>();
@@ -51,26 +63,11 @@ public class LayoutManagerComponentTests : TestContext
     ToastViewModel expectedToastViewModel)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
-
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
         var cut = RenderComponent<LayoutManager>();
 
         //Act
         var args = new ToastRaisedEventArgs(expectedToastViewModel);
-        cut.InvokeAsync(() => toastStateMock.ToastAdded += Raise.Event<EventHandler<ToastRaisedEventArgs>>(new object(), args));
+        cut.InvokeAsync(() => _toastStateMock.ToastAdded += Raise.Event<EventHandler<ToastRaisedEventArgs>>(new object(), args));
 
         //Assert
         cut.RenderCount.ShouldBe(2); //second render from the event triggering a stateHasChanged call
@@ -81,27 +78,11 @@ public class LayoutManagerComponentTests : TestContext
         bool expectedIsCollapsed)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
-
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
-
         var cut = RenderComponent<LayoutManager>();
 
         //Act
         var args = new FullScreenStateChangedEventArgs(expectedIsCollapsed);
-        cut.InvokeAsync(() => navStateMock.FullScreenStateChanged += Raise.Event<EventHandler<FullScreenStateChangedEventArgs>>(new object(), args));
+        cut.InvokeAsync(() => _navStateMock.FullScreenStateChanged += Raise.Event<EventHandler<FullScreenStateChangedEventArgs>>(new object(), args));
 
         //Assert
         cut.RenderCount.ShouldBe(2); //second render from the event triggering a stateHasChanged call
@@ -114,28 +95,12 @@ public class LayoutManagerComponentTests : TestContext
         Themes expectedTheme)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
-
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
-
-        themeStateMock.Theme.Returns(expectedTheme);
+        _themeStateMock.Theme.Returns(expectedTheme);
         var cut = RenderComponent<LayoutManager>();
 
         //Act
         var args = new ThemeChangedEventArgs(expectedTheme);
-        cut.InvokeAsync(() => themeStateMock.ThemeChanged += Raise.Event<EventHandler<ThemeChangedEventArgs>>(new object(), args));
+        cut.InvokeAsync(() => _themeStateMock.ThemeChanged += Raise.Event<EventHandler<ThemeChangedEventArgs>>(new object(), args));
         var element = cut.Find(".layout-manager");
 
         //Assert
@@ -150,26 +115,16 @@ public class LayoutManagerComponentTests : TestContext
         ModalViewModel expectedModalModel)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
-
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
         var cut = RenderComponent<LayoutManager>();
 
         //Act
-        var args = new ModalStateChangedEventArgs { IsVisible = expectedIsVisible, ModalType = expectedModalType, ModalModel = expectedModalModel };
-        cut.InvokeAsync(() => modalStateMock.ModalStateChanged += Raise.Event<EventHandler<ModalStateChangedEventArgs>>(new object(), args));
+        var args = new ModalStateChangedEventArgs 
+        {
+            IsVisible = expectedIsVisible,
+            ModalType = expectedModalType,
+            ModalModel = expectedModalModel
+        };
+        cut.InvokeAsync(() => _modalStateMock.ModalStateChanged += Raise.Event<EventHandler<ModalStateChangedEventArgs>>(new object(), args));
 
         //Assert
         cut.RenderCount.ShouldBe(2); //second render from the event triggering a stateHasChanged call
@@ -182,26 +137,11 @@ public class LayoutManagerComponentTests : TestContext
        bool expectedIsVisible)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
-
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
         var cut = RenderComponent<LayoutManager>();
 
         //Act
         var args = new PanelVisibilityChangedEventArgs(expectedIsVisible);
-        cut.InvokeAsync(() => panelStateMock.PanelVisibilityChangedChanged += Raise.Event<EventHandler<PanelVisibilityChangedEventArgs>>(new object(), args));
+        cut.InvokeAsync(() => _panelStateMock.PanelVisibilityChangedChanged += Raise.Event<EventHandler<PanelVisibilityChangedEventArgs>>(new object(), args));
 
         //Assert
         cut.RenderCount.ShouldBe(2); //second render from the event triggering a stateHasChanged call
@@ -213,24 +153,8 @@ public class LayoutManagerComponentTests : TestContext
         ModalViewModel expectedModalModel)
     {
         //Arrange
-        var navStateMock = Substitute.For<IFullScreenState>();
-        var themeStateMock = Substitute.For<IThemeState>();
-        var modalStateMock = Substitute.For<IModalState>();
-        var toastStateMock = Substitute.For<IToastState>();
-        var panelStateMock = Substitute.For<IPanelState>();
-
-        Services.AddSingleton(navStateMock);
-        Services.AddSingleton(themeStateMock);
-        Services.AddSingleton(modalStateMock);
-        Services.AddSingleton(toastStateMock);
-        Services.AddSingleton(panelStateMock);
-
-        modalStateMock.ModalType.Returns(expectedModalType);
-        modalStateMock.ModalModel.Returns(expectedModalModel);
-
-        var layoutToasterMock = Substitute.For<LayoutToaster>();
-        ComponentFactories.Add(layoutToasterMock);
-        ComponentFactories.AddStub<Modal>();
+        _modalStateMock.ModalType.Returns(expectedModalType);
+        _modalStateMock.ModalModel.Returns(expectedModalModel);
 
         //Act
         var cut = RenderComponent<LayoutManager>();
