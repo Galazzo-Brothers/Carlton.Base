@@ -10,15 +10,9 @@ namespace Carlton.Core.Flux.Tests.ComponentTests;
 [ObserveStateEvents("TestEvent3")]
 public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 {
-    public DummyConnectedComponent(DummyComponentService service)
+    public async Task RaiseComponentEvent(TestCommand1 command)
     {
-        Command = service.Command;
-    }
-
-    public TestCommand1 Command { get; set; }
-
-    public DummyConnectedComponent() 
-    {
+        await base.OnComponentEvent.InvokeAsync(command);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -43,10 +37,8 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
         builder.AddContent(10, ViewModel.Description);
         builder.CloseElement();
         // Add event callback
-        var eventCallback = EventCallback.Factory.Create(this, () => base.OnComponentEvent.InvokeAsync(Command));
         builder.OpenElement(11, "button");
-        builder.AddAttribute(12, "onclick", eventCallback);
-        builder.AddContent(13, "Command Event Test");
+        builder.AddContent(12, "Command Event Test");
         builder.CloseElement();
         //Close Wrapper Div
         builder.CloseElement();
@@ -54,4 +46,3 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 }
 
 
-public record DummyComponentService(TestCommand1 Command);

@@ -1,53 +1,51 @@
-﻿//using AutoFixture.AutoMoq;
-//using Carlton.Core.Flux.Contracts;
-//using Carlton.Core.Flux.Handlers.Mutations;
-//using Carlton.Core.Flux.Models;
-//using Carlton.Core.Flux.Tests.Common;
-//using Carlton.Core.Flux.Tests.Common.Extensions;
-//using Microsoft.Extensions.Logging;
+﻿using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Exceptions;
+using Carlton.Core.Flux.Handlers.Mutations;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Models;
+using Carlton.Core.Flux.Tests.Common;
+using Carlton.Core.Foundation.Test;
+using Microsoft.Extensions.Logging;
+using NSubstitute.ExceptionExtensions;
+namespace Carlton.Core.Flux.Tests.DecoratorTests.Mutations;
 
-//namespace Carlton.Core.Flux.Tests.DecoratorTests.Mutations;
+public class MutationExceptionDecoratorTests
+{
+    [Theory, AutoNSubstituteData]
+    public async Task Dispatch_DispatchCalled(
+        [Frozen] IMutationCommandDispatcher<TestState> decorated,
+        [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
+        object sender,
+        object command,
+        MutationExceptionDecorator<TestState> sut)
+    {
+        //Act 
+        await sut.Dispatch(sender, command, CancellationToken.None);
 
-//public class MutationExceptionDecoratorTests
-//{
-//    private readonly IFixture _fixture;
-//    private readonly Mock<IMutationCommandDispatcher<TestState>> _decorated;
- 
-//    public MutationExceptionDecoratorTests()
-//    {
-//        _fixture = new Fixture().Customize(new AutoMoqCustomization());
-//        _decorated = _fixture.Freeze<Mock<IMutationCommandDispatcher<TestState>>>();
-//        _fixture.Freeze<Mock<ILogger<MutationExceptionDecorator<TestState>>>>();
-//    }
+        //Assert
+        await decorated.Received(1).Dispatch(
+           Arg.Any<object>(),
+           Arg.Any<MutationCommandContext<object>>(),
+           Arg.Any<CancellationToken>());
+    }
 
-//    [Theory, AutoData]
-//    public async Task Dispatch_DispatchCalled(MutationCommand command)
-//    {
-//        //Arrange
-//        var sender = new object();
-//        var sut = _fixture.Create<MutationExceptionDecorator<TestState>>();
+    [Theory, AutoNSubstituteData]
+    public async Task Dispatch_ThrowsMutationCommandFluxExceptionException(
+        [Frozen] IMutationCommandDispatcher<TestState> decorated,
+        [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
+        object sender,
+        TestCommand1 command,
+        MutationExceptionDecorator<TestState> sut)
+    {
+        //Arrange
+        decorated.Dispatch(sender, command, CancellationToken.None).ThrowsForAnyArgs(new Exception());
 
-//        //Act 
-//        await sut.Dispatch(sender, command, CancellationToken.None);
+        //Act
+        var func = async () => await sut.Dispatch(sender, command, CancellationToken.None);
+        var ex = await func.ShouldThrowAsync<MutationCommandFluxException<TestState, TestCommand1>>();
 
-//        //Assert
-//        _decorated.VerifyDispatchCalled(command);
-//    }
-
-//    [Fact]
-//    public async Task Dispatch_ThrowsMutationCommandFluxExceptionException()
-//    {
-//        //Arrange
-//        var sender = new object();
-//        var command = _fixture.Create<TestCommand2>();
-//        var sut = _fixture.Create<MutationExceptionDecorator<TestState>>();
-//        _decorated.SetupDispatcherException(new Exception());
-
-//        //Act
-//        var ex = await Assert.ThrowsAsync<MutationCommandFluxException<TestState, TestCommand2>>(async () => await sut.Dispatch(sender, command, CancellationToken.None));
-
-//        //Assert
-//        Assert.Equal(LogEvents.Mutation_Unhandled_Error, ex.EventID);
-//        Assert.Equal(LogEvents.Mutation_Unhandled_ErrorMsg, ex.Message);
-//    }
-//}
+        //Assert
+        ex.EventId.ShouldBe(FluxLogs.Mutation_Unhandled_Error);
+        ex.Message.ShouldBe(FluxLogs.Mutation_Unhandled_ErrorMsg);
+    }
+}
