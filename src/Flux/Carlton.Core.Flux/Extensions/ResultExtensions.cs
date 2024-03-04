@@ -3,7 +3,7 @@ namespace Carlton.Core.Flux.Extensions;
 
 internal static class ResultExtensions
 {
-    internal static TViewModel GetViewModelResultOrThrow<TViewModel>(this Result<TViewModel, ViewModelFluxError> result)
+    internal static TViewModel GetViewModelResultOrThrow<TViewModel>(this Result<TViewModel, ViewModelQueryError> result)
     {
         return result.Match
                (
@@ -12,7 +12,7 @@ internal static class ResultExtensions
                );
     }
 
-    internal static MutationCommandResult GetMutationResultOrThrow(this Result<MutationCommandResult, MutationCommandFluxError> result)
+    internal static MutationCommandResult GetMutationResultOrThrow(this Result<MutationCommandResult, MutationCommandError> result)
     {
         return result.Match
                (

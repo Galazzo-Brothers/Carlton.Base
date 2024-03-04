@@ -1,11 +1,10 @@
 ﻿using Carlton.Core.Flux.Components;
 using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Dispatchers.ViewModels;
-using Carlton.Core.Flux.Tests.ComponentTests;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
-namespace Carlton.Core.Flux.Tests.Components;
+namespace Carlton.Core.Flux.Tests.Components.FluxWrappers;
 
 public class PassiveWrapperComponentTests : TestContext
 {

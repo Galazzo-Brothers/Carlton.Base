@@ -7,7 +7,7 @@ public class MutationCommandHandler<TState>(
     ILogger<MutationCommandHandler<TState>> _logger)
     : IMutationCommandHandler<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandFluxError>> Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, MutationCommandError>> Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         using (_logger.BeginFluxComponentChildRequestLoggingScopes(context.RequestId))
         {

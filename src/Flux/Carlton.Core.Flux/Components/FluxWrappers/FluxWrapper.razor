@@ -37,6 +37,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        //Set IsLoading to true
         IsLoading = true;
 
         //Register State Changed Handler
@@ -44,8 +45,7 @@ else
 
         //Get VM and initialize context for wrapped component
         using (Logger.BeginViewModelInitializationLoggingScopes())
-            ViewModel = (await GetViewModel()).GetViewModelResultOrThrow<TViewModel>();
-
+            ViewModel = await GetViewModel();
 
         //Gather the StateEvents this component should be listening for
         var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventAttribute>();
@@ -58,9 +58,10 @@ else
         await base.OnInitializedAsync();
     }
 
-    protected virtual async Task<Result<TViewModel, ViewModelFluxError>> GetViewModel()
+    protected virtual async Task<TViewModel> GetViewModel()
     {
-        return await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None);
+        return (await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None))
+                    .GetViewModelResultOrThrow<TViewModel>();
     }
 
     protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
@@ -80,7 +81,7 @@ else
 
         //Refresh ViewModel
         using (Logger.BeginFluxComponentEventReceivedLoggingScopes(args.StateEvent))
-            ViewModel = (await GetViewModel()).GetViewModelResultOrThrow<TViewModel>();
+            ViewModel = await GetViewModel();
 
         //Set loading false
         IsLoading = false;

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Carlton.Core.Flux.Components;
 using Carlton.Core.Flux.Contracts;
-namespace Carlton.Core.Flux.Tests.ComponentTests;
+namespace Carlton.Core.Flux.Tests.Components.FluxWrappers;
 
 public class ConnectedWrapperComponentTests : TestContext
 {

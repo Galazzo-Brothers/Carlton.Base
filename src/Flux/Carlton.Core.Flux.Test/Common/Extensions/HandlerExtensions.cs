@@ -10,7 +10,7 @@ public static class HandlerExtensions
     public static void SetupHandler<T>(this IViewModelQueryHandler<TestState> handler, T response)
     {
         handler.Handle(Arg.Any<ViewModelQueryContext<T>>(), Arg.Any<CancellationToken>())
-               .Returns(Task.FromResult((Result<T, ViewModelFluxError>)response));
+               .Returns(Task.FromResult((Result<T, ViewModelQueryError>)response));
     }
 
     public static void SetupHandler<T>(this IMutationCommandHandler<TestState> handler)

@@ -1,7 +1,6 @@
-﻿using static Carlton.Core.Flux.Errors.MutationCommandErrors;
-namespace Carlton.Core.Flux.Exceptions;
+﻿namespace Carlton.Core.Flux.Exceptions;
 
-internal class MutationCommandException(MutationCommandFluxError error) : Exception
+internal class MutationCommandException(MutationCommandError error) : Exception
 {
-    public MutationCommandFluxError Error { get; } = error;
+    public MutationCommandError Error { get; } = error;
 }

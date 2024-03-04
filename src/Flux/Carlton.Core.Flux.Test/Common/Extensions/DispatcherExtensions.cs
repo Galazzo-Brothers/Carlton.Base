@@ -12,7 +12,7 @@ public static class DispatcherExtensions
          Arg.Any<object>(),
          Arg.Any<ViewModelQueryContext<TestViewModel>>(),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult((Result<TestViewModel, ViewModelFluxError>) vm));
+        .Returns(Task.FromResult((Result<TestViewModel, ViewModelQueryError>) vm));
     }
 
     public static void SetupMutationDispatcher(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
@@ -21,7 +21,7 @@ public static class DispatcherExtensions
          Arg.Any<object>(),
          Arg.Is<MutationCommandContext<object>>(context => context.MutationCommand.Equals(command)),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult((Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandResult()));
+        .Returns(Task.FromResult((Result<MutationCommandResult, MutationCommandError>)new MutationCommandResult()));
     }
 
     public static void VerifyQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
@@ -38,6 +38,24 @@ public static class DispatcherExtensions
             Arg.Any<object>(),
             Arg.Is<MutationCommandContext<object>>(_ => _.MutationCommand == command),
             Arg.Any<CancellationToken>());
+    }
+
+    public static void SetupQueryDispatcherError(this IViewModelQueryDispatcher<TestState> dispatcher, ViewModelQueryError error)
+    {
+        dispatcher.Dispatch(
+         Arg.Any<object>(),
+         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+         Arg.Any<CancellationToken>())
+        .Returns(error);
+    }
+
+    public static void SetupCommandDispatcherError(this IMutationCommandDispatcher<TestState> dispatcher, MutationCommandError error)
+    {
+        dispatcher.Dispatch(
+         Arg.Any<object>(),
+         Arg.Any<MutationCommandContext<object>>(),
+         Arg.Any<CancellationToken>())
+        .Returns(error);
     }
 }
 

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
 using Carlton.Core.Flux.Attributes;
 using Carlton.Core.Flux.Components;
-namespace Carlton.Core.Flux.Tests.ComponentTests;
+using Microsoft.AspNetCore.Components;
+namespace Carlton.Core.Flux.Tests.Common;
 
 [ObserveStateEvent("TestEvent")]
 [ObserveStateEvent("TestEvent2")]
@@ -10,7 +11,7 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 {
     public async Task RaiseComponentEvent(TestCommand1 command)
     {
-        await base.OnComponentEvent.InvokeAsync(command);
+        await OnComponentEvent.InvokeAsync(command);
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -36,7 +37,8 @@ public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
         builder.CloseElement();
         // Add event callback
         builder.OpenElement(11, "button");
-        builder.AddContent(12, "Command Event Test");
+        builder.AddAttribute(12, "onclick", EventCallback.Factory.Create(this, base.OnComponentEvent));
+        builder.AddContent(14, "Command Event Test");
         builder.CloseElement();
         //Close Wrapper Div
         builder.CloseElement();

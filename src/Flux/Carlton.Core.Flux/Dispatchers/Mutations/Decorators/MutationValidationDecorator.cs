@@ -2,7 +2,7 @@
 
 public class MutationValidationDecorator<TState>(IMutationCommandDispatcher<TState> _decorated) : IMutationCommandDispatcher<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandFluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, MutationCommandError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         var isValid = context.MutationCommand.TryValidate(out var validationErrors);
         context.MarkAsValidated(validationErrors);

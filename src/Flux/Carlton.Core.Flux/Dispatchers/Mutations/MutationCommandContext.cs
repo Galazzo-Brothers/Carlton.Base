@@ -18,6 +18,6 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
     //this override is primarily
     //so the actual value of the command can be logged
     public override string ToString()
-     => $"MutationCommandContext[{CommandTypeName}]";
+        => $"MutationCommandContext[{CommandTypeName}]";
 }
 

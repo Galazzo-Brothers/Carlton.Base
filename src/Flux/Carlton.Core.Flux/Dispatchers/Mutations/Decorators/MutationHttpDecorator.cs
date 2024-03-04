@@ -6,7 +6,7 @@ namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client, IFluxState<TState> _state)
     : BaseHttpDecorator<TState>(_client, _state), IMutationCommandDispatcher<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandFluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, MutationCommandError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         var attributes = sender.GetType().GetCustomAttributes();
         var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
