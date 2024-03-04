@@ -22,12 +22,12 @@ public static partial class LogSourceGenerators
 
     [LoggerMessage(
        Level = LogLevel.Error,
-       Message = "An error occured processing query for ViewModel of type {ViewModelType}")]
+       Message = "An error occurred processing query for ViewModel of type {ViewModelType}")]
     public static partial void ViewModelQueryErrored(this ILogger logger, string viewModelType, Exception ex);
 
     [LoggerMessage(
        Level = LogLevel.Error,
-       Message = "An error occured processing mutation command of type {MutationCommandType}")]
+       Message = "An error occurred processing mutation command of type {MutationCommandType}")]
     public static partial void MutationCommandErrored(this ILogger logger, string MutationCommandType, Exception ex);
     
     [LoggerMessage(

@@ -1,19 +1,18 @@
 ﻿using Carlton.Core.Flux.Attributes;
 using Carlton.Core.Flux.Handlers.Base;
 using System.Net.Http.Json;
-
-namespace Carlton.Core.Flux.Handlers.Mutations;
+namespace Carlton.Core.Flux.Dispatchers.Mutations;
 
 public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client, IFluxState<TState> _state)
     : BaseHttpDecorator<TState>(_client, _state), IMutationCommandDispatcher<TState>
 {
-    public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, MutationCommandFluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         var attributes = sender.GetType().GetCustomAttributes();
         var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
         var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
 
-        if(requiresRefresh)
+        if (requiresRefresh)
         {
             //Update the context for logging and auditing
             context.MarkAsRequiresHttpRefresh();
@@ -35,7 +34,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
         }
 
         //Continue the Dispatch Pipeline
-        await _decorated.Dispatch(sender, context, cancellationToken);
+        return await _decorated.Dispatch(sender, context, cancellationToken);
     }
 
     protected async Task<HttpResponseMessage> SendRequest<TPayload>(HttpVerb httpVerb, string serverUrl, TPayload payload, CancellationToken cancellation)
@@ -59,14 +58,14 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
         var serverResponseTypeAttribute = command.GetType().GetCustomAttribute(typeof(HttpResponseTypeAttribute<>));
 
         //Exit if response type attribute not present
-        if(serverResponseTypeAttribute == null)
+        if (serverResponseTypeAttribute == null)
             return;
 
         //Find HttpResponseProperty attributes
         var replacementProperties = command.GetType().GetProperties().Where(predicate);
 
         //Exit if response property attributes not present
-        if(!replacementProperties.Any())
+        if (!replacementProperties.Any())
             return;
 
         //Parse the server json response
@@ -74,7 +73,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
         var parsedResponse = JsonSerializer.Deserialize(json, serverResponseType, new JsonSerializerOptions(JsonSerializerDefaults.Web));
 
         //iterate through properties
-        foreach(var prop in replacementProperties)
+        foreach (var prop in replacementProperties)
         {
             //Get the property attribute
             var attribute = prop.GetCustomAttribute<HttpResponsePropertyAttribute>();

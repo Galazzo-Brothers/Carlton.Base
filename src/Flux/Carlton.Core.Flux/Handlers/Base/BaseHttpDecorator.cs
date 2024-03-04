@@ -51,7 +51,6 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
         var match = UrlParameterTokenRegex().Match(url);
         var unreplacedTokens = match.Success;
 
-
         //If the URL is well formed return
         if (isUrlWellFormed)
             return;

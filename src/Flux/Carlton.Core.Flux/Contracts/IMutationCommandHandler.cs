@@ -2,7 +2,7 @@
 
 public interface IMutationCommandHandler<TState>
 {
-    public Task Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken);
+    public Task<Result<MutationCommandResult, MutationCommandFluxError>> Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken);
 }
 
 

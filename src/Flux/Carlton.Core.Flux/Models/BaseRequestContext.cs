@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Net;
-
 namespace Carlton.Core.Flux.Models;
 
 public abstract class BaseRequestContext

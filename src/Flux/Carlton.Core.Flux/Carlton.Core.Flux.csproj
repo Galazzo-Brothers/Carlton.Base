@@ -20,14 +20,13 @@
     <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\Carlton.Core.Utilities\Carlton.Core.Utilities.csproj" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<InternalsVisibleTo Include="Carlton.Core.Flux.Tests" />
 		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj" />
 	</ItemGroup>
 
 

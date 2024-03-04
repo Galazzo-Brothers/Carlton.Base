@@ -13,7 +13,6 @@ using Carlton.Core.Components.Toasts;
 using Carlton.Core.Components.Checkboxes;
 using Carlton.Core.Components.Error;
 using Carlton.Core.Components.Logos;
-
 namespace Carlton.Core.Library.Lab;
 
 public static class Program

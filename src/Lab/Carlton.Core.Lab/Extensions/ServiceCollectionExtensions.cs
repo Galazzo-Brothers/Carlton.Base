@@ -1,7 +1,7 @@
 ﻿using Carlton.Core.Lab.State;
-using Carlton.Core.Flux.Debug.Extensions;
 using Carlton.Core.Flux.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Carlton.Core.Flux.Debug.Extensions;
 namespace Carlton.Core.Lab.Extensions;
 
 public static class ServiceCollectionExtensions

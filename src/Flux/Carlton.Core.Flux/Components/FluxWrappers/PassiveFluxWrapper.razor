@@ -1,5 +1,6 @@
 ﻿@using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
+@using System.Diagnostics.Contracts
 @namespace Carlton.Core.Flux.Components
 @typeparam TState
 @typeparam TViewModel
@@ -18,9 +19,9 @@ else
 @code {
     [Parameter]
     public TViewModel PassiveViewModel { get; set; }
-
-    protected override Task<TViewModel> GetViewModel()
+    
+    protected override Task<Result<TViewModel, ViewModelFluxError>> GetViewModel()
     {
-        return Task.FromResult(PassiveViewModel);
+        return Task.FromResult((Result<TViewModel, ViewModelFluxError>)PassiveViewModel);
     }
 }
