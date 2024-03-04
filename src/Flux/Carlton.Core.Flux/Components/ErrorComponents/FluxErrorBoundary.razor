@@ -26,11 +26,11 @@ else
 
     protected override Task OnErrorAsync(Exception exception)
     {
-        if (exception is ViewModelFluxException vmEx)
+        if (exception is ViewModelQueryException vmEx)
         {
             ErrorPromptModel = ErrorPromptModelBuilder.GetErrorPromptModel(vmEx.Error, base.Recover);
         }
-        else if (exception is MutationCommandFluxException cmdEx)
+        else if (exception is MutationCommandException cmdEx)
         {
             ErrorPromptModel = ErrorPromptModelBuilder.GetErrorPromptModel(cmdEx.Error, base.Recover);
         }

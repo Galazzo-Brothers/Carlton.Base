@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels;
+﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
+
+namespace Carlton.Core.Flux.Handlers;
 
 public class ViewModelQueryHandler<TState>(IFluxState<TState> _state, IViewModelMapper<TState> _mapper) : IViewModelQueryHandler<TState>
 {

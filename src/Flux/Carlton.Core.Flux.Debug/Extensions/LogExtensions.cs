@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Flux.Models;
+﻿using Carlton.Core.Flux.Dispatchers;
+
 namespace Carlton.Core.Flux.Debug.Extensions;
 
 public static class LogExtensions

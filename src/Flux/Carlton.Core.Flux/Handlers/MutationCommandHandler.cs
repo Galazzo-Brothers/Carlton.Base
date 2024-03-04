@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.Mutations;
+﻿using Carlton.Core.Flux.Dispatchers.Mutations;
+
+namespace Carlton.Core.Flux.Handlers;
 
 public class MutationCommandHandler<TState>(
     IMutableFluxState<TState> _state,

@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Errors;
-namespace Carlton.Core.Flux.Dispatchers.ViewModels;
+namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelExceptionDecorator<TState>(
     IViewModelQueryDispatcher<TState> _decorated,
@@ -30,11 +30,11 @@ public class ViewModelExceptionDecorator<TState>(
         // Return a specific error based on the exception type
         return ex switch
         {
-            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<TViewModel, ViewModelFluxError>)new FluxViewModelErrors.HttpUrlError(typeof(TViewModel)),
+            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<TViewModel, ViewModelFluxError>)new ViewModelQueryErrors.HttpUrlError(typeof(TViewModel)),
             JsonException => (Result<TViewModel, ViewModelFluxError>)new JsonError(typeof(TViewModel)),
             NotSupportedException when ex.Message.Contains("Serialization and deserialization") => (Result<TViewModel, ViewModelFluxError>)new JsonError(typeof(TViewModel)),
-            HttpRequestException => (Result<TViewModel, ViewModelFluxError>)new FluxViewModelErrors.HttpError(typeof(TViewModel)),
-            _ => (Result<TViewModel, ViewModelFluxError>)new FluxViewModelErrors.UnhandledError(typeof(TViewModel)),
+            HttpRequestException => (Result<TViewModel, ViewModelFluxError>)new ViewModelQueryErrors.HttpError(typeof(TViewModel)),
+            _ => (Result<TViewModel, ViewModelFluxError>)new ViewModelQueryErrors.UnhandledError(typeof(TViewModel)),
         };
     }
 }

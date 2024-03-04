@@ -5,9 +5,9 @@ using Carlton.Core.Flux.Tests.Common;
 
 namespace Carlton.Core.Flux.Tests.ComponentTests;
 
-[ObserveStateEvents("TestEvent")]
-[ObserveStateEvents("TestEvent2")]
-[ObserveStateEvents("TestEvent3")]
+[ObserveStateEvent("TestEvent")]
+[ObserveStateEvent("TestEvent2")]
+[ObserveStateEvent("TestEvent3")]
 public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 {
     public async Task RaiseComponentEvent(TestCommand1 command)

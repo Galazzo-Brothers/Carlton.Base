@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Errors;
-namespace Carlton.Core.Flux.Dispatchers.Mutations;
+namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 
 public class MutationExceptionDecorator<TState>(
     IMutationCommandDispatcher<TState> _decorated,
@@ -34,9 +34,9 @@ public class MutationExceptionDecorator<TState>(
         // Return a specific error based on the exception type
         return ex switch
         {
-            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<MutationCommandResult, MutationCommandFluxError>)new FluxMutationCommandErrors.HttpUrlError(typeof(TViewModel)),
-            JsonException or HttpRequestException => (Result<MutationCommandResult, MutationCommandFluxError>)new FluxMutationCommandErrors.HttpError(typeof(TViewModel)),
-            _ => (Result<MutationCommandResult, MutationCommandFluxError>)new FluxMutationCommandErrors.UnhandledError(typeof(TViewModel)),
+            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandErrors.HttpUrlError(typeof(TViewModel)),
+            JsonException or HttpRequestException => (Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandErrors.HttpError(typeof(TViewModel)),
+            _ => (Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandErrors.UnhandledError(typeof(TViewModel)),
         };
     }
 }

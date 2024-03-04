@@ -1,8 +1,8 @@
 ﻿@using Carlton.Core.Components.Buttons
 @using Carlton.Core.Components.Consoles
 @namespace Carlton.Core.Lab.Components
-@attribute [ObserveStateEvents("EventRecorded")]
-@attribute [ObserveStateEvents("EventsCleared")]
+@attribute [ObserveStateEvent("EventRecorded")]
+@attribute [ObserveStateEvent("EventsCleared")]
 @inherits BaseConnectedComponent<EventConsoleViewModel>
 
 <div class="event-console">

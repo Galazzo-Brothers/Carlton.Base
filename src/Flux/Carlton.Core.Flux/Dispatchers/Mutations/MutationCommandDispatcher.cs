@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Dispatchers;
+﻿namespace Carlton.Core.Flux.Dispatchers.Mutations;
 
 public class MutationCommandDispatcher<TState>(IServiceProvider serviceProvider) : IMutationCommandDispatcher<TState>
 {

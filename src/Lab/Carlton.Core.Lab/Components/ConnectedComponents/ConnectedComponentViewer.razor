@@ -2,8 +2,8 @@
 @using Carlton.Core.Components.Dropdowns
 @using Carlton.Core.Components.DynamicComponents
 @using Carlton.Core.Lab.Models.Commands
-@attribute [ObserveStateEvents("MenuItemSelected")]
-@attribute [ObserveStateEvents("ParametersUpdated")]
+@attribute [ObserveStateEvent("MenuItemSelected")]
+@attribute [ObserveStateEvent("ParametersUpdated")]
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
 
 <DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"

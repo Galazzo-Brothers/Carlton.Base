@@ -8,7 +8,7 @@ internal static class ResultExtensions
         return result.Match
                (
                    vm => vm,
-                   err => throw new ViewModelFluxException(err)
+                   err => throw new ViewModelQueryException(err)
                );
     }
 
@@ -17,7 +17,7 @@ internal static class ResultExtensions
         return result.Match
                (
                    r => r,
-                   err => throw new MutationCommandFluxException(err)
+                   err => throw new MutationCommandException(err)
                );
     }
 }
