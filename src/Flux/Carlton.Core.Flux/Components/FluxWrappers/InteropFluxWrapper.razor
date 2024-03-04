@@ -1,8 +1,8 @@
 ﻿@using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
 @namespace Carlton.Core.Flux.Components
-@typeparam TViewModel
 @typeparam TState
+@typeparam TViewModel
 @inherits FluxWrapper<TState, TViewModel>
 @inject IJSRuntime JsRuntime;
 @inject ILogger<InteropFluxComponent<TViewModel, TState>> Logger;

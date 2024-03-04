@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Rendering;
 using Carlton.Core.Flux.Attributes;
 using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Tests.Common;
-
 namespace Carlton.Core.Flux.Tests.ComponentTests;
 
 [ObserveStateEvent("TestEvent")]

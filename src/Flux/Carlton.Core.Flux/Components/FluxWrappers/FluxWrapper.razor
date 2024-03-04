@@ -63,10 +63,10 @@ else
         return await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None);
     }
 
-    protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
+    protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        (await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None))
-            .GetMutationResultOrThrow();
+        return (await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None))
+                                 .GetMutationResultOrThrow();
     }
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
