@@ -15,6 +15,15 @@ public static class DispatcherExtensions
         .Returns(Task.FromResult((Result<TestViewModel, ViewModelFluxError>) vm));
     }
 
+    public static void SetupMutationDispatcher(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
+    {
+        dispatcher.Dispatch(
+         Arg.Any<object>(),
+         Arg.Is<MutationCommandContext<object>>(context => context.MutationCommand.Equals(command)),
+         Arg.Any<CancellationToken>())
+        .Returns(Task.FromResult((Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandResult()));
+    }
+
     public static void VerifyQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
     {
         dispatcher.Received(receivedNumCalls).Dispatch(

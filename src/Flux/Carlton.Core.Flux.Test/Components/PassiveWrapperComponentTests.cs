@@ -1,13 +1,13 @@
-﻿using System.Reflection;
+﻿using Carlton.Core.Flux.Components;
+using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Tests.ComponentTests;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Tests.Common;
-using Carlton.Core.Flux.Tests.Common.Extensions;
-namespace Carlton.Core.Flux.Tests.ComponentTests;
+using System.Reflection;
+namespace Carlton.Core.Flux.Tests.Components;
 
-public class ConnectedWrapperComponentTests : TestContext
+public class PassiveWrapperComponentTests : TestContext
 {
     private readonly IViewModelQueryDispatcher<TestState> _mockQueryDispatcher;
     private readonly IMutationCommandDispatcher<TestState> _mockCommandDispatcher;
@@ -15,7 +15,7 @@ public class ConnectedWrapperComponentTests : TestContext
     private readonly ILogger<FluxWrapper<TestState, TestViewModel>> _mockLogger;
 
     //Arrange
-    public ConnectedWrapperComponentTests()
+    public PassiveWrapperComponentTests()
     {
         //Create Mocks
         _mockQueryDispatcher = Substitute.For<IViewModelQueryDispatcher<TestState>>();
@@ -31,9 +31,8 @@ public class ConnectedWrapperComponentTests : TestContext
         Services.AddSingleton(_mockLogger);
     }
 
-
     [Theory, AutoData]
-    public void ConnectedWrapper_RendersCorrectly(TestViewModel vm)
+    public void PassiveWrapper_RendersCorrectly(TestViewModel vm)
     {
         //Arrange
         var expectedMarkup = @$"
@@ -47,33 +46,31 @@ public class ConnectedWrapperComponentTests : TestContext
         _mockQueryDispatcher.SetupQueryDispatcher(vm);
 
         // Act
-        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+            parameters => parameters.Add(p => p.PassiveViewModel, vm));
 
         // Assert
         cut.MarkupMatches(expectedMarkup);
     }
 
     [Theory, AutoData]
-    public void ConnectedWrapper_InitializesCorrectly(TestViewModel vm)
+    public void PassiveWrapper_InitializesCorrectly(TestViewModel vm)
     {
-        //Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-
         // Act
-        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+          parameters => parameters.Add(p => p.PassiveViewModel, vm));
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(1);
+        cut.Instance.ViewModel.ShouldBe(vm);
     }
 
-
     [Theory, AutoData]
-    public async Task ConnectedWrapper_OnComponentEvent_CallsMutationDispatcher(TestViewModel vm, TestCommand1 command)
+    public async Task PassiveWrapper_OnComponentEvent_CallsMutationDispatcher(TestViewModel vm, TestCommand1 command)
     {
         //Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-
-        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        _mockCommandDispatcher.SetupMutationDispatcher(command);
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+            parameters => parameters.Add(p => p.PassiveViewModel, vm));
         var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
 
         // Act
@@ -84,13 +81,11 @@ public class ConnectedWrapperComponentTests : TestContext
     }
 
     [Theory, AutoData]
-    public void ConnectedWrapper_ObservableStateEvents_InitializeCorrectly(TestViewModel vm)
+    public void PassiveWrapper_ObservableStateEvents_InitializeCorrectly(TestViewModel vm)
     {
-        //Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-
         // Act
-        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+            parameters => parameters.Add(p => p.PassiveViewModel, vm));
 
         // Assert
         Assert.Collection(cut.Instance.ObservableStateEvents,
@@ -101,65 +96,51 @@ public class ConnectedWrapperComponentTests : TestContext
     }
 
     [Theory, AutoData]
-    public void ConnectedWrapper_OnStateChangeTestEvent_CallsViewModelDispatcher(
-        TestViewModel vm)
+    public void PassiveWrapper_OnStateChangeTestEvent_DoesNotCallViewModelDispatcher(TestViewModel vm)
     {
         // Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-        RenderComponent<FluxWrapper<TestState, TestViewModel>>();
-        var expectedTimes = 2; //Once for the component init and once again for the state change
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+           parameters => parameters.Add(p => p.PassiveViewModel, vm));
 
         //Act
         _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
+        _mockQueryDispatcher.DidNotReceive().Dispatch(
+            Arg.Any<object>(),
+            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+            Arg.Any<CancellationToken>());
     }
 
     [Theory, AutoData]
-    public void ConnectedWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(
+    public void PassiveWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(
         TestViewModel vm)
     {
         // Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-        RenderComponent<FluxWrapper<TestState, TestViewModel>>();
-        var expectedTimes = 1; //One and only time for the component init
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+           parameters => parameters.Add(p => p.PassiveViewModel, vm));
 
         //Act
         _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("Some not relevant event"));
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
+        _mockQueryDispatcher.DidNotReceive().Dispatch(
+             Arg.Any<object>(),
+             Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+             Arg.Any<CancellationToken>());
     }
 
     [Theory, AutoData]
-    public void ConnectedWrapper_DisposesCorrectly(TestViewModel vm)
+    public void PassiveWrapper_LoadingContent(TestViewModel vm)
     {
         //Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-        RenderComponent<FluxWrapper<TestState, TestViewModel>>();
-        var expectedTimes = 1; //One and only time for the component init, event handler removed correctly during dispose
-        DisposeComponents();
-
-        //Act
-        _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
-
-        // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
-    }
-
-    [Theory, AutoData]
-    public void ConnectedWrapper_LoadingContent(TestViewModel vm)
-    {
-        //Arrange
-        _mockQueryDispatcher.SetupQueryDispatcher(vm);
-
         var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
         var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
             .GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>(parameters => parameters
-            .Add(p => p.SpinnerContent, spinnerMarkup));
+        var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
+          parameters => parameters.Add(p => p.PassiveViewModel, vm)
+                                  .Add(p => p.SpinnerContent, spinnerMarkup));
 
         //Act
         propInfo.SetValue(cut.Instance, true);
@@ -169,5 +150,3 @@ public class ConnectedWrapperComponentTests : TestContext
         cut.MarkupMatches(spinnerMarkup);
     }
 }
-
-
