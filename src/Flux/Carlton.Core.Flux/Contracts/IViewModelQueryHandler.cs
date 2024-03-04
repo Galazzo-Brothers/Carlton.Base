@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Contracts;
+﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
+
+namespace Carlton.Core.Flux.Contracts;
 
 public interface IViewModelQueryHandler<TState> 
 {

@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Errors;
 
-public static class FluxMutationCommandErrors
+public static class MutationCommandErrors
 {
     public record MutationCommandFluxError(string Message, int ErrorCode, Type MutationCommandType);
 

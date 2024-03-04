@@ -1,12 +1,12 @@
 ﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @namespace Carlton.Core.Flux.Debug.Components
-@attribute [ObserveStateEvents("SelectedLogMessageChanged")]
-@attribute [ObserveStateEvents("LogsCleared")]
-@attribute [ObserveStateEvents("EventLogLevelFiltersChanged")]
-@attribute [ObserveStateEvents("EventLogFilterTextChanged")]
-@attribute [ObserveStateEvents("EventLogRowsPerPageChanged")]
-@attribute [ObserveStateEvents("EventLogPageChanged")]
-@attribute [ObserveStateEvents("EventLogTableOrderingChanged")]
+@attribute [ObserveStateEvent("SelectedLogMessageChanged")]
+@attribute [ObserveStateEvent("LogsCleared")]
+@attribute [ObserveStateEvent("EventLogLevelFiltersChanged")]
+@attribute [ObserveStateEvent("EventLogFilterTextChanged")]
+@attribute [ObserveStateEvent("EventLogRowsPerPageChanged")]
+@attribute [ObserveStateEvent("EventLogPageChanged")]
+@attribute [ObserveStateEvent("EventLogTableOrderingChanged")]
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
 <EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 

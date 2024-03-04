@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using Carlton.Core.Flux.Attributes;
 using Carlton.Core.Flux.Handlers.Base;
-namespace Carlton.Core.Flux.Dispatchers.ViewModels;
+namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelHttpDecorator<TState>(
     IViewModelQueryDispatcher<TState> _decorated, HttpClient _client, IMutableFluxState<TState> _state)

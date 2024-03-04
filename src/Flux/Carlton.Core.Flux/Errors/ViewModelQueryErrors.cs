@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Errors;
 
-public static class FluxViewModelErrors
+public static class ViewModelQueryErrors
 {
     public record ViewModelFluxError(string Message, int ErrorCode, Type ViewModelType);
 

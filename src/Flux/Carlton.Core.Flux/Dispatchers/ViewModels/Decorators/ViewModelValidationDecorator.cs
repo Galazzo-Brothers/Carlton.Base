@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels;
+﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelValidationDecorator<TState>(IViewModelQueryDispatcher<TState> _decorated) : IViewModelQueryDispatcher<TState>
 {
@@ -11,7 +11,7 @@ public class ViewModelValidationDecorator<TState>(IViewModelQueryDispatcher<TSta
         //Log Here
         var validationString = string.Join(Environment.NewLine, validationErrors.Select(result => result));
         if (!isValid)
-            return Task.FromResult((Result<TViewModel, ViewModelFluxError>)new Errors.FluxViewModelErrors.ValidationError(typeof(TViewModel), validationErrors));
+            return Task.FromResult((Result<TViewModel, ViewModelFluxError>)new Errors.ViewModelQueryErrors.ValidationError(typeof(TViewModel), validationErrors));
 
         return vm;
     }

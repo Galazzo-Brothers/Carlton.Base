@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Dispatchers.Mutations;
-using Carlton.Core.Flux.Models;
+using Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 using Carlton.Core.Flux.Tests.Common;
 using Carlton.Core.Foundation.Test;
 using Microsoft.Extensions.Logging;

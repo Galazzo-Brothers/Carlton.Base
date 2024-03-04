@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Models;
+﻿namespace Carlton.Core.Flux.Dispatchers.Mutations;
 
 public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
@@ -10,7 +10,7 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
     internal void MarkAsSucceeded(string stateEvent)
     {
         ResultingStateEvent = stateEvent;
-        base.MarkAsSucceeded();
+        MarkAsSucceeded();
     }
 
     //Most uses of this context involve passing a

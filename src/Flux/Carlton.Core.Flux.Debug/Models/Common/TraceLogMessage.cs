@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Flux.Models;
+﻿using Carlton.Core.Flux.Dispatchers;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.Models.Common;
 

@@ -6,7 +6,7 @@ internal class ErrorPromptModelBuilder
     {
         return error switch
         {
-            Errors.FluxViewModelErrors.ValidationError validationError => new ErrorPromptModel
+            Errors.ViewModelQueryErrors.ValidationError validationError => new ErrorPromptModel
                                         (
                                             "Error",
                                             validationError.Message,
@@ -27,7 +27,7 @@ internal class ErrorPromptModelBuilder
     {
         return error switch
         {
-            Errors.FluxMutationCommandErrors.ValidationError validationError => new ErrorPromptModel
+            Errors.MutationCommandErrors.ValidationError validationError => new ErrorPromptModel
                                         (
                                             "Error",
                                             validationError.Message,

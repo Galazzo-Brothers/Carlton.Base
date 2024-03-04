@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
-namespace Carlton.Core.Flux.Models;
+namespace Carlton.Core.Flux.Dispatchers;
 
 public abstract class BaseRequestContext
 {
@@ -58,7 +58,7 @@ public record RequestCompletionContext
         Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
     }
 
-    internal RequestCompletionContext(Stopwatch stopwatch) 
+    internal RequestCompletionContext(Stopwatch stopwatch)
     {
         RequestEndTimestamp = DateTimeOffset.UtcNow;
         stopwatch.Stop();
