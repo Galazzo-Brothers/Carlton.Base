@@ -2,7 +2,7 @@
 
 internal class ErrorPromptModelBuilder
 {
-    public static ErrorPromptModel GetErrorPromptModel(ViewModelFluxError error, Action recoverAct)
+    public static ErrorPromptModel GetErrorPromptModel(ViewModelQueryError error, Action recoverAct)
     {
         return error switch
         {
@@ -23,7 +23,7 @@ internal class ErrorPromptModelBuilder
         };
     }
 
-    public static ErrorPromptModel GetErrorPromptModel(MutationCommandFluxError error, Action recoverAct)
+    public static ErrorPromptModel GetErrorPromptModel(MutationCommandError error, Action recoverAct)
     {
         return error switch
         {

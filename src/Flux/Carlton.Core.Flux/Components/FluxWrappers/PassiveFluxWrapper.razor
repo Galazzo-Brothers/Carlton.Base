@@ -20,8 +20,8 @@ else
     [Parameter]
     public TViewModel PassiveViewModel { get; set; }
     
-    protected override Task<Result<TViewModel, ViewModelFluxError>> GetViewModel()
+    protected override Task<TViewModel> GetViewModel()
     {
-        return Task.FromResult((Result<TViewModel, ViewModelFluxError>)PassiveViewModel);
+        return Task.FromResult(PassiveViewModel);
     }
 }

@@ -27,13 +27,14 @@ else
     [Parameter]
     public object[] JsParameters { get; set; }
 
-    protected override async Task<Result<TViewModel, ViewModelFluxError>> GetViewModel()
+    protected override async Task<TViewModel> GetViewModel()
     {
         var vmType = typeof(TViewModel).GetDisplayName();
         using (Logger.BeginScope(FluxLogs.BeginJsInteropLoggingScopes(Logger, JsModule, JsFunction, JsParameters)))
         {
             try
             {
+                throw new JSException("error");
                 await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(Import, JsModule);
                 var result = await module.InvokeAsync<TViewModel>(JsFunction, CancellationToken.None, JsParameters);
                 Logger.ViewModelJsInteropQueryCompleted(vmType);
@@ -42,7 +43,7 @@ else
             catch (JSException ex)
             {
                 Logger.ViewModelJsInteropQueryErrored(ex, vmType);
-                return new JsInteropError(typeof(TViewModel));
+                throw;
             }
         }
     }

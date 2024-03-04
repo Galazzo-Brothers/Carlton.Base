@@ -8,7 +8,7 @@ public class ViewModelHttpDecorator<TState>(
     IViewModelQueryDispatcher<TState> _decorated, HttpClient _client, IMutableFluxState<TState> _state)
     : BaseHttpDecorator<TState>(_client, _state), IViewModelQueryDispatcher<TState>
 {
-    public Task<Result<TViewModel, ViewModelFluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+    public Task<Result<TViewModel, ViewModelQueryError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
         //Get RefreshPolicy Attribute
         var attributes = sender.GetType().GetCustomAttributes();

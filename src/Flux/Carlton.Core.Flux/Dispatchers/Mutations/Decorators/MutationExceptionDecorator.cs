@@ -6,7 +6,7 @@ public class MutationExceptionDecorator<TState>(
     ILogger<MutationExceptionDecorator<TState>> _logger)
     : IMutationCommandDispatcher<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandFluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, MutationCommandError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         using (_logger.BeginMutationCommandRequestLoggingScopes(context))
         {
@@ -24,7 +24,7 @@ public class MutationExceptionDecorator<TState>(
         }
     }
 
-    private Result<MutationCommandResult, MutationCommandFluxError> HandleException<TViewModel, TException>(TException ex, MutationCommandContext<TViewModel> context)
+    private Result<MutationCommandResult, MutationCommandError> HandleException<TViewModel, TException>(TException ex, MutationCommandContext<TViewModel> context)
           where TException : Exception
     {
         context.MarkAsErrored(ex);
@@ -34,9 +34,9 @@ public class MutationExceptionDecorator<TState>(
         // Return a specific error based on the exception type
         return ex switch
         {
-            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandErrors.HttpUrlError(typeof(TViewModel)),
-            JsonException or HttpRequestException => (Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandErrors.HttpError(typeof(TViewModel)),
-            _ => (Result<MutationCommandResult, MutationCommandFluxError>)new MutationCommandErrors.UnhandledError(typeof(TViewModel)),
+            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<MutationCommandResult, MutationCommandError>)new MutationCommandErrors.HttpUrlError(typeof(TViewModel)),
+            JsonException or HttpRequestException => (Result<MutationCommandResult, MutationCommandError>)new MutationCommandErrors.HttpError(typeof(TViewModel)),
+            _ => (Result<MutationCommandResult, MutationCommandError>)new MutationCommandErrors.UnhandledError(typeof(TViewModel)),
         };
     }
 }

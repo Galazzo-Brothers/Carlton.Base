@@ -1,10 +1,9 @@
 ﻿using Carlton.Core.Flux.Components;
 using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Tests.ComponentTests;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
-namespace Carlton.Core.Flux.Tests.Components;
+namespace Carlton.Core.Flux.Tests.Components.FluxWrappers;
 
 public class InteropWrapperComponentTests : TestContext
 {
@@ -211,7 +210,7 @@ public class InteropWrapperComponentTests : TestContext
         //Arrange
         var moduleInterop = JSInterop.SetupModule(moduleName);
         moduleInterop.Setup<TestViewModel>(functionName, jsParameters).SetResult(vm);
-     
+
         var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
         var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
             .GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.NonPublic);

@@ -6,7 +6,7 @@ public class ViewModelExceptionDecorator<TState>(
     ILogger<ViewModelExceptionDecorator<TState>> _logger)
     : IViewModelQueryDispatcher<TState>
 {
-    public async Task<Result<TViewModel, ViewModelFluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+    public async Task<Result<TViewModel, ViewModelQueryError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
         try
         {
@@ -20,7 +20,7 @@ public class ViewModelExceptionDecorator<TState>(
         }
     }
 
-    private Result<TViewModel, ViewModelFluxError> HandleException<TViewModel, TException>(TException ex, ViewModelQueryContext<TViewModel> context)
+    private Result<TViewModel, ViewModelQueryError> HandleException<TViewModel, TException>(TException ex, ViewModelQueryContext<TViewModel> context)
         where TException : Exception
     {
         context.MarkAsErrored(ex);
@@ -30,11 +30,11 @@ public class ViewModelExceptionDecorator<TState>(
         // Return a specific error based on the exception type
         return ex switch
         {
-            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<TViewModel, ViewModelFluxError>)new ViewModelQueryErrors.HttpUrlError(typeof(TViewModel)),
-            JsonException => (Result<TViewModel, ViewModelFluxError>)new JsonError(typeof(TViewModel)),
-            NotSupportedException when ex.Message.Contains("Serialization and deserialization") => (Result<TViewModel, ViewModelFluxError>)new JsonError(typeof(TViewModel)),
-            HttpRequestException => (Result<TViewModel, ViewModelFluxError>)new ViewModelQueryErrors.HttpError(typeof(TViewModel)),
-            _ => (Result<TViewModel, ViewModelFluxError>)new ViewModelQueryErrors.UnhandledError(typeof(TViewModel)),
+            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<TViewModel, ViewModelQueryError>)new ViewModelQueryErrors.HttpUrlError(typeof(TViewModel)),
+            JsonException => (Result<TViewModel, ViewModelQueryError>)new JsonError(typeof(TViewModel)),
+            NotSupportedException when ex.Message.Contains("Serialization and deserialization") => (Result<TViewModel, ViewModelQueryError>)new JsonError(typeof(TViewModel)),
+            HttpRequestException => (Result<TViewModel, ViewModelQueryError>)new ViewModelQueryErrors.HttpError(typeof(TViewModel)),
+            _ => (Result<TViewModel, ViewModelQueryError>)new ViewModelQueryErrors.UnhandledError(typeof(TViewModel)),
         };
     }
 }
