@@ -1,5 +1,4 @@
 using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Tests.Common;
 using Carlton.Core.Foundation.Test;
 using Carlton.Core.Components.Flux.Tests.Common.Extensions;
 using Carlton.Core.Flux.Test.Common.Extensions;
@@ -22,11 +21,11 @@ public class ViewModelQueryDispatcherTests
         handler.SetupHandler(expectedViewModel);
 
         //Act
-      //  var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
+        var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
 
         //Assert
         handler.VerifyHandler<TestViewModel>();
-     //   result.ShouldBe(expectedViewModel);
+        result.Match(vm => vm, err => throw new Exception()).ShouldBe(expectedViewModel);
     }
 }
 
