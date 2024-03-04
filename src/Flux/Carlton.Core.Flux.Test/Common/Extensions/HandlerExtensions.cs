@@ -16,7 +16,7 @@ public static class HandlerExtensions
     public static void SetupHandler<T>(this IMutationCommandHandler<TestState> handler)
     {
         handler.Handle(Arg.Any<MutationCommandContext<T>>(), Arg.Any<CancellationToken>())
-               .Returns(Task.CompletedTask);
+               .Returns(Task.FromResult((Result<MutationCommandResult, MutationCommandError>)new MutationCommandResult()));
     }
 
     public static void VerifyHandler<TViewModel>(this IViewModelQueryHandler<TestState> handler)
