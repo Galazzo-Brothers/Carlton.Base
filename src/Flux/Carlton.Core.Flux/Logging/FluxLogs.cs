@@ -19,7 +19,7 @@ public static class FluxLogs
     public const string EventIdScope = "EventId:{@EventId}";
     public const string StateEventScope = "StateEvent:{@StateEvent}";
     public const string RequestErrored = "RequestErrored:{@RequestErrored}";
-    public const string JsModlue = "JsModule:{@JsModule}";
+    public const string JsModule = "JsModule:{@JsModule}";
     public const string JsFunction = "JsFunction:{@JsFunction}";
     public const string JsParameters = "JsParameters:{@JsParameters}";
 
@@ -77,17 +77,17 @@ public static class FluxLogs
     {
         return new CompositeDisposable
         (
-            logger.BeginScope(JsModlue, jsModule),
+            logger.BeginScope(JsModule, jsModule),
             logger.BeginScope(JsFunction, jsFunction),
             logger.BeginScope(JsParameters, jsParameters)
         );
     }
 
-    public static IDisposable BeginRequestExceptionLoggingScopes(this ILogger logger, FluxException exception)
+    public static IDisposable BeginRequestExceptionLoggingScopes(this ILogger logger)
     {
         return new CompositeDisposable
         (
-            logger.BeginScope(EventIdScope, exception.EventId),
+          // logger.BeginScope(EventIdScope, eventId),
             logger.BeginScope(RequestErrored, true)
         );
     }
@@ -101,7 +101,7 @@ public static class FluxLogs
         );
     }
 
-    public static IDisposable BeginFluxComponentEventRecievedLoggingScopes(this ILogger logger, string stateEvent)
+    public static IDisposable BeginFluxComponentEventReceivedLoggingScopes(this ILogger logger, string stateEvent)
     {
         return new CompositeDisposable
         (

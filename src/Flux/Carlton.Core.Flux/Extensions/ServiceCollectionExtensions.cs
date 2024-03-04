@@ -1,7 +1,6 @@
 ﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Exceptions.ExceptionHandling;
-using Carlton.Core.Flux.Handlers.Mutations;
-using Carlton.Core.Flux.Handlers.ViewModels;
+using Carlton.Core.Flux.Dispatchers.Mutations;
+using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Flux.State;
 using Carlton.Core.Utilities.Logging;
 
@@ -25,9 +24,6 @@ public static class ServiceCollectionExtensions
     {
         /*Register Logging*/
         RegisterLogging(services);
-
-        /*Exception Handling*/
-        RegisterExceptionHandling(services);
     }
 
     private static void RegisterLogging(IServiceCollection services)
@@ -40,12 +36,6 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddSingleton<ILogger, MemoryLogger>();
-    }
-
-    private static void RegisterExceptionHandling(IServiceCollection services)
-    {
-        services.AddSingleton<IFluxExceptionDisplayService, FluxExceptionDisplayService>();
-        services.AddSingleton<IComponentExceptionLoggingService, ComponentExceptionLoggingService>();
     }
 
     private static void RegisterStateSpecificFluxDependencies<TState>(IServiceCollection services, TState state) 

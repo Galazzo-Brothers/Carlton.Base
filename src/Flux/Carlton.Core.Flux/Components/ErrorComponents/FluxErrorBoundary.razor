@@ -1,0 +1,52 @@
+﻿@using Carlton.Core.Flux.Components.ErrorComponents
+@namespace Carlton.Core.Flux.Components
+@inherits ErrorBoundary
+@inject ILogger<FluxErrorBoundary> Logger
+
+@if (ShowErrorContent)
+{
+    @ErrorPrompt(ErrorPromptModel)
+}
+
+else
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter]
+    public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
+
+    //hide the ErrorContent in favor of the new ErrorPrompt
+    private new RenderFragment<Exception> ErrorContent { get; set; }
+
+    private bool ShowErrorContent { get => base.CurrentException != null; }
+
+    private ErrorPromptModel ErrorPromptModel { get; set; }
+
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        if (exception is ViewModelFluxException vmEx)
+        {
+            ErrorPromptModel = ErrorPromptModelBuilder.GetErrorPromptModel(vmEx.Error, base.Recover);
+        }
+        else if (exception is MutationCommandFluxException cmdEx)
+        {
+            ErrorPromptModel = ErrorPromptModelBuilder.GetErrorPromptModel(cmdEx.Error, base.Recover);
+        }
+        else
+        {
+            //This is not a flux related error.
+            //It is an error that has occurred during rendering
+            Logger.LogError(exception, "An exception has occurred while rendering a flux component");
+            ErrorPromptModel = ErrorPromptModelBuilder.FriendlyErrorPrompt(base.Recover);
+        }
+
+        return base.OnErrorAsync(exception);
+    }
+}
+
+
+
+
+

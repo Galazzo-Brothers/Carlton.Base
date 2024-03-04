@@ -4,9 +4,9 @@ public class MutationCommandDispatcher<TState>(IServiceProvider serviceProvider)
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
-    public async Task Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, MutationCommandFluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         var handler = _serviceProvider.GetRequiredService<IMutationCommandHandler<TState>>();
-        await handler.Handle(context, cancellationToken);
+        return await handler.Handle(context, cancellationToken);
     }
 }

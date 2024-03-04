@@ -27,7 +27,7 @@ else
     [Parameter]
     public object[] JsParameters { get; set; }
 
-    protected override async Task<TViewModel> GetViewModel()
+    protected override async Task<Result<TViewModel, ViewModelFluxError>> GetViewModel()
     {
         var vmType = typeof(TViewModel).GetDisplayName();
         using (Logger.BeginScope(FluxLogs.BeginJsInteropLoggingScopes(Logger, JsModule, JsFunction, JsParameters)))
@@ -42,8 +42,11 @@ else
             catch (JSException ex)
             {
                 Logger.ViewModelJsInteropQueryErrored(ex, vmType);
-                throw ViewModelFluxException<TState, TViewModel>.JSInteropError(ex);
+                return new JsInteropError(typeof(TViewModel));
             }
         }
     }
 }
+
+
+

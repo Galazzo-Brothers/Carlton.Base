@@ -1,5 +1,6 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Models;
+using Carlton.Core.Utilities.Results;
 namespace Carlton.Core.Flux.Tests.Common.Extensions;
 
 public static class DispatcherExtensions
@@ -10,7 +11,7 @@ public static class DispatcherExtensions
          Arg.Any<object>(),
          Arg.Any<ViewModelQueryContext<TestViewModel>>(),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult(vm));
+        .Returns(Task.FromResult((Result<TestViewModel, ViewModelFluxError>) vm));
     }
 
     public static void VerifyQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)

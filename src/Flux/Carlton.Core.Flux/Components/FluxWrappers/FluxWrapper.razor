@@ -1,4 +1,6 @@
-﻿@namespace Carlton.Core.Flux.Components
+﻿@using Carlton.Core.Flux.Extensions
+@using Microsoft.AspNetCore.Components.Rendering
+@namespace Carlton.Core.Flux.Components
 @typeparam TState
 @typeparam TViewModel
 @implements IDisposable
@@ -8,7 +10,6 @@
 @inject IFluxStateObserver<TState> StateObserver
 @inject ILogger<FluxWrapper<TState, TViewModel>> Logger
 
-
 @if (IsLoading)
 {
     @SpinnerContent
@@ -17,7 +18,6 @@ else
 {
     <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 }
-
 
 @code {
     [Parameter]
@@ -44,7 +44,8 @@ else
 
         //Get VM and initialize context for wrapped component
         using (Logger.BeginViewModelInitializationLoggingScopes())
-            ViewModel = await GetViewModel();
+            ViewModel = (await GetViewModel()).GetViewModelResultOrThrow<TViewModel>();
+
 
         //Gather the StateEvents this component should be listening for
         var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventsAttribute>();
@@ -57,14 +58,15 @@ else
         await base.OnInitializedAsync();
     }
 
-    protected virtual async Task<TViewModel> GetViewModel()
+    protected virtual async Task<Result<TViewModel, ViewModelFluxError>> GetViewModel()
     {
         return await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None);
     }
 
     protected async Task OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None);
+        (await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None))
+            .GetMutationResultOrThrow();
     }
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
@@ -77,8 +79,8 @@ else
         IsLoading = true;
 
         //Refresh ViewModel
-        using (Logger.BeginFluxComponentEventRecievedLoggingScopes(args.StateEvent))
-            ViewModel = await GetViewModel();
+        using (Logger.BeginFluxComponentEventReceivedLoggingScopes(args.StateEvent))
+            ViewModel = (await GetViewModel()).GetViewModelResultOrThrow<TViewModel>();
 
         //Set loading false
         IsLoading = false;

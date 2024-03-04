@@ -1,10 +1,8 @@
-﻿@namespace Carlton.Core.Flux.Components
+﻿@using Carlton.Core.Flux.Components.ErrorComponents
+@namespace Carlton.Core.Flux.Components
 @typeparam TState
 @typeparam TViewModel
 @inject ILogger<PassiveFluxComponent<TState, TViewModel>> Logger
-@inject IFluxExceptionDisplayService ExceptionDisplayService
-@inject IComponentExceptionLoggingService ComponentExceptionLoggingService
-
 
 <FluxErrorBoundary ErrorPrompt="ErrorPrompt">
     <ChildContent>
