@@ -1,18 +1,32 @@
 ﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 
-public class ViewModelValidationDecorator<TState>(IViewModelQueryDispatcher<TState> _decorated) : IViewModelQueryDispatcher<TState>
+public class ViewModelValidationDecorator<TState>(
+    IViewModelQueryDispatcher<TState> _decorated,
+    ILogger<ViewModelExceptionDecorator<TState>> _logger) : IViewModelQueryDispatcher<TState>
 {
-    public Task<Result<TViewModel, ViewModelQueryError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+    public async Task<Result<TViewModel, FluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        var vm = _decorated.Dispatch(sender, context, cancellationToken);
+        var vmResult = await _decorated.Dispatch(sender, context, cancellationToken);
+
+        return vmResult.Match
+        (
+            vm => ValidateViewModelResult(vm, context),
+            err => err.ToResult<TViewModel, FluxError>()
+        );  
+    }
+
+    private Result<TViewModel, FluxError> ValidateViewModelResult<TViewModel>(TViewModel vm, ViewModelQueryContext<TViewModel> context)
+    {
+        //Validate ViewModel
         var isValid = vm.TryValidate(out var validationErrors);
         context.MarkAsValidated(validationErrors);
 
-        //Log Here
-        var validationString = string.Join(Environment.NewLine, validationErrors.Select(result => result));
-        if (!isValid)
-            return Task.FromResult((Result<TViewModel, ViewModelQueryError>)new Errors.ViewModelQueryErrors.ValidationError(typeof(TViewModel), validationErrors));
+        //Continue with valid ViewModel
+        if (isValid)
+            return vm;
 
-        return vm;
+        //Log validation failures
+        _logger.ViewModelQueryValidationFailure(context.FluxOperationTypeName);
+        return new ValidationError(validationErrors, context).ToResult<TViewModel, FluxError>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Exceptions;
 
-internal class MutationCommandException(MutationCommandError error) : Exception
+internal class MutationCommandException(FluxError error) : Exception
 {
-    public MutationCommandError Error { get; } = error;
+    public FluxError Error { get; } = error;
 }

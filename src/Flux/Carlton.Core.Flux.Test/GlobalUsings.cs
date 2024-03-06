@@ -1,5 +1,4 @@
-global using static Carlton.Core.Flux.Errors.ViewModelQueryErrors;
-global using static Carlton.Core.Flux.Errors.MutationCommandErrors;
+global using static Carlton.Core.Flux.Errors.FluxErrors;
 global using AutoFixture.Xunit2;
 global using Bunit;
 global using NSubstitute;

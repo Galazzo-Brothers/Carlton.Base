@@ -3,7 +3,7 @@ using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Test.Common.Extensions;
 using Carlton.Core.Foundation.Test;
-namespace Carlton.Core.Flux.Tests.DispatcherTests;
+namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations;
 
 public class MutationCommandDispatcherTests
 {

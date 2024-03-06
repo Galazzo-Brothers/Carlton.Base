@@ -1,7 +1,6 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Flux.Handlers;
-using Carlton.Core.Flux.Tests.Common;
 using Carlton.Core.Foundation.Test;
 namespace Carlton.Core.Flux.Tests.HandlerTests;
 
@@ -19,10 +18,10 @@ public class ViewModelQueryHandlerTests
         mapper.Map<TestViewModel>(fluxState.CurrentState).Returns(expectedViewModel);
 
         //Act
-    //    var result = await sut.Handle(context, CancellationToken.None);
+       var result = await sut.Handle(context, CancellationToken.None);
 
         //Assert
-  //      result.ShouldBe(expectedViewModel);
+        result.ShouldBe(expectedViewModel);
         mapper.Received().Map<TestViewModel>(fluxState.CurrentState);
     }
 }

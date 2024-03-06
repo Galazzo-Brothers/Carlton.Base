@@ -1,6 +1,4 @@
-﻿global using static Carlton.Core.Flux.Errors.ViewModelQueryErrors;
-global using static Carlton.Core.Flux.Errors.MutationCommandErrors;
-global using System.ComponentModel.DataAnnotations;
+﻿global using static Carlton.Core.Flux.Errors.FluxErrors;
 global using System.Text.Json;
 global using System.Reflection;
 global using Microsoft.Extensions.DependencyInjection;

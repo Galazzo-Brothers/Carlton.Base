@@ -3,7 +3,7 @@ using Carlton.Core.Foundation.Test;
 using Carlton.Core.Components.Flux.Tests.Common.Extensions;
 using Carlton.Core.Flux.Test.Common.Extensions;
 using Carlton.Core.Flux.Dispatchers.ViewModels;
-namespace Carlton.Core.Flux.Tests.DispatcherTests;
+namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels;
 
 public class ViewModelQueryDispatcherTests
 {

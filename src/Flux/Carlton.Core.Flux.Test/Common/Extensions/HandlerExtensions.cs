@@ -1,7 +1,6 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Dispatchers.ViewModels;
-using Carlton.Core.Flux.Tests.Common;
 using Carlton.Core.Utilities.Results;
 namespace Carlton.Core.Flux.Test.Common.Extensions;
 
@@ -10,13 +9,13 @@ public static class HandlerExtensions
     public static void SetupHandler<T>(this IViewModelQueryHandler<TestState> handler, T response)
     {
         handler.Handle(Arg.Any<ViewModelQueryContext<T>>(), Arg.Any<CancellationToken>())
-               .Returns(Task.FromResult((Result<T, ViewModelQueryError>)response));
+               .Returns(Task.FromResult((Result<T, FluxError>)response));
     }
 
     public static void SetupHandler<T>(this IMutationCommandHandler<TestState> handler)
     {
         handler.Handle(Arg.Any<MutationCommandContext<T>>(), Arg.Any<CancellationToken>())
-               .Returns(Task.FromResult((Result<MutationCommandResult, MutationCommandError>)new MutationCommandResult()));
+               .Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult()));
     }
 
     public static void VerifyHandler<TViewModel>(this IViewModelQueryHandler<TestState> handler)

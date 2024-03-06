@@ -21,9 +21,26 @@ public static partial class LogSourceGenerators
     public static partial void ViewModelJsInteropQueryCompleted(this ILogger logger, string viewModelType);
 
     [LoggerMessage(
+        EventId = FluxLogs.ViewModel_Validation_Error,
+        Level = LogLevel.Warning,
+        Message = "Validation errors occurred processing query for ViewModel of type {ViewModelType}")]
+    public static partial void ViewModelQueryValidationFailure(this ILogger logger, string viewModelType);
+
+    [LoggerMessage(
        Level = LogLevel.Error,
        Message = "An error occurred processing query for ViewModel of type {ViewModelType}")]
     public static partial void ViewModelQueryErrored(this ILogger logger, string viewModelType, Exception ex);
+
+    [LoggerMessage(
+      Level = LogLevel.Error,
+      Message = "An error occurred processing query for ViewModel of type {ViewModelType}: {error}")]
+    public static partial void ViewModelQueryErrored(this ILogger logger, string viewModelType, FluxError error);
+
+    [LoggerMessage(
+       EventId = FluxLogs.Mutation_Validation_Error,
+       Level = LogLevel.Warning,
+       Message = "Validation errors occurred processing mutation command of type {MutationCommandType}")]
+    public static partial void MutationCommandValidationFailure(this ILogger logger, string MutationCommandType);
 
     [LoggerMessage(
        Level = LogLevel.Error,

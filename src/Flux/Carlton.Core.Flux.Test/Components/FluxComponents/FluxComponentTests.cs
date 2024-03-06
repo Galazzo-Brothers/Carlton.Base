@@ -1,5 +1,9 @@
 ﻿using Carlton.Core.Flux.Components;
 using Carlton.Core.Flux.Contracts;
+using Carlton.Core.Flux.Dispatchers.Mutations;
+using Carlton.Core.Flux.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Logging;
+using Carlton.Core.Foundation.Test;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Tests.Components.FluxComponents;
@@ -49,9 +53,10 @@ public class FluxComponentTests : TestContext
         cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory, AutoData]
+    [Theory, AutoNSubstituteData]
     public void ConnectedWrapper_RendersErrorContentCorrectly(
-        ViewModelQueryError error)
+        [Frozen] ViewModelQueryContext<TestViewModel> context,
+        Exception exception)
     {
         //Arrange
         var expectedMarkupTemplate = @"
@@ -61,8 +66,9 @@ public class FluxComponentTests : TestContext
               <span class=""message"">{2}</span>
               <button>Command Event Test</button>
             </div>";
-        _mockQueryDispatcher.SetupQueryDispatcherError(error);
-        var expectedMarkup = string.Format(expectedMarkupTemplate, "Error", "mdi-alert-circle-outline", error.Message);
+        var error = new TestError(context);
+        _mockQueryDispatcher.SetupQueryDispatcherException(exception);
+        var expectedMarkup = string.Format(expectedMarkupTemplate, "Error", "mdi-alert-circle-outline", FluxLogs.FriendlyErrorMsg);
 
         // Act
         var cut = RenderComponent<FluxComponent<TestState, TestViewModel>>(
@@ -73,10 +79,10 @@ public class FluxComponentTests : TestContext
         cut.MarkupMatches(expectedMarkup);
     }
 
-    [Theory, AutoData]
+    [Theory, AutoNSubstituteData]
     public void ConnectedWrapper_MutationError_RendersErrorContentCorrectly(
-       MutationCommandError error,
-       TestViewModel vm)
+        TestViewModel vm,
+        MutationCommandContext<TestCommand1> context)
     {
         //Arrange
         var expectedMarkupTemplate = @"
@@ -86,6 +92,9 @@ public class FluxComponentTests : TestContext
               <span class=""message"">{2}</span>
               <button>Command Event Test</button>
             </div>";
+
+
+        var error = new TestError(context);
         _mockQueryDispatcher.SetupQueryDispatcher(vm);
         _mockCommandDispatcher.SetupCommandDispatcherError(error);
         var expectedMarkup = string.Format(expectedMarkupTemplate, "Error", "mdi-alert-circle-outline", error.Message);
