@@ -66,7 +66,7 @@ public class FluxComponentTests : TestContext
               <span class=""message"">{2}</span>
               <button>Command Event Test</button>
             </div>";
-        var error = new TestError(context);
+        var error = new TestError();
         _mockQueryDispatcher.SetupQueryDispatcherException(exception);
         var expectedMarkup = string.Format(expectedMarkupTemplate, "Error", "mdi-alert-circle-outline", FluxLogs.FriendlyErrorMsg);
 
@@ -94,7 +94,7 @@ public class FluxComponentTests : TestContext
             </div>";
 
 
-        var error = new TestError(context);
+        var error = new TestError();
         _mockQueryDispatcher.SetupQueryDispatcher(vm);
         _mockCommandDispatcher.SetupCommandDispatcherError(error);
         var expectedMarkup = string.Format(expectedMarkupTemplate, "Error", "mdi-alert-circle-outline", error.Message);

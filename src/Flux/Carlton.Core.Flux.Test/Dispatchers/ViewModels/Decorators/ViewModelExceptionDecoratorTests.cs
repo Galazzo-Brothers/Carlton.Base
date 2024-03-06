@@ -39,7 +39,7 @@ public class ViewModelExceptionDecoratorTests
        ViewModelQueryContext<TestViewModel> queryContext)
     {
         //Arrange
-        var error = new TestError(queryContext);
+        var error = new TestError();
         decorated.SetupQueryDispatcherError(error);
 
         //Act 
@@ -48,7 +48,7 @@ public class ViewModelExceptionDecoratorTests
         //Assert
         result.IsSuccess.ShouldBeFalse();
         result.ShouldBe(error);
-        logger.Received().ViewModelQueryErrored(queryContext.FluxOperationTypeName, error);
+        logger.Received().ViewModelQueryErrored(queryContext.FluxOperationTypeName);
         queryContext.RequestResult.RequestSucceeded.ShouldBeFalse();
         queryContext.RequestResult.RequestEndTimestamp.ShouldBeGreaterThan(DateTimeOffset.MinValue);
     }
@@ -63,7 +63,7 @@ public class ViewModelExceptionDecoratorTests
         Exception ex)
     {
         //Arrange
-        var error = new UnhandledFluxError(ex, queryContext);
+        var error = UnhandledFluxError(ex);
         decorated.SetupQueryDispatcherException(ex);
 
         //Act 

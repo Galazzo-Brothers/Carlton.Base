@@ -1,6 +1,5 @@
 ﻿using System.Net.Http.Json;
 using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Errors;
 using Carlton.Core.Flux.Handlers.Base;
 namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 
@@ -35,7 +34,7 @@ public class ViewModelHttpDecorator<TState>(
         return await _decorated.Dispatch(sender, context, cancellationToken);
     }
 
-    private async Task<Result<TViewModel, FluxError>> GetHttpViewModel<TViewModel>(Result<string, HttpUrlConstructionError> serverUrlResult, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+    private async Task<Result<TViewModel, FluxError>> GetHttpViewModel<TViewModel>(Result<string, FluxError> serverUrlResult, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
         return await serverUrlResult.Match
         (
@@ -46,7 +45,7 @@ public class ViewModelHttpDecorator<TState>(
                     var response = await Client.GetAsync(serverUrl, cancellationToken);
 
                     if (!response.IsSuccessStatusCode)
-                        return new HttpError(HttpVerb.GET.ToString(), response.StatusCode, response, context);
+                        return HttpRequestFailedError(response);
 
                     // Deserialize the content to the specified type
                     var viewModel = await response.Content.ReadFromJsonAsync<TViewModel>(cancellationToken: cancellationToken);
@@ -56,15 +55,15 @@ public class ViewModelHttpDecorator<TState>(
                 }
                 catch (HttpRequestException ex)
                 {
-                    return new FluxErrors.HttpRequestError(ex, context);
+                    return HttpError(ex);
                 }
                 catch (JsonException ex)
                 {
-                    return new JsonError(ex, context);
+                    return JsonError(ex);
                 }
                 catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
                 {
-                    return new JsonError(ex, context);
+                    return JsonError(ex);
                 }
             },
             err => err.ToResultTask<TViewModel, FluxError>()

@@ -14,6 +14,6 @@ public class MutationValidationDecorator<TState>(IMutationCommandDispatcher<TSta
 
         //Log validation failures
         _logger.MutationCommandValidationFailure(context.FluxOperationTypeName);
-        return new ValidationError(validationErrors, context).ToResult<MutationCommandResult, FluxError>();
+        return ValidationError(validationErrors).ToResult<MutationCommandResult, FluxError>();
     }
 }
