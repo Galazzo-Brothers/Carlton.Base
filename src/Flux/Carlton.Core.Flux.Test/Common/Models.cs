@@ -1,10 +1,11 @@
 ﻿using Carlton.Core.Flux.Attributes;
 using Carlton.Core.Flux.Dispatchers;
+using Carlton.Core.Utilities.Validation;
 namespace Carlton.Core.Flux.Tests.Common;
 
 public record TestError(BaseRequestContext Context) : FluxError("This is a test", 99, Context);
 
-public record TestViewModel(int ID, string Name, string Description);
+public record TestViewModel([property: NonNegativeInteger] int ID, string Name, string Description);
 
 [HttpResponseType<MockServerResponse>]
 public record TestCommand1([property: HttpResponseProperty("ServerName")] string Name, [property: HttpResponseProperty("ServerDescription")] string Description);

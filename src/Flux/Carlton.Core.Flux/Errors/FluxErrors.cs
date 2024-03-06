@@ -11,7 +11,7 @@ public static class FluxErrors
         : FluxError($"{HttpVerb} is not a supported operation.", 1, Context);
 
     public sealed record ValidationError(IEnumerable<string> ValidationErrors, BaseRequestContext Context) 
-        : FluxError($"{FluxLogs.ViewModel_HTTP_URL_ErrorMsg} {Context.FluxOperationTypeName}", FluxLogs.Mutation_Validation_Error, Context);
+        : FluxError($"{FluxLogs.ViewModel_Validation_ErrorMsg} {Context.FluxOperationTypeName}", FluxLogs.Mutation_Validation_Error, Context);
 
     public sealed record HttpError(string HttpVerb,
         HttpStatusCode? HttpStatusCode,
