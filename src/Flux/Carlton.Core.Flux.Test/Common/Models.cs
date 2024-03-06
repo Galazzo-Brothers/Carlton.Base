@@ -1,9 +1,8 @@
 ﻿using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Dispatchers;
 using Carlton.Core.Utilities.Validation;
 namespace Carlton.Core.Flux.Tests.Common;
 
-public record TestError(BaseRequestContext Context) : FluxError("This is a test", 99, Context);
+public record TestError() : FluxError("This is a test", -1);
 
 public record TestViewModel([property: NonNegativeInteger] int ID, string Name, string Description);
 

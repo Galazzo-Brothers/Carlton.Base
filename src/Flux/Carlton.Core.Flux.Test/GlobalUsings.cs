@@ -4,6 +4,7 @@ global using Bunit;
 global using NSubstitute;
 global using Shouldly;
 global using Xunit;
+global using Carlton.Core.Flux.Errors;
 global using Carlton.Core.Flux.Tests.Common;
 global using Carlton.Core.Flux.Tests.Common.Extensions;
 global using Carlton.Core.Foundation.Tests;

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Carlton.Core.Flux.Attributes;
 using Carlton.Core.Flux.Dispatchers;
 namespace Carlton.Core.Flux.Handlers.Base;
@@ -9,7 +8,7 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
     protected HttpClient Client { get; init; } = _client;
     protected IFluxState<TState> State { get; init; } = _state;
 
-    protected Result<string, HttpUrlConstructionError> GetServerUrl(
+    protected Result<string, FluxError> GetServerUrl(
         HttpRefreshAttribute endpointAttribute,
         IEnumerable<HttpRefreshParameterAttribute> parameterAttributes,
         object sender,
@@ -27,7 +26,7 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
         return VerifyUrlParameters(result, context);
     }
    
-    private static Result<string, HttpUrlConstructionError> VerifyUrlParameters(string url, BaseRequestContext context)
+    private static Result<string, FluxError> VerifyUrlParameters(string url, BaseRequestContext context)
     {
         var isUrlWellFormed = Uri.IsWellFormedUriString(url, UriKind.Absolute);
         
@@ -35,24 +34,16 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
         if (isUrlWellFormed)
             return url;
 
-        var match = UrlParameterTokenRegex().Match(url);
-        var unreplacedTokens = match.Success;
+        var matches = UrlParameterTokenRegex().Matches(url);
+        var unreplacedTokens = matches.Count > 0;
 
         //The URL is malformed
         if (!unreplacedTokens)
-            return new HttpUrlConstructionError(url, context);
+            return HttpUrlConstructionError(url);
 
-        //If the URL is malformed specifically because tokens were not replaced
-        var msgBuilder = new StringBuilder(FluxLogs.InvalidRefreshUrlParametersMsg);
- 
-        while (match.Success)
-        {
-            msgBuilder.Append($"{match.Value}, ");
-            match = match.NextMatch();
-        }
-
-        var msg = msgBuilder.ToString().TrimTrailingComma();
-        return new HttpUrlConstructionError(url, context);
+        //Unreplaced Token Errors
+        var unReplacedTokens = matches.Cast<Match>().Select(match => match.Value);
+        return HttpUrlConstructionUnreplacedTokensError(url, unReplacedTokens);
     }
 
     protected static bool GetRefreshPolicy(HttpRefreshAttribute attribute)

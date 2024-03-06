@@ -27,6 +27,6 @@ public class ViewModelValidationDecorator<TState>(
 
         //Log validation failures
         _logger.ViewModelQueryValidationFailure(context.FluxOperationTypeName);
-        return new ValidationError(validationErrors, context).ToResult<TViewModel, FluxError>();
+        return ValidationError(validationErrors).ToResult<TViewModel, FluxError>();
     }
 }

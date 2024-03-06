@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Errors;
 using Carlton.Core.Flux.Handlers.Base;
 using System.Net.Http.Json;
 namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
@@ -35,7 +34,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
 
     protected async Task<Result<HttpResponseMessage, FluxError>> SendRequest<TCommand>(
         HttpVerb httpVerb,
-        Result<string, HttpUrlConstructionError> serverUrlResult,
+        Result<string, FluxError> serverUrlResult,
         MutationCommandContext<TCommand> context,
         CancellationToken cancellationToken)
     {
@@ -51,7 +50,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
                         HttpVerb.PUT => await Client.PutAsJsonAsync(serverUrl, context, cancellationToken),
                         HttpVerb.PATCH => await Client.PatchAsJsonAsync(serverUrl, context, cancellationToken),
                         HttpVerb.DELETE => await Client.DeleteAsync(serverUrl, cancellationToken),
-                        _ => new UnsupportedHttpVerbError(httpVerb, context).ToResult<HttpResponseMessage, FluxError>(),
+                        _ => UnsupportedHttpVerbError(httpVerb).ToResult<HttpResponseMessage, FluxError>(),
                     };
 
                     context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK, response);
@@ -60,15 +59,15 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
                 }
                 catch (HttpRequestException ex)
                 {
-                    return new FluxErrors.HttpRequestError(ex, context);
+                    return HttpError(ex);
                 }
                 catch (JsonException ex)
                 {
-                    return new JsonError(ex, context);
+                    return JsonError(ex);
                 }
                 catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
                 {
-                    return new JsonError(ex, context);
+                    return JsonError(ex);
                 }
             },
             err => err.ToResultTask<HttpResponseMessage, FluxError>()
@@ -88,7 +87,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
                 {
                     //return error
                     if (!response.IsSuccessStatusCode)
-                        return new HttpError(response.RequestMessage.Method.ToString(), response.StatusCode, response, context);
+                        return HttpRequestFailedError(response);
 
                     //parse json
                     var json = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -128,11 +127,11 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
                 }
                 catch (JsonException ex)
                 {
-                    return new JsonError(ex, context);
+                    return JsonError(ex);
                 }
                 catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
                 {
-                    return new JsonError(ex, context);
+                    return JsonError(ex);
                 }
             },
             err => err.ToResultTask<bool, FluxError>()

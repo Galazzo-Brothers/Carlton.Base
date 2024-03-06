@@ -18,58 +18,39 @@ public static class FluxLogs
     public const string ViewModelType = "ViewModelType:{ViewModelType}";
     public const string MutationCommandType = "MutationCommandType:{MutationCommandType}";
     public const string EventIdScope = "EventId:{@EventId}";
-    public const string StateEventScope = "StateEvent:{@StateEvent}";
+    public const string Error = "Error:{@Error}";
     public const string RequestErrored = "RequestErrored:{@RequestErrored}";
     public const string JsModule = "JsModule:{@JsModule}";
     public const string JsFunction = "JsFunction:{@JsFunction}";
     public const string JsParameters = "JsParameters:{@JsParameters}";
 
-    //ViewModel Query Events
-    public const int ViewModel_JsInterop_Completed = 1200;
-    public const int ViewModel_JsInterop_Error = 1210;
+    //Flux Completed Events
+    public const int JsInterop_Completed = 1000;
+    public const int ViewModel_Completed = 2000;
+    public const int Mutation_Completed = 3000;
+   
+    //Flux Error Events
+    public const int Flux_Unhandled_Error = 100;
+    public const int Flux_Validation_Error = 101;
+    public const int Flux_HTTP_UnsupportedVerb_Error = 102;
+    public const int Flux_HTTP_Invalid_URL_Error = 103;
+    public const int Flux_HTTP_Invalid_URL_UnreplacedTokens_Error = 104;
+    public const int Flux_HTTP_FailedRequest_Error = 105;
+    public const int Flux_HTTP_Error = 106;
+    public const int Flux_JSON_Error = 107;
+    public const int Flux_JsInterop_Error = 108;
 
-    public const int ViewModel_Completed = 1000;
-    public const int ViewModel_Unhandled_Error = 1100;
-    public const int ViewModel_HTTP_URL_Error = 1120;
-    public const int ViewModel_HTTP_Request_Error = 1130;
-    public const int ViewModel_HTTP_Response_JSON_Error = 1140;
-    public const int ViewModel_Validation_Error = 1150;
+    //Flux Error Messages
+    public const string Flux_Unhandled_ErrorMsg = "An unhandled exception occurred during a flux operation";
+    public const string Flux_Validation_ErrorMsg = "An error occurred while validating ViewModel of type";
+    public const string Flux_HTTP_UnsupportedVerb_ErrorMsg = "{0} is not a currently supported HTTP verb for flux server refresh operations.";
+    public const string Flux_HTTP_Invalid_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint, {0} is not a valid URL.";
+    public const string Flux_HTTP_Invalid_URL_UnreplacedTokens_ErrorMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced";
+    public const string Flux_HTTP_FailedRequest_ErrorMsg = "The HTTP {0} request to {1} failed with status code {2} ({3}).";
+    public const string Flux_HTTP_ErrorMsg = "An exception occurred while sending an HTTP request";
+    public const string Flux_JSON_ErrorMsg = "An exception occurred while serializing or deserializing a JSON payload";
+    public const string Flux_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel of type";
 
-    //Mutation Command Start Events
-    public const int Mutation_Completed = 2000;
-    public const int Mutation_Unhandled_Error = 2100;
-    public const int Mutation_Validation_Error = 2210;
-    public const int Mutation_HttpInterception_UrlConstruction_Error = 2320;
-    public const int Mutation_HttpInterception_Request_Error = 2330;
-    public const int Mutation_HttpInterception_Response_JSON_Error = 2340;
-    public const int Mutation_HttpInterception_Response_Update_Error = 2350;
-    public const int Mutation_Apply_Error = 2410;
-    public const int Mutation_SaveLocalStorage_Error = 2510;
-    public const int Mutation_SaveLocalStorage_JSON_Error = 2531;
-
-    //ViewModel Query Error Messages
-    public const string ViewModel_Unhandled_ErrorMsg = "An unhandled exception occurred during a ViewModelQuery for a ViewModel of type";
-    public const string ViewModel_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for a ViewModel of type";
-    public const string ViewModel_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for a ViewMode of type";
-    public const string ViewModel_JSON_ErrorMsg = "An error occurred while parsing, serializing or de-serializing JSON for a ViewModel of type";
-    public const string ViewModel_Validation_ErrorMsg = "An error occurred while validating ViewModel of type";
-    public const string ViewModel_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel of type";
-
-    //Mutation Error Messages
-    public const string Mutation_Unhandled_ErrorMsg = $"An exception occurred during MutationCommand of type";
-    public const string Mutation_Validation_ErrorMsg = "An error occurred while validating MutationCommand of type";
-    public const string Mutation_HTTP_ErrorMsg = "An error occurred while communicating with the remote server endpoint for MutationCommand of type";
-    public const string Mutation_HTTP_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint for MutationCommand of type";
-    public const string Mutation_HTTP_JSON_ErrorMsg = "An error occurred while parsing the JSON HTTP response for MutationCommand of type";
-    public const string Mutation_HTTP_Response_Update_ErrorMsg = "An error occurred while updating the command with values from the server response for MutationCommand of type";
-    public const string Mutation_Apply_ErrorMsg = "An error occurred while applying MutationCommand of type";
-    public const string Mutation_LocalStorage_ErrorMsg = "An error occurred while writing to local storage for MutationCommand of type";
-    public const string Mutation_LocalStorage_JSON_ErrorMsg = "An error occurred while serializing for local storage MutationCommand of type";
-
-    //Specific Http Errors
-    public const string InvalidRefreshUrlParametersMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced: ";
-    public const string InvalidRefreshUrlMsg = "The HTTP refresh endpoint is invalid";
-    public const string InvalidRefreshUrlCreationEnumValueMsg = "Unexpected enum value during creation of HTTP refresh endpoint";
 
     //Friendly Error
     public const string FriendlyErrorMsg = "Oops! We are sorry an error has occurred. Please try again.";
@@ -81,6 +62,16 @@ public static class FluxLogs
             logger.BeginScope(JsModule, jsModule),
             logger.BeginScope(JsFunction, jsFunction),
             logger.BeginScope(JsParameters, jsParameters)
+        );
+    }
+
+    public static IDisposable BeginRequestErrorLoggingScopes(this ILogger logger, FluxError error)
+    {
+        return new CompositeDisposable
+        (
+            logger.BeginScope(EventIdScope, error.EventId),
+            logger.BeginScope(Error, error),
+            logger.BeginScope(RequestErrored, true)
         );
     }
 
@@ -106,7 +97,7 @@ public static class FluxLogs
     {
         return new CompositeDisposable
         (
-            logger.BeginScope(StateEventScope, stateEvent)
+            logger.BeginScope(FluxStateEvent, stateEvent)
         );
     }
 

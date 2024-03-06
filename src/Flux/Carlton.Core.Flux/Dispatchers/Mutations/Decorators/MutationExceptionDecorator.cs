@@ -31,7 +31,7 @@ public class MutationExceptionDecorator<TState>(
     {
         context.MarkAsErrored(error);
         using (_logger.BeginRequestErrorLoggingScopes(error.EventId))
-            _logger.ViewModelQueryErrored(context.FluxOperationTypeName, error);
+            _logger.MutationCommandErrored(context.FluxOperationTypeName);
 
         return error;
     }
@@ -39,10 +39,10 @@ public class MutationExceptionDecorator<TState>(
     private UnhandledFluxError HandleException<TCommand>(Exception ex, MutationCommandContext<TCommand> context)
     {
         context.MarkAsErrored(ex);
-        using (_logger.BeginRequestErrorLoggingScopes(FluxLogs.ViewModel_Unhandled_Error))
-            _logger.ViewModelQueryErrored(context.FluxOperationTypeName, ex);
+        using (_logger.BeginRequestErrorLoggingScopes(FluxLogs.Flux_Unhandled_Error))
+            _logger.MutationCommandErrored(context.FluxOperationTypeName, ex);
 
-        return new UnhandledFluxError(ex, context);
+        return UnhandledFluxError(ex);
     }
 }
 
