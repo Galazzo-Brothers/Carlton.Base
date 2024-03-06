@@ -1,8 +1,10 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.Mutations;
+﻿
+namespace Carlton.Core.Flux.Dispatchers.Mutations;
 
 public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
-    public string CommandTypeName { get => MutationCommand.GetType().GetDisplayName(); }
+    public override FluxOperation FluxOperation => FluxOperation.ViewModelQuery;
+    public override Type FluxOperationType => MutationCommand.GetType();
 
     public TCommand MutationCommand { get; init; } = command;
     public string ResultingStateEvent { get; private set; }
@@ -18,6 +20,6 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
     //this override is primarily
     //so the actual value of the command can be logged
     public override string ToString()
-        => $"MutationCommandContext[{CommandTypeName}]";
+        => $"MutationCommandContext[{FluxOperationType}]";
 }
 

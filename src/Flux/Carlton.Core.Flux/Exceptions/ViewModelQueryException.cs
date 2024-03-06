@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Exceptions;
 
-internal class ViewModelQueryException(ViewModelQueryError error) : Exception
+internal class ViewModelQueryException(FluxError error) : Exception
 {
-    public ViewModelQueryError Error { get; } = error;
+    public FluxError Error { get; } = error;
 }

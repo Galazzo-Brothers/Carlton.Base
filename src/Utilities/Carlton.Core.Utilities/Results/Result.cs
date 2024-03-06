@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Utilities.Results;
 
-public class Result<TValue, TError>
+public readonly record struct Result<TValue, TError>
 {
     private readonly TValue? _value;
     private readonly TError? _error;

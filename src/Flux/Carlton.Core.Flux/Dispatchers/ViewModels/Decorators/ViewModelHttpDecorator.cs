@@ -1,6 +1,6 @@
-﻿using System.Net;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Errors;
 using Carlton.Core.Flux.Handlers.Base;
 namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 
@@ -8,7 +8,7 @@ public class ViewModelHttpDecorator<TState>(
     IViewModelQueryDispatcher<TState> _decorated, HttpClient _client, IMutableFluxState<TState> _state)
     : BaseHttpDecorator<TState>(_client, _state), IViewModelQueryDispatcher<TState>
 {
-    public Task<Result<TViewModel, ViewModelQueryError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+    public async Task<Result<TViewModel, FluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
         //Get RefreshPolicy Attribute
         var attributes = sender.GetType().GetCustomAttributes();
@@ -22,19 +22,65 @@ public class ViewModelHttpDecorator<TState>(
 
             //Construct Http Refresh URL
             var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
+            var serverUrlResult = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender, context);
 
-            //Http Refresh ViewModel
-            var viewModel = Client.GetFromJsonAsync<TViewModel>(serverUrl, cancellationToken);
-            context.MarkAsHttpCallMade(serverUrl, HttpStatusCode.OK, viewModel);
+            //Get ViewModel from server
+            var vmResult = await GetHttpViewModel(serverUrlResult, context, cancellationToken);
 
-            //Update the State
-            _state.ApplyMutationCommand(viewModel);
-
-            //Update the StateStore  
-            context.MarkAsStateModifiedByHttpRefresh();
+            //Update the StateStore
+            await ApplyViewModelStateMutation(vmResult, context);
         }
 
-        return _decorated.Dispatch(sender, context, cancellationToken);
+        //Continue with Dispatch
+        return await _decorated.Dispatch(sender, context, cancellationToken);
+    }
+
+    private async Task<Result<TViewModel, FluxError>> GetHttpViewModel<TViewModel>(Result<string, HttpUrlConstructionError> serverUrlResult, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+    {
+        return await serverUrlResult.Match
+        (
+            async serverUrl =>
+            {
+                try
+                {
+                    var response = await Client.GetAsync(serverUrl, cancellationToken);
+
+                    if (!response.IsSuccessStatusCode)
+                        return new HttpError(HttpVerb.GET.ToString(), response.StatusCode, response, context);
+
+                    // Deserialize the content to the specified type
+                    var viewModel = await response.Content.ReadFromJsonAsync<TViewModel>(cancellationToken: cancellationToken);
+
+                    context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK, viewModel);
+                    return viewModel;
+                }
+                catch (HttpRequestException ex)
+                {
+                    return new FluxErrors.HttpRequestError(ex, context);
+                }
+                catch (JsonException ex)
+                {
+                    return new JsonError(ex, context);
+                }
+                catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
+                {
+                    return new JsonError(ex, context);
+                }
+            },
+            err => err.ToResultTask<TViewModel, FluxError>()
+        );
+    }
+
+    private async Task ApplyViewModelStateMutation<TViewModel>(Result<TViewModel, FluxError> vmResult, ViewModelQueryContext<TViewModel> context)
+    {
+        await vmResult.Match
+        (
+            async vm =>
+            {
+                await _state.ApplyMutationCommand(vm);
+                context.MarkAsStateModifiedByHttpRefresh();
+            },
+            err => err.ToResultTask<TViewModel, FluxError>()
+        );
     }
 }

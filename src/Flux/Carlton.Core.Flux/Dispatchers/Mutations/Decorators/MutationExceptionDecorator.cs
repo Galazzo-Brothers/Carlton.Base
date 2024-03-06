@@ -1,43 +1,48 @@
-﻿using Carlton.Core.Flux.Errors;
-namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
+﻿namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 
 public class MutationExceptionDecorator<TState>(
     IMutationCommandDispatcher<TState> _decorated,
     ILogger<MutationExceptionDecorator<TState>> _logger)
     : IMutationCommandDispatcher<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, FluxError>> Dispatch<TCommand>(
+        object sender, MutationCommandContext<TCommand> context,
+        CancellationToken cancellationToken)
     {
         using (_logger.BeginMutationCommandRequestLoggingScopes(context))
         {
-            try
-            {
-                var result = await _decorated.Dispatch(sender, context, cancellationToken);
-                _logger.MutationCommandCompleted(context.CommandTypeName);
-                return result;
-            }
-
-            catch (Exception ex)
-            {
-                return HandleException(ex, context);
-            }
+            return await ResultExtensions.SafeExecuteAsync
+            (
+                async () => await _decorated.Dispatch(sender, context, cancellationToken), //Wrapped Func
+                success => HandleSuccess(success, context), //Success Handler
+                err => HandleError(err, context), //Error Handler
+                ex => HandleException(ex, context) //Exception Handler
+            );
         }
     }
 
-    private Result<MutationCommandResult, MutationCommandError> HandleException<TViewModel, TException>(TException ex, MutationCommandContext<TViewModel> context)
-          where TException : Exception
+    private MutationCommandResult HandleSuccess<TCommand>(MutationCommandResult result, MutationCommandContext<TCommand> context)
+    {
+        _logger.MutationCommandCompleted(context.FluxOperationTypeName);
+        return result;
+    }
+
+    private FluxError HandleError<TCommand>(FluxError error, MutationCommandContext<TCommand> context)
+    {
+        context.MarkAsErrored(error);
+        using (_logger.BeginRequestErrorLoggingScopes(error.EventId))
+            _logger.ViewModelQueryErrored(context.FluxOperationTypeName, error);
+
+        return error;
+    }
+
+    private UnhandledFluxError HandleException<TCommand>(Exception ex, MutationCommandContext<TCommand> context)
     {
         context.MarkAsErrored(ex);
-        using (_logger.BeginRequestExceptionLoggingScopes())
-            _logger.MutationCommandErrored(context.CommandTypeName, ex);
+        using (_logger.BeginRequestErrorLoggingScopes(FluxLogs.ViewModel_Unhandled_Error))
+            _logger.ViewModelQueryErrored(context.FluxOperationTypeName, ex);
 
-        // Return a specific error based on the exception type
-        return ex switch
-        {
-            InvalidOperationException when ex.Message.Contains(FluxLogs.InvalidRefreshUrlMsg) => (Result<MutationCommandResult, MutationCommandError>)new MutationCommandErrors.HttpUrlError(typeof(TViewModel)),
-            JsonException or HttpRequestException => (Result<MutationCommandResult, MutationCommandError>)new MutationCommandErrors.HttpError(typeof(TViewModel)),
-            _ => (Result<MutationCommandResult, MutationCommandError>)new MutationCommandErrors.UnhandledError(typeof(TViewModel)),
-        };
+        return new UnhandledFluxError(ex, context);
     }
 }
 

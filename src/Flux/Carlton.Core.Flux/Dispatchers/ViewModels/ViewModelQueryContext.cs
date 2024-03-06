@@ -3,7 +3,8 @@
 public class ViewModelQueryContext<TViewModel> : BaseRequestContext
 {
     public TViewModel ResultViewModel { get; private set; }
-    public string ViewModelTypeName { get => typeof(TViewModel).GetDisplayName(); }
+    public override FluxOperation FluxOperation => FluxOperation.ViewModelQuery;
+    public override Type FluxOperationType => typeof(TViewModel);
     public bool StateModifiedByHttpRefresh { get; private set; }
 
     internal void MarkAsStateModifiedByHttpRefresh()

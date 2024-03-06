@@ -2,6 +2,7 @@
 using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Utilities.Results;
+using NSubstitute.ExceptionExtensions;
 namespace Carlton.Core.Flux.Tests.Common.Extensions;
 
 public static class DispatcherExtensions
@@ -12,7 +13,7 @@ public static class DispatcherExtensions
          Arg.Any<object>(),
          Arg.Any<ViewModelQueryContext<TestViewModel>>(),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult((Result<TestViewModel, ViewModelQueryError>) vm));
+        .Returns(Task.FromResult((Result<TestViewModel, FluxError>) vm));
     }
 
     public static void SetupMutationDispatcher(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
@@ -21,7 +22,7 @@ public static class DispatcherExtensions
          Arg.Any<object>(),
          Arg.Is<MutationCommandContext<object>>(context => context.MutationCommand.Equals(command)),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult((Result<MutationCommandResult, MutationCommandError>)new MutationCommandResult()));
+        .Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult()));
     }
 
     public static void VerifyQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
@@ -40,16 +41,16 @@ public static class DispatcherExtensions
             Arg.Any<CancellationToken>());
     }
 
-    public static void SetupQueryDispatcherError(this IViewModelQueryDispatcher<TestState> dispatcher, ViewModelQueryError error)
+    public static void SetupQueryDispatcherException(this IViewModelQueryDispatcher<TestState> dispatcher, Exception ex)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),
          Arg.Any<ViewModelQueryContext<TestViewModel>>(),
          Arg.Any<CancellationToken>())
-        .Returns(error);
+        .Throws(ex);
     }
 
-    public static void SetupCommandDispatcherError(this IMutationCommandDispatcher<TestState> dispatcher, MutationCommandError error)
+    public static void SetupCommandDispatcherError(this IMutationCommandDispatcher<TestState> dispatcher, FluxError error)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),

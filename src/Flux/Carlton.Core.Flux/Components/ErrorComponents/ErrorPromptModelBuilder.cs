@@ -2,32 +2,11 @@
 
 internal class ErrorPromptModelBuilder
 {
-    public static ErrorPromptModel GetErrorPromptModel(ViewModelQueryError error, Action recoverAct)
+    public static ErrorPromptModel GetErrorPromptModel(FluxError error, Action recoverAct)
     {
         return error switch
         {
-            Errors.ViewModelQueryErrors.ValidationError validationError => new ErrorPromptModel
-                                        (
-                                            "Error",
-                                            validationError.Message,
-                                            "mdi-alert-circle-outline",
-                                            recoverAct
-                                        ),
-            _ => new ErrorPromptModel
-                                        (
-                                            "Error",
-                                            GetConditionalErrorMessage(error.Message),
-                                            "mdi-alert-circle-outline",
-                                            recoverAct
-                                        ),
-        };
-    }
-
-    public static ErrorPromptModel GetErrorPromptModel(MutationCommandError error, Action recoverAct)
-    {
-        return error switch
-        {
-            Errors.MutationCommandErrors.ValidationError validationError => new ErrorPromptModel
+            ValidationError validationError => new ErrorPromptModel
                                         (
                                             "Error",
                                             validationError.Message,

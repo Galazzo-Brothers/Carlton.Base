@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Dispatchers.Mutations;
-
 namespace Carlton.Core.Flux.Handlers;
 
 public class MutationCommandHandler<TState>(
@@ -7,7 +6,7 @@ public class MutationCommandHandler<TState>(
     ILogger<MutationCommandHandler<TState>> _logger)
     : IMutationCommandHandler<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandError>> Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, FluxError>> Handle<TCommand>(MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         using (_logger.BeginFluxComponentChildRequestLoggingScopes(context.RequestId))
         {

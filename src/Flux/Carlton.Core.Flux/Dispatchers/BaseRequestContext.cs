@@ -6,7 +6,12 @@ public abstract class BaseRequestContext
 {
     private readonly Stopwatch _stopwatch = new();
 
+    //Common
     public Guid RequestId { get; } = Guid.NewGuid();
+    public abstract FluxOperation FluxOperation { get; }
+    public abstract Type FluxOperationType { get; }
+    public string FluxOperationTypeName { get => FluxOperationType.GetDisplayName(); }
+    
 
     //Http Context
     public bool RequiresHttpRefresh { get; private set; }
@@ -33,6 +38,8 @@ public abstract class BaseRequestContext
         => RequestCompletionContext = new RequestCompletionContext(_stopwatch);
     protected internal void MarkAsErrored(Exception exception)
         => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), exception);
+    protected internal void MarkAsErrored(FluxError error)
+       => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), error);
 }
 
 
@@ -48,6 +55,7 @@ public record RequestValidationContext(IEnumerable<string> ValidationErrors)
 
 public record RequestCompletionContext
 {
+    public FluxError FluxError { get; init; }
     public bool RequestSucceeded { get => Exception == null; }
     public RequestExceptionContext Exception { get; init; }
     public DateTimeOffset RequestEndTimestamp { get; init; }
@@ -56,6 +64,11 @@ public record RequestCompletionContext
     internal RequestCompletionContext(Stopwatch stopwatch, Exception exception) : this(stopwatch)
     {
         Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
+    }
+
+    internal RequestCompletionContext(Stopwatch stopwatch, FluxError error) : this(stopwatch)
+    {
+        FluxError = error;
     }
 
     internal RequestCompletionContext(Stopwatch stopwatch)
@@ -67,3 +80,9 @@ public record RequestCompletionContext
 }
 
 public record RequestExceptionContext(string ExceptionType, string Message, string StackTrace);
+
+public enum FluxOperation
+{
+    ViewModelQuery = 1,
+    CommandMutation = 2,
+}

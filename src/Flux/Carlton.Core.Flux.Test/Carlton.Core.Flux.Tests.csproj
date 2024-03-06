@@ -18,5 +18,9 @@
     <ProjectReference Include="..\Carlton.Core.Flux\Carlton.Core.Flux.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dispatchers\Mutations\Decorators\" />
+  </ItemGroup>
+
 
 </Project>

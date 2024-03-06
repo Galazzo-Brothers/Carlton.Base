@@ -1,4 +1,5 @@
 ﻿using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Errors;
 using Carlton.Core.Flux.Handlers.Base;
 using System.Net.Http.Json;
 namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
@@ -6,12 +7,13 @@ namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client, IFluxState<TState> _state)
     : BaseHttpDecorator<TState>(_client, _state), IMutationCommandDispatcher<TState>
 {
-    public async Task<Result<MutationCommandResult, MutationCommandError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+    public async Task<Result<MutationCommandResult, FluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         var attributes = sender.GetType().GetCustomAttributes();
         var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
         var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
 
+        //Continue on if no refresh required
         if (requiresRefresh)
         {
             //Update the context for logging and auditing
@@ -19,72 +21,126 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
 
             //Construct Http Refresh URL
             var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrl = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender);
+            var serverUrlResult = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender, context);
 
             //Send Request
-            var response = await SendRequest(httpRefreshAttribute.HttpVerb, serverUrl, context, cancellationToken);
-            response.EnsureSuccessStatusCode();
+            var response = await SendRequest(httpRefreshAttribute.HttpVerb, serverUrlResult, context, cancellationToken);
 
-            //Parse the Server Response and Update the command
-            var json = await response.Content.ReadAsStringAsync(cancellationToken);
-            UpdateCommandWithServerResponse(context, json);
-
-            //End the Http Interception
-            context.MarkAsHttpCallMade(serverUrl, response.StatusCode, response);
+            //Update context with response
+            await UpdateCommandWithServerResponse(response, context, cancellationToken);
         }
 
-        //Continue the Dispatch Pipeline
-        return await _decorated.Dispatch(sender, context, cancellationToken);
+        return await _decorated.Dispatch(sender, context, cancellationToken); ;
     }
 
-    protected async Task<HttpResponseMessage> SendRequest<TPayload>(HttpVerb httpVerb, string serverUrl, TPayload payload, CancellationToken cancellation)
+    protected async Task<Result<HttpResponseMessage, FluxError>> SendRequest<TCommand>(
+        HttpVerb httpVerb,
+        Result<string, HttpUrlConstructionError> serverUrlResult,
+        MutationCommandContext<TCommand> context,
+        CancellationToken cancellationToken)
     {
-        return httpVerb switch
-        {
-            HttpVerb.POST => await Client.PostAsJsonAsync(serverUrl, payload, cancellation),
-            HttpVerb.PUT => await Client.PutAsJsonAsync(serverUrl, payload, cancellation),
-            HttpVerb.PATCH => await Client.PatchAsJsonAsync(serverUrl, payload, cancellation),
-            HttpVerb.DELETE => await Client.DeleteAsync(serverUrl, cancellation),
-            _ => throw new NotSupportedException("This HTTP verb is not supported here."),
-        };
+        return await serverUrlResult.Match
+        (
+            async serverUrl =>
+            {
+                try
+                {
+                    Result<HttpResponseMessage, FluxError> response = httpVerb switch
+                    {
+                        HttpVerb.POST => await Client.PostAsJsonAsync(serverUrl, context, cancellationToken),
+                        HttpVerb.PUT => await Client.PutAsJsonAsync(serverUrl, context, cancellationToken),
+                        HttpVerb.PATCH => await Client.PatchAsJsonAsync(serverUrl, context, cancellationToken),
+                        HttpVerb.DELETE => await Client.DeleteAsync(serverUrl, cancellationToken),
+                        _ => new UnsupportedHttpVerbError(httpVerb, context).ToResult<HttpResponseMessage, FluxError>(),
+                    };
+
+                    context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK, response);
+
+                    return response;
+                }
+                catch (HttpRequestException ex)
+                {
+                    return new FluxErrors.HttpRequestError(ex, context);
+                }
+                catch (JsonException ex)
+                {
+                    return new JsonError(ex, context);
+                }
+                catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
+                {
+                    return new JsonError(ex, context);
+                }
+            },
+            err => err.ToResultTask<HttpResponseMessage, FluxError>()
+        );
     }
 
-    private static void UpdateCommandWithServerResponse<TCommand>(TCommand command, string json)
+    private static async Task<Result<bool, FluxError>> UpdateCommandWithServerResponse<TCommand>(
+        Result<HttpResponseMessage, FluxError> responseResult,
+        MutationCommandContext<TCommand> context,
+        CancellationToken cancellationToken)
     {
-        //Static inline helper predicate
-        static bool predicate(PropertyInfo prop) => Attribute.IsDefined(prop, typeof(HttpResponsePropertyAttribute));
+        return await responseResult.Match
+        (
+            async response =>
+            {
+                try
+                {
+                    //return error
+                    if (!response.IsSuccessStatusCode)
+                        return new HttpError(response.RequestMessage.Method.ToString(), response.StatusCode, response, context);
 
-        //Find HttpResponseType attribute
-        var serverResponseTypeAttribute = command.GetType().GetCustomAttribute(typeof(HttpResponseTypeAttribute<>));
+                    //parse json
+                    var json = await response.Content.ReadAsStringAsync(cancellationToken);
 
-        //Exit if response type attribute not present
-        if (serverResponseTypeAttribute == null)
-            return;
+                    //Find HttpResponseType attribute
+                    var serverResponseTypeAttribute = context.MutationCommand.GetType().GetCustomAttribute(typeof(HttpResponseTypeAttribute<>));
 
-        //Find HttpResponseProperty attributes
-        var replacementProperties = command.GetType().GetProperties().Where(predicate);
+                    //Exit if response type attribute not present
+                    if (serverResponseTypeAttribute == null)
+                        return true;
 
-        //Exit if response property attributes not present
-        if (!replacementProperties.Any())
-            return;
+                    //Find HttpResponseProperty attributes
+                    var replacementProperties = context.MutationCommand.GetType().GetProperties().Where(Predicate);
 
-        //Parse the server json response
-        var serverResponseType = serverResponseTypeAttribute.GetType().GetGenericArguments()[0];
-        var parsedResponse = JsonSerializer.Deserialize(json, serverResponseType, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                    //Exit if response property attributes not present
+                    if (!replacementProperties.Any())
+                        return true;
 
-        //iterate through properties
-        foreach (var prop in replacementProperties)
-        {
-            //Get the property attribute
-            var attribute = prop.GetCustomAttribute<HttpResponsePropertyAttribute>();
+                    //Parse the server json response
+                    var serverResponseType = serverResponseTypeAttribute.GetType().GetGenericArguments()[0];
+                    var parsedResponse = JsonSerializer.Deserialize(json, serverResponseType, new JsonSerializerOptions(JsonSerializerDefaults.Web));
 
-            //Pull the property value from the server response
-            var serverResponseValue = parsedResponse.GetType().GetProperty(attribute.ResponsePropertyName).GetValue(parsedResponse);
+                    //iterate through properties
+                    foreach (var prop in replacementProperties)
+                    {
+                        //Get the property attribute
+                        var attribute = prop.GetCustomAttribute<HttpResponsePropertyAttribute>();
 
-            //Update the command with the server response value
-            prop.SetValue(command, serverResponseValue);
-        }
+                        //Pull the property value from the server response
+                        var serverResponseValue = parsedResponse.GetType().GetProperty(attribute.ResponsePropertyName).GetValue(parsedResponse);
+
+                        //Update the command with the server response value
+                        prop.SetValue(context.MutationCommand, serverResponseValue);
+                    }
+
+                    return true;
+                }
+                catch (JsonException ex)
+                {
+                    return new JsonError(ex, context);
+                }
+                catch (NotSupportedException ex) when (ex.Message.Contains("Serialization and deserialization"))
+                {
+                    return new JsonError(ex, context);
+                }
+            },
+            err => err.ToResultTask<bool, FluxError>()
+        );
     }
+
+    //Static inline helper predicate
+    static bool Predicate(PropertyInfo prop) => Attribute.IsDefined(prop, typeof(HttpResponsePropertyAttribute));
 }
 
 

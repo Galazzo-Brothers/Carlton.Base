@@ -34,7 +34,6 @@ else
         {
             try
             {
-                throw new JSException("error");
                 await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(Import, JsModule);
                 var result = await module.InvokeAsync<TViewModel>(JsFunction, CancellationToken.None, JsParameters);
                 Logger.ViewModelJsInteropQueryCompleted(vmType);
