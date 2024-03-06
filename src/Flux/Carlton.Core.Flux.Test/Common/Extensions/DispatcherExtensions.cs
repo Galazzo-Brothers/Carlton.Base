@@ -16,6 +16,24 @@ public static class DispatcherExtensions
         .Returns(Task.FromResult((Result<TestViewModel, FluxError>) vm));
     }
 
+    public static void SetupQueryDispatcherError(this IViewModelQueryDispatcher<TestState> dispatcher, FluxError error)
+    {
+        dispatcher.Dispatch(
+         Arg.Any<object>(),
+         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+         Arg.Any<CancellationToken>())
+        .Returns(Task.FromResult((Result<TestViewModel, FluxError>)error));
+    }
+
+    public static void SetupQueryDispatcherException(this IViewModelQueryDispatcher<TestState> dispatcher, Exception ex)
+    {
+        dispatcher.Dispatch(
+         Arg.Any<object>(),
+         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+         Arg.Any<CancellationToken>())
+        .Throws(ex);
+    }
+
     public static void SetupMutationDispatcher(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
     {
         dispatcher.Dispatch(
@@ -41,14 +59,7 @@ public static class DispatcherExtensions
             Arg.Any<CancellationToken>());
     }
 
-    public static void SetupQueryDispatcherException(this IViewModelQueryDispatcher<TestState> dispatcher, Exception ex)
-    {
-        dispatcher.Dispatch(
-         Arg.Any<object>(),
-         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
-         Arg.Any<CancellationToken>())
-        .Throws(ex);
-    }
+   
 
     public static void SetupCommandDispatcherError(this IMutationCommandDispatcher<TestState> dispatcher, FluxError error)
     {

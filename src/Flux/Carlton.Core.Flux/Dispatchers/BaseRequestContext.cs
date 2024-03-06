@@ -22,56 +22,56 @@ public abstract class BaseRequestContext
     internal void MarkAsHttpCallMade(string httpUrl, HttpStatusCode httpStatusCode, object httpResponse)
        => RequestHttpContext = new RequestHttpContext(httpUrl, httpStatusCode, httpResponse);
 
-    //Validation Context
-    public bool RequestValidated { get => RequestValidationContext != null; }
-    public RequestValidationContext RequestValidationContext { get; private set; }
+    //Validation Result
+    public bool RequestValidated { get => ValidationResult != null; }
+    public ValidationResult ValidationResult { get; private set; }
     internal void MarkAsValidated(IEnumerable<string> ValidationErrors)
-       => RequestValidationContext = new RequestValidationContext(ValidationErrors);
+       => ValidationResult = new ValidationResult(ValidationErrors);
     internal void MarkAsValidated()
-      => RequestValidationContext = new RequestValidationContext();
+      => ValidationResult = new ValidationResult();
 
 
-    //Completion Context
-    public bool RequestInProgress { get => RequestCompletionContext == null; }
-    public RequestCompletionContext RequestCompletionContext { get; private set; }
+    //Request Result
+    public bool RequestInProgress { get => RequestResult == null; }
+    public RequestResult RequestResult { get; private set; }
     protected internal void MarkAsSucceeded()
-        => RequestCompletionContext = new RequestCompletionContext(_stopwatch);
+        => RequestResult = new RequestResult(_stopwatch);
     protected internal void MarkAsErrored(Exception exception)
-        => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), exception);
+        => RequestResult = new RequestResult(Stopwatch.StartNew(), exception);
     protected internal void MarkAsErrored(FluxError error)
-       => RequestCompletionContext = new RequestCompletionContext(Stopwatch.StartNew(), error);
+       => RequestResult = new RequestResult(Stopwatch.StartNew(), error);
 }
 
 
 public record RequestHttpContext(string HttpUrl, HttpStatusCode HttpStatusCode, object HttpResponse);
 
-public record RequestValidationContext(IEnumerable<string> ValidationErrors)
+public record ValidationResult(IEnumerable<string> ValidationErrors)
 {
     public bool ValidationPassed { get => !ValidationErrors.Any(); }
 
-    internal RequestValidationContext() : this(new List<string>())
+    internal ValidationResult() : this(new List<string>())
     { }
 }
 
-public record RequestCompletionContext
+public record RequestResult
 {
     public FluxError FluxError { get; init; }
-    public bool RequestSucceeded { get => Exception == null; }
+    public bool RequestSucceeded { get => Exception == null && FluxError == null; }
     public RequestExceptionContext Exception { get; init; }
     public DateTimeOffset RequestEndTimestamp { get; init; }
     public long ElapsedTime { get; init; }
 
-    internal RequestCompletionContext(Stopwatch stopwatch, Exception exception) : this(stopwatch)
+    internal RequestResult(Stopwatch stopwatch, Exception exception) : this(stopwatch)
     {
         Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
     }
 
-    internal RequestCompletionContext(Stopwatch stopwatch, FluxError error) : this(stopwatch)
+    internal RequestResult(Stopwatch stopwatch, FluxError error) : this(stopwatch)
     {
         FluxError = error;
     }
 
-    internal RequestCompletionContext(Stopwatch stopwatch)
+    internal RequestResult(Stopwatch stopwatch)
     {
         RequestEndTimestamp = DateTimeOffset.UtcNow;
         stopwatch.Stop();
