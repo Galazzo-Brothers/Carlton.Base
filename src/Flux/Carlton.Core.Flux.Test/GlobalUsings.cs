@@ -2,6 +2,7 @@ global using static Carlton.Core.Flux.Errors.FluxErrors;
 global using AutoFixture.Xunit2;
 global using Bunit;
 global using NSubstitute;
+global using RichardSzalay.MockHttp;
 global using Shouldly;
 global using Xunit;
 global using Carlton.Core.Flux.Errors;

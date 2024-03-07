@@ -24,11 +24,6 @@ public record MockServerResponse(string ServerName, string ServerDescription);
 
 
 
-//[ViewModelJsInteropRefresh("test_module", "test_function", "param1", 17, false)]
-public class JsRefreshCaller
-{
-
-}
 
 
 [ViewModelHttpRefresh("http://test.carlton.com/")]
@@ -38,8 +33,8 @@ public class HttpRefreshCaller
 }
 
 [ViewModelHttpRefresh("http://test.carlton.com/",
-    HttpVerb = Attributes.HttpVerb.GET,
-    DataRefreshPolicy = Attributes.DataEndpointRefreshPolicy.Never)]
+    HttpVerb = HttpVerb.GET,
+    DataRefreshPolicy = DataEndpointRefreshPolicy.Never)]
 public class HttpNeverRefreshCaller
 {
 }
@@ -47,8 +42,8 @@ public class HttpNeverRefreshCaller
 
 [ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
 [MutationHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[HttpRefreshParameter("ClientID", Attributes.DataEndpointParameterType.ComponentParameter)]
-[HttpRefreshParameter("UserID", Attributes.DataEndpointParameterType.ComponentParameter)]
+[HttpRefreshParameter("ClientID", DataEndpointParameterType.ComponentParameter)]
+[HttpRefreshParameter("UserID", DataEndpointParameterType.ComponentParameter)]
 public class HttpRefreshWithComponentParametersCaller
 {
     public int ClientID { get; set; } = 5;
@@ -57,8 +52,8 @@ public class HttpRefreshWithComponentParametersCaller
 
 [ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
 [MutationHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[HttpRefreshParameter("ClientID", Attributes.DataEndpointParameterType.StateStoreParameter)]
-[HttpRefreshParameter("UserID", Attributes.DataEndpointParameterType.StateStoreParameter)]
+[HttpRefreshParameter("ClientID", DataEndpointParameterType.StateStoreParameter)]
+[HttpRefreshParameter("UserID", DataEndpointParameterType.StateStoreParameter)]
 public class HttpRefreshWithStateParametersCaller
 {
 }
