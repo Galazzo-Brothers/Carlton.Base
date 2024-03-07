@@ -22,7 +22,6 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
             result = result.Replace($"{{{attribute.Name}}}", value);
         }
 
-
         return VerifyUrlParameters(result, context);
     }
    

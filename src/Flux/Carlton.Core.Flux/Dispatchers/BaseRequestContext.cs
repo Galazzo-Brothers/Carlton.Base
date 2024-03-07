@@ -15,7 +15,7 @@ public abstract class BaseRequestContext
 
     //Http Context
     public bool RequiresHttpRefresh { get; private set; }
-    public bool RequestHttRefreshed { get => RequestHttpContext != null; }
+    public bool HttpRefreshOccurred { get => RequestHttpContext != null; }
     public RequestHttpContext RequestHttpContext { get; private set; }
     internal void MarkAsRequiresHttpRefresh()
        => RequiresHttpRefresh = true;
