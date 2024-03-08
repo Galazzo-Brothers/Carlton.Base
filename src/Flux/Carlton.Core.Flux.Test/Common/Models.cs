@@ -24,12 +24,12 @@ public record MockServerResponse(string ServerName, string ServerDescription);
 
 
 
-
-
 [ViewModelHttpRefresh("http://test.carlton.com/")]
 [MutationHttpRefresh("http://test.carlton.com/")]
 public class HttpRefreshCaller
 {
+    public Type type { get; set; }
+    public const string MockRefreshUrl = "http://test.carlton.com/";
 }
 
 [ViewModelHttpRefresh("http://test.carlton.com/",
@@ -40,20 +40,33 @@ public class HttpNeverRefreshCaller
 }
 
 
-[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[MutationHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[HttpRefreshParameter("ClientID", DataEndpointParameterType.ComponentParameter)]
-[HttpRefreshParameter("UserID", DataEndpointParameterType.ComponentParameter)]
+[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[MutationHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[HttpRefreshParameter("ClientId", DataEndpointParameterType.ComponentParameter)]
+[HttpRefreshParameter("UserId", DataEndpointParameterType.ComponentParameter)]
 public class HttpRefreshWithComponentParametersCaller
 {
-    public int ClientID { get; set; } = 5;
-    public int UserID { get; set; } = 10;
+    public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
+
+    public int ClientId { get; set; } = 5;
+    public int UserId { get; set; } = 10;
 }
 
-[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[MutationHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[HttpRefreshParameter("ClientID", DataEndpointParameterType.StateStoreParameter)]
-[HttpRefreshParameter("UserID", DataEndpointParameterType.StateStoreParameter)]
+
+[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[MutationHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+public class HttpRefreshWithComponentUnreplacedParametersCaller
+{
+    public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
+
+    public int ClientId { get; set; } = 5;
+    public int UserId { get; set; } = 10;
+}
+
+[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[MutationHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[HttpRefreshParameter("ClientId", DataEndpointParameterType.StateStoreParameter)]
+[HttpRefreshParameter("UserId", DataEndpointParameterType.StateStoreParameter)]
 public class HttpRefreshWithStateParametersCaller
 {
 }
@@ -82,7 +95,7 @@ public class NoRefreshCaller
 
 public class TestState
 {
-    public int ClientID { get; set; } = 5;
-    public int UserID { get; set; } = 10;
+    public int ClientId { get; set; } = 5;
+    public int UserId { get; set; } = 10;
 }
 

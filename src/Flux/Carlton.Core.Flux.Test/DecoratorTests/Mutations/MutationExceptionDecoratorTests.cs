@@ -1,7 +1,6 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
-using Carlton.Core.Flux.Tests.Common;
 using Carlton.Core.Foundation.Test;
 using Microsoft.Extensions.Logging;
 using NSubstitute.ExceptionExtensions;
@@ -13,17 +12,17 @@ public class MutationExceptionDecoratorTests
     public async Task Dispatch_DispatchCalled(
         [Frozen] IMutationCommandDispatcher<TestState> decorated,
         [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
+        MutationExceptionDecorator<TestState> sut,
         object sender,
-        MutationCommandContext<TestCommand1> context,
-        MutationExceptionDecorator<TestState> sut)
+        TestCommand1 command)
     {
         //Act 
-        await sut.Dispatch(sender, context, CancellationToken.None);
+        await sut.Dispatch(sender, command, CancellationToken.None);
 
         //Assert
         await decorated.Received(1).Dispatch(
            Arg.Any<object>(),
-           Arg.Any<MutationCommandContext<object>>(),
+           Arg.Any<MutationCommandContext<TestCommand1>>(),
            Arg.Any<CancellationToken>());
     }
 

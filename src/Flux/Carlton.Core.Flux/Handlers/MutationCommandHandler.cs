@@ -10,9 +10,16 @@ public class MutationCommandHandler<TState>(
     {
         using (_logger.BeginFluxComponentChildRequestLoggingScopes(context.RequestId))
         {
-            var stateEvent = await _state.ApplyMutationCommand(context.MutationCommand);
-            context.MarkAsSucceeded(stateEvent);
-            return new MutationCommandResult();
+            var stateEventResult = await _state.ApplyMutationCommand(context.MutationCommand);
+
+            if(stateEventResult.IsSuccess)
+                context.MarkAsSucceeded();
+
+            return stateEventResult.Match<Result<MutationCommandResult, FluxError>>
+            (
+                success => new MutationCommandResult(),
+                error => error
+            );
         }
     }
 }

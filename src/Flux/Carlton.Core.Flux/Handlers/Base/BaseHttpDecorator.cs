@@ -59,7 +59,7 @@ public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFlu
     {
         return attribute.ParameterType switch
         {
-            DataEndpointParameterType.StateStoreParameter => State.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(State).ToString(),
+            DataEndpointParameterType.StateStoreParameter => State.CurrentState.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(State.CurrentState).ToString(),
             DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
             _ => string.Empty
         };

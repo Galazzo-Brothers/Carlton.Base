@@ -26,9 +26,14 @@ public static class FluxErrors
     public static JsonError JsonError(Exception exception)
         => new(exception);
 
+    public static MutationNotRegisteredError MutationNotRegisteredError(string mutationType)
+        => new(mutationType);
+
+    public static MutationError MutationError(object mutationCommand, Exception exception)
+        => new(mutationCommand, exception);
+
     public static UnhandledFluxError UnhandledFluxError(Exception exception)
         => new(exception);
-
 
     internal static string ReplaceHttpRequestFailedTemplateMessage(HttpResponseMessage httpResponse)
     {
@@ -60,6 +65,12 @@ public sealed record HttpError(HttpRequestException Exception)
 
 public sealed record JsonError(Exception Exception)
   : FluxError($"{FluxLogs.Flux_JSON_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_JSON_Error);
+
+public sealed record MutationNotRegisteredError(string MutationType)
+  : FluxError($"{FluxLogs.Flux_MutationNotRegistered_ErrorMsg}: {MutationType}.", FluxLogs.Flux_MutationNotRegistered_Error);
+
+public sealed record MutationError(object MutationCommand, Exception Exception)
+  : FluxError($"{FluxLogs.Flux_Mutation_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error);
 
 public sealed record UnhandledFluxError(Exception Exception)
     : FluxError($"{FluxLogs.Flux_Unhandled_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_Unhandled_Error);

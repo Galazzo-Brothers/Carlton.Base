@@ -1,9 +1,5 @@
 ﻿using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Errors;
-using Carlton.Core.Flux.Exceptions;
 using Carlton.Core.Flux.Logging;
-using Microsoft.AspNetCore.Components;
-using System.Reflection;
 namespace Carlton.Core.Flux.Tests.Components.ErrorComponents;
 
 public class FluxErrorBoundaryComponentTests : TestContext
@@ -48,13 +44,9 @@ public class FluxErrorBoundaryComponentTests : TestContext
             parameters.Add(p => p.ChildContent, nonErrorMarkup)
                       .Add(p => p.ErrorPrompt, err => string.Format(expectedErrorMarkupTemplate, err.Header, err.IconClass, err.Message)));
 
-        var propertyInfo = typeof(ErrorBoundaryBase).GetProperty("CurrentException", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
-        var onErrorMethodInfo = cut.Instance.GetType().GetMethod("OnErrorAsync", BindingFlags.Instance | BindingFlags.NonPublic);
-
         //Act 
         //Simulate Exception
-        propertyInfo.SetValue(cut.Instance, new Exception());
-        onErrorMethodInfo.Invoke(cut.Instance, new object[] { new Exception() });
+        ErrorBoundaryTestingUtility.SimulateException(cut.Instance, new Exception());
         cut.Render();
 
         // Assert

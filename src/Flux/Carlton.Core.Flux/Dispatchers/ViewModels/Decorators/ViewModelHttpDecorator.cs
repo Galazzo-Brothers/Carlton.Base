@@ -82,13 +82,19 @@ public class ViewModelHttpDecorator<TState>(
 
     private async Task<Result<TViewModel, FluxError>> ApplyViewModelStateMutation<TViewModel>(Result<TViewModel, FluxError> vmResult, ViewModelQueryContext<TViewModel> context)
     {
-        return await vmResult.Match<Task<Result<TViewModel, FluxError>>>
+        return await vmResult.Match
         (
             async vm =>
             {
-                await _state.ApplyMutationCommand(vm);
-                context.MarkAsStateModifiedByHttpRefresh();
-                return vm;
+                //Apply State Mutation
+                var result = await _state.ApplyMutationCommand(vm);
+
+                //Update Context
+                if(result.IsSuccess)
+                    context.MarkAsStateModifiedByHttpRefresh();
+
+                //Return Result
+                return result;
             },
             err => err.ToResultTask<TViewModel, FluxError>()
         );
