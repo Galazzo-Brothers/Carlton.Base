@@ -2,7 +2,8 @@
 
 public class ViewModelValidationDecorator<TState>(
     IViewModelQueryDispatcher<TState> _decorated,
-    ILogger<ViewModelValidationDecorator<TState>> _logger) : IViewModelQueryDispatcher<TState>
+    ILogger<ViewModelValidationDecorator<TState>> _logger)
+    : IViewModelQueryDispatcher<TState>
 {
     public async Task<Result<TViewModel, FluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
