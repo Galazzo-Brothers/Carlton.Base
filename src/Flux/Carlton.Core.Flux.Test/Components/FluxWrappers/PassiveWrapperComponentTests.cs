@@ -67,7 +67,7 @@ public class PassiveWrapperComponentTests : TestContext
     public async Task PassiveWrapper_OnComponentEvent_CallsMutationDispatcher(TestViewModel vm, TestCommand1 command)
     {
         //Arrange
-        _mockCommandDispatcher.SetupMutationDispatcher(command);
+        _mockCommandDispatcher.SetupMutationDispatcher<TestCommand1>(command);
         var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
             parameters => parameters.Add(p => p.PassiveViewModel, vm));
         var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
@@ -76,7 +76,7 @@ public class PassiveWrapperComponentTests : TestContext
         await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
 
         // Assert
-        _mockCommandDispatcher.VerifyCommandDispatcher(1, command);
+        _mockCommandDispatcher.VerifyCommandDispatcher<TestCommand1>(1, command);
     }
 
     [Theory, AutoData]

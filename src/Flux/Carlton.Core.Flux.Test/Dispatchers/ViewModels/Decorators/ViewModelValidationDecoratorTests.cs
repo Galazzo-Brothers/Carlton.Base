@@ -24,7 +24,7 @@ public class ViewModelValidationDecoratorTests : TestContext
         var actualResult = await sut.Dispatch(sender, queryContext, CancellationToken.None);
 
         //Assert
-        decorated.VerifyQueryDispatcher(1);
+        decorated.VerifyQueryDispatcher<TestViewModel>(1);
         actualResult.IsSuccess.ShouldBeTrue();
         actualResult.ShouldBe(expectedResult);
         queryContext.RequestValidated.ShouldBeTrue();
@@ -32,7 +32,7 @@ public class ViewModelValidationDecoratorTests : TestContext
     }
 
     [Theory, AutoNSubstituteData]
-    public async Task ValidationDecoratorDispatch_DispatchCalled_FailedValidation_ReturnsValidationError(
+    public async Task ValidationDecoratorDispatch_DispatchCalled_WithFailedValidation_ReturnsValidationError(
       [Frozen] IViewModelQueryDispatcher<TestState> decorated,
       [Frozen] ILogger<ViewModelValidationDecorator<TestState>> logger,
       ViewModelValidationDecorator<TestState> sut,
@@ -47,7 +47,7 @@ public class ViewModelValidationDecoratorTests : TestContext
         var actualResult = await sut.Dispatch(sender, queryContext, CancellationToken.None);
 
         //Assert
-        decorated.VerifyQueryDispatcher(1);
+        decorated.VerifyQueryDispatcher<TestViewModel>(1);
         queryContext.RequestValidated.ShouldBeTrue();
         queryContext.ValidationResult.ValidationErrors.ShouldNotBeEmpty();
         actualResult.GetError().ShouldBeOfType<ValidationError>();

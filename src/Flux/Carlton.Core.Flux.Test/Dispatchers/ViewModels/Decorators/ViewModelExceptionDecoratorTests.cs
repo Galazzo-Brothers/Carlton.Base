@@ -24,7 +24,7 @@ public class ViewModelExceptionDecoratorTests
         var actualResult = await sut.Dispatch(sender, queryContext, CancellationToken.None);
 
         //Assert
-        decorated.VerifyQueryDispatcher(1);
+        decorated.VerifyQueryDispatcher<TestViewModel>(1);
         logger.Received().ViewModelQueryCompleted(queryContext.FluxOperationTypeName);
         actualResult.IsSuccess.ShouldBeTrue();
         actualResult.ShouldBe(expectedResult);
@@ -36,11 +36,11 @@ public class ViewModelExceptionDecoratorTests
        [Frozen] ILogger<ViewModelExceptionDecorator<TestState>> logger,
        ViewModelExceptionDecorator<TestState> sut,
        object sender,
-       ViewModelQueryContext<TestViewModel> queryContext)
+       ViewModelQueryContext<TestViewModel> queryContext,
+       TestError error)
     {
         //Arrange
-        var error = new TestError();
-        decorated.SetupQueryDispatcherError(error);
+        decorated.SetupQueryDispatcherError<TestViewModel>(error);
 
         //Act 
         var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
@@ -64,7 +64,7 @@ public class ViewModelExceptionDecoratorTests
     {
         //Arrange
         var error = UnhandledFluxError(ex);
-        decorated.SetupQueryDispatcherException(ex);
+        decorated.SetupQueryDispatcherException<TestViewModel>(ex);
 
         //Act 
         var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
