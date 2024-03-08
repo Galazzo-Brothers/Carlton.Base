@@ -7,65 +7,65 @@ namespace Carlton.Core.Flux.Tests.Common.Extensions;
 
 public static class DispatcherExtensions
 {
-    public static void SetupQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, TestViewModel vm)
+    public static void SetupQueryDispatcher<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, TViewModel vm)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),
-         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+         Arg.Any<ViewModelQueryContext<TViewModel>>(),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult((Result<TestViewModel, FluxError>) vm));
+        .Returns(Task.FromResult((Result<TViewModel, FluxError>) vm));
     }
 
-    public static void SetupQueryDispatcherError(this IViewModelQueryDispatcher<TestState> dispatcher, FluxError error)
+    public static void SetupQueryDispatcherError<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, FluxError error)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),
-         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+         Arg.Any<ViewModelQueryContext<TViewModel>>(),
          Arg.Any<CancellationToken>())
-        .Returns(Task.FromResult((Result<TestViewModel, FluxError>)error));
+        .Returns(Task.FromResult((Result<TViewModel, FluxError>)error));
     }
 
-    public static void SetupQueryDispatcherException(this IViewModelQueryDispatcher<TestState> dispatcher, Exception ex)
+    public static void SetupQueryDispatcherException<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, Exception ex)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),
-         Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+         Arg.Any<ViewModelQueryContext<TViewModel>>(),
          Arg.Any<CancellationToken>())
         .Throws(ex);
     }
 
-    public static void SetupMutationDispatcher(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
+    public static void SetupMutationDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),
-         Arg.Is<MutationCommandContext<object>>(context => context.MutationCommand.Equals(command)),
+         Arg.Is<MutationCommandContext<TCommand>>(context => context.MutationCommand.Equals(command)),
          Arg.Any<CancellationToken>())
         .Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult()));
     }
 
-    public static void VerifyQueryDispatcher(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
+    public static void VerifyQueryDispatcher<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
     {
         dispatcher.Received(receivedNumCalls).Dispatch(
             Arg.Any<object>(),
-            Arg.Any<ViewModelQueryContext<TestViewModel>>(),
+            Arg.Any<ViewModelQueryContext<TViewModel>>(),
             Arg.Any<CancellationToken>());
     }
 
-    public static void VerifyCommandDispatcher(this IMutationCommandDispatcher<TestState> dispatcher, int receivedNumCalls, object command)
+    public static void VerifyCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, int receivedNumCalls, object command)
     {
         dispatcher.Received(receivedNumCalls).Dispatch(
             Arg.Any<object>(),
-            Arg.Is<MutationCommandContext<object>>(_ => _.MutationCommand == command),
+            Arg.Is<MutationCommandContext<TCommand>>(_ => _.MutationCommand.Equals(command)),
             Arg.Any<CancellationToken>());
     }
 
    
 
-    public static void SetupCommandDispatcherError(this IMutationCommandDispatcher<TestState> dispatcher, FluxError error)
+    public static void SetupCommandDispatcherError<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command, FluxError error)
     {
         dispatcher.Dispatch(
          Arg.Any<object>(),
-         Arg.Any<MutationCommandContext<object>>(),
+         Arg.Is<MutationCommandContext<TCommand>>(c => c.MutationCommand.Equals(command)),
          Arg.Any<CancellationToken>())
         .Returns(error);
     }

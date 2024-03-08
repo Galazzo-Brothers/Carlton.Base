@@ -60,13 +60,13 @@ else
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
-        return (await QueryDispatcher.Dispatch<TViewModel>(Component, CancellationToken.None))
+        return (await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None))
                     .GetViewModelResultOrThrow<TViewModel>();
     }
 
     protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        return (await MutationDispatcher.Dispatch<TCommand>(Component, command, CancellationToken.None))
+        return (await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None))
                     .GetMutationResultOrThrow();
     }
 

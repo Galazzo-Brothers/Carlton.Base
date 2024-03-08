@@ -58,7 +58,7 @@ else
     {
         //Load the log messages
         var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages() };
-        await Dispatcher.Dispatch<LoadLogMessagesCommand>(this, command, CancellationToken.None);
+        await Dispatcher.Dispatch<FluxDebugState, LoadLogMessagesCommand>(this, command, CancellationToken.None);
 
         //Allow the child components to render
         LoadingComplete = true;

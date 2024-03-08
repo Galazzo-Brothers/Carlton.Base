@@ -1,10 +1,8 @@
 ﻿@namespace Carlton.Core.Flux.Components
 @typeparam TViewModel
 @implements IConnectedComponent<TViewModel>
-@inject ILogger<BaseConnectedComponent<TViewModel>> Logger
- 
 
-@code {
+ @code {
     [Parameter]
     public TViewModel ViewModel { get; set; }
     [Parameter]
