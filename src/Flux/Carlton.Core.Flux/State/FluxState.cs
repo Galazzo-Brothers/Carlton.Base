@@ -1,8 +1,7 @@
 ﻿namespace Carlton.Core.Flux.State;
+public record RecordedMutation<TState>(Func<TState, object, TState> MutationFunc, object Command, string StateEvent);
 
-public record RecordedMutation<TState>(IFluxStateMutation<TState> Mutation, object Command);
-
-public class FluxState<TState>(TState _state, IMutationResolver<TState> _resolver)
+public class FluxState<TState>(TState _state, IServiceProvider _provider)
     : IMutableFluxState<TState>
 {
     public event Func<FluxStateChangedEventArgs, Task> StateChanged;
@@ -15,13 +14,13 @@ public class FluxState<TState>(TState _state, IMutationResolver<TState> _resolve
     public async Task<string> ApplyMutationCommand<TCommand>(TCommand command)
     {
         //Find Mutation
-        var mutation = _resolver.Resolve(command.GetType()) ?? throw new InvalidOperationException($"Unable to find mutation for command: {command.GetType()}");
+        var mutation = _provider.GetService<IFluxStateMutation<TState, TCommand>>() ?? throw new InvalidOperationException($"Unable to find mutation for command: {command.GetType()}");
 
         //Apply Mutation
         _state = mutation.Mutate(CurrentState, command);
 
         //Record Mutation
-        _recordedMutations.Enqueue(new RecordedMutation<TState>(mutation, command));
+        _recordedMutations.Enqueue(new RecordedMutation<TState>(mutationFunc, command, mutation.StateEvent));
 
         //Notify Listeners
         var args = new FluxStateChangedEventArgs(mutation.StateEvent);
@@ -29,6 +28,9 @@ public class FluxState<TState>(TState _state, IMutationResolver<TState> _resolve
 
         //Return StateEvent
         return mutation.StateEvent;
+
+        //Capture MutationFunc for auditing
+        TState mutationFunc(TState state, object command) => mutation.Mutate(state, command);
     }
 }
 

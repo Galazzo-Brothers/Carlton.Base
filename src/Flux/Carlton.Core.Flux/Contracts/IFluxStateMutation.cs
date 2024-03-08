@@ -1,28 +1,16 @@
 ﻿namespace Carlton.Core.Flux.Contracts;
 
-public interface IFluxStateMutation<TState>
+public interface IFluxStateMutation<TState, TCommand> 
 {
     public string StateEvent { get; }
-    public TState Mutate(TState state, object command);
-}
-
-public interface IFluxStateMutation<TState, in TCommand> : IFluxStateMutation<TState>
-{
     public TState Mutate(TState state, TCommand command);
 }
 
-public abstract class FluxStateMutationBase<TState, TCommand> : IFluxStateMutation<TState, TCommand>
+
+internal static class IFluxStateMutationExtensions
 {
-    public abstract string StateEvent { get; }
-
-    public abstract TState Mutate(TState state, TCommand command);
-
-    TState IFluxStateMutation<TState>.Mutate(TState state, object command)
+    public static TState Mutate<TState, TCommand>(this IFluxStateMutation<TState, TCommand> mutation, TState state, object command)
     {
-        if (command is not TCommand typedCommand)
-            throw new ArgumentException("Invalid state or command type");
-        
-        return Mutate(state, typedCommand);
+        return mutation.Mutate(state, (TCommand)command);
     }
 }
-

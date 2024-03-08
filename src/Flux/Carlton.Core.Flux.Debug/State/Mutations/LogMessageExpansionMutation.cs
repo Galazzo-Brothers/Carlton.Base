@@ -1,10 +1,10 @@
 ﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
 
-internal class LogMessageExpansionMutation : FluxStateMutationBase<FluxDebugState, ChangeLogMessageExpansionCommand>
+internal class LogMessageExpansionMutation : IFluxStateMutation<FluxDebugState, ChangeLogMessageExpansionCommand>
 {
-    public override string StateEvent => FluxDebugStateEvents.TraceLogMessageExpandedChanged.ToString();
+    public string StateEvent => FluxDebugStateEvents.TraceLogMessageExpandedChanged.ToString();
 
-    public override FluxDebugState Mutate(FluxDebugState state, ChangeLogMessageExpansionCommand command)
+    public FluxDebugState Mutate(FluxDebugState state, ChangeLogMessageExpansionCommand command)
     {
         var updatedList = state.ExpandedTraceLogMessageIndexes.ToList();
         

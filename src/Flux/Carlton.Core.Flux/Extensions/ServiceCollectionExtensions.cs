@@ -74,7 +74,7 @@ public static class ServiceCollectionExtensions
     private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
     {
         //Register State Wrappers
-        services.AddSingleton<IMutableFluxState<TState>>(_ => new FluxState<TState>(state, new MutationResolver<TState>(_)));
+        services.AddSingleton<IMutableFluxState<TState>>(_ => new FluxState<TState>(state, _.GetService<IServiceProvider>()));
         services.AddSingleton<IFluxState<TState>>(_ => _.GetService<IMutableFluxState<TState>>());
         services.AddSingleton<IFluxStateObserver<TState>>(_ => _.GetService<IFluxState<TState>>());
     }

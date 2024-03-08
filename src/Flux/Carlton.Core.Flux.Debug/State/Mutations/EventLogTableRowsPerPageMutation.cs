@@ -1,10 +1,10 @@
 ﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
 
-internal class EventLogTableRowsPerPageMutation : FluxStateMutationBase<FluxDebugState, ChangeEventLogMessageTableRowsPerPageOptsCommand>
+internal class EventLogTableRowsPerPageMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogMessageTableRowsPerPageOptsCommand>
 {
-    public override string StateEvent => FluxDebugStateEvents.EventLogRowsPerPageChanged.ToString();
+    public string StateEvent => FluxDebugStateEvents.EventLogRowsPerPageChanged.ToString();
 
-    public override FluxDebugState Mutate(FluxDebugState state, ChangeEventLogMessageTableRowsPerPageOptsCommand command)
+    public FluxDebugState Mutate(FluxDebugState state, ChangeEventLogMessageTableRowsPerPageOptsCommand command)
     {
         var updatedTableState = state.EventLogTableState with
         {
