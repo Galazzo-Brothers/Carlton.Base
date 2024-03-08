@@ -11,26 +11,37 @@ public class FluxState<TState>(TState _state, IServiceProvider _provider)
 
     public TState CurrentState { get => _state; }
 
-    public async Task<string> ApplyMutationCommand<TCommand>(TCommand command)
+    public async Task<Result<TCommand, FluxError>> ApplyMutationCommand<TCommand>(TCommand command)
     {
-        //Find Mutation
-        var mutation = _provider.GetService<IFluxStateMutation<TState, TCommand>>() ?? throw new InvalidOperationException($"Unable to find mutation for command: {command.GetType()}");
+        try
+        {
+            //Find Mutation
+            var mutation = _provider.GetService<IFluxStateMutation<TState, TCommand>>();
 
-        //Apply Mutation
-        _state = mutation.Mutate(CurrentState, command);
+            //Return Error
+            if (mutation != null)
+                return new MutationNotRegisteredError(command.GetType().GetDisplayNameWithGenerics());
 
-        //Record Mutation
-        _recordedMutations.Enqueue(new RecordedMutation<TState>(mutationFunc, command, mutation.StateEvent));
+            //Apply Mutation
+            _state = mutation.Mutate(CurrentState, command);
 
-        //Notify Listeners
-        var args = new FluxStateChangedEventArgs(mutation.StateEvent);
-        await (StateChanged?.GetInvocationList()?.RaiseAsyncDelegates(args) ?? Task.CompletedTask);
+            //Record Mutation
+            _recordedMutations.Enqueue(new RecordedMutation<TState>(mutationFunc, command, mutation.StateEvent));
 
-        //Return StateEvent
-        return mutation.StateEvent;
+            //Notify Listeners
+            var args = new FluxStateChangedEventArgs(mutation.StateEvent);
+            await (StateChanged?.GetInvocationList()?.RaiseAsyncDelegates(args) ?? Task.CompletedTask);
 
-        //Capture MutationFunc for auditing
-        TState mutationFunc(TState state, object command) => mutation.Mutate(state, command);
+            //Return StateEvent
+            return command;
+
+            //Capture MutationFunc for auditing
+            TState mutationFunc(TState state, object command) => mutation.Mutate(state, command);
+        }
+        catch(Exception ex)
+        {
+            return new MutationError(command.GetType().GetDisplayNameWithGenerics(), ex);
+        }
     }
 }
 

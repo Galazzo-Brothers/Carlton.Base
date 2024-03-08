@@ -38,7 +38,9 @@ public static class FluxLogs
     public const int Flux_HTTP_FailedRequest_Error = 105;
     public const int Flux_HTTP_Error = 106;
     public const int Flux_JSON_Error = 107;
-    public const int Flux_JsInterop_Error = 108;
+    public const int Flux_MutationNotRegistered_Error = 108;
+    public const int Flux_Mutation_Error = 109;
+    public const int Flux_JsInterop_Error = 110;
 
     //Flux Error Messages
     public const string Flux_Unhandled_ErrorMsg = "An unhandled exception occurred during a flux operation";
@@ -49,6 +51,8 @@ public static class FluxLogs
     public const string Flux_HTTP_FailedRequest_ErrorMsg = "The HTTP {0} request to {1} failed with status code {2} ({3}).";
     public const string Flux_HTTP_ErrorMsg = "An exception occurred while sending an HTTP request";
     public const string Flux_JSON_ErrorMsg = "An exception occurred while serializing or deserializing a JSON payload";
+    public const string Flux_MutationNotRegistered_ErrorMsg = "A mutation of type {0} has not been registered";
+    public const string Flux_Mutation_ErrorMsg = "A exception occurred while processing mutation of type {0}";
     public const string Flux_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel of type";
 
 

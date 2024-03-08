@@ -14,7 +14,7 @@ public interface IFluxState<TState> : IFluxStateObserver<TState>
 
 public interface IMutableFluxState<TState> : IFluxState<TState>
 {
-    public Task<string> ApplyMutationCommand<TCommand>(TCommand command);
+    public Task<Result<TCommand, FluxError>> ApplyMutationCommand<TCommand>(TCommand command);
 }
 
 
