@@ -60,7 +60,7 @@ public class ConnectedWrapperComponentTests : TestContext
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(1);
+        _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(1);
     }
 
     [Theory, AutoData]
@@ -68,7 +68,7 @@ public class ConnectedWrapperComponentTests : TestContext
     {
         //Arrange
         _mockQueryDispatcher.SetupQueryDispatcher(vm);
-        _mockCommandDispatcher.SetupMutationDispatcher(command);
+        _mockCommandDispatcher.SetupMutationDispatcher<TestCommand1>(command);
         var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
         var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
 
@@ -76,7 +76,7 @@ public class ConnectedWrapperComponentTests : TestContext
         await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
 
         // Assert
-        _mockCommandDispatcher.VerifyCommandDispatcher(1, command);
+        _mockCommandDispatcher.VerifyCommandDispatcher<TestCommand1>(1, command);
     }
 
     [Theory, AutoData]
@@ -108,7 +108,7 @@ public class ConnectedWrapperComponentTests : TestContext
         _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
+        _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
     }
 
     [Theory, AutoData]
@@ -123,7 +123,7 @@ public class ConnectedWrapperComponentTests : TestContext
         _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("Some not relevant event"));
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
+        _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
     }
 
     [Theory, AutoData]
@@ -139,7 +139,7 @@ public class ConnectedWrapperComponentTests : TestContext
         _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
 
         // Assert
-        _mockQueryDispatcher.VerifyQueryDispatcher(expectedTimes);
+        _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
     }
 
     [Theory, AutoData]
