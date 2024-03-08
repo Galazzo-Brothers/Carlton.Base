@@ -60,14 +60,14 @@ else
 
     protected virtual async Task<TViewModel> GetViewModel()
     {
-        return (await QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None))
+        return (await QueryDispatcher.Dispatch<TViewModel>(Component, CancellationToken.None))
                     .GetViewModelResultOrThrow<TViewModel>();
     }
 
     protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
     {
-        return (await MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None))
-                                 .GetMutationResultOrThrow();
+        return (await MutationDispatcher.Dispatch<TCommand>(Component, command, CancellationToken.None))
+                    .GetMutationResultOrThrow();
     }
 
     private async Task OnStateChanged(FluxStateChangedEventArgs args)
@@ -92,7 +92,7 @@ else
 
     protected IDictionary<string, object> GetParameters()
     {
-        var eventCallback = EventCallback.Factory.Create(this, (command) => OnComponentEvent(Component, command));
+        var eventCallback = EventCallback.Factory.Create(this, async (command) => await OnComponentEvent(Component, (dynamic)command));
         return new Dictionary<string, object>
         {
             { "ViewModel", ViewModel },

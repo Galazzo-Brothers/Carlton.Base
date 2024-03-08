@@ -1,10 +1,10 @@
 ﻿namespace Carlton.Core.Lab.State.Mutations;
 
-public class ExpandedMenuItemMutation : FluxStateMutationBase<LabState, SelectMenuExpandedCommand>
+public class ExpandedMenuItemMutation : IFluxStateMutation<LabState, SelectMenuExpandedCommand>
 {
-    public override string StateEvent => LabStateEvents.MenuItemExpandedStateChanged.ToString();
+    public string StateEvent => LabStateEvents.MenuItemExpandedStateChanged.ToString();
 
-    public override LabState Mutate(LabState state, SelectMenuExpandedCommand input)
+    public LabState Mutate(LabState state, SelectMenuExpandedCommand input)
     {
         var newComponentStates = state.ComponentStates.ToList();
         var toUpdate = state.ComponentStates[input.SelectedComponentIndex];

@@ -1,10 +1,10 @@
 ﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
 
-internal class EventLogFilterTextMutation : FluxStateMutationBase<FluxDebugState, ChangeEventLogFilterTextCommand>
+internal class EventLogFilterTextMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogFilterTextCommand>
 {
-    public override string StateEvent => FluxDebugStateEvents.EventLogFilterTextChanged.ToString();
+    public string StateEvent => FluxDebugStateEvents.EventLogFilterTextChanged.ToString();
 
-    public override FluxDebugState Mutate(FluxDebugState state, ChangeEventLogFilterTextCommand command)
+    public FluxDebugState Mutate(FluxDebugState state, ChangeEventLogFilterTextCommand command)
     {
         var updatedFilterState = state.EventLogViewerFilterState with { FilterText = command.FilterText.ToLower() };
         return state with { EventLogViewerFilterState = updatedFilterState };

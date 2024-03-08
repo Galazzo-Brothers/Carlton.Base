@@ -1,12 +1,10 @@
-﻿using System.Net.Http.Headers;
+﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
 
-namespace Carlton.Core.Flux.Debug.State.Mutations;
-
-internal class TraceLogMessageTableRowsPerPageMutation : FluxStateMutationBase<FluxDebugState, ChangeTraceLogMessageTableRowsPerPageOptsCommand>
+internal class TraceLogMessageTableRowsPerPageMutation : IFluxStateMutation<FluxDebugState, ChangeTraceLogMessageTableRowsPerPageOptsCommand>
 {
-    public override string StateEvent => FluxDebugStateEvents.TraceLogTableRowsPerPageChanged.ToString();
+    public string StateEvent => FluxDebugStateEvents.TraceLogTableRowsPerPageChanged.ToString();
 
-    public override FluxDebugState Mutate(FluxDebugState state, ChangeTraceLogMessageTableRowsPerPageOptsCommand command)
+    public FluxDebugState Mutate(FluxDebugState state, ChangeTraceLogMessageTableRowsPerPageOptsCommand command)
     {
         var updatedTableState = state.TraceLogTableState with
         {

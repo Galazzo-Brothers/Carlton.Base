@@ -14,11 +14,11 @@ public class MutationExceptionDecoratorTests
         [Frozen] IMutationCommandDispatcher<TestState> decorated,
         [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
         object sender,
-        object command,
+        MutationCommandContext<TestCommand1> context,
         MutationExceptionDecorator<TestState> sut)
     {
         //Act 
-        await sut.Dispatch(sender, command, CancellationToken.None);
+        await sut.Dispatch(sender, context, CancellationToken.None);
 
         //Assert
         await decorated.Received(1).Dispatch(
@@ -32,14 +32,14 @@ public class MutationExceptionDecoratorTests
         [Frozen] IMutationCommandDispatcher<TestState> decorated,
         [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
         object sender,
-        TestCommand1 command,
+        MutationCommandContext<TestCommand1> context,
         MutationExceptionDecorator<TestState> sut)
     {
         //Arrange
-        decorated.Dispatch(sender, command, CancellationToken.None).ThrowsForAnyArgs(new Exception());
+        decorated.Dispatch(sender, context, CancellationToken.None).ThrowsForAnyArgs(new Exception());
 
         //Act
-        var func = async () => await sut.Dispatch(sender, command, CancellationToken.None);
+        var func = async () => await sut.Dispatch(sender, context, CancellationToken.None);
        // var ex = await func.ShouldThrowAsync<MutationCommandFluxException<TestState, TestCommand1>>();
 
         //Assert
