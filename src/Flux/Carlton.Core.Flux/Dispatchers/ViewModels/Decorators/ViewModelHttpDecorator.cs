@@ -7,23 +7,25 @@ public class ViewModelHttpDecorator<TState>(
     IViewModelQueryDispatcher<TState> _decorated,
     HttpClient _client,
     IMutableFluxState<TState> _state)
-    : BaseHttpDecorator<TState>(_client, _state), IViewModelQueryDispatcher<TState>
+    : BaseHttpDecorator<TState>(_client), IViewModelQueryDispatcher<TState>
 {
     public async Task<Result<TViewModel, FluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
     {
-        //Get RefreshPolicy Attribute
+        //Get FluxServerCommunicationAttribute Attribute
         var attributes = sender.GetType().GetCustomAttributes();
-        var httpRefreshAttribute = attributes.OfType<ViewModelHttpRefreshAttribute>().FirstOrDefault();
-        var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
+        var fluxServerCommunicationAttribute = attributes.OfType<FluxServerCommunicationAttribute>().FirstOrDefault();
+        var requiresRefresh = GetRefreshPolicy(fluxServerCommunicationAttribute?.ServerCommunicationPolicy);
 
         if (requiresRefresh)
         {
             //Update the context for logging and auditing
             context.MarkAsRequiresHttpRefresh();
 
+            //Find FluxServerCommunicationParameterAttributes
+            var parameterAttributes = sender.GetType().GetProperties().SelectMany(p => p.GetCustomAttributes<FluxServerCommunicationParameterAttribute>());
+
             //Construct Http Refresh URL
-            var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrlResult = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender, context);
+            var serverUrlResult = GetServerUrl(fluxServerCommunicationAttribute, parameterAttributes, sender);
 
             //Get ViewModel from server
             var vmResult = await serverUrlResult.Match
@@ -55,14 +57,17 @@ public class ViewModelHttpDecorator<TState>(
     {
         try
         {
+            //Get ViewModel from server
             var response = await Client.GetAsync(serverUrl, cancellationToken);
-
+            
+            //Return error value if http call unsuccessful
             if (!response.IsSuccessStatusCode)
                 return HttpRequestFailedError(response);
 
-            // Deserialize the content to the specified type
+            //Deserialize the content to the specified type
             var viewModel = await response.Content.ReadFromJsonAsync<TViewModel>(cancellationToken: cancellationToken);
 
+            //Update the context and return the ViewModel
             context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK, viewModel);
             return viewModel;
         }

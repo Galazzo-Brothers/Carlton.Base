@@ -3,14 +3,14 @@ using Carlton.Core.Flux.Handlers.Base;
 using System.Net.Http.Json;
 namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 
-public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client, IFluxState<TState> _state)
-    : BaseHttpDecorator<TState>(_client, _state), IMutationCommandDispatcher<TState>
+public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client)
+    : BaseHttpDecorator<TState>(_client), IMutationCommandDispatcher<TState>
 {
     public async Task<Result<MutationCommandResult, FluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
     {
         var attributes = sender.GetType().GetCustomAttributes();
-        var httpRefreshAttribute = attributes.OfType<MutationHttpRefreshAttribute>().FirstOrDefault();
-        var requiresRefresh = GetRefreshPolicy(httpRefreshAttribute);
+        var fluxServerCommunicationAttribute = attributes.OfType<FluxServerCommunicationAttribute>().FirstOrDefault();
+        var requiresRefresh = GetRefreshPolicy(fluxServerCommunicationAttribute.ServerCommunicationPolicy);
 
         //Continue on if no refresh required
         if (requiresRefresh)
@@ -19,11 +19,11 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
             context.MarkAsRequiresHttpRefresh();
 
             //Construct Http Refresh URL
-            var urlParameterAttributes = attributes.OfType<HttpRefreshParameterAttribute>() ?? new List<HttpRefreshParameterAttribute>();
-            var serverUrlResult = GetServerUrl(httpRefreshAttribute, urlParameterAttributes, sender, context);
+            var urlParameterAttributes = attributes.OfType<FluxServerCommunicationParameterAttribute>() ?? new List<FluxServerCommunicationParameterAttribute>();
+            var serverUrlResult = GetServerUrl(fluxServerCommunicationAttribute, urlParameterAttributes, sender);
 
             //Send Request
-            var response = await SendRequest(httpRefreshAttribute.HttpVerb, serverUrlResult, context, cancellationToken);
+            var response = await SendRequest(fluxServerCommunicationAttribute.HttpVerb, serverUrlResult, context, cancellationToken);
 
             //Update context with response
             await UpdateCommandWithServerResponse(response, context, cancellationToken);
