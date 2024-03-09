@@ -20,7 +20,7 @@ public class MutationCommandDispatcherTests
         handler.SetupHandler<TestCommand1>();
 
         //Act
-        await ((IMutationCommandDispatcher<TestState>)sut).Dispatch<TestCommand1>(sender, context, CancellationToken.None);
+        await sut.Dispatch(sender, context, CancellationToken.None);
 
         //Assert
         handler.VerifyHandler(context.MutationCommand);

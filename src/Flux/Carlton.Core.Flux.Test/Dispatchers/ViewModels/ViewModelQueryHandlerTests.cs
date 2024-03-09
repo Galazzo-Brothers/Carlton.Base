@@ -20,7 +20,7 @@ public class ViewModelQueryHandlerTests
         var result = await sut.Handle(context, CancellationToken.None);
 
         //Assert
-        result.ShouldBe(expectedViewModel);
         mapper.Received().Map<TestViewModel>(fluxState.CurrentState);
+        result.ShouldBe(expectedViewModel);
     }
 }
