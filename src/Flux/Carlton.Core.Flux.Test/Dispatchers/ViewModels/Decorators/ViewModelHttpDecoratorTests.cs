@@ -41,7 +41,7 @@ public class ViewModelHttpDecoratorTests
         [Frozen] MockHttpMessageHandler mockHttp,
         [Frozen] IMutableFluxState<TestState> fluxState,
         ViewModelHttpDecorator<TestState> sut,
-        HttpNeverRefreshCaller sender,
+        FluxServerCommunicationNever sender,
         ViewModelQueryContext<TestViewModel> context,
         TestViewModel expectedResult)
     {
@@ -68,13 +68,13 @@ public class ViewModelHttpDecoratorTests
        [Frozen] MockHttpMessageHandler mockHttp,
        [Frozen] IMutableFluxState<TestState> fluxState,
        ViewModelHttpDecorator<TestState> sut,
-       HttpRefreshCaller sender,
+       FluxServerCommunicationAlways sender,
        ViewModelQueryContext<TestViewModel> context,
        TestViewModel expectedResult)
     {
         //Arrange
         fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
-        var request = mockHttp.When(HttpRefreshCaller.MockRefreshUrl)
+        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
              .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
         decorated.SetupQueryDispatcher(expectedResult);
 
@@ -97,7 +97,7 @@ public class ViewModelHttpDecoratorTests
       [Frozen] MockHttpMessageHandler mockHttp,
       [Frozen] IMutableFluxState<TestState> fluxState,
       ViewModelHttpDecorator<TestState> sut,
-      HttpRefreshWithComponentParametersCaller sender,
+      FluxServerCommunicationWithComponentParameters sender,
       ViewModelQueryContext<TestViewModel> context,
       TestViewModel expectedResult,
     int clientId,
@@ -107,7 +107,7 @@ public class ViewModelHttpDecoratorTests
         fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
         sender.ClientId = clientId;
         sender.UserId = userId;
-        var httpUrl = HttpRefreshWithComponentParametersCaller.MockRefreshUrlTemplate
+        var httpUrl = FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate
             .Replace("{ClientId}", clientId.ToString())
             .Replace("{UserId}", userId.ToString());
         var request = mockHttp.When(httpUrl)
@@ -160,7 +160,7 @@ public class ViewModelHttpDecoratorTests
      [Frozen] MockHttpMessageHandler mockHttp,
      [Frozen] IMutableFluxState<TestState> fluxState,
      ViewModelHttpDecorator<TestState> sut,
-     HttpRefreshWithComponentUnreplacedParametersCaller sender,
+     FluxServerCommunicationWithUnreplacedParameters sender,
      ViewModelQueryContext<TestViewModel> context,
      TestViewModel expectedResult,
      int clientId,
@@ -168,11 +168,11 @@ public class ViewModelHttpDecoratorTests
     {
         //Arrange
         var expectedError = new HttpUrlConstructionUnreplacedTokensError(
-            HttpRefreshWithComponentParametersCaller.MockRefreshUrlTemplate,
+            FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate,
             new List<string> { "{ClientId}", "{UserId}" });
         sender.ClientId = clientId;
         sender.UserId = userId;
-        var httpUrl = HttpRefreshWithComponentParametersCaller.MockRefreshUrlTemplate
+        var httpUrl = FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate
             .Replace("{ClientId}", clientId.ToString())
             .Replace("{UserId}", userId.ToString());
         var request = mockHttp.When(httpUrl)
@@ -200,13 +200,13 @@ public class ViewModelHttpDecoratorTests
        [Frozen] MockHttpMessageHandler mockHttp,
        [Frozen] IMutableFluxState<TestState> fluxState,
        ViewModelHttpDecorator<TestState> sut,
-       HttpRefreshCaller sender,
+       FluxServerCommunicationAlways sender,
        ViewModelQueryContext<TestViewModel> context,
        TestViewModel expectedResult)
     {
         //Arrange
         
-        var request = mockHttp.When(HttpRefreshCaller.MockRefreshUrl)
+        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
              .Respond(HttpStatusCode.InternalServerError, "application/json", JsonSerializer.Serialize(expectedResult));
         decorated.SetupQueryDispatcher(expectedResult);
 
@@ -231,13 +231,13 @@ public class ViewModelHttpDecoratorTests
       [Frozen] MockHttpMessageHandler mockHttp,
       [Frozen] IMutableFluxState<TestState> fluxState,
       ViewModelHttpDecorator<TestState> sut,
-      HttpRefreshCaller sender,
+      FluxServerCommunicationAlways sender,
       ViewModelQueryContext<TestViewModel> context,
       TestViewModel expectedResult)
     {
         //Arrange
 
-        var request = mockHttp.When(HttpRefreshCaller.MockRefreshUrl)
+        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
              .Respond(HttpStatusCode.OK, "application/json", "{3243423;'sdf");
         decorated.SetupQueryDispatcher(expectedResult);
 
@@ -261,14 +261,14 @@ public class ViewModelHttpDecoratorTests
      [Frozen] MockHttpMessageHandler mockHttp,
      [Frozen] IMutableFluxState<TestState> fluxState,
      ViewModelHttpDecorator<TestState> sut,
-     HttpRefreshCaller sender,
+     FluxServerCommunicationAlways sender,
      ViewModelQueryContext<TestViewModel> context,
      TestViewModel expectedResult,
      MutationNotRegisteredError error)
     {
         //Arrange
         fluxState.ApplyMutationCommand(expectedResult).Returns(error);
-        var request = mockHttp.When(HttpRefreshCaller.MockRefreshUrl)
+        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
              .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
         decorated.SetupQueryDispatcher(expectedResult);
 

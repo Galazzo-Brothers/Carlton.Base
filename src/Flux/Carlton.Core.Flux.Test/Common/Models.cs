@@ -25,23 +25,21 @@ public record MockServerResponse(string ServerName, string ServerDescription);
 
 
 [FluxServerCommunication("http://test.carlton.com/", HttpVerb.GET, FluxServerCommunicationPolicy.Always)]
-public class HttpRefreshCaller
+public class FluxServerCommunicationAlways
 {
-    public Type type { get; set; }
     public const string MockRefreshUrl = "http://test.carlton.com/";
 }
 
 [FluxServerCommunication("http://test.carlton.com/", HttpVerb.GET, FluxServerCommunicationPolicy.Never)]
-public class HttpNeverRefreshCaller
+public class FluxServerCommunicationNever
 {
 }
-
 
 [FluxServerCommunication(
     serverUrl: "http://test.carlton.com/clients/{ClientId}/users/{UserId}",
     httpVerb: HttpVerb.GET,
     serverCommunicationPolicy: FluxServerCommunicationPolicy.Always)]
-public class HttpRefreshWithComponentParametersCaller
+public class FluxServerCommunicationWithComponentParameters
 {
     public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
 
@@ -56,14 +54,13 @@ public class HttpRefreshWithComponentParametersCaller
     serverUrl: "http://test.carlton.com/clients/{ClientId}/users/{UserId}",
     httpVerb: HttpVerb.GET,
     serverCommunicationPolicy: FluxServerCommunicationPolicy.Always)]
-public class HttpRefreshWithComponentUnreplacedParametersCaller
+public class FluxServerCommunicationWithUnreplacedParameters
 {
     public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
 
     public int ClientId { get; set; } = 5;
     public int UserId { get; set; } = 10;
 }
-
 
 [FluxServerCommunication(
     serverUrl: "http://test.#%$@#carlton.com/clients/",
@@ -73,11 +70,6 @@ public class FluxServerCommunicationWithInvalidUrl
 {
     public int ClientID { get; set; } = 5;
     public int UserID { get; set; } = 10;
-}
-
-public class NoRefreshCaller
-{
-
 }
 
 public class TestState
