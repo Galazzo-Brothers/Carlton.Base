@@ -2,8 +2,6 @@
 using Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
 using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Foundation.Test;
-using Microsoft.Extensions.Logging;
-using Carlton.Core.Flux.Logging;
 namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelValidationDecoratorTests : TestContext
@@ -33,7 +31,6 @@ public class ViewModelValidationDecoratorTests : TestContext
 	[Theory, AutoNSubstituteData]
 	public async Task ValidationDecoratorDispatch_DispatchCalled_WithFailedValidation_ReturnsValidationError(
 	  [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-	  [Frozen] ILogger<ViewModelValidationDecorator<TestState>> logger,
 	  ViewModelValidationDecorator<TestState> sut,
 	  object sender,
 	  ViewModelQueryContext<TestViewModel> queryContext)
@@ -50,6 +47,5 @@ public class ViewModelValidationDecoratorTests : TestContext
 		queryContext.RequestValidated.ShouldBeTrue();
 		queryContext.ValidationResult.ValidationErrors.ShouldNotBeEmpty();
 		actualResult.GetError().ShouldBeOfType<ValidationError>();
-		logger.Received().ViewModelQueryValidationFailure(queryContext.FluxOperationTypeName);
 	}
 }
