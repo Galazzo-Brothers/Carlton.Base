@@ -7,22 +7,22 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations;
 
 public class MutationCommandDispatcherTests
 {
-    [Theory, AutoNSubstituteData]
-    public async Task Dispatch_AssertHandlerCalled(
-        [Frozen] IServiceProvider serviceProvider,
-        [Frozen] IMutationCommandHandler<TestState> handler,
-        MutationCommandDispatcher<TestState> sut,
-        object sender,
-        MutationCommandContext<TestCommand1> context)
-    {
-        //Arrange
-        serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState>>(handler);
-        handler.SetupHandler<TestCommand1>();
+	[Theory, AutoNSubstituteData]
+	public async Task Dispatch_ShouldCallHandler(
+		[Frozen] IServiceProvider serviceProvider,
+		[Frozen] IMutationCommandHandler<TestState> handler,
+		MutationCommandDispatcher<TestState> sut,
+		object sender,
+		MutationCommandContext<TestCommand1> context)
+	{
+		//Arrange
+		serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState>>(handler);
+		handler.SetupHandler<TestCommand1>();
 
-        //Act
-        await sut.Dispatch(sender, context, CancellationToken.None);
+		//Act
+		await sut.Dispatch(sender, context, CancellationToken.None);
 
-        //Assert
-        handler.VerifyHandler(context.MutationCommand);
-    }
+		//Assert
+		handler.VerifyHandler(context.MutationCommand);
+	}
 }

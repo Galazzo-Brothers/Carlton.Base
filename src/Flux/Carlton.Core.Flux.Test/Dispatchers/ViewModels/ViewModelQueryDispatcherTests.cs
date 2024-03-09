@@ -7,26 +7,26 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels;
 
 public class ViewModelQueryDispatcherTests
 {
-    [Theory, AutoNSubstituteData]
-    public async Task Dispatch_AssertHandlerCalled_AssertViewModelResponse(
-        [Frozen] IServiceProvider serviceProvider,
-        [Frozen] IViewModelQueryHandler<TestState> handler,
-        ViewModelQueryDispatcher<TestState> sut,
-        object sender,
-        ViewModelQueryContext<TestViewModel> queryContext,
-        TestViewModel expectedViewModel)
-    {
-        //Arrange
-        serviceProvider.SetupServiceProvider<IViewModelQueryHandler<TestState>>(handler);
-        handler.SetupHandler(expectedViewModel);
+	[Theory, AutoNSubstituteData]
+	public async Task Dispatch_ShouldReturnViewModel(
+		[Frozen] IServiceProvider serviceProvider,
+		[Frozen] IViewModelQueryHandler<TestState> handler,
+		ViewModelQueryDispatcher<TestState> sut,
+		object sender,
+		ViewModelQueryContext<TestViewModel> queryContext,
+		TestViewModel expectedViewModel)
+	{
+		//Arrange
+		serviceProvider.SetupServiceProvider<IViewModelQueryHandler<TestState>>(handler);
+		handler.SetupHandler(expectedViewModel);
 
-        //Act
-        var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
+		//Act
+		var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
 
-        //Assert
-        handler.VerifyHandler<TestViewModel>();
-        result.Match(vm => vm, err => throw new Exception()).ShouldBe(expectedViewModel);
-    }
+		//Assert
+		handler.VerifyHandler<TestViewModel>();
+		result.Match(vm => vm, err => throw new Exception()).ShouldBe(expectedViewModel);
+	}
 }
 
 
