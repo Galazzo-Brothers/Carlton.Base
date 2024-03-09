@@ -68,7 +68,7 @@ public class ConnectedWrapperComponentTests : TestContext
 	{
 		//Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
-		_mockCommandDispatcher.SetupMutationDispatcher<TestCommand1>(command);
+		_mockCommandDispatcher.SetupCommandDispatcher<TestCommand1>(command);
 		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 		var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
 

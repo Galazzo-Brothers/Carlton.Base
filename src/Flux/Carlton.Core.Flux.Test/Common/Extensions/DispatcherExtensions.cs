@@ -34,13 +34,31 @@ public static class DispatcherExtensions
 		.Throws(ex);
 	}
 
-	public static void SetupMutationDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
+	public static void SetupCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
 	{
 		dispatcher.Dispatch(
 		 Arg.Any<object>(),
 		 Arg.Is<MutationCommandContext<TCommand>>(context => context.MutationCommand.Equals(command)),
 		 Arg.Any<CancellationToken>())
 		.Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult()));
+	}
+
+	public static void SetupCommandDispatcherError<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command, FluxError error)
+	{
+		dispatcher.Dispatch(
+		 Arg.Any<object>(),
+		 Arg.Is<MutationCommandContext<TCommand>>(c => c.MutationCommand.Equals(command)),
+		 Arg.Any<CancellationToken>())
+		.Returns(error);
+	}
+
+	public static void SetupCommandDispatcherException<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, Exception ex)
+	{
+		dispatcher.Dispatch(
+		 Arg.Any<object>(),
+		 Arg.Any<MutationCommandContext<TCommand>>(),
+		 Arg.Any<CancellationToken>())
+		.Throws(ex);
 	}
 
 	public static void VerifyQueryDispatcher<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
@@ -57,17 +75,6 @@ public static class DispatcherExtensions
 			Arg.Any<object>(),
 			Arg.Is<MutationCommandContext<TCommand>>(_ => _.MutationCommand.Equals(command)),
 			Arg.Any<CancellationToken>());
-	}
-
-
-
-	public static void SetupCommandDispatcherError<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command, FluxError error)
-	{
-		dispatcher.Dispatch(
-		 Arg.Any<object>(),
-		 Arg.Is<MutationCommandContext<TCommand>>(c => c.MutationCommand.Equals(command)),
-		 Arg.Any<CancellationToken>())
-		.Returns(error);
 	}
 }
 

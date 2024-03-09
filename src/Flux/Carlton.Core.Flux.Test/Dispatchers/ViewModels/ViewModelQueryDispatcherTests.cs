@@ -13,7 +13,7 @@ public class ViewModelQueryDispatcherTests
 		[Frozen] IViewModelQueryHandler<TestState> handler,
 		ViewModelQueryDispatcher<TestState> sut,
 		object sender,
-		ViewModelQueryContext<TestViewModel> queryContext,
+		ViewModelQueryContext<TestViewModel> context,
 		TestViewModel expectedViewModel)
 	{
 		//Arrange
@@ -21,7 +21,7 @@ public class ViewModelQueryDispatcherTests
 		handler.SetupHandler(expectedViewModel);
 
 		//Act
-		var result = await sut.Dispatch(sender, queryContext, CancellationToken.None);
+		var result = await sut.Dispatch(sender, context, CancellationToken.None);
 
 		//Assert
 		handler.VerifyHandler<TestViewModel>();
