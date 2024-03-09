@@ -15,7 +15,7 @@ public class MutationCommandValidationDecoratorTests
 	   MutationCommandResult expectedResult)
 	{
 		//Arrange
-		decorated.SetupMutationDispatcher<TestCommand1>(context.MutationCommand);
+		decorated.SetupCommandDispatcher<TestCommand1>(context.MutationCommand);
 
 		//Act 
 		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
@@ -37,7 +37,7 @@ public class MutationCommandValidationDecoratorTests
 		//Arrange
 		var invalidCommand = new TestCommand1(-1, "Testing", "This should fail");
 		var context = new MutationCommandContext<TestCommand1>(invalidCommand);
-		decorated.SetupMutationDispatcher<TestCommand1>(invalidCommand);
+		decorated.SetupCommandDispatcher<TestCommand1>(invalidCommand);
 
 		//Act 
 		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);

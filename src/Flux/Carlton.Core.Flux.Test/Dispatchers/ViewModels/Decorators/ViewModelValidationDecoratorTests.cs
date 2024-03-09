@@ -11,21 +11,21 @@ public class ViewModelValidationDecoratorTests : TestContext
 	   [Frozen] IViewModelQueryDispatcher<TestState> decorated,
 	   ViewModelValidationDecorator<TestState> sut,
 	   object sender,
-	   ViewModelQueryContext<TestViewModel> queryContext,
+	   ViewModelQueryContext<TestViewModel> context,
 	   TestViewModel expectedResult)
 	{
 		//Arrange
 		decorated.SetupQueryDispatcher(expectedResult);
 
 		//Act 
-		var actualResult = await sut.Dispatch(sender, queryContext, CancellationToken.None);
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
 		//Assert
 		decorated.VerifyQueryDispatcher<TestViewModel>(1);
 		actualResult.IsSuccess.ShouldBeTrue();
 		actualResult.ShouldBe(expectedResult);
-		queryContext.RequestValidated.ShouldBeTrue();
-		queryContext.ValidationResult.ValidationPassed.ShouldBeTrue();
+		context.RequestValidated.ShouldBeTrue();
+		context.ValidationResult.ValidationPassed.ShouldBeTrue();
 	}
 
 	[Theory, AutoNSubstituteData]
@@ -33,19 +33,19 @@ public class ViewModelValidationDecoratorTests : TestContext
 	  [Frozen] IViewModelQueryDispatcher<TestState> decorated,
 	  ViewModelValidationDecorator<TestState> sut,
 	  object sender,
-	  ViewModelQueryContext<TestViewModel> queryContext)
+	  ViewModelQueryContext<TestViewModel> context)
 	{
 		//Arrange
 		var invalidViewModel = new TestViewModel(-1, "Testing", "This should fail");
 		decorated.SetupQueryDispatcher(invalidViewModel);
 
 		//Act 
-		var actualResult = await sut.Dispatch(sender, queryContext, CancellationToken.None);
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
 		//Assert
 		decorated.VerifyQueryDispatcher<TestViewModel>(1);
-		queryContext.RequestValidated.ShouldBeTrue();
-		queryContext.ValidationResult.ValidationErrors.ShouldNotBeEmpty();
+		context.RequestValidated.ShouldBeTrue();
+		context.ValidationResult.ValidationErrors.ShouldNotBeEmpty();
 		actualResult.GetError().ShouldBeOfType<ValidationError>();
 	}
 }
