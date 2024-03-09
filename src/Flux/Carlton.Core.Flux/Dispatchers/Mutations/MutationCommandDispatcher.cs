@@ -22,9 +22,6 @@ public class MutationCommandHandler<TState>(
         {
             var stateEventResult = await _state.ApplyMutationCommand(context.MutationCommand);
 
-            if (stateEventResult.IsSuccess)
-                context.MarkAsSucceeded();
-
             return stateEventResult.Match<Result<MutationCommandResult, FluxError>>
             (
                 success => new MutationCommandResult(),
