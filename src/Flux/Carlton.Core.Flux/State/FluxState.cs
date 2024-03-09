@@ -19,7 +19,7 @@ public class FluxState<TState>(TState _state, IServiceProvider _provider)
             var mutation = _provider.GetService<IFluxStateMutation<TState, TCommand>>();
 
             //Return Error
-            if (mutation != null)
+            if (mutation == null)
                 return new MutationNotRegisteredError(command.GetType().GetDisplayNameWithGenerics());
 
             //Apply Mutation

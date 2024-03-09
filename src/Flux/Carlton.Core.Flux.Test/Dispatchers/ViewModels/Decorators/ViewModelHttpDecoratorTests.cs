@@ -66,7 +66,6 @@ public class ViewModelHttpDecoratorTests
     public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
        [Frozen] IViewModelQueryDispatcher<TestState> decorated,
        [Frozen] MockHttpMessageHandler mockHttp,
-       [Frozen] HttpClient httpClient,
        [Frozen] IMutableFluxState<TestState> fluxState,
        ViewModelHttpDecorator<TestState> sut,
        HttpRefreshCaller sender,
@@ -96,7 +95,6 @@ public class ViewModelHttpDecoratorTests
     public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
       [Frozen] IViewModelQueryDispatcher<TestState> decorated,
       [Frozen] MockHttpMessageHandler mockHttp,
-      [Frozen] HttpClient httpClient,
       [Frozen] IMutableFluxState<TestState> fluxState,
       ViewModelHttpDecorator<TestState> sut,
       HttpRefreshWithComponentParametersCaller sender,
@@ -130,51 +128,12 @@ public class ViewModelHttpDecoratorTests
     }
 
     [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_StateParameters_ShouldMakeHttpCall(
-        [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-        [Frozen] MockHttpMessageHandler mockHttp,
-        [Frozen] HttpClient httpClient,
-        [Frozen] TestState state,
-        [Frozen] IMutableFluxState<TestState> fluxState,
-        ViewModelHttpDecorator<TestState> sut,
-        HttpRefreshWithStateParametersCaller sender,
-        ViewModelQueryContext<TestViewModel> context,
-        TestViewModel expectedResult,
-        int clientId,
-        int userId)
-    {
-        //Arrange
-        state.ClientId = clientId;
-        state.UserId = userId;
-        fluxState.CurrentState.Returns(state);
-        fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
-        var httpUrl = HttpRefreshWithComponentParametersCaller.MockRefreshUrlTemplate
-            .Replace("{ClientId}", clientId.ToString())
-            .Replace("{UserId}", userId.ToString());
-        var request = mockHttp.When(httpUrl)
-            .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
-        decorated.SetupQueryDispatcher(expectedResult);
-
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
-
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(1);
-        mockHttp.GetMatchCount(request).ShouldBe(1);
-        await fluxState.Received(1).ApplyMutationCommand(expectedResult);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeTrue();
-        context.StateModifiedByHttpRefresh.ShouldBeTrue();
-        actualResult.ShouldBe(expectedResult);
-    }
-
-    [Theory, AutoNSubstituteData]
     public async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
      [Frozen] IViewModelQueryDispatcher<TestState> decorated,
      [Frozen] MockHttpMessageHandler mockHttp,
      [Frozen] IMutableFluxState<TestState> fluxState,
      ViewModelHttpDecorator<TestState> sut,
-     HttpRefreshWithInvalidHttpUrlCaller sender,
+     FluxServerCommunicationWithInvalidUrl sender,
      ViewModelQueryContext<TestViewModel> context)
     {
         //Arrange
@@ -199,7 +158,6 @@ public class ViewModelHttpDecoratorTests
     public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
      [Frozen] IViewModelQueryDispatcher<TestState> decorated,
      [Frozen] MockHttpMessageHandler mockHttp,
-     [Frozen] HttpClient httpClient,
      [Frozen] IMutableFluxState<TestState> fluxState,
      ViewModelHttpDecorator<TestState> sut,
      HttpRefreshWithComponentUnreplacedParametersCaller sender,
@@ -240,7 +198,6 @@ public class ViewModelHttpDecoratorTests
     public async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
        [Frozen] IViewModelQueryDispatcher<TestState> decorated,
        [Frozen] MockHttpMessageHandler mockHttp,
-       [Frozen] HttpClient httpClient,
        [Frozen] IMutableFluxState<TestState> fluxState,
        ViewModelHttpDecorator<TestState> sut,
        HttpRefreshCaller sender,
@@ -272,7 +229,6 @@ public class ViewModelHttpDecoratorTests
     public async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
       [Frozen] IViewModelQueryDispatcher<TestState> decorated,
       [Frozen] MockHttpMessageHandler mockHttp,
-      [Frozen] HttpClient httpClient,
       [Frozen] IMutableFluxState<TestState> fluxState,
       ViewModelHttpDecorator<TestState> sut,
       HttpRefreshCaller sender,
@@ -303,7 +259,6 @@ public class ViewModelHttpDecoratorTests
     public async Task HttpDecoratorDispatch_WithStateMutationError_ShouldReturnError(
      [Frozen] IViewModelQueryDispatcher<TestState> decorated,
      [Frozen] MockHttpMessageHandler mockHttp,
-     [Frozen] HttpClient httpClient,
      [Frozen] IMutableFluxState<TestState> fluxState,
      ViewModelHttpDecorator<TestState> sut,
      HttpRefreshCaller sender,

@@ -1,10 +1,5 @@
 ﻿namespace Carlton.Core.Flux.Attributes;
 
-public enum DataEndpointParameterType
-{
-    StateStoreParameter,
-    ComponentParameter
-}
 
 public enum HttpVerb
 {
@@ -15,7 +10,7 @@ public enum HttpVerb
     DELETE
 }
 
-public enum DataEndpointRefreshPolicy
+public enum FluxServerCommunicationPolicy
 {
     Never,
     Always

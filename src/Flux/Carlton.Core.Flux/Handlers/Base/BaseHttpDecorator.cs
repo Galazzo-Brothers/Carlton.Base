@@ -1,70 +1,59 @@
-﻿using System.Text.RegularExpressions;
-using Carlton.Core.Flux.Attributes;
-using Carlton.Core.Flux.Dispatchers;
+﻿using Carlton.Core.Flux.Attributes;
+using System.Text.RegularExpressions;
 namespace Carlton.Core.Flux.Handlers.Base;
 
-public abstract partial class BaseHttpDecorator<TState>(HttpClient _client, IFluxState<TState> _state)
+public abstract partial class BaseHttpDecorator<TState>(HttpClient _client)
 {
     protected HttpClient Client { get; init; } = _client;
-    protected IFluxState<TState> State { get; init; } = _state;
 
     protected Result<string, FluxError> GetServerUrl(
-        HttpRefreshAttribute endpointAttribute,
-        IEnumerable<HttpRefreshParameterAttribute> parameterAttributes,
-        object sender,
-        BaseRequestContext context)
+      FluxServerCommunicationAttribute attribute,
+      IEnumerable<FluxServerCommunicationParameterAttribute> routeParameters,
+      object sender)
     {
-        var result = endpointAttribute.Route;
+        //Tokenized Url
+        var url = attribute.ServerUrl;
 
-        foreach (var attribute in parameterAttributes)
+        //Replace Tokens
+        foreach (var routeParam in routeParameters)
         {
-            var value = GetDataEndPointParameterType(sender, attribute);
-            result = result.Replace($"{{{attribute.Name}}}", value);
+            var value = GetDataEndPointParameterType(sender, routeParam);
+            url = url.Replace($"{{{routeParam.ParameterName}}}", value);
         }
 
-        return VerifyUrlParameters(result, context);
-    }
-   
-    private static Result<string, FluxError> VerifyUrlParameters(string url, BaseRequestContext context)
-    {
-        var isUrlWellFormed = Uri.IsWellFormedUriString(url, UriKind.Absolute);
-        
-        //The URL is valid
-        if (isUrlWellFormed)
-            return url;
+        //Check for unreplaced tokens
+        var tokenMatches = TokenRegex().Matches(url);
+        if (tokenMatches.Count > 0)
+        {
+            var unreplacedTokens = tokenMatches.Select(t => t.Value);
+            return HttpUrlConstructionUnreplacedTokensError(url, unreplacedTokens);
+        }
 
-        var matches = UrlParameterTokenRegex().Matches(url);
-        var unreplacedTokens = matches.Count > 0;
+        //Check if the result is valid
+        var isValidUri = Uri.IsWellFormedUriString(url, UriKind.Absolute);
 
-        //The URL is malformed
-        if (!unreplacedTokens)
+        //Return an error if the URL is invalid
+        if (!isValidUri)
             return HttpUrlConstructionError(url);
 
-        //Unreplaced Token Errors
-        var unReplacedTokens = matches.Cast<Match>().Select(match => match.Value);
-        return HttpUrlConstructionUnreplacedTokensError(url, unReplacedTokens);
+        return url;
     }
 
-    protected static bool GetRefreshPolicy(HttpRefreshAttribute attribute)
+    private static string GetDataEndPointParameterType(object sender, FluxServerCommunicationParameterAttribute fluxRouteParam)
     {
-        return attribute?.DataRefreshPolicy switch
+        return sender.GetType().GetProperty(fluxRouteParam.ParameterName).GetValue(sender).ToString();
+    }
+
+    protected bool GetRefreshPolicy(FluxServerCommunicationPolicy? policy)
+    {
+        return policy switch
         {
-            DataEndpointRefreshPolicy.Never => false,
-            DataEndpointRefreshPolicy.Always => true,
+            FluxServerCommunicationPolicy.Never => false,
+            FluxServerCommunicationPolicy.Always => true,
             _ => false
         };
     }
 
-    private string GetDataEndPointParameterType(object sender, HttpRefreshParameterAttribute attribute)
-    {
-        return attribute.ParameterType switch
-        {
-            DataEndpointParameterType.StateStoreParameter => State.CurrentState.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(State.CurrentState).ToString(),
-            DataEndpointParameterType.ComponentParameter => sender.GetType().GetProperty(attribute.DestinationPropertyName).GetValue(sender).ToString(),
-            _ => string.Empty
-        };
-    }
-
-    [GeneratedRegex("\\{[^}]+\\}")]
-    private static partial Regex UrlParameterTokenRegex();
+    [GeneratedRegex("\\{([^{}]+)\\}")]
+    public static partial Regex TokenRegex();
 }

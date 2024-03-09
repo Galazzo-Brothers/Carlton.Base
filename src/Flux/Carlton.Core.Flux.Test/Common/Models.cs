@@ -24,37 +24,38 @@ public record MockServerResponse(string ServerName, string ServerDescription);
 
 
 
-[ViewModelHttpRefresh("http://test.carlton.com/")]
-[MutationHttpRefresh("http://test.carlton.com/")]
+[FluxServerCommunication("http://test.carlton.com/", HttpVerb.GET, FluxServerCommunicationPolicy.Always)]
 public class HttpRefreshCaller
 {
     public Type type { get; set; }
     public const string MockRefreshUrl = "http://test.carlton.com/";
 }
 
-[ViewModelHttpRefresh("http://test.carlton.com/",
-    HttpVerb = HttpVerb.GET,
-    DataRefreshPolicy = DataEndpointRefreshPolicy.Never)]
+[FluxServerCommunication("http://test.carlton.com/", HttpVerb.GET, FluxServerCommunicationPolicy.Never)]
 public class HttpNeverRefreshCaller
 {
 }
 
 
-[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
-[MutationHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
-[HttpRefreshParameter("ClientId", DataEndpointParameterType.ComponentParameter)]
-[HttpRefreshParameter("UserId", DataEndpointParameterType.ComponentParameter)]
+[FluxServerCommunication(
+    serverUrl: "http://test.carlton.com/clients/{ClientId}/users/{UserId}",
+    httpVerb: HttpVerb.GET,
+    serverCommunicationPolicy: FluxServerCommunicationPolicy.Always)]
 public class HttpRefreshWithComponentParametersCaller
 {
     public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
 
+    [FluxServerCommunicationParameter]
     public int ClientId { get; set; } = 5;
+    [FluxServerCommunicationParameter]
     public int UserId { get; set; } = 10;
 }
 
 
-[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
-[MutationHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[FluxServerCommunication(
+    serverUrl: "http://test.carlton.com/clients/{ClientId}/users/{UserId}",
+    httpVerb: HttpVerb.GET,
+    serverCommunicationPolicy: FluxServerCommunicationPolicy.Always)]
 public class HttpRefreshWithComponentUnreplacedParametersCaller
 {
     public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
@@ -63,26 +64,12 @@ public class HttpRefreshWithComponentUnreplacedParametersCaller
     public int UserId { get; set; } = 10;
 }
 
-[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
-[MutationHttpRefresh("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
-[HttpRefreshParameter("ClientId", DataEndpointParameterType.StateStoreParameter)]
-[HttpRefreshParameter("UserId", DataEndpointParameterType.StateStoreParameter)]
-public class HttpRefreshWithStateParametersCaller
-{
-}
 
-
-[ViewModelHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-[MutationHttpRefresh("http://test.carlton.com/clients/{ClientID}/users/{UserID}")]
-public class HttpRefreshWithInvalidParametersCaller
-{
-    public int ClientID { get; set; } = 5;
-    public int UserID { get; set; } = 10;
-}
-
-[ViewModelHttpRefresh("http://test.#%$@#carlton.com/clients/")]
-[MutationHttpRefresh("http://test.#%$@#carlton.com/clients/")]
-public class HttpRefreshWithInvalidHttpUrlCaller
+[FluxServerCommunication(
+    serverUrl: "http://test.#%$@#carlton.com/clients/",
+    httpVerb: HttpVerb.GET,
+    serverCommunicationPolicy: FluxServerCommunicationPolicy.Always)]
+public class FluxServerCommunicationWithInvalidUrl
 {
     public int ClientID { get; set; } = 5;
     public int UserID { get; set; } = 10;
