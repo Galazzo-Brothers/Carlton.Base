@@ -31,20 +31,37 @@ public class MutationExceptionDecorator<TState>(
 
 	private FluxError HandleError<TCommand>(FluxError error, MutationCommandContext<TCommand> context)
 	{
+		//Mark as errored
 		context.MarkAsErrored(error);
-		using (_logger.BeginRequestErrorLoggingScopes(error.EventId))
-			_logger.MutationCommandErrored(context.FluxOperationTypeName);
 
+		//Log the result
+		using (_logger.BeginRequestErrorLoggingScopes(error.EventId))
+			GetErrorLoggingAction(_logger, error, context.FluxOperationTypeName)();
+
+		//Return
 		return error;
 	}
 
 	private UnhandledFluxError HandleException<TCommand>(Exception ex, MutationCommandContext<TCommand> context)
 	{
+		//Mark as errored
 		context.MarkAsErrored(ex);
+
+		//Log the result
 		using (_logger.BeginRequestErrorLoggingScopes(FluxLogs.Flux_Unhandled_Error))
 			_logger.MutationCommandErrored(context.FluxOperationTypeName, ex);
 
+		//Return
 		return UnhandledFluxError(ex);
+	}
+
+	private static Action GetErrorLoggingAction(ILogger<MutationExceptionDecorator<TState>> _logger, FluxError error, string fluxOperationTypeName)
+	{
+		return error switch
+		{
+			ValidationError _ => () => _logger.MutationCommandValidationFailure(fluxOperationTypeName), //Validation Errors will be logged as warnings
+			_ => () => _logger.MutationCommandErrored(fluxOperationTypeName) //Other FluxErrors will be logged as errors
+		};
 	}
 }
 
