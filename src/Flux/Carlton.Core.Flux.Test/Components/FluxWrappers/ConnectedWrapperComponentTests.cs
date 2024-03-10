@@ -64,11 +64,11 @@ public class ConnectedWrapperComponentTests : TestContext
 	}
 
 	[Theory, AutoData]
-	public async Task ConnectedWrapper_OnComponentEvent_CallsMutationDispatcher(TestViewModel vm, TestCommand1 command)
+	public async Task ConnectedWrapper_OnComponentEvent_CallsMutationDispatcher(TestViewModel vm, TestCommand command)
 	{
 		//Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
-		_mockCommandDispatcher.SetupCommandDispatcher<TestCommand1>(command);
+		_mockCommandDispatcher.SetupCommandDispatcher<TestCommand>(command);
 		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 		var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
 
@@ -76,7 +76,7 @@ public class ConnectedWrapperComponentTests : TestContext
 		await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
 
 		// Assert
-		_mockCommandDispatcher.VerifyCommandDispatcher<TestCommand1>(1, command);
+		_mockCommandDispatcher.VerifyCommandDispatcher<TestCommand>(1, command);
 	}
 
 	[Theory, AutoData]

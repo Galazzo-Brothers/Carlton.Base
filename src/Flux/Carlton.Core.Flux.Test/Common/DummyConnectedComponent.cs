@@ -9,7 +9,7 @@ namespace Carlton.Core.Flux.Tests.Common;
 [ObserveStateEvent("TestEvent3")]
 public class DummyConnectedComponent : BaseConnectedComponent<TestViewModel>
 {
-	public async Task RaiseComponentEvent(TestCommand1 command)
+	public async Task RaiseComponentEvent(TestCommand command)
 	{
 		await OnComponentEvent.InvokeAsync(command);
 	}

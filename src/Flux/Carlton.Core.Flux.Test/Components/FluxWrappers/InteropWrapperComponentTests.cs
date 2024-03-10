@@ -86,12 +86,12 @@ public class InteropWrapperComponentTests : TestContext
 		string functionName,
 		object[] jsParameters,
 		TestViewModel vm,
-		TestCommand1 command)
+		TestCommand command)
 	{
 		//Arrange
 		var moduleInterop = JSInterop.SetupModule(moduleName);
 		moduleInterop.Setup<TestViewModel>(functionName, jsParameters).SetResult(vm);
-		_mockCommandDispatcher.SetupCommandDispatcher<TestCommand1>(command);
+		_mockCommandDispatcher.SetupCommandDispatcher(command);
 		var cut = RenderComponent<InteropFluxWrapper<TestState, TestViewModel>>(
 			 parameters => parameters.Add(p => p.JsModule, moduleName)
 				 .Add(p => p.JsFunction, functionName)
@@ -102,7 +102,7 @@ public class InteropWrapperComponentTests : TestContext
 		await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
 
 		// Assert
-		_mockCommandDispatcher.VerifyCommandDispatcher<TestCommand1>(1, command);
+		_mockCommandDispatcher.VerifyCommandDispatcher(1, command);
 	}
 
 	[Theory, AutoData]

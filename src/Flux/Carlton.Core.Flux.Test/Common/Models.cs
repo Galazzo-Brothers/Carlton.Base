@@ -6,7 +6,7 @@ public record TestError() : FluxError("This is a test", -1);
 
 public record TestViewModel([property: NonNegativeInteger] int Id, string Name, string Description);
 
-public record TestCommand1([property: NonNegativeInteger] int Id, string Name, string Description);
+public record TestCommand([property: NonNegativeInteger] int Id, string Name, string Description);
 
 
 [FluxServerCommunication("http://test.carlton.com/", HttpVerb.GET, FluxServerCommunicationPolicy.Always)]

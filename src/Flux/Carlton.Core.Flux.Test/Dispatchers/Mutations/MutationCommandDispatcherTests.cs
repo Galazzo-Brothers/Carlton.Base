@@ -13,11 +13,11 @@ public class MutationCommandDispatcherTests
 		[Frozen] IMutationCommandHandler<TestState> handler,
 		MutationCommandDispatcher<TestState> sut,
 		object sender,
-		MutationCommandContext<TestCommand1> context)
+		MutationCommandContext<TestCommand> context)
 	{
 		//Arrange
 		serviceProvider.SetupServiceProvider<IMutationCommandHandler<TestState>>(handler);
-		handler.SetupHandler<TestCommand1>();
+		handler.SetupHandler<TestCommand>();
 
 		//Act
 		await sut.Dispatch(sender, context, CancellationToken.None);
