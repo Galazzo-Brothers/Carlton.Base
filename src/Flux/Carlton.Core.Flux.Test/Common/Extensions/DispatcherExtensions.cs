@@ -34,13 +34,13 @@ public static class DispatcherExtensions
 		.Throws(ex);
 	}
 
-	public static void SetupCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command)
+	public static void SetupCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command, MutationCommandResult result)
 	{
 		dispatcher.Dispatch(
 		 Arg.Any<object>(),
 		 Arg.Is<MutationCommandContext<TCommand>>(context => context.MutationCommand.Equals(command)),
 		 Arg.Any<CancellationToken>())
-		.Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult()));
+		.Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)result));
 	}
 
 	public static void SetupCommandDispatcherError<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command, FluxError error)

@@ -21,13 +21,17 @@ public class ViewModelValidationDecorator<TState>(
 	{
 		//Validate ViewModel
 		var isValid = vm.TryValidate(out var validationErrors);
-		context.MarkAsValidated(validationErrors);
 
 		//Continue with valid ViewModel
 		if (isValid)
+		{
+			context.MarkAsValid();
 			return vm;
+		}
 
 		//Return Error
+		context.MarkAsInvalid(validationErrors);
 		return ValidationError(validationErrors).ToResult<TViewModel, FluxError>();
+
 	}
 }

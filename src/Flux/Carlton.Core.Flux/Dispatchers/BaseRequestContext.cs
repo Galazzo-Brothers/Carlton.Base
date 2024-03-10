@@ -11,72 +11,64 @@ public abstract class BaseRequestContext
 	public abstract FluxOperation FluxOperation { get; }
 	public abstract Type FluxOperationType { get; }
 	public string FluxOperationTypeName { get => FluxOperationType.GetDisplayName(); }
-	protected internal void MarkAsStarted()
-		=> _stopwatch.Start();
+	protected internal void MarkAsStarted() => _stopwatch.Start();
 
-	//Http Context
+	//Http Result
 	public bool RequiresHttpRefresh { get; private set; }
-	public bool HttpRefreshOccurred { get => RequestHttpContext != null; }
-	public RequestHttpContext RequestHttpContext { get; private set; }
+	public bool HttpCallMade { get; private set; }
+	public bool HttpCallSucceeded { get; private set; }
+	public string HttpUrl { get; private set; }
+	public HttpStatusCode HttpStatus { get; private set; }
+	public object HttpResult { get; private set; }
 	internal void MarkAsRequiresHttpRefresh()
 		=> RequiresHttpRefresh = true;
-	internal void MarkAsHttpCallMade(string httpUrl, HttpStatusCode httpStatusCode, object httpResponse)
-		=> RequestHttpContext = new RequestHttpContext(httpUrl, httpStatusCode, httpResponse);
+	internal void MarkAsHttpCallMade(string httpUrl, HttpStatusCode httpStatusCode)
+		=> (HttpCallMade, HttpUrl, HttpStatus) = (true, httpUrl, httpStatusCode);
+	internal void MarkAsHttpCallSucceeded(object httpResult)
+		=> (HttpCallSucceeded, HttpResult) = (true, httpResult);
 
 	//Validation Result
-	public bool RequestValidated { get => ValidationResult != null; }
-	public ValidationResult ValidationResult { get; private set; }
-	internal void MarkAsValidated(IEnumerable<string> ValidationErrors)
-		=> ValidationResult = new ValidationResult(ValidationErrors);
-	internal void MarkAsValidated()
-		=> ValidationResult = new ValidationResult();
-
+	public bool RequestValidated { get; private set; }
+	public bool ValidationPassed { get; private set; }
+	public IEnumerable<string> ValidationErrors { get; private set; } = new List<string>();
+	internal void MarkAsInvalid(IEnumerable<string> validationErrors)
+		=> (RequestValidated, ValidationPassed, ValidationErrors) = (true, false, validationErrors);
+	internal void MarkAsValid()
+		=> (RequestValidated, ValidationPassed) = (true, true);
 
 	//Request Result
-	public bool RequestInProgress { get => RequestResult == null; }
-	public RequestResult RequestResult { get; private set; }
+	public bool RequestEnded { get; private set; }
+	public FluxError FluxError { get; private set; }
+	public ExceptionDescriptor ExceptionDescriptor { get; private set; }
+	public DateTimeOffset RequestEndTimestamp { get; private set; }
+	public long ElapsedTime { get; private set; }
+	public bool RequestSucceeded { get => RequestEnded && ExceptionDescriptor == null && FluxError == null; }
+
 	protected internal void MarkAsSucceeded()
-		=> RequestResult = new RequestResult(_stopwatch);
+		=> EndRequest();
+
 	protected internal void MarkAsErrored(Exception exception)
-		=> RequestResult = new RequestResult(_stopwatch, exception);
-	protected internal void MarkAsErrored(FluxError error)
-		=> RequestResult = new RequestResult(_stopwatch, error);
-}
-
-
-public record RequestHttpContext(string HttpUrl, HttpStatusCode HttpStatusCode, object HttpResponse);
-
-public record ValidationResult(IEnumerable<string> ValidationErrors)
-{
-	public bool ValidationPassed { get => !ValidationErrors.Any(); }
-
-	internal ValidationResult() : this(new List<string>())
-	{ }
-}
-
-public record RequestResult
-{
-	public FluxError FluxError { get; init; }
-	public bool RequestSucceeded { get => Exception == null && FluxError == null; }
-	public RequestExceptionContext Exception { get; init; }
-	public DateTimeOffset RequestEndTimestamp { get; init; }
-	public long ElapsedTime { get; init; }
-
-	internal RequestResult(Stopwatch stopwatch, Exception exception) : this(stopwatch)
-		=> Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
-
-	internal RequestResult(Stopwatch stopwatch, FluxError error) : this(stopwatch)
-		=> FluxError = error;
-
-	internal RequestResult(Stopwatch stopwatch)
 	{
+		ExceptionDescriptor = new ExceptionDescriptor(exception.GetType().Name, exception.Message, exception.StackTrace);
+		EndRequest();
+	}
+
+	protected internal void MarkAsErrored(FluxError error)
+	{
+		FluxError = error;
+		EndRequest();
+	}
+
+	private void EndRequest()
+	{
+		RequestEnded = true;
 		RequestEndTimestamp = DateTimeOffset.UtcNow;
-		stopwatch.Stop();
-		ElapsedTime = stopwatch.ElapsedMilliseconds;
+		_stopwatch.Stop();
+		ElapsedTime = _stopwatch.ElapsedMilliseconds;
 	}
 }
 
-public record RequestExceptionContext(string ExceptionType, string Message, string StackTrace);
+public record ExceptionDescriptor(string ExceptionType, string Message, string StackTrace);
 
 public enum FluxOperation
 {
