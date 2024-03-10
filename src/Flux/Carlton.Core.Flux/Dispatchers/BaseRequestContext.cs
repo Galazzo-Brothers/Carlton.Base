@@ -14,7 +14,6 @@ public abstract class BaseRequestContext
 	protected internal void MarkAsStarted()
 		=> _stopwatch.Start();
 
-
 	//Http Context
 	public bool RequiresHttpRefresh { get; private set; }
 	public bool HttpRefreshOccurred { get => RequestHttpContext != null; }
@@ -64,14 +63,10 @@ public record RequestResult
 	public long ElapsedTime { get; init; }
 
 	internal RequestResult(Stopwatch stopwatch, Exception exception) : this(stopwatch)
-	{
-		Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
-	}
+		=> Exception = new RequestExceptionContext(exception.GetType().Name, exception.Message, exception.StackTrace);
 
 	internal RequestResult(Stopwatch stopwatch, FluxError error) : this(stopwatch)
-	{
-		FluxError = error;
-	}
+		=> FluxError = error;
 
 	internal RequestResult(Stopwatch stopwatch)
 	{

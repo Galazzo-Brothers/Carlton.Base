@@ -34,7 +34,7 @@ public static class DispatcherExtensions
 		.Throws(ex);
 	}
 
-	public static void SetupCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TestCommand1 command)
+	public static void SetupCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, TCommand command)
 	{
 		dispatcher.Dispatch(
 		 Arg.Any<object>(),
