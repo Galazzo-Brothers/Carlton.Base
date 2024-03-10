@@ -1,4 +1,5 @@
 ﻿using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Utilities.Validation;
 namespace Carlton.Core.Flux.Tests.Common;
 
@@ -6,7 +7,21 @@ public record TestError() : FluxError("This is a test", -1);
 
 public record TestViewModel([property: NonNegativeInteger] int Id, string Name, string Description);
 
-public record TestCommand([property: NonNegativeInteger] int Id, string Name, string Description);
+public record TestCommand([property: NonNegativeInteger] int Id, string Name, string Description, int ClientId, int UserId);
+
+public class TestMutation : IFluxStateMutation<TestState, TestCommand>
+{
+	public string StateEvent => "TestMutation";
+
+	public TestState Mutate(TestState state, TestCommand command)
+	{
+		return state with
+		{
+			ClientId = command.ClientId,
+			UserId = command.UserId
+		};
+	}
+}
 
 
 [FluxServerCommunication("http://test.carlton.com/", HttpVerb.GET, FluxServerCommunicationPolicy.Always)]
