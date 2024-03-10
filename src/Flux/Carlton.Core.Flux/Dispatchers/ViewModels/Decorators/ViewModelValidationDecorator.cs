@@ -6,8 +6,10 @@ public class ViewModelValidationDecorator<TState>(
 {
 	public async Task<Result<TViewModel, FluxError>> Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
 	{
+		//Retrieve ViewModel
 		var vmResult = await _decorated.Dispatch(sender, context, cancellationToken);
 
+		//Validate ViewModel and return result
 		return vmResult.Match
 		(
 			vm => ValidateViewModelResult(vm, context),
@@ -15,7 +17,7 @@ public class ViewModelValidationDecorator<TState>(
 		);
 	}
 
-	private Result<TViewModel, FluxError> ValidateViewModelResult<TViewModel>(TViewModel vm, ViewModelQueryContext<TViewModel> context)
+	private static Result<TViewModel, FluxError> ValidateViewModelResult<TViewModel>(TViewModel vm, ViewModelQueryContext<TViewModel> context)
 	{
 		//Validate ViewModel
 		var isValid = vm.TryValidate(out var validationErrors);
