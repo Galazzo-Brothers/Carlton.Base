@@ -2,8 +2,8 @@
 
 public static class ServiceProviderExtensions
 {
-    public static void SetupServiceProvider<T>(this IServiceProvider serviceProvider, object implementation)
-    {
-        serviceProvider.GetService(Arg.Is<Type>(typeof(T))).Returns(implementation);
-    }
+	public static void SetupServiceProvider<T>(this IServiceProvider serviceProvider, object implementation)
+	{
+		serviceProvider.GetService(Arg.Is(typeof(T))).Returns(implementation);
+	}
 }

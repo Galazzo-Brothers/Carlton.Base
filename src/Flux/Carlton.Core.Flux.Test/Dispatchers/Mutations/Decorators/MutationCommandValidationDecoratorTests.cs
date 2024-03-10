@@ -36,7 +36,7 @@ public class MutationCommandValidationDecoratorTests
 	  MutationCommandResult expectedResult)
 	{
 		//Arrange
-		var invalidCommand = new TestCommand(-1, "Testing", "This should fail");
+		var invalidCommand = new TestCommand(-1, "Testing", "This should fail", 1, 2);
 		var context = new MutationCommandContext<TestCommand>(invalidCommand);
 		decorated.SetupCommandDispatcher(invalidCommand, expectedResult);
 
