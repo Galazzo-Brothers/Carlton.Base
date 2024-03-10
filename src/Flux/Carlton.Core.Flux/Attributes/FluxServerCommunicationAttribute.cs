@@ -4,11 +4,13 @@
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public partial class FluxServerCommunicationAttribute : Attribute
 {
-    public string ServerUrl { get; init; }
-    public HttpVerb HttpVerb { get; init; }
-    public FluxServerCommunicationPolicy ServerCommunicationPolicy { get; init; }
+	public string ServerUrl { get; init; }
+	public HttpVerb HttpVerb { get; init; }
+	public FluxServerCommunicationPolicy ServerCommunicationPolicy { get; init; }
+	public bool UpdateWithResponseBody { get; init; }
 
-    public FluxServerCommunicationAttribute(string serverUrl, HttpVerb httpVerb, FluxServerCommunicationPolicy serverCommunicationPolicy)
-        =>  (ServerUrl, HttpVerb, ServerCommunicationPolicy) = (serverUrl, httpVerb, serverCommunicationPolicy);
+
+	public FluxServerCommunicationAttribute(string serverUrl, HttpVerb httpVerb, FluxServerCommunicationPolicy serverCommunicationPolicy)
+		=> (ServerUrl, HttpVerb, ServerCommunicationPolicy) = (serverUrl, httpVerb, serverCommunicationPolicy);
 }
 

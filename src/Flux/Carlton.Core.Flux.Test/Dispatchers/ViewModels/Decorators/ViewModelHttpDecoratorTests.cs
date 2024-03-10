@@ -8,281 +8,281 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelHttpDecoratorTests
 {
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_NoHttpRefreshAttribute_ShouldNotMakeHttpCall(
-        [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-        [Frozen] MockHttpMessageHandler mockHttp,
-        [Frozen] IMutableFluxState<TestState> fluxState,
-        ViewModelHttpDecorator<TestState> sut,
-        object sender,
-        ViewModelQueryContext<TestViewModel> context,
-        TestViewModel expectedResult)
-    {
-        //Arrange
-        var request = mockHttp.When("*");
-        decorated.SetupQueryDispatcher(expectedResult);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_NoHttpRefreshAttribute_ShouldNotMakeHttpCall(
+		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
+		[Frozen] MockHttpMessageHandler mockHttp,
+		[Frozen] IMutableFluxState<TestState> fluxState,
+		ViewModelHttpDecorator<TestState> sut,
+		object sender,
+		ViewModelQueryContext<TestViewModel> context,
+		TestViewModel expectedResult)
+	{
+		//Arrange
+		var request = mockHttp.When("*");
+		decorated.SetupQueryDispatcher(expectedResult);
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
-        
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(1);
-        mockHttp.GetMatchCount(request).ShouldBe(0);
-        await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
-        context.RequiresHttpRefresh.ShouldBeFalse();
-        context.HttpRefreshOccurred.ShouldBeFalse();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.ShouldBe(expectedResult);
-    }
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-    [Theory, AutoNSubstituteData]
-        public async Task HttpDecoratorDispatch_WithNeverHttpRefreshAttribute_ShouldNotMakeHttpCall(
-        [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-        [Frozen] MockHttpMessageHandler mockHttp,
-        [Frozen] IMutableFluxState<TestState> fluxState,
-        ViewModelHttpDecorator<TestState> sut,
-        FluxServerCommunicationNever sender,
-        ViewModelQueryContext<TestViewModel> context,
-        TestViewModel expectedResult)
-    {
-        //Arrange
-        var request = mockHttp.When("*");
-        decorated.SetupQueryDispatcher(expectedResult);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(1);
+		mockHttp.GetMatchCount(request).ShouldBe(0);
+		await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
+		context.RequiresHttpRefresh.ShouldBeFalse();
+		context.HttpRefreshOccurred.ShouldBeFalse();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.ShouldBe(expectedResult);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithNeverHttpRefreshAttribute_ShouldNotMakeHttpCall(
+		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
+		[Frozen] MockHttpMessageHandler mockHttp,
+		[Frozen] IMutableFluxState<TestState> fluxState,
+		ViewModelHttpDecorator<TestState> sut,
+		FluxServerCommunicationNever sender,
+		ViewModelQueryContext<TestViewModel> context,
+		TestViewModel expectedResult)
+	{
+		//Arrange
+		var request = mockHttp.When("*");
+		decorated.SetupQueryDispatcher(expectedResult);
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(1);
-        mockHttp.GetMatchCount(request).ShouldBe(0);
-        await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
-        context.RequiresHttpRefresh.ShouldBeFalse();
-        context.HttpRefreshOccurred.ShouldBeFalse();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.ShouldBe(expectedResult);
-    }
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
-       [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-       [Frozen] MockHttpMessageHandler mockHttp,
-       [Frozen] IMutableFluxState<TestState> fluxState,
-       ViewModelHttpDecorator<TestState> sut,
-       FluxServerCommunicationAlways sender,
-       ViewModelQueryContext<TestViewModel> context,
-       TestViewModel expectedResult)
-    {
-        //Arrange
-        fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
-        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
-             .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
-        decorated.SetupQueryDispatcher(expectedResult);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(1);
+		mockHttp.GetMatchCount(request).ShouldBe(0);
+		await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
+		context.RequiresHttpRefresh.ShouldBeFalse();
+		context.HttpRefreshOccurred.ShouldBeFalse();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.ShouldBe(expectedResult);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
+	   [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	   [Frozen] MockHttpMessageHandler mockHttp,
+	   [Frozen] IMutableFluxState<TestState> fluxState,
+	   ViewModelHttpDecorator<TestState> sut,
+	   FluxServerCommunicationAlwaysGet sender,
+	   ViewModelQueryContext<TestViewModel> context,
+	   TestViewModel expectedResult)
+	{
+		//Arrange
+		fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
+		var request = mockHttp.When(FluxServerCommunicationAlwaysGet.MockRefreshUrl)
+			 .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
+		decorated.SetupQueryDispatcher(expectedResult);
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(1);
-        mockHttp.GetMatchCount(request).ShouldBe(1);
-        await fluxState.Received().ApplyMutationCommand(Arg.Is(expectedResult));
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeTrue();
-        context.StateModifiedByHttpRefresh.ShouldBeTrue();
-        actualResult.ShouldBe(expectedResult);
-    }
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
-      [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-      [Frozen] MockHttpMessageHandler mockHttp,
-      [Frozen] IMutableFluxState<TestState> fluxState,
-      ViewModelHttpDecorator<TestState> sut,
-      FluxServerCommunicationWithComponentParameters sender,
-      ViewModelQueryContext<TestViewModel> context,
-      TestViewModel expectedResult,
-    int clientId,
-      int userId)
-    {
-        //Arrange
-        fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
-        sender.ClientId = clientId;
-        sender.UserId = userId;
-        var httpUrl = FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate
-            .Replace("{ClientId}", clientId.ToString())
-            .Replace("{UserId}", userId.ToString());
-        var request = mockHttp.When(httpUrl)
-            .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
-        decorated.SetupQueryDispatcher(expectedResult);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(1);
+		mockHttp.GetMatchCount(request).ShouldBe(1);
+		await fluxState.Received().ApplyMutationCommand(Arg.Is(expectedResult));
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeTrue();
+		context.StateModifiedByHttpRefresh.ShouldBeTrue();
+		actualResult.ShouldBe(expectedResult);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
+	  [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	  [Frozen] MockHttpMessageHandler mockHttp,
+	  [Frozen] IMutableFluxState<TestState> fluxState,
+	  ViewModelHttpDecorator<TestState> sut,
+	  FluxServerCommunicationWithComponentParameters sender,
+	  ViewModelQueryContext<TestViewModel> context,
+	  TestViewModel expectedResult,
+	int clientId,
+	  int userId)
+	{
+		//Arrange
+		fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
+		sender.ClientId = clientId;
+		sender.UserId = userId;
+		var httpUrl = FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate
+			.Replace("{ClientId}", clientId.ToString())
+			.Replace("{UserId}", userId.ToString());
+		var request = mockHttp.When(httpUrl)
+			.Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
+		decorated.SetupQueryDispatcher(expectedResult);
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(1);
-        mockHttp.GetMatchCount(request).ShouldBe(1);
-        await fluxState.Received(1).ApplyMutationCommand(expectedResult);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeTrue();
-        context.StateModifiedByHttpRefresh.ShouldBeTrue();
-        actualResult.ShouldBe(expectedResult);
-    }
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
-     [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-     [Frozen] MockHttpMessageHandler mockHttp,
-     [Frozen] IMutableFluxState<TestState> fluxState,
-     ViewModelHttpDecorator<TestState> sut,
-     FluxServerCommunicationWithInvalidUrl sender,
-     ViewModelQueryContext<TestViewModel> context)
-    {
-        //Arrange
-        var expectedError = new HttpUrlConstructionError("http://test.#%$@#carlton.com/clients/");
-        var request = mockHttp.When("*");
-        decorated.SetupQueryDispatcherError<TestViewModel>(expectedError);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(1);
+		mockHttp.GetMatchCount(request).ShouldBe(1);
+		await fluxState.Received(1).ApplyMutationCommand(expectedResult);
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeTrue();
+		context.StateModifiedByHttpRefresh.ShouldBeTrue();
+		actualResult.ShouldBe(expectedResult);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
+	 [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	 [Frozen] MockHttpMessageHandler mockHttp,
+	 [Frozen] IMutableFluxState<TestState> fluxState,
+	 ViewModelHttpDecorator<TestState> sut,
+	 FluxServerCommunicationWithInvalidUrl sender,
+	 ViewModelQueryContext<TestViewModel> context)
+	{
+		//Arrange
+		var expectedError = new HttpUrlConstructionError("http://test.#%$@#carlton.com/clients/");
+		var request = mockHttp.When("*");
+		decorated.SetupQueryDispatcherError<TestViewModel>(expectedError);
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(0);
-        mockHttp.GetMatchCount(request).ShouldBe(0);
-        await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeFalse();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.ShouldBe(expectedError);
-    }
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
-     [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-     [Frozen] MockHttpMessageHandler mockHttp,
-     [Frozen] IMutableFluxState<TestState> fluxState,
-     ViewModelHttpDecorator<TestState> sut,
-     FluxServerCommunicationWithUnreplacedParameters sender,
-     ViewModelQueryContext<TestViewModel> context,
-     TestViewModel expectedResult,
-     int clientId,
-     int userId)
-    {
-        //Arrange
-        var expectedError = new HttpUrlConstructionUnreplacedTokensError(
-            FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate,
-            new List<string> { "{ClientId}", "{UserId}" });
-        sender.ClientId = clientId;
-        sender.UserId = userId;
-        var httpUrl = FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate
-            .Replace("{ClientId}", clientId.ToString())
-            .Replace("{UserId}", userId.ToString());
-        var request = mockHttp.When(httpUrl)
-            .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
-        decorated.SetupQueryDispatcher(expectedError);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(0);
+		mockHttp.GetMatchCount(request).ShouldBe(0);
+		await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeFalse();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.ShouldBe(expectedError);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
+	 [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	 [Frozen] MockHttpMessageHandler mockHttp,
+	 [Frozen] IMutableFluxState<TestState> fluxState,
+	 ViewModelHttpDecorator<TestState> sut,
+	 FluxServerCommunicationWithUnreplacedParameters sender,
+	 ViewModelQueryContext<TestViewModel> context,
+	 TestViewModel expectedResult,
+	 int clientId,
+	 int userId)
+	{
+		//Arrange
+		var expectedError = new HttpUrlConstructionUnreplacedTokensError(
+			FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate,
+			new List<string> { "{ClientId}", "{UserId}" });
+		sender.ClientId = clientId;
+		sender.UserId = userId;
+		var httpUrl = FluxServerCommunicationWithComponentParameters.MockRefreshUrlTemplate
+			.Replace("{ClientId}", clientId.ToString())
+			.Replace("{UserId}", userId.ToString());
+		var request = mockHttp.When(httpUrl)
+			.Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
+		decorated.SetupQueryDispatcher(expectedError);
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(0);
-        mockHttp.GetMatchCount(request).ShouldBe(0);
-        await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeFalse();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.IsSuccess.ShouldBeFalse();
-        actualResult.GetError().ShouldBeOfType<HttpUrlConstructionUnreplacedTokensError>();
-        actualResult.GetError().Message.ShouldBe(expectedError.Message);
-    }
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
-       [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-       [Frozen] MockHttpMessageHandler mockHttp,
-       [Frozen] IMutableFluxState<TestState> fluxState,
-       ViewModelHttpDecorator<TestState> sut,
-       FluxServerCommunicationAlways sender,
-       ViewModelQueryContext<TestViewModel> context,
-       TestViewModel expectedResult)
-    {
-        //Arrange
-        
-        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
-             .Respond(HttpStatusCode.InternalServerError, "application/json", JsonSerializer.Serialize(expectedResult));
-        decorated.SetupQueryDispatcher(expectedResult);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(0);
+		mockHttp.GetMatchCount(request).ShouldBe(0);
+		await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeFalse();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.IsSuccess.ShouldBeFalse();
+		actualResult.GetError().ShouldBeOfType<HttpUrlConstructionUnreplacedTokensError>();
+		actualResult.GetError().Message.ShouldBe(expectedError.Message);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
+	   [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	   [Frozen] MockHttpMessageHandler mockHttp,
+	   [Frozen] IMutableFluxState<TestState> fluxState,
+	   ViewModelHttpDecorator<TestState> sut,
+	   FluxServerCommunicationAlwaysGet sender,
+	   ViewModelQueryContext<TestViewModel> context,
+	   TestViewModel expectedResult)
+	{
+		//Arrange
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(0);
-        mockHttp.GetMatchCount(request).ShouldBe(1);
-        await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeFalse();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.IsSuccess.ShouldBeFalse();
-        actualResult.GetError().ShouldBeOfType<HttpRequestFailedError>()
-            .HttpResponse.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
-    }
+		var request = mockHttp.When(FluxServerCommunicationAlwaysGet.MockRefreshUrl)
+			 .Respond(HttpStatusCode.InternalServerError, "application/json", JsonSerializer.Serialize(expectedResult));
+		decorated.SetupQueryDispatcher(expectedResult);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
-      [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-      [Frozen] MockHttpMessageHandler mockHttp,
-      [Frozen] IMutableFluxState<TestState> fluxState,
-      ViewModelHttpDecorator<TestState> sut,
-      FluxServerCommunicationAlways sender,
-      ViewModelQueryContext<TestViewModel> context,
-      TestViewModel expectedResult)
-    {
-        //Arrange
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
-             .Respond(HttpStatusCode.OK, "application/json", "{3243423;'sdf");
-        decorated.SetupQueryDispatcher(expectedResult);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(0);
+		mockHttp.GetMatchCount(request).ShouldBe(1);
+		await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeFalse();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.IsSuccess.ShouldBeFalse();
+		actualResult.GetError().ShouldBeOfType<HttpRequestFailedError>()
+			.HttpResponse.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
+	}
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
+	  [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	  [Frozen] MockHttpMessageHandler mockHttp,
+	  [Frozen] IMutableFluxState<TestState> fluxState,
+	  ViewModelHttpDecorator<TestState> sut,
+	  FluxServerCommunicationAlwaysGet sender,
+	  ViewModelQueryContext<TestViewModel> context,
+	  TestViewModel expectedResult)
+	{
+		//Arrange
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(0);
-        mockHttp.GetMatchCount(request).ShouldBe(1);
-        await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeFalse();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.IsSuccess.ShouldBeFalse();
-        actualResult.GetError().ShouldBeOfType<JsonError>();
-    }
+		var request = mockHttp.When(FluxServerCommunicationAlwaysGet.MockRefreshUrl)
+			 .Respond(HttpStatusCode.OK, "application/json", "{3243423;'sdf");
+		decorated.SetupQueryDispatcher(expectedResult);
 
-    [Theory, AutoNSubstituteData]
-    public async Task HttpDecoratorDispatch_WithStateMutationError_ShouldReturnError(
-     [Frozen] IViewModelQueryDispatcher<TestState> decorated,
-     [Frozen] MockHttpMessageHandler mockHttp,
-     [Frozen] IMutableFluxState<TestState> fluxState,
-     ViewModelHttpDecorator<TestState> sut,
-     FluxServerCommunicationAlways sender,
-     ViewModelQueryContext<TestViewModel> context,
-     TestViewModel expectedResult,
-     MutationNotRegisteredError error)
-    {
-        //Arrange
-        fluxState.ApplyMutationCommand(expectedResult).Returns(error);
-        var request = mockHttp.When(FluxServerCommunicationAlways.MockRefreshUrl)
-             .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
-        decorated.SetupQueryDispatcher(expectedResult);
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
 
-        //Act 
-        var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(0);
+		mockHttp.GetMatchCount(request).ShouldBe(1);
+		await fluxState.DidNotReceiveWithAnyArgs().ApplyMutationCommand<TestViewModel>(default);
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeFalse();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.IsSuccess.ShouldBeFalse();
+		actualResult.GetError().ShouldBeOfType<JsonError>();
+	}
 
-        //Assert
-        decorated.VerifyQueryDispatcher<TestViewModel>(0);
-        mockHttp.GetMatchCount(request).ShouldBe(1);
-        await fluxState.Received(1).ApplyMutationCommand(expectedResult);
-        context.RequiresHttpRefresh.ShouldBeTrue();
-        context.HttpRefreshOccurred.ShouldBeTrue();
-        context.StateModifiedByHttpRefresh.ShouldBeFalse();
-        actualResult.IsSuccess.ShouldBeFalse();
-        actualResult.GetError().ShouldBeOfType<MutationNotRegisteredError>();
-    }
+	[Theory, AutoNSubstituteData]
+	public async Task HttpDecoratorDispatch_WithStateMutationError_ShouldReturnError(
+	 [Frozen] IViewModelQueryDispatcher<TestState> decorated,
+	 [Frozen] MockHttpMessageHandler mockHttp,
+	 [Frozen] IMutableFluxState<TestState> fluxState,
+	 ViewModelHttpDecorator<TestState> sut,
+	 FluxServerCommunicationAlwaysGet sender,
+	 ViewModelQueryContext<TestViewModel> context,
+	 TestViewModel expectedResult,
+	 MutationNotRegisteredError error)
+	{
+		//Arrange
+		fluxState.ApplyMutationCommand(expectedResult).Returns(error);
+		var request = mockHttp.When(FluxServerCommunicationAlwaysGet.MockRefreshUrl)
+			 .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
+		decorated.SetupQueryDispatcher(expectedResult);
+
+		//Act 
+		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
+
+		//Assert
+		decorated.VerifyQueryDispatcher<TestViewModel>(0);
+		mockHttp.GetMatchCount(request).ShouldBe(1);
+		await fluxState.Received(1).ApplyMutationCommand(expectedResult);
+		context.RequiresHttpRefresh.ShouldBeTrue();
+		context.HttpRefreshOccurred.ShouldBeTrue();
+		context.StateModifiedByHttpRefresh.ShouldBeFalse();
+		actualResult.IsSuccess.ShouldBeFalse();
+		actualResult.GetError().ShouldBeOfType<MutationNotRegisteredError>();
+	}
 }
