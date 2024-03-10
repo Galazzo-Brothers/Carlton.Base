@@ -14,7 +14,7 @@ public class MutationExceptionDecoratorTests
         [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
         MutationExceptionDecorator<TestState> sut,
         object sender,
-        TestCommand1 command)
+        TestCommand command)
     {
         //Act 
         await sut.Dispatch(sender, command, CancellationToken.None);
@@ -22,7 +22,7 @@ public class MutationExceptionDecoratorTests
         //Assert
         await decorated.Received(1).Dispatch(
            Arg.Any<object>(),
-           Arg.Any<MutationCommandContext<TestCommand1>>(),
+           Arg.Any<MutationCommandContext<TestCommand>>(),
            Arg.Any<CancellationToken>());
     }
 
@@ -31,7 +31,7 @@ public class MutationExceptionDecoratorTests
         [Frozen] IMutationCommandDispatcher<TestState> decorated,
         [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
         object sender,
-        MutationCommandContext<TestCommand1> context,
+        MutationCommandContext<TestCommand> context,
         MutationExceptionDecorator<TestState> sut)
     {
         //Arrange

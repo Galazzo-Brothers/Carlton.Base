@@ -14,7 +14,7 @@ public class MutationCommandHttpDecoratorTests
 	   [Frozen] MockHttpMessageHandler mockHttp,
 	   MutationHttpDecorator<TestState> sut,
 	   object sender,
-	   MutationCommandContext<TestCommand1> context,
+	   MutationCommandContext<TestCommand> context,
 	   MutationCommandResult expectedResult)
 	{
 		//Arrange

@@ -14,11 +14,11 @@ public class MutationCommandExceptionDecoratorTests
 		[Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
 		MutationExceptionDecorator<TestState> sut,
 		object sender,
-		MutationCommandContext<TestCommand1> context,
+		MutationCommandContext<TestCommand> context,
 		MutationCommandResult expectedResult)
 	{
 		//Arrange
-		decorated.SetupCommandDispatcher<TestCommand1>(context.MutationCommand);
+		decorated.SetupCommandDispatcher<TestCommand>(context.MutationCommand);
 
 		//Act 
 		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
@@ -36,7 +36,7 @@ public class MutationCommandExceptionDecoratorTests
 	   [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
 	   MutationExceptionDecorator<TestState> sut,
 	   object sender,
-	   MutationCommandContext<TestCommand1> context,
+	   MutationCommandContext<TestCommand> context,
 	   TestError error)
 	{
 		//Arrange
@@ -59,12 +59,12 @@ public class MutationCommandExceptionDecoratorTests
 		[Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
 		MutationExceptionDecorator<TestState> sut,
 		object sender,
-		MutationCommandContext<TestCommand1> context,
+		MutationCommandContext<TestCommand> context,
 		Exception ex)
 	{
 		//Arrange
 		var error = UnhandledFluxError(ex);
-		decorated.SetupCommandDispatcherException<TestCommand1>(ex);
+		decorated.SetupCommandDispatcherException<TestCommand>(ex);
 
 		//Act 
 		var result = await sut.Dispatch(sender, context, CancellationToken.None);

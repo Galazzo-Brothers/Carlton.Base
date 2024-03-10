@@ -11,11 +11,11 @@ public class MutationCommandValidationDecoratorTests
 	   [Frozen] IMutationCommandDispatcher<TestState> decorated,
 	   MutationValidationDecorator<TestState> sut,
 	   object sender,
-	   MutationCommandContext<TestCommand1> context,
+	   MutationCommandContext<TestCommand> context,
 	   MutationCommandResult expectedResult)
 	{
 		//Arrange
-		decorated.SetupCommandDispatcher<TestCommand1>(context.MutationCommand);
+		decorated.SetupCommandDispatcher(context.MutationCommand);
 
 		//Act 
 		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
@@ -35,9 +35,9 @@ public class MutationCommandValidationDecoratorTests
 	  object sender)
 	{
 		//Arrange
-		var invalidCommand = new TestCommand1(-1, "Testing", "This should fail");
-		var context = new MutationCommandContext<TestCommand1>(invalidCommand);
-		decorated.SetupCommandDispatcher<TestCommand1>(invalidCommand);
+		var invalidCommand = new TestCommand(-1, "Testing", "This should fail");
+		var context = new MutationCommandContext<TestCommand>(invalidCommand);
+		decorated.SetupCommandDispatcher(invalidCommand);
 
 		//Act 
 		var actualResult = await sut.Dispatch(sender, context, CancellationToken.None);
