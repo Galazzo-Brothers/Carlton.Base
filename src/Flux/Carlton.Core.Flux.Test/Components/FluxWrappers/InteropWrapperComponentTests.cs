@@ -86,12 +86,13 @@ public class InteropWrapperComponentTests : TestContext
 		string functionName,
 		object[] jsParameters,
 		TestViewModel vm,
-		TestCommand command)
+		TestCommand command,
+		MutationCommandResult expectedResult)
 	{
 		//Arrange
 		var moduleInterop = JSInterop.SetupModule(moduleName);
 		moduleInterop.Setup<TestViewModel>(functionName, jsParameters).SetResult(vm);
-		_mockCommandDispatcher.SetupCommandDispatcher(command);
+		_mockCommandDispatcher.SetupCommandDispatcher(command, expectedResult);
 		var cut = RenderComponent<InteropFluxWrapper<TestState, TestViewModel>>(
 			 parameters => parameters.Add(p => p.JsModule, moduleName)
 				 .Add(p => p.JsFunction, functionName)

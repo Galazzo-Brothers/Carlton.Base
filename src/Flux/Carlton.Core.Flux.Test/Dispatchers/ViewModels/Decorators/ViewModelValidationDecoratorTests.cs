@@ -25,7 +25,7 @@ public class ViewModelValidationDecoratorTests : TestContext
 		actualResult.IsSuccess.ShouldBeTrue();
 		actualResult.ShouldBe(expectedResult);
 		context.RequestValidated.ShouldBeTrue();
-		context.ValidationResult.ValidationPassed.ShouldBeTrue();
+		context.ValidationPassed.ShouldBeTrue();
 	}
 
 	[Theory, AutoNSubstituteData]
@@ -45,7 +45,8 @@ public class ViewModelValidationDecoratorTests : TestContext
 		//Assert
 		decorated.VerifyQueryDispatcher<TestViewModel>(1);
 		context.RequestValidated.ShouldBeTrue();
-		context.ValidationResult.ValidationErrors.ShouldNotBeEmpty();
+		context.ValidationPassed.ShouldBeFalse();
+		context.ValidationErrors.ShouldNotBeEmpty();
 		actualResult.GetError().ShouldBeOfType<ValidationError>();
 	}
 }

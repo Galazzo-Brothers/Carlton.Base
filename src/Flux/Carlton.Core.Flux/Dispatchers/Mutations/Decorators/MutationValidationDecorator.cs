@@ -7,13 +7,17 @@ public class MutationValidationDecorator<TState>(IMutationCommandDispatcher<TSta
 	{
 		//Validate command
 		var isValid = context.MutationCommand.TryValidate(out var validationErrors);
-		context.MarkAsValidated(validationErrors);
+		context.MarkAsInvalid(validationErrors);
 
 		//Continue with valid command
 		if (isValid)
+		{
+			context.MarkAsValid();
 			return await _decorated.Dispatch(sender, context, cancellationToken);
+		}
 
 		//Return ValidationError
+		context.MarkAsInvalid(validationErrors);
 		return ValidationError(validationErrors).ToResult<MutationCommandResult, FluxError>();
 	}
 }

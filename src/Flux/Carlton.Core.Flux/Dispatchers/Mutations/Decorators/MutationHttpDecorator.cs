@@ -19,7 +19,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
 			context.MarkAsRequiresHttpRefresh();
 
 			//Construct Http Refresh URL
-			var urlParameterAttributes = attributes.OfType<FluxServerCommunicationParameterAttribute>() ?? new List<FluxServerCommunicationParameterAttribute>();
+			var urlParameterAttributes = GetParameterAttributes(sender);
 			var serverUrlResult = GetServerUrl(fluxServerAttribute, urlParameterAttributes, sender);
 
 			//Send Request
@@ -88,7 +88,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
 		CancellationToken cancellationToken)
 	{
 		//Update Context with Http Request
-		context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK, serverResponse);
+		context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK);
 
 		//If http request failed, return error
 		if (!serverResponse.IsSuccessStatusCode)
@@ -97,8 +97,21 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
 		//Check if command should be replaced with response body
 		if (updateWithResponseBody)
 		{
+			//Command should be replaced with server response body
 			var serverCommand = await serverResponse.Content.ReadFromJsonAsync<TCommand>(cancellationToken);
+			context.MarkAsHttpCallSucceeded(serverCommand);
 			context.ReplaceCommandWithResponseBody(serverCommand);
+		}
+		else if (serverResponse.Content.IsJsonContent())
+		{
+			//Command will not be replaced but we will still audit the json response
+			var responseContent = await serverResponse.Content.ReadFromJsonAsync<object>(cancellationToken);
+			context.MarkAsHttpCallSucceeded(responseContent);
+		}
+		else
+		{
+			//response is not json, just mark the call as successful and move on
+			context.MarkAsHttpCallSucceeded("Response content was not text/json");
 		}
 
 		return new MutationCommandResult();

@@ -22,7 +22,7 @@ public class ViewModelHttpDecorator<TState>(
 			context.MarkAsRequiresHttpRefresh();
 
 			//Find FluxServerCommunicationParameterAttributes
-			var parameterAttributes = sender.GetType().GetProperties().SelectMany(p => p.GetCustomAttributes<FluxServerCommunicationParameterAttribute>());
+			var parameterAttributes = GetParameterAttributes(sender);
 
 			//Construct Http Refresh URL
 			var serverUrlResult = GetServerUrl(fluxServerCommunicationAttribute, parameterAttributes, sender);
@@ -62,6 +62,9 @@ public class ViewModelHttpDecorator<TState>(
 			//Get ViewModel from server
 			var response = await Client.GetAsync(serverUrl, cancellationToken);
 
+			//Update Context
+			context.MarkAsHttpCallMade(serverUrl, response.StatusCode);
+
 			//Return error value if http call unsuccessful
 			if (!response.IsSuccessStatusCode)
 				return HttpRequestFailedError(response);
@@ -69,8 +72,10 @@ public class ViewModelHttpDecorator<TState>(
 			//Deserialize the content to the specified type
 			var viewModel = await response.Content.ReadFromJsonAsync<TViewModel>(cancellationToken: cancellationToken);
 
-			//Update the context and return the ViewModel
-			context.MarkAsHttpCallMade(serverUrl, System.Net.HttpStatusCode.OK, viewModel);
+			//Update Context
+			context.MarkAsHttpCallSucceeded(viewModel);
+
+			//return ViewModel
 			return viewModel;
 		}
 		catch (HttpRequestException ex)

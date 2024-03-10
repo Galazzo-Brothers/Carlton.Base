@@ -49,8 +49,8 @@ public class ViewModelExceptionDecoratorTests
 		result.IsSuccess.ShouldBeFalse();
 		result.ShouldBe(error);
 		logger.Received().ViewModelQueryErrored(context.FluxOperationTypeName);
-		context.RequestResult.RequestSucceeded.ShouldBeFalse();
-		context.RequestResult.RequestEndTimestamp.ShouldBeGreaterThan(DateTimeOffset.MinValue);
+		context.RequestSucceeded.ShouldBeFalse();
+		context.RequestEndTimestamp.ShouldBeGreaterThan(DateTimeOffset.MinValue);
 	}
 
 	[Theory, AutoNSubstituteData]
@@ -73,7 +73,7 @@ public class ViewModelExceptionDecoratorTests
 		result.IsSuccess.ShouldBeFalse();
 		result.ShouldBe(error);
 		logger.Received().ViewModelQueryErrored(context.FluxOperationTypeName, ex);
-		context.RequestResult.RequestSucceeded.ShouldBeFalse();
-		context.RequestResult.RequestEndTimestamp.ShouldBeGreaterThan(DateTimeOffset.MinValue);
+		context.RequestSucceeded.ShouldBeFalse();
+		context.RequestEndTimestamp.ShouldBeGreaterThan(DateTimeOffset.MinValue);
 	}
 }
