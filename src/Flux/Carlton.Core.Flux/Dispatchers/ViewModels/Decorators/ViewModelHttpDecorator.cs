@@ -20,7 +20,7 @@ public class ViewModelHttpDecorator<TState>(
 		{
 			//Update the context for logging and auditing
 			context.MarkAsRequiresHttpRefresh();
-				
+
 			//Find FluxServerCommunicationParameterAttributes
 			var parameterAttributes = sender.GetType().GetProperties().SelectMany(p => p.GetCustomAttributes<FluxServerCommunicationParameterAttribute>());
 
@@ -29,20 +29,10 @@ public class ViewModelHttpDecorator<TState>(
 
 			//Get ViewModel from server
 			var vmResult = await serverUrlResult.Match
-				(
-					async serverUrl =>
-					{
-						//Get ViewModel from server
-						var vmResult = await GetHttpViewModel(serverUrl, context, cancellationToken);
-
-						//Update the StateStore and pickup any mutation errors
-						vmResult = await ApplyViewModelStateMutation(vmResult, context);
-
-						//Return result
-						return vmResult;
-					},
-					err => err.ToResultTask<TViewModel, FluxError>()
-				);
+			(
+				serverUrl => HandleSuccess(serverUrl, context, cancellationToken), //Success Handler
+				err => err.ToResultTask<TViewModel, FluxError>() //Error Handler
+			);
 
 			//If http refresh failed return error
 			if (!vmResult.IsSuccess)
@@ -51,6 +41,18 @@ public class ViewModelHttpDecorator<TState>(
 
 		//Continue with Dispatch
 		return await _decorated.Dispatch(sender, context, cancellationToken);
+	}
+
+	private async Task<Result<TViewModel, FluxError>> HandleSuccess<TViewModel>(string serverUrl, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+	{
+		//Get ViewModel from server
+		var vmResult = await GetHttpViewModel(serverUrl, context, cancellationToken);
+
+		//Update the StateStore and pickup any mutation errors
+		vmResult = await ApplyViewModelStateMutation(vmResult, context);
+
+		//Return result
+		return vmResult;
 	}
 
 	private async Task<Result<TViewModel, FluxError>> GetHttpViewModel<TViewModel>(string serverUrl, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
