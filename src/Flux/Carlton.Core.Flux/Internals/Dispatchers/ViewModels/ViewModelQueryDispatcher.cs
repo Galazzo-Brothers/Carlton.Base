@@ -1,4 +1,7 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels;
+﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Internals.Contracts;
+using Carlton.Core.Flux.Internals.Errors;
+namespace Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 
 internal sealed class ViewModelQueryDispatcher<TState>(IServiceProvider serviceProvider) : IViewModelQueryDispatcher<TState>
 {

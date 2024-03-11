@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
 
-namespace Carlton.Core.Flux.Contracts;
+namespace Carlton.Core.Flux.Internals.Contracts;
 
 internal interface IViewModelQueryHandler<TState>
 {

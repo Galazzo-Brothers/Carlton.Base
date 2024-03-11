@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Logging;
+﻿using Carlton.Core.Flux.Internals.Logging;
+
+namespace Carlton.Core.Flux.Logging;
 
 internal static partial class LogSourceGenerators
 {

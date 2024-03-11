@@ -1,9 +1,10 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Foundation.Test;
-using Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 using Carlton.Core.Flux.Dispatchers.Mutations;
 using System.Net;
 using System.Text.Json;
+using Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
+using Carlton.Core.Flux.Internals.Errors;
 namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations.Decorators;
 
 public class MutationCommandHttpDecoratorTests

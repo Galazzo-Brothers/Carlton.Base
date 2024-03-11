@@ -1,7 +1,7 @@
 ﻿
 namespace Carlton.Core.Flux.Dispatchers.Mutations;
 
-public sealed class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
+public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
 	public override FluxOperation FluxOperation => FluxOperation.ViewModelQuery;
 	public override Type FluxOperationType => MutationCommand.GetType();

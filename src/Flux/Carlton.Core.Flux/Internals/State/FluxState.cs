@@ -1,7 +1,9 @@
-﻿namespace Carlton.Core.Flux.State;
-public sealed record RecordedMutation<TState>(Func<TState, object, TState> MutationFunc, object Command, string StateEvent);
+﻿using Carlton.Core.Flux.Internals.Contracts;
+using Carlton.Core.Flux.Internals.Errors;
+namespace Carlton.Core.Flux.Internals.State;
+internal sealed record RecordedMutation<TState>(Func<TState, object, TState> MutationFunc, object Command, string StateEvent);
 
-public sealed class FluxState<TState>(TState _state, IServiceProvider _provider)
+internal sealed class FluxState<TState>(TState _state, IServiceProvider _provider)
 	: IMutableFluxState<TState>
 {
 	public event Func<FluxStateChangedEventArgs, Task> StateChanged;

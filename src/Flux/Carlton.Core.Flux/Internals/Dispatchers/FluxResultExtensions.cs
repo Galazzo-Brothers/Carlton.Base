@@ -1,8 +1,9 @@
 ﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Exceptions;
-namespace Carlton.Core.Flux.Extensions;
+using Carlton.Core.Flux.Internals.Errors;
 
-internal static class ResultExtensions
+namespace Carlton.Core.Flux.Internals.Dispatchers;
+
+internal static class FluxResultExtensions
 {
 	internal static TViewModel GetViewModelResultOrThrow<TViewModel>(this Result<TViewModel, FluxError> result)
 	{

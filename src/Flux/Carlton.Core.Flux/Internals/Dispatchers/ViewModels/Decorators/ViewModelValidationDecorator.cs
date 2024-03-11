@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
+﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
+
+namespace Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 
 internal sealed class ViewModelValidationDecorator<TState>(
 	IViewModelQueryDispatcher<TState> _decorated)

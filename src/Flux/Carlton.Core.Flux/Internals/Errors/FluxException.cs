@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Dispatchers;
-namespace Carlton.Core.Flux.Exceptions;
+namespace Carlton.Core.Flux.Internals.Errors;
 
 internal class FluxException(FluxError error, FluxOperation fluxOperation) : Exception
 {

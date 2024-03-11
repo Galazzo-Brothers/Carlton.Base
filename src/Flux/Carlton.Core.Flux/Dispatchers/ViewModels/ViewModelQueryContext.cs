@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels;
 
-public sealed class ViewModelQueryContext<TViewModel> : BaseRequestContext
+public class ViewModelQueryContext<TViewModel> : BaseRequestContext
 {
 	public TViewModel ResultViewModel { get; private set; }
 	public override FluxOperation FluxOperation => FluxOperation.ViewModelQuery;

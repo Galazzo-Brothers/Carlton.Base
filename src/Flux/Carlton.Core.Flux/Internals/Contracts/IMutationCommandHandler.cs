@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Dispatchers.Mutations;
-namespace Carlton.Core.Flux.Contracts;
+namespace Carlton.Core.Flux.Internals.Contracts;
 
 internal interface IMutationCommandHandler<TState>
 {
