@@ -1,9 +1,9 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Foundation.Test;
 using Microsoft.Extensions.Logging;
-using Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations.Decorators;
 
 public class MutationCommandExceptionDecoratorTests

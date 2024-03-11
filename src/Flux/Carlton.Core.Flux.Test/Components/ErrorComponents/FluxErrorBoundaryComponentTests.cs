@@ -1,5 +1,6 @@
 ﻿using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Internals.Logging;
+
 namespace Carlton.Core.Flux.Tests.Components.ErrorComponents;
 
 public class FluxErrorBoundaryComponentTests : TestContext

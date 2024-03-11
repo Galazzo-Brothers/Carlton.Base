@@ -1,8 +1,9 @@
-﻿using Carlton.Core.Flux.Dispatchers.Mutations;
-using Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
-using Carlton.Core.Flux.Dispatchers.ViewModels;
-using Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
-using Carlton.Core.Flux.State;
+﻿using Carlton.Core.Flux.Internals.Contracts;
+using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
+using Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
+using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
+using Carlton.Core.Flux.Internals.State;
 using Carlton.Core.Utilities.Logging;
 
 namespace Carlton.Core.Flux.Extensions;

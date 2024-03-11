@@ -1,4 +1,4 @@
-global using static Carlton.Core.Flux.Errors.FluxErrors;
+global using static Carlton.Core.Flux.Internals.Errors.FluxErrors;
 global using AutoFixture.Xunit2;
 global using Bunit;
 global using Bunit.TestDoubles;

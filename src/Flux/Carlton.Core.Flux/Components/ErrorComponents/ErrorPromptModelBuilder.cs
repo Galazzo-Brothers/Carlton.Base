@@ -1,4 +1,7 @@
-﻿namespace Carlton.Core.Flux.Components.ErrorComponents;
+﻿using Carlton.Core.Flux.Internals.Errors;
+using Carlton.Core.Flux.Internals.Logging;
+
+namespace Carlton.Core.Flux.Components.ErrorComponents;
 
 internal class ErrorPromptModelBuilder
 {

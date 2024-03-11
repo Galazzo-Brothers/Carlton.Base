@@ -1,10 +1,9 @@
 ﻿using Carlton.Core.Flux.Attributes;
-namespace Carlton.Core.Flux.Errors;
+using Carlton.Core.Flux.Internals.Logging;
+namespace Carlton.Core.Flux.Internals.Errors;
 
-public static class FluxErrors
+internal static class FluxErrors
 {
-	public abstract record FluxError(string Message, int EventId);
-
 	public static ValidationError ValidationError(IEnumerable<string> validationErrors)
 		=> new(validationErrors);
 
@@ -45,35 +44,35 @@ public static class FluxErrors
 	}
 }
 
-public sealed record ValidationError(IEnumerable<string> ValidationErrors)
+internal sealed record ValidationError(IEnumerable<string> ValidationErrors)
 	: FluxError($"{FluxLogs.Flux_Validation_ErrorMsg}: {string.Join(Environment.NewLine, ValidationErrors)}", FluxLogs.Flux_Validation_Error);
 
-public sealed record UnsupportedHttpVerbError(HttpVerb HttpVerb)
+internal sealed record UnsupportedHttpVerbError(HttpVerb HttpVerb)
 	: FluxError(string.Format(FluxLogs.Flux_HTTP_UnsupportedVerb_ErrorMsg, HttpVerb), FluxLogs.Flux_HTTP_UnsupportedVerb_Error);
 
-public sealed record HttpUrlConstructionError(string Url)
+internal sealed record HttpUrlConstructionError(string Url)
 	: FluxError(string.Format(FluxLogs.Flux_HTTP_Invalid_URL_ErrorMsg, Url), FluxLogs.Flux_HTTP_Invalid_URL_Error);
 
-public sealed record HttpUrlConstructionUnreplacedTokensError(string Url, IEnumerable<string> UnreplacedTokens)
+internal sealed record HttpUrlConstructionUnreplacedTokensError(string Url, IEnumerable<string> UnreplacedTokens)
 	: FluxError($"{FluxLogs.Flux_HTTP_Invalid_URL_UnreplacedTokens_ErrorMsg}: {string.Join(Environment.NewLine, UnreplacedTokens)}", FluxLogs.Flux_HTTP_Invalid_URL_UnreplacedTokens_Error);
 
-public sealed record HttpRequestFailedError(HttpResponseMessage HttpResponse)
+internal sealed record HttpRequestFailedError(HttpResponseMessage HttpResponse)
 	: FluxError(ReplaceHttpRequestFailedTemplateMessage(HttpResponse), FluxLogs.Flux_HTTP_FailedRequest_Error);
 
-public sealed record HttpError(HttpRequestException Exception)
+internal sealed record HttpError(HttpRequestException Exception)
 	: FluxError($"{FluxLogs.Flux_HTTP_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_HTTP_Error);
 
-public sealed record JsonError(Exception Exception)
+internal sealed record JsonError(Exception Exception)
 	: FluxError($"{FluxLogs.Flux_JSON_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_JSON_Error);
 
-public sealed record MutationNotRegisteredError(string MutationType)
+internal sealed record MutationNotRegisteredError(string MutationType)
 	: FluxError(string.Format(FluxLogs.Flux_MutationNotRegistered_ErrorMsg, MutationType), FluxLogs.Flux_MutationNotRegistered_Error);
 
-public sealed record MutationError(string MutationCommandType, Exception Exception)
+internal sealed record MutationError(string MutationCommandType, Exception Exception)
 	: FluxError($"{FluxLogs.Flux_Mutation_ErrorMsg} {MutationCommandType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error);
 
-public sealed record MappingError(string ViewModelType, Exception Exception)
+internal sealed record MappingError(string ViewModelType, Exception Exception)
 	: FluxError($"{FluxLogs.Flux_Mapping_ErrorMsg} {ViewModelType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error);
 
-public sealed record UnhandledFluxError(Exception Exception)
+internal sealed record UnhandledFluxError(Exception Exception)
 	: FluxError($"{FluxLogs.Flux_Unhandled_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_Unhandled_Error);

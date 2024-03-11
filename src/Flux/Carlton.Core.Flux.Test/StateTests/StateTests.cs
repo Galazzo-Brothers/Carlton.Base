@@ -1,6 +1,7 @@
 ﻿using Carlton.Core.Components.Flux.Tests.Common.Extensions;
 using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.State;
+using Carlton.Core.Flux.Internals.Errors;
+using Carlton.Core.Flux.Internals.State;
 using Carlton.Core.Foundation.Test;
 using NSubstitute.ExceptionExtensions;
 namespace Carlton.Core.Flux.Tests.StateTests;
@@ -8,7 +9,7 @@ namespace Carlton.Core.Flux.Tests.StateTests;
 public class StateTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task FluxState_MutateState_UpdatesState(
+	internal async Task FluxState_MutateState_UpdatesState(
 		[Frozen] IServiceProvider provider,
 		TestMutation mutation,
 		FluxState<TestState> sut,
@@ -39,7 +40,7 @@ public class StateTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task FluxState_MutateStateWithoutRegisteredMutation_ShouldReturnMutationNotRegisteredError(
+	internal async Task FluxState_MutateStateWithoutRegisteredMutation_ShouldReturnMutationNotRegisteredError(
 		FluxState<TestState> sut,
 		TestCommand command)
 	{
@@ -53,7 +54,7 @@ public class StateTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task FluxState_MutateStateException_ShouldReturnMutationError(
+	internal async Task FluxState_MutateStateException_ShouldReturnMutationError(
 		[Frozen] IServiceProvider provider,
 		FluxState<TestState> sut,
 		TestCommand command)

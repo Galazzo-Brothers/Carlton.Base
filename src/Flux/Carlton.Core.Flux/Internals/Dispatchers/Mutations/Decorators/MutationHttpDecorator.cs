@@ -1,7 +1,8 @@
 ﻿using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Handlers.Base;
 using System.Net.Http.Json;
-namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
+namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 
 internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client)
 	: BaseHttpDecorator<TState>(_client), IMutationCommandDispatcher<TState>

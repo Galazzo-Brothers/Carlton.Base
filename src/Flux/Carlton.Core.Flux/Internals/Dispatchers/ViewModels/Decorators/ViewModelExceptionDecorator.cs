@@ -1,4 +1,7 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
+﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Internals.Errors;
+using Carlton.Core.Flux.Internals.Logging;
+namespace Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 
 internal sealed class ViewModelExceptionDecorator<TState>(
 	IViewModelQueryDispatcher<TState> _decorated,

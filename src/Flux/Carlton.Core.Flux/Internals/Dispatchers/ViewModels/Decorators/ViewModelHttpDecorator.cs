@@ -1,7 +1,9 @@
 ﻿using System.Net.Http.Json;
 using Carlton.Core.Flux.Attributes;
+using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Flux.Handlers.Base;
-namespace Carlton.Core.Flux.Dispatchers.ViewModels.Decorators;
+using Carlton.Core.Flux.Internals.Contracts;
+namespace Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 
 internal sealed class ViewModelHttpDecorator<TState>(
 	IViewModelQueryDispatcher<TState> _decorated,
@@ -94,7 +96,7 @@ internal sealed class ViewModelHttpDecorator<TState>(
 
 	private async Task<Result<TViewModel, FluxError>> ApplyViewModelStateMutation<TViewModel>(Result<TViewModel, FluxError> vmResult, ViewModelQueryContext<TViewModel> context)
 	{
-		return await vmResult.Match
+		return await vmResult.Match<Task<Result<TViewModel, FluxError>>>
 		(
 			async vm =>
 			{
