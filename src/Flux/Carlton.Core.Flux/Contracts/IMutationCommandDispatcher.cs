@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Dispatchers;
-
+using Carlton.Core.Flux.Internals;
 namespace Carlton.Core.Flux.Contracts;
 
 public record MutationCommandResult();
@@ -11,12 +11,16 @@ public interface IMutationCommandDispatcher<TState>
 
 public static class IMutationCommandDispatcherExtensions
 {
-	public static async Task<Result<MutationCommandResult, FluxError>> Dispatch<TState, TCommand>(this IMutationCommandDispatcher<TState> dispatcher, object sender, TCommand command, CancellationToken cancellation)
-	   => await dispatcher.Dispatch(sender, new MutationCommandContext<TCommand>(command), cancellation);
+	public static async Task<MutationCommandResult> Dispatch<TState, TCommand>(this IMutationCommandDispatcher<TState> dispatcher, object sender, TCommand command, CancellationToken cancellation)
+	{
+		var context = new MutationCommandContext<TCommand>(command);
+		var result = await dispatcher.Dispatch(sender, context, cancellation);
+		return result.GetMutationResultOrThrow(context);
+	}
 
-	public static async Task<Result<MutationCommandResult, FluxError>> Dispatch<TState, TCommand, TContext>(this IMutationCommandDispatcher<TState> dispatcher, object sender, TContext context, CancellationToken cancellation)
-		where TContext : MutationCommandContext<TCommand>
-	   => await dispatcher.Dispatch(sender, context, cancellation);
+	//public static async Task<MutationCommandResult> Dispatch<TState, TCommand, TContext>(this IMutationCommandDispatcher<TState> dispatcher, object sender, TContext context, CancellationToken cancellation)
+	//	where TContext : MutationCommandContext<TCommand>
+	//   => await dispatcher.Dispatch<TState, TCommand>(sender, cancellation);
 }
 
 public abstract class MutationCommandDispatcherMiddlewareBase<TState> : IMutationCommandDispatcher<TState>

@@ -33,7 +33,7 @@ internal sealed class ViewModelExceptionDecorator<TState>(
 	private FluxError HandleError<TViewModel>(FluxError error, ViewModelQueryContext<TViewModel> context)
 	{
 		//Mark as errored
-		context.MarkAsErrored(error);
+		context.MarkAsErrored(new FluxException(error.Message, error.EventId, context));
 
 		//Log the result
 		using (_logger.BeginRequestErrorLoggingScopes(error))

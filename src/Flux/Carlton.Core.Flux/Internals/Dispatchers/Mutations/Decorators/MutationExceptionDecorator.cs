@@ -35,7 +35,7 @@ internal sealed class MutationExceptionDecorator<TState>(
 	private FluxError HandleError<TCommand>(FluxError error, MutationCommandContext<TCommand> context)
 	{
 		//Mark as errored
-		context.MarkAsErrored(error);
+		context.MarkAsErrored(new FluxException(error.Message, error.EventId, context));
 
 		//Log the result
 		using (_logger.BeginRequestErrorLoggingScopes(error.EventId))
