@@ -8,7 +8,7 @@ public abstract class BaseRequestContext
 
 	//Common
 	public Guid RequestId { get; } = Guid.NewGuid();
-	public abstract FluxOperation FluxOperation { get; }
+	public abstract FluxOperationKind FluxOperationKind { get; }
 	public abstract Type FluxOperationType { get; }
 	public string FluxOperationTypeName { get => FluxOperationType.GetDisplayName(); }
 	protected internal void MarkAsStarted() => _stopwatch.Start();
@@ -38,11 +38,10 @@ public abstract class BaseRequestContext
 
 	//Request Result
 	public bool RequestEnded { get; private set; }
-	public FluxError FluxError { get; private set; }
 	public ExceptionDescriptor ExceptionDescriptor { get; private set; }
 	public DateTimeOffset RequestEndTimestamp { get; private set; }
 	public long ElapsedTime { get; private set; }
-	public bool RequestSucceeded { get => RequestEnded && ExceptionDescriptor == null && FluxError == null; }
+	public bool RequestSucceeded { get => RequestEnded && ExceptionDescriptor == null; }
 
 	protected internal void MarkAsSucceeded()
 		=> EndRequest();
@@ -50,12 +49,6 @@ public abstract class BaseRequestContext
 	protected internal void MarkAsErrored(Exception exception)
 	{
 		ExceptionDescriptor = new ExceptionDescriptor(exception.GetType().Name, exception.Message, exception.StackTrace);
-		EndRequest();
-	}
-
-	protected internal void MarkAsErrored(FluxError error)
-	{
-		FluxError = error;
 		EndRequest();
 	}
 
@@ -70,7 +63,7 @@ public abstract class BaseRequestContext
 
 public record ExceptionDescriptor(string ExceptionType, string Message, string StackTrace);
 
-public enum FluxOperation
+public enum FluxOperationKind
 {
 	ViewModelQuery = 1,
 	CommandMutation = 2,

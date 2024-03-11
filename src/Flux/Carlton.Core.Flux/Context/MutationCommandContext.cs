@@ -2,7 +2,7 @@
 
 public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
-	public override FluxOperation FluxOperation => FluxOperation.ViewModelQuery;
+	public override FluxOperationKind FluxOperationKind => FluxOperationKind.ViewModelQuery;
 	public override Type FluxOperationType => MutationCommand.GetType();
 
 	public TCommand MutationCommand { get; private set; } = command;
@@ -10,6 +10,7 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
 	public bool CommandReplacedByResponse { get; private set; }
 
 	public string ResultingStateEvent { get; private set; }
+
 
 	internal void ReplaceCommandWithResponseBody(TCommand command)
 	{
@@ -28,6 +29,6 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
 	//this override is primarily
 	//so the actual value of the command can be logged
 	public override string ToString()
-		=> $"MutationCommandContext[{FluxOperationType}]";
+		=> $"MutationCommandContext[{FluxOperationKind}]";
 }
 

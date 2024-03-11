@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Dispatchers;
-
+using Carlton.Core.Flux.Internals;
 namespace Carlton.Core.Flux.Contracts;
 
 public interface IViewModelQueryDispatcher<TState>
@@ -9,14 +9,18 @@ public interface IViewModelQueryDispatcher<TState>
 
 public static class IViewModelQueryDispatcherExtensions
 {
-	public static async Task<Result<TViewModel, FluxError>> Dispatch<TState, TViewModel>(
+	public static async Task<TViewModel> Dispatch<TState, TViewModel>(
 		this IViewModelQueryDispatcher<TState> dispatcher, object sender, CancellationToken cancellation)
-	   => await dispatcher.Dispatch(sender, new ViewModelQueryContext<TViewModel>(), cancellation);
+	{
+		var context = new ViewModelQueryContext<TViewModel>();
+		var result = await dispatcher.Dispatch(sender, context, cancellation);
+		return result.GetViewModelResultOrThrow(context);
+	}
 
-	public static async Task<Result<TViewModel, FluxError>> Dispatch<TState, TViewModel, TContext>(
-		this IViewModelQueryDispatcher<TState> dispatcher, object sender, TContext context, CancellationToken cancellation)
-		where TContext : ViewModelQueryContext<TViewModel>
-	   => await dispatcher.Dispatch(sender, context, cancellation);
+	//public static async Task<Result<TViewModel, FluxError>> Dispatch<TState, TViewModel, TContext>(
+	//    this IViewModelQueryDispatcher<TState> dispatcher, object sender, TContext context, CancellationToken cancellation)
+	//    where TContext : ViewModelQueryContext<TViewModel>
+	//   => await dispatcher.Dispatch(sender, context, cancellation);
 }
 
 public abstract class ViewModelQueryDispatcherMiddlewareBase<TState> : IViewModelQueryDispatcher<TState>

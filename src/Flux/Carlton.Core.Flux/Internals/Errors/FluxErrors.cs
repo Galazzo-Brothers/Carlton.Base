@@ -4,6 +4,8 @@ namespace Carlton.Core.Flux.Internals.Errors;
 
 internal static class FluxErrors
 {
+	public abstract record FluxError(string Message, int EventId);
+
 	public static ValidationError ValidationError(IEnumerable<string> validationErrors)
 		=> new(validationErrors);
 

@@ -4,7 +4,7 @@ using Carlton.Core.Utilities.Results;
 using NSubstitute.ExceptionExtensions;
 namespace Carlton.Core.Flux.Tests.Common.Extensions;
 
-public static class DispatcherExtensions
+internal static class DispatcherExtensions
 {
 	public static void SetupQueryDispatcher<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, TViewModel vm)
 	{

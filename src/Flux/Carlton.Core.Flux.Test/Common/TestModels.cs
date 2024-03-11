@@ -3,7 +3,7 @@ using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Utilities.Validation;
 namespace Carlton.Core.Flux.Tests.Common;
 
-public record TestError() : FluxError("This is a test", -1);
+internal record TestError() : FluxError("This is a test", -1);
 
 public record TestViewModel([property: NonNegativeInteger] int Id, string Name, string Description);
 

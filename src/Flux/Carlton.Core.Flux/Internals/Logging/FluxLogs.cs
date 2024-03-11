@@ -41,6 +41,7 @@ internal static class FluxLogs
 	public const int Flux_Mutation_Error = 109;
 	public const int Flux_Mapping_Error = 110;
 	public const int Flux_JsInterop_Error = 111;
+	public const int Flux_ComponentRendering_Error = 112;
 
 	//Flux Error Messages
 	public const string Flux_Unhandled_ErrorMsg = "An unhandled exception occurred during a flux operation";
