@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 namespace Carlton.Core.Flux.Handlers.Base;
 
-public abstract partial class BaseHttpDecorator<TState>(HttpClient _client)
+internal abstract partial class BaseHttpDecorator<TState>(HttpClient _client)
 {
 	protected HttpClient Client { get; init; } = _client;
 

@@ -3,7 +3,7 @@ using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Utilities.Disposable;
 namespace Carlton.Core.Flux.Logging;
 
-public static class FluxLogs
+internal static class FluxLogs
 {
 	//Logging Scopes
 	public const string FluxComponentInitialization = "FluxComponentInitialization:{@FluxComponentInitialization}";

@@ -7,7 +7,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations.Decorators;
 public class MutationCommandValidationDecoratorTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task ValidationDecoratorDispatch_DispatchCalled_ReturnsMutationCommandResult(
+	internal async Task ValidationDecoratorDispatch_DispatchCalled_ReturnsMutationCommandResult(
 	   [Frozen] IMutationCommandDispatcher<TestState> decorated,
 	   MutationValidationDecorator<TestState> sut,
 	   object sender,
@@ -29,7 +29,7 @@ public class MutationCommandValidationDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task ValidationDecoratorDispatch_DispatchCalled_WithFailedValidation_ReturnsValidationError(
+	internal async Task ValidationDecoratorDispatch_DispatchCalled_WithFailedValidation_ReturnsValidationError(
 	  [Frozen] IMutationCommandDispatcher<TestState> decorated,
 	  MutationValidationDecorator<TestState> sut,
 	  object sender,

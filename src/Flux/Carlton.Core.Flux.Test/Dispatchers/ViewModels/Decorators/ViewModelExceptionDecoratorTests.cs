@@ -9,7 +9,7 @@ namespace Carlton.Core.Flux.Tests.DecoratorTests.ViewModels;
 public class ViewModelExceptionDecoratorTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task ExceptionDecoratorDispatch_DispatchCalled_ReturnsViewModel(
+	internal async Task ExceptionDecoratorDispatch_DispatchCalled_ReturnsViewModel(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] ILogger<ViewModelExceptionDecorator<TestState>> logger,
 		ViewModelExceptionDecorator<TestState> sut,
@@ -31,7 +31,7 @@ public class ViewModelExceptionDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task ExceptionDecoratorDispatch_Errored_ReturnsUnhandledFluxError(
+	internal async Task ExceptionDecoratorDispatch_Errored_ReturnsUnhandledFluxError(
 	   [Frozen] IViewModelQueryDispatcher<TestState> decorated,
 	   [Frozen] ILogger<ViewModelExceptionDecorator<TestState>> logger,
 	   ViewModelExceptionDecorator<TestState> sut,
@@ -54,7 +54,7 @@ public class ViewModelExceptionDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task ExceptionDecoratorDispatch_UnhandledException_ReturnsUnhandledFluxError(
+	internal async Task ExceptionDecoratorDispatch_UnhandledException_ReturnsUnhandledFluxError(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] ILogger<ViewModelExceptionDecorator<TestState>> logger,
 		ViewModelExceptionDecorator<TestState> sut,

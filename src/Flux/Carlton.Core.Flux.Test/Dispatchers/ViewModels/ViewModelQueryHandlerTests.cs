@@ -7,7 +7,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels;
 public class ViewModelQueryHandlerTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task Handle_ShouldReturnViewModel(
+	internal async Task Handle_ShouldReturnViewModel(
 		[Frozen] IViewModelMapper<TestState> mapper,
 		[Frozen] IFluxState<TestState> fluxState,
 		ViewModelQueryHandler<TestState> sut,
@@ -28,7 +28,7 @@ public class ViewModelQueryHandlerTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task Handle_WithMappingError_ShouldReturnError(
+	internal async Task Handle_WithMappingError_ShouldReturnError(
 		[Frozen] IViewModelMapper<TestState> mapper,
 		[Frozen] IFluxState<TestState> fluxState,
 		ViewModelQueryHandler<TestState> sut,

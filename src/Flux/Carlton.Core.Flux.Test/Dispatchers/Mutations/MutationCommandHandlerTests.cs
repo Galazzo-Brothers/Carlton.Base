@@ -6,7 +6,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations;
 public class MutationCommandHandlerTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task Handle_ShouldCallStateMutation(
+	internal async Task Handle_ShouldCallStateMutation(
 		[Frozen] IMutableFluxState<TestState> state,
 		MutationCommandHandler<TestState> sut,
 		TestCommand command)
@@ -23,7 +23,7 @@ public class MutationCommandHandlerTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task Handle_Error_ShouldCallStateMutation(
+	internal async Task Handle_Error_ShouldCallStateMutation(
 	   [Frozen] IMutableFluxState<TestState> state,
 	   MutationCommandHandler<TestState> sut,
 	   TestCommand command,

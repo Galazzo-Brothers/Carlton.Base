@@ -3,7 +3,6 @@ using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.State;
 using Carlton.Core.Foundation.Test;
 using NSubstitute.ExceptionExtensions;
-
 namespace Carlton.Core.Flux.Tests.StateTests;
 
 public class StateTests

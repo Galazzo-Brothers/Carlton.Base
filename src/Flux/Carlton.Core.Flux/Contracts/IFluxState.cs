@@ -4,17 +4,17 @@ public record FluxStateChangedEventArgs(string StateEvent);
 
 public interface IFluxStateObserver<TState>
 {
-    public event Func<FluxStateChangedEventArgs, Task> StateChanged;
+	public event Func<FluxStateChangedEventArgs, Task> StateChanged;
 }
 
-public interface IFluxState<TState> : IFluxStateObserver<TState>
+internal interface IFluxState<TState> : IFluxStateObserver<TState>
 {
-    public TState CurrentState { get; }
+	public TState CurrentState { get; }
 }
 
-public interface IMutableFluxState<TState> : IFluxState<TState>
+internal interface IMutableFluxState<TState> : IFluxState<TState>
 {
-    public Task<Result<TCommand, FluxError>> ApplyMutationCommand<TCommand>(TCommand command);
+	internal Task<Result<TCommand, FluxError>> ApplyMutationCommand<TCommand>(TCommand command);
 }
 
 

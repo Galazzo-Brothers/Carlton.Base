@@ -9,7 +9,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations.Decorators;
 public class MutationCommandHttpDecoratorTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_NoHttpRefreshAttribute_ShouldNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_NoHttpRefreshAttribute_ShouldNotMakeHttpCall(
 	   [Frozen] IMutationCommandDispatcher<TestState> decorated,
 	   [Frozen] MockHttpMessageHandler mockHttp,
 	   MutationHttpDecorator<TestState> sut,
@@ -35,7 +35,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithNeverHttpRefreshAttribute_ShouldNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithNeverHttpRefreshAttribute_ShouldNotMakeHttpCall(
 	  [Frozen] IMutationCommandDispatcher<TestState> decorated,
 	  [Frozen] MockHttpMessageHandler mockHttp,
 	  MutationHttpDecorator<TestState> sut,
@@ -61,7 +61,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithUnsupportedHttpVerb_ShouldReturnError(
+	internal async Task HttpDecoratorDispatch_WithUnsupportedHttpVerb_ShouldReturnError(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -88,7 +88,7 @@ public class MutationCommandHttpDecoratorTests
 
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -116,7 +116,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UpdateWithResponseBody_ShouldMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UpdateWithResponseBody_ShouldMakeHttpCall(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -147,7 +147,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -183,7 +183,7 @@ public class MutationCommandHttpDecoratorTests
 
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -210,7 +210,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -244,7 +244,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
+	internal async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
@@ -272,7 +272,7 @@ public class MutationCommandHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
+	internal async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
