@@ -3,7 +3,7 @@ using Carlton.Core.Flux.Handlers.Base;
 using System.Net.Http.Json;
 namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 
-public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client)
+internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _decorated, HttpClient _client)
 	: BaseHttpDecorator<TState>(_client), IMutationCommandDispatcher<TState>
 {
 	public async Task<Result<MutationCommandResult, FluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public class MutationHttpDecorator<TState>(IMutationCommandDispatcher<TState> _d
 		return await _decorated.Dispatch(sender, context, cancellationToken);
 	}
 
-	protected async Task<Result<MutationCommandResult, FluxError>> SendRequest<TCommand>(
+	private async Task<Result<MutationCommandResult, FluxError>> SendRequest<TCommand>(
 		HttpVerb httpVerb,
 		Result<string, FluxError> serverUrlResult,
 		MutationCommandContext<TCommand> context,

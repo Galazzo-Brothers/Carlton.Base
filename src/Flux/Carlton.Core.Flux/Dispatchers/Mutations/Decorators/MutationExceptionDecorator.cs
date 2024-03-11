@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Dispatchers.Mutations.Decorators;
 
-public class MutationExceptionDecorator<TState>(
+internal sealed class MutationExceptionDecorator<TState>(
 	IMutationCommandDispatcher<TState> _decorated,
 	ILogger<MutationExceptionDecorator<TState>> _logger)
 	: IMutationCommandDispatcher<TState>

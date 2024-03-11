@@ -8,7 +8,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations;
 public class MutationCommandDispatcherTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task Dispatch_ShouldCallHandler(
+	internal async Task Dispatch_ShouldCallHandler(
 		[Frozen] IServiceProvider serviceProvider,
 		[Frozen] IMutationCommandHandler<TestState> handler,
 		MutationCommandDispatcher<TestState> sut,

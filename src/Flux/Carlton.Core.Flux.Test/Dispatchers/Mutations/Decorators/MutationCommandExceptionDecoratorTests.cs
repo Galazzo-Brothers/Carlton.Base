@@ -9,7 +9,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations.Decorators;
 public class MutationCommandExceptionDecoratorTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task ExceptionDecoratorDispatch_DispatchCalled_ReturnsViewModel(
+	internal async Task ExceptionDecoratorDispatch_DispatchCalled_ReturnsViewModel(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
 		MutationExceptionDecorator<TestState> sut,
@@ -31,7 +31,7 @@ public class MutationCommandExceptionDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task ExceptionDecoratorDispatch_Errored_ReturnsUnhandledFluxError(
+	internal async Task ExceptionDecoratorDispatch_Errored_ReturnsUnhandledFluxError(
 	   [Frozen] IMutationCommandDispatcher<TestState> decorated,
 	   [Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
 	   MutationExceptionDecorator<TestState> sut,
@@ -54,7 +54,7 @@ public class MutationCommandExceptionDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task ExceptionDecoratorDispatch_UnhandledException_ReturnsUnhandledFluxError(
+	internal async Task ExceptionDecoratorDispatch_UnhandledException_ReturnsUnhandledFluxError(
 		[Frozen] IMutationCommandDispatcher<TestState> decorated,
 		[Frozen] ILogger<MutationExceptionDecorator<TestState>> logger,
 		MutationExceptionDecorator<TestState> sut,

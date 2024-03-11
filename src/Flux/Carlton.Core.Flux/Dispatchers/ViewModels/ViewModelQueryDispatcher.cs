@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels;
 
-public class ViewModelQueryDispatcher<TState>(IServiceProvider serviceProvider) : IViewModelQueryDispatcher<TState>
+internal sealed class ViewModelQueryDispatcher<TState>(IServiceProvider serviceProvider) : IViewModelQueryDispatcher<TState>
 {
 	private readonly IServiceProvider _serviceProvider = serviceProvider;
 
@@ -12,7 +12,7 @@ public class ViewModelQueryDispatcher<TState>(IServiceProvider serviceProvider) 
 }
 
 
-public class ViewModelQueryHandler<TState>(IFluxState<TState> _state, IViewModelMapper<TState> _mapper) : IViewModelQueryHandler<TState>
+internal sealed class ViewModelQueryHandler<TState>(IFluxState<TState> _state, IViewModelMapper<TState> _mapper) : IViewModelQueryHandler<TState>
 {
 	public Task<Result<TViewModel, FluxError>> Handle<TViewModel>(ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
 	{

@@ -9,7 +9,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels.Decorators;
 public class ViewModelHttpDecoratorTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_NoHttpRefreshAttribute_ShouldNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_NoHttpRefreshAttribute_ShouldNotMakeHttpCall(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -37,7 +37,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithNeverHttpRefreshAttribute_ShouldNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithNeverHttpRefreshAttribute_ShouldNotMakeHttpCall(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -65,7 +65,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_ShouldMakeHttpCall(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -95,7 +95,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_ComponentParameters_ShouldMakeHttpCall(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -132,7 +132,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithInvalidHttpRefreshAttribute_ShouldNotNotMakeHttpCall(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -160,7 +160,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
+	internal async Task HttpDecoratorDispatch_WithHttpRefreshAttribute_And_UnreplacedParameters_ShouldNotMakeHttpCall(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -201,7 +201,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
+	internal async Task HttpDecoratorDispatch_With500Response_ShouldReturnError(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -233,7 +233,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
+	internal async Task HttpDecoratorDispatch_WithInvalidJsonResponse_ShouldReturnError(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,
@@ -264,7 +264,7 @@ public class ViewModelHttpDecoratorTests
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task HttpDecoratorDispatch_WithStateMutationError_ShouldReturnError(
+	internal async Task HttpDecoratorDispatch_WithStateMutationError_ShouldReturnError(
 		[Frozen] IViewModelQueryDispatcher<TestState> decorated,
 		[Frozen] MockHttpMessageHandler mockHttp,
 		[Frozen] IMutableFluxState<TestState> fluxState,

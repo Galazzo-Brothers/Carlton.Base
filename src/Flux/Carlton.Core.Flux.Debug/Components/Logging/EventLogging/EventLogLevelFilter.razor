@@ -1,4 +1,5 @@
 ﻿@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+@using Carlton.Core.Components.Checkboxes
 
 <div class="log-level-filter @LogLevel.ToString().ToLower()" @onclick="() => OnLogLevelCheckedChanged(!LogLevelIncluded)">
     <Checkbox IsChecked="LogLevelIncluded" />

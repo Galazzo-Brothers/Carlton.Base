@@ -8,7 +8,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels;
 public class ViewModelQueryDispatcherTests
 {
 	[Theory, AutoNSubstituteData]
-	public async Task Dispatch_ShouldReturnViewModel(
+	internal async Task Dispatch_ShouldReturnViewModel(
 		[Frozen] IServiceProvider serviceProvider,
 		[Frozen] IViewModelQueryHandler<TestState> handler,
 		ViewModelQueryDispatcher<TestState> sut,

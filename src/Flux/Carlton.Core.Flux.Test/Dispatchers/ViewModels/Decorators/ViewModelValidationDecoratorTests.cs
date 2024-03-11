@@ -7,7 +7,7 @@ namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels.Decorators;
 public class ViewModelValidationDecoratorTests : TestContext
 {
 	[Theory, AutoNSubstituteData]
-	public async Task ValidationDecoratorDispatch_DispatchCalled_ReturnsViewModel(
+	internal async Task ValidationDecoratorDispatch_DispatchCalled_ReturnsViewModel(
 	   [Frozen] IViewModelQueryDispatcher<TestState> decorated,
 	   ViewModelValidationDecorator<TestState> sut,
 	   object sender,
@@ -29,7 +29,7 @@ public class ViewModelValidationDecoratorTests : TestContext
 	}
 
 	[Theory, AutoNSubstituteData]
-	public async Task ValidationDecoratorDispatch_DispatchCalled_WithFailedValidation_ReturnsValidationError(
+	internal async Task ValidationDecoratorDispatch_DispatchCalled_WithFailedValidation_ReturnsValidationError(
 	  [Frozen] IViewModelQueryDispatcher<TestState> decorated,
 	  ViewModelValidationDecorator<TestState> sut,
 	  object sender,
