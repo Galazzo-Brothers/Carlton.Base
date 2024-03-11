@@ -1,5 +1,4 @@
-﻿
-namespace Carlton.Core.Flux.Dispatchers.Mutations;
+﻿namespace Carlton.Core.Flux.Dispatchers;
 
 public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {

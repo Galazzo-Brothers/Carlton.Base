@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Flux.Dispatchers.Mutations;
+﻿using Carlton.Core.Flux.Dispatchers;
+
 namespace Carlton.Core.Flux.Contracts;
 
 public record MutationCommandResult();

@@ -1,12 +1,12 @@
 ﻿using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Dispatchers.ViewModels;
 using Carlton.Core.Foundation.Test;
 using System.Net;
 using System.Text.Json;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 using Carlton.Core.Flux.Internals.Errors;
 using Carlton.Core.Flux.Internals.Contracts;
-namespace Carlton.Core.Flux.Tests.Dispatchers.ViewModels.Decorators;
+using Carlton.Core.Flux.Dispatchers;
+namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelHttpDecoratorTests
 {

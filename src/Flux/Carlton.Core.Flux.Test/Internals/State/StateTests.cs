@@ -4,7 +4,7 @@ using Carlton.Core.Flux.Internals.Errors;
 using Carlton.Core.Flux.Internals.State;
 using Carlton.Core.Foundation.Test;
 using NSubstitute.ExceptionExtensions;
-namespace Carlton.Core.Flux.Tests.StateTests;
+namespace Carlton.Core.Flux.Tests.Internals.StateTests;
 
 public class StateTests
 {

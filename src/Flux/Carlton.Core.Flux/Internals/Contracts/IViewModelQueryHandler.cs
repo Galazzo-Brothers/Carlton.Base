@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Flux.Dispatchers.ViewModels;
+﻿using Carlton.Core.Flux.Dispatchers;
 
 namespace Carlton.Core.Flux.Internals.Contracts;
 

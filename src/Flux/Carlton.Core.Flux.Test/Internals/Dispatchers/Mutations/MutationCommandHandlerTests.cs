@@ -1,9 +1,9 @@
-﻿using Carlton.Core.Flux.Dispatchers.Mutations;
+﻿using Carlton.Core.Flux.Dispatchers;
 using Carlton.Core.Flux.Internals.Contracts;
 using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 using Carlton.Core.Flux.Internals.Errors;
 using Carlton.Core.Foundation.Test;
-namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations;
+namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.Mutations;
 
 public class MutationCommandHandlerTests
 {

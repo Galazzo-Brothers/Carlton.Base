@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Dispatchers.ViewModels;
+﻿namespace Carlton.Core.Flux.Dispatchers;
 
 public class ViewModelQueryContext<TViewModel> : BaseRequestContext
 {

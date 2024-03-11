@@ -1,10 +1,10 @@
 ﻿using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Dispatchers;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 using Carlton.Core.Flux.Logging;
 using Carlton.Core.Foundation.Test;
 using Microsoft.Extensions.Logging;
-namespace Carlton.Core.Flux.Tests.DecoratorTests.ViewModels;
+namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelExceptionDecoratorTests
 {
