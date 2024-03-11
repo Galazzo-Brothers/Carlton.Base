@@ -1,9 +1,9 @@
 ﻿using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Foundation.Test;
-using Carlton.Core.Flux.Dispatchers.Mutations;
 using Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 using Carlton.Core.Flux.Internals.Errors;
-namespace Carlton.Core.Flux.Tests.Dispatchers.Mutations.Decorators;
+using Carlton.Core.Flux.Dispatchers;
+namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.Mutations.Decorators;
 
 public class MutationCommandValidationDecoratorTests
 {
