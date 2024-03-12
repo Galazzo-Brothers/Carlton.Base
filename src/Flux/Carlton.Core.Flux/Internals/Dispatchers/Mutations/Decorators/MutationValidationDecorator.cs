@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Dispatchers;
-
 namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 
 internal sealed class MutationValidationDecorator<TState>(IMutationCommandDispatcher<TState> _decorated)

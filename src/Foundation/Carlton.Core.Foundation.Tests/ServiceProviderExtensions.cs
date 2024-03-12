@@ -1,4 +1,5 @@
-﻿namespace Carlton.Core.Components.Flux.Tests.Common.Extensions;
+﻿using NSubstitute;
+namespace Carlton.Core.Foundation.Tests;
 
 public static class ServiceProviderExtensions
 {

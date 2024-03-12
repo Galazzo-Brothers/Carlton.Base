@@ -8,9 +8,8 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
 	public TCommand MutationCommand { get; private set; } = command;
 	public TCommand InitialCommand { get; init; } = command;
 	public bool CommandReplacedByResponse { get; private set; }
-
 	public string ResultingStateEvent { get; private set; }
-
+	public bool StateCommittedToLocalStorage { get; private set; }
 
 	internal void ReplaceCommandWithResponseBody(TCommand command)
 	{
@@ -23,6 +22,9 @@ public class MutationCommandContext<TCommand>(TCommand command) : BaseRequestCon
 		ResultingStateEvent = stateEvent;
 		MarkAsSucceeded();
 	}
+
+	internal void MarkAsCommittedToLocalStorage()
+		=> StateCommittedToLocalStorage = true;
 
 	//Most uses of this context involve passing a
 	//weakly typed object as a command at runtime

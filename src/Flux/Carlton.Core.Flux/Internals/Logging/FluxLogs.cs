@@ -40,12 +40,13 @@ internal static class FluxLogs
 	public const int Flux_MutationNotRegistered_Error = 108;
 	public const int Flux_Mutation_Error = 109;
 	public const int Flux_Mapping_Error = 110;
-	public const int Flux_JsInterop_Error = 111;
-	public const int Flux_ComponentRendering_Error = 112;
+	public const int Flux_LocalStorage_Error = 111;
+	public const int Flux_JsInterop_Error = 112;
+	public const int Flux_ComponentRendering_Error = 113;
 
 	//Flux Error Messages
 	public const string Flux_Unhandled_ErrorMsg = "An unhandled exception occurred during a flux operation";
-	public const string Flux_Validation_ErrorMsg = "An error occurred while validating ViewModel of type";
+	public const string Flux_Validation_ErrorMsg = "An error occurred while validating flux operation of type";
 	public const string Flux_HTTP_UnsupportedVerb_ErrorMsg = "{0} is not a currently supported HTTP verb for flux server refresh operations.";
 	public const string Flux_HTTP_Invalid_URL_ErrorMsg = "An error occurred while constructing the remote server endpoint, {0} is not a valid URL.";
 	public const string Flux_HTTP_Invalid_URL_UnreplacedTokens_ErrorMsg = "The HTTP refresh endpoint is invalid, following URL parameters were not replaced";
@@ -55,6 +56,7 @@ internal static class FluxLogs
 	public const string Flux_MutationNotRegistered_ErrorMsg = "mutation of type {0} has not been registered";
 	public const string Flux_Mutation_ErrorMsg = "An exception occurred while processing mutation of type";
 	public const string Flux_Mapping_ErrorMsg = "An exception occurred while mapping to ViewModel of type";
+	public const string Flux_LocalStorage_ErrorMsg = "An exception occurred while committing updated state to local storage";
 	public const string Flux_JSInterop_ErrorMsg = "An error occurred during the JSInterop for a ViewModel of type";
 
 

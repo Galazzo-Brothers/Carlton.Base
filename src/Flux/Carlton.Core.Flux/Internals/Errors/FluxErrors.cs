@@ -33,6 +33,9 @@ internal static class FluxErrors
 	public static MutationError MutationError(string mutationCommandType, Exception exception)
 		=> new(mutationCommandType, exception);
 
+	public static LocalStorageError LocalStorageError(Exception exception)
+		=> new(exception);
+
 	public static UnhandledFluxError UnhandledFluxError(Exception exception)
 		=> new(exception);
 
@@ -75,6 +78,9 @@ internal sealed record MutationError(string MutationCommandType, Exception Excep
 
 internal sealed record MappingError(string ViewModelType, Exception Exception)
 	: FluxError($"{FluxLogs.Flux_Mapping_ErrorMsg} {ViewModelType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error);
+
+internal sealed record LocalStorageError(Exception Exception)
+	: FluxError($"{FluxLogs.Flux_LocalStorage_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_LocalStorage_Error);
 
 internal sealed record UnhandledFluxError(Exception Exception)
 	: FluxError($"{FluxLogs.Flux_Unhandled_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_Unhandled_Error);

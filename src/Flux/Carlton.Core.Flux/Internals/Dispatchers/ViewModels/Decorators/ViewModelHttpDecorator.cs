@@ -95,7 +95,7 @@ internal sealed class ViewModelHttpDecorator<TState>(
 
 	private async Task<Result<TViewModel, FluxError>> ApplyViewModelStateMutation<TViewModel>(Result<TViewModel, FluxError> vmResult, ViewModelQueryContext<TViewModel> context)
 	{
-		return await vmResult.Match<Task<Result<TViewModel, FluxError>>>
+		return await vmResult.Match
 		(
 			async vm =>
 			{

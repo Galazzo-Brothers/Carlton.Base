@@ -1,9 +1,7 @@
-using Carlton.Core.Foundation.Test;
-using Carlton.Core.Components.Flux.Tests.Common.Extensions;
 using Carlton.Core.Flux.Test.Common.Extensions;
 using Carlton.Core.Flux.Internals.Contracts;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
-using Carlton.Core.Flux.Dispatchers;
+using Carlton.Core.Foundation.Tests;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels;
 
 public class ViewModelQueryDispatcherTests

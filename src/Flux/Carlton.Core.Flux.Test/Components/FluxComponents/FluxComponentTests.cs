@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Components;
-using Carlton.Core.Foundation.Test;
+using Carlton.Core.Foundation.Tests;
 using Carlton.Core.Foundation.Tests.Common;
 namespace Carlton.Core.Flux.Tests.Components.FluxComponents;
 
