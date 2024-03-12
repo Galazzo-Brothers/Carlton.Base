@@ -1,9 +1,6 @@
-﻿using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
-using Carlton.Core.Flux.Internals.Errors;
-using Carlton.Core.Foundation.Test;
+﻿using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 using NSubstitute.ExceptionExtensions;
+using Carlton.Core.Foundation.Tests;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels;
 
 public class ViewModelQueryHandlerTests

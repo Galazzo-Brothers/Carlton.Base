@@ -1,6 +1,4 @@
-﻿using Carlton.Core.Flux.Internals.Contracts;
-using Carlton.Core.Flux.Internals.Errors;
-namespace Carlton.Core.Flux.Internals.State;
+﻿namespace Carlton.Core.Flux.Internals.State;
 internal sealed record RecordedMutation<TState>(Func<TState, object, TState> MutationFunc, object Command, string StateEvent);
 
 internal sealed class FluxState<TState>(TState _state, IServiceProvider _provider)
@@ -22,7 +20,7 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 
 			//Return Error
 			if (mutation == null)
-				return new MutationNotRegisteredError(command.GetType().GetDisplayNameWithGenerics());
+				return MutationNotRegisteredError(command.GetType().GetDisplayNameWithGenerics());
 
 			//Apply Mutation
 			_state = mutation.Mutate(CurrentState, command);
@@ -42,7 +40,7 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 		}
 		catch (Exception ex)
 		{
-			return new MutationError(command.GetType().GetDisplayNameWithGenerics(), ex);
+			return MutationError(command.GetType().GetDisplayNameWithGenerics(), ex);
 		}
 	}
 }

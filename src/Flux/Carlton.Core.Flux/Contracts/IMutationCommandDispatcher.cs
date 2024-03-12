@@ -17,10 +17,6 @@ public static class IMutationCommandDispatcherExtensions
 		var result = await dispatcher.Dispatch(sender, context, cancellation);
 		return result.GetMutationResultOrThrow(context);
 	}
-
-	//public static async Task<MutationCommandResult> Dispatch<TState, TCommand, TContext>(this IMutationCommandDispatcher<TState> dispatcher, object sender, TContext context, CancellationToken cancellation)
-	//	where TContext : MutationCommandContext<TCommand>
-	//   => await dispatcher.Dispatch<TState, TCommand>(sender, cancellation);
 }
 
 public abstract class MutationCommandDispatcherMiddlewareBase<TState> : IMutationCommandDispatcher<TState>
