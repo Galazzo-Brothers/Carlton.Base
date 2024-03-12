@@ -1,6 +1,5 @@
 ﻿@using System.Text.Json
 @using Carlton.Core.Components.Consoles
-@using Carlton.Core.Flux.Dispatchers
 
 
 <div class="trace-log-request-context-details">
@@ -10,7 +9,7 @@
 
 @code {
     [Parameter]
-    public BaseRequestContext? SelectedRequestContext { get; set; }
+    public object? SelectedRequestContext { get; set; }
 
     private object? RequestToSerialize => SelectedRequestContext ?? null;
 }
