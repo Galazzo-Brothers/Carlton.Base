@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Flux.Dispatchers;
+﻿using Carlton.Core.Flux.Internals;
 
 namespace Carlton.Core.Flux.Debug.Extensions;
 
