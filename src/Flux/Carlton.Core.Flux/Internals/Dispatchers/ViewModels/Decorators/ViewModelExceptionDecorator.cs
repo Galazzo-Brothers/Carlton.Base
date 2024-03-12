@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Internals.Logging;
+﻿using Carlton.Core.Flux.Internals.Logging;
 namespace Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 
 internal sealed class ViewModelExceptionDecorator<TState>(
@@ -32,7 +31,7 @@ internal sealed class ViewModelExceptionDecorator<TState>(
 	private FluxError HandleError<TViewModel>(FluxError error, ViewModelQueryContext<TViewModel> context)
 	{
 		//Mark as errored
-		context.MarkAsErrored(new FluxException(error.Message, error.EventId, context));
+		context.MarkAsErrored(new ViewModelQueryFluxException<TViewModel>(error.Message, error.EventId, error.Exception));
 
 		//Log the result
 		using (_logger.BeginRequestErrorLoggingScopes(error))

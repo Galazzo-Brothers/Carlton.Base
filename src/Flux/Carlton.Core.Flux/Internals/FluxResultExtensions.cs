@@ -1,4 +1,6 @@
-﻿using Carlton.Core.Flux.Dispatchers;
+﻿using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
+using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
+
 namespace Carlton.Core.Flux.Internals;
 
 internal static class FluxResultExtensions
@@ -8,7 +10,7 @@ internal static class FluxResultExtensions
 		=> result.Match
 		(
 			vm => vm,
-			err => throw new FluxException(err.Message, err.EventId, context)
+			err => throw new ViewModelQueryFluxException<TViewModel>(err.Message, err.EventId)
 		);
 
 
@@ -16,6 +18,6 @@ internal static class FluxResultExtensions
 		=> result.Match
 		(
 			r => r,
-			err => throw new FluxException(err.Message, err.EventId, context)
+			err => throw new MutationCommandFluxException<TCommand>(err.Message, err.EventId, context.MutationCommand)
 		);
 }

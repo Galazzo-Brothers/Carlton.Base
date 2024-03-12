@@ -1,5 +1,5 @@
-﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Internals;
+﻿using Carlton.Core.Flux.Internals;
+using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 namespace Carlton.Core.Flux.Contracts;
 
 public record MutationCommandResult();
@@ -18,15 +18,3 @@ public static class IMutationCommandDispatcherExtensions
 		return result.GetMutationResultOrThrow(context);
 	}
 }
-
-public abstract class MutationCommandDispatcherMiddlewareBase<TState> : IMutationCommandDispatcher<TState>
-{
-	public abstract Task<Result<MutationCommandResult, FluxError>> Dispatch<TCommand, FluxError>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken);
-
-	async Task<Result<MutationCommandResult, FluxError>> IMutationCommandDispatcher<TState>.Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
-	{
-		return await Dispatch<TCommand, FluxError>(sender, context, cancellationToken);
-	}
-}
-
-

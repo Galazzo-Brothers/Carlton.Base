@@ -1,4 +1,4 @@
-﻿using Carlton.Core.Flux.Dispatchers;
+﻿using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 
 namespace Carlton.Core.Flux.Internals.Contracts;
 

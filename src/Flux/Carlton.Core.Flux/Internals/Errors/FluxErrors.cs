@@ -4,7 +4,7 @@ namespace Carlton.Core.Flux.Internals.Errors;
 
 internal static class FluxErrors
 {
-	public abstract record FluxError(string Message, int EventId);
+	public abstract record FluxError(string Message, int EventId, Exception Exception = null);
 
 	public static ValidationError ValidationError(IEnumerable<string> validationErrors)
 		=> new(validationErrors);
@@ -64,23 +64,23 @@ internal sealed record HttpUrlConstructionUnreplacedTokensError(string Url, IEnu
 internal sealed record HttpRequestFailedError(HttpResponseMessage HttpResponse)
 	: FluxError(ReplaceHttpRequestFailedTemplateMessage(HttpResponse), FluxLogs.Flux_HTTP_FailedRequest_Error);
 
-internal sealed record HttpError(HttpRequestException Exception)
-	: FluxError($"{FluxLogs.Flux_HTTP_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_HTTP_Error);
+internal sealed record HttpError(HttpRequestException HttpRequestException)
+	: FluxError($"{FluxLogs.Flux_HTTP_ErrorMsg}: {HttpRequestException.Message}.", FluxLogs.Flux_HTTP_Error, HttpRequestException);
 
 internal sealed record JsonError(Exception Exception)
-	: FluxError($"{FluxLogs.Flux_JSON_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_JSON_Error);
+	: FluxError($"{FluxLogs.Flux_JSON_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_JSON_Error, Exception);
 
 internal sealed record MutationNotRegisteredError(string MutationType)
 	: FluxError(string.Format(FluxLogs.Flux_MutationNotRegistered_ErrorMsg, MutationType), FluxLogs.Flux_MutationNotRegistered_Error);
 
 internal sealed record MutationError(string MutationCommandType, Exception Exception)
-	: FluxError($"{FluxLogs.Flux_Mutation_ErrorMsg} {MutationCommandType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error);
+	: FluxError($"{FluxLogs.Flux_Mutation_ErrorMsg} {MutationCommandType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error, Exception);
 
 internal sealed record MappingError(string ViewModelType, Exception Exception)
-	: FluxError($"{FluxLogs.Flux_Mapping_ErrorMsg} {ViewModelType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error);
+	: FluxError($"{FluxLogs.Flux_Mapping_ErrorMsg} {ViewModelType}: {Exception.Message}.", FluxLogs.Flux_Mutation_Error, Exception);
 
 internal sealed record LocalStorageError(Exception Exception)
-	: FluxError($"{FluxLogs.Flux_LocalStorage_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_LocalStorage_Error);
+	: FluxError($"{FluxLogs.Flux_LocalStorage_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_LocalStorage_Error, Exception);
 
 internal sealed record UnhandledFluxError(Exception Exception)
-	: FluxError($"{FluxLogs.Flux_Unhandled_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_Unhandled_Error);
+	: FluxError($"{FluxLogs.Flux_Unhandled_ErrorMsg}: {Exception.Message}.", FluxLogs.Flux_Unhandled_Error, Exception);

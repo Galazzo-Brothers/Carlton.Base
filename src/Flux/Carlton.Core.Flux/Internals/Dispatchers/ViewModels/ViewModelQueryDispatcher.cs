@@ -22,3 +22,16 @@ internal sealed class ViewModelQueryHandler<TState>(IFluxState<TState> _state, I
 		return Task.FromResult(viewModel);
 	}
 }
+
+
+public abstract class ViewModelQueryDispatcherMiddlewareBase<TState> : IViewModelQueryDispatcher<TState>
+{
+	public abstract Task<TViewModel> Dispatch<TViewModel>(object sender, CancellationToken cancellationToken);
+
+	async Task<Result<TViewModel, FluxError>> IViewModelQueryDispatcher<TState>.Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+	{
+		return await Dispatch<TViewModel>(sender, cancellationToken);
+	}
+}
+
+

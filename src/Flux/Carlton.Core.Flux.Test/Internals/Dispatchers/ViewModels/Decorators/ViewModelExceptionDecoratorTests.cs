@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Flux.Logging;
+﻿using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
+using Carlton.Core.Flux.Logging;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels.Decorators;
 

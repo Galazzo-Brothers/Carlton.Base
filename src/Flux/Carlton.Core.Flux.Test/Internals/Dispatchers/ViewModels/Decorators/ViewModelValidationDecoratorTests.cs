@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Foundation.Tests;
+﻿using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
+using Carlton.Core.Foundation.Tests;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelValidationDecoratorTests : TestContext

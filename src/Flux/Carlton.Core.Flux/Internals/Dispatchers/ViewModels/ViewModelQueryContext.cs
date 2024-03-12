@@ -1,6 +1,6 @@
-﻿namespace Carlton.Core.Flux.Dispatchers;
+﻿namespace Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 
-public class ViewModelQueryContext<TViewModel> : BaseRequestContext
+internal class ViewModelQueryContext<TViewModel> : BaseRequestContext
 {
 	public TViewModel ResultViewModel { get; private set; }
 	public override FluxOperationKind FluxOperationKind => FluxOperationKind.ViewModelQuery;
@@ -16,3 +16,4 @@ public class ViewModelQueryContext<TViewModel> : BaseRequestContext
 		MarkAsSucceeded();
 	}
 }
+

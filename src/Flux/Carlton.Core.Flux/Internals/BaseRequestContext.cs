@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Net;
-namespace Carlton.Core.Flux.Dispatchers;
+namespace Carlton.Core.Flux.Internals;
 
-public abstract class BaseRequestContext
+internal abstract class BaseRequestContext
 {
 	private readonly Stopwatch _stopwatch = new();
 
@@ -61,10 +61,5 @@ public abstract class BaseRequestContext
 	}
 }
 
-public record ExceptionDescriptor(string ExceptionType, string Message, string StackTrace);
 
-public enum FluxOperationKind
-{
-	ViewModelQuery = 1,
-	CommandMutation = 2,
-}
+internal record ExceptionDescriptor(string ExceptionType, string Message, string StackTrace);
