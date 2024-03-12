@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Carlton.Core.Flux.Logging;
+using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.Mutations.Decorators;
 
 public class MutationCommandExceptionDecoratorTests

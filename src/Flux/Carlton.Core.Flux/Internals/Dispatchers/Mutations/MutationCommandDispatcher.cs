@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Internals.Logging;
+﻿using Carlton.Core.Flux.Internals.Logging;
 namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 
 internal sealed class MutationCommandDispatcher<TState>(IServiceProvider serviceProvider) : IMutationCommandDispatcher<TState>
@@ -32,5 +31,16 @@ internal sealed class MutationCommandHandler<TState>(
 		}
 	}
 }
+
+public abstract class MutationCommandDispatcherMiddlewareBase<TState> : IMutationCommandDispatcher<TState>
+{
+	public abstract Task<MutationCommandResult> Dispatch<TCommand>(object sender, CancellationToken cancellationToken);
+
+	async Task<Result<MutationCommandResult, FluxError>> IMutationCommandDispatcher<TState>.Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
+	{
+		return await Dispatch<TCommand>(sender, cancellationToken);
+	}
+}
+
 
 

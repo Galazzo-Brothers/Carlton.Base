@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using Carlton.Core.Flux.Internals.Contracts;
+using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 using Carlton.Core.Foundation.Tests;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels.Decorators;
 

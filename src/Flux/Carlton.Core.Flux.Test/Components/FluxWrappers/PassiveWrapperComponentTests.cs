@@ -1,6 +1,6 @@
 ﻿using Carlton.Core.Flux.Components;
 using Carlton.Core.Flux.Contracts;
-using Carlton.Core.Flux.Dispatchers;
+using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Reflection;

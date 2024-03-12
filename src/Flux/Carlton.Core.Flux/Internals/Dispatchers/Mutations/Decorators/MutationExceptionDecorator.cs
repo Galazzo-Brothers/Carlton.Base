@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Internals.Logging;
+﻿using Carlton.Core.Flux.Internals.Logging;
 namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 
 internal sealed class MutationExceptionDecorator<TState>(
@@ -34,7 +33,7 @@ internal sealed class MutationExceptionDecorator<TState>(
 	private FluxError HandleError<TCommand>(FluxError error, MutationCommandContext<TCommand> context)
 	{
 		//Mark as errored
-		context.MarkAsErrored(new FluxException(error.Message, error.EventId, context));
+		context.MarkAsErrored(new MutationCommandFluxException<TCommand>(error.Message, error.EventId, context.MutationCommand, error.Exception));
 
 		//Log the result
 		using (_logger.BeginRequestErrorLoggingScopes(error.EventId))

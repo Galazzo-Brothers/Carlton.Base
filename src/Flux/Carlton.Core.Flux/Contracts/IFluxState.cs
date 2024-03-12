@@ -1,5 +1,4 @@
 ﻿namespace Carlton.Core.Flux.Contracts;
-
 public record FluxStateChangedEventArgs(string StateEvent);
 
 public interface IFluxStateObserver<TState>

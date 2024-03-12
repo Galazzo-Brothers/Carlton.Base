@@ -1,5 +1,4 @@
-﻿
-namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
+﻿namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 
 internal class MutationLocalStorageDecorator<TState>(
 	IMutationCommandDispatcher<TState> decorated,

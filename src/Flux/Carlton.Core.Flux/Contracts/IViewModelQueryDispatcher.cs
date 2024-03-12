@@ -1,5 +1,5 @@
-﻿using Carlton.Core.Flux.Dispatchers;
-using Carlton.Core.Flux.Internals;
+﻿using Carlton.Core.Flux.Internals;
+using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 namespace Carlton.Core.Flux.Contracts;
 
 public interface IViewModelQueryDispatcher<TState>
