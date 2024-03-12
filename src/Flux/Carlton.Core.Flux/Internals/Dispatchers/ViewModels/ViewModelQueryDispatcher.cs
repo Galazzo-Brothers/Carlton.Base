@@ -24,13 +24,15 @@ internal sealed class ViewModelQueryHandler<TState>(IFluxState<TState> _state, I
 }
 
 
-public abstract class ViewModelQueryDispatcherMiddlewareBase<TState> : IViewModelQueryDispatcher<TState>
+public abstract class ViewModelQueryDispatcherMiddlewareBase<TState>(IViewModelQueryDispatcher<TState> _decorated) : IViewModelQueryDispatcher<TState>
 {
-	public abstract Task<TViewModel> Dispatch<TViewModel>(object sender, CancellationToken cancellationToken);
+	public abstract Task<TViewModel> Dispatch<TViewModel>(object sender, CancellationToken cancellationToken, Func<Task<TViewModel>> next);
 
 	async Task<Result<TViewModel, FluxError>> IViewModelQueryDispatcher<TState>.Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
 	{
-		return await Dispatch<TViewModel>(sender, cancellationToken);
+		async Task<TViewModel> next() => (await _decorated.Dispatch(sender, context, cancellationToken))
+			.GetViewModelResultOrThrow(context);
+		return await Dispatch(sender, cancellationToken, next);
 	}
 }
 
