@@ -7,12 +7,21 @@
 @inject IJSRuntime JsRuntime;
 @inject ILogger<InteropFluxComponent<TViewModel, TState>> Logger;
 
+@*
+	An interop component for integrating with JavaScript functions and modules in Flux components.
+	<typeparam name="TState">The type of Flux state.</typeparam>
+	<typeparam name="TViewModel">The type of view model.</typeparam>
+*@
+
+
 @if (IsLoading)
 {
+	<!-- Spinner Content -->
     @SpinnerContent
 }
 else
 {
+	<!-- Wrapped Flux Component-->
     <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 }
 
@@ -20,11 +29,22 @@ else
 @code {
     private const string Import = "import";
 
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the JavaScript module to import.
+	/// </summary>
+	[Parameter]
     public string JsModule { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the JavaScript function to invoke.
+	/// </summary>
+	[Parameter]
     public string JsFunction { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the parameters to pass to the JavaScript function.
+	/// </summary>
+	[Parameter]
     public object[] JsParameters { get; set; }
 
     protected override async Task<TViewModel> GetViewModel()

@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Flux.Internals.Contracts;
-using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
+﻿using Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 using Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
@@ -8,21 +7,34 @@ using Carlton.Core.Utilities.Logging;
 
 namespace Carlton.Core.Flux.Extensions;
 
+/// <summary>
+/// Extension methods for registering Carlton Flux services.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
-	private static bool AddedLocalStorage = false;
-
-	public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state)
+	/// <summary>
+	/// Registers Carlton Flux services with the specified state and options.
+	/// </summary>
+	/// <typeparam name="TState">The type of state for the Flux application.</typeparam>
+	/// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
+	/// <param name="state">The initial state for the Flux application.</param>
+	/// <param name="options">An action to configure the Flux options.</param>
+	/// <remarks>
+	/// Use this method to register Carlton Flux services at startup, including state management and dependencies.
+	/// </remarks>
+	public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state, Action<FluxOptions>? options = null)
 	{
-		if (!AddedLocalStorage)
-			RegisterFluxDependencies(services);
+		//Flux Options
+		var fluxOptions = new FluxOptions();
+		options?.Invoke(fluxOptions);
 
-		RegisterStateSpecificFluxDependencies(services, state);
-
-		AddedLocalStorage = true;
+		/*Flux State*/
+		RegisterCrossCuttingDependencies(services);
+		RegisterFluxState(services, state);
+		RegisterFluxDependencies<TState>(services, fluxOptions);
 	}
 
-	private static void RegisterFluxDependencies(IServiceCollection services)
+	private static void RegisterCrossCuttingDependencies(IServiceCollection services)
 	{
 		/*Register Logging*/
 		RegisterLogging(services);
@@ -40,16 +52,13 @@ public static class ServiceCollectionExtensions
 		services.AddSingleton<ILogger, MemoryLogger>();
 	}
 
-	private static void RegisterStateSpecificFluxDependencies<TState>(IServiceCollection services, TState state)
+	private static void RegisterFluxDependencies<TState>(IServiceCollection services, FluxOptions fluxOptions)
 	{
 		/*Flux Connected Components*/
 		RegisterFluxConnectedComponents(services);
 
-		/*Flux State*/
-		RegisterFluxState<TState>(services, state);
-
 		/*Dispatchers*/
-		RegisterFluxDispatchers<TState>(services);
+		RegisterFluxDispatchers<TState>(services, fluxOptions);
 
 		/*Handlers*/
 		RegisterFluxHandlers<TState>(services);
@@ -64,12 +73,11 @@ public static class ServiceCollectionExtensions
 	private static void RegisterFluxConnectedComponents(IServiceCollection services)
 	{
 		services.Scan(scan => scan
-					.FromApplicationDependencies()
-					.AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
-					.AsImplementedInterfaces()
-					.WithTransientLifetime());
+			.FromApplicationDependencies()
+			.AddClasses(classes => classes.AssignableTo(typeof(IConnectedComponent<>)))
+			.AsImplementedInterfaces()
+			.WithTransientLifetime());
 	}
-
 
 	private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
 	{
@@ -79,19 +87,38 @@ public static class ServiceCollectionExtensions
 		services.AddSingleton<IFluxStateObserver<TState>>(sp => sp.GetService<IFluxState<TState>>());
 	}
 
-	private static void RegisterFluxDispatchers<TState>(IServiceCollection services)
+	private static void RegisterFluxDispatchers<TState>(IServiceCollection services, FluxOptions fluxOptions)
 	{
 		/*ViewModel Dispatchers*/
-		services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
-		//services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelHttpDecorator<TState>>();
-		services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
-		services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
+		RegisterViewModelDecorators<TState>(services, fluxOptions);
 
 		/*Mutation Dispatchers*/
+		RegisterCommandDecorators<TState>(services, fluxOptions);
+	}
+
+	private static void RegisterCommandDecorators<TState>(IServiceCollection services, FluxOptions fluxOptions)
+	{
 		services.AddSingleton<IMutationCommandDispatcher<TState>, MutationCommandDispatcher<TState>>();
+
+		if (fluxOptions.AddHttpInterception)
+			services.Decorate<IMutationCommandDispatcher<TState>, MutationHttpDecorator<TState>>();
+
+		if (fluxOptions.AddLocalStorage)
+			services.Decorate<IMutationCommandDispatcher<TState>, MutationLocalStorageDecorator<TState>>();
+
 		services.Decorate<IMutationCommandDispatcher<TState>, MutationValidationDecorator<TState>>();
-		// services.Decorate<IMutationCommandDispatcher<TState>, MutationHttpDecorator<TState>>();
 		services.Decorate<IMutationCommandDispatcher<TState>, MutationExceptionDecorator<TState>>();
+	}
+
+	private static void RegisterViewModelDecorators<TState>(IServiceCollection services, FluxOptions fluxOptions)
+	{
+		services.AddSingleton<IViewModelQueryDispatcher<TState>, ViewModelQueryDispatcher<TState>>();
+
+		if (fluxOptions.AddHttpInterception)
+			services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelHttpDecorator<TState>>();
+
+		services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelValidationDecorator<TState>>();
+		services.Decorate<IViewModelQueryDispatcher<TState>, ViewModelExceptionDecorator<TState>>();
 	}
 
 	private static void RegisterFluxHandlers<TState>(IServiceCollection services)
@@ -113,7 +140,7 @@ public static class ServiceCollectionExtensions
 	{
 		services.Scan(scan => scan
 		  .FromApplicationDependencies()
-		  .AddClasses(classes => classes.AssignableTo(typeof(IViewModelMapper<TState>)))
+		  .AddClasses(classes => classes.AssignableTo(typeof(IViewModelProjectionMapper<TState>)))
 		  .AsImplementedInterfaces()
 		  .WithSingletonLifetime());
 	}

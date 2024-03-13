@@ -4,6 +4,10 @@
 @typeparam TViewModel
 @inject ILogger<InteropFluxComponent<TState, TViewModel>> Logger
 
+@*
+	Represents a component that wraps an InteropFluxWrapper component within a FluxErrorBoundary.
+	This component handles errors and displays a spinner while waiting for asynchronous operations.
+*@
 <FluxErrorBoundary ErrorPrompt="ErrorPrompt">
     <ChildContent>
         <InteropFluxWrapper TState="TState" 
@@ -16,15 +20,34 @@
 </FluxErrorBoundary>
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the content to display while waiting for asynchronous operations.
+	/// </summary>
+	[Parameter]
     public RenderFragment SpinnerContent { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the render fragment for displaying the error prompt.
+	/// </summary>
+	[Parameter]
     public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the JavaScript module name.
+	/// </summary>
+	[Parameter]
     public string JsModule { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the JavaScript function name.
+	/// </summary>
+	[Parameter]
     public string JsFunction { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the parameters to pass to the JavaScript function.
+	/// </summary>
+	[Parameter]
     public object[] JsParameters { get; set; }
 }
 

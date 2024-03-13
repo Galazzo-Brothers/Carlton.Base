@@ -7,7 +7,7 @@ public class ViewModelQueryHandlerTests
 {
 	[Theory, AutoNSubstituteData]
 	internal async Task Handle_ShouldReturnViewModel(
-		[Frozen] IViewModelMapper<TestState> mapper,
+		[Frozen] IViewModelProjectionMapper<TestState> mapper,
 		[Frozen] IFluxState<TestState> fluxState,
 		ViewModelQueryHandler<TestState> sut,
 		TestState state,
@@ -28,7 +28,7 @@ public class ViewModelQueryHandlerTests
 
 	[Theory, AutoNSubstituteData]
 	internal async Task Handle_WithMappingError_ShouldReturnError(
-		[Frozen] IViewModelMapper<TestState> mapper,
+		[Frozen] IViewModelProjectionMapper<TestState> mapper,
 		[Frozen] IFluxState<TestState> fluxState,
 		ViewModelQueryHandler<TestState> sut,
 		TestState state,

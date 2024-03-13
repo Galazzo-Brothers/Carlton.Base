@@ -12,7 +12,7 @@ internal sealed class ViewModelQueryDispatcher<TState>(IServiceProvider serviceP
 }
 
 
-internal sealed class ViewModelQueryHandler<TState>(IFluxState<TState> _state, IViewModelMapper<TState> _mapper) : IViewModelQueryHandler<TState>
+internal sealed class ViewModelQueryHandler<TState>(IFluxState<TState> _state, IViewModelProjectionMapper<TState> _mapper) : IViewModelQueryHandler<TState>
 {
 	public Task<Result<TViewModel, FluxError>> Handle<TViewModel>(ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
 	{
@@ -24,16 +24,6 @@ internal sealed class ViewModelQueryHandler<TState>(IFluxState<TState> _state, I
 }
 
 
-public abstract class ViewModelQueryDispatcherMiddlewareBase<TState>(IViewModelQueryDispatcher<TState> _decorated) : IViewModelQueryDispatcher<TState>
-{
-	public abstract Task<TViewModel> Dispatch<TViewModel>(object sender, CancellationToken cancellationToken, Func<Task<TViewModel>> next);
 
-	async Task<Result<TViewModel, FluxError>> IViewModelQueryDispatcher<TState>.Dispatch<TViewModel>(object sender, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
-	{
-		async Task<TViewModel> next() => (await _decorated.Dispatch(sender, context, cancellationToken))
-			.GetViewModelResultOrThrow(context);
-		return await Dispatch(sender, cancellationToken, next);
-	}
-}
 
 

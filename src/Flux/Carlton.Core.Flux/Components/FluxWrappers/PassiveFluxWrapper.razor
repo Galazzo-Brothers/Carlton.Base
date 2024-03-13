@@ -6,18 +6,29 @@
 @typeparam TViewModel
 @inherits FluxWrapper<TState, TViewModel>
 
+@*
+	Represents a component that wraps another component and provides a passive view model.
+	<typeparam name="TState">The type of Flux state.</typeparam>
+	<typeparam name="TViewModel">The type of view model.</typeparam>
+*@
+
 @if (IsLoading)
 {
+	<!-- Spinner content -->
     @SpinnerContent
 }
 else
 {
+	<!-- Wrapped Flux Component-->
     <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 }
 
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the passive view model.
+	/// </summary>
+	[Parameter]
     public TViewModel PassiveViewModel { get; set; }
     
     protected override Task<TViewModel> GetViewModel()
