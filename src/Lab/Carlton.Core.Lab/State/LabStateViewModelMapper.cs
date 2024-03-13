@@ -4,7 +4,7 @@ using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.State;
 
 [Mapper]
-public partial class LabStateViewModelMapper : IViewModelMapper<LabState>
+public partial class LabStateViewModelMapper : IViewModelProjectionMapper<LabState>
 {
     public partial TViewModel Map<TViewModel>(LabState state);
 

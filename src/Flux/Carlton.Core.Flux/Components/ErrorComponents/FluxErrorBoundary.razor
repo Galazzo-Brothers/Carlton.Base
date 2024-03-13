@@ -3,21 +3,32 @@
 @inherits ErrorBoundary
 @inject ILogger<FluxErrorBoundary> Logger
 
+
+@*
+	Represents a component that handles errors and displays an error prompt.
+	Specifically designed to catch FluxExceptions during Flux operations.
+    <typeparam name="TViewModel">The type of view model used by the component.</typeparam>
+*@
+
 @if (ShowErrorContent)
 {
+	<!--Error Content-->
 	@ErrorPrompt(ErrorPromptModel)
 }
-
 else
 {
+	<!--Primary Content -->
 	@ChildContent
 }
 
 @code {
+	/// <summary>
+	/// Gets or sets the render fragment for displaying the error prompt.
+	/// </summary>
 	[Parameter]
 	public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
 
-	//hide the ErrorContent in favor of the new ErrorPrompt
+	// Hide the ErrorContent in favor of the new ErrorPrompt
 	private new RenderFragment<Exception> ErrorContent { get; set; }
 
 	private bool ShowErrorContent { get => base.CurrentException != null; }

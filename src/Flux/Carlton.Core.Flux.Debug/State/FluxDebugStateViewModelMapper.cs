@@ -3,7 +3,7 @@ using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.State;
 
 [Mapper]
-public partial class FluxDebugStateViewModelMapper : IViewModelMapper<FluxDebugState>
+public partial class FluxDebugStateViewModelMapper : IViewModelProjectionMapper<FluxDebugState>
 {
 	public partial TViewModel Map<TViewModel>(FluxDebugState state);
 

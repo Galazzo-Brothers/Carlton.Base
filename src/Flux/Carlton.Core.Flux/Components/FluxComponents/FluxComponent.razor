@@ -3,6 +3,12 @@
 @typeparam TState
 @typeparam TViewModel
 
+@*
+	Represents a component that wraps its fluc child content with error handling and display an error prompt when an error occurs.
+	<typeparam name="TState">The type of state used by the component.</typeparam>
+	<typeparam name="TViewModel">The type of view model used by the component.</typeparam>
+*@
+
 <FluxErrorBoundary ErrorPrompt="ErrorPrompt">
     <ChildContent>
         <FluxWrapper TState="TState" TViewModel="TViewModel" SpinnerContent="SpinnerContent" />
@@ -10,9 +16,16 @@
 </FluxErrorBoundary>
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the content to display while waiting for asynchronous operations.
+	/// </summary>
+	[Parameter]
     public RenderFragment SpinnerContent { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the render fragment for displaying the error prompt.
+	/// </summary>
+	[Parameter]
     public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
 }
 

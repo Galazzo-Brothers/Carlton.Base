@@ -8,25 +8,49 @@
 @inject IFluxStateObserver<TState> StateObserver
 @inject ILogger<FluxWrapper<TState, TViewModel>> Logger
 
+@*
+	A component wrapper for Flux components, responsible for handling state management,
+	loading states, and error handling.
+	<typeparam name="TState">The type of Flux state.</typeparam>
+	<typeparam name="TViewModel">The type of view model.</typeparam>
+*@
+
 @if (IsLoading)
 {
+	<!-- Spinner Content -->
     @SpinnerContent
 }
 else
 {
+	<!-- Wrapped Flux Component -->
     <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 }
 
 @code {
+	/// <summary>
+	/// Gets the display name of the wrapped component.
+	/// </summary>
 	[Parameter]
 	public RenderFragment SpinnerContent { get; set; }
 
+	/// <summary>
+	/// Gets the display name of the wrapped component.
+	/// </summary>
 	public Type WrappedComponentType { get => Component.GetType(); }
 
+	/// <summary>
+	/// Gets the view model associated with the component.
+	/// </summary>
 	public string WrappedComponentDisplayName { get => WrappedComponentType.GetDisplayName(); }
 
+	/// <summary>
+	/// Gets the state events observed by the component.
+	/// </summary>
 	public TViewModel ViewModel { get; private set; }
 
+	/// <summary>
+	/// Gets or sets a value indicating whether the component is currently loading.
+	/// </summary>
 	public IEnumerable<string> ObservableStateEvents { get; private set; } = new List<string>();
 
 	protected bool IsLoading { get; set; }
@@ -92,6 +116,7 @@ else
 		StateHasChanged();
 	}
 
+	/// <inheritdoc/>
     public void Dispose()
     {
         StateObserver.StateChanged -= OnStateChanged;

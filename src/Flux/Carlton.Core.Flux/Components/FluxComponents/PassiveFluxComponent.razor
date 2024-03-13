@@ -4,6 +4,10 @@
 @typeparam TViewModel
 @inject ILogger<PassiveFluxComponent<TState, TViewModel>> Logger
 
+@*
+	Represents a component that wraps a PassiveFluxWrapper component within a FluxErrorBoundary.
+	This component handles errors and displays a spinner while waiting for asynchronous operations.
+*@
 <FluxErrorBoundary ErrorPrompt="ErrorPrompt">
     <ChildContent>
         <PassiveFluxWrapper TState="TState" TViewModel="TViewModel" SpinnerContent="SpinnerContent" PassiveViewModel="PassiveViewModel" />
@@ -11,11 +15,22 @@
 </FluxErrorBoundary>
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the content to display as a spinner while waiting for asynchronous operations.
+	/// </summary>
+	[Parameter]
     public RenderFragment SpinnerContent { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the content to display in case of an error.
+	/// </summary>
+	[Parameter]
     public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the passive view model to be used by the component.
+	/// </summary>
+	[Parameter]
     public TViewModel PassiveViewModel { get; set; }
 }
 

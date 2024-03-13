@@ -32,17 +32,5 @@ internal sealed class MutationCommandHandler<TState>(
 	}
 }
 
-public abstract class MutationCommandDispatcherMiddlewareBase<TState>(IMutationCommandDispatcher<TState> _decorated) : IMutationCommandDispatcher<TState>
-{
-	public abstract Task<MutationCommandResult> Dispatch<TCommand>(object sender, CancellationToken cancellationToken, Func<Task<MutationCommandResult>> next);
-
-	async Task<Result<MutationCommandResult, FluxError>> IMutationCommandDispatcher<TState>.Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
-	{
-		async Task<MutationCommandResult> next() => (await _decorated.Dispatch(sender, context, cancellationToken))
-			.GetMutationResultOrThrow(context);
-		return await Dispatch<TCommand>(sender, cancellationToken, next);
-	}
-}
-
 
 
