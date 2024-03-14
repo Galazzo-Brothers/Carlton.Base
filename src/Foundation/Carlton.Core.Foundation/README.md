@@ -15,6 +15,7 @@
 ## Dependencies
 
 * Carlton.Core.Utilities
+* Scrutor
 * System.Linq.Dynamic.Core
 
 ## Getting Started
