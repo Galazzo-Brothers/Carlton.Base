@@ -1,10 +1,13 @@
-<h1 align="center">
-   <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Image Alt Text" width="200" />
-</br>
-    Project Carlton
-</br>
+<div align="center">
+	<img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Image Alt Text" width="200" />
+</div>
 
 # Carlton.Core.Flux
+
+<div align="center">
+	<img src="../../../CarltonFlux.png" alt="Image Alt Text" width="200" />
+</div>  
+<br/>
 
 The `Carlton.Core.Flux` is a powerful tool for managing state in your .NET applications. Built on the principles of the Flux architecture, it provides a robust solution for handling state changes in complex applications.
 
@@ -24,7 +27,6 @@ The `Carlton.Core.Flux` is a powerful tool for managing state in your .NET appli
 
 - **Remote Server Interaction:** Intercept ViewModel queries and mutation commands to interact with a remote server, enabling seamless integration with backend services.
 
-
 ## Dependencies
 
 * Carlton.Core.Foundation.Web
@@ -38,13 +40,6 @@ dotnet add package Carlton.Core.Flux
 ```
 ## Usage
 
-### Implementing Required Interfaces
-
-2. IConnectedComponent/BaseConntectedComponent
-2. IViewModelProjectionMapper
-3. IFluxStateMutation
-
-
 ### Register Flux Service
 
 ```cs
@@ -56,7 +51,7 @@ dotnet add package Carlton.Core.Flux
    }); 
 ```
 
-### Consumer Implementation
+### Required Implementations
 
 #### ViewModel
 The CustomerViewModel class represents the data structure for displaying customer information in your application's user interface. It typically includes properties such as the customer's ID, name, and email address. The ViewModel objects are pocos and require no special interfaces.
@@ -76,23 +71,6 @@ and require no special interfces.
 public class ChangeNameCommand
 {
 	public string NewName { get; set; }
-}
-```
-#### Connected Component
-The component is a user blazor component inheriting from `BaseConnectedComponent` that renders the CustomerViewModel data and allows users to interact with it. In this example, the component displays the customer's ID, name, and email, and provides a button to raise a ChangeNameCommand that will result in an AppState mutation. It observes the "CustomerUpdated" state event, ensuring that this component will automatically when this event is raised.
-```cshtml
-@attribute [ObserveStateEvent("CustomerUpdated")]
-@inherits BaseConnectedComponent<CustomerViewModel>
-
-<div>
-	<span>Id: @ViewModel.Id</span>
-	<span>Name: @ViewModel.Name</span>
-	<span>Email: @ViewModel.Email</span>
-	<button @onclick="base.OnComponentEvent(new ChangeNameCommand(\"Steve Rodgers\"))"></button>
-</div>
-
-@code{
-	//Additional Code
 }
 ```
 #### Mutation
@@ -126,15 +104,8 @@ public partial class AppStateViewModelMapper : IViewModelProjectionMapper<AppSta
 }
 ```
 
-
-
-
-
-
-
-
-
-### HTTP Interception
+### Connected Component
+The component is a user constructed blazor component, inheriting from `BaseConnectedComponent` that renders the CustomerViewModel data and triggers state change commands. In this example, the component displays the customer's ID, name, and email, and provides a button to raise a ChangeNameCommand that will result in an AppState mutation. It observes the "CustomerUpdated" state event, ensuring that this component will automatically when this event is raised. 
 
 ```cshtml
 @attribute [FluxViewModelServerUrl("http://test.carlton.com/Customers/{CustomerId}")]
@@ -154,9 +125,25 @@ public partial class AppStateViewModelMapper : IViewModelProjectionMapper<AppSta
 	public int CustomerId {get; set;}
 }
 ```
+##### Flux attributes:
 
-        
-
+**FluxViewModelServerUrl:** Specifies the URL for fetching ViewModel data from the server during the HTTP interception phase of the flux request. The interception occurrs before the projection and updates the store with the resposne from the server ensuring that the view model projection returns the latest data.
+```cshtml
+@attribute [FluxViewModelServerUrl("http://test.carlton.com/Customers/{CustomerId}")]
+```
+**FluxCommandServerUrl:** Specifies the URL and HTTP verb for sending mutation commands to the server. The interception occurrs before the projection and the command is updated with the resposne from the server ensuring that the command contains any server dependent values like database generated seeds or identifiers.
+```cshtml
+@attribute [FluxCommandServerUrl<ChangeNameCommand>("http://test.carlton.com/Customers/{CustomerId}", HttpVerb.POST)]
+```
+**FluxServerUrlParameter**: Indicates that the component property is used in the URL patterns specified by FluxViewModelServerUrl and FluxCommandServerUrl.
+```cs
+[FluxServerUrlParameter]
+public int CustomerId {get; set;}
+```
+**ObserveStateEvent:** Indicates that this component should observe the "CustomerUpdated" state event. When this event is raised, the component automatically updates its content.
+```cshtml
+@attribute [ObserveStateEvent("CustomerUpdated")]
+```
 ## Authors
 
 Contributors names and contact info
