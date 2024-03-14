@@ -6,7 +6,7 @@
 
 # Carlton.Core.Flux
 
-The `Carlton.Core.Components.Layouts` package extends the functionality of the `Carlton.Core.Components` library by providing a collection of pre-designed layouts for building rich and interactive user interfaces in Blazor applications. These layouts streamline the development process and offer out-of-the-box features such as toasts, modals, and viewport management.
+The `Carlton.Core.Flux` is a powerful tool for managing state in your .NET applications. Built on the principles of the Flux architecture, it provides a robust solution for handling state changes in complex applications.
 
 ![C#](https://img.shields.io/badge/language-C%23-blue)
 ![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
@@ -14,13 +14,15 @@ The `Carlton.Core.Components.Layouts` package extends the functionality of the `
 
 ## Key Features
 
-- Responsive DashboardPanelLayout Template
-- Extensible LayoutManager Component
-- MediaQueryWrapper Component and Viewport State Service
-- FullScreen State Management and Menu Component
-- Theme State Management and Menu Component
-- Toast State Management and LayoutToaster Component
-- Modal State Management
+- **Single State Store:** Centralizes application state management, making it easier to maintain and debug.
+
+- **Connected Components:** Components are connected to the state store, allowing them to automatically update when the state changes.
+
+- **ViewModels from State:** Components fetch ViewModel data directly from the state store, eliminating the need for complex data fetching logic.
+
+- **State Mutation Commands:** Easily mutate the state store with commands, keeping state changes organized and predictable.
+
+- **Remote Server Interaction:** Intercept ViewModel queries and mutation commands to interact with a remote server, enabling seamless integration with backend services.
 
 
 ## Dependencies
@@ -60,19 +62,28 @@ ViewModel
 ```cs
 public class CustomerViewModel
 {
-				public Id int { get; set; }
-				public string Name { get; set; }
-				public string Email { get; set; }
+	public Id int { get; set; }
+	public string Name { get; set; }
+	public string Email { get; set; }
+}
+```
+Command
+```cs
+public class ChangeNameCommand
+{
+	public string NewName { get; set; }
 }
 ```
 Component
 ```cshtml
+@attribute [ObserveStateEvent("CustomerUpdated")]
 @inherits BaseConnectedComponent<CustomerViewModel>
 
 <div>
-				<span>Id: @ViewModel.Id</span>
-				<span>Name: @ViewModel.Name</span>
-				<span>Email: @ViewModel.Email</span>
+	<span>Id: @ViewModel.Id</span>
+	<span>Name: @ViewModel.Name</span>
+	<span>Email: @ViewModel.Email</span>
+	<button @onclick="base.OnComponentEvent(new ChangeNameCommand(\"Steve Rodgers\"))"></button>
 </div>
 
 @code{
@@ -80,7 +91,14 @@ Component
 }
 ```
 
+ViewModel
+The CustomerViewModel class represents the data structure for displaying customer information in your application's user interface. It typically includes properties such as the customer's ID, name, and email address.
 
+Command
+The ChangeNameCommand class encapsulates the action of changing a customer's name. This command is triggered when a user interacts with the application, such as clicking a button to update the customer's name.
+
+Component
+The component is a user interface element that renders the CustomerViewModel data and allows users to interact with it. In this example, the component displays the customer's ID, name, and email, and provides a button to change the customer's name. It observes the "CustomerUpdated" state event, ensuring that it updates automatically when the customer's information changes.
 
 
 ## Authors
