@@ -1,13 +1,10 @@
-<h1 align="center">
+<div align="center">
     <img src="../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
-</br>
-    Project Carlton
+</div>
 </br>
 
 
 # Carlton.Core.Foundation
-
-## Overview
 
 The `Carlton.Core.Foundation` packages serve as the foundational backbone for projects within the Carlton Organization ecosystem. These packages encompass essential third-party libraries and utilities required to kickstart development seamlessly.
 
