@@ -48,7 +48,7 @@ dotnet add package Carlton.Core.Flux
 ### Register Flux Service
 
 ```cs
-   var state = new MyState();
+   var state = new AppState();
    builder.Services.AddCarltonFlux(state, opt =>
    {
       opt.AddLocalStorage = true;
@@ -56,7 +56,7 @@ dotnet add package Carlton.Core.Flux
    }); 
 ```
 
-### Connected Components
+### Consumer Implementation
 
 ViewModel
 ```cs
@@ -87,18 +87,54 @@ Component
 </div>
 
 @code{
-   //Additional code
+	//Additional Code
+}
+```
+Mutation
+```cs
+public class UpdateCustomerMutation : IFluxStateMutation<MyState, AddCustomerCommand>
+{
+    public string StateEvent => "CustomerAdded";
+
+    public AppState Mutate(AppState currentState, AddCustomerCommand command)
+    {
+    	var updatedCustomerList = CurrentState.Customers.ToList();
+	updatedCustomerList.Add(command.NewCustomer);
+	return currentState = AppState with
+	{
+		Customers = updatedCustomerList
+	};
+    }
+}
+```
+ViewModelProjectMapper
+
+```cs
+public partial class AppStateViewModelMapper : IViewModelProjectionMapper<AppState>
+{
+    public partial TViewModel Map<TViewModel>(LabState state);
+
+    [MapProperty(nameof(AppState.SelectedCustomer), nameof(CustomerViewModel))]
+    public partial static ChangeNameCommand AppStateToCustomerViewModelProjection(AppState state);
 }
 ```
 
-ViewModel
-The CustomerViewModel class represents the data structure for displaying customer information in your application's user interface. It typically includes properties such as the customer's ID, name, and email address.
 
-Command
-The ChangeNameCommand class encapsulates the action of changing a customer's name. This command is triggered when a user interacts with the application, such as clicking a button to update the customer's name.
+ViewModel\
+The CustomerViewModel class represents the data structure for displaying customer information in your application's user interface. It typically includes properties such as the customer's ID, name, and email address. The ViewModel objects are pocos and require no special interfaces.
 
-Component
-The component is a user interface element that renders the CustomerViewModel data and allows users to interact with it. In this example, the component displays the customer's ID, name, and email, and provides a button to change the customer's name. It observes the "CustomerUpdated" state event, ensuring that it updates automatically when the customer's information changes.
+Command\
+The ChangeNameCommand class encapsulates the action of changing a customer's name. This command is triggered when a user interacts with the application, such as clicking a button to update the customer's name. The command objects are pocos
+and require no special interfces.
+
+Component\
+The component is a user blazor component inheriting from `BaseConnectedComponent` that renders the CustomerViewModel data and allows users to interact with it. In this example, the component displays the customer's ID, name, and email, and provides a button to raise a ChangeNameCommand that will result in an AppState mutation. It observes the "CustomerUpdated" state event, ensuring that this component will automatically when this event is raised.
+
+Mutation\
+The UpdateCustomerMutation class represents a mutation operation in the Flux framework. It implements the `IFluxStateMutation` interface, which species the state event associated with the mutation and a function indicating how the state should be mutated by the command. The mutation should be a pure function, meaning that the mutation method should only rely on its input parameters (the raised command and existing state) to generate a new state object and should not have any side effects. In this example, we are adding a new customer to the list of customers in the application state. This adherence to pure function principles ensures predictable and maintainable state management within the Flux architecture.
+
+ProjectionMapper\
+The AppStateViewModelMapper class serves as a ViewModel projection mapper in the Flux framework. It implements the `IViewModelProjectionMapper` interface, responsible for mapping the application state to specific ViewModel types. In this example, we are making use of the Mapperly library to generate the mappings automatically but any library or implementatino could be used to achieve the prjoectinos.
 
 
 ## Authors
