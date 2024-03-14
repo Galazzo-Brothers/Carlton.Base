@@ -1,7 +1,6 @@
-<h1 align="center">
-    <img src="../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
-</br>
-    Project Carlton
+<div align="center">
+    <img src="../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+</div>
 </br>
 
 # Carlton.Core.Layouts
