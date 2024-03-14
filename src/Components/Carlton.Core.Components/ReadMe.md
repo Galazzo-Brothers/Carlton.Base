@@ -1,7 +1,6 @@
-﻿<h1 align="center">
-   <img src="wwwroot/images/CarltonLogo.png" alt="Image Alt Text" width="200" />
-</br>
-    Project Carlton
+﻿<div align="center">
+   <img src="../../../images/CarltonLogo.png" alt="Image Alt Text" width="200" />
+</div>
 </br>
 
 
