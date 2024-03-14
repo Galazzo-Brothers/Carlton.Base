@@ -5,7 +5,7 @@
 # Carlton.Core.Flux
 
 <div align="center">
-	<img src="../../../CarltonFlux.png" alt="Image Alt Text" width="200" />
+	<img src="../../../CarltonFlux.png" alt="Image Alt Text" width="500" height="400" />
 </div>  
 <br/>
 
