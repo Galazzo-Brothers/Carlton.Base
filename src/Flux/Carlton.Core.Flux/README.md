@@ -58,7 +58,9 @@ dotnet add package Carlton.Core.Flux
 
 ### Consumer Implementation
 
-ViewModel
+#### ViewModel
+The CustomerViewModel class represents the data structure for displaying customer information in your application's user interface. It typically includes properties such as the customer's ID, name, and email address. The ViewModel objects are pocos and require no special interfaces.
+
 ```cs
 public class CustomerViewModel
 {
@@ -67,14 +69,17 @@ public class CustomerViewModel
 	public string Email { get; set; }
 }
 ```
-Command
+#### Command
+The ChangeNameCommand class encapsulates the action of changing a customer's name. This command is triggered when a user interacts with the application, such as clicking a button to update the customer's name. The command objects are pocos
+and require no special interfces.
 ```cs
 public class ChangeNameCommand
 {
 	public string NewName { get; set; }
 }
 ```
-Component
+#### Connected Component
+The component is a user blazor component inheriting from `BaseConnectedComponent` that renders the CustomerViewModel data and allows users to interact with it. In this example, the component displays the customer's ID, name, and email, and provides a button to raise a ChangeNameCommand that will result in an AppState mutation. It observes the "CustomerUpdated" state event, ensuring that this component will automatically when this event is raised.
 ```cshtml
 @attribute [ObserveStateEvent("CustomerUpdated")]
 @inherits BaseConnectedComponent<CustomerViewModel>
@@ -90,7 +95,8 @@ Component
 	//Additional Code
 }
 ```
-Mutation
+#### Mutation
+The UpdateCustomerMutation class represents a mutation operation in the Flux framework. It implements the `IFluxStateMutation` interface, which species the state event associated with the mutation and a function indicating how the state should be mutated by the command. The mutation should be a pure function, meaning that the mutation method should only rely on its input parameters (the raised command and existing state) to generate a new state object and should not have any side effects. In this example, we are adding a new customer to the list of customers in the application state. This adherence to pure function principles ensures predictable and maintainable state management within the Flux architecture.
 ```cs
 public class UpdateCustomerMutation : IFluxStateMutation<MyState, AddCustomerCommand>
 {
@@ -107,7 +113,8 @@ public class UpdateCustomerMutation : IFluxStateMutation<MyState, AddCustomerCom
     }
 }
 ```
-ViewModelProjectMapper
+#### ProjectionMapper
+The AppStateViewModelMapper class serves as a ViewModel projection mapper in the Flux framework. It implements the `IViewModelProjectionMapper` interface, responsible for mapping the application state to specific ViewModel types. In this example, we are making use of the Mapperly library to generate the mappings automatically but any library or implementatino could be used to achieve the prjoectinos.
 
 ```cs
 public partial class AppStateViewModelMapper : IViewModelProjectionMapper<AppState>
@@ -120,22 +127,35 @@ public partial class AppStateViewModelMapper : IViewModelProjectionMapper<AppSta
 ```
 
 
-ViewModel\
-The CustomerViewModel class represents the data structure for displaying customer information in your application's user interface. It typically includes properties such as the customer's ID, name, and email address. The ViewModel objects are pocos and require no special interfaces.
 
-Command\
-The ChangeNameCommand class encapsulates the action of changing a customer's name. This command is triggered when a user interacts with the application, such as clicking a button to update the customer's name. The command objects are pocos
-and require no special interfces.
 
-Component\
-The component is a user blazor component inheriting from `BaseConnectedComponent` that renders the CustomerViewModel data and allows users to interact with it. In this example, the component displays the customer's ID, name, and email, and provides a button to raise a ChangeNameCommand that will result in an AppState mutation. It observes the "CustomerUpdated" state event, ensuring that this component will automatically when this event is raised.
 
-Mutation\
-The UpdateCustomerMutation class represents a mutation operation in the Flux framework. It implements the `IFluxStateMutation` interface, which species the state event associated with the mutation and a function indicating how the state should be mutated by the command. The mutation should be a pure function, meaning that the mutation method should only rely on its input parameters (the raised command and existing state) to generate a new state object and should not have any side effects. In this example, we are adding a new customer to the list of customers in the application state. This adherence to pure function principles ensures predictable and maintainable state management within the Flux architecture.
 
-ProjectionMapper\
-The AppStateViewModelMapper class serves as a ViewModel projection mapper in the Flux framework. It implements the `IViewModelProjectionMapper` interface, responsible for mapping the application state to specific ViewModel types. In this example, we are making use of the Mapperly library to generate the mappings automatically but any library or implementatino could be used to achieve the prjoectinos.
 
+
+
+### HTTP Interception
+
+```cshtml
+@attribute [FluxViewModelServerUrl("http://test.carlton.com/Customers/{CustomerId}")]
+@attribute [FluxCommandServerUrl<ChangeNameCommand>("http://test.carlton.com/Customers/{CustomerId}", HttpVerb.POST)]
+@attribute [ObserveStateEvent("CustomerUpdated")]
+@inherits BaseConnectedComponent<CustomerViewModel>
+
+<div>
+	<span>Id: @ViewModel.Id</span>
+	<span>Name: @ViewModel.Name</span>
+	<span>Email: @ViewModel.Email</span>
+	<button @onclick="base.OnComponentEvent(new ChangeNameCommand(\"Steve Rodgers\"))"></button>
+</div>
+
+@code{
+	[Parameter, FluxServerUrlParameter]
+	public int CustomerId {get; set;}
+}
+```
+
+        
 
 ## Authors
 
