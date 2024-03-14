@@ -1,32 +1,30 @@
 ﻿
-::deep .table-container{
-	width: 75%;
-	margin-left: auto;
-	margin-right: auto;
+::deep .table-container {
+width: 75%;
+margin-left: auto;
+margin-right: auto;
 }
 
 .test-outcome-column .test-outomce-icon {
-	display: flex;
-	height: 100%;
-	align-items: center;
-	gap: 10px;
+display: flex;
+height: 100%;
+align-items: center;
+gap: 10px;
 }
 
 .test-outcome-column .test-passed-icon {
-	color: var(--accent-color-2);
+color: var(--accent-color-2);
 }
 
 .test-outcome-column .test-failed-icon {
-	color: var(--accent-color-3);
+color: var(--accent-color-3);
 }
 
 .test-outcome-column .test-not-run-icon {
-	color: var(--accent-color-5);
+color: var(--accent-color-5);
 }
 
 .test-outcome-column .test-outcome-text {
-	font-size: 16px;
-	padding-left: 2px;
+font-size: 16px;
+padding-left: 2px;
 }
-
-
