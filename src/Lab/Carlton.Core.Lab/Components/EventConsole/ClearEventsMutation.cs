@@ -1,6 +1,5 @@
 ﻿using Carlton.Core.Lab.State;
-
-namespace Carlton.Core.Lab.Components.EventConsole;
+namespace Carlton.Core.Lab.EventConsole;
 
 public class ClearEventsMutation : IFluxStateMutation<LabState, ClearEventsCommand>
 {
