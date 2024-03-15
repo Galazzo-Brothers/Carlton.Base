@@ -1,5 +1,5 @@
 ﻿<div align="center">
-    <img src="../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </div>
 </br>
 
