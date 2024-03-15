@@ -29,10 +29,10 @@ public sealed class NavMenuViewModelBuilder
         return this;
     }
 
-    public IEnumerable<ComponentAvailableStates> Build()
+    public IEnumerable<ComponentConfigurations> Build()
     {
         return _internalState.GroupBy(_ => _.ComponentType)
-                      .Select(group => new ComponentAvailableStates
+                      .Select(group => new ComponentConfigurations
                       {
                           ComponentType = group.Key,
                           ComponentStates = group.Select(BuildComponentState),

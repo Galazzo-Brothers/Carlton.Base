@@ -32,7 +32,7 @@ public class ConnectedComponentViewerComponentTests : TestContext
 	}
 
 	[Theory, AutoData]
-	public void ConnectedComponentViewer_Parameter_OnComponentEvent(
+	public void ConnectedComponentViewer_OnEventRecorded_RaisesComponentEvent(
 		TestParameters expectedParameters)
 	{
 		//Arrange
@@ -65,7 +65,7 @@ public class ConnectedComponentViewerComponentTests : TestContext
 	}
 
 	[Theory, AutoData]
-	public void ConnectedComponentViewer_Parameter_EventCallbackGeneric(
+	public void ConnectedComponentViewer_OnGenericEventRecorded_RaisesComponentEvent(
 		TestParameters expectedParameters,
 		TestArgs expectedArgs)
 	{

@@ -9,7 +9,7 @@
                       Groups="ComponentStateGroups"
                       SelectedGroupIndex="ViewModel.SelectedComponentIndex"
                       SelectedItemIndex="ViewModel.SelectedStateIndex"
-                      OnItemExpansionChange="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuExpandedCommand>"
+                      OnGroupExpansionChange="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuExpandedCommand>"
                       OnItemSelected="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
 
 

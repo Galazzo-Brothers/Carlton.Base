@@ -22,7 +22,7 @@ public partial class LabStateViewModelMapper : IViewModelProjectionMapper<LabSta
 	public partial EventConsoleViewModel LabStateToEventConsoleViewModelViewModelProjections(LabState state);
 
 
-	[MapProperty(nameof(LabState.ComponentStates), nameof(NavMenuViewModel.MenuItems))]
+	[MapProperty(nameof(LabState.ComponentConfigurations), nameof(NavMenuViewModel.MenuItems))]
 	[MapProperty(nameof(LabState.SelectedComponentIndex), nameof(NavMenuViewModel.SelectedComponentIndex))]
 	[MapProperty(nameof(LabState.SelectedComponentStateIndex), nameof(NavMenuViewModel.SelectedStateIndex))]
 	public partial NavMenuViewModel LabStateToNavMenuViewModelViewModelProjections(LabState state);

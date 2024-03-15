@@ -7,7 +7,7 @@ namespace Carlton.Core.Lab.Test.Components.EventConsole;
 public class ConnectedEventConsole_Markup_RendersCorrectly : TestContext
 {
 	[Theory, AutoData]
-	public void ConnectedEventViewerComponentRendersCorrectly(
+	public void ConnectedEventViewer_Markup_RendersCorrectly(
 		EventConsoleViewModel expectedViewModel)
 	{
 		//Arrange
@@ -23,7 +23,7 @@ public class ConnectedEventConsole_Markup_RendersCorrectly : TestContext
 	}
 
 	[Theory, AutoData]
-	public void ConnectedEventViewer_Parameter_EventCallback(
+	public void ConnectedEventViewer_OnEventsCleared_RaisesComponentEvent(
 		EventConsoleViewModel expectedViewModel)
 	{
 		//Arrange
