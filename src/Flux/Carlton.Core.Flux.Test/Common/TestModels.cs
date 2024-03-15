@@ -23,19 +23,20 @@ public class TestMutation : IFluxStateMutation<TestState, TestCommand>
 }
 
 
-[FluxViewModelServerCommunication("http://test.carlton.com/")]
+[FluxViewModelServerUrl("http://test.carlton.com/")]
+[FluxCommandServerUrl<TestCommand>("http://test.carlton.com/", HttpVerb.GET)]
 public record FluxServerCommunicationAlwaysGet
 {
 	public const string MockRefreshUrl = "http://test.carlton.com/";
 }
 
-[FluxMutationCommandServerCommunication("http://test.carlton.com/", HttpVerb.POST)]
+[FluxCommandServerUrl<TestCommand>("http://test.carlton.com/", HttpVerb.POST)]
 public record FluxServerCommunicationAlwaysPost
 {
 	public const string MockRefreshUrl = "http://test.carlton.com/";
 }
 
-[FluxMutationCommandServerCommunication(
+[FluxCommandServerUrl<TestCommand>(
 	"http://test.carlton.com/",
 	HttpVerb.POST,
 	UpdateWithResponseBody = true)]
@@ -49,37 +50,37 @@ public record FluxServerCommunicationAlwaysPostUpdateWithResponseBody
 }
 
 
-[FluxViewModelServerCommunication("http://test.carlton.com/",
+[FluxViewModelServerUrl("http://test.carlton.com/",
 	ServerCommunicationPolicy = FluxServerCommunicationPolicy.Never)]
 public record FluxServerCommunicationNever
 {
 }
 
 
-[FluxViewModelServerCommunication("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[FluxViewModelServerUrl("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
 public record FluxServerCommunicationWithComponentParametersGet
 {
 	public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
 
-	[FluxServerCommunicationParameter]
+	[FluxServerUrlParameter]
 	public int ClientId { get; set; } = 5;
-	[FluxServerCommunicationParameter]
+	[FluxServerUrlParameter]
 	public int UserId { get; set; } = 10;
 }
 
-[FluxMutationCommandServerCommunication("http://test.carlton.com/clients/{ClientId}/users/{UserId}", HttpVerb.POST)]
+[FluxCommandServerUrl<TestCommand>("http://test.carlton.com/clients/{ClientId}/users/{UserId}", HttpVerb.POST)]
 public record FluxServerCommunicationWithComponentParametersPost
 {
 	public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
 
-	[FluxServerCommunicationParameter]
+	[FluxServerUrlParameter]
 	public int ClientId { get; set; } = 5;
-	[FluxServerCommunicationParameter]
+	[FluxServerUrlParameter]
 	public int UserId { get; set; } = 10;
 }
 
 
-[FluxViewModelServerCommunication("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
+[FluxViewModelServerUrl("http://test.carlton.com/clients/{ClientId}/users/{UserId}")]
 public record FluxServerCommunicationWithUnreplacedParametersGet
 {
 	public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
@@ -88,7 +89,7 @@ public record FluxServerCommunicationWithUnreplacedParametersGet
 	public int UserId { get; set; } = 10;
 }
 
-[FluxMutationCommandServerCommunication("http://test.carlton.com/clients/{ClientId}/users/{UserId}", HttpVerb.POST)]
+[FluxCommandServerUrl<TestCommand>("http://test.carlton.com/clients/{ClientId}/users/{UserId}", HttpVerb.POST)]
 public record FluxServerCommunicationWithUnreplacedParametersPost
 {
 	public const string MockRefreshUrlTemplate = "http://test.carlton.com/clients/{ClientId}/users/{UserId}";
@@ -98,14 +99,14 @@ public record FluxServerCommunicationWithUnreplacedParametersPost
 }
 
 
-[FluxViewModelServerCommunication("http://test.#%$@#carlton.com/clients/")]
+[FluxViewModelServerUrl("http://test.#%$@#carlton.com/clients/")]
 public record FluxServerCommunicationWithInvalidUrlGet
 {
 	public int ClientID { get; set; } = 5;
 	public int UserID { get; set; } = 10;
 }
 
-[FluxMutationCommandServerCommunication("http://test.#%$@#carlton.com/clients/", HttpVerb.POST)]
+[FluxCommandServerUrl<TestCommand>("http://test.#%$@#carlton.com/clients/", HttpVerb.POST)]
 public record FluxServerCommunicationWithInvalidUrlPost
 {
 	public int ClientID { get; set; } = 5;
