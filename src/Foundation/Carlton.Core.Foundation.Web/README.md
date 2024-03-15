@@ -1,10 +1,9 @@
-﻿<h1 align="center">
-    <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
-</br>
-    Project Carlton
+﻿<div align="center">
+    <img src="../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+</div>
 </br>
 
-# Carlton.Core.Foundation 
+# Carlton.Core.Foundation.Web
 
 `Carlton.Core.Foundation.Web` package is an essential toolkit tailored for building blazor web applications within the Carlton Organization ecosystem. It ensures reliability, correctness, and quality of blazor components and web applications developed under the Carlton Organization framework while fostering uniformity and consistency across projects.
 
