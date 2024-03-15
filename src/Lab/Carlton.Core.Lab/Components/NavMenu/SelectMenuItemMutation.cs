@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Lab.State.Mutations;
+﻿using Carlton.Core.Lab.State;
+
+namespace Carlton.Core.Lab.Components.NavMenu;
 
 public class SelectMenuItemMutation : IFluxStateMutation<LabState, SelectMenuItemCommand>
 {

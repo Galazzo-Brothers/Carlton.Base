@@ -1,81 +1,64 @@
 ﻿using AutoFixture;
-using Carlton.Core.Components.Lab.Models.Common;
-using Carlton.Core.Components.Lab.Test.Mocks;
-using Carlton.Core.Utilities.Extensions;
-using Carlton.Core.Utilities.UnitTesting;
+using Carlton.Core.Lab.Components.BreadCrumbs;
+using Carlton.Core.Lab.Components.EventConsole;
+using Carlton.Core.Lab.Models.Common;
+using Carlton.Core.Lab.State;
+using Carlton.Core.Utilities.Random;
 
-namespace Carlton.Core.Components.Lab.Test.Common;
+namespace Carlton.Core.Lab.Test.Common;
 
 internal class LabStateFactory
 {
-    public static LabState BuildLabState()
-    {
-        //Setup Fixture
-        var fixture = new Fixture();
+	public static LabState BuildLabState()
+	{
+		//Setup Fixture
+		var fixture = new Fixture();
 
-        //Register Types
-        fixture.Register(() =>
-        {
-            var types = new List<Type>
-            {
-               typeof(DummyComponent),
-               typeof(ConnectedBreadCrumbs),
-               typeof(ConnectedEventConsole)
-            };
+		//Register Types
+		fixture.Register(() =>
+		{
+			var types = new List<Type>
+			{
+			   typeof(DummyComponent),
+			   typeof(ConnectedBreadCrumbs),
+			   typeof(ConnectedEventConsole)
+			};
 
-            var randomIndex = TestingRndUtilities.GetRandomActiveIndex(types.Count);
-            return types[randomIndex];
-        });
+			var randomIndex = RandomUtilities.GetRandomIndex(types.Count);
+			return types[randomIndex];
+		});
 
-        //Register Objects
-        fixture.Register(() =>
-        {
-            var objects = new List<object>
-            {
-                new { Param1 = "Testing", Param2 = 7, Param3 = false},
-                new { Param1 = "Hello World", Param2 = 2.2 },
-                new { Param1 = new List<int> { 1, 2, 3, 77 } }
-            };
+		//Register Objects
+		fixture.Register(() =>
+		{
+			var objects = new List<object>
+			{
+				new { Param1 = "Testing", Param2 = 7, Param3 = false},
+				new { Param1 = "Hello World", Param2 = 2.2 },
+				new { Param1 = new List<int> { 1, 2, 3, 77 } }
+			};
 
-            var randomIndex = TestingRndUtilities.GetRandomActiveIndex(objects.Count);
-            return objects[randomIndex];
-        });
+			var randomIndex = RandomUtilities.GetRandomIndex(objects.Count);
+			return objects[randomIndex];
+		});
 
-        //Create base LabState
-        var componentStates = fixture.CreateMany<ComponentAvailableStates>();
+		//Create base LabState
+		var componentStates = fixture.CreateMany<ComponentAvailableStates>();
 
-        //Register Test Dictionary
-        fixture.Register(() =>
-        {
-            var kvp = new List<KeyValuePair<string, TestResultsReport>>();
+		//Set a random but allowable selected index
+		var selectedIndex = RandomUtilities.GetRandomIndex(componentStates.Count());
 
-            foreach(var type in componentStates.Select(_ => _.ComponentType).Distinct())
-            {
-                kvp.Add(new KeyValuePair<string, TestResultsReport>(
-                  type.GetDisplayName(),
-                  fixture.Create<TestResultsReport>()));
-            }
+		//Set component events
+		var componentEvents = fixture.CreateMany<ComponentRecordedEvent>();
 
-            return new Dictionary<string, TestResultsReport>(kvp);
-        });
-      
-      
-        var dictionary = fixture.Create<Dictionary<string, TestResultsReport>>();
-        
-        //Set a random but allowable selected index
-        var selectedIndex = TestingRndUtilities.GetRandomActiveIndex(componentStates.Count());
+		//Setup Markup
+		var markup = fixture.Create<string>();
 
-        //Set component events
-        var componentEvents = fixture.CreateMany<ComponentRecordedEvent>();
-
-        //Setup Markup
-        var markup = fixture.Create<string>();
-
-        return new LabState(componentStates, dictionary) with 
-        {
-            SelectedComponentIndex = selectedIndex,
-            ComponentEvents = componentEvents,
-            SelectedComponentMarkup = markup
-        };
-    }
+		return new LabState(componentStates) with
+		{
+			SelectedComponentIndex = selectedIndex,
+			ComponentEvents = componentEvents,
+			SelectedComponentMarkup = markup
+		};
+	}
 }
