@@ -1,11 +1,11 @@
 ﻿namespace Carlton.Core.Components.Navigation;
 
 /// <summary>
-/// Represents the event arguments for an item expansion change.
+/// Represents the event arguments for an group expansion change.
 /// </summary>
 /// <param name="GroupIndexID">The index ID of the group.</param>
 /// <param name="IsExpanded">A value indicating whether the group is expanded.</param>
-public sealed record ItemExpansionChangeEventArgs(int GroupIndexID, bool IsExpanded);
+public sealed record GroupExpansionChangeEventArgs(int GroupIndexID, bool IsExpanded);
 
 /// <summary>
 /// Represents the event arguments for an item selection.

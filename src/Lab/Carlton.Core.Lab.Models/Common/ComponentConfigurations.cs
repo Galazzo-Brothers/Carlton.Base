@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Carlton.Core.Lab.Models.Common;
 
 
-public record ComponentAvailableStates
+public record ComponentConfigurations
 {
     [Required]
     [JsonConverter(typeof(JsonTypeConverter))]

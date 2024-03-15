@@ -1,13 +1,12 @@
 ﻿using Carlton.Core.Lab.Components.ComponentViewer;
 using Carlton.Core.Lab.Models.Common;
-using Carlton.Core.Lab.State;
 namespace Carlton.Core.Lab.Test.Components.EventConsole;
 
 public class RecordEventsMutationTests
 {
 	[Theory, AutoData]
 	public void RecordEventMutation_MutatesCorrectly(
-		IEnumerable<ComponentAvailableStates> componentStates,
+		IEnumerable<ComponentConfigurations> componentStates,
 		RecordEventMutation sut,
 		RecordEventCommand command)
 	{

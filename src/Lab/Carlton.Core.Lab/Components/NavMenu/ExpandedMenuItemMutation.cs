@@ -8,10 +8,10 @@ public class ExpandedMenuItemMutation : IFluxStateMutation<LabState, SelectMenuE
 
 	public LabState Mutate(LabState state, SelectMenuExpandedCommand input)
 	{
-		var newComponentStates = state.ComponentStates.ToList();
-		var toUpdate = state.ComponentStates[input.SelectedComponentIndex];
+		var newComponentStates = state.ComponentConfigurations.ToList();
+		var toUpdate = state.ComponentConfigurations[input.SelectedComponentIndex];
 		var updated = toUpdate with { IsExpanded = input.IsExpanded };
 		newComponentStates[input.SelectedComponentIndex] = updated;
-		return state with { ComponentStates = newComponentStates };
+		return state with { ComponentConfigurations = newComponentStates };
 	}
 }

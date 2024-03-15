@@ -1,6 +1,5 @@
 ﻿using Carlton.Core.Lab.EventConsole;
 using Carlton.Core.Lab.Models.Common;
-using Carlton.Core.Lab.State;
 
 namespace Carlton.Core.Lab.Test.Components.EventConsole;
 
@@ -8,7 +7,7 @@ public class ClearEventsMutationTests
 {
 	[Theory, AutoData]
 	public void ClearEventsMutation_MutatesCorrectly(
-		IEnumerable<ComponentAvailableStates> componentStates,
+		IEnumerable<ComponentConfigurations> componentStates,
 		IEnumerable<ComponentRecordedEvent> events,
 		ClearEventsMutation sut,
 		ClearEventsCommand command)

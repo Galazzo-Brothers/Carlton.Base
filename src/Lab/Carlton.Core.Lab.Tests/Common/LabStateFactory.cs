@@ -43,7 +43,7 @@ internal class LabStateFactory
 		});
 
 		//Create base LabState
-		var componentStates = fixture.CreateMany<ComponentAvailableStates>();
+		var componentStates = fixture.CreateMany<ComponentConfigurations>();
 
 		//Set a random but allowable selected index
 		var selectedIndex = RandomUtilities.GetRandomIndex(componentStates.Count());
