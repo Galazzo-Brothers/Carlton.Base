@@ -13,8 +13,8 @@
 
 ## Dependencies
 
-* Carlton.Core.Utilities
 * BlazorComponentUtilities
+* Carlton.Core.Utilities
 
 ## Getting Started
 
