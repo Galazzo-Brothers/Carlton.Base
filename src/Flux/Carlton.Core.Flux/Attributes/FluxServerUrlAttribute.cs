@@ -4,7 +4,7 @@
 /// Base attribute for defining server communication settings for Flux server communication.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public abstract class FluxServerCommunicationAttribute : Attribute
+public abstract class FluxServerUrlAttribute : Attribute
 {
 	/// <summary>
 	/// Gets or sets the server URL for communication.
@@ -28,11 +28,11 @@ public abstract class FluxServerCommunicationAttribute : Attribute
 	public bool UpdateWithResponseBody { get; init; } = false;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="FluxServerCommunicationAttribute"/> class with the specified server URL and HTTP verb.
+	/// Initializes a new instance of the <see cref="FluxServerUrlAttribute"/> class with the specified server URL and HTTP verb.
 	/// </summary>
 	/// <param name="serverUrl">The server URL for communication.</param>
 	/// <param name="httpVerb">The HTTP verb used for communication.</param>
-	public FluxServerCommunicationAttribute(string serverUrl, HttpVerb httpVerb)
+	public FluxServerUrlAttribute(string serverUrl, HttpVerb httpVerb)
 		=> (ServerUrl, HttpVerb) = (serverUrl, httpVerb);
 }
 
@@ -40,8 +40,8 @@ public abstract class FluxServerCommunicationAttribute : Attribute
 /// Attribute for defining server communication settings for Flux view model communication.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class FluxViewModelServerCommunicationAttribute(string serverUrl)
-	: FluxServerCommunicationAttribute(serverUrl, HttpVerb.GET)
+public class FluxViewModelServerUrlAttribute(string serverUrl)
+	: FluxServerUrlAttribute(serverUrl, HttpVerb.GET)
 {
 }
 
@@ -49,7 +49,7 @@ public class FluxViewModelServerCommunicationAttribute(string serverUrl)
 /// Attribute for defining server communication settings for Flux mutation command communication.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class FluxMutationCommandServerCommunicationAttribute(string serverUrl, HttpVerb httpVerb)
-	: FluxServerCommunicationAttribute(serverUrl, httpVerb)
+public class FluxCommandServerUrlAttribute<TCommand>(string serverUrl, HttpVerb httpVerb)
+	: FluxServerUrlAttribute(serverUrl, httpVerb)
 {
 }

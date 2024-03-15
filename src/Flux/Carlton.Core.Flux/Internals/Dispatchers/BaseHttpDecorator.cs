@@ -7,8 +7,8 @@ internal abstract partial class BaseHttpDecorator<TState>(HttpClient _client)
 	protected HttpClient Client { get; init; } = _client;
 
 	protected Result<string, FluxError> GetServerUrl(
-	  FluxServerCommunicationAttribute attribute,
-	  IEnumerable<FluxServerCommunicationParameterAttribute> routeParameters,
+	  FluxServerUrlAttribute attribute,
+	  IEnumerable<FluxServerUrlParameterAttribute> routeParameters,
 	  object sender)
 	{
 		//Tokenized Url
@@ -49,12 +49,12 @@ internal abstract partial class BaseHttpDecorator<TState>(HttpClient _client)
 		};
 	}
 
-	protected static IEnumerable<FluxServerCommunicationParameterAttribute> GetParameterAttributes(object sender)
+	protected static IEnumerable<FluxServerUrlParameterAttribute> GetParameterAttributes(object sender)
 	{
-		return sender.GetType().GetProperties().SelectMany(p => p.GetCustomAttributes<FluxServerCommunicationParameterAttribute>());
+		return sender.GetType().GetProperties().SelectMany(p => p.GetCustomAttributes<FluxServerUrlParameterAttribute>());
 	}
 
-	private static string GetDataEndPointParameterType(object sender, FluxServerCommunicationParameterAttribute fluxRouteParam)
+	private static string GetDataEndPointParameterType(object sender, FluxServerUrlParameterAttribute fluxRouteParam)
 	{
 		return sender.GetType().GetProperty(fluxRouteParam.ParameterName).GetValue(sender).ToString();
 	}

@@ -64,7 +64,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationAlwaysGet sender,
-		MutationCommandContext<FluxServerCommunicationAlwaysGet> context,
+		MutationCommandContext<TestCommand> context,
 		MutationCommandResult expectedResult)
 	{
 		//Arrange
@@ -91,7 +91,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationAlwaysPost sender,
-		MutationCommandContext<FluxServerCommunicationAlwaysPost> context,
+		MutationCommandContext<TestCommand> context,
 		MutationCommandResult expectedResult,
 		object expectedResponse)
 	{
@@ -119,13 +119,13 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationAlwaysPostUpdateWithResponseBody sender,
-		FluxServerCommunicationAlwaysPostUpdateWithResponseBody initCommand,
-		FluxServerCommunicationAlwaysPostUpdateWithResponseBody newCommand,
+		TestCommand initCommand,
+		TestCommand newCommand,
 		MutationCommandResult expectedResult)
 	{
 		//Arrange
 		decorated.SetupCommandDispatcher(newCommand, expectedResult);
-		var context = new MutationCommandContext<FluxServerCommunicationAlwaysPostUpdateWithResponseBody>(initCommand);
+		var context = new MutationCommandContext<TestCommand>(initCommand);
 		var request = mockHttp.When(FluxServerCommunicationAlwaysPost.MockRefreshUrl)
 			.Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(newCommand));
 
@@ -150,7 +150,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationWithComponentParametersPost sender,
-		MutationCommandContext<FluxServerCommunicationWithComponentParametersPost> context,
+		MutationCommandContext<TestCommand> context,
 		MutationCommandResult expectedResult,
 		object expectedResponse,
 		int clientId,
@@ -186,7 +186,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationWithInvalidUrlPost sender,
-		MutationCommandContext<FluxServerCommunicationWithInvalidUrlPost> context,
+		MutationCommandContext<TestCommand> context,
 		MutationCommandResult expectedResult)
 	{
 		//Arrange
@@ -213,7 +213,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationWithUnreplacedParametersPost sender,
-		MutationCommandContext<FluxServerCommunicationWithUnreplacedParametersPost> context,
+		MutationCommandContext<TestCommand> context,
 		int clientId,
 		int userId)
 	{
@@ -247,7 +247,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationAlwaysPost sender,
-		MutationCommandContext<FluxServerCommunicationAlwaysPost> context,
+		MutationCommandContext<TestCommand> context,
 		object expectedResponse)
 	{
 		//Arrange
@@ -275,7 +275,7 @@ public class MutationCommandHttpDecoratorTests
 		[Frozen] MockHttpMessageHandler mockHttp,
 		MutationHttpDecorator<TestState> sut,
 		FluxServerCommunicationAlwaysPost sender,
-		MutationCommandContext<FluxServerCommunicationAlwaysPost> context)
+		MutationCommandContext<TestCommand> context)
 	{
 		//Arrange
 		var request = mockHttp.When(FluxServerCommunicationAlwaysPost.MockRefreshUrl)

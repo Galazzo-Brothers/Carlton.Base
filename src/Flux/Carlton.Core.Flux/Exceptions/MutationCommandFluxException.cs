@@ -15,7 +15,7 @@ namespace Carlton.Core.Flux.Exceptions;
 public class MutationCommandFluxException<TCommand>(string message,
 	int eventId,
 	TCommand command,
-	Exception innerException) : FluxException(message, eventId, FluxOperationKind.CommandMutation, innerException)
+	Exception innerException) : FluxException(message, eventId, FluxOperationKind.MutationCommand, innerException)
 {
 	/// <summary>
 	/// Gets the mutation command associated with the exception.

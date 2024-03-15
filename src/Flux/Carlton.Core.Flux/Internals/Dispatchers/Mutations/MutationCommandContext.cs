@@ -2,7 +2,7 @@
 
 internal class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
-	public override FluxOperationKind FluxOperationKind => FluxOperationKind.ViewModelQuery;
+	public override FluxOperationKind FluxOperationKind => FluxOperationKind.MutationCommand;
 	public override Type FluxOperationType => MutationCommand.GetType();
 
 	public TCommand MutationCommand { get; private set; } = command;

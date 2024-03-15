@@ -9,7 +9,7 @@ internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<T
 	public async Task<Result<MutationCommandResult, FluxError>> Dispatch<TCommand>(object sender, MutationCommandContext<TCommand> context, CancellationToken cancellationToken)
 	{
 		var attributes = sender.GetType().GetCustomAttributes();
-		var fluxServerAttribute = attributes.OfType<FluxServerCommunicationAttribute>().FirstOrDefault();
+		var fluxServerAttribute = attributes.OfType<FluxCommandServerUrlAttribute<TCommand>>().FirstOrDefault();
 		var requiresRefresh = GetRefreshPolicy(fluxServerAttribute?.ServerCommunicationPolicy);
 
 		//Continue on if no refresh required

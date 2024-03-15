@@ -58,7 +58,7 @@ public enum FluxOperationKind
 	ViewModelQuery = 1,
 
 	/// <summary>
-	/// Represents a command mutation operation.
+	/// Represents a mutation command operation.
 	/// </summary>
-	CommandMutation = 2,
+	MutationCommand = 2,
 }

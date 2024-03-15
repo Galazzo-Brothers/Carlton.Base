@@ -13,7 +13,7 @@ internal sealed class ViewModelHttpDecorator<TState>(
 	{
 		//Get FluxServerCommunicationAttribute Attribute
 		var attributes = sender.GetType().GetCustomAttributes();
-		var fluxServerCommunicationAttribute = attributes.OfType<FluxServerCommunicationAttribute>().FirstOrDefault();
+		var fluxServerCommunicationAttribute = attributes.OfType<FluxViewModelServerUrlAttribute>().FirstOrDefault();
 		var requiresRefresh = GetRefreshPolicy(fluxServerCommunicationAttribute?.ServerCommunicationPolicy);
 
 		if (requiresRefresh)
