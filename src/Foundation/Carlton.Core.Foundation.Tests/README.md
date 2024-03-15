@@ -1,10 +1,9 @@
-﻿<h1 align="center">
-    <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
-</br>
-    Project Carlton
+﻿<div align="center">
+    <img src="../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+</div>
 </br>
 
-# Carlton.Core.Foundation 
+# Carlton.Core.Foundation.Tests
 
 `Carlton.Core.Foundation.Tests` package serves as the foundational backbone for test projects within the Carlton Organization ecosystem, encompassing essential third-party libraries and utilities required to rigorously test applications. This comprehensive toolkit empowers developers to conduct thorough and reliable testing of their applications, ensuring robustness, correctness, and adherence to quality standards across the organization's software projects.
 
@@ -14,7 +13,6 @@
 
 ## Dependencies
 
-* Carlton.Core.Foundation
 * xunit
 * xunit.runner.visualstudio
 * AutoFixture
@@ -22,6 +20,8 @@
 * AutoFixture.Xunit2
 * bunit
 * Shouldly
+* MockHttp
+* Carlton.Core.Foundation
 
 ## Getting Started
 
