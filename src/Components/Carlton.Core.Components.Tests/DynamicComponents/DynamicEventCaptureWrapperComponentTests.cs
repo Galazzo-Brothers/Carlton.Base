@@ -6,100 +6,100 @@ namespace Carlton.Core.Components.Tests.DynamicComponents;
 [Trait("Component", nameof(DynamicEventCapturingWrapper))]
 public class DynamicEventCaptureWrapperComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void ComponentViewer_Markup_RendersCorrectly(bool expectedIsChecked)
-    {
-        //Arrange
-        var expectedMarkup = @$"
+	[Theory(DisplayName = "Markup Test"), AutoData]
+	public void ComponentViewer_Markup_RendersCorrectly(bool expectedIsChecked)
+	{
+		//Arrange
+		var expectedMarkup = @$"
         <div class=""dynamic-event-capturing-wrapper"">
             <div class=""checkbox mdi mdi-24px mdi-{(expectedIsChecked ? "check-circle" : "checkbox-blank-circle-outline")}""></div>
         </div>";
-        
-        var checkboxComponentType = typeof(Checkbox);
-        var ComponentParameters = new Dictionary<string, object>
-        {
-            { "IsChecked",  expectedIsChecked }
-        };
 
-        
-        //Act
-        var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
-            .Add(p => p.ComponentType, checkboxComponentType)
-            .Add(p => p.ComponentParameters, ComponentParameters));
+		var checkboxComponentType = typeof(Checkbox);
+		var ComponentParameters = new Dictionary<string, object>
+		{
+			{ "IsChecked",  expectedIsChecked }
+		};
 
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
 
-    [Theory(DisplayName = "ComponentEventRaisedParameter GenricEventCallback Test"), AutoData]
-    public void ComponentViewer_ComponentEventRaisedParameter_GenricEventCallback_RendersCorrectly(bool expectedIsChecked)
-    {
-        //Arrange
-        var eventRaised = false;
+		//Act
+		var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
+			.Add(p => p.ComponentType, checkboxComponentType)
+			.Add(p => p.ComponentParameters, ComponentParameters));
 
-        var expectedEventName = "OnValueChange";
-        var expectedEventArgs = !expectedIsChecked;
+		//Assert
+		cut.MarkupMatches(expectedMarkup);
+	}
 
-        var eventName = string.Empty;
-        var eventArgs = new object();
+	[Theory(DisplayName = "ComponentEventRaisedParameter GenericEventCallback Test"), AutoData]
+	public void ComponentViewer_ComponentEventRaisedParameter_GenericEventCallback_RendersCorrectly(bool expectedIsChecked)
+	{
+		//Arrange
+		var eventRaised = false;
 
-        var checkboxComponentType = typeof(Checkbox);
-        var ComponentParameters = new Dictionary<string, object>
-        {
-            { "IsChecked",  expectedIsChecked }
-        };
+		var expectedEventName = "OnValueChange";
+		var expectedEventArgs = !expectedIsChecked;
 
-        var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
-            .Add(p => p.ComponentType, checkboxComponentType)
-            .Add(p => p.ComponentParameters, ComponentParameters)
-            .Add(p => p.OnCapturedComponentEvent, (args) =>
-            {
-                eventRaised = true;
-                eventName = args.EventName;
-                eventArgs = args.EventArgs;
-            }));
+		var eventName = string.Empty;
+		var eventArgs = new object();
 
-        //Act
-        cut.Find(".checkbox").Click();
+		var checkboxComponentType = typeof(Checkbox);
+		var ComponentParameters = new Dictionary<string, object>
+		{
+			{ "IsChecked",  expectedIsChecked }
+		};
 
-        //Assert
-        eventRaised.ShouldBeTrue();
-        eventName.ShouldBe(expectedEventName);
-        eventArgs.ShouldBe(expectedEventArgs);
-    }
+		var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
+			.Add(p => p.ComponentType, checkboxComponentType)
+			.Add(p => p.ComponentParameters, ComponentParameters)
+			.Add(p => p.OnCapturedComponentEvent, (args) =>
+			{
+				eventRaised = true;
+				eventName = args.EventName;
+				eventArgs = args.EventArgs;
+			}));
 
-    [Theory(DisplayName = "ComponentEventRaisedParameter NonGenricEventCallback Test"), AutoData]
-    public void ComponentViewer_ComponentEventRaisedParameter_NonGenricEventCallback_RendersCorrectly(
-        string expectedText)
-    {
-        //Arrange
-        var eventRaised = false;
-        var expectedEventName = "OnClick";
-        var eventName = string.Empty;
-        object? eventArgs = null;
+		//Act
+		cut.Find(".checkbox").Click();
 
-        var actionButtonComponentType = typeof(ActionButton);
-        var ComponentParameters = new Dictionary<string, object>
-        {
-            { "Text",  expectedText }
-        };
+		//Assert
+		eventRaised.ShouldBeTrue();
+		eventName.ShouldBe(expectedEventName);
+		eventArgs.ShouldBe(expectedEventArgs);
+	}
 
-        var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
-            .Add(p => p.ComponentType, actionButtonComponentType)
-            .Add(p => p.ComponentParameters, ComponentParameters)
-            .Add(p => p.OnCapturedComponentEvent, (args) =>
-            {
-                eventRaised = true;
-                eventName = args.EventName;
-                eventArgs = args.EventArgs;
-            }));
+	[Theory(DisplayName = "ComponentEventRaisedParameter NonGenericEventCallback Test"), AutoData]
+	public void ComponentViewer_ComponentEventRaisedParameter_NonGenericEventCallback_RendersCorrectly(
+		string expectedText)
+	{
+		//Arrange
+		var eventRaised = false;
+		var expectedEventName = "OnClick";
+		var eventName = string.Empty;
+		object? eventArgs = null;
 
-        //Act
-        cut.Find(".action-btn").Click();
+		var actionButtonComponentType = typeof(ActionButton);
+		var ComponentParameters = new Dictionary<string, object>
+		{
+			{ "Text",  expectedText }
+		};
 
-        //Assert
-        eventRaised.ShouldBeTrue();
-        eventName.ShouldBe(expectedEventName);
-        eventArgs.ShouldBeEquivalentTo(new object());
-    }
+		var cut = RenderComponent<DynamicEventCapturingWrapper>(parameters => parameters
+			.Add(p => p.ComponentType, actionButtonComponentType)
+			.Add(p => p.ComponentParameters, ComponentParameters)
+			.Add(p => p.OnCapturedComponentEvent, (args) =>
+			{
+				eventRaised = true;
+				eventName = args.EventName;
+				eventArgs = args.EventArgs;
+			}));
+
+		//Act
+		cut.Find(".action-btn").Click();
+
+		//Assert
+		eventRaised.ShouldBeTrue();
+		eventName.ShouldBe(expectedEventName);
+		eventArgs.ShouldBeEquivalentTo(new object());
+	}
 }
