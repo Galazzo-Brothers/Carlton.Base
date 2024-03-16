@@ -12,7 +12,6 @@ public record LabState
 	public ComponentState SelectedComponentState { get => ComponentConfigurations.ElementAt(SelectedComponentIndex).ComponentStates.ElementAt(SelectedComponentStateIndex); }
 	[JsonConverter(typeof(JsonTypeConverter))]
 	public Type SelectedComponentType { get { return ComponentConfigurations.ElementAt(SelectedComponentIndex).ComponentType; } }
-	public string SelectedComponentMarkup { get; init; }
 	public object SelectedComponentParameters { get; init; }
 	public IEnumerable<ComponentRecordedEvent> ComponentEvents
 	{

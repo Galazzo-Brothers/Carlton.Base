@@ -1,144 +1,91 @@
-﻿using Carlton.Core.Components.Lab.Test.Common;
+﻿using Carlton.Core.Lab.Models.Common;
 using Carlton.Core.Utilities.Extensions;
-using MapsterMapper;
-
-namespace Carlton.Core.Components.Lab.Test.MappingTests;
+namespace Carlton.Core.Lab.Test.MappingTests;
 
 public class LabStateMappingTests
 {
-    [Fact]
-    public void ValidateNavMenuViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
-        
-        //Act
-        var result = mapper.Map<NavMenuViewModel>(labState);
+	[Theory, AutoData]
+	public void LabStateMapper_ShouldMap_LabState_To_NavMenuViewModel(
+		IEnumerable<ComponentConfigurations> componentConfigurations,
+		LabStateViewModelMapper sut)
+	{
+		//Arrange
+		var labState = new LabState(componentConfigurations);
+
+		//Act
+		var result = sut.Map<NavMenuViewModel>(labState);
+
+		//Assert
+		result.SelectedComponentIndex.ShouldBe(labState.SelectedComponentIndex);
+		result.SelectedStateIndex.ShouldBe(labState.SelectedComponentStateIndex);
+	}
+
+	[Theory, AutoData]
+	public void LabStateMapper_ShouldMap_LabState_To_ComponentViewerViewModel(
+		IEnumerable<ComponentConfigurations> componentConfigurations,
+		LabStateViewModelMapper sut)
+	{
+		//Arrange
+		var labState = new LabState(componentConfigurations);
+
+		//Act
+		var result = sut.Map<ComponentViewerViewModel>(labState);
+
+		//Assert
+		result.ComponentType.ShouldBe(labState.SelectedComponentType);
+		result.ComponentParameters.ShouldBe(labState.SelectedComponentParameters);
+	}
+
+	[Theory, AutoData]
+	public void LabStateMapper_ShouldMap_LabState_To_EventConsoleViewModel(
+		IEnumerable<ComponentConfigurations> componentConfigurations,
+		IEnumerable<ComponentRecordedEvent> events,
+		LabStateViewModelMapper sut)
+	{
+		//Arrange
+		var labState = new LabState(componentConfigurations);
+		labState = labState with
+		{
+			ComponentEvents = events
+		};
+
+		//Act
+		var result = sut.Map<EventConsoleViewModel>(labState);
 
 
-        //Assert
-        Assert.Equal(labState.SelectedComponentIndex, result.SelectedComponentIndex);
-        Assert.Equal(labState.SelectedComponentStateIndex, result.SelectedStateIndex);
-        Assert.All(labState.ComponentStates, (state, i) =>
-            Assert.Equal(labState.ComponentStates.ElementAt(i), state));
-    }
+		//Assert
+		result.RecordedEvents.ShouldBe(labState.ComponentEvents);
+	}
 
-    [Fact]
-    public void ValidateComponentViewerViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
+	[Theory, AutoData]
+	public void LabStateMapper_ShouldMap_LabState_To_ParametersViewerViewModel(
+		IEnumerable<ComponentConfigurations> componentConfigurations,
+		LabStateViewModelMapper sut)
+	{
+		//Arrange
+		var labState = new LabState(componentConfigurations);
 
-        //Act
-        var result = mapper.Map<ComponentViewerViewModel>(labState);
+		//Act
+		var result = sut.Map<ParametersViewerViewModel>(labState);
 
 
-        //Assert
-        Assert.Equal(labState.SelectedComponentType, result.ComponentType);
-        Assert.Equal(labState.SelectedComponentParameters, result.ComponentParameters);
-    }
+		//Assert
+		result.ComponentParameters.ShouldBe(labState.SelectedComponentParameters);
+	}
 
-    [Fact]
-    public void ValidateEventConsoleViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
+	[Theory, AutoData]
+	public void LabStateMapper_ShouldMap_LabState_To_BreadCrumbsViewModel(
+		IEnumerable<ComponentConfigurations> componentConfigurations,
+		LabStateViewModelMapper sut)
+	{
+		//Arrange
+		var labState = new LabState(componentConfigurations);
 
-        //Act
-        var result = mapper.Map<EventConsoleViewModel>(labState);
+		//Act
+		var result = sut.Map<BreadCrumbsViewModel>(labState);
 
-
-        //Assert
-        Assert.Equal(labState.ComponentEvents, result.RecordedEvents);
-    }
-
-    [Fact]
-    public void ValidateParametersViewerViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
-
-        //Act
-        var result = mapper.Map<ParametersViewerViewModel>(labState);
-
-
-        //Assert
-        Assert.Equal(labState.SelectedComponentParameters, result.ComponentParameters);
-    }
-
-    [Fact]
-    public void ValidateBreadCrumbsViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
-
-        //Act
-        var result = mapper.Map<BreadCrumbsViewModel>(labState);
-
-
-        //Assert
-        Assert.Equal(labState.SelectedComponentType.GetDisplayName(), result.SelectedComponent);
-        Assert.Equal(labState.SelectedComponentState.DisplayName, result.SelectedComponentState);
-    }
-
-    [Fact]
-    public void ValidateSourceViewerViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
-
-        //Act
-        var result = mapper.Map<SourceViewerViewModel>(labState);
-
-
-        //Assert
-        Assert.Equal(labState.SelectedComponentMarkup, result.ComponentSource);
-    }
-
-    [Fact]
-    public void ValidateTestResultsViewModelMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
-
-        //Act
-        var result = mapper.Map<TestResultsViewModel>(labState);
-
-
-        //Assert
-        Assert.Equal(labState.SelectedComponentTestReport.TestResults, result.TestResults);
-    }
-
-    [Fact]
-    public void ValidateLabStateSelfMapping()
-    {
-        //Arrange
-        var mapper = new Mapper(MapsterConfig.BuildMapsterConfig());
-        var labState = LabStateFactory.BuildLabState();
-
-        //Act
-        var result = mapper.Map<LabState>(labState);
-
-
-        //Assert
-        Assert.Equal(labState.SelectedComponentIndex, result.SelectedComponentIndex);
-        Assert.Equal(labState.SelectedComponentStateIndex, result.SelectedComponentStateIndex);
-        Assert.Equal(labState.SelectedComponentState, result.SelectedComponentState);
-        Assert.Equal(labState.SelectedComponentType, result.SelectedComponentType);
-        Assert.Equal(labState.SelectedComponentMarkup, result.SelectedComponentMarkup);
-        Assert.Equal(labState.SelectedComponentParameters, result.SelectedComponentParameters);
-        Assert.Equal(labState.ComponentEvents, result.ComponentEvents);
-        Assert.Equal(labState.ComponentTestResults, result.ComponentTestResults);
-        Assert.Equal(labState.SelectedComponentTestReport.Summary, result.SelectedComponentTestReport.Summary);
-        Assert.Equal(labState.SelectedComponentTestReport.TestResults, result.SelectedComponentTestReport.TestResults);
-        Assert.All(labState.ComponentStates, (state, i) =>
-           Assert.Equal(labState.ComponentStates.ElementAt(i), state));
-    }
+		//Assert
+		result.SelectedComponent.ShouldBe(labState.SelectedComponentType.GetDisplayName());
+		result.SelectedComponentState.ShouldBe(labState.SelectedComponentState.DisplayName);
+	}
 }
