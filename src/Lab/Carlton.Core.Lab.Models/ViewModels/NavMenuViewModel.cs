@@ -3,7 +3,8 @@ namespace Carlton.Core.Lab.Models.ViewModels;
 
 public sealed record NavMenuViewModel
 {
-	public IEnumerable<ComponentConfigurations> MenuItems = new List<ComponentConfigurations>();
+	[Required]
+	public IEnumerable<ComponentConfigurations> MenuItems { get; init; } = new List<ComponentConfigurations>();
 
 	[NonNegativeInteger]
 	public int SelectedComponentIndex { get; init; }
