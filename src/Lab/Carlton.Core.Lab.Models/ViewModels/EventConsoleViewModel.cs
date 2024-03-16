@@ -2,7 +2,8 @@
 
 public sealed record EventConsoleViewModel
 {
-    public IEnumerable<ComponentRecordedEvent> RecordedEvents { get; init; } = new List<ComponentRecordedEvent>();
+	[Required]
+	public IEnumerable<ComponentRecordedEvent> RecordedEvents { get; init; } = new List<ComponentRecordedEvent>();
 };
 
 
