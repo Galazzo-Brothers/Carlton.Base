@@ -12,8 +12,8 @@ public class SelectMenuItemMutationTests
 		//Arrange
 		var labState = new LabState(componentStates);
 		var selectedComponentIndex = RandomUtilities.GetRandomIndex(labState.ComponentConfigurations.Count);
-		var selectedStateIndex = RandomUtilities.GetRandomIndex(labState.ComponentConfigurations.Count);
-		var expectedComponentState = labState.ComponentConfigurations.ElementAt(selectedStateIndex).ComponentStates.ElementAt(selectedStateIndex);
+		var selectedStateIndex = RandomUtilities.GetRandomIndex(labState.ComponentConfigurations.ElementAt(selectedComponentIndex).ComponentStates.Count());
+		var expectedComponentState = labState.ComponentConfigurations.ElementAt(selectedComponentIndex).ComponentStates.ElementAt(selectedStateIndex);
 		var command = new SelectMenuItemCommand
 		{
 			ComponentIndex = selectedComponentIndex,
