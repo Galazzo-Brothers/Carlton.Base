@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Lab.Models.Common;
-using Carlton.Core.Utilities.Extensions;
 namespace Carlton.Core.Lab.Test.MappingTests;
 
 public class LabStateMappingTests
