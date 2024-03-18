@@ -60,7 +60,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Flux.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.API", "Foundation\Carlton.Core.Foundation.API\Carlton.Core.Foundation.API.csproj", "{60B77801-794A-49DC-B735-5329125BD90A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Lab.Test", "Lab\Carlton.Core.Lab.Tests\Carlton.Core.Lab.Test.csproj", "{44C21A2E-42D2-4B1D-ABA8-FE32BCE464B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Lab.Tests", "Lab\Carlton.Core.Lab.Tests\Carlton.Core.Lab.Tests.csproj", "{44C21A2E-42D2-4B1D-ABA8-FE32BCE464B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

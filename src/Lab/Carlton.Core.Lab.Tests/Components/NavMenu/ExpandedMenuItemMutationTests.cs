@@ -5,7 +5,7 @@ namespace Carlton.Core.Lab.Test.Components.NavMenu;
 public class ExpandedMenuItemMutationTests
 {
 	[Theory, AutoData]
-	public void ClearEventsMutation_MutatesCorrectly(
+	internal void ClearEventsMutation_MutatesCorrectly(
 		IEnumerable<ComponentConfigurations> componentStates,
 		ExpandedMenuItemMutation sut,
 		bool expectedIsExpanded)

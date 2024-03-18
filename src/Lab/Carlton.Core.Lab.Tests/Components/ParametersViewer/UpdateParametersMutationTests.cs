@@ -5,7 +5,7 @@ namespace Carlton.Core.Lab.Test.Components.ParametersViewer;
 public class UpdateParametersMutationTests
 {
 	[Theory, AutoData]
-	public void UpdateParametersMutation_MutatesCorrectly(
+	internal void UpdateParametersMutation_MutatesCorrectly(
 		IEnumerable<ComponentConfigurations> componentConfigurations,
 		UpdateParametersMutation sut,
 		TestParameters expectedParameters)

@@ -5,7 +5,7 @@ namespace Carlton.Core.Lab.Test.MutationTests;
 public class SelectMenuItemMutationTests
 {
 	[Theory, AutoData]
-	public void SelectMenuItemMutation_MutatesCorrectly(
+	internal void SelectMenuItemMutation_MutatesCorrectly(
 		IEnumerable<ComponentConfigurations> componentStates,
 		SelectMenuItemMutation sut)
 	{

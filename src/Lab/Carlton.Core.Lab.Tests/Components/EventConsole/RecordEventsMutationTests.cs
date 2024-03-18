@@ -5,7 +5,7 @@ namespace Carlton.Core.Lab.Test.Components.EventConsole;
 public class RecordEventsMutationTests
 {
 	[Theory, AutoData]
-	public void RecordEventMutation_MutatesCorrectly(
+	internal void RecordEventMutation_MutatesCorrectly(
 		IEnumerable<ComponentConfigurations> componentStates,
 		RecordEventMutation sut,
 		RecordEventCommand command)
