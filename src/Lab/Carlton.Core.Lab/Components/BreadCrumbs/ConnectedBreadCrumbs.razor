@@ -3,6 +3,10 @@
 @attribute [ObserveStateEvent("MenuItemSelected")]
 @inherits BaseConnectedComponent<BreadCrumbsViewModel>
 
+@*
+    Represents a breadcrumbs component.
+    It observes the "MenuItemSelected" state event and displays breadcrumbs based on the provided ViewModel.
+*@
 
 <BreadCrumbs Title="@ViewModel.SelectedComponent" BreadCrumbItems="@(new string[] {ViewModel.SelectedComponentState})" Separator="'>'" />
 

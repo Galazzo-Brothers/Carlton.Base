@@ -9,32 +9,45 @@
 @inherits LayoutComponentBase
 @layout DashboardTabbedPanelLayout
 @inject IFullScreenState FullScreenState
+
+@*
+	Represents a dashboard layout for the test lab.
+*@
+
+
 @Body
 
 
 <SectionContent SectionId="DashboardPanelLayout.Nav">
-    <LabComponent TViewModel="NavMenuViewModel" />
+	 <!-- Displays navigation menu. -->
+	<LabComponent TViewModel="NavMenuViewModel" />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.HeaderPageTitle">
-    <LabComponent TViewModel="BreadCrumbsViewModel" />
+	 <!-- Displays breadcrumbs for the current page. -->
+	<LabComponent TViewModel="BreadCrumbsViewModel" />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.HeaderActionContent">
-    <LabHeaderActions />
+	<!-- Displays header actions. -->
+	<LabHeaderActions />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.Logo">
-    <Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="FullScreenState.IsFullScreen" />
+	<!-- Displays the logo. -->
+	<Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="FullScreenState.IsFullScreen" />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.Footer">
-    <Footer />
+	<!-- Displays the footer. -->
+	<Footer />
 </SectionContent>
 
 
-@code{
-    private const string AppName = "Carlton Test Lab"; 
-    private const string LogoUrl = "_content/Carlton.Core.Components/images/CarltonLogo.png"; 
+@code {
+	// Application name
+	private const string AppName = "Carlton Test Lab";
+	// URL of the application's logo
+	private const string LogoUrl = "_content/Carlton.Core.Components/images/CarltonLogo.png";
 }
 

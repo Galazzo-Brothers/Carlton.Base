@@ -1,7 +1,6 @@
 ﻿using Carlton.Core.Components.DynamicComponents;
 using Carlton.Core.Components.Navigation;
 using Riok.Mapperly.Abstractions;
-
 namespace Carlton.Core.Lab.Extensions;
 
 [Mapper]

@@ -1,10 +1,15 @@
 ﻿@using Carlton.Core.Components.Navigation
+@using Carlton.Core.Lab.Extensions
 @namespace Carlton.Core.Lab.Components.NavMenu
 @attribute [ObserveStateEvent("MenuItemSelected")]
 @attribute [ObserveStateEvent("MenuItemExpandedStateChanged")]
 @inherits BaseConnectedComponent<NavMenuViewModel>
 
-
+@*
+    Represents a navigation menu component.
+    It observes state events and displays a menu with selectable items.
+    It also provides functionality to expand/collapse menu items.
+*@
 <AccordionSelectGroup TValue="ComponentState"
                       Groups="ComponentStateGroups"
                       SelectedGroupIndex="ViewModel.SelectedComponentIndex"

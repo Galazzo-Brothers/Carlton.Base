@@ -6,6 +6,9 @@
 @inject IThemeState ThemeState
 @inject NavigationManager NavigationManager
 
+@*
+    Represents header actions for the component lab layout.
+*@
 <div class="component-lab-header-actions">
     <ThemeMenu />
     <NotificationMenu />
@@ -18,6 +21,7 @@
 
 
 @code {
+	// Generates the dropdown menu items
     private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
     {
         get

@@ -1,8 +1,7 @@
 ﻿using Carlton.Core.Lab.State;
-
 namespace Carlton.Core.Lab.Components.ParametersViewer;
 
-public class UpdateParametersMutation : IFluxStateMutation<LabState, UpdateParametersCommand>
+internal sealed class UpdateParametersMutation : IFluxStateMutation<LabState, UpdateParametersCommand>
 {
 	public string StateEvent => LabStateEvents.ParametersUpdated.ToString();
 

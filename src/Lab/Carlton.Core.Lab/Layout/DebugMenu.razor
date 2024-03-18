@@ -2,24 +2,27 @@
 @namespace Carlton.Core.Lab
 @inject NavigationManager NavigationManager
 
-
+@*
+    Represents a debug menu component for navigating to debug logs.
+*@
 <a href="#" class="debug-menu" @onclick:preventDefault="true" @onclick="NavigateToDebug">
-    <i class="@DebugIconCss"></i>
+	<i class="@DebugIconCss"></i>
 </a>
 
 
 @code {
-    private string DebugIconCss
-    {
-        get => new CssBuilder()
-                .AddClass("mdi mdi-24px")
-                .AddClass("mdi-bug-outline")
-                .Build();
-    }
+	// CSS class for the debug icon
+	private string DebugIconCss
+	{
+		get => new CssBuilder()
+				.AddClass("mdi mdi-24px")
+				.AddClass("mdi-bug-outline")
+				.Build();
+	}
 
-    private void NavigateToDebug()
-    {
-        NavigationManager.NavigateTo($"/debug/logs");
-    }
+	private void NavigateToDebug()
+	{
+		NavigationManager.NavigateTo($"/debug/logs");
+	}
 }
 
