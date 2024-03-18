@@ -4,7 +4,7 @@ namespace Carlton.Core.Lab.Test.MappingTests;
 public class LabStateMappingTests
 {
 	[Theory, AutoData]
-	public void LabStateMapper_ShouldMap_LabState_To_NavMenuViewModel(
+	internal void LabStateMapper_ShouldMap_LabState_To_NavMenuViewModel(
 		IEnumerable<ComponentConfigurations> componentConfigurations,
 		LabStateViewModelMapper sut)
 	{
@@ -20,7 +20,7 @@ public class LabStateMappingTests
 	}
 
 	[Theory, AutoData]
-	public void LabStateMapper_ShouldMap_LabState_To_ComponentViewerViewModel(
+	internal void LabStateMapper_ShouldMap_LabState_To_ComponentViewerViewModel(
 		IEnumerable<ComponentConfigurations> componentConfigurations,
 		LabStateViewModelMapper sut)
 	{
@@ -36,7 +36,7 @@ public class LabStateMappingTests
 	}
 
 	[Theory, AutoData]
-	public void LabStateMapper_ShouldMap_LabState_To_EventConsoleViewModel(
+	internal void LabStateMapper_ShouldMap_LabState_To_EventConsoleViewModel(
 		IEnumerable<ComponentConfigurations> componentConfigurations,
 		IEnumerable<ComponentRecordedEvent> events,
 		LabStateViewModelMapper sut)
@@ -57,7 +57,7 @@ public class LabStateMappingTests
 	}
 
 	[Theory, AutoData]
-	public void LabStateMapper_ShouldMap_LabState_To_ParametersViewerViewModel(
+	internal void LabStateMapper_ShouldMap_LabState_To_ParametersViewerViewModel(
 		IEnumerable<ComponentConfigurations> componentConfigurations,
 		LabStateViewModelMapper sut)
 	{
@@ -73,7 +73,7 @@ public class LabStateMappingTests
 	}
 
 	[Theory, AutoData]
-	public void LabStateMapper_ShouldMap_LabState_To_BreadCrumbsViewModel(
+	internal void LabStateMapper_ShouldMap_LabState_To_BreadCrumbsViewModel(
 		IEnumerable<ComponentConfigurations> componentConfigurations,
 		LabStateViewModelMapper sut)
 	{
