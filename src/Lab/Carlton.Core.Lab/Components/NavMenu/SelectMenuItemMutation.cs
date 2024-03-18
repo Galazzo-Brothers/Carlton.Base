@@ -1,8 +1,7 @@
 ﻿using Carlton.Core.Lab.State;
-
 namespace Carlton.Core.Lab.Components.NavMenu;
 
-public class SelectMenuItemMutation : IFluxStateMutation<LabState, SelectMenuItemCommand>
+internal sealed class SelectMenuItemMutation : IFluxStateMutation<LabState, SelectMenuItemCommand>
 {
 	public string StateEvent => LabStateEvents.MenuItemSelected.ToString();
 

@@ -1,9 +1,16 @@
 ﻿@using Carlton.Core.Components.Buttons
 @using Carlton.Core.Components.Consoles
+@using Carlton.Core.Lab.Extensions
 @namespace Carlton.Core.Lab.Components.EventConsole
 @attribute [ObserveStateEvent("EventRecorded")]
 @attribute [ObserveStateEvent("EventsCleared")]
 @inherits BaseConnectedComponent<EventConsoleViewModel>
+
+@*
+    Represents an event console component.
+    It observes state events and displays recorded events in a console.
+    It also provides a button to clear the recorded events.
+*@
 
 <div class="event-console">
     <Console IsReadOnly="true" Text="@RecordedEventsText" />

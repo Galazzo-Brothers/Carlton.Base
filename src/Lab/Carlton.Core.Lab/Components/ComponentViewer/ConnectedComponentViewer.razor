@@ -1,10 +1,16 @@
 ﻿@using Carlton.Core.Components.Dropdowns
 @using Carlton.Core.Components.DynamicComponents
+@using Carlton.Core.Lab.Extensions
 @using Carlton.Core.Lab.Models.Commands
 @namespace Carlton.Core.Lab.Components.ComponentViewer
 @attribute [ObserveStateEvent("MenuItemSelected")]
 @attribute [ObserveStateEvent("ParametersUpdated")]
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
+
+@*
+    Represents a component viewer that observes state events.
+    It captures component events and raises a flux event with the captured component event.
+*@
 
 <DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"
                               ComponentParameters="@ViewModel.ComponentParameters.ConvertToDictionary()"

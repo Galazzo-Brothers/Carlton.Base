@@ -4,15 +4,21 @@
 @using Carlton.Core.Lab.State
 @namespace Carlton.Core.Lab.Layouts
 
+@*
+	Represents a layout for displaying multiple pages using tabs.
+*@
 
 <PageTabs>
     <TabContent>
+		 <!-- Displays a tab for viewing component events. -->
         <Tab DisplayText="Component Events" Icon="mdi-flash">
             <LabComponent TViewModel="EventConsoleViewModel" />
         </Tab>
+		 <!-- Displays a tab for viewing component parameters. -->
         <Tab DisplayText="Component Parameters" Icon="mdi-code-braces">
             <LabComponent TViewModel="ParametersViewerViewModel" />
         </Tab>
+		 <!--Displays a tab for viewing component source code. -->
         <Tab DisplayText="Component Source" Icon="mdi-source-branch">
             <LabJsComponent TViewModel="SourceViewerViewModel"
                             JsModule="@ModulePath"
@@ -20,7 +26,6 @@
                             JsParameters="@(new object[] {".dynamic-event-capturing-wrapper"})">
             </LabJsComponent>
         </Tab>
-
     </TabContent>
 </PageTabs>
 
@@ -28,6 +33,7 @@
 
 
 @code {
+	// Path to the JavaScript module for the source code viewer component
     private const string ModulePath = "./_content/Carlton.Core.Components/JavaScriptComponents/JavaScriptMarkupViewer.razor.js";
 }
 

@@ -1,10 +1,15 @@
 ﻿@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Lab.Extensions
 @namespace Carlton.Core.Lab.Components.ParameterViewer
 @attribute [ObserveStateEvent("MenuItemSelected")]
 @attribute [ObserveStateEvent("ParametersUpdated")]
 @inherits BaseConnectedComponent<ParametersViewerViewModel>
 
-
+@*
+    Represents a parameter viewer component.
+    It observes state events and displays the parameters of a component in a JSON viewer console.
+    It allows editing of the parameters and raises an event when the parameters are updated.
+*@
 <div class="parameters-viewer">
     <JsonViewerConsole Obj="ViewModel.ComponentParameters"
                        IsReadOnly="false"

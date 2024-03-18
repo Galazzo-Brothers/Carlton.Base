@@ -1,10 +1,14 @@
 ﻿@using Carlton.Core.Components.Error
 @using Carlton.Core.Components.Spinners
 @using Carlton.Core.Flux.Components
-@using Carlton.Core.Lab.State
+@using Carlton.Core.Lab.State;
 @namespace Carlton.Core.Lab
 @typeparam TViewModel
 
+@*
+    Represents an interop Flux component, for the LabState, that integrates with JavaScript modules.
+    It observes state events and interacts with JavaScript functions based on the current state.
+*@
 
 <InteropFluxComponent 
         TViewModel="TViewModel"
@@ -25,10 +29,21 @@
 </InteropFluxComponent>
 
 @code{
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the JavaScript module to be invoked.
+	/// </summary>
+	[Parameter]
     public string JsModule { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the JavaScript function to be called.
+	/// </summary>
+	[Parameter]
     public string JsFunction { get; set; }
-    [Parameter]
+
+	/// <summary>
+	/// Gets or sets the parameters to be passed to the JavaScript function.
+	/// </summary>
+	[Parameter]
     public object[] JsParameters { get; set; }
 }
