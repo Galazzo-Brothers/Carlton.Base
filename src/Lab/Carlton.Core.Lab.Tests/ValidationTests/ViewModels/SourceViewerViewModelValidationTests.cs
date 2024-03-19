@@ -6,7 +6,7 @@ public class SourceViewerViewModelValidationTests
 	public void SourceViewerViewModel_ShouldPassValidation(string componentSource)
 	{
 		// Arrange
-		var sut = new SourceViewerViewModel(componentSource);
+		var sut = new SourceViewerViewModel { ComponentSource = componentSource };
 
 		// Act
 		var result = sut.TryValidate(out var validationErrors);
@@ -19,7 +19,7 @@ public class SourceViewerViewModelValidationTests
 	public void SourceViewerViewModel_NullSource_ShouldFailValidation()
 	{
 		// Arrange
-		var sut = new SourceViewerViewModel(null);
+		var sut = new SourceViewerViewModel { ComponentSource = null };
 
 		// Act
 		var result = sut.TryValidate(out var validationErrors);
@@ -32,7 +32,7 @@ public class SourceViewerViewModelValidationTests
 	public void SourceViewerViewModel_EmptySource_ShouldFailValidation()
 	{
 		// Arrange
-		var sut = new SourceViewerViewModel(string.Empty);
+		var sut = new SourceViewerViewModel { ComponentSource = string.Empty };
 
 		// Act
 		var result = sut.TryValidate(out var validationErrors);
