@@ -12,7 +12,7 @@ public class ConnectedSourceViewerComponentTests : TestContext
 		var moduleInterop = JSInterop.SetupModule(JavaScriptMarkupViewer.ImportPath);
 		moduleInterop.SetupVoid(JavaScriptMarkupViewer.SetCodeBlock, JavaScriptMarkupViewer.Selector, source);
 		moduleInterop.SetupVoid(JavaScriptMarkupViewer.HighlightCodeBlock, JavaScriptMarkupViewer.Selector);
-		var vm = new SourceViewerViewModel(source);
+		var vm = new SourceViewerViewModel { ComponentSource = source };
 
 		//Act
 		var cut = RenderComponent<ConnectedSourceViewer>(parameters => parameters
@@ -33,7 +33,7 @@ public class ConnectedSourceViewerComponentTests : TestContext
 		var moduleInterop = JSInterop.SetupModule(JavaScriptMarkupViewer.ImportPath);
 		moduleInterop.SetupVoid(JavaScriptMarkupViewer.SetCodeBlock, JavaScriptMarkupViewer.Selector, source);
 		moduleInterop.SetupVoid(JavaScriptMarkupViewer.HighlightCodeBlock, JavaScriptMarkupViewer.Selector);
-		var vm = new SourceViewerViewModel(source);
+		var vm = new SourceViewerViewModel { ComponentSource = source };
 
 		//Act
 		var cut = RenderComponent<ConnectedSourceViewer>(parameters => parameters
