@@ -1,3 +1,13 @@
 ﻿namespace Carlton.Core.Lab.Models.ViewModels;
 
-public sealed record SourceViewerViewModel([property: Required] string ComponentSource);
+/// <summary>
+/// Represents the view model for the source viewer.
+/// </summary>
+public sealed record SourceViewerViewModel
+{
+	/// <summary>
+	/// Gets or initializes the source of the component.
+	/// </summary>
+	[Required]
+	public string ComponentSource { get; init; } = string.Empty;
+}
