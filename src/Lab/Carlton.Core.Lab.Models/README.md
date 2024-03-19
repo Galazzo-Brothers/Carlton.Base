@@ -31,14 +31,12 @@ To use the models defined in the Carlton.Core.Lab.Models project, simply referen
 
 ## Dependencies
 
-The Carlton.Core.Lab.Models project does not have any external dependencies, consist soley of C# poco objects and can be used independently within your application.
+The Carlton.Core.Lab.Models project does not have any external dependencies and consists solely of C# poco objects, making it easy to integrate into your application.
 
 ## Authors
 
-Contributors names and contact info
+- Nicholas Galazzo  
+  Email: nicholas.galazzo@gmail.com
 
-Nicholas Galazzo  
-nicholas.galazzo@gmail.com
-
-Stephen Galazzo  
-Stephen.Galazzo@gmail.com
+- Stephen Galazzo  
+  Email: Stephen.Galazzo@gmail.com
