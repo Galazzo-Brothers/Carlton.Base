@@ -1,10 +1,9 @@
-<h1 align="center">
+<div align="center">
     <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
-</br>
-    Project Carlton
+</div>
 </br>
 
-# Carlton.Core.Utilities 
+# Carlton.Core.Utilities
 
 `Carlton.Core.Utilities` package provides a comprehensive set of extension methods and utilities designed to enhance functionality across the Carlton ecosystem. This collection of utilities is tailored to facilitate common tasks, streamline development processes, and improve overall code efficiency within the Carlton ecosystem.
 
