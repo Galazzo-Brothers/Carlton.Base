@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Layouts\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
+    <ProjectReference Include="..\..\Components\Layouts\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
     <ProjectReference Include="..\Carlton.Core.BrowserStroage\Carlton.Core.BrowserStroage.csproj" />
     <ProjectReference Include="..\Carlton.Core.Flux\Carlton.Core.Flux.csproj" />
   </ItemGroup>
