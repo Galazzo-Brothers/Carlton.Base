@@ -22,11 +22,12 @@
 
 * Addtional Custom DataStructures
 * Composable Disposables
-* Extension Methods for common types such as string, objects and collections
 * System.Text.Json Converters
 * InMemory Logger
-* RandomNumber Utilities
+* Random Number Utilities
 * Additional DataAnnotation Validators
+* Custom Result Pattern Object and Extensions
+* Extension Methods for common types such as string, objects and collections
 
 ## Getting Started
 
