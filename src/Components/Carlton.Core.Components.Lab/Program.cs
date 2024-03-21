@@ -1,7 +1,5 @@
 ﻿using Carlton.Core.Components.Buttons;
 using Carlton.Core.Components.Cards;
-using Carlton.Core.Components.Lab.TestData;
-using Carlton.Core.Components.Layouts.Extensions;
 using Carlton.Core.Components.Navigation;
 using Carlton.Core.Components.Dropdowns;
 using Carlton.Core.Components.Tables;
@@ -13,35 +11,33 @@ using Carlton.Core.Components.Toasts;
 using Carlton.Core.Components.Checkboxes;
 using Carlton.Core.Components.Error;
 using Carlton.Core.Components.Logos;
-namespace Carlton.Core.Library.Lab;
+namespace Carlton.Core.Components.Lab;
 
+/// <summary>
+/// Provides the entry point for the Carlton.Core.Components.Lab Blazor WebAssembly application.
+/// </summary>
 public static class Program
 {
+	/// <summary>
+	/// The entry point for the application.
+	/// </summary>
+	/// <param name="args">Command-line arguments passed to the application.</param>
+	/// <returns>A task representing the asynchronous operation.</returns>
 	public static async Task Main(string[] args)
 	{
 		var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-		var http = new HttpClient()
-		{
-			BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-		};
-
-		builder.Services.AddScoped(sp => http);
-
+		// Configure logging
 		builder.Services.AddLogging
 		(
 			loggingBuilder => loggingBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"))
 											.AddSeq("http://localhost:5341/")
 		);
 
-		builder.Services.AddCarltonLayout(opt =>
-		{
-			opt.ShowPanel = true;
-		});
-
+		// Configure CarltonTestLab
 		builder.Services.AddCarltonTestLab(builder =>
 		{
-			//Base Components
+			// Configure base components and their states
 			builder.AddComponentState<Card>(CardTestStates.DefaultState)
 				   .AddComponentState<ListCard<string>>(CardTestStates.DefaultListState)
 				   .AddComponentState<CountCard>("Accent 1", CardTestStates.CountCard1State)
@@ -73,13 +69,17 @@ public static class Program
 				   .AddComponentState<Toast>("Success", ToastTestStates.Success)
 				   .AddComponentState<Toast>("Info", ToastTestStates.Info)
 				   .AddComponentState<Toast>("Warning", ToastTestStates.Warning)
-				   .AddComponentState<Toast>("Error", ToastTestStates.Error)
-				   .Build();
+				   .AddComponentState<Toast>("Error", ToastTestStates.Error);
 		});
 
 
+		// Add the root component
 		builder.RootComponents.Add<App>("app");
+
+		// Build the application
 		var app = builder.Build();
+
+		// Run the application asynchronously
 		await app.RunAsync().ConfigureAwait(true);
 	}
 }

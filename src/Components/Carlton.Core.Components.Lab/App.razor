@@ -1,24 +1,34 @@
-﻿@namespace Carlton.Core.Library.Lab
+﻿@using Carlton.Core.Components.Layouts.DashboardLayouts
+@using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 @using Carlton.Core.Flux.Debug.Layouts;
 @using Carlton.Core.Lab.Layouts
 @using Carlton.Core.Lab.Pages;
+@namespace Carlton.Core.Components.Lab
 
+@*
+	Represents a router component responsible for routing requests within the application.
+	<param name="AppAssembly">The assembly containing the main application.</param>
+	<param name="AdditionalAssemblies">An array of additional assemblies used by the router.</param>
+*@
 
-<Router AppAssembly="@typeof(Program).Assembly" 
-    AdditionalAssemblies="new[] { typeof(LabPage).Assembly, typeof(FluxDebugLayout).Assembly }">
-    <Found Context="routeData">
-        <FluxDebugView>
-            <DebugContent>
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(FluxDebugLayout)" />
-            </DebugContent>
-            <ApplicationContent>
-                <RouteView RouteData="@routeData" DefaultLayout="@typeof(LabLayout)" />
-            </ApplicationContent>
-        </FluxDebugView>
-    </Found>
-    <NotFound>
-        <p>Sorry, there's nothing at this address.</p>
-    </NotFound>
+<Router AppAssembly="@typeof(Program).Assembly"
+		AdditionalAssemblies="new[] { typeof(LabPage).Assembly, typeof(FluxDebugLayout).Assembly }">
+	<Found Context="routeData">
+		<FluxDebugView>
+			<ApplicationContent>
+				<RouteView RouteData="@routeData" DefaultLayout="@typeof(LabLayout)" />
+			</ApplicationContent>
+			<DebugContent>
+				<RouteView RouteData="@routeData" DefaultLayout="@typeof(FluxDebugLayout)" />
+			</DebugContent>
+		</FluxDebugView>
+	</Found>
+	<NotFound>
+		<LayoutView Layout="@typeof(LabLayout)">
+			<p>Handled 404 page</p>
+		</LayoutView>
+		@* <p>Sorry, there's nothing at this address.</p> *@
+	</NotFound>
 </Router>
 
 
