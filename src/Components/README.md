@@ -6,14 +6,25 @@
 
 # Carlton.Core.Components
 
-The `Carlton.Core.Foundation` packages serve as the foundational backbone for projects within the Carlton Organization ecosystem. These packages encompass essential third-party libraries and utilities required to kickstart development seamlessly.
+Welcome to `Carlton.Core.Components`, a collection of reusable components designed to streamline your Blazor development experience. This repository houses the following projects:
+
+- **Carlton.Core.Components:** This project contains a comprehensive set of UI components for building Blazor applications. From buttons and cards to modals and dropdowns, these components are highly customizable and easy to integrate into your projects.
+
+- **Carlton.Core.Components.Test:** This project contains unit tests for the components in Carlton.Core.Components, ensuring reliability and maintaining quality standards throughout the development process.
+
+- **Carlton.Core.Components.Lab:** Explore and experiment with the components in a live application using Carlton.Core.Components.Lab. This test lab project provides a playground environment where you can interact with the components, tweak their settings, and see how they behave in different scenarios.
+
+- **Layouts:** In addition to individual components, this repository includes a folder for layouts built on top of Carlton.Core.Components. These layouts provide pre-designed UI structures that you can easily plug into your applications, saving you time and effort in designing and styling your interfaces.
+
+Whether you're building a simple prototype or a complex enterprise application, Carlton.Core.Components offers a robust foundation for your Blazor projects. Dive in, explore the components, and accelerate your development workflow with Carlton.Core.Components.
 
 ## Contents
 
-- [Carlton.Core.Foundation](./Carlton.Core.Foundation/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Foundation.Web](./Carlton.Core.Foundation.Web/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Foundation.Tests](./Carlton.Core.Foundation.Tests/README.md): Instructions for running unit tests and validating layout functionality.
-
+- [Carlton.Core.Foundation](./Carlton.Core.Components/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Foundation.Web](./Carlton.Core.Components.Test/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Foundation.Tests](./Carlton.Core.Components.Lab/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Foundation.Tests](./Layouts/README.md): Instructions for running unit tests and validating layout functionality.
+- 
 ## Getting Started
 
 For detailed usage instructions and documentation for each package, please refer to their respective readme files.
