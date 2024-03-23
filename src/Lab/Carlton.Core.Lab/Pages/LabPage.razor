@@ -36,10 +36,10 @@
 		//Intercept URL parameter changes and update the state.
 		if (!string.IsNullOrEmpty(Component) && !string.IsNullOrEmpty(ComponentState))
 		{
-			var command = new SelectComponentStateCommand
-				{ComponentName = Component,	ComponentState = ComponentState.Replace("-", " ") };
+			var command = new InitSelectionCommand
+				{ ComponentName = Component,	ComponentState = ComponentState.Replace("-", " ") };
 
-			await CommandDispatcher.Dispatch<LabState, SelectComponentStateCommand>(this, command, CancellationToken.None);
+			await CommandDispatcher.Dispatch<LabState, InitSelectionCommand>(this, command, CancellationToken.None);
 		}
 
 		await base.OnInitializedAsync();

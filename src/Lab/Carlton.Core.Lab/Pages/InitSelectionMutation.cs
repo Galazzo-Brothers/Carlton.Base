@@ -2,11 +2,11 @@
 using Carlton.Core.Lab.State;
 namespace Carlton.Core.Lab.Pages;
 
-internal sealed class SelectComponentStateMutation : IFluxStateMutation<LabState, SelectComponentStateCommand>
+internal sealed class InitSelectionMutation : IFluxStateMutation<LabState, InitSelectionCommand>
 {
 	public string StateEvent => LabStateEvents.ComponentStateSelected.ToString();
 
-	public LabState Mutate(LabState currentState, SelectComponentStateCommand command)
+	public LabState Mutate(LabState currentState, InitSelectionCommand command)
 	{
 		//Find the component index
 		var componentIndex = currentState.ComponentConfigurations
