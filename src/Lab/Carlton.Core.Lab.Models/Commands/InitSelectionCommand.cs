@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Lab.Components.ComponentViewer;
 
-public class SelectComponentStateCommand
+public class InitSelectionCommand
 {
 	[Required]
 	public required string ComponentName { get; init; }
