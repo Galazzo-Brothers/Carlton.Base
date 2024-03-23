@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </div>
 </br>
 
