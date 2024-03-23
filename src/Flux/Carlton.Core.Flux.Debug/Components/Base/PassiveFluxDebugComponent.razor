@@ -5,19 +5,22 @@
 @typeparam TViewModel
 
 
-<PassiveFluxComponent TState="FluxDebugState"
-                      TViewModel="TViewModel"
-                      PassiveViewModel="PassiveViewModel">
-    <SpinnerContent>
-        <Spinner />
-    </SpinnerContent>
-    <ErrorPrompt Context="error">
-        <ErrorPrompt ErrorHeader="@error.Header"
-                     ErrorIconClass="@error.IconClass"
-                     ErrorMessage="@error.Message"
-                     OnRetry="@error.Recover" />
-    </ErrorPrompt>
-</PassiveFluxComponent>
+<FluxErrorBoundary>
+	<ChildContent>
+		<PassiveFluxWrapper TState="FluxDebugState"
+							TViewModel="TViewModel"
+							PassiveViewModel="PassiveViewModel">
+			<Spinner />
+		</PassiveFluxWrapper>
+	</ChildContent>
+	<ErrorPrompt Context="error">
+		<ErrorPrompt ErrorHeader="@error.Header"
+					 ErrorIconClass="@error.IconClass"
+					 ErrorMessage="@error.Message"
+					 OnRetry="@error.Recover" />
+	</ErrorPrompt>
+</FluxErrorBoundary>
+
 
 @code {
     [Parameter]

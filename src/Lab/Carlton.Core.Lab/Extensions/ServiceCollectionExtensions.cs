@@ -2,6 +2,7 @@
 using Carlton.Core.Flux.Extensions;
 using Carlton.Core.Flux.Debug.Extensions;
 using Carlton.Core.Lab.State;
+using Carlton.Core.Components.Layouts.Extensions;
 namespace Carlton.Core.Lab.Extensions;
 
 /// <summary>
@@ -19,11 +20,16 @@ public static class ServiceCollectionExtensions
 	public static void AddCarltonTestLab(this IServiceCollection services,
 		Action<NavMenuViewModelBuilder> navTreeAct)
 	{
+		/*Layout Services*/
+		services.AddCarltonLayout(opt =>
+		{
+			opt.ShowPanel = true;
+		});
+
 		/*NavMenu Builder*/
 		var NavMenuBuilder = new NavMenuViewModelBuilder();
 		navTreeAct(NavMenuBuilder);
 		var navMenuOptions = NavMenuBuilder.Build();
-
 
 		/*Flux Registers*/
 		var state = new LabState(navMenuOptions);

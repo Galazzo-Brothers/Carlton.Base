@@ -56,7 +56,7 @@ public sealed class NavMenuViewModelBuilder
 	/// Builds the navigation menu view model based on the added components and states.
 	/// </summary>
 	/// <returns>The collection of component configurations for the navigation menu.</returns>
-	public IEnumerable<ComponentConfigurations> Build()
+	internal IEnumerable<ComponentConfigurations> Build()
 	{
 		return _internalState.GroupBy(_ => _.ComponentType)
 					  .Select(group => new ComponentConfigurations

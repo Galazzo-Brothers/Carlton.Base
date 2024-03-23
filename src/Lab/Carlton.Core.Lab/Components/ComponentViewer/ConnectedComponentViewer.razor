@@ -2,8 +2,10 @@
 @using Carlton.Core.Components.DynamicComponents
 @using Carlton.Core.Lab.Extensions
 @using Carlton.Core.Lab.Models.Commands
+@using System.Text.RegularExpressions
 @namespace Carlton.Core.Lab.Components.ComponentViewer
 @attribute [ObserveStateEvent("MenuItemSelected")]
+@attribute [ObserveStateEvent("ComponentStateSelected")]
 @attribute [ObserveStateEvent("ParametersUpdated")]
 @inherits BaseConnectedComponent<ComponentViewerViewModel>
 
@@ -13,7 +15,10 @@
 *@
 
 <DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"
-                              ComponentParameters="@ViewModel.ComponentParameters.ConvertToDictionary()"
-                              OnCapturedComponentEvent="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
+							  ComponentParameters="@ViewModel.ComponentParameters.ConvertToDictionary()"
+							  OnCapturedComponentEvent="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
+
+
+
 
 
