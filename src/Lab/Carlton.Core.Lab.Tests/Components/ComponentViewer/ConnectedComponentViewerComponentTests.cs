@@ -1,11 +1,11 @@
 ﻿using Carlton.Core.Lab.Components.ComponentViewer;
-using Carlton.Core.Lab.Test.Common;
 namespace Carlton.Core.Lab.Test.Components.ComponentViewer;
 
 public class ConnectedComponentViewerComponentTests : TestContext
 {
 	[Theory, AutoData]
-	public void ConnectedComponentViewer_Markup_RendersCorrectly(TestParameters expectedParameters)
+	public void ConnectedComponentViewer_Markup_RendersCorrectly(
+		TestParameters expectedParameters)
 	{
 		//Arrange
 		var vm = new ComponentViewerViewModel

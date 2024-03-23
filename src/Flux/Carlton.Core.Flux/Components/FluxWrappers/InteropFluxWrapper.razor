@@ -5,7 +5,7 @@
 @typeparam TViewModel
 @inherits FluxWrapper<TState, TViewModel>
 @inject IJSRuntime JsRuntime;
-@inject ILogger<InteropFluxComponent<TViewModel, TState>> Logger;
+@inject ILogger<InteropFluxWrapper<TViewModel, TState>> Logger;
 
 @*
 	An interop component for integrating with JavaScript functions and modules in Flux components.

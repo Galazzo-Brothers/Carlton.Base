@@ -7,12 +7,9 @@ internal partial class LabStateViewModelMapper : IViewModelProjectionMapper<LabS
 {
 	public partial TViewModel Map<TViewModel>(LabState state);
 
-	public static BreadCrumbsViewModel LabStateToBreadCrumbsViewModelProjections(LabState state)
-		=> new()
-		{
-			SelectedComponent = state.SelectedComponentType.GetDisplayName(),
-			SelectedComponentState = state.SelectedComponentState.DisplayName
-		};
+	[MapProperty(nameof(LabState.SelectedComponentTypeDisplayName), nameof(BreadCrumbsViewModel.SelectedComponent))]
+	[MapProperty($"{nameof(LabState.SelectedComponentState)}.{nameof(LabState.SelectedComponentState.DisplayName)}", nameof(BreadCrumbsViewModel.SelectedComponentState))]
+	public partial BreadCrumbsViewModel LabStateToBreadCrumbsViewModelProjections(LabState state);
 
 	[MapProperty(nameof(LabState.SelectedComponentType), nameof(ComponentViewerViewModel.ComponentType))]
 	[MapProperty(nameof(LabState.SelectedComponentParameters), nameof(ComponentViewerViewModel.ComponentParameters))]

@@ -10,40 +10,43 @@
     It observes state events and interacts with JavaScript functions based on the current state.
 *@
 
-<InteropFluxComponent 
-        TViewModel="TViewModel"
-        TState="LabState"
-        JsModule="@JsModule"
-        JsFunction="@JsFunction"
-        JsParameters="JsParameters">
-    <SpinnerContent>
-        <Spinner />
-    </SpinnerContent>
-    <ErrorPrompt Context="error">
-        <ErrorPrompt 
-            ErrorHeader="@error.Header"
-            ErrorIconClass="@error.IconClass"
-            ErrorMessage="@error.Message"
-            OnRetry="error.Recover" />
-    </ErrorPrompt>
-</InteropFluxComponent>
+<FluxErrorBoundary>
+	<ChildContent>
+		<InteropFluxWrapper TState="LabState" 
+							TViewModel="TViewModel"
+							JsModule="@JsModule"
+							JsFunction="@JsFunction"
+							JsParameters="JsParameters">
+			<SpinnerContent>
+				<Spinner />
+			</SpinnerContent>
+		</InteropFluxWrapper>
+	</ChildContent>
+	<ErrorPrompt Context="error">
+		<ErrorPrompt ErrorHeader="@error.Header"
+					 ErrorIconClass="@error.IconClass"
+					 ErrorMessage="@error.Message"
+					 OnRetry="error.Recover" />
+	</ErrorPrompt>
+</FluxErrorBoundary>
+
 
 @code{
 	/// <summary>
 	/// Gets or sets the JavaScript module to be invoked.
 	/// </summary>
 	[Parameter]
-    public string JsModule { get; set; }
+	public string JsModule { get; set; }
 
 	/// <summary>
 	/// Gets or sets the JavaScript function to be called.
 	/// </summary>
 	[Parameter]
-    public string JsFunction { get; set; }
+	public string JsFunction { get; set; }
 
 	/// <summary>
 	/// Gets or sets the parameters to be passed to the JavaScript function.
 	/// </summary>
 	[Parameter]
-    public object[] JsParameters { get; set; }
+	public object[] JsParameters { get; set; }
 }

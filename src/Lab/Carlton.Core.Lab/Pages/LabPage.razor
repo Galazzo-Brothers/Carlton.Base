@@ -1,6 +1,11 @@
-﻿@using Carlton.Core.Lab.Layouts
+﻿@using Carlton.Core.Lab.Components.ComponentViewer
+@using Carlton.Core.Lab.Layouts
+@using Carlton.Core.Lab.State
 @namespace Carlton.Core.Lab.Pages
+@inject IMutationCommandDispatcher<LabState> CommandDispatcher
 @page "/"
+@page "/lab"
+@page "/lab/{Component}/{ComponentState}"
 
 @*
 	Represents the main page for the test lab.
@@ -12,3 +17,31 @@
 <!-- Displays tabs for navigating between different lab components. -->
 <LabTabs />
 
+
+@code{
+	/// <summary>
+	/// Gets or sets the name of the component.
+	/// </summary>
+	[Parameter]
+	public string Component { get; set; }
+
+	/// <summary>
+	/// Gets or sets the state of the component.
+	/// </summary>
+	[Parameter]
+	public string ComponentState { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		//Intercept URL parameter changes and update the state.
+		if (!string.IsNullOrEmpty(Component) && !string.IsNullOrEmpty(ComponentState))
+		{
+			var command = new SelectComponentStateCommand
+				{ComponentName = Component,	ComponentState = ComponentState.Replace("-", " ") };
+
+			await CommandDispatcher.Dispatch<LabState, SelectComponentStateCommand>(this, command, CancellationToken.None);
+		}
+
+		await base.OnInitializedAsync();
+	}	
+}

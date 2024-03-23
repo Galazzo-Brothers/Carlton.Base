@@ -6,5 +6,6 @@ internal enum LabStateEvents
 	MenuItemExpandedStateChanged,
 	ParametersUpdated,
 	EventRecorded,
-	EventsCleared
+	EventsCleared,
+	ComponentStateSelected,
 }

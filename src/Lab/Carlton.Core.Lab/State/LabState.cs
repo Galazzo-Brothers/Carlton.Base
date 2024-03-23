@@ -15,12 +15,12 @@ public record LabState
 	public IReadOnlyList<ComponentConfigurations> ComponentConfigurations { get; init; }
 
 	/// <summary>
-	/// Gets or sets the index of the selected component.
+	/// Gets the index of the selected component.
 	/// </summary>
 	public int SelectedComponentIndex { get; init; }
 
 	/// <summary>
-	/// Gets or sets the index of the state of the selected component.
+	/// Gets the index of the state of the selected component.
 	/// </summary>
 	public int SelectedComponentStateIndex { get; init; }
 
@@ -30,18 +30,23 @@ public record LabState
 	public ComponentState SelectedComponentState { get => ComponentConfigurations.ElementAt(SelectedComponentIndex).ComponentStates.ElementAt(SelectedComponentStateIndex); }
 
 	/// <summary>
-	/// Gets or sets the type of the selected component.
+	/// Gets the type of the selected component.
 	/// </summary>
 	[JsonConverter(typeof(JsonTypeConverter))]
 	public Type SelectedComponentType { get { return ComponentConfigurations.ElementAt(SelectedComponentIndex).ComponentType; } }
 
 	/// <summary>
-	/// Gets or sets the parameters of the selected component.
+	/// Gets the type display name of the selected component.
+	/// </summary>
+	public string SelectedComponentTypeDisplayName { get { return SelectedComponentType.GetDisplayName(); } }
+
+	/// <summary>
+	/// Gets the parameters of the selected component.
 	/// </summary>
 	public object SelectedComponentParameters { get; init; }
 
 	/// <summary>
-	/// Gets or sets the recorded events of all components.
+	/// Gets the recorded events of all components.
 	/// </summary>
 	public IEnumerable<ComponentRecordedEvent> ComponentEvents
 	{
