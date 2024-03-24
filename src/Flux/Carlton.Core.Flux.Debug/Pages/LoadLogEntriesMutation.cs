@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
+﻿namespace Carlton.Core.Flux.Debug.Pages;
 
 public class LoadLogMessagesMutation : IFluxStateMutation<FluxDebugState, LoadLogMessagesCommand>
 {
