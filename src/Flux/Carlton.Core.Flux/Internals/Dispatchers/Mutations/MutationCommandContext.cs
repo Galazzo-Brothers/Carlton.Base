@@ -1,8 +1,12 @@
-﻿namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations;
+﻿using Carlton.Core.Utilities.JsonConverters;
+using System.Text.Json.Serialization;
+
+namespace Carlton.Core.Flux.Internals.Dispatchers.Mutations;
 
 internal class MutationCommandContext<TCommand>(TCommand command) : BaseRequestContext
 {
 	public override FluxOperationKind FluxOperationKind => FluxOperationKind.MutationCommand;
+	[JsonConverter(typeof(JsonTypeConverter))]
 	public override Type FluxOperationType => MutationCommand.GetType();
 
 	public TCommand MutationCommand { get; private set; } = command;

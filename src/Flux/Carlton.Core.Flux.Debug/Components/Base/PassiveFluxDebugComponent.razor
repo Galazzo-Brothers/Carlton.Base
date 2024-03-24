@@ -10,7 +10,9 @@
 		<PassiveFluxWrapper TState="FluxDebugState"
 							TViewModel="TViewModel"
 							PassiveViewModel="PassiveViewModel">
-			<Spinner />
+			<SpinnerContent>
+				<Spinner />
+			</SpinnerContent>
 		</PassiveFluxWrapper>
 	</ChildContent>
 	<ErrorPrompt Context="error">
@@ -23,6 +25,6 @@
 
 
 @code {
-    [Parameter]
-    public TViewModel PassiveViewModel { get; set; }
+	[Parameter]
+	public TViewModel PassiveViewModel { get; set; }
 }

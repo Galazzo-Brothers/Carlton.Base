@@ -17,6 +17,10 @@
 	cursor: pointer;
 }
 
+	.nav-menu .nav-item:has(a.active) {
+		background-color: var(--selected-color);
+	}
+
 	.nav-menu .nav-item ::deep a {
 		width: 100%;
 		color: white;
