@@ -4,14 +4,12 @@
 @using Carlton.Core.Components.Layouts.DashboardLayouts.TabbedPanelLayout
 @using Carlton.Core.Components.Navigation
 @using Carlton.Core.Components.Spinners
-@using Carlton.Core.Flux.Debug.Storage
 @using Microsoft.AspNetCore.Components.Routing
 @using Carlton.Core.Components.Layouts
 @using Carlton.Core.Flux.Debug.Components.Nav
 @using Carlton.Core.Flux.Debug.Layouts
 @namespace Carlton.Core.Flux.Debug.Layouts
 @inherits LayoutComponentBase
-@inject ILogsDataAccess LogsDataAccess
 @inject NavigationManager NavigationManager
 @inject IFluxState<FluxDebugState> FluxDebugState
 @inject MemoryLogger MemoryLogger

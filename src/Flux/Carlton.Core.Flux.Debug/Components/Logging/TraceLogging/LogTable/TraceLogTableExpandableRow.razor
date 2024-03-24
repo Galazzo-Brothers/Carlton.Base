@@ -45,7 +45,7 @@
     public EventCallback<TraceLogMessage> SelectedTraceLogMessageChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TraceLogMessage> TraceLogMessageExapansionChanged { get; set; }
+    public EventCallback<TraceLogMessage> TraceLogMessageExpansionChanged { get; set; }
 
     private bool HasChildren => TraceLogMessageGroup.ChildEntries.Any();
 
@@ -73,7 +73,7 @@
         => new CssBuilder("child-row")
                 .AddClass("table-row")
                 .AddClass("selected", SelectedTraceLogMessage == traceLogMessage)
-                .AddClass("collapased", !IsExpanded)
+                .AddClass("collapsed", !IsExpanded)
                 .Build();
 
 
@@ -88,6 +88,6 @@
             return;
 
         var changedTraceLogMessage = TraceLogMessageGroup.ParentEntry;
-        TraceLogMessageExapansionChanged.InvokeAsync(changedTraceLogMessage);
+		TraceLogMessageExpansionChanged.InvokeAsync(changedTraceLogMessage);
     }
 }

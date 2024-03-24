@@ -1,4 +1,5 @@
 ﻿using Carlton.Core.Components.Tables;
+using Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
 using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Filtering;
 using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;

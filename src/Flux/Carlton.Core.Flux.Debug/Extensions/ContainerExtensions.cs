@@ -1,7 +1,5 @@
 ﻿using Carlton.Core.Flux.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Carlton.Core.BrowserStroage;
-using Carlton.Core.Flux.Debug.Storage;
 using BlazorDB;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
@@ -15,14 +13,11 @@ public static class ContainerExtensions
 		var debugState = new FluxDebugState();
 		RegisterIndexDbStorage(services);
 
-		services.AddSingleton<ILogsDataAccess, LogsDataAccess>();
-
 		services.AddCarltonFlux(debugState, opts =>
 		{
 			opts.AddHttpInterception = false;
 			opts.AddLocalStorage = false;
 		});
-		services.AddSingleton<IIndexDbService<IndexedLogEntry>>(_ => new IndexDbService<IndexedLogEntry>(_.GetService<IBlazorDbFactory>(), CarltonFlux, Logs));
 	}
 
 	private static void RegisterIndexDbStorage(IServiceCollection services)

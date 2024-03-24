@@ -59,6 +59,6 @@
 		background-color: var(--table-row-selected-background-color);
 	}
 
-	.child-row.collapased {
+	.child-row.collapsed {
 		display: none;
 	}
