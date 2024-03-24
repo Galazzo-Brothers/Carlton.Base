@@ -1,12 +1,11 @@
 ﻿@using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
+@using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
 @namespace Carlton.Core.Components.Flux.Debug.Components
 @attribute [ObserveStateEvent("LocalStorageCleared")]
 @attribute [ObserveStateEvent("SelectedTraceLogMessageChanged")]
 @attribute [ObserveStateEvent("TraceLogMessageExpandedChanged")]
 @attribute [ObserveStateEvent("TraceLogTablePageChanged")]
 @attribute [ObserveStateEvent("TraceLogTableRowsPerPageChanged")]
-
-
 @inherits BaseConnectedComponent<TraceLogViewerViewModel>
 
 

@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Utilities.Validation;
-namespace Carlton.Core.Flux.Debug.Models.ViewModels;
+namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
 
 public record EventLogViewerViewModel
 {

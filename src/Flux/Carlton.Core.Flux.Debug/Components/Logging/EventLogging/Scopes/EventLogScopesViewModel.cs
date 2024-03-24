@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Debug.Models.ViewModels;
+﻿namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Scopes;
 
 public record EventLogScopesViewModel
 {
