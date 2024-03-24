@@ -1,6 +1,6 @@
-﻿namespace Carlton.Core.Flux.Debug.State.Mutations;
+﻿namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 
-public class SelectedLogMessageMutation : IFluxStateMutation<FluxDebugState, ChangeSelectedLogMessageCommand>
+public sealed class SelectedLogMessageMutation : IFluxStateMutation<FluxDebugState, ChangeSelectedLogMessageCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.SelectedLogMessageChanged.ToString();
 

@@ -1,8 +1,6 @@
-﻿using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Filtering;
+﻿namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Filtering;
 
-namespace Carlton.Core.Flux.Debug.State.Mutations;
-
-public class EventLogFiltersMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogLevelFiltersCommand>
+public sealed class EventLogFilterLevelsMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogLevelFiltersCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.EventLogFilterTextChanged.ToString();
 

@@ -1,8 +1,6 @@
-﻿using Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
+﻿namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 
-namespace Carlton.Core.Flux.Debug.State.Mutations;
-
-public class EventLogPageIndexMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogPageCommand>
+public class EventLogSelectedPageMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogPageCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.EventLogPageChanged.ToString();
 
