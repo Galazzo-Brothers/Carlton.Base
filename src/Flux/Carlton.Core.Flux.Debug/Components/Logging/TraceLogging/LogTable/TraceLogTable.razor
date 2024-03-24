@@ -1,6 +1,7 @@
 ﻿@using Carlton.Core.Components.Tables
 @using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @using Carlton.Core.Flux.Debug.Extensions
+@using Carlton.Core.Foundation.State
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
 
 <div class="trace-log-table">
@@ -19,7 +20,7 @@
                 SelectedTraceLogMessage="SelectedTraceLogMessage"
                 IsExpanded="IsExpanded(group.ParentEntry)"
                 SelectedTraceLogMessageChanged="OnSelectedTraceLogMessageChanged"
-                TraceLogMessageExapansionChanged="OnTraceLogMessageExapansionChanged" />
+                TraceLogMessageExpansionChanged="OnTraceLogMessageExapansionChanged" />
         </RowTemplate>
     </Table>
 </div>
