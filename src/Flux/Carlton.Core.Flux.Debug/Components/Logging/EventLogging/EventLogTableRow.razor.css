@@ -10,7 +10,7 @@
     }
 
 
-    .table-cell:nth-of-type(2) .pill {
+    .table-cell .pill {
         margin-left: auto;
         margin-right: auto;
     }

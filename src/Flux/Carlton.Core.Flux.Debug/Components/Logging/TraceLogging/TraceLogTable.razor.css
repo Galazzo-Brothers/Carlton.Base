@@ -12,6 +12,13 @@
 	margin-right: 20px;
 }
 
+	::deep .header-cell:first-of-type {
+		visibility: hidden;
+		max-width: 25px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
 
 ::deep .header-cell .heading-text {
 	margin-left: auto;

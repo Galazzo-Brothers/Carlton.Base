@@ -11,7 +11,7 @@
 }
 
 /* Base Styles for Pagination Row */
-.pagination.table-row {
+.pagination-row.table-row {
     width: 100%;
     display: flex;
     justify-content: right;
