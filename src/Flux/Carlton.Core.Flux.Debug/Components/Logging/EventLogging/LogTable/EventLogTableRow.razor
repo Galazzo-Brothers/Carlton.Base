@@ -1,5 +1,5 @@
-﻿@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
-@using BlazorComponentUtilities
+﻿@using BlazorComponentUtilities
+@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 
 <div class="@TableRowCss" @onclick="() => LogMessageSelected.InvokeAsync(LogEntry)">
     <div class="table-cell"><span class="cell-text">@LogEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>

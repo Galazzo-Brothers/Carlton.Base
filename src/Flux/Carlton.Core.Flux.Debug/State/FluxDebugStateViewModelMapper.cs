@@ -1,4 +1,9 @@
 ﻿#pragma warning disable RMG020 // Source member is not mapped to any target member
+using Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
+using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Scopes;
+using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.ContextDetails;
+using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.RequestObjectDetails;
+using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
 using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.State;
 

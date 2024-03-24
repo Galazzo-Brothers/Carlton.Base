@@ -1,7 +1,7 @@
 ﻿@using Carlton.Core.Components.Tables
 @using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
 @using Carlton.Core.Flux.Debug.Extensions
-@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging
+@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
 
 <div class="trace-log-table">
     <Table Headings="Headings"
@@ -42,7 +42,7 @@
     public EventCallback<SelectedTraceLogMessageChangedArgs> SelectedTraceLogMessageChanged { get; set; }
 
     [Parameter]
-    public EventCallback<TraceLogMessageExapansionChangedArgs> TraceLogMessageExapansionChanged { get; set; }
+    public EventCallback<TraceLogMessageExpansionChangedArgs> TraceLogMessageExapansionChanged { get; set; }
 
     [Parameter]
     public EventCallback<PageChangeEventArgs> PageChanged { get; set; }
@@ -79,7 +79,7 @@
     {
         var index = TraceLogMessageGroups.GetIndex(traceLogMessage);
         var isExpanded = !ExpandedRowIndexes.Contains(index);
-        var args = new TraceLogMessageExapansionChangedArgs(index, isExpanded);
+        var args = new TraceLogMessageExpansionChangedArgs(index, isExpanded);
         TraceLogMessageExapansionChanged.InvokeAsync(args);
     }
 }
