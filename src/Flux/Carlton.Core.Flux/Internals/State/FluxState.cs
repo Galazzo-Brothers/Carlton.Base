@@ -11,7 +11,7 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 
 	public TState CurrentState { get => _state; }
 
-	public async Task<Result<TCommand, FluxError>> ApplyMutationCommand<TCommand>(TCommand command)
+	public async Task<Result<string, FluxError>> ApplyMutationCommand<TCommand>(TCommand command)
 	{
 		try
 		{
@@ -33,7 +33,7 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 			await (StateChanged?.GetInvocationList()?.RaiseAsyncDelegates(args) ?? Task.CompletedTask);
 
 			//Return StateEvent
-			return command;
+			return mutation.StateEvent;
 
 			//Capture MutationFunc for auditing
 			TState mutationFunc(TState state, object command) => mutation.Mutate(state, command);

@@ -13,7 +13,7 @@ internal sealed class ViewModelValidationDecorator<TState>(
 		return vmResult.Match
 		(
 			vm => ValidateViewModelResult(vm, context),
-			err => err.ToResult<TViewModel, FluxError>()
+			err => err
 		);
 	}
 
@@ -31,7 +31,6 @@ internal sealed class ViewModelValidationDecorator<TState>(
 
 		//Return Error
 		context.MarkAsInvalid(validationErrors);
-		return ValidationError(validationErrors).ToResult<TViewModel, FluxError>();
-
+		return ValidationError(validationErrors);
 	}
 }

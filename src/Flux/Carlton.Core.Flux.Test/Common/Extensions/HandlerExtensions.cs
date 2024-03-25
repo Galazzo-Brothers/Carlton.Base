@@ -12,10 +12,10 @@ internal static class HandlerExtensions
 			   .Returns(Task.FromResult((Result<T, FluxError>)response));
 	}
 
-	public static void SetupHandler<T>(this IMutationCommandHandler<TestState> handler)
+	public static void SetupHandler<T>(this IMutationCommandHandler<TestState> handler, string StateEvent)
 	{
 		handler.Handle(Arg.Any<MutationCommandContext<T>>(), Arg.Any<CancellationToken>())
-			   .Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult()));
+			   .Returns(Task.FromResult((Result<MutationCommandResult, FluxError>)new MutationCommandResult(StateEvent)));
 	}
 
 	public static void VerifyHandler<TViewModel>(this IViewModelQueryHandler<TestState> handler)

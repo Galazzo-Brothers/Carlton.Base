@@ -5,7 +5,7 @@ namespace Carlton.Core.Flux.Contracts;
 /// <summary>
 /// Represents the result of a mutation command.
 /// </summary>
-public record MutationCommandResult();
+public record MutationCommandResult(string StateEvent);
 
 /// <summary>
 /// Defines a dispatcher for mutation commands in the Flux framework.

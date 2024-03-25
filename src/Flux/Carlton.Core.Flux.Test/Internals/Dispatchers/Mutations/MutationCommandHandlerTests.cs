@@ -8,10 +8,11 @@ public class MutationCommandHandlerTests
 	internal async Task Handle_ShouldCallStateMutation(
 		[Frozen] IMutableFluxState<TestState> state,
 		MutationCommandHandler<TestState> sut,
-		TestCommand command)
+		TestCommand command,
+		string stateEvent)
 	{
 		//Arrange
-		state.ApplyMutationCommand(command).Returns(command);
+		state.ApplyMutationCommand(command).Returns(stateEvent);
 		var context = new MutationCommandContext<TestCommand>(command);
 
 		//Act

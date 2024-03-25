@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Carlton.Core.Flux.Internals.Contracts;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
-using Carlton.Core.Foundation.Tests;
 namespace Carlton.Core.Flux.Tests.Internals.Dispatchers.ViewModels.Decorators;
 
 public class ViewModelHttpDecoratorTests
@@ -71,10 +70,11 @@ public class ViewModelHttpDecoratorTests
 		ViewModelHttpDecorator<TestState> sut,
 		FluxServerCommunicationAlwaysGet sender,
 		ViewModelQueryContext<TestViewModel> context,
-		TestViewModel expectedResult)
+		TestViewModel expectedResult,
+		string stateEvent)
 	{
 		//Arrange
-		fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
+		fluxState.ApplyMutationCommand(expectedResult).Returns(stateEvent);
 		var request = mockHttp.When(FluxServerCommunicationAlwaysGet.MockRefreshUrl)
 			 .Respond(HttpStatusCode.OK, "application/json", JsonSerializer.Serialize(expectedResult));
 		decorated.SetupQueryDispatcher(expectedResult);
@@ -102,11 +102,12 @@ public class ViewModelHttpDecoratorTests
 		FluxServerCommunicationWithComponentParametersGet sender,
 		ViewModelQueryContext<TestViewModel> context,
 		TestViewModel expectedResult,
+		string stateEvent,
 		int clientId,
 		int userId)
 	{
 		//Arrange
-		fluxState.ApplyMutationCommand(expectedResult).Returns(expectedResult);
+		fluxState.ApplyMutationCommand(expectedResult).Returns(stateEvent);
 		sender.ClientId = clientId;
 		sender.UserId = userId;
 		var httpUrl = FluxServerCommunicationWithComponentParametersGet.MockRefreshUrlTemplate

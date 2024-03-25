@@ -27,6 +27,7 @@ internal sealed class MutationExceptionDecorator<TState>(
 	private MutationCommandResult HandleSuccess<TCommand>(MutationCommandResult result, MutationCommandContext<TCommand> context)
 	{
 		_logger.MutationCommandCompleted(context.FluxOperationTypeName);
+		context.MarkAsSucceeded(result);
 		return result;
 	}
 

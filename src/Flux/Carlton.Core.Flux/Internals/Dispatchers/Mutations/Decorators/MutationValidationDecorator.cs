@@ -18,6 +18,6 @@ internal sealed class MutationValidationDecorator<TState>(IMutationCommandDispat
 
 		//Return ValidationError
 		context.MarkAsInvalid(validationErrors);
-		return ValidationError(validationErrors).ToResult<MutationCommandResult, FluxError>();
+		return ValidationError(validationErrors);
 	}
 }

@@ -27,13 +27,13 @@ internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<T
 
 			//If http request or parse failed, return error
 			if (!response.IsSuccess)
-				return response;
+				return response.GetError();
 		}
 
 		return await _decorated.Dispatch(sender, context, cancellationToken);
 	}
 
-	private async Task<Result<MutationCommandResult, FluxError>> SendRequest<TCommand>(
+	private async Task<Result<bool, FluxError>> SendRequest<TCommand>(
 		HttpVerb httpVerb,
 		Result<string, FluxError> serverUrlResult,
 		MutationCommandContext<TCommand> context,
@@ -53,14 +53,14 @@ internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<T
 						HttpVerb.PUT => await Client.PutAsJsonAsync(serverUrl, context, cancellationToken),
 						HttpVerb.PATCH => await Client.PatchAsJsonAsync(serverUrl, context, cancellationToken),
 						HttpVerb.DELETE => await Client.DeleteAsync(serverUrl, cancellationToken),
-						_ => UnsupportedHttpVerbError(httpVerb).ToResult<HttpResponseMessage, FluxError>(),
+						_ => UnsupportedHttpVerbError(httpVerb),
 					};
 
 					//Parse Http Response
 					return await response.Match
 					(
 						async serverResponse => await HandleSuccess(context, updateWithResponseBody, serverUrl, serverResponse, cancellationToken),
-						err => err.ToResultTask<MutationCommandResult, FluxError>()
+						err => err.ToResultTask<bool, FluxError>()
 					);
 				}
 				catch (HttpRequestException ex)
@@ -76,11 +76,11 @@ internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<T
 					return JsonError(ex);
 				}
 			},
-			err => err.ToResultTask<MutationCommandResult, FluxError>()
+			err => err.ToResultTask<bool, FluxError>()
 		);
 	}
 
-	private static async Task<Result<MutationCommandResult, FluxError>> HandleSuccess<TCommand>(
+	private static async Task<Result<bool, FluxError>> HandleSuccess<TCommand>(
 		MutationCommandContext<TCommand> context,
 		bool updateWithResponseBody,
 		string serverUrl,
@@ -114,7 +114,8 @@ internal sealed class MutationHttpDecorator<TState>(IMutationCommandDispatcher<T
 			context.MarkAsHttpCallSucceeded("Response content was not text/json");
 		}
 
-		return new MutationCommandResult();
+		//No errors
+		return true;
 	}
 }
 
