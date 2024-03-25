@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Riok.Mapperly" Version="3.3.0" />
   </ItemGroup>
 
@@ -25,5 +21,9 @@
     <ProjectReference Include="..\Carlton.Core.BrowserStroage\Carlton.Core.BrowserStroage.csproj" />
     <ProjectReference Include="..\Carlton.Core.Flux\Carlton.Core.Flux.csproj" />
   </ItemGroup>
+
+				<ItemGroup>
+								<InternalsVisibleTo Include="Carlton.Core.Flux" />
+				</ItemGroup>
 
 </Project>

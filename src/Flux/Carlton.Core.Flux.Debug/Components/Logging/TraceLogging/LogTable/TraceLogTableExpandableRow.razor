@@ -3,7 +3,7 @@
 @using Carlton.Core.Flux.Debug.Components.Logging
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
 
-
+@* Represents a row in the trace log table *@
 <div class="@TableRowCss">
     <div class="table-cell chevron-cell"><span class="@ChevronCss" @onclick="ChevronClick"></span></div>
     <div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
@@ -14,10 +14,10 @@
     <div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClick="() => RowClick(TraceLogMessageGroup.ParentEntry)" /></span></div>
 </div>
 
-
-
+<!-- Loop through child entries -->
 @foreach (var child in TraceLogMessageGroup.ChildEntries)
 {
+	<!-- Represents a row for a child entry in the trace log table -->
     <div class="@ChildRowCss(child)">
         <div class="table-cell"></div>
         <div class="table-cell"><span class="cell-text">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
@@ -32,19 +32,34 @@
 
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the trace log message group for this row.
+	/// </summary>
+	[Parameter]
     public required TraceLogMessageGroup TraceLogMessageGroup { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the selected trace log message.
+	/// </summary>
+	[Parameter]
     public TraceLogMessage? SelectedTraceLogMessage { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Gets or sets a value indicating whether the row is expanded.
+	/// </summary>
+	[Parameter]
     public bool IsExpanded { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Event callback for when the selected trace log message changes.
+	/// </summary>
+	[Parameter]
     public EventCallback<TraceLogMessage> SelectedTraceLogMessageChanged { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Event callback for when the trace log message expansion changes.
+	/// </summary>
+	[Parameter]
     public EventCallback<TraceLogMessage> TraceLogMessageExpansionChanged { get; set; }
 
     private bool HasChildren => TraceLogMessageGroup.ChildEntries.Any();

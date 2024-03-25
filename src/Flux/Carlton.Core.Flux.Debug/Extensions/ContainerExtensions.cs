@@ -1,17 +1,24 @@
 ﻿using Carlton.Core.Flux.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using BlazorDB;
+using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
+/// <summary>
+/// Provides extension methods for configuring Carlton Flux with debug options and logging services.
+/// </summary>
 public static class ContainerExtensions
 {
-	private const string CarltonFlux = "CarltonFlux";
-	private const string Logs = "Logs";
-
+	/// <summary>
+	/// Adds Carlton Flux with debug options to the specified <see cref="IServiceCollection"/>.
+	/// </summary>
+	/// <typeparam name="TState">The type of the state used by Carlton Flux.</typeparam>
+	/// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
+	/// <param name="state">The initial state for Carlton Flux.</param>
 	public static void AddCarltonFluxDebug<TState>(this IServiceCollection services, TState state)
 	{
 		var debugState = new FluxDebugState();
-		RegisterIndexDbStorage(services);
+
+		RegisterLogging(services);
 
 		services.AddCarltonFlux(debugState, opts =>
 		{
@@ -20,28 +27,16 @@ public static class ContainerExtensions
 		});
 	}
 
-	private static void RegisterIndexDbStorage(IServiceCollection services)
+	private static void RegisterLogging(IServiceCollection services)
 	{
-		services.AddBlazorDB(options =>
+		var logger = new MemoryLogger();
+		services.AddSingleton(logger);
+		services.AddLogging(b =>
 		{
-			options.Name = "CarltonFlux";
-			options.Version = 1;
-			options.StoreSchemas =
-			[
-				new()
-				{
-					Name = "Logs",
-					PrimaryKey = "key",
-					Indexes = ["indexDate"]
-				},
-				new()
-				{
-					Name = "AppState",
-					PrimaryKey = "id",
-					PrimaryKeyAuto = true
-				}
-			];
+			b.AddProvider(new MemoryLoggerProvider(logger));
 		});
+
+		services.AddSingleton<ILogger, MemoryLogger>();
 	}
 }
 

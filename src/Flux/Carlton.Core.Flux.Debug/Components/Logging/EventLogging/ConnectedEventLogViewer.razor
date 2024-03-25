@@ -9,6 +9,7 @@
 @attribute [ObserveStateEvent("EventLogTableOrderingChanged")]
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
+@* Component for viewing event logs. *@
 <EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 
                 SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
                 EventLogViewerFilterState="@ViewModel.EventLogViewerFilterState"

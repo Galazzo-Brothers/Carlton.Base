@@ -1,21 +1,10 @@
-using System.Collections.ObjectModel;
 using Carlton.Core.Flux.Debug.Extensions;
 using Carlton.Core.Foundation.State;
 using Carlton.Core.Utilities.Extensions;
 namespace Carlton.Core.Flux.Debug.State;
 
-public record FluxDebugState
+internal sealed record FluxDebugState
 {
-	public FluxDebugState()
-	{
-
-	}
-	public FluxDebugState(object state, ReadOnlyCollection<LogMessage> logMessages)
-	{
-		State = state;
-		LogMessages = logMessages;
-	}
-
 	//Logs
 	public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
 

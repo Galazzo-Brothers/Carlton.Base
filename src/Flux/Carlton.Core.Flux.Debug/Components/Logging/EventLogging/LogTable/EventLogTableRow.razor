@@ -1,6 +1,7 @@
 ﻿@using BlazorComponentUtilities
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 
+@* Component for displaying a row in a log table in a debug environment. *@
 <div class="@TableRowCss" @onclick="() => LogMessageSelected.InvokeAsync(LogEntry)">
     <div class="table-cell"><span class="cell-text">@LogEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
     <div class="table-cell"><span class="cell-text">@LogEntry.Message</span></div>
@@ -11,13 +12,22 @@
 
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the log message associated with this row.
+	/// </summary>
+	[Parameter]
     public required LogMessage LogEntry { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Gets or sets a value indicating whether this row is selected.
+	/// </summary>
+	[Parameter]
     public bool IsSelected { get; set; } = false;
 
-    [Parameter]
+	/// <summary>
+	/// Event callback for when a log message row is selected.
+	/// </summary>
+	[Parameter]
     public EventCallback<LogMessage> LogMessageSelected { get; set; }
 
     public string TableRowCss

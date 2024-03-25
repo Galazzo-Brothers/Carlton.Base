@@ -2,6 +2,8 @@
 @using Carlton.Core.Components.Footers
 @using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 @using Carlton.Core.Components.Layouts.DashboardLayouts.TabbedPanelLayout
+@using Carlton.Core.Components.Layouts.FullScreen
+@using Carlton.Core.Components.Logos
 @using Carlton.Core.Components.Navigation
 @using Carlton.Core.Components.Spinners
 @using Microsoft.AspNetCore.Components.Routing
@@ -14,8 +16,10 @@
 @inject IFluxState<FluxDebugState> FluxDebugState
 @inject MemoryLogger MemoryLogger
 @inject IMutationCommandDispatcher<FluxDebugState> Dispatcher
+@inject IFullScreenState FullScreenState
 @layout DashboardTabbedPanelLayout
 
+@* Layout component for the Flux Debug layout. *@
 @if (LoadingComplete)
 {
     @Body
@@ -25,24 +29,37 @@ else
     <Spinner />
 }
 
-
 <SectionContent SectionId="DashboardPanelLayout.Nav">
+	<!-- FluxDebugNavMenu component -->
     <FluxDebugNavMenu />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.HeaderPageTitle">
+	<!-- BreadCrumbs component -->
     <BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.HeaderActionContent">
+	<!-- HeaderActions component -->
     <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="HeaderActionsViewModel" />
 </SectionContent>
 
+<SectionContent SectionId="DashboardPanelLayout.Logo">
+	<!-- Displays the logo. -->
+	<Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="FullScreenState.IsFullScreen" />
+</SectionContent>
+
 <SectionContent SectionId="DashboardPanelLayout.Footer">
+	<!-- Footer component -->
     <Footer />
 </SectionContent>
 
 @code {
+	// Application name
+	private const string AppName = "Carlton Flux Debug";
+	// URL of the application's logo
+	private const string LogoUrl = "_content/Carlton.Core.Components/images/CarltonLogo.png";
+
     private bool LoadingComplete { get; set; } = false;
 
     private HeaderActionsViewModel HeaderActionsViewModel { get; } 

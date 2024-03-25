@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
 
-public sealed class SelectedTraceLogMessageMutation : IFluxStateMutation<FluxDebugState, ChangeSelectedTraceLogMessageCommand>
+internal sealed class SelectedTraceLogMessageMutation : IFluxStateMutation<FluxDebugState, ChangeSelectedTraceLogMessageCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.SelectedTraceLogMessageChanged.ToString();
 

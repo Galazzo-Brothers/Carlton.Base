@@ -2,6 +2,7 @@
 @using Carlton.Core.Utilities.Extensions;
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 
+@* Component for displaying an event log table in a debug environment. *@
 <div class="log-table">
     <Table Headings="Headings"
            Items="LogMessages"
@@ -25,25 +26,47 @@
 </div>
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the list of log messages to display.
+	/// </summary>
+	[Parameter]
     public List<LogMessage> LogMessages { get; set; } = new();
 
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the index of the selected log message.
+	/// </summary>
+	[Parameter]
     public int SelectedLogMessageIndex { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the state of the event log table.
+	/// </summary>
+	[Parameter]
     public required TableState EventLogTableState { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Event callback for when a log message is selected.
+	/// </summary>
+	[Parameter]
     public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Event callback for page change.
+	/// </summary>
+	[Parameter]
     public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
 
-    [Parameter]
+	/// <summary>
+	/// Event callback for rows per page change.
+	/// </summary>
+	[Parameter]
     public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
-    [Parameter]
+
+	/// <summary>
+	/// Event callback for sorting items.
+	/// </summary>
+	[Parameter]
     public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
     private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);

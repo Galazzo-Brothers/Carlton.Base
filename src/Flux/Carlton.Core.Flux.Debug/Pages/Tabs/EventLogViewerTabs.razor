@@ -6,12 +6,14 @@
 @using Carlton.Core.Flux.Debug.State
 @namespace Carlton.Core.Flux.Debug.Layouts
 
-
+@* Represents a layout component with tabs for displaying log details and log scopes. *@
 <PageTabs>
     <TabContent>
+		<!-- Log Details Tab -->
         <Tab DisplayText="Log Details" Icon="mdi-information">
             <FluxDebugComponent TViewModel="EventLogDetailsViewModel" />
         </Tab>
+		<!-- Log Scopes Tab -->
         <Tab DisplayText="Log Scopes" Icon="mdi-file-tree">
             <FluxDebugComponent TViewModel="EventLogScopesViewModel" />
         </Tab>

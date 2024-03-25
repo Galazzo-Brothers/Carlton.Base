@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
 
-public sealed class TraceLogMessageRowExpansionMutation : IFluxStateMutation<FluxDebugState, ChangeLogMessageExpansionCommand>
+internal sealed class TraceLogMessageRowExpansionMutation : IFluxStateMutation<FluxDebugState, ChangeLogMessageExpansionCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.TraceLogMessageExpandedChanged.ToString();
 

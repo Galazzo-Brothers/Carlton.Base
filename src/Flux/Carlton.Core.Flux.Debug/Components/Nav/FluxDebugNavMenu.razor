@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Components.Routing;
 @namespace Carlton.Core.Flux.Debug.Components.Nav
 
-
+@* Navigation menu component for flux debugging environment. *@
 <nav class="nav-menu">
+	<!-- Logs link -->
     <div class="nav-item">
         <NavLink href="/debug/logs" Match="NavLinkMatch.All">
             <div class="nav-link-content">
@@ -11,6 +12,7 @@
             </div>
         </NavLink>
     </div>
+	<!-- Event Tracing link -->
     <div class="nav-item">
         <NavLink href="/debug/trace" Match="NavLinkMatch.All">
             <div class="nav-link-content">
@@ -23,8 +25,10 @@
 
 
 @code {
+	// Flag to control whether the navigation menu is collapsed or expanded
     private bool collapseNavMenu = true;
 
+	// Toggles the navigation menu between collapsed and expanded states
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;

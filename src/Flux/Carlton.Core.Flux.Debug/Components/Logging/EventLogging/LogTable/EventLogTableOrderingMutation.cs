@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 
-public sealed class EventLogTableOrderingMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogTableOrderingCommand>
+internal sealed class EventLogTableOrderingMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogTableOrderingCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.EventLogTableOrderingChanged.ToString();
 

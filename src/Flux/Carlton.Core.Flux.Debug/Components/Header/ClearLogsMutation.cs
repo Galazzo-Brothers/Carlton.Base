@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Header;
 
-public sealed class ClearLogsMutation : IFluxStateMutation<FluxDebugState, LogsClearedCommand>
+internal sealed class ClearLogsMutation : IFluxStateMutation<FluxDebugState, LogsClearedCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.LogsCleared.ToString();
 

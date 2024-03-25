@@ -6,12 +6,14 @@
 @using Carlton.Core.Flux.Debug.State
 @namespace Carlton.Core.Flux.Debug.Layouts
 
-
+@* Represents a layout component with tabs for displaying request context and request object details. *@
 <PageTabs>
     <TabContent>
+		<!-- Request Context Tab -->
         <Tab DisplayText="Request Context" Icon="mdi-information">
             <FluxDebugComponent TViewModel="TraceLogRequestContextDetailsViewModel" />
         </Tab>
+		<!-- Request Object Tab -->
         <Tab DisplayText="Request Object" Icon="mdi-file-tree">
             <FluxDebugComponent TViewModel="TraceLogRequestObjectDetailsViewModel" />
         </Tab>
