@@ -47,11 +47,6 @@ public static class ResultExtensions
 		return Task.FromResult<Result<TValue, TError>>(error);
 	}
 
-	public static Result<TValue, TError> ToResult<TValue, TError>(this TError error)
-	{
-		return (Result<TValue, TError>)error;
-	}
-
 	public static Result<TValue, TError> TryResult<TValue, TError, TException>(
 		Func<TValue> successFunc,
 		Func<TException, TError> exceptionFunc)

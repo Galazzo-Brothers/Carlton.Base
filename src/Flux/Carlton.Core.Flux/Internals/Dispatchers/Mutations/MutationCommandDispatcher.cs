@@ -25,7 +25,7 @@ internal sealed class MutationCommandHandler<TState>(
 
 			return stateEventResult.Match<Result<MutationCommandResult, FluxError>>
 			(
-				success => new MutationCommandResult(),
+				stateEvent => new MutationCommandResult(stateEvent),
 				error => error
 			);
 		}

@@ -24,6 +24,7 @@ internal sealed class ViewModelExceptionDecorator<TState>(
 
 	private TViewModel HandleSuccess<TViewModel>(TViewModel vm, ViewModelQueryContext<TViewModel> context)
 	{
+		context.MarkAsSucceeded(vm);
 		_logger.ViewModelQueryCompleted(context.FluxOperationTypeName);
 		return vm;
 	}

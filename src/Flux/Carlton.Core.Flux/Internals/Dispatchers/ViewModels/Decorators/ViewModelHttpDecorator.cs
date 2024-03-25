@@ -28,31 +28,31 @@ internal sealed class ViewModelHttpDecorator<TState>(
 			var serverUrlResult = GetServerUrl(fluxServerCommunicationAttribute, parameterAttributes, sender);
 
 			//Get ViewModel from server
-			var vmResult = await serverUrlResult.Match
-			(
-				serverUrl => HandleSuccess(serverUrl, context, cancellationToken), //Success Handler
-				err => err.ToResultTask<TViewModel, FluxError>() //Error Handler
-			);
+			var vmResult = await SendRequest(serverUrlResult, context, cancellationToken);
 
 			//If http refresh failed return error
 			if (!vmResult.IsSuccess)
-				return vmResult;
+				return vmResult.GetError();
 		}
 
 		//Continue with Dispatch
 		return await _decorated.Dispatch(sender, context, cancellationToken);
 	}
 
-	private async Task<Result<TViewModel, FluxError>> HandleSuccess<TViewModel>(string serverUrl, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
+	private async Task<Result<bool, FluxError>> SendRequest<TViewModel>(Result<string, FluxError> serverUrlResult, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
 	{
-		//Get ViewModel from server
-		var vmResult = await GetHttpViewModel(serverUrl, context, cancellationToken);
+		return await serverUrlResult.Match
+		(
+			async serverUrl =>
+			{
+				//Get ViewModel from server
+				var vmResult = await GetHttpViewModel(serverUrl, context, cancellationToken);
 
-		//Update the StateStore and pickup any mutation errors
-		vmResult = await ApplyViewModelStateMutation(vmResult, context);
-
-		//Return result
-		return vmResult;
+				//Update the StateStore and pickup any mutation errors
+				return await ApplyViewModelStateMutation(vmResult, context);
+			},
+			err => err.ToResultTask<bool, FluxError>()
+		);
 	}
 
 	private async Task<Result<TViewModel, FluxError>> GetHttpViewModel<TViewModel>(string serverUrl, ViewModelQueryContext<TViewModel> context, CancellationToken cancellationToken)
@@ -92,7 +92,7 @@ internal sealed class ViewModelHttpDecorator<TState>(
 		}
 	}
 
-	private async Task<Result<TViewModel, FluxError>> ApplyViewModelStateMutation<TViewModel>(Result<TViewModel, FluxError> vmResult, ViewModelQueryContext<TViewModel> context)
+	private async Task<Result<bool, FluxError>> ApplyViewModelStateMutation<TViewModel>(Result<TViewModel, FluxError> vmResult, ViewModelQueryContext<TViewModel> context)
 	{
 		return await vmResult.Match
 		(
@@ -101,14 +101,14 @@ internal sealed class ViewModelHttpDecorator<TState>(
 				//Apply State Mutation
 				var result = await _state.ApplyMutationCommand(vm);
 
-				//Update Context
-				if (result.IsSuccess)
-					context.MarkAsStateModifiedByHttpRefresh();
+				if (!result.IsSuccess)
+					return result.GetError();
 
-				//Return Result
-				return result;
+				//Update Context with Success and Return
+				context.MarkAsStateModifiedByHttpRefresh();
+				return true;
 			},
-			err => err.ToResultTask<TViewModel, FluxError>()
+			err => err.ToResultTask<bool, FluxError>()
 		);
 	}
 }

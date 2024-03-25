@@ -12,7 +12,7 @@ internal class MutationCommandContext<TCommand>(TCommand command) : BaseRequestC
 	public TCommand MutationCommand { get; private set; } = command;
 	public TCommand InitialCommand { get; init; } = command;
 	public bool CommandReplacedByResponse { get; private set; }
-	public string ResultingStateEvent { get; private set; }
+	public MutationCommandResult MutationCommandResult { get; private set; }
 	public bool StateCommittedToLocalStorage { get; private set; }
 
 	internal void ReplaceCommandWithResponseBody(TCommand command)
@@ -21,9 +21,9 @@ internal class MutationCommandContext<TCommand>(TCommand command) : BaseRequestC
 		MutationCommand = command;
 	}
 
-	internal void MarkAsSucceeded(string stateEvent)
+	internal void MarkAsSucceeded(MutationCommandResult commandResult)
 	{
-		ResultingStateEvent = stateEvent;
+		MutationCommandResult = commandResult;
 		MarkAsSucceeded();
 	}
 

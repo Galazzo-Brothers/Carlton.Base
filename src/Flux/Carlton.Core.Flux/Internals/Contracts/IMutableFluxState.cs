@@ -2,6 +2,6 @@
 
 internal interface IMutableFluxState<TState> : IFluxState<TState>
 {
-	internal Task<Result<TCommand, FluxError>> ApplyMutationCommand<TCommand>(TCommand command);
+	internal Task<Result<string, FluxError>> ApplyMutationCommand<TCommand>(TCommand command);
 }
 
