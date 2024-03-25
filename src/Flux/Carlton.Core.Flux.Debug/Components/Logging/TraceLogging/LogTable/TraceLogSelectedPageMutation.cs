@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
 
-public class TraceLogSelectedPageMutation : IFluxStateMutation<FluxDebugState, ChangeTraceLogPageCommand>
+internal sealed class TraceLogSelectedPageMutation : IFluxStateMutation<FluxDebugState, ChangeTraceLogPageCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.TraceLogTablePageChanged.ToString();
 

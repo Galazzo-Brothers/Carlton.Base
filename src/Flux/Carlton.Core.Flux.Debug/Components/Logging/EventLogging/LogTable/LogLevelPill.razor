@@ -2,13 +2,16 @@
 @using Microsoft.Extensions.Logging
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 
-
+@* Component for displaying a log level pill in a log table. *@
 <div class="@LogLevelPillCss">
     <Pill Text="@LogLevel.ToString()" />
 </div>
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the log level to display.
+	/// </summary>
+	[Parameter]
     public LogLevel LogLevel { get; set; }
 
     private string LogLevelPillCss

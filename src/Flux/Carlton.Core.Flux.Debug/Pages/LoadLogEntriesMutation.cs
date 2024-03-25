@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Pages;
 
-public class LoadLogMessagesMutation : IFluxStateMutation<FluxDebugState, LoadLogMessagesCommand>
+internal sealed class LoadLogMessagesMutation : IFluxStateMutation<FluxDebugState, LoadLogMessagesCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.LoadLogMessages.ToString();
 

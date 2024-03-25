@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
 
-public sealed class TraceLogMessageTableRowsPerPageMutation : IFluxStateMutation<FluxDebugState, ChangeTraceLogMessageTableRowsPerPageOptsCommand>
+internal sealed class TraceLogMessageTableRowsPerPageMutation : IFluxStateMutation<FluxDebugState, ChangeTraceLogMessageTableRowsPerPageOptsCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.TraceLogTableRowsPerPageChanged.ToString();
 

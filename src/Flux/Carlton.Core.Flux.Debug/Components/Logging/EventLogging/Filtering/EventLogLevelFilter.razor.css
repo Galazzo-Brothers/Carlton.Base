@@ -1,45 +1,56 @@
 ﻿
+/* Log Level Filter Variables */
+.log-level-filter {
+	--log-level-filter-width: 150px;
+	--log-level-filter-gap: 15px;
+	--log-level-filter-padding: 10px;
+	--log-level-filter-border-radius: 5px;
+}
+
+/* Styles for log level filter. */
 .log-level-filter {
 	display: flex;
-	width: 150px;
-	gap: 15px;
-	padding: 10px;
+	width: var(--log-level-filter-width);
+	gap: var(--log-level-filter-gap);
+	padding: var(--log-level-filter-padding);
 	border-style: none;
-	border-radius: 5px;
+	border-radius: var(--log-level-filter-border-radius);
 	color: white;
-	border-color: gray;
 	cursor: pointer;
 }
 
+	/* Styles for each log level filter item */
 	.log-level-filter.trace {
-		background-color: var(--accent-color-4);
+		background-color: var(--log-level-trace-color);
 	}
 
 	.log-level-filter.debug {
-		background-color: var(--accent-color-1);
+		background-color: var(--log-level-debug-color);
 	}
 
 	.log-level-filter.information {
-		background-color: gray;
+		background-color: var(--log-level-information-color);
 	}
 
 	.log-level-filter.warning {
-		background-color: var(--accent-color-5);
+		background-color: var(--log-level-warning-color);
 	}
 
 	.log-level-filter.error {
-		background-color: var(--accent-color-3);
+		background-color: var(--log-level-error-color);
 	}
 
 	.log-level-filter.critical {
-		background-color: firebrick;
+		background-color: var(--log-level-critical-color);
 	}
 
+	/* Styles for label */
 	.log-level-filter .log-level-label {
 		margin-top: auto;
 		margin-bottom: auto;
 	}
 
+	/* Styles for count */
 	.log-level-filter .log-level-count {
 		margin-top: auto;
 		margin-bottom: auto;

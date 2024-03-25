@@ -13,11 +13,13 @@
 @inject NavigationManager NavigationManager
 @inject IToastState ToastState
 
+
+@* Component for rendering header actions in a debug environment. *@
 <FluxDebugHeaderActions 
        UserName="@ViewModel.UserName"
        AvatarUrl="@ViewModel.AvatarUrl"
        DropdownMenuItems="DropdownMenuItems"/>
-
+	   
 
 @code {
     private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
@@ -27,7 +29,7 @@
             {
                 new DropdownMenuItem<int>("Profile", 1, "account", 1, () => { }),
                 new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2, ThemeState.ToggleTheme),
-                new DropdownMenuItem<int>("Clear Localstorage", 3, "delete", 3, RaiseClearLocalStorageConfirmationModal),
+                new DropdownMenuItem<int>("Clear Local Storage", 3, "delete", 3, RaiseClearLocalStorageConfirmationModal),
                 new DropdownMenuItem<int>("App", 4, "open-in-app", 4, () => NavigationManager.NavigateTo($"/")),
                 new DropdownMenuItem<int>("Logout", 5, "logout", 5, () => { })
             };
@@ -52,7 +54,7 @@
             return;
 
         //Notify the user via a toast
-        ToastState.RaiseToast("Success", "LocalStorage has been cleared.", Core.Components.Toasts.ToastTypes.Success);
+        ToastState.RaiseToast("Success", "Local Storage has been cleared.", Core.Components.Toasts.ToastTypes.Success);
 
         //Update the in memory state store to reflect the action
         await base.OnComponentEvent.InvokeAsync(new LogsClearedCommand());

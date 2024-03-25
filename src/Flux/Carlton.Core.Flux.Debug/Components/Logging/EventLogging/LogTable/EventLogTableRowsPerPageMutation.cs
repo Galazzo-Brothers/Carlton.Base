@@ -1,6 +1,6 @@
 ﻿namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 
-public sealed class EventLogTableRowsPerPageMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogMessageTableRowsPerPageOptsCommand>
+internal sealed class EventLogTableRowsPerPageMutation : IFluxStateMutation<FluxDebugState, ChangeEventLogMessageTableRowsPerPageOptsCommand>
 {
 	public string StateEvent => FluxDebugStateEvents.EventLogRowsPerPageChanged.ToString();
 

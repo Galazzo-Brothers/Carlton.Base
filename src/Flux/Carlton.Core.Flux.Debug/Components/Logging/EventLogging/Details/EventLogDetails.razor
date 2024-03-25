@@ -1,12 +1,16 @@
 ﻿@using System.Text.Json
 @using Carlton.Core.Components.Consoles
 
+@* Component for displaying log exception details. *@
 <div class="log-exception-details">
     <JsonViewerConsole Obj="@LogMessage" IsReadOnly="true" />
 </div>
 
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the log message to display.
+	/// </summary>
+	[Parameter]
     public LogMessage? LogMessage { get; set; }
 }

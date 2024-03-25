@@ -1,13 +1,17 @@
-﻿.log-outcome-pill {
+﻿/* Styles for the log-outcome-pill class */
+.log-outcome-pill {
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
 }
 
+/* Styles for pills indicating a successful logging operation */
 .succeeded ::deep.pill {
-	background-color: #00897b;
+	background-color: var(--event-log-success-color);
 }
 
+/* Styles for pills indicating a failed logging operation */
 .failed ::deep.pill {
-	background-color: firebrick;
+	background-color: var(--event-log-failure-color);
 }
+

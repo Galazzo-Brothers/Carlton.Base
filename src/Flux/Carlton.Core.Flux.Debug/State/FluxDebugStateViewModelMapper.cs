@@ -1,10 +1,9 @@
 ﻿#pragma warning disable RMG020 // Source member is not mapped to any target member
-using Carlton.Core.Flux.Debug.Models;
 using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.State;
 
 [Mapper]
-public partial class FluxDebugStateViewModelMapper : IViewModelProjectionMapper<FluxDebugState>
+internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjectionMapper<FluxDebugState>
 {
 	public partial TViewModel Map<TViewModel>(FluxDebugState state);
 

@@ -77,8 +77,6 @@ Below are the CSS variables defined in the `vars.css` file along with their defa
 	--accent-color-2: #00897b;
 	--accent-color-3: #e46a76;
 	--accent-color-4: #ab8ce4;
-	--accent-color-5: #c78c04;
-	--accent-color-6: #b22222;
 	/* Layout Theming */
 	--layout-main-background-color: #f4f3ef;
 	--layout-nav-background-color: #212120;
@@ -108,8 +106,6 @@ Below are the CSS variables defined in the `vars.css` file along with their defa
 	--accent-color-2: #00897b;
 	--accent-color-3: #e46a76;
 	--accent-color-4: #ab8ce4;
-	--accent-color-5: #c78c04;
-	--accent-color-6: #b22222;
 	/* Layout Theming */
 	--layout-main-background-color: #323743;
 	--layout-nav-background-color: #212120;

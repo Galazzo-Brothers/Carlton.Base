@@ -3,13 +3,17 @@
 @using System.Text
 @using System.Web
 
+@* Component for displaying log details including scopes. *@
 <div class="log-details">
     <Console Text="@ScopeText()" IsReadOnly="true" />
 </div>
 
 
 @code {
-    [Parameter]
+	/// <summary>
+	/// Gets or sets the log message to display.
+	/// </summary>
+	[Parameter]
     public LogMessage? LogMessage { get; set; }
 
     private string ScopeText()

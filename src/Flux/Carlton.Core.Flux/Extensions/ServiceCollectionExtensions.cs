@@ -3,7 +3,6 @@ using Carlton.Core.Flux.Internals.Dispatchers.Mutations.Decorators;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels.Decorators;
 using Carlton.Core.Flux.Internals.State;
-using Carlton.Core.Utilities.Logging;
 
 namespace Carlton.Core.Flux.Extensions;
 
@@ -29,27 +28,8 @@ public static class ServiceCollectionExtensions
 		options?.Invoke(fluxOptions);
 
 		/*Flux State*/
-		RegisterCrossCuttingDependencies(services);
 		RegisterFluxState(services, state);
 		RegisterFluxDependencies<TState>(services, fluxOptions);
-	}
-
-	private static void RegisterCrossCuttingDependencies(IServiceCollection services)
-	{
-		/*Register Logging*/
-		RegisterLogging(services);
-	}
-
-	private static void RegisterLogging(IServiceCollection services)
-	{
-		var logger = new MemoryLogger();
-		services.AddSingleton(logger);
-		services.AddLogging(b =>
-		{
-			b.AddProvider(new MemoryLoggerProvider(logger));
-		});
-
-		services.AddSingleton<ILogger, MemoryLogger>();
 	}
 
 	private static void RegisterFluxDependencies<TState>(IServiceCollection services, FluxOptions fluxOptions)
