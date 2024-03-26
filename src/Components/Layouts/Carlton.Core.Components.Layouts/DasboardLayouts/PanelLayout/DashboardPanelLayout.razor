@@ -5,7 +5,7 @@
 @using Carlton.Core.Components.Layouts.Viewport
 @namespace Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout
 @inherits LayoutComponentBase
-@layout DashboardLayout
+@layout LayoutManager
 @inject IFullScreenState FullScreenState
 @inject IPanelState PanelState
 
@@ -26,15 +26,14 @@
     </MobileContent>
 </MediaQueryWrapper>
 
-
 @code {
-    // Static objects for various content sections
-    public static object Nav = new();
-    public static object Logo = new();
-    public static object HeaderPageTitle = new();
-    public static object HeaderActionContent = new();
-    public static object Panel = new();
-    public static object Footer = new();
+	// Static objects for various content sections
+	public static object Nav = new();
+	public static object Logo = new();
+	public static object HeaderPageTitle = new();
+	public static object HeaderActionContent = new();
+	public static object Panel = new();
+	public static object Footer = new();
 }
 
 
