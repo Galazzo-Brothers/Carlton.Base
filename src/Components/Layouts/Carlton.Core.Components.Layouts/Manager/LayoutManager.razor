@@ -30,14 +30,18 @@
     <!--Layout Modal-->
     <Modal IsVisible="ModalState.IsVisible"
            ModalType="ModalState.ModalType"
-           ModalPrompt="@ModalState?.ModalModel?.Prompt"
-           ModalMessage="@ModalState?.ModalModel?.Message"
+           ModalPrompt="@ModalState?.Model?.Prompt"
+           ModalMessage="@ModalState?.Model?.Message"
            CloseModal="CloseModalOrDefault"
            DismissModal="DismissModalOrDefault" />
 </div>
 
 
 @code {
+
+	[Parameter]
+	public RenderFragment<IModalState> ModalContent { get; set; }
+
     private LayoutToaster LayoutToaster { get; set; }
 
     protected override void OnInitialized()
@@ -69,10 +73,10 @@
     {
         get
         {
-            if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.CloseModal == null)
+            if (ModalState == null || ModalState.Model == null || ModalState.Model.CloseModal == null)
                 return (args) => Task.CompletedTask;
 
-            return ModalState.ModalModel.CloseModal;
+            return ModalState.Model.CloseModal;
         }
     }
 
@@ -80,10 +84,10 @@
     {
         get
         {
-            if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.DismissModal == null)
+            if (ModalState == null || ModalState.Model == null || ModalState.Model.DismissModal == null)
                 return () => Task.CompletedTask;
 
-            return ModalState.ModalModel.DismissModal;
+            return ModalState.Model.DismissModal;
         }
     }
 

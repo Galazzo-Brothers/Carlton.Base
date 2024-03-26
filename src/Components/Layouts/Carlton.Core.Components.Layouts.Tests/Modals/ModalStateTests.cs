@@ -4,24 +4,24 @@ namespace Carlton.Core.Components.Layouts.Tests.Modals;
 
 public class ModalStateTests
 {
-    [Theory(DisplayName = "ModalState Event Test"), AutoData]
-    public void ModalState_EventFires(
-       ModalTypes expectedModalType,
-       ModalViewModel expectedModalViewModel)
-    {
-        //Arrange
-        var eventFired = false;
-        var sut = new ModalState();
-        sut.ModalStateChanged += (sender, args) => eventFired = true;
+	[Theory(DisplayName = "ModalState Event Test"), AutoData]
+	public void ModalState_EventFires(
+	   ModalTypes expectedModalType,
+	   ModalViewModel expectedModalViewModel)
+	{
+		//Arrange
+		var eventFired = false;
+		var sut = new ModalState();
+		sut.ModalStateChanged += (sender, args) => eventFired = true;
 
-        //Act
-        sut.RaiseModal(expectedModalType, expectedModalViewModel);
+		//Act
+		sut.RaiseModal(expectedModalType, expectedModalViewModel);
 
-        //Assert
-        eventFired.ShouldBe(true);
-        sut.IsVisible.ShouldBeTrue();
-        sut.ModalType.ShouldBe(expectedModalType);
-        sut.ModalModel.Prompt.ShouldBe(expectedModalViewModel.Prompt);
-        sut.ModalModel.Message.ShouldBe(expectedModalViewModel.Message);
-    }
+		//Assert
+		eventFired.ShouldBe(true);
+		sut.IsVisible.ShouldBeTrue();
+		sut.ModalType.ShouldBe(expectedModalType);
+		sut.Model.Prompt.ShouldBe(expectedModalViewModel.Prompt);
+		sut.Model.Message.ShouldBe(expectedModalViewModel.Message);
+	}
 }

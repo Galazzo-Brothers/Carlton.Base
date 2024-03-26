@@ -6,30 +6,30 @@ namespace Carlton.Core.Components.Layouts.Modals;
 /// </summary>
 public interface IModalState
 {
-    /// <summary>
-    /// Occurs when the modal state changes.
-    /// </summary>
-    public event EventHandler<ModalStateChangedEventArgs> ModalStateChanged;
+	/// <summary>
+	/// Occurs when the modal state changes.
+	/// </summary>
+	public event EventHandler<ModalStateChangedEventArgs> ModalStateChanged;
 
-    /// <summary>
-    /// Gets a value indicating whether the modal is currently visible.
-    /// </summary>
-    public bool IsVisible { get; }
+	/// <summary>
+	/// Gets a value indicating whether the modal is currently visible.
+	/// </summary>
+	public bool IsVisible { get; }
 
-    // <summary>
-    /// Gets the type of the modal.
-    /// </summary>
-    public ModalTypes ModalType { get; }
+	// <summary>
+	/// Gets the type of the modal.
+	/// </summary>
+	public ModalTypes ModalType { get; }
 
-    /// <summary>
-    /// Gets the view model associated with the modal.
-    /// </summary>
-    public ModalViewModel ModalModel { get; }
+	/// <summary>
+	/// Gets the view model associated with the modal.
+	/// </summary>
+	public ModalViewModel Model { get; }
 
-    /// <summary>
-    /// Raises a modal with the specified type and view model.
-    /// </summary>
-    /// <param name="modalType">The type of the modal.</param>
-    /// <param name="modalModel">The view model associated with the modal.</param>
-    public void RaiseModal(ModalTypes modalType, ModalViewModel modalModel);
+	/// <summary>
+	/// Raises a modal with the specified type and view model.
+	/// </summary>
+	/// <param name="modalType">The type of the modal.</param>
+	/// <param name="modalModel">The view model associated with the modal.</param>
+	public void RaiseModal(ModalTypes modalType, ModalViewModel modalModel);
 }
