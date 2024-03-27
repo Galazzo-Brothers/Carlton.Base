@@ -2,36 +2,54 @@
 
 @* Represents the content of a confirmation modal. *@
 <div class="confirmation-modal-content">
-    <!--Modal DismissMark -->
-    <ModalDismissMark OnDismiss="@State.HandleDismiss" />
+	<!--Modal DismissMark -->
+	<ModalDismissMark OnDismiss="@OnDismiss" />
 
-    <!-- Modal Header -->
-    <div class="modal-header">
-        <div class="mdi mdi-48px mdi-alert-circle-outline"></div>
-    </div>
+	<!-- Modal Header -->
+	<div class="modal-header">
+		<div class="mdi mdi-48px mdi-alert-circle-outline"></div>
+	</div>
 
-    <!-- Prompt Message -->
-    <div class="modal-prompt-message">
-        <span class="message-text">@State.Prompt</span>
-    </div>
+	<!-- Prompt Message -->
+	<div class="modal-prompt-message">
+		<span class="message-text">@Prompt</span>
+	</div>
 
-    <!-- Modal Message -->
-    <div class="modal-message">
-        <span class="message-text">@State.Message</span>
-    </div>
+	<!-- Modal Message -->
+	<div class="modal-message">
+		<span class="message-text">@Message</span>
+	</div>
 
-    <!-- Modal Actions -->
-    <div class="modal-actions">
-        <button class="btn-cancel" @onclick="() => State.HandleClose(new ModalCloseEventArgs(false))">Cancel</button>
-        <button class="btn-confirm" @onclick="() => State.HandleClose(new ModalCloseEventArgs(true))">Delete</button>
-    </div>
+	<!-- Modal Actions -->
+	<div class="modal-actions">
+		<button class="btn-cancel" @onclick="() => OnClose.InvokeAsync(false)">Cancel</button>
+		<button class="btn-confirm" @onclick="() => OnClose.InvokeAsync(true)">Delete</button>
+	</div>
 </div>
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the state of the confirmation modal.
-    /// </summary>
-    [Parameter]
-    public ModalRenderFragmentState State { get; set; }
+	/// <summary>
+	/// Gets or sets the prompt message displayed by the modal.
+	/// </summary>
+	[Parameter]
+	public string Prompt { get; set; }
+
+	/// <summary>
+	/// Gets or sets the main message displayed by the modal.
+	/// </summary>
+	[Parameter]
+	public string Message { get; set; }
+
+	/// <summary>
+	/// Gets or sets the callback method invoked when the modal is dismissed.
+	/// </summary>
+	[Parameter]
+	public EventCallback OnDismiss { get; set; }
+
+	/// <summary>
+	/// Gets or sets the callback method invoked when the modal is closed.
+	/// </summary>
+	[Parameter]
+	public EventCallback<bool> OnClose { get; set; }
 }

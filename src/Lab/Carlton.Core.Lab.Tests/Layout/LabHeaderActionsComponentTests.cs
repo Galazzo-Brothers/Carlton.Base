@@ -1,8 +1,8 @@
 ﻿using Carlton.Core.Components.Dropdowns;
-using Carlton.Core.Components.Layouts.Theme;
-using Carlton.Core.Components.Layouts.Toasts;
 using Carlton.Core.Foundation.Test;
 using Carlton.Core.Lab.Layouts;
+using Carlton.Core.LayoutServices.Theme;
+using Carlton.Core.LayoutServices.Toasts;
 using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.Lab.Test.Layout;
 

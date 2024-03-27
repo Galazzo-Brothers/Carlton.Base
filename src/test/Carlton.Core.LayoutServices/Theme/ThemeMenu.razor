@@ -1,0 +1,32 @@
+﻿@using BlazorComponentUtilities
+@namespace Carlton.Core.LayoutServices.Theme
+@inject IThemeState ThemeState
+
+@* Represents a component that changed the css data-theme application wide. *@
+<a href="#" class="theme-menu" @onclick:preventDefault @onclick="SwapTheme">
+	<i class="@ThemeIconCss"></i>
+</a>
+
+
+@code {
+	private string ThemeIconCss
+	{
+		get => new CssBuilder()
+				.AddClass("mdi mdi-24px")
+				.AddClass("mdi-weather-sunny", ThemeState.Theme == Themes.light)
+				.AddClass("mdi-moon-waxing-crescent", ThemeState.Theme == Themes.dark)
+				.Build();
+	}
+
+	private void SwapTheme()
+	{
+		if (ThemeState.Theme == Themes.light)
+		{
+			ThemeState.SetTheme(Themes.dark);
+		}
+		else
+		{
+			ThemeState.SetTheme(Themes.light);
+		}
+	}
+}

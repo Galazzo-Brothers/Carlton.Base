@@ -1,12 +1,12 @@
-﻿@using Carlton.Core.Components.Layouts.Extensions
-@using Carlton.Core.Components.Layouts.Panel
-@using Carlton.Core.Components.Layouts.Theme
+﻿@using Carlton.Core.Components.Layouts.Modals
 @using Carlton.Core.Components.Modals
 @using Carlton.Core.Components.Toasts
-@using Carlton.Core.Components.Layouts.Toasts
-@using Carlton.Core.Components.Layouts.FullScreen
-@using Carlton.Core.Components.Layouts.Modals
-@namespace Carlton.Core.Components.Layouts.Manager
+@using Carlton.Core.LayoutServices.FullScreen
+@using Carlton.Core.LayoutServices.Panel
+@using Carlton.Core.LayoutServices.Theme
+@using Carlton.Core.LayoutServices.Toasts
+@using Carlton.Core.LayoutServices.Modals
+@namespace Carlton.Core.LayoutServices.Manager
 @inherits LayoutComponentBase
 @implements IDisposable
 @inject IFullScreenState NavMenuState
@@ -18,85 +18,111 @@
 
 @* This component manages the layout of the application including modals and toasts. *@
 <div class="layout-manager" data-theme="@ThemeState.Theme.ToString()">
-    <!-- Body Content -->
-    @Body
+	<!-- Body Content -->
+	@Body
 
-    <!--Layout Toaster-->
-    <LayoutToaster @ref="LayoutToaster"
-                   FadeOutEnabled="true"
-                   Top="50"
-                   Right="10" />
+	<!--Layout Toaster-->
+	<LayoutToaster @ref="LayoutToaster"
+				   FadeOutEnabled="true"
+				   Top="50"
+				   Right="10">
+		<ToastContent Context="toast">
+			<Toast Id="@toast.Id"
+				   Title="@toast.Title"
+				   Message="@toast.Message"
+				   ToastType="@CurrentToastType(toast.ToastType)"
+				   FadeOutEnabled="!toast.FadeOutEnabled"
+				   IsDismissed="toast.IsDismissed"
+				   OnDismissed="() => toast.MarkAsDismissed()" />
+		</ToastContent>
+	</LayoutToaster>
 
-    <!--Layout Modal-->
-    <Modal IsVisible="ModalState.IsVisible"
-           ModalType="ModalState.ModalType"
-           ModalPrompt="@ModalState?.Model?.Prompt"
-           ModalMessage="@ModalState?.Model?.Message"
-           CloseModal="CloseModalOrDefault"
-           DismissModal="DismissModalOrDefault" />
+	<!--Layout Modal-->
+	<Modal IsVisible="@ModalState.IsVisible"
+		   ModalType="@CurrentModalType"
+		   ModalPrompt="@ModalState?.ModalModel?.Prompt"
+		   ModalMessage="@ModalState?.ModalModel?.Message"
+		   CloseModal="CloseModalOrDefault"
+		   DismissModal="DismissModalOrDefault" />
 </div>
 
 
 @code {
+	private LayoutToaster LayoutToaster { get; set; }
 
-	[Parameter]
-	public RenderFragment<IModalState> ModalContent { get; set; }
+	protected override void OnInitialized()
+	{
+		NavMenuState.FullScreenStateChanged += OnLayoutChanged;
+		ThemeState.ThemeChanged += OnThemeChanged;
+		ModalState.ModalStateChanged += OnModalStateChanged;
+		PanelState.PanelVisibilityChangedChanged += OnPanelVisibilityChanged;
+		ToastState.ToastAdded += OnToastRaised;
+		base.OnInitialized();
+	}
 
-    private LayoutToaster LayoutToaster { get; set; }
+	private void OnLayoutChanged(object? sender, FullScreenStateChangedEventArgs args)
+		=> StateHasChanged();
 
-    protected override void OnInitialized()
-    {
-        NavMenuState.FullScreenStateChanged += OnLayoutChanged;
-        ThemeState.ThemeChanged += OnThemeChanged;
-        ModalState.ModalStateChanged += OnModalStateChanged;
-        PanelState.PanelVisibilityChangedChanged += OnPanelVisibilityChanged;
-        ToastState.ToastAdded += OnToastRaised;
-        base.OnInitialized();
-    }
+	private void OnThemeChanged(object? sender, ThemeChangedEventArgs args)
+		=> StateHasChanged();
 
-    private void OnLayoutChanged(object? sender, FullScreenStateChangedEventArgs args)
-        => StateHasChanged();
+	private void OnModalStateChanged(object? sender, ModalStateChangedEventArgs args)
+		=> StateHasChanged();
 
-    private void OnThemeChanged(object? sender, ThemeChangedEventArgs args)
-        => StateHasChanged();
+	private void OnPanelVisibilityChanged(object? sender, PanelVisibilityChangedEventArgs args)
+		=> StateHasChanged();
 
-    private void OnModalStateChanged(object? sender, ModalStateChangedEventArgs args)
-        => StateHasChanged();
+	private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
+		=> LayoutToaster.GenerateToast(args.RaisedToast);
 
-    private void OnPanelVisibilityChanged(object? sender, PanelVisibilityChangedEventArgs args)
-       => StateHasChanged();
+	private Func<ModalCloseEventArgs, Task> CloseModalOrDefault
+	{
+		get
+		{
+			if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.CloseModal == null)
+				return (args) => Task.CompletedTask;
 
-    private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
-        => LayoutToaster.GenerateToast(args.RaisedToast);
+			return ModalState.ModalModel.CloseModal;
+		}
+	}
 
-    private Func<ModalCloseEventArgs, Task> CloseModalOrDefault
-    {
-        get
-        {
-            if (ModalState == null || ModalState.Model == null || ModalState.Model.CloseModal == null)
-                return (args) => Task.CompletedTask;
+	private Func<Task> DismissModalOrDefault
+	{
+		get
+		{
+			if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.DismissModal == null)
+				return () => Task.CompletedTask;
 
-            return ModalState.Model.CloseModal;
-        }
-    }
+			return ModalState.ModalModel.DismissModal;
+		}
+	}
 
-    private Func<Task> DismissModalOrDefault
-    {
-        get
-        {
-            if (ModalState == null || ModalState.Model == null || ModalState.Model.DismissModal == null)
-                return () => Task.CompletedTask;
+	private Func<string, ToastTypes> CurrentToastType
+	{
+		get => (toastType) =>
+		{
+			var parsedSuccessfully = Enum.TryParse(typeof(ToastTypes), toastType, true, out var parsedToastType);
+			return string.IsNullOrEmpty(toastType) || !parsedSuccessfully ? ToastTypes.Info
+				: (ToastTypes)parsedToastType!;
+		};
+	}
 
-            return ModalState.Model.DismissModal;
+	private ModalTypes CurrentModalType
+	{
+		get
+		{
+			var parsedSuccessfully = Enum.TryParse(typeof(ModalTypes), ModalState.ModalType, true, out var modalType);
+            return string.IsNullOrEmpty(ModalState.ModalType) || !parsedSuccessfully ? ModalTypes.SingleActionModal
+				: (ModalTypes) modalType!;
         }
     }
 
     public void Dispose()
     {
-        NavMenuState.FullScreenStateChanged -= OnLayoutChanged;
-        ThemeState.ThemeChanged -= OnThemeChanged;
-        ModalState.ModalStateChanged -= OnModalStateChanged;
-        PanelState.PanelVisibilityChangedChanged -= OnPanelVisibilityChanged;
-        ToastState.ToastAdded -= OnToastRaised;
-    }
+		NavMenuState.FullScreenStateChanged -= OnLayoutChanged;
+		ThemeState.ThemeChanged -= OnThemeChanged;
+		ModalState.ModalStateChanged -= OnModalStateChanged;
+		PanelState.PanelVisibilityChangedChanged -= OnPanelVisibilityChanged;
+		ToastState.ToastAdded -= OnToastRaised;
+	}
 }

@@ -1,0 +1,71 @@
+﻿@using BlazorComponentUtilities
+@using Carlton.Core.Utilities.DataStructures
+@namespace Carlton.Core.LayoutServices.Toasts
+
+<!-- Represents a component responsible for managing and displaying toast notifications. -->
+<div class="layout-toaster">
+    <div class="content" style="@ContentStyle">
+        @foreach(var toast in ToastsCircularStack)
+        {
+            <!-- Display non-dismissed toasts -->
+            @if(!toast.IsDismissed)
+            {
+                <!-- Render individual toast components -->
+				@ToastContent(toast)
+            }
+        }
+    </div>
+</div>
+
+@code {
+
+	[Parameter]
+	public RenderFragment<ToastViewModel> ToastContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether fade-out effect is enabled for toasts.
+    /// </summary>
+    [Parameter]
+    public bool FadeOutEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets the top position of the toaster.
+    /// </summary>
+    [Parameter]
+    public int Top { get; set; }
+
+    /// <summary>
+    /// Gets or sets the right position of the toaster.
+    /// </summary>
+    [Parameter]
+    public int Right { get; set; }
+
+    // Maximum number of toasts to display
+    private const int MaxToastCount = 8;
+
+    // Index for managing toasts
+    private int ToastIndex { get; set; }
+
+    // Circular stack to manage toasts
+    private CircularStack<ToastViewModel> ToastsCircularStack { get; } = new(MaxToastCount);
+
+    /// <summary>
+    /// Generates and displays a new toast notification.
+    /// </summary>
+    /// <param name="newToast">The toast notification to display.</param>
+    public void GenerateToast(ToastViewModel newToast)
+    {
+        ToastsCircularStack.Push(newToast);
+        StateHasChanged();
+    }
+
+    // CSS style for positioning the toaster
+    private string ContentStyle
+    {
+        get => new StyleBuilder()
+                .AddStyle("--toast-top", $"{Top}px")
+                .AddStyle("--toast-right", $"{Right}px")
+                .Build();
+    }
+}
+

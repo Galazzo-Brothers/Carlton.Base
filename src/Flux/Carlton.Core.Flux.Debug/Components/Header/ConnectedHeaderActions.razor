@@ -1,11 +1,12 @@
 ﻿@using Carlton.Core.Components
 @using Carlton.Core.Components.Dropdowns
 @using Carlton.Core.Components.Layouts
-@using Carlton.Core.Components.Layouts.Modals
-@using Carlton.Core.Components.Layouts.Theme
-@using Carlton.Core.Components.Layouts.Toasts
 @using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Toasts
 @using Carlton.Core.Flux.Debug.Layouts
+@using Carlton.Core.LayoutServices.Modals
+@using Carlton.Core.LayoutServices.Theme
+@using Carlton.Core.LayoutServices.Toasts
 @namespace Carlton.Core.Flux.Debug.Components
 @inherits BaseConnectedComponent<HeaderActionsViewModel>
 @inject IThemeState ThemeState
@@ -37,7 +38,7 @@
     }
 
     private void RaiseClearLocalStorageConfirmationModal()
-        => ModalState.RaiseModal(ModalTypes.ConfirmationModal,
+        => ModalState.RaiseModal(ModalTypes.ConfirmationModal.ToString(),
             new ModalViewModel
             {
                Prompt = "Are you sure",
@@ -54,7 +55,7 @@
             return;
 
         //Notify the user via a toast
-        ToastState.RaiseToast("Success", "Local Storage has been cleared.", Core.Components.Toasts.ToastTypes.Success);
+        ToastState.RaiseToast("Success", "Local Storage has been cleared.", ToastTypes.Success.ToString());
 
         //Update the in memory state store to reflect the action
         await base.OnComponentEvent.InvokeAsync(new LogsClearedCommand());

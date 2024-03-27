@@ -1,6 +1,6 @@
-﻿using Carlton.Core.Components.Layouts.FullScreen;
-using Carlton.Core.Foundation.Test;
+﻿using Carlton.Core.Foundation.Test;
 using Carlton.Core.Lab.Layouts;
+using Carlton.Core.LayoutServices.FullScreen;
 using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.Lab.Test.Layout;
 
