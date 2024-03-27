@@ -4,7 +4,7 @@ namespace Carlton.Core.Components.Tests.Modals;
 [Trait("Component", nameof(ConfirmationModalContent))]
 public class ConfirmationModalContentComponentTests : TestContext
 {
-    private const string ExpectedMarkup = @"
+	private const string ExpectedMarkup = @"
     <div class=""confirmation-modal-content"">
         {0}
         <div class=""modal-header"">
@@ -22,112 +22,89 @@ public class ConfirmationModalContentComponentTests : TestContext
         </div>
     </div>";
 
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void ConfirmationModelContent_Markup_RendersCorrectly(
-        string expectedModalPrompt,
-        string expectedModalMessage)
-    {
-        //Arrange
-        var dismissMarkup = @"<span class=""dismiss"">×</span>";
-        var expectedMarkup = string.Format(ExpectedMarkup, dismissMarkup, expectedModalPrompt, expectedModalMessage);
+	[Theory(DisplayName = "Markup Test"), AutoData]
+	public void ConfirmationModelContent_Markup_RendersCorrectly(
+		string expectedModalPrompt,
+		string expectedModalMessage)
+	{
+		//Arrange
+		var dismissMarkup = @"<span class=""dismiss"">×</span>";
+		var expectedMarkup = string.Format(ExpectedMarkup, dismissMarkup, expectedModalPrompt, expectedModalMessage);
 
-        //Act
-        var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
-            .Add(p => p.State, new ModalRenderFragmentState
-            {
-                Prompt = expectedModalPrompt,
-                Message = expectedModalMessage,
-                HandleClose = (args) => Task.CompletedTask,
-                HandleDismiss = () => Task.CompletedTask
-            }));
+		//Act
+		var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
+			.Add(p => p.Prompt, expectedModalPrompt)
+			.Add(p => p.Message, expectedModalMessage));
 
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
+		//Assert
+		cut.MarkupMatches(expectedMarkup);
+	}
 
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void ConfirmationModelContent_Stub_Markup_RendersCorrectly(
-        string expectedModalPrompt,
-        string expectedModalMessage)
-    {
-        //Arrange
-        ComponentFactories.AddStub<ModalDismissMark>(@"<span class=""stub"">x</span>");
-        var stubMarkup = @"<span class=""stub"">x</span>";
-        var expectedMarkup = string.Format(ExpectedMarkup, stubMarkup, expectedModalPrompt, expectedModalMessage);
+	[Theory(DisplayName = "Markup Test"), AutoData]
+	public void ConfirmationModelContent_Stub_Markup_RendersCorrectly(
+		string expectedModalPrompt,
+		string expectedModalMessage)
+	{
+		//Arrange
+		ComponentFactories.AddStub<ModalDismissMark>(@"<span class=""stub"">x</span>");
+		var stubMarkup = @"<span class=""stub"">x</span>";
+		var expectedMarkup = string.Format(ExpectedMarkup, stubMarkup, expectedModalPrompt, expectedModalMessage);
 
-        //Act
-        var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
-            .Add(p => p.State, new ModalRenderFragmentState
-            {
-                Prompt = expectedModalPrompt,
-                Message = expectedModalMessage,
-                HandleClose = (args) => Task.CompletedTask,
-                HandleDismiss = () => Task.CompletedTask
-            }));
+		//Act
+		var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
+			.Add(p => p.Prompt, expectedModalPrompt)
+			.Add(p => p.Message, expectedModalMessage));
 
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
+		//Assert
+		cut.MarkupMatches(expectedMarkup);
+	}
 
-    [Theory(DisplayName = "OnModalCloseParameter Test")]
-    [InlineAutoData(true)]
-    [InlineAutoData(false)]
-    public void ConfirmationModelContent_OnModalCloseParameter_FiresEvent(
-        bool expectedUserConfirmed,
-        string expectedModalPrompt,
-        string expectedModalMessage)
-    {
-        //Arrange
-        var eventFired = false;
-        var userConfirmed = false;
-        var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
-            .Add(p => p.State, new ModalRenderFragmentState
-            {
-                Prompt = expectedModalPrompt,
-                Message = expectedModalMessage,
-                HandleClose = (args) => 
-                {
-                    eventFired = true;
-                    userConfirmed = args.UserConfirmed;
-                    return Task.CompletedTask;
-                },
-                HandleDismiss = () => Task.CompletedTask
-            }));
+	[Theory(DisplayName = "OnModalCloseParameter Test")]
+	[InlineAutoData(true)]
+	[InlineAutoData(false)]
+	public void ConfirmationModelContent_OnModalCloseParameter_FiresEvent(
+		bool expectedUserConfirmed,
+		string expectedModalPrompt,
+		string expectedModalMessage)
+	{
+		//Arrange
+		var eventFired = false;
+		var userConfirmed = false;
+		var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
+			.Add(p => p.Prompt, expectedModalPrompt)
+			.Add(p => p.Message, expectedModalMessage)
+			.Add(p => p.OnClose, (confirmed) =>
+			{
+				eventFired = true;
+				userConfirmed = confirmed;
+			}));
 
-        var btnToClickClass = expectedUserConfirmed ? ".btn-confirm" : ".btn-cancel";
-        
-        //Act
-        cut.Find(btnToClickClass).Click();
+		var btnToClickClass = expectedUserConfirmed ? ".btn-confirm" : ".btn-cancel";
 
-        //Assert
-        eventFired.ShouldBeTrue();
-        userConfirmed.ShouldBe(expectedUserConfirmed);
-    }
+		//Act
+		cut.Find(btnToClickClass).Click();
 
-    [Theory(DisplayName = "OnModalDismissParameter Test"), AutoData]
-    public void ConfirmationModelContent_OnModalDismissParameter_FiresEvent(
-       string expectedModalPrompt,
-       string expectedModalMessage)
-    {
-        //Arrange
-        var eventFired = false;
-        var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
-            .Add(p => p.State, new ModalRenderFragmentState
-            {
-                Prompt = expectedModalPrompt,
-                Message = expectedModalMessage,
-                HandleClose = (args) => Task.CompletedTask,
-                HandleDismiss = () =>
-                {
-                    eventFired = true;
-                    return Task.CompletedTask;
-                }
-            }));
+		//Assert
+		eventFired.ShouldBeTrue();
+		userConfirmed.ShouldBe(expectedUserConfirmed);
+	}
 
-        //Act
-        cut.Find(".dismiss").Click();
+	[Theory(DisplayName = "OnModalDismissParameter Test"), AutoData]
+	public void ConfirmationModelContent_OnModalDismissParameter_FiresEvent(
+	   string expectedModalPrompt,
+	   string expectedModalMessage)
+	{
+		//Arrange
+		var eventFired = false;
+		var cut = RenderComponent<ConfirmationModalContent>(parameters => parameters
+			.Add(p => p.Prompt, expectedModalPrompt)
+			.Add(p => p.Message, expectedModalMessage)
+			.Add(p => p.OnDismiss, () => eventFired = true));
 
-        //Assert
-        eventFired.ShouldBeTrue();
-    }
+		//Act
+		cut.Find(".dismiss").Click();
+
+		//Assert
+		eventFired.ShouldBeTrue();
+	}
 }
