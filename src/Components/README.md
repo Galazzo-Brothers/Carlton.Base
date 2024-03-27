@@ -14,8 +14,6 @@ Welcome to `Carlton.Core.Components`, a collection of reusable components design
 
 - **Carlton.Core.Components.Lab:** Explore and experiment with the components in a live application using Carlton.Core.Components.Lab. This test lab project provides a playground environment where you can interact with the components, tweak their settings, and see how they behave in different scenarios.
 
-- **Layouts:** In addition to individual components, this repository includes a folder for layouts built on top of Carlton.Core.Components. These layouts provide pre-designed UI structures that you can easily plug into your applications, saving you time and effort in designing and styling your interfaces.
-
 Whether you're building a simple prototype or a complex enterprise application, Carlton.Core.Components offers a robust foundation for your Blazor projects. Dive in, explore the components, and accelerate your development workflow with Carlton.Core.Components.
 
 ## Contents
@@ -23,7 +21,6 @@ Whether you're building a simple prototype or a complex enterprise application, 
 - [Carlton.Core.Components](./Carlton.Core.Components/README.md): Detailed information and usage instructions for the main layout library.
 - [Carlton.Core.Components.Tests](./Carlton.Core.Components.Tests/README.md): Detailed information and usage instructions for the main layout library.
 - [Carlton.Core.Components.Lab](./Carlton.Core.Components.Lab/README.md): Instructions for running unit tests and validating layout functionality.
-- [Carlton.Core.Components.Layouts](./Layouts/README.md): Instructions for running unit tests and validating layout functionality.
   
 ## Getting Started
 
