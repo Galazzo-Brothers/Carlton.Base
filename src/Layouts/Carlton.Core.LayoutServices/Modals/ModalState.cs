@@ -23,7 +23,7 @@ internal sealed class ModalState : IModalState
 	/// <summary>
 	/// Gets the view model associated with the modal.
 	/// </summary>
-	public ModalViewModel ModalModel { get; private set; }
+	public ModalViewModel Model { get; private set; }
 
 	/// Raises a modal with the specified type and view model.
 	/// </summary>
@@ -33,7 +33,7 @@ internal sealed class ModalState : IModalState
 	{
 		IsVisible = true;
 		ModalType = modalType;
-		ModalModel = modalViewModel with
+		Model = modalViewModel with
 		{
 			CloseModal = WrapCloseModalCallback(modalViewModel.CloseModal),
 			DismissModal = WrapDismissModalCallback(modalViewModel.DismissModal)
@@ -64,7 +64,7 @@ internal sealed class ModalState : IModalState
 		{
 			IsVisible = IsVisible,
 			ModalType = ModalType,
-			ModalModel = ModalModel
+			Model = Model
 		});
 	}
 }

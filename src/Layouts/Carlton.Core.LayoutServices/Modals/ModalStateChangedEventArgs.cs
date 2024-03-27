@@ -18,5 +18,5 @@ public sealed record ModalStateChangedEventArgs
 	/// <summary>
 	/// Gets the view model associated with the modal.
 	/// </summary>
-	public required ModalViewModel ModalModel { get; init; }
+	public required ModalViewModel Model { get; init; }
 }
