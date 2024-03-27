@@ -1,0 +1,127 @@
+﻿@using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Toasts
+@using Carlton.Core.LayoutServices.FullScreen
+@using Carlton.Core.LayoutServices.Panel
+@using Carlton.Core.LayoutServices.Theme
+@using Carlton.Core.LayoutServices.Toasts
+@using Carlton.Core.LayoutServices.Modals
+@namespace Carlton.Core.Layouts.Manager
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject IFullScreenState NavMenuState
+@inject IThemeState ThemeState
+@inject IModalState ModalState
+@inject IToastState ToastState
+@inject IPanelState PanelState
+
+
+@* This component manages the layout of the application including modals and toasts. *@
+<div class="layout-manager" data-theme="@ThemeState.Theme.ToString()">
+	<!-- Body Content -->
+	@Body
+
+	<!--Layout Toaster-->
+	<LayoutToaster @ref="LayoutToaster"
+				   FadeOutEnabled="true"
+				   Top="50"
+				   Right="10">
+		<ToastContent Context="toast">
+			<Toast Id="@toast.Id"
+				   Title="@toast.Title"
+				   Message="@toast.Message"
+				   ToastType="@CurrentToastType(toast.ToastType)"
+				   FadeOutEnabled="!toast.FadeOutEnabled"
+				   IsDismissed="toast.IsDismissed"
+				   OnDismissed="() => toast.MarkAsDismissed()" />
+		</ToastContent>
+	</LayoutToaster>
+
+	<!--Layout Modal-->
+	<Modal IsVisible="@ModalState.IsVisible"
+		   ModalType="@CurrentModalType"
+		   ModalPrompt="@ModalState?.ModalModel?.Prompt"
+		   ModalMessage="@ModalState?.ModalModel?.Message"
+		   CloseModal="CloseModalOrDefault"
+		   DismissModal="DismissModalOrDefault" />
+</div>
+
+
+@code {
+	private LayoutToaster LayoutToaster { get; set; }
+
+	protected override void OnInitialized()
+	{
+		NavMenuState.FullScreenStateChanged += OnLayoutChanged;
+		ThemeState.ThemeChanged += OnThemeChanged;
+		ModalState.ModalStateChanged += OnModalStateChanged;
+		PanelState.PanelVisibilityChangedChanged += OnPanelVisibilityChanged;
+		ToastState.ToastAdded += OnToastRaised;
+		base.OnInitialized();
+	}
+
+	private void OnLayoutChanged(object? sender, FullScreenStateChangedEventArgs args)
+		=> StateHasChanged();
+
+	private void OnThemeChanged(object? sender, ThemeChangedEventArgs args)
+		=> StateHasChanged();
+
+	private void OnModalStateChanged(object? sender, ModalStateChangedEventArgs args)
+		=> StateHasChanged();
+
+	private void OnPanelVisibilityChanged(object? sender, PanelVisibilityChangedEventArgs args)
+		=> StateHasChanged();
+
+	private void OnToastRaised(object? sender, ToastRaisedEventArgs args)
+		=> LayoutToaster.GenerateToast(args.RaisedToast);
+
+	private Func<ModalCloseEventArgs, Task> CloseModalOrDefault
+	{
+		get
+		{
+			if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.CloseModal == null)
+				return (args) => Task.CompletedTask;
+
+			return ModalState.ModalModel.CloseModal;
+		}
+	}
+
+	private Func<Task> DismissModalOrDefault
+	{
+		get
+		{
+			if (ModalState == null || ModalState.ModalModel == null || ModalState.ModalModel.DismissModal == null)
+				return () => Task.CompletedTask;
+
+			return ModalState.ModalModel.DismissModal;
+		}
+	}
+
+	private Func<string, ToastTypes> CurrentToastType
+	{
+		get => (toastType) =>
+		{
+			var parsedSuccessfully = Enum.TryParse(typeof(ToastTypes), toastType, true, out var parsedToastType);
+			return string.IsNullOrEmpty(toastType) || !parsedSuccessfully ? ToastTypes.Info
+				: (ToastTypes)parsedToastType!;
+		};
+	}
+
+	private ModalTypes CurrentModalType
+	{
+		get
+		{
+			var parsedSuccessfully = Enum.TryParse(typeof(ModalTypes), ModalState.ModalType, true, out var modalType);
+            return string.IsNullOrEmpty(ModalState.ModalType) || !parsedSuccessfully ? ModalTypes.SingleActionModal
+				: (ModalTypes) modalType!;
+        }
+    }
+
+    public void Dispose()
+    {
+		NavMenuState.FullScreenStateChanged -= OnLayoutChanged;
+		ThemeState.ThemeChanged -= OnThemeChanged;
+		ModalState.ModalStateChanged -= OnModalStateChanged;
+		PanelState.PanelVisibilityChangedChanged -= OnPanelVisibilityChanged;
+		ToastState.ToastAdded -= OnToastRaised;
+	}
+}
