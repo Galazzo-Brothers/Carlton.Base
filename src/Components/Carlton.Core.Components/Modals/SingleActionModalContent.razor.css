@@ -1,5 +1,7 @@
 ﻿/* Single Action Modal Content Variables */
 .single-action-modal-content {
+	--modal-padding: 20px;
+	--modal-border-radius: 5px;
 	--modal-prompt-message-font-size: 20pt;
 	--modal-message-font-size: 10pt;
 	--modal-actions-gap: 10px;
@@ -8,6 +10,12 @@
 	--modal-actions-button-width: 75px;
 	--modal-actions-border-radius: 5px;
 }
+
+.single-action-modal-content {
+	padding: var(--modal-padding);
+	border-radius: var(--modal-border-radius);
+}
+
 
 /* Modal Prompt Message Styles */
 .modal-prompt-message {

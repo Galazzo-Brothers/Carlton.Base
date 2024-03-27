@@ -1,0 +1,31 @@
+﻿@namespace Carlton.Core.LayoutServices.Toasts
+@using Carlton.Core.LayoutServices.Toasts
+@inject IToastState ToastState
+
+@* Represents a component for displaying notifications and raising toast messages. *@
+<div class="notifications-menu" @onclick="@OnClick">
+    <i class="icon mdi mdi-24px mdi-bell-outline"></i>
+    <div class="notification-count-content">
+        <span class="notification-count">@NotificationCount</span>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the count of notifications to display.
+    /// </summary>
+    [Parameter]
+    public int NotificationCount { get; set; }
+
+    // Index for tracking toast messages
+    private int index = 0;
+
+    /// <summary>
+    /// Handles the click event for the notifications component.
+    /// </summary>
+    public void OnClick()
+    {
+        ToastState.RaiseToast(index.ToString(), "Testing 123", "success");
+        index = (index + 1) % 3;
+    }
+}

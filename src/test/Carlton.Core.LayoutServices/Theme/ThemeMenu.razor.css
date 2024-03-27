@@ -1,0 +1,13 @@
+﻿/* Base Theme Styles */
+.theme-menu {
+	margin-top: auto;
+	margin-bottom: auto;
+	color: var(--layout-header-icon-color);
+}
+
+/*Media Queries*/
+@media (max-width: 768px) {
+	.theme-menu {
+		color: var(--layout-mobile-header-icon-color);
+	}
+}
