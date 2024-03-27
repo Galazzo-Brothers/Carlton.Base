@@ -1,0 +1,85 @@
+﻿@using Carlton.Core.Components.Logos
+@using Carlton.Core.Components.Navigation
+@namespace Carlton.Core.Layouts.DashboardLayouts.PanelLayout
+
+@* Represents the panel layout for the dashboard. *@
+<div class="@DashboardPanelLayoutCss">
+	<!-- Header -->
+	<header>
+		<div class="header-bar">
+			<!-- Nav -->
+			<div class="nav">
+				<MobileSlideOutNav>
+					<Content>
+						<SectionOutlet SectionId="DashboardPanelLayout.Nav" />
+					</Content>
+				</MobileSlideOutNav>
+			</div>
+
+			<!-- Logo Content -->
+			<div class="logo">
+				<SectionOutlet SectionId="DashboardPanelLayout.Logo" />
+			</div>
+
+			<!-- Title Content -->
+			<div class="title">
+				<SectionOutlet SectionId="DashboardPanelLayout.HeaderPageTitle" />
+			</div>
+
+			<!-- Action Content-->
+			<div class="action">
+				<SectionOutlet SectionId="DashboardPanelLayout.HeaderActionContent" />
+			</div>
+		</div>
+	</header>
+
+	<!-- Main -->
+	<main>
+		@if (ShowPanel)
+		{
+			<!-- Body -->
+			<div class="mobile-body-content">
+				@BodyContent
+			</div>
+
+			<!-- Panel -->
+			<div class="mobile-panel-content">
+				<SectionOutlet SectionId="DashboardPanelLayout.Panel" />
+			</div>
+		}
+		else
+		{
+			@BodyContent
+		}
+	</main>
+</div>
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the body content to be rendered.
+	/// </summary>
+	[Parameter]
+	public RenderFragment BodyContent { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the layout is in full screen mode.
+	/// </summary>
+	[Parameter]
+	public bool IsFullScreen { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the layout panel is displayed.
+	/// </summary>
+	[Parameter]
+	public bool ShowPanel { get; set; }
+
+	/// Gets the CSS classes for the layout container.
+	private string DashboardPanelLayoutCss
+	{
+		get => new CssBuilder("dashboard-panel-layout")
+				.AddClass("collapsed", IsFullScreen)
+				.Build();
+	}
+
+}
