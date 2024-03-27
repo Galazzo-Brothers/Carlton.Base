@@ -1,35 +1,35 @@
-﻿using Carlton.Core.Components.Layouts.DashboardLayouts.PanelLayout;
-using Carlton.Core.Components.Layouts.FullScreen;
-using Carlton.Core.Components.Panels;
-namespace Carlton.Core.Components.Layouts.Tests.DashboardLayouts.PanelLayout;
+﻿using Carlton.Core.Components.Panels;
+using Carlton.Core.Layouts.DashboardLayouts.PanelLayout;
+using Carlton.Core.LayoutServices.FullScreen;
+namespace Carlton.Core.Layouts.Tests.DashboardLayouts.PanelLayout;
 
 [Trait("Component", nameof(DashboardPanelLayout))]
 public class DashboardPanelDesktopLayoutComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test")]
-    [InlineAutoData(false, false)]
-    [InlineAutoData(true, false)]
-    [InlineAutoData(false, true)]
-    [InlineAutoData(true, true)]
-    public void DashboardPanelDesktopLayout_Markup_RendersCorrectly(
-        bool expectedIsFullScreen,
-        bool expectedShowPanel,
-        string expectedContent)
-    {
-        //Arrange
-        var moduleInterop = JSInterop.SetupModule(ResizablePanel.ImportPath);
-        moduleInterop.SetupVoid(ResizablePanel.InitResizablePanel);
-        var navStateMock = Substitute.For<IFullScreenState>();
-        Services.AddSingleton(navStateMock);
+	[Theory(DisplayName = "Markup Test")]
+	[InlineAutoData(false, false)]
+	[InlineAutoData(true, false)]
+	[InlineAutoData(false, true)]
+	[InlineAutoData(true, true)]
+	public void DashboardPanelDesktopLayout_Markup_RendersCorrectly(
+		bool expectedIsFullScreen,
+		bool expectedShowPanel,
+		string expectedContent)
+	{
+		//Arrange
+		var moduleInterop = JSInterop.SetupModule(ResizablePanel.ImportPath);
+		moduleInterop.SetupVoid(ResizablePanel.InitResizablePanel);
+		var navStateMock = Substitute.For<IFullScreenState>();
+		Services.AddSingleton(navStateMock);
 
-        var expectedPanelMarkup = $@"
+		var expectedPanelMarkup = $@"
             <div class=""resizable-panel"">
               <div class=""panel-top"" >{expectedContent}</div>
               <div class=""splitter-horizontal""></div>
               <div class=""panel-bottom""></div>
             </div>";
 
-        var expectedMarkup = $@"
+		var expectedMarkup = $@"
         <div class=""dashboard-panel-layout {(expectedIsFullScreen ? "collapsed" : string.Empty)}"" >
             <header>
                 <div>
@@ -56,13 +56,13 @@ public class DashboardPanelDesktopLayoutComponentTests : TestContext
         </div>";
 
 
-        //Act
-        var cut = RenderComponent<DashboardPanelDesktopLayout>(parameters =>
-            parameters.Add(p => p.BodyContent, expectedContent)
-                      .Add(p => p.IsFullScreen, expectedIsFullScreen)
-                      .Add(p => p.ShowPanel, expectedShowPanel));
+		//Act
+		var cut = RenderComponent<DashboardPanelDesktopLayout>(parameters =>
+			parameters.Add(p => p.BodyContent, expectedContent)
+					  .Add(p => p.IsFullScreen, expectedIsFullScreen)
+					  .Add(p => p.ShowPanel, expectedShowPanel));
 
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
+		//Assert
+		cut.MarkupMatches(expectedMarkup);
+	}
 }

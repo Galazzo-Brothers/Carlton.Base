@@ -1,12 +1,11 @@
-﻿using Carlton.Core.Components.Layouts.Modals;
-using Carlton.Core.Components.Modals;
-namespace Carlton.Core.Components.Layouts.Tests.Modals;
+﻿using Carlton.Core.LayoutServices.Modals;
+namespace Carlton.Core.LayoutServices.Tests.Modals;
 
 public class ModalStateTests
 {
 	[Theory(DisplayName = "ModalState Event Test"), AutoData]
 	public void ModalState_EventFires(
-	   ModalTypes expectedModalType,
+	   string expectedModalType,
 	   ModalViewModel expectedModalViewModel)
 	{
 		//Arrange

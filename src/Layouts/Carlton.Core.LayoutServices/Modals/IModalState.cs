@@ -23,7 +23,7 @@ public interface IModalState
 	/// <summary>
 	/// Gets the view model associated with the modal.
 	/// </summary>
-	public ModalViewModel ModalModel { get; }
+	public ModalViewModel Model { get; }
 
 	/// <summary>
 	/// Raises a modal with the specified type and view model.

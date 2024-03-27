@@ -1,12 +1,13 @@
-﻿using Bunit.TestDoubles;
-using Carlton.Core.Components.Layouts.FullScreen;
-using Carlton.Core.Components.Layouts.Manager;
-using Carlton.Core.Components.Layouts.Modals;
-using Carlton.Core.Components.Layouts.Panel;
-using Carlton.Core.Components.Layouts.Theme;
-using Carlton.Core.Components.Layouts.Toasts;
+﻿using Carlton.Core.LayoutServices.FullScreen;
+using Carlton.Core.LayoutServices.Modals;
+using Carlton.Core.LayoutServices.Panel;
+using Carlton.Core.LayoutServices.Theme;
+using Carlton.Core.Layouts.Manager;
+using Carlton.Core.LayoutServices.Toasts;
+using Carlton.Core.Layouts.Modals;
+using Bunit.TestDoubles;
 using Carlton.Core.Components.Modals;
-namespace Carlton.Core.Components.Layouts.Tests.Manager;
+namespace Carlton.Core.Layouts.Tests.Manager;
 
 
 [Trait("Component", nameof(LayoutManager))]
@@ -111,7 +112,7 @@ public class LayoutManagerComponentTests : TestContext
 	[Theory(DisplayName = "ModalState Changed Event Test"), AutoData]
 	public void LayoutManager_ModalStateChanged_FiresEvent(
 		bool expectedIsVisible,
-		ModalTypes expectedModalType,
+		string expectedModalType,
 		ModalViewModel expectedModalModel)
 	{
 		//Arrange
@@ -122,7 +123,7 @@ public class LayoutManagerComponentTests : TestContext
 		{
 			IsVisible = expectedIsVisible,
 			ModalType = expectedModalType,
-			ModalModel = expectedModalModel
+			Model = expectedModalModel
 		};
 		cut.InvokeAsync(() => _modalStateMock.ModalStateChanged += Raise.Event<EventHandler<ModalStateChangedEventArgs>>(new object(), args));
 
@@ -153,7 +154,7 @@ public class LayoutManagerComponentTests : TestContext
 		ModalViewModel expectedModalModel)
 	{
 		//Arrange
-		_modalStateMock.ModalType.Returns(expectedModalType);
+		_modalStateMock.ModalType.Returns(expectedModalType.ToString());
 		_modalStateMock.Model.Returns(expectedModalModel);
 
 		//Act

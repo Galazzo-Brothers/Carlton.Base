@@ -14,8 +14,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Foundation\Carlton.Core.Foundation.Tests\Carlton.Core.Foundation.Tests.csproj" />
-		<ProjectReference Include="..\Carlton.Core.Components.Layouts\Carlton.Core.Components.Layouts.csproj" />
+	  <ProjectReference Include="..\..\Components\Layouts\Carlton.Core.Components.Layouts\Carlton.Core.Layouts.csproj" />
+	  <ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Tests\Carlton.Core.Foundation.Tests.csproj" />
 	</ItemGroup>
+
+
 
 </Project>
