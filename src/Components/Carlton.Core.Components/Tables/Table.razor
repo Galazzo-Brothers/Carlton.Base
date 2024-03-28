@@ -6,173 +6,194 @@
     TItem: The type of items in the table.
 *@
 <div class="@TableCssClass">
-    <!--Table Header-->
-    <TableHeader TItem="TItem"
-                 Headings="Headings"
-                 SelectedOrderColumn="@OrderColumn"
-                 OrderAscending="OrderAscending"
-                 OnItemsSort="(args)=>HandleItemsSort(args)" />
+	<!--Table Header-->
+	<TableHeader TItem="TItem"
+				 Headings="Headings"
+				 SelectedOrderColumn="@OrderColumn"
+				 OrderAscending="OrderAscending"
+				 OnItemsSort="HandleItemsSort" />
 
 
-    <!--Table Body-->
-    <div class="body">
-        @foreach (var item in Items)
-        {
-            @RowTemplate(item)
-        }
-    </div>
+	<!--Table Body-->
+	<div class="body">
+		@foreach (var item in Items)
+		{
+			@RowTemplate(item)
+		}
+	</div>
 
-    <!--Table Pagination Row-->
-    @if (ShowPaginationRow)
-    {
-        <TablePaginationRow TItem="TItem"
-                            RowsPerPageOpts="RowsPerPageOpts"
-                            TotalItemCount="AllItems.Count()"
-                            CurrentPage="CurrentPage"
-                            SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
-                            OnPageChange="OnPageChange"
-                            OnRowsPerPageChange="OnRowsPerPageChange" />
-    }
+	<!--Table Pagination Row-->
+	@if (ShowPaginationRow)
+	{
+		<TablePaginationRow TItem="TItem"
+							RowsPerPageOpts="RowsPerPageOpts"
+							TotalItemCount="AllItems.Count()"
+							CurrentPage="CurrentPage"
+							SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
+							OnPageChange="HandlePageChange"
+							OnRowsPerPageChange="HandleRowsPerPageChange" />
+	}
 </div>
 
 @code {
-    /// <summary>
-    /// Gets or sets the headings for the table columns.
-    /// </summary>
-    [Parameter]
-    public IEnumerable<TableHeadingItem> Headings { get; set; }
+	/// <summary>
+	/// Gets or sets the headings for the table columns.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<TableHeadingItem> Headings { get; set; }
 
-    /// <summary>
-    /// Gets or sets the items to be displayed in the table.
-    /// </summary>
-    [Parameter]
-    public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+	/// <summary>
+	/// Gets or sets the items to be displayed in the table.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
 
-    /// <summary>
-    /// Gets or sets the template for rendering each row in the table.
-    /// </summary>
-    [Parameter]
-    public RenderFragment<TItem> RowTemplate { get; set; }
+	/// <summary>
+	/// Gets or sets the template for rendering each row in the table.
+	/// </summary>
+	[Parameter]
+	public RenderFragment<TItem> RowTemplate { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether zebra-striped styling should be applied to the table rows.
-    /// </summary>
-    [Parameter]
-    public bool ZebraStripped { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether zebra-striped styling should be applied to the table rows.
+	/// </summary>
+	[Parameter]
+	public bool ZebraStripped { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether hoverable styling should be applied to the table rows.
-    /// </summary>
-    [Parameter]
-    public bool Hoverable { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether hoverable styling should be applied to the table rows.
+	/// </summary>
+	[Parameter]
+	public bool Hoverable { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the pagination row should be displayed.
-    /// </summary>
-    [Parameter]
-    public bool ShowPaginationRow { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether the pagination row should be displayed.
+	/// </summary>
+	[Parameter]
+	public bool ShowPaginationRow { get; set; }
 
-    /// <summary>
-    /// Gets or sets the options for the number of rows per page.
-    /// </summary>
-    [Parameter]
-    public IEnumerable<int> RowsPerPageOpts { get; set; }
+	/// <summary>
+	/// Gets or sets the options for the number of rows per page.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<int> RowsPerPageOpts { get; set; }
 
-    /// <summary>
-    /// Gets or sets the current page number.
-    /// </summary>
-    [Parameter]
-    public int CurrentPage { get; set; } = 1;
+	/// <summary>
+	/// Gets or sets the current page number.
+	/// </summary>
+	[Parameter]
+	public int CurrentPage { get; set; } = 1;
 
-    /// <summary>
-    /// Gets or sets the index of the selected rows per page option.
-    /// </summary>
-    [Parameter]
-    public int SelectedRowsPerPageIndex { get; set; } = 0;
+	/// <summary>
+	/// Gets or sets the index of the selected rows per page option.
+	/// </summary>
+	[Parameter]
+	public int SelectedRowsPerPageIndex { get; set; } = 0;
 
-    /// <summary>
-    /// Gets or sets a value indicating whether sortable headers are enabled.
-    /// </summary>
-    [Parameter]
-    public bool SortableHeadersEnabled { get; set; } = true;
+	/// <summary>
+	/// Gets or sets a value indicating whether sortable headers are enabled.
+	/// </summary>
+	[Parameter]
+	public bool SortableHeadersEnabled { get; set; } = true;
 
-    /// <summary>
-    /// Gets or sets the column used for ordering items.
-    /// </summary>
-    [Parameter]
-    public string OrderColumn { get; set; } = string.Empty;
+	/// <summary>
+	/// Gets or sets the column used for ordering items.
+	/// </summary>
+	[Parameter]
+	public string OrderColumn { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the items are ordered in ascending or descending order.
-    /// </summary>
-    [Parameter]
-    public bool OrderAscending { get; set; } = true;
+	/// <summary>
+	/// Gets or sets a value indicating whether the items are ordered in ascending or descending order.
+	/// </summary>
+	[Parameter]
+	public bool OrderAscending { get; set; } = true;
 
-    /// <summary>
-    /// Event callback invoked when the page changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
+	/// <summary>
+	/// Event callback invoked when the page changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
 
-    /// <summary>
-    /// Event callback invoked when the rows per page value changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
+	/// <summary>
+	/// Event callback invoked when the rows per page value changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
-    /// <summary>
-    /// Event callback invoked when the items are sorted.
-    /// </summary>
-    [Parameter]
-    public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
+	/// <summary>
+	/// Event callback invoked when the items are sorted.
+	/// </summary>
+	[Parameter]
+	public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
-    private IList<TItem> AllItems { get; set; } = new List<TItem>();
+	private IList<TItem> AllItems { get; set; } = new List<TItem>();
 
-    private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
+	private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
-    private string TableCssClass
-    {
-        get => new CssBuilder("table-container")
-                .AddClass("zebra", ZebraStripped)
-                .AddClass("hoverable", Hoverable)
-                .Build();
-    }
+	private string TableCssClass
+	{
+		get => new CssBuilder("table-container")
+				.AddClass("zebra", ZebraStripped)
+				.AddClass("hoverable", Hoverable)
+				.Build();
+	}
 
-    protected override void OnParametersSet()
-    {
-        AllItems = Items.ToList();
-        UpdateOrdering();
-        UpdatePagination();
-        base.OnParametersSet();
-    }
+	protected override void OnParametersSet()
+	{
+		AllItems = Items.ToList();
+		UpdateOrdering();
+		UpdatePagination();
+		base.OnParametersSet();
+	}
 
-    private void HandleItemsSort(ItemsSortEventArgs args)
-    {
-        if (!SortableHeadersEnabled)
-            return;
+	private void UpdateOrdering()
+	{
+		if (string.IsNullOrEmpty(OrderColumn))
+			return;
 
-        OrderColumn = args.SortColumn;
-        OrderAscending = args.SortAscending;
-        UpdateOrdering();
-        OnItemsSort.InvokeAsync(args);
-    }
+		CurrentPage = 1; //reset to first page
+		var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
+		Items = AllItems.AsQueryable().OrderBy(orderString).ToList();
+	}
 
-    private void UpdatePagination()
-    {
-        if (!ShowPaginationRow)
-            return;
+	private void UpdatePagination()
+	{
+		if (!ShowPaginationRow)
+			return;
 
-        Items = AllItems.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
-                        .Take(SelectedRowPerPageValue)
-                        .ToList();
-    }
+		Items = Items.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
+						.Take(SelectedRowPerPageValue)
+						.ToList();
+	}
 
-    private void UpdateOrdering()
-    {
-        if (string.IsNullOrEmpty(OrderColumn))
-            return;
+	private void HandleItemsSort(ItemsSortEventArgs args)
+	{
+		if (!SortableHeadersEnabled)
+			return;
 
-        var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
-        Items = AllItems.AsQueryable().OrderBy(orderString).ToList();
-    }
+		OrderColumn = args.SortColumn;
+		OrderAscending = args.SortAscending;
+		UpdateOrdering();
+		OnItemsSort.InvokeAsync(args);
+	}
+
+	private void HandlePageChange(PageChangeEventArgs args)
+	{
+		if (!ShowPaginationRow)
+			return;
+
+		CurrentPage = args.CurrentPage;
+		UpdatePagination();
+		OnPageChange.InvokeAsync(args);
+	}
+
+	private void HandleRowsPerPageChange(RowsPerPageChangeEventArgs args)
+	{
+		if (!ShowPaginationRow)
+			return;
+
+		SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
+		UpdatePagination();
+		OnRowsPerPageChange.InvokeAsync(args);
+	}
 }
