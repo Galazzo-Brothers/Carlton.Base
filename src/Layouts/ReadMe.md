@@ -7,22 +7,24 @@
 
 Welcome to the Carlton.Core.Layouts repository! This repository contains the main project and test project for the Carlton Core Layouts library, designed to streamline the development of rich and interactive user interfaces in Blazor applications.
 
-## Overview
+- **Carlton.Core.LayoutServices:** Contains the core services for managing layout state and interactions.
 
-The `Carlton.Core.Layouts` project provides a collection of pre-designed layouts for building robust Blazor applications within the Carlton Organization ecosystem. These layouts offer various features and components to enhance user experience and maintain consistency across projects.
+- **Carlton.Core.LayoutServices.Tests:** Contains unit tests for the components and services in `Carlton.Core.LayoutServices`, ensuring reliability and maintaining quality standards throughout the development process.
 
-The `Carlton.Core.Layouts.Test` project, on the other hand, contains unit tests for validating the functionality and behavior of the layouts provided by the `Carlton.Core.Layouts` library.
+ - **Carlton.Core.Layouts:** Provides a collection of pre-designed layouts for building robust Blazor applications within the Carlton Organization ecosystem. These layouts offer various features and components to enhance user experience and maintain consistency across projects.
+
+- **Carlton.Core.Layouts.Test:** Contains unit tests for validating the functionality and behavior of the layouts provided by the `Carlton.Core.Layouts` library.
 
 ## Contents
 
+- [Carlton.Core.LayoutServices](./Carlton.Core.LayoutServices/README.md):  Detailed information and usage instructions for the base layout services library.
+- [Carlton.Core.LayoutServices.Tests](./Carlton.Core.LayoutServices.Tests/README.md): Instructions for running unit tests and validating layout services functionality
 - [Carlton.Core.Layouts](./Carlton.Core.Components.Layouts/README.md): Detailed information and usage instructions for the main layout library.
 - [Carlton.Core.Layouts.Tests](./Carlton.Core.Components.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
 
 ## Getting Started
 
-To get started with the Carlton.Core.Layouts library, refer to the README file in the `Carlton.Core.Layouts` directory. It provides installation instructions, usage guidelines, and examples for integrating layouts into your Blazor applications.
-
-For developers contributing to the project or interested in running unit tests, navigate to the `Carlton.Core.Layouts.Test` directory and follow the instructions provided in its README file.
+For detailed usage instructions and documentation for each package, please refer to their respective readme files.
 
 ## Feedback and Contributions
 
