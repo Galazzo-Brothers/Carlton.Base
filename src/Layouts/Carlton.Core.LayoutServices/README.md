@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="../../images/CarltonLogo.png" alt="Image Alt Text" width="200" />
+   <img src="../../../images/CarltonLogo.png" alt="Image Alt Text" width="200" />
 </div>
 
 # Carlton.Core.LayoutServices
