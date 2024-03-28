@@ -1,4 +1,9 @@
 ﻿namespace Carlton.Core.Flux.Contracts;
+
+/// <summary>
+/// Represents the event arguments for a state change event in a Flux architecture.
+/// </summary>
+/// <param name="StateEvent">The name of the state change event.</param>
 public record FluxStateChangedEventArgs(string StateEvent);
 
 /// <summary>

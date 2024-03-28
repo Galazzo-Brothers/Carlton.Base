@@ -5,6 +5,7 @@ namespace Carlton.Core.Flux.Contracts;
 /// <summary>
 /// Represents the result of a mutation command.
 /// </summary>
+/// <param name="StateEvent">The name of the state change event.</param>
 public record MutationCommandResult(string StateEvent);
 
 /// <summary>

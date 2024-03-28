@@ -11,9 +11,9 @@ internal static class ProfileAvatarTestStates
 			Username = "Stephen",
 			DropdownMenuItems = new List<DropdownMenuItem<int>>
 				{
-					new("Item 1", 1, "account", 1, () => { }),
-					new("Item 2", 2, "theme-light-dark", 2, () => { }),
-					new("Item 3", 3, "delete", 3, () => { })
+					new(){ MenuItemName = "Item 1", Value = 1, MenuIcon = "account", AccentColorIndex = 1, MenuItemSelected = () => { } },
+					new(){ MenuItemName = "Item 2", Value = 2, MenuIcon = "theme-light-dark", AccentColorIndex = 2, MenuItemSelected = () => { } },
+					new(){ MenuItemName = "Item 3", Value = 3, MenuIcon = "delete", AccentColorIndex = 3, MenuItemSelected = () => { } }
 				}
 		};
 	}

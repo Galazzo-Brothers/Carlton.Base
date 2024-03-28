@@ -21,8 +21,14 @@
         <div class="options">
             @foreach (var (opt, i) in Options.WithIndex())
             {
-                <!-- Individual option items -->
-                <div class="option" @onclick="()=>HandleValueChange(new ValueChangeArgs<T>(i, opt.Key, opt.Value))">@opt.Key</div>
+				<!-- Individual option items -->
+				var args = new ValueChangeArgs<T>
+					{
+						SelectedIndex = i,
+						SelectedKey = opt.Key,
+						SelectedValue = opt.Value
+					};
+                <div class="option" @onclick="()=>HandleValueChange(args)">@opt.Key</div>
             }
         </div>
     }

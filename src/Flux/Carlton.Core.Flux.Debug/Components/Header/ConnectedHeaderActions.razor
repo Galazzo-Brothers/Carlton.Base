@@ -22,16 +22,16 @@
 	   
 
 @code {
-    private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
-    {
-        get =>
-            new List<DropdownMenuItem<int>>
+	private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
+	{
+		get =>
+			new List<DropdownMenuItem<int>>
             {
-                new DropdownMenuItem<int>("Profile", 1, "account", 1, () => { }),
-                new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2, ThemeState.ToggleTheme),
-                new DropdownMenuItem<int>("Clear Local Storage", 3, "delete", 3, RaiseClearLocalStorageConfirmationModal),
-                new DropdownMenuItem<int>("App", 4, "open-in-app", 4, () => NavigationManager.NavigateTo($"/")),
-                new DropdownMenuItem<int>("Logout", 5, "logout", 5, () => { })
+                new DropdownMenuItem<int>{ MenuItemName = "Profile", Value = 1, MenuIcon = "account", AccentColorIndex = 1, MenuItemSelected = () => { } },
+                new DropdownMenuItem<int>{ MenuItemName = "Theme", Value = 2, MenuIcon = "theme-light-dark", AccentColorIndex = 2, MenuItemSelected = () => ThemeState.ToggleTheme() },
+                new DropdownMenuItem<int>{ MenuItemName = "Clear Local Storage", Value = 3, MenuIcon = "delete", AccentColorIndex   = 3, MenuItemSelected = RaiseClearLocalStorageConfirmationModal},
+                new DropdownMenuItem<int>{ MenuItemName = "Open in App", Value = 4, MenuIcon = "open-in-app", AccentColorIndex = 4, MenuItemSelected = () => NavigationManager.NavigateTo($"/") }, 
+                new DropdownMenuItem<int>{ MenuItemName = "Logout", Value = 5, MenuIcon = "logout", AccentColorIndex    = 5, MenuItemSelected = () => {}}
             };
 
     }

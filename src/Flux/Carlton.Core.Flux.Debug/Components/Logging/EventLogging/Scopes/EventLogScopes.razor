@@ -14,25 +14,25 @@
 	/// Gets or sets the log message to display.
 	/// </summary>
 	[Parameter]
-    public LogMessage? LogMessage { get; set; }
+	public LogMessage? LogMessage { get; set; }
 
-    private string ScopeText()
-    {
-        if (LogMessage == null)
-            return string.Empty;
+	private string ScopeText()
+	{
+		if (LogMessage == null)
+			return string.Empty;
 
-        if (!LogMessage.Scopes.Any())
-            return string.Empty;
+		if (!LogMessage.Scopes.Any())
+			return string.Empty;
 
-        var sb = new StringBuilder();
-        var nextIndentation = "\t";
+		var sb = new StringBuilder();
+		var nextIndentation = "\t";
 
-        foreach (var (key, value) in LogMessage.Scopes.ToList())
-        {
-            sb.Append(nextIndentation)
-              .Append(" => ")
-              .Append($"{key} : {value}")
-              .AppendLine();
+		foreach (var (key, value) in LogMessage.Scopes.ToList())
+		{
+			sb.Append(" => ")
+					.Append($"{key} : {value}")
+					.AppendLine()
+					.Append(nextIndentation);
 
             nextIndentation += "\t";
         }
