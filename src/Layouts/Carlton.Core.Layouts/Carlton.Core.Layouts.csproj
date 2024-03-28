@@ -18,13 +18,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj" />
-	  <ProjectReference Include="..\..\..\test\Carlton.Core.LayoutServices\Carlton.Core.LayoutServices.csproj" />
-	  <ProjectReference Include="..\..\Carlton.Core.Components\Carlton.Core.Components.csproj" />
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+	  <ProjectReference Include="..\..\Components\Carlton.Core.Components\Carlton.Core.Components.csproj" />
+	  <ProjectReference Include="..\Carlton.Core.LayoutServices\Carlton.Core.LayoutServices.csproj" />
 	</ItemGroup>
 
 </Project>
