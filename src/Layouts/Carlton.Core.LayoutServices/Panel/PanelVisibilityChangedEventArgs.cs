@@ -3,10 +3,5 @@
 /// <summary>
 /// Represents the event arguments for panel visibility state change event.
 /// </summary>
-public sealed record PanelVisibilityChangedEventArgs
-(
-	/// <summary>
-	/// Gets a value indicating whether the layout panel is visible.
-	/// </summary>
-	bool IsVisible
-);
+/// <param name="IsVisible">Gets a value indicating whether the layout panel is visible.</param>
+public sealed record PanelVisibilityChangedEventArgs(bool IsVisible);

@@ -15,9 +15,9 @@ internal static class MenuTestStates
 	{
 		get => new List<DropdownMenuItem<int>>
 		{
-			new("Option 1", 1, "mdi-icon1", 1, () => { }),
-			new("Option 2", 2, "mdi-icon2", 2, () => { }),
-			new("Option 3", 3, "mdi-icon3", 3, () => { })
+			new() { MenuItemName = "Option 1", Value = 1, MenuIcon = "mdi-icon1", AccentColorIndex = 1, MenuItemSelected = () => { } },
+			new() { MenuItemName = "Option 2", Value = 2, MenuIcon = "mdi-icon2", AccentColorIndex = 2, MenuItemSelected = () => { } },
+			new() { MenuItemName = "Option 3", Value = 3, MenuIcon = "mdi-icon3", AccentColorIndex = 3, MenuItemSelected = () => { } }
 		};
 	}
 }

@@ -21,16 +21,16 @@
 
 @code {
 	// Generates the dropdown menu items
-    private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
-    {
-        get
-        {
-            return new List<DropdownMenuItem<int>>
+	private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
+	{
+		get
+		{
+			return new List<DropdownMenuItem<int>>
             {
-                new DropdownMenuItem<int>("Profile", 1, "account", 1, () => { }),
-                new DropdownMenuItem<int>("Theme", 2, "theme-light-dark", 2, ThemeState.ToggleTheme),
-                new DropdownMenuItem<int>("Debug", 3, "bug-outline", 3, () => NavigationManager.NavigateTo($"/debug/logs")),
-                new DropdownMenuItem<int>("Logout", 4, "logout", 4, () => { })
+                new DropdownMenuItem<int>{ MenuItemName = "Profile", Value = 1, MenuIcon = "account", AccentColorIndex = 1, MenuItemSelected = () => {} },
+                new DropdownMenuItem<int>{ MenuItemName = "Theme", Value = 2, MenuIcon = "theme-light-dark", AccentColorIndex = 2, MenuItemSelected = () => ThemeState.ToggleTheme() },
+                new DropdownMenuItem<int>{ MenuItemName = "Debug", Value = 3, MenuIcon = "bug-outline", AccentColorIndex = 3, MenuItemSelected = () => NavigationManager.NavigateTo($"/debug/logs") },
+                new DropdownMenuItem<int>{ MenuItemName = "Logout", Value = 4, MenuIcon = "logout", AccentColorIndex = 4, MenuItemSelected = () => {} }
             };
         }
     }
