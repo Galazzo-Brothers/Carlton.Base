@@ -19,8 +19,8 @@ Welcome to the Carlton.Core.Layouts repository! This repository contains the mai
 
 - [Carlton.Core.LayoutServices](./Carlton.Core.LayoutServices/README.md):  Detailed information and usage instructions for the base layout services library.
 - [Carlton.Core.LayoutServices.Tests](./Carlton.Core.LayoutServices.Tests/README.md): Instructions for running unit tests and validating layout services functionality
-- [Carlton.Core.Layouts](./Carlton.Core.Components.Layouts/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Layouts.Tests](./Carlton.Core.Components.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Layouts](./Carlton.Core.Layouts/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Layouts.Tests](./Carlton.Core.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
 
 ## Getting Started
 
