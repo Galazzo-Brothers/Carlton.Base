@@ -28,4 +28,4 @@ For detailed usage instructions and documentation for each package, please refer
 
 ## Feedback and Contributions
 
-We welcome feedback, suggestions, and contributions from the community to improve the Carlton.Core.Layouts library. If you encounter any issues, have ideas for enhancemet
+We welcome feedback, suggestions, and contributions from the community to improve the `Carlton.Core.Layouts library`. If you encounter any issues, have ideas for enhancemet
