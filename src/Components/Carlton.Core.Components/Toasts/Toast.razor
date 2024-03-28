@@ -153,7 +153,7 @@
     /// </summary>
     public async ValueTask DisposeAsync()
     {
-        await _module.InvokeAsync<Task>(DisposeToast, DotNetObjectReference.Create(this), nameof(HandleDismiss), Id);
+        await _module.InvokeAsync<Task>(DisposeToast, Id);
         await _module.DisposeAsync();
     }
 }

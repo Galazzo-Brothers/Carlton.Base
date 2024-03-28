@@ -8,7 +8,7 @@ export function initNewToast(dotnetHelper, dotnetCallbackMethod, id) {
 
 export function disposeToast(id) {
     const toastElement = document.getElementById(`toast-${id}`);
-    toastElement.ontransitionend = null; //remove the event handler
+				toastElement.ontransitionend = null; //remove the event handler
 }
 
 function onTransitionend(dotnetHelper, dotnetCallbackMethod, evt) {
