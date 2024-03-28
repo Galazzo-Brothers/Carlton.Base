@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Components\Layouts\Carlton.Core.Components.Layouts\Carlton.Core.Layouts.csproj" />
+    <ProjectReference Include="..\..\Layouts\Carlton.Core.Layouts\Carlton.Core.Layouts.csproj" />
     <ProjectReference Include="..\Carlton.Core.BrowserStroage\Carlton.Core.BrowserStroage.csproj" />
     <ProjectReference Include="..\Carlton.Core.Flux.Debug.Models\Carlton.Core.Flux.Debug.Models.csproj" />
     <ProjectReference Include="..\Carlton.Core.Flux\Carlton.Core.Flux.csproj" />
