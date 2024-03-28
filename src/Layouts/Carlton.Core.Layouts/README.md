@@ -2,9 +2,9 @@
    <img src="../../../images/CarltonLogo.png" alt="Image Alt Text" width="200" />
 </div>
 
-# Carlton.Core.Components.Layouts
+# Carlton.Core.Layouts
 
-The `Carlton.Core.Components.Layouts` package extends the functionality of the `Carlton.Core.Components` library by providing a collection of pre-designed layouts for building rich and interactive user interfaces in Blazor applications. These layouts streamline the development process and offer out-of-the-box features such as toasts, modals, and viewport management.
+The `Carlton.Core.Layouts` package provides a collection of pre-designed layouts for building rich and interactive user interfaces in Blazor applications. These layouts streamline the development process and offer out-of-the-box features such as toasts, modals, and viewport management.
 
 ![C#](https://img.shields.io/badge/language-C%23-blue)
 ![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
@@ -12,26 +12,22 @@ The `Carlton.Core.Components.Layouts` package extends the functionality of the `
 
 ## Key Features
 
-- Responsive DashboardPanelLayout Template
+- Responsive Dashboard Panel Layout
+- Responsive Tabbed Dashboard Panel Layout
 - Extensible LayoutManager Component
-- MediaQueryWrapper Component and Viewport State Service
-- FullScreen State Management and Menu Component
-- Theme State Management and Menu Component
-- Toast State Management and LayoutToaster Component
-- Modal State Management
-
 
 ## Dependencies
 
-* Carlton.Core.Components
 * Carlton.Core.Foundation.Web
+* Carlton.Core.LayoutServices
+* Carlton.Core.Components
 
 ## Getting Started
 
 ### Installing
 
 ```bash
-dotnet add package Carlton.Core.Components.Layouts
+dotnet add package Carlton.Core.Layouts
 ```
 ### Implementing Layouts
 
@@ -40,68 +36,6 @@ dotnet add package Carlton.Core.Components.Layouts
 3. Replace the SectionContent tags with your own layout content as show below
 4. Register the layout services in the IoC container
 
-#### Dashboard Layout
-
-Desktop
-<table>
-  <tr>
-    <td>NavSideBar</td>
-    <td>Header</td>
-    <td>Header</td>
-  </tr>
-  <tr>
-    <td>NavSideBar</td>
-    <td>Main</td>
-    <td>Footer</td>
-  </tr>
-  <tr>
-    <td>NavSideBar</td>
-    <td>Main</td>
-    <td>Footer</td>
-  </tr>
- </table>
-
- Mobile
-  Mobile
-<table>
-  <tr>
-    <td>Header</td>
-  </tr>
-  <tr>
-    <td>Main</td>
-  </tr>
-  <tr>
-    <td>Footer</td>
-  </tr>
- </table>
-
-```cshtml
-@using Carlton.Core.Components.Layouts.DashboardLayouts.DashboardLayout
-@namespace Carlton.Core.Lab.Layouts
-@layout DashboardLayout
-
-@Body
-
-<SectionContent SectionId="DashboardLayout.Nav">
-   <!-- Replace with your panel content -->
-</SectionContent>
-
-<SectionContent SectionId="DashboardLayout.HeaderPageTitle">
-   <!-- Replace with your page title content -->
-</SectionContent>
-
-<SectionContent SectionId="DashboardLayout.HeaderActionContent">
-   <!-- Replace with your header action content -->
-</SectionContent>
-
-<SectionContent SectionId="DashboardLayout.Logo">
-      <!-- Replace with your logo content -->
-</SectionContent>
-
-<SectionContent SectionId="DashboardLayout.Footer">
-   <!-- Replace with your footer content -->
-</SectionContent>
-```
 #### Dashboard Panel Layout
 
 Desktop
@@ -243,112 +177,6 @@ Desktop
       opt.IsFullScreen = true;
       opt.Theme = Themes.dark;
    }); 
-```
-## Usage
-
-### Toggle Fullscreen mode
-
-```cshtml
-@inject IFullScreenState FullScreenState
-
-@* your markup *@
-
-@code{
-   public void ToggleFullScreen()
-   {
-      FullScreenState.ToggleFullScreen();
-   }
-}
-```
-### Change Panal Visibility
-
-```cshtml
-@inject IPanelState PanelState
-
-@* your markup *@
-
-@code{
-   public void PanelState()
-   {
-      PanelState.TogglePanelVisibility()
-   }
-}
-```
-
-### Change Theme 
-
-```cshtml
-@inject IThemeState ThemeState
-
-@* your markup *@
-
-@code{
-   public void ThemeState()
-   {
-      ThemeState.ToggleTheme()
-   }
-}
-```
-
-### Get Current Viewport
-
-```cshtml
-@inject IViewportState ViewportState
-
-@* your markup *@
-
-@code{
-   public void ViewportState()
-   {
-      var currentViewport = ViewportState.GetCurrentViewport()
-   }
-}
-```
-### Raise a Toast
-
-```cshtml
-@inject IToastState ToastState
-
-@* your markup *@
-
-@code{
-   public void RaiseHelloWorldToast()
-   {
-      ToastState.RaiseToast("New Toast", "Hello World!", ToastTypes.Success);
-   }
-}
-```
-
-### Show a Modal
-
-```cshtml
-@inject IModalState ModalState
-
-@* your markup *@
-
-@code{
-   private void ShowConfirmationModal()
-   {
-        ModalState.RaiseModal(ModalTypes.ConfirmationModal,
-        new ModalViewModel
-        {
-            Prompt = "Are you sure",
-            Message = "Are you sure you want to do this, it cannot be undone?",
-            CloseModal = OnModalClose,
-            DismissModal = OnModalDimiss
-        });
-    }
-
-   private async Task OnModalClose(ModalCloseEventArgs args)
-   {
-      //handle modal close
-   }
-
-    private async Task OnModalDismiss()
-   {
-      //handle modal dismiss
-   }
-}
 ```
 
 ## Authors
