@@ -8,7 +8,7 @@
 .panel-top {
     /* only manually resize */
     padding: 10px;
-    height: 100px;
+    height: 450px;
     width: 100%;
     overflow-y: scroll;
     max-height: calc(100vh - 140px);

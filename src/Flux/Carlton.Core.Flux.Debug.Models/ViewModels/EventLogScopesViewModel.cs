@@ -8,6 +8,6 @@ public sealed record EventLogScopesViewModel
 	/// <summary>
 	/// Gets or initializes the selected log message to display scopes for.
 	/// </summary>
-	public required LogMessage SelectedLogMessage { get; init; }
+	public LogMessage? SelectedLogMessage { get; init; }
 };
 
