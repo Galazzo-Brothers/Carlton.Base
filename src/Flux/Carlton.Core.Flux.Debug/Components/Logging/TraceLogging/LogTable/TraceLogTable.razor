@@ -6,24 +6,23 @@
 
 @* Represents a table displaying trace log messages. *@
 <div class="trace-log-table">
-    <Table Headings="Headings"
-           Items="TraceLogMessageGroups"
-           ShowPaginationRow="true"
-           CurrentPage="TraceLogTableState.CurrentPage"
-           SelectedRowsPerPageIndex="TraceLogTableState.SelectedRowsPerPageOptsIndex"
-           RowsPerPageOpts="TraceLogTableState.RowsPerPageOpts"
-           OnPageChange="PageChanged"
-           OnRowsPerPageChange="RowsPerPageChanged"
-           SortableHeadersEnabled="false">
-        <RowTemplate Context="group">
-            <TraceLogTableExpandableRow 
-                TraceLogMessageGroup="group"
-                SelectedTraceLogMessage="SelectedTraceLogMessage"
-                IsExpanded="IsExpanded(group.ParentEntry)"
-                SelectedTraceLogMessageChanged="OnSelectedTraceLogMessageChanged"
-                TraceLogMessageExpansionChanged="OnTraceLogMessageExpansionChanged" />
-        </RowTemplate>
-    </Table>
+	<Table Headings="Headings"
+		   Items="TraceLogMessageGroups"
+		   ShowPaginationRow="true"
+		   SortableHeadersEnabled="false"
+		   CurrentPage="TraceLogTableState.CurrentPage"
+		   SelectedRowsPerPageIndex="TraceLogTableState.SelectedRowsPerPageOptsIndex"
+		   RowsPerPageOpts="TraceLogTableState.RowsPerPageOpts"
+		   OnPageChange="OnPageChanged"
+		   OnRowsPerPageChange="OnRowsPerPageChanged">
+		<RowTemplate Context="group">
+			<TraceLogTableExpandableRow TraceLogMessageGroup="group"
+										SelectedTraceLogMessage="SelectedTraceLogMessage"
+										IsExpanded="IsExpanded(group.ParentEntry)"
+										OnSelectedTraceLogMessageChanged="HandleSelectedTraceLogMessageChanged"
+										OnTraceLogMessageExpansionChanged="HandleTraceLogMessageExpansionChanged" />
+		</RowTemplate>
+	</Table>
 </div>
 
 
@@ -32,86 +31,86 @@
 	/// Collection of trace log message groups to display.
 	/// </summary>
 	[Parameter]
-    public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; set; } = new List<TraceLogMessageGroup>();
+	public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; set; } = new List<TraceLogMessageGroup>();
 
 	/// <summary>
 	/// Index of the selected trace log message.
 	/// </summary>
 	[Parameter]
-    public int SelectedTraceLogMessageIndex { get; set; }
+	public int SelectedTraceLogMessageIndex { get; set; }
 
 	/// <summary>
 	/// Collection of indexes of expanded rows.
 	/// </summary>
 	[Parameter]
-    public required IEnumerable<int> ExpandedRowIndexes { get; set; }
+	public required IEnumerable<int> ExpandedRowIndexes { get; set; }
 
 	/// <summary>
 	/// State of the trace log table.
 	/// </summary>
 	[Parameter]
-    public required TableState TraceLogTableState { get; set; }
+	public required TableState TraceLogTableState { get; set; }
 
 	/// <summary>
 	/// Event callback for when the selected trace log message changes.
 	/// </summary>
 	[Parameter]
-    public EventCallback<SelectedTraceLogMessageChangedArgs> SelectedTraceLogMessageChanged { get; set; }
+	public EventCallback<SelectedTraceLogMessageChangedArgs> OnSelectedTraceLogMessageChanged { get; set; }
 
 	/// <summary>
 	/// Event callback for when the expansion state of a trace log message changes.
 	/// </summary>
 	[Parameter]
-    public EventCallback<TraceLogMessageExpansionChangedArgs> TraceLogMessageExpansionChanged { get; set; }
+	public EventCallback<TraceLogMessageExpansionChangedArgs> OnTraceLogMessageExpansionChanged { get; set; }
 
 	/// <summary>
 	/// Event callback for when the page changes.
 	/// </summary>
 	[Parameter]
-    public EventCallback<PageChangeEventArgs> PageChanged { get; set; }
+	public EventCallback<PageChangeEventArgs> OnPageChanged { get; set; }
 
 	/// <summary>
 	/// Event callback for when the number of rows per page changes.
 	/// </summary>
 	[Parameter]
-    public EventCallback<RowsPerPageChangeEventArgs> RowsPerPageChanged { get; set; }
+	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChanged { get; set; }
 
-    private TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
+	private TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 
 	// Represents the header items for the trace log table.
-    private IEnumerable<TableHeadingItem> Headings
-    {
-        get => new List<TableHeadingItem>
-        {
+	private IEnumerable<TableHeadingItem> Headings
+	{
+		get => new List<TableHeadingItem>
+		{
 			new TableHeadingItem(""), // Placeholder for expand/collapse button
             new TableHeadingItem("Timestamp"),
-            new TableHeadingItem("Flux Action", "FluxAction"),
-            new TableHeadingItem("Flux Action Type", "TypeDisplayName"),
-            new TableHeadingItem("Event Id", "EventId.Id"),
-            new TableHeadingItem("Outcome", "FluxActionOutcome"),
-            new TableHeadingItem("Details"),
-        };
-    }
+			new TableHeadingItem("Flux Action", "FluxAction"),
+			new TableHeadingItem("Flux Action Type", "TypeDisplayName"),
+			new TableHeadingItem("Event Id", "EventId.Id"),
+			new TableHeadingItem("Outcome", "FluxActionOutcome"),
+			new TableHeadingItem("Details"),
+		};
+	}
 
 	// Indicates whether a trace log message group is expanded.
-    private bool IsExpanded(TraceLogMessage traceLogMessage) => ExpandedRowIndexes.Contains(TraceLogMessageGroups.GetIndex(traceLogMessage));
+	private bool IsExpanded(TraceLogMessage traceLogMessage) => ExpandedRowIndexes.Contains(TraceLogMessageGroups.GetIndex(traceLogMessage));
 
 	// Handles the event when the selected trace log message changes.
-    private void OnSelectedTraceLogMessageChanged(TraceLogMessage selectedTraceLogMessage)
-    {
-        var index = TraceLogMessageGroups.GetIndex(selectedTraceLogMessage);
-        var args = new SelectedTraceLogMessageChangedArgs(index);
-        SelectedTraceLogMessageChanged.InvokeAsync(args);
-    }
+	private void HandleSelectedTraceLogMessageChanged(TraceLogMessage selectedTraceLogMessage)
+	{
+		var index = TraceLogMessageGroups.GetIndex(selectedTraceLogMessage);
+		var args = new SelectedTraceLogMessageChangedArgs(index);
+		OnSelectedTraceLogMessageChanged.InvokeAsync(args);
+	}
 
 	// Handles the event when the expansion state of a trace log message changes.
-    private void OnTraceLogMessageExpansionChanged(TraceLogMessage traceLogMessage)
-    {
-        var index = TraceLogMessageGroups.GetIndex(traceLogMessage);
-        var isExpanded = !ExpandedRowIndexes.Contains(index);
-        var args = new TraceLogMessageExpansionChangedArgs(index, isExpanded);
-        TraceLogMessageExpansionChanged.InvokeAsync(args);
-    }
+	private void HandleTraceLogMessageExpansionChanged(TraceLogMessage traceLogMessage)
+	{
+		var index = TraceLogMessageGroups.GetIndex(traceLogMessage);
+		var isExpanded = !ExpandedRowIndexes.Contains(index);
+		var args = new TraceLogMessageExpansionChangedArgs(index, isExpanded);
+		OnTraceLogMessageExpansionChanged.InvokeAsync(args);
+	}
 }
 
 
