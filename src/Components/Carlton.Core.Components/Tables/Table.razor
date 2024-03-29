@@ -10,7 +10,7 @@
 	<TableHeader TItem="TItem"
 				 Headings="Headings"
 				 SelectedOrderColumn="@OrderColumn"
-				 OrderAscending="OrderAscending"
+				 IsAscending="IsAscending"
 				 OnItemsSort="HandleItemsSort" />
 
 
@@ -106,7 +106,7 @@
 	/// Gets or sets a value indicating whether the items are ordered in ascending or descending order.
 	/// </summary>
 	[Parameter]
-	public bool OrderAscending { get; set; } = true;
+	public bool IsAscending { get; set; } = true;
 
 	/// <summary>
 	/// Event callback invoked when the page changes.
@@ -152,7 +152,7 @@
 			return;
 
 		CurrentPage = 1; //reset to first page
-		var orderString = $"{OrderColumn}{(OrderAscending ? string.Empty : " desc")}";
+		var orderString = $"{OrderColumn}{(IsAscending ? string.Empty : " desc")}";
 		Items = AllItems.AsQueryable().OrderBy(orderString).ToList();
 	}
 
@@ -172,7 +172,7 @@
 			return;
 
 		OrderColumn = args.SortColumn;
-		OrderAscending = args.SortAscending;
+		IsAscending = args.SortAscending;
 		UpdateOrdering();
 		OnItemsSort.InvokeAsync(args);
 	}

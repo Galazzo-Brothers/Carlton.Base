@@ -38,7 +38,7 @@
     /// Gets or sets a value indicating whether the sorting order is ascending.
     /// </summary>
     [Parameter]
-    public bool OrderAscending { get; set; } = true;
+	public bool IsAscending { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the callback invoked when the items in the table are sorted.
@@ -61,15 +61,15 @@
         return new CssBuilder("header-cell")
                 .AddClass("table-cell")
                 .AddClass("selected", SelectedOrderColumn == column)
-                .AddClass("ascending", OrderAscending)
-                .AddClass("descending", !OrderAscending)
+				.AddClass("ascending", IsAscending)
+				.AddClass("descending", !IsAscending)
                 .AddClass($"heading-{index}")
                 .Build();
     }
 
     private async Task HandleItemsSort(string selectedOrderColumn)
     {
-        OrderAscending = (SelectedOrderColumn == selectedOrderColumn) ? !OrderAscending : true;
+		IsAscending = (SelectedOrderColumn == selectedOrderColumn) ? !IsAscending : true;
         SelectedOrderColumn = selectedOrderColumn;
 
         //If no order column is specified
@@ -77,6 +77,6 @@
         if (string.IsNullOrEmpty(SelectedOrderColumn))
             return;
 
-        await OnItemsSort.InvokeAsync(new ItemsSortEventArgs(SelectedOrderColumn, OrderAscending));
+		await OnItemsSort.InvokeAsync(new ItemsSortEventArgs(SelectedOrderColumn, IsAscending));
     }
 }

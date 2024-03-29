@@ -28,5 +28,5 @@ public sealed record TableState
 	/// <summary>
 	/// Gets or initializes a value indicating whether the table is ordered in ascending order.
 	/// </summary>
-	public bool OrderAscending { get; init; } = true;
+	public bool IsAscending { get; init; } = true;
 }

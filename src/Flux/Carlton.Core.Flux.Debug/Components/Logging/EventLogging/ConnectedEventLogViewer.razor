@@ -14,10 +14,10 @@
                 SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
                 EventLogViewerFilterState="@ViewModel.EventLogViewerFilterState"
                 EventLogTableState="@ViewModel.EventLogTableState"
-                LogLevelFiltersChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogLevelFiltersCommand>"
-                LogFilterTextChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogFilterTextCommand>"
-                LogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>"
-                PageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogPageCommand>"
-                RowsPerPageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogMessageTableRowsPerPageOptsCommand>"
-                ItemsOrdered="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogTableOrderingCommand>" />
+                OnLogLevelFiltersChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogLevelFiltersCommand>"
+                OnLogFilterTextChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogFilterTextCommand>"
+                OnLogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>"
+                OnPageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogPageCommand>"
+                OnRowsPerPageChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogMessageTableRowsPerPageOptsCommand>"
+                OnItemsOrdered="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogTableOrderingCommand>" />
 
