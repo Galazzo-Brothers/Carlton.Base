@@ -8,23 +8,23 @@
 
 	<!-- Log Filters -->
 	<div class="log-filters">
-		<EventLogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
-		<EventLogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
-		<EventLogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
-		<EventLogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
-		<EventLogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
-		<EventLogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => LogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
-		<EventLogTextFilter Text="@EventLogViewerFilterState.FilterText" OnTextChanged="OnFilterTextChanges" />
+		<EventLogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />
+		<EventLogLevelFilter LogLevel="LogLevel.Debug" LogLevelIncluded="FilterIsActive(LogLevel.Debug)" Count="GetCountByLevel(LogLevel.Debug)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Debug, isIncluded)" />
+		<EventLogLevelFilter LogLevel="LogLevel.Information" LogLevelIncluded="FilterIsActive(LogLevel.Information)" Count="GetCountByLevel(LogLevel.Information)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Information, isIncluded)" />
+		<EventLogLevelFilter LogLevel="LogLevel.Warning" LogLevelIncluded="FilterIsActive(LogLevel.Warning)" Count="GetCountByLevel(LogLevel.Warning)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Warning, isIncluded)" />
+		<EventLogLevelFilter LogLevel="LogLevel.Error" LogLevelIncluded="FilterIsActive(LogLevel.Error)" Count="GetCountByLevel(LogLevel.Error)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Error, isIncluded)" />
+		<EventLogLevelFilter LogLevel="LogLevel.Critical" LogLevelIncluded="FilterIsActive(LogLevel.Critical)" Count="GetCountByLevel(LogLevel.Critical)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Critical, isIncluded)" />
+		<EventLogTextFilter Text="@EventLogViewerFilterState.FilterText" OnTextChanged="HandleFilterTextChanges" />
 	</div>
 
 	<!-- Event log table -->
 	<EventLogTable LogMessages="FilteredLogMessages"
-				   SelectedLogMessageIndex="SelectedLogMessageIndex"
+				   SelectedLogMessageIndex="FilteredSelectedLogMessageIndex"
 				   EventLogTableState="EventLogTableState"
-				   LogMessageSelected="LogMessageSelected"
-				   OnPageChange="PageChanged"
-				   OnRowsPerPageChange="RowsPerPageChanged"
-				   OnItemsSort="ItemsOrdered" />
+				   OnLogMessageSelected="HandleLogMessageSelected"
+				   OnPageChange="OnPageChanged"
+				   OnRowsPerPageChange="OnRowsPerPageChanged"
+				   OnItemsSort="OnItemsOrdered" />
 </div>
 
 
@@ -57,37 +57,37 @@
 	/// Event callback for when a log message is selected.
 	/// </summary>
 	[Parameter]
-	public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
+	public EventCallback<SelectedEventLogMessageChangedArgs> OnLogMessageSelected { get; set; }
 
 	/// <summary>
 	/// Event callback for changes in log level filters.
 	/// </summary>
 	[Parameter]
-	public EventCallback<EventLogLevelFiltersChangedArgs> LogLevelFiltersChanged { get; set; }
+	public EventCallback<EventLogLevelFiltersChangedArgs> OnLogLevelFiltersChanged { get; set; }
 
 	/// <summary>
 	/// Event callback for changes in the log filter text.
 	/// </summary>
 	[Parameter]
-	public EventCallback<EventLogLevelFilterTextChangedArgs> LogFilterTextChanged { get; set; }
+	public EventCallback<EventLogLevelFilterTextChangedArgs> OnLogFilterTextChanged { get; set; }
 
 	// <summary>
 	/// Event callback for changes in the page of the event log table.
 	/// </summary>
 	[Parameter]
-	public EventCallback<PageChangeEventArgs> PageChanged { get; set; }
+	public EventCallback<PageChangeEventArgs> OnPageChanged { get; set; }
 
 	/// <summary>
 	/// Event callback for changes in the rows per page of the event log table.
 	/// </summary>
 	[Parameter]
-	public EventCallback<RowsPerPageChangeEventArgs> RowsPerPageChanged { get; set; }
+	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChanged { get; set; }
 
 	/// <summary>
 	/// Event callback for changes in the ordering of items in the event log table.
 	/// </summary>
 	[Parameter]
-	public EventCallback<ItemsSortEventArgs> ItemsOrdered { get; set; }
+	public EventCallback<ItemsSortEventArgs> OnItemsOrdered { get; set; }
 
 	// Method to filter log messages based on filter settings
 	private List<LogMessage> FilteredLogMessages
@@ -98,6 +98,9 @@
 								.ToList();
 	}
 
+	// Method to get the index of the selected log message from the filtered log messages
+	private int FilteredSelectedLogMessageIndex => FilteredLogMessages.FindIndex(log => log == LogMessages[SelectedLogMessageIndex]);
+
 	// Method to check if a log level filter is active
 	private bool FilterIsActive(LogLevel logLevel)
 		=> EventLogViewerFilterState.IncludedLogLevels.Contains(logLevel);
@@ -107,11 +110,14 @@
 		=> LogMessages.Count(_ => _.LogLevel == logLevel);
 
 	// Event handler for changes in the filter text
-	private void OnFilterTextChanges(string newFilterText)
-		=> LogFilterTextChanged.InvokeAsync(new EventLogLevelFilterTextChangedArgs(newFilterText));
+	private void HandleFilterTextChanges(string newFilterText)
+		=> OnLogFilterTextChanged.InvokeAsync(new EventLogLevelFilterTextChangedArgs(newFilterText));
 
 	// Event handler for changes in the inclusion of log level filters
-	private void LogLevelIncludesChanged(LogLevel logLevel, bool isIncluded)
-		=> LogLevelFiltersChanged.InvokeAsync(new EventLogLevelFiltersChangedArgs(logLevel, isIncluded));
-}
+	private void HandleLogLevelIncludesChanged(LogLevel logLevel, bool isIncluded)
+		=> OnLogLevelFiltersChanged.InvokeAsync(new EventLogLevelFiltersChangedArgs(logLevel, isIncluded));
 
+	// Event handler for when a log message is selected
+	private void HandleLogMessageSelected(LogMessage selectedLogMessage)
+		=> OnLogMessageSelected.InvokeAsync(new SelectedEventLogMessageChangedArgs(LogMessages.IndexOf(selectedLogMessage)));
+}

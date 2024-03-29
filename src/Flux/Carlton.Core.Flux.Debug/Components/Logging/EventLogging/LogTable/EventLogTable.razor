@@ -8,7 +8,7 @@
            Items="LogMessages"
            ShowPaginationRow="true"
            OrderColumn="@EventLogTableState.OrderByColum"
-           OrderAscending="EventLogTableState.OrderAscending"
+		   IsAscending="EventLogTableState.IsAscending"
            CurrentPage="EventLogTableState.CurrentPage"
            SelectedRowsPerPageIndex="EventLogTableState.SelectedRowsPerPageOptsIndex"
            RowsPerPageOpts="EventLogTableState.RowsPerPageOpts"
@@ -19,8 +19,8 @@
            OnItemsSort="OnItemsSort">
         <RowTemplate Context="item">
             <EventLogTableRow LogEntry="item"
-                              LogMessageSelected="OnLogMessageSelected"
-                              IsSelected="item==SelectedLogMessage" />
+                              IsSelected="item==SelectedLogMessage"
+							  OnLogMessageSelected="OnLogMessageSelected" />
         </RowTemplate>
     </Table>
 </div>
@@ -48,7 +48,7 @@
 	/// Event callback for when a log message is selected.
 	/// </summary>
 	[Parameter]
-    public EventCallback<SelectedEventLogMessageChangedArgs> LogMessageSelected { get; set; }
+    public EventCallback<LogMessage> OnLogMessageSelected { get; set; }
 
 	/// <summary>
 	/// Event callback for page change.
@@ -62,7 +62,6 @@
 	[Parameter]
     public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
-
 	/// <summary>
 	/// Event callback for sorting items.
 	/// </summary>
@@ -70,14 +69,6 @@
     public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
     private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
-
-    private void OnLogMessageSelected(LogMessage selectedLogMessage)
-    {
-        var index = LogMessages.FindIndex(_ => _ == selectedLogMessage);
-        SelectedLogMessageIndex = index;
-        var args = new SelectedEventLogMessageChangedArgs(index);
-        LogMessageSelected.InvokeAsync(args);
-    }
 
     private IEnumerable<TableHeadingItem> Headings
     {

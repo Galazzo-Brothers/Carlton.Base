@@ -9,7 +9,7 @@ internal sealed class EventLogTableOrderingMutation : IFluxStateMutation<FluxDeb
 		var updatedTableState = state.EventLogTableState with
 		{
 			OrderByColum = command.OrderByColum,
-			OrderAscending = command.OrderAscending
+			IsAscending = command.OrderAscending
 		};
 		return state with { EventLogTableState = updatedTableState };
 	}
