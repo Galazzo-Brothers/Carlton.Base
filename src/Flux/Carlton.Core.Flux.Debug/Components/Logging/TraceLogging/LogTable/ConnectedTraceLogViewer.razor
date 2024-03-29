@@ -13,9 +13,9 @@
                SelectedTraceLogMessageIndex="@ViewModel.SelectedTraceLogMessageIndex"
                ExpandedRowIndexes="@ViewModel.ExpandedRowIndexes"
                TraceLogTableState="@ViewModel.TraceLogTableState"
-               SelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>"
-               TraceLogMessageExpansionChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeLogMessageExpansionCommand>"
-               PageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeTraceLogPageCommand>"
-               RowsPerPageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeTraceLogMessageTableRowsPerPageOptsCommand>" />
+               OnSelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>"
+               OnTraceLogMessageExpansionChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeLogMessageExpansionCommand>"
+               OnPageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeTraceLogPageCommand>"
+               OnRowsPerPageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeTraceLogMessageTableRowsPerPageOptsCommand>" />
 
 
