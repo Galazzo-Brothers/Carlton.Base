@@ -27,36 +27,46 @@ internal static class TableTestStates
 
 	}
 
-	public static object LargeItemList
+	public record TableState
 	{
-		get => new
+		public List<TableHeadingItem> Headings { get; init; }
+		[JsonIgnore]
+		public RenderFragment<TableTestObject> RowTemplate { get; init; }
+		public List<TableTestObject> Items { get; init; }
+		public bool ShowPaginationRow { get; init; }
+		public List<int> RowsPerPageOpts { get; init; }
+	}
+
+	public static TableState LargeItemList
+	{
+		get => new()
 		{
-			Headings,
-			RowTemplate,
+			Headings = Headings,
+			RowTemplate = RowTemplate,
 			Items = BigList,
 			ShowPaginationRow = true,
 			RowsPerPageOpts = RowsPerPageOptions
 		};
 	}
 
-	public static object SmallItemList
+	public static TableState SmallItemList
 	{
-		get => new
+		get => new()
 		{
-			Headings,
-			RowTemplate,
+			Headings = Headings,
+			RowTemplate = RowTemplate,
 			Items = SmallList,
 			ShowPaginationRow = true,
 			RowsPerPageOpts = RowsPerPageOptions
 		};
 	}
 
-	public static object WithOutPaginationRow
+	public static TableState WithOutPaginationRow
 	{
-		get => new
+		get => new()
 		{
-			Headings,
-			RowTemplate,
+			Headings = Headings,
+			RowTemplate = RowTemplate,
 			Items = SmallList,
 			ShowPaginationRow = false,
 			RowsPerPageOpts = RowsPerPageOptions

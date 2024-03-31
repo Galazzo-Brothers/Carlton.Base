@@ -12,9 +12,19 @@ internal static class CardTestStates
 		};
 	}
 
-	public static object DefaultListState
+	public record ListState
 	{
-		get => new
+		public string CardTitle { get; init; }
+		public string SubTitle { get; init; }
+		public IEnumerable<string> Items { get; init; }
+		[JsonIgnore]
+		public RenderFragment<string> ItemTemplate { get; init; }
+	}
+
+
+	public static ListState DefaultListState
+	{
+		get => new()
 		{
 			CardTitle = "Shopping List",
 			SubTitle = "Low Items",

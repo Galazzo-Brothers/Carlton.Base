@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Components.Dropdowns;
+﻿using System.Text.Json.Serialization;
+
+namespace Carlton.Core.Components.Dropdowns;
 
 /// <summary>
 /// Represents a menu item used in dropdown menus.
@@ -29,5 +31,6 @@ public sealed record DropdownMenuItem<T>
 	/// <summary>
 	/// Gets the action to be performed when the menu item is selected.
 	/// </summary>
-	public required Action MenuItemSelected { get; init; }
+	[JsonIgnore]
+	public Action MenuItemSelected { get; init; }
 }
