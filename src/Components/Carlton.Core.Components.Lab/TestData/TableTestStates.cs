@@ -2,31 +2,6 @@
 namespace Carlton.Core.Components.Lab.TestData;
 internal static class TableTestStates
 {
-	public record TableTestDate
-	{
-		public List<TableHeadingItem> Headings { get; init; }
-		public List<TableTestObject> Items { get; init; }
-		[JsonIgnore]
-		public RenderFragment<TableTestObject> RowTemplate { get; init; }
-		public bool ShowPaginationRow { get; init; }
-		public List<int> RowsPerPageOpts { get; init; }
-
-		public TableTestDate(List<TableHeadingItem> headings,
-			List<TableTestObject> items,
-			RenderFragment<TableTestObject> rowTemplate,
-			bool showPaginationRow,
-			List<int> rowsPerPageOpts
-			)
-		{
-			Headings = headings;
-			Items = items;
-			RowTemplate = rowTemplate;
-			ShowPaginationRow = showPaginationRow;
-			RowsPerPageOpts = rowsPerPageOpts;
-		}
-
-	}
-
 	public record TableState
 	{
 		public List<TableHeadingItem> Headings { get; init; }
