@@ -2,7 +2,7 @@
 namespace Carlton.Core.Components.Lab.TestData;
 internal static class TableTestStates
 {
-	public record TableTestDate
+	public record TableTestState
 	{
 		public List<TableHeadingItem> Headings { get; init; }
 		public List<TableTestObject> Items { get; init; }
@@ -10,53 +10,38 @@ internal static class TableTestStates
 		public RenderFragment<TableTestObject> RowTemplate { get; init; }
 		public bool ShowPaginationRow { get; init; }
 		public List<int> RowsPerPageOpts { get; init; }
-
-		public TableTestDate(List<TableHeadingItem> headings,
-			List<TableTestObject> items,
-			RenderFragment<TableTestObject> rowTemplate,
-			bool showPaginationRow,
-			List<int> rowsPerPageOpts
-			)
-		{
-			Headings = headings;
-			Items = items;
-			RowTemplate = rowTemplate;
-			ShowPaginationRow = showPaginationRow;
-			RowsPerPageOpts = rowsPerPageOpts;
-		}
-
 	}
 
-	public static object LargeItemList
+	public static TableTestState LargeItemList
 	{
-		get => new
+		get => new()
 		{
-			Headings,
-			RowTemplate,
+			Headings = Headings,
+			RowTemplate = RowTemplate,
 			Items = BigList,
 			ShowPaginationRow = true,
 			RowsPerPageOpts = RowsPerPageOptions
 		};
 	}
 
-	public static object SmallItemList
+	public static TableTestState SmallItemList
 	{
-		get => new
+		get => new()
 		{
-			Headings,
-			RowTemplate,
+			Headings = Headings,
+			RowTemplate = RowTemplate,
 			Items = SmallList,
 			ShowPaginationRow = true,
 			RowsPerPageOpts = RowsPerPageOptions
 		};
 	}
 
-	public static object WithOutPaginationRow
+	public static TableTestState WithOutPaginationRow
 	{
-		get => new
+		get => new()
 		{
-			Headings,
-			RowTemplate,
+			Headings = Headings,
+			RowTemplate = RowTemplate,
 			Items = SmallList,
 			ShowPaginationRow = false,
 			RowsPerPageOpts = RowsPerPageOptions
