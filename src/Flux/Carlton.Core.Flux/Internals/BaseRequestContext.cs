@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Carlton.Core.Utilities.JsonConverters;
+using System.Diagnostics;
 using System.Net;
+using System.Text.Json.Serialization;
 namespace Carlton.Core.Flux.Internals;
 
 internal abstract class BaseRequestContext
@@ -9,6 +11,7 @@ internal abstract class BaseRequestContext
 	//Common
 	public Guid RequestId { get; } = Guid.NewGuid();
 	public abstract FluxOperationKind FluxOperationKind { get; }
+	[JsonConverter(typeof(JsonTypeConverter))]
 	public abstract Type FluxOperationType { get; }
 	public string FluxOperationTypeName { get => FluxOperationType.GetDisplayName(); }
 	protected internal void MarkAsStarted() => _stopwatch.Start();

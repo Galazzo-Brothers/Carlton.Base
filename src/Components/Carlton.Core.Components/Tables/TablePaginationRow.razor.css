@@ -1,60 +1,65 @@
 ﻿/* Pagination Row Variables */
 .pagination-row {
-    --pagination-row-gap: 20px;
-    --pagination-row-padding: 8px 0;
-    --pagination-row-padding-margin-right: 15px;
-    --pagination-row-border-top: 1px solid #dadada;
-    --pagination-row-font-size: 10pt;
-    --pagination-row-rpp-label-padding-right: 10px;
-    --pagination-row-rpp-deep-dropdown-width: 30px;
-    --pagination-row-disabled-opacity: .5;
+	--pagination-row-gap: 20px;
+	--pagination-row-padding: 8px 0;
+	--pagination-row-padding-margin-right: 15px;
+	--pagination-row-border-top: 1px solid #dadada;
+	--pagination-row-font-size: 10pt;
+	--pagination-row-rpp-label-padding-right: 10px;
+	--pagination-row-rpp-deep-dropdown-width: 30px;
+	--pagination-row-disabled-opacity: .5;
 }
 
-/* Base Styles for Pagination Row */
-.pagination-row.table-row {
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    gap: var(--pagination-row-gap);
-    padding: var(--pagination-row-padding);
-    margin-right: var(--pagination-row-padding-margin-right);
-    border-top: var(--pagination-row-border-top);
-    color: var(--primary-text-color);
-    font-size: var(--pagination-row-font-size);
+	/* Base Styles for Pagination Row */
+	.pagination-row.table-row {
+		width: 100%;
+		display: flex;
+		justify-content: right;
+		gap: var(--pagination-row-gap);
+		padding: var(--pagination-row-padding);
+		margin-right: var(--pagination-row-padding-margin-right);
+		border-top: var(--pagination-row-border-top);
+		color: var(--primary-text-color);
+		font-size: var(--pagination-row-font-size);
+	}
+
+.pagination-controls {
+	margin-right: var(--pagination-row-pagination-controls-margin-right);
 }
 
 /* Rows Per Page Styles */
 .rows-per-page {
-    display: flex;
+	display: flex;
 }
 
-    .rows-per-page .rows-per-page-label {
-        margin-top: auto;
-        margin-bottom: auto;
-        padding-right: var(--pagination-row-rpp-label-padding-right);
-    }
+	.rows-per-page .rows-per-page-label {
+		margin-top: auto;
+		margin-bottom: auto;
+		padding-right: var(--pagination-row-rpp-label-padding-right);
+	}
 
-    .rows-per-page ::deep.dropdown {
-        width: var(--pagination-row-rpp-deep-dropdown-width)
-    }
+	.rows-per-page ::deep.dropdown {
+		width: var(--pagination-row-rpp-deep-dropdown-width)
+	}
 
 /* Page Number Styles */
 .page-number {
-    margin-top: auto;
-    margin-bottom: auto;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
 /* Page Chevrons Styles */
 .page-chevrons {
-    margin-top: auto;
-    margin-bottom: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-right: 20px;
 }
 
-    .page-chevrons span.mdi {
-        cursor: pointer;
-    }
+	.page-chevrons span.mdi {
+		cursor: pointer;
+	}
 
-    .page-chevrons span.disabled {
-        opacity: var(--pagination-row-disabled-opacity);
-        cursor: not-allowed;
-    }
+	.page-chevrons span.disabled {
+		opacity: var(--pagination-row-disabled-opacity);
+		cursor: not-allowed;
+	}
