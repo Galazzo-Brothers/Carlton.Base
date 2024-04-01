@@ -78,13 +78,13 @@
 	{
 		get
 		{
-			var paginationCurrentRangeStart = 1 + ((CurrentPage - 1) * SelectedRowsPerPageValue);
+			var paginationCurrentRangeStart = TotalItemCount == 0 ? 0 : 1 + ((CurrentPage - 1) * SelectedRowsPerPageValue);
 			var paginationCurrentRangeEnd = Math.Min(CurrentPage * SelectedRowsPerPageValue, TotalItemCount);
 			return $"{paginationCurrentRangeStart}-{paginationCurrentRangeEnd} of {TotalItemCount}";
 		}
 	}
 
-	protected override void OnInitialized()
+	protected override void OnParametersSet()
 	{
 		if (TotalItemCount < 0)
 			throw new ArgumentException("TotalItemCount must be a non-negative value.");
@@ -99,20 +99,27 @@
 			throw new ArgumentException("Current page cannot be greater than the max page.");
 
 		RowsPerPageSelectOpts = RowsPerPageOpts.ToDictionary(_ => _.ToString(), _ => _);
-		base.OnInitialized();
+
+		base.OnParametersSet();
 	}
 
 	private async Task HandlePageChange(int newPageNumber)
-		=> await OnPageChange.InvokeAsync(new PageChangeEventArgs(newPageNumber));
-
-
-	private async Task HandleRowsPerPageChange(int rowsPerPageIndex)
 	{
-		CurrentPage = 1; //Reset to page 1 on RowsPerPage value change
-		await OnRowsPerPageChange.InvokeAsync(new RowsPerPageChangeEventArgs(rowsPerPageIndex));
+		//Disable left chevrons on first page
+		if (CurrentPage == 1 && newPageNumber <= 1)
+			return;
+
+		//Disable right chevrons on last page
+		if(CurrentPage == MaxPage && newPageNumber >= MaxPage)
+			return;
+
+		CurrentPage = newPageNumber;
+		await OnPageChange.InvokeAsync(new PageChangeEventArgs(newPageNumber));
 	}
 
-
+	private async Task HandleRowsPerPageChange(int rowsPerPageIndex)
+		=> await OnRowsPerPageChange.InvokeAsync(new RowsPerPageChangeEventArgs(rowsPerPageIndex));
+	
 	private string PageFirstChevronCss
 	{
 		get => new CssBuilder()

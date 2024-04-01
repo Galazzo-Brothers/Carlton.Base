@@ -25,16 +25,11 @@
 			return string.Empty;
 
 		var sb = new StringBuilder();
-		var nextIndentation = "\t";
 
 		foreach (var (key, value) in LogMessage.Scopes.ToList())
 		{
-			sb.Append(" => ")
-					.Append($"{key} : {value}")
-					.AppendLine()
-					.Append(nextIndentation);
-
-            nextIndentation += "\t";
+			sb.Append($"{key} : {value}")
+			  .AppendLine();
         }
 
         return sb.ToString();

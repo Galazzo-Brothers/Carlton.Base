@@ -16,11 +16,6 @@ public sealed record TableState
 	public int SelectedRowsPerPageOptsIndex { get; init; } = 0;
 
 	/// <summary>
-	/// Gets or initializes the options for rows per page.
-	/// </summary>
-	public IEnumerable<int> RowsPerPageOpts { get; init; } = new List<int> { 5, 10, 25 };
-
-	/// <summary>
 	/// Gets or initializes the column by which the table is ordered.
 	/// </summary>
 	public string OrderByColum { get; init; } = string.Empty;
