@@ -10,9 +10,8 @@
 		   Items="TraceLogMessageGroups"
 		   ShowPaginationRow="true"
 		   SortableHeadersEnabled="false"
-		   CurrentPage="TraceLogTableState.CurrentPage"
-		   SelectedRowsPerPageIndex="TraceLogTableState.SelectedRowsPerPageOptsIndex"
-		   RowsPerPageOpts="TraceLogTableState.RowsPerPageOpts"
+		   RowsPerPageOpts="RowsPerPageOpts"
+		   TableState="TraceLogTableState"
 		   OnPageChange="OnPageChanged"
 		   OnRowsPerPageChange="OnRowsPerPageChanged">
 		<RowTemplate Context="group">
@@ -111,6 +110,8 @@
 		var args = new TraceLogMessageExpansionChangedArgs(index, isExpanded);
 		OnTraceLogMessageExpansionChanged.InvokeAsync(args);
 	}
+
+	private IEnumerable<int> RowsPerPageOpts = new List<int> { 5, 10, 25 };
 }
 
 

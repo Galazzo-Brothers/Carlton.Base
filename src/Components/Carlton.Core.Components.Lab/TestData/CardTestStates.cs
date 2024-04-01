@@ -18,7 +18,7 @@ internal static class CardTestStates
 		public string SubTitle { get; init; }
 		public IEnumerable<string> Items { get; init; }
 		[JsonIgnore]
-		public RenderFragment<string> ItemTemplate { get; init; }
+		public RenderFragment<string> ItemTemplate { get; init; } = listFragment;
 	}
 
 

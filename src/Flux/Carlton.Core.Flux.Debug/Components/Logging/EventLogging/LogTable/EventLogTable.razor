@@ -4,25 +4,22 @@
 
 @* Component for displaying an event log table in a debug environment. *@
 <div class="log-table">
-    <Table Headings="Headings"
-           Items="LogMessages"
-           ShowPaginationRow="true"
-           OrderColumn="@EventLogTableState.OrderByColum"
-		   IsAscending="EventLogTableState.IsAscending"
-           CurrentPage="EventLogTableState.CurrentPage"
-           SelectedRowsPerPageIndex="EventLogTableState.SelectedRowsPerPageOptsIndex"
-           RowsPerPageOpts="EventLogTableState.RowsPerPageOpts"
-           ZebraStripped="true"
-           Hoverable="true"
-           OnPageChange="OnPageChange"
-           OnRowsPerPageChange="OnRowsPerPageChange"
-           OnItemsSort="OnItemsSort">
-        <RowTemplate Context="item">
-            <EventLogTableRow LogEntry="item"
-                              IsSelected="item==SelectedLogMessage"
+	<Table Headings="Headings"
+		   Items="LogMessages"
+		   ShowPaginationRow="true"
+		   RowsPerPageOpts="RowsPerPageOpts"
+		   TableState="EventLogTableState"
+		   ZebraStripped="true"
+		   Hoverable="true"
+		   OnPageChange="OnPageChange"
+		   OnRowsPerPageChange="OnRowsPerPageChange"
+		   OnItemsSort="OnItemsSort">
+		<RowTemplate Context="item">
+			<EventLogTableRow LogEntry="item"
+							  IsSelected="item==SelectedLogMessage"
 							  OnLogMessageSelected="OnLogMessageSelected" />
-        </RowTemplate>
-    </Table>
+		</RowTemplate>
+	</Table>
 </div>
 
 @code {
@@ -30,55 +27,57 @@
 	/// Gets or sets the list of log messages to display.
 	/// </summary>
 	[Parameter]
-    public List<LogMessage> LogMessages { get; set; } = new();
+	public List<LogMessage> LogMessages { get; set; } = new();
 
 	/// <summary>
 	/// Gets or sets the index of the selected log message.
 	/// </summary>
 	[Parameter]
-    public int SelectedLogMessageIndex { get; set; }
+	public int SelectedLogMessageIndex { get; set; }
 
 	/// <summary>
 	/// Gets or sets the state of the event log table.
 	/// </summary>
 	[Parameter]
-    public required TableState EventLogTableState { get; set; }
+	public required TableState EventLogTableState { get; set; }
 
 	/// <summary>
 	/// Event callback for when a log message is selected.
 	/// </summary>
 	[Parameter]
-    public EventCallback<LogMessage> OnLogMessageSelected { get; set; }
+	public EventCallback<LogMessage> OnLogMessageSelected { get; set; }
 
 	/// <summary>
 	/// Event callback for page change.
 	/// </summary>
 	[Parameter]
-    public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
+	public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
 
 	/// <summary>
 	/// Event callback for rows per page change.
 	/// </summary>
 	[Parameter]
-    public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
+	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
 
 	/// <summary>
 	/// Event callback for sorting items.
 	/// </summary>
 	[Parameter]
-    public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
+	public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
-    private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
+	private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
 
-    private IEnumerable<TableHeadingItem> Headings
-    {
-        get => new List<TableHeadingItem>
-        {
-            new TableHeadingItem("Timestamp"),
-            new TableHeadingItem("Message"),
-            new TableHeadingItem("Log Level", "LogLevel"),
-            new TableHeadingItem("Event ID", "EventId.Id"),
-            new TableHeadingItem("Event Name", "EventId.Name"),
-        };
-    }
+	private IEnumerable<TableHeadingItem> Headings
+	{
+		get => new List<TableHeadingItem>
+		{
+			new TableHeadingItem("Timestamp"),
+			new TableHeadingItem("Message"),
+			new TableHeadingItem("Log Level", "LogLevel"),
+			new TableHeadingItem("Event ID", "EventId.Id"),
+			new TableHeadingItem("Event Name", "EventId.Name"),
+		};
+	}
+
+	private IEnumerable<int> RowsPerPageOpts = new List<int> { 5, 10, 25 };
 }

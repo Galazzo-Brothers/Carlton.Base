@@ -1,4 +1,5 @@
-﻿@namespace Carlton.Core.Components.Tables
+﻿@using Carlton.Core.Foundation.State
+@namespace Carlton.Core.Components.Tables
 @typeparam TItem
 
 @*
@@ -79,34 +80,16 @@
 	public IEnumerable<int> RowsPerPageOpts { get; set; }
 
 	/// <summary>
-	/// Gets or sets the current page number.
-	/// </summary>
-	[Parameter]
-	public int CurrentPage { get; set; } = 1;
-
-	/// <summary>
-	/// Gets or sets the index of the selected rows per page option.
-	/// </summary>
-	[Parameter]
-	public int SelectedRowsPerPageIndex { get; set; } = 0;
-
-	/// <summary>
 	/// Gets or sets a value indicating whether sortable headers are enabled.
 	/// </summary>
 	[Parameter]
 	public bool SortableHeadersEnabled { get; set; } = true;
 
 	/// <summary>
-	/// Gets or sets the column used for ordering items.
+	/// Gets or Sets a value representing the users interaction state of the table, used to rehydrate the table on initialization.
 	/// </summary>
 	[Parameter]
-	public string OrderColumn { get; set; } = string.Empty;
-
-	/// <summary>
-	/// Gets or sets a value indicating whether the items are ordered in ascending or descending order.
-	/// </summary>
-	[Parameter]
-	public bool IsAscending { get; set; } = true;
+	public TableState TableState { get; set; }
 
 	/// <summary>
 	/// Event callback invoked when the page changes.
@@ -130,16 +113,34 @@
 
 	private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
-	private string TableCssClass
+	private int CurrentPage { get; set; } = 1;
+
+	private int SelectedRowsPerPageIndex { get; set; } = 0;
+
+	private string OrderColumn { get; set; } = string.Empty;
+
+	private bool IsAscending { get; set; } = true;
+
+	protected override void OnInitialized()
 	{
-		get => new CssBuilder("table-container")
-				.AddClass("zebra", ZebraStripped)
-				.AddClass("hoverable", Hoverable)
-				.Build();
+		if (TableState == null)
+			return;
+
+		//Rehydrate the table from the user's interaction state
+		CurrentPage = TableState.CurrentPage;
+		SelectedRowsPerPageIndex = TableState.SelectedRowsPerPageOptsIndex;
+		OrderColumn = TableState.OrderByColum;
+		IsAscending = TableState.IsAscending;
+
+		base.OnInitialized();
 	}
 
 	protected override void OnParametersSet()
 	{
+		//Reset the current page if the items have changed
+		if(!Enumerable.SequenceEqual(Items, AllItems))
+			CurrentPage = 1;
+
 		AllItems = Items.ToList();
 		UpdateOrdering();
 		UpdatePagination();
@@ -151,7 +152,6 @@
 		if (string.IsNullOrEmpty(OrderColumn))
 			return;
 
-		CurrentPage = 1; //reset to first page
 		var orderString = $"{OrderColumn}{(IsAscending ? string.Empty : " desc")}";
 		Items = AllItems.AsQueryable().OrderBy(orderString).ToList();
 	}
@@ -171,9 +171,12 @@
 		if (!SortableHeadersEnabled)
 			return;
 
+		if (OrderColumn == args.SortColumn && IsAscending == args.SortAscending)
+			return;
+
+		CurrentPage = 1; //reset to first page
 		OrderColumn = args.SortColumn;
 		IsAscending = args.SortAscending;
-		UpdateOrdering();
 		OnItemsSort.InvokeAsync(args);
 	}
 
@@ -183,7 +186,6 @@
 			return;
 
 		CurrentPage = args.CurrentPage;
-		UpdatePagination();
 		OnPageChange.InvokeAsync(args);
 	}
 
@@ -192,8 +194,16 @@
 		if (!ShowPaginationRow)
 			return;
 
+		CurrentPage = 1; //reset to first page
 		SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
-		UpdatePagination();
 		OnRowsPerPageChange.InvokeAsync(args);
+	}
+
+	private string TableCssClass
+	{
+		get => new CssBuilder("table-container")
+				.AddClass("zebra", ZebraStripped)
+				.AddClass("hoverable", Hoverable)
+				.Build();
 	}
 }

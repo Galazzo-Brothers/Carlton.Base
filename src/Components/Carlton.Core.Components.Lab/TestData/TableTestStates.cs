@@ -2,17 +2,17 @@
 namespace Carlton.Core.Components.Lab.TestData;
 internal static class TableTestStates
 {
-	public record TableState
+	public record TableStateParameters
 	{
 		public List<TableHeadingItem> Headings { get; init; }
 		[JsonIgnore]
-		public RenderFragment<TableTestObject> RowTemplate { get; init; }
+		public RenderFragment<TableTestObject> RowTemplate { get; init; } = TableTestStates.RowTemplate;
 		public List<TableTestObject> Items { get; init; }
 		public bool ShowPaginationRow { get; init; }
 		public List<int> RowsPerPageOpts { get; init; }
 	}
 
-	public static TableState LargeItemList
+	public static TableStateParameters LargeItemList
 	{
 		get => new()
 		{
@@ -24,7 +24,7 @@ internal static class TableTestStates
 		};
 	}
 
-	public static TableState SmallItemList
+	public static TableStateParameters SmallItemList
 	{
 		get => new()
 		{
@@ -36,7 +36,7 @@ internal static class TableTestStates
 		};
 	}
 
-	public static TableState WithOutPaginationRow
+	public static TableStateParameters WithOutPaginationRow
 	{
 		get => new()
 		{
@@ -50,35 +50,35 @@ internal static class TableTestStates
 
 	private static readonly List<TableHeadingItem> Headings =
 			[
-				new TableHeadingItem(nameof(TableTestObject.ID)),
+				new TableHeadingItem(nameof(TableTestObject.Id)),
 				new TableHeadingItem(nameof(TableTestObject.DisplayName)),
 				new TableHeadingItem(nameof(TableTestObject.CreatedDate))
 			];
 
 	private static readonly List<TableTestObject> BigList =
 		[
-			new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-			new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-			new TableTestObject(3, "Item C", new DateTime(2021, 5, 19)),
-			new TableTestObject(4, "Item 1", new DateTime(2023, 10, 9)),
-			new TableTestObject(5, "Item 2", new DateTime(2022, 2, 3)),
-			new TableTestObject(6, "Item 3", new DateTime(2021, 5, 19)),
-			new TableTestObject(7, "Additional Item A", new DateTime(2023, 10, 9)),
-			new TableTestObject(8, "Additional Item B", new DateTime(2022, 2, 3)),
-			new TableTestObject(9, "Additional Item C", new DateTime(2021, 5, 19)),
-			new TableTestObject(10, "Additional Item 1", new DateTime(2023, 10, 9)),
-			new TableTestObject(11, "Additional Item 2", new DateTime(2022, 2, 3)),
-			new TableTestObject(12, "Additional Item 3", new DateTime(2021, 5, 19)),
-			new TableTestObject(13, "Some Item", new DateTime(2023, 10, 9)),
-			new TableTestObject(14, "Another Item", new DateTime(2022, 2, 3)),
-			new TableTestObject(15, "The Final Item", new DateTime(2021, 5, 19))
+			new TableTestObject { Id = 1, DisplayName = "Item A", CreatedDate = new DateTime(2023, 10, 9) },
+			new TableTestObject { Id = 2, DisplayName = "Item B", CreatedDate = new DateTime(2022, 2, 3) },
+			new TableTestObject { Id = 3, DisplayName = "Item C", CreatedDate = new DateTime(2021, 5, 19) },
+			new TableTestObject { Id = 4, DisplayName = "Item 1", CreatedDate = new DateTime(2023, 10, 9) },
+			new TableTestObject { Id = 5, DisplayName = "Item 2", CreatedDate = new DateTime(2022, 2, 3) },
+			new TableTestObject { Id = 6, DisplayName = "Item 3", CreatedDate = new DateTime(2021, 5, 19) },
+			new TableTestObject { Id = 7, DisplayName = "Additional Item A", CreatedDate = new DateTime(2023, 10, 9) },
+			new TableTestObject { Id = 8, DisplayName = "Additional Item B", CreatedDate = new DateTime(2022, 2, 3) },
+			new TableTestObject { Id = 9, DisplayName = "Additional Item C", CreatedDate = new DateTime(2021, 5, 19) },
+			new TableTestObject { Id = 10, DisplayName = "Additional Item 1", CreatedDate = new DateTime(2023, 10, 9) },
+			new TableTestObject { Id = 11, DisplayName = "Additional Item 2", CreatedDate = new DateTime(2022, 2, 3) },
+			new TableTestObject { Id = 12, DisplayName = "Additional Item 3", CreatedDate = new DateTime(2021, 5, 19) },
+			new TableTestObject { Id = 13, DisplayName = "Some Item", CreatedDate = new DateTime(2023, 10, 9) },
+			new TableTestObject { Id = 14, DisplayName = "Another Item", CreatedDate = new DateTime(2022, 2, 3) },
+			new TableTestObject { Id = 15, DisplayName = "The Final Item", CreatedDate = new DateTime(2021, 5, 19) }
 		];
 
 	private static readonly List<TableTestObject> SmallList =
 		[
-			new TableTestObject(1, "Item A", new DateTime(2023, 10, 9)),
-			new TableTestObject(2, "Item B", new DateTime(2022, 2, 3)),
-			new TableTestObject(3, "Item C", new DateTime(2021, 5, 19))
+			new TableTestObject { Id = 1, DisplayName = "Item A", CreatedDate = new DateTime(2023, 10, 9) },
+			new TableTestObject { Id = 2, DisplayName = "Item B", CreatedDate = new DateTime(2022, 2, 3) },
+			new TableTestObject { Id = 3, DisplayName = "Item C", CreatedDate = new DateTime(2021, 5, 19) }
 		];
 
 	private static readonly RenderFragment<TableTestObject> RowTemplate = item =>
@@ -88,7 +88,7 @@ internal static class TableTestStates
 				 $@"
                  <div class=""table-row"">
                      <div class=""table-cell"">
-                        <span>{item.ID}</span>
+                        <span>{item.Id}</span>
                      </div>
                      <div class= ""table-cell"">
                         <span>{item.DisplayName}</span>
@@ -101,6 +101,11 @@ internal static class TableTestStates
 
 	private static readonly List<int> RowsPerPageOptions = [5, 10, 15];
 
-	public record TableTestObject(int ID, string DisplayName, DateTime CreatedDate);
+	public record TableTestObject
+	{
+		public int Id { get; init; }
+		public string DisplayName { get; init; }
+		public DateTime CreatedDate { get; init; }
+	}
 }
 
