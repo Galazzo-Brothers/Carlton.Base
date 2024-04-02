@@ -89,7 +89,7 @@
 	/// Gets or Sets a value representing the users interaction state of the table, used to rehydrate the table on initialization.
 	/// </summary>
 	[Parameter]
-	public TableState TableState { get; set; }
+	public TableInteractionState TableState { get; set; } = new TableInteractionState();
 
 	/// <summary>
 	/// Event callback invoked when the page changes.
@@ -109,7 +109,7 @@
 	[Parameter]
 	public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
 
-	private IList<TItem> AllItems { get; set; } = new List<TItem>();
+	private IList<TItem> AllItems { get; set; } 
 
 	private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
@@ -123,13 +123,10 @@
 
 	protected override void OnInitialized()
 	{
-		if (TableState == null)
-			return;
-
-		//Rehydrate the table from the user's interaction state
+		//Rehydrate the table from the user's saved interaction state
 		CurrentPage = TableState.CurrentPage;
-		SelectedRowsPerPageIndex = TableState.SelectedRowsPerPageOptsIndex;
-		OrderColumn = TableState.OrderByColum;
+		SelectedRowsPerPageIndex = TableState.SelectedRowsPerPageIndex;
+		OrderColumn = TableState.OrderByColumn;
 		IsAscending = TableState.IsAscending;
 
 		base.OnInitialized();
@@ -137,8 +134,8 @@
 
 	protected override void OnParametersSet()
 	{
-		//Reset the current page if the items have changed
-		if(!Enumerable.SequenceEqual(Items, AllItems))
+		//Reset the current page if the items have changed, if not first load
+		if (AllItems != null && !Enumerable.SequenceEqual(Items, AllItems))
 			CurrentPage = 1;
 
 		AllItems = Items.ToList();
@@ -177,6 +174,7 @@
 		CurrentPage = 1; //reset to first page
 		OrderColumn = args.SortColumn;
 		IsAscending = args.SortAscending;
+		UpdateOrdering();
 		OnItemsSort.InvokeAsync(args);
 	}
 
@@ -186,6 +184,8 @@
 			return;
 
 		CurrentPage = args.CurrentPage;
+		UpdateOrdering();
+		UpdatePagination();
 		OnPageChange.InvokeAsync(args);
 	}
 
