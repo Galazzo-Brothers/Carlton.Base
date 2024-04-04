@@ -6,14 +6,13 @@
 
 @* Represents a table displaying trace log messages. *@
 <div class="trace-log-table">
-	<Table Headings="Headings"
+	<ViewStateTable Headings="Headings"
 		   Items="TraceLogMessageGroups"
 		   ShowPaginationRow="true"
 		   SortableHeadersEnabled="false"
 		   RowsPerPageOpts="RowsPerPageOpts"
-		   TableState="TraceLogTableState"
-		   OnPageChange="OnPageChanged"
-		   OnRowsPerPageChange="OnRowsPerPageChanged">
+		   OnTableInteraction="OnTableInteraction"
+		   ViewStateKey="@nameof(TraceLogTable)">
 		<RowTemplate Context="group">
 			<TraceLogTableExpandableRow TraceLogMessageGroup="group"
 										SelectedTraceLogMessage="SelectedTraceLogMessage"
@@ -21,7 +20,7 @@
 										OnSelectedTraceLogMessageChanged="HandleSelectedTraceLogMessageChanged"
 										OnTraceLogMessageExpansionChanged="HandleTraceLogMessageExpansionChanged" />
 		</RowTemplate>
-	</Table>
+	</ViewStateTable>
 </div>
 
 
@@ -45,12 +44,6 @@
 	public required IEnumerable<int> ExpandedRowIndexes { get; set; }
 
 	/// <summary>
-	/// State of the trace log table.
-	/// </summary>
-	[Parameter]
-	public required TableState TraceLogTableState { get; set; }
-
-	/// <summary>
 	/// Event callback for when the selected trace log message changes.
 	/// </summary>
 	[Parameter]
@@ -63,16 +56,10 @@
 	public EventCallback<TraceLogMessageExpansionChangedArgs> OnTraceLogMessageExpansionChanged { get; set; }
 
 	/// <summary>
-	/// Event callback for when the page changes.
+	/// Event callback for when the table interaction state changes.
 	/// </summary>
 	[Parameter]
-	public EventCallback<PageChangeEventArgs> OnPageChanged { get; set; }
-
-	/// <summary>
-	/// Event callback for when the number of rows per page changes.
-	/// </summary>
-	[Parameter]
-	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChanged { get; set; }
+	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
 
 	private TraceLogMessage SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
 

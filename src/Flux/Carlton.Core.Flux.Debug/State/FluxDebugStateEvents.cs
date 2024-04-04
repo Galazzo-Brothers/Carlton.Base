@@ -6,11 +6,6 @@ internal enum FluxDebugStateEvents
 	LogsCleared,
 	EventLogLevelFiltersChanged,
 	EventLogFilterTextChanged,
-	EventLogPageChanged,
-	EventLogRowsPerPageChanged,
-	EventLogTableOrderingChanged,
-	TraceLogTablePageChanged,
-	TraceLogTableRowsPerPageChanged,
 	SelectedLogMessageChanged,
 	SelectedTraceLogMessageChanged,
 	TraceLogMessageExpandedChanged

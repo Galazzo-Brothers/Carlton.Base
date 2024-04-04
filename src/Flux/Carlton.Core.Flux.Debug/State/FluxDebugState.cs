@@ -1,5 +1,4 @@
 using Carlton.Core.Flux.Debug.Extensions;
-using Carlton.Core.Foundation.State;
 using Carlton.Core.Utilities.Extensions;
 namespace Carlton.Core.Flux.Debug.State;
 
@@ -28,8 +27,6 @@ internal sealed record FluxDebugState
 	//Table States
 	public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();
 	public IEnumerable<int> ExpandedTraceLogMessageIndexes { get; init; } = [];
-	public TableState EventLogTableState { get; init; } = new();
-	public TableState TraceLogTableState { get; init; } = new();
 
 	//Main Application State
 	public object State { get; private set; }

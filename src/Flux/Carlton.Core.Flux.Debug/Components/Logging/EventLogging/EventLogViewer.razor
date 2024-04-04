@@ -2,6 +2,7 @@
 @using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 @using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Filtering
 @using Carlton.Core.Foundation.State
+@using Microsoft.Extensions.Logging
 
 @*  Component for displaying event log viewer with filters and table. *@
 <div class="log-viewer">
@@ -20,11 +21,7 @@
 	<!-- Event log table -->
 	<EventLogTable LogMessages="FilteredLogMessages"
 				   SelectedLogMessageIndex="FilteredSelectedLogMessageIndex"
-				   EventLogTableState="EventLogTableState"
-				   OnLogMessageSelected="HandleLogMessageSelected"
-				   OnPageChange="OnPageChanged"
-				   OnRowsPerPageChange="OnRowsPerPageChanged"
-				   OnItemsSort="OnItemsOrdered" />
+				   OnLogMessageSelected="HandleLogMessageSelected" />
 </div>
 
 
@@ -48,12 +45,6 @@
 	public required EventLogViewerFilterState EventLogViewerFilterState { get; set; }
 
 	/// <summary>
-	/// Gets or sets the event log table state.
-	/// </summary>
-	[Parameter]
-	public required TableState EventLogTableState { get; set; }
-
-	/// <summary>
 	/// Event callback for when a log message is selected.
 	/// </summary>
 	[Parameter]
@@ -70,24 +61,6 @@
 	/// </summary>
 	[Parameter]
 	public EventCallback<EventLogLevelFilterTextChangedArgs> OnLogFilterTextChanged { get; set; }
-
-	// <summary>
-	/// Event callback for changes in the page of the event log table.
-	/// </summary>
-	[Parameter]
-	public EventCallback<PageChangeEventArgs> OnPageChanged { get; set; }
-
-	/// <summary>
-	/// Event callback for changes in the rows per page of the event log table.
-	/// </summary>
-	[Parameter]
-	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChanged { get; set; }
-
-	/// <summary>
-	/// Event callback for changes in the ordering of items in the event log table.
-	/// </summary>
-	[Parameter]
-	public EventCallback<ItemsSortEventArgs> OnItemsOrdered { get; set; }
 
 	// Method to filter log messages based on filter settings
 	private List<LogMessage> FilteredLogMessages

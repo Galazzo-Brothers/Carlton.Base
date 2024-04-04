@@ -1,0 +1,52 @@
+﻿@using Carlton.Core.Foundation.State
+@using Carlton.Core.Foundation.Web.ViewState
+@using Microsoft.Extensions.DependencyInjection
+@namespace Carlton.Core.Components.Tables
+@typeparam TItem
+@inherits Table<TItem>
+@inject IServiceProvider ServiceProvider
+
+<Table Headings="Headings"
+	   Items="Items"
+	   ShowPaginationRow="ShowPaginationRow"
+	   RowsPerPageOpts="RowsPerPageOpts"
+	   ZebraStripped="ZebraStripped"
+	   Hoverable="Hoverable"
+	   RowTemplate="RowTemplate"
+	   TableInteractionState="ViewStateService.ViewState"
+	   OnTableInteraction="args =>
+			{
+				ViewStateService.UpdateViewState(args);
+				OnTableInteraction.InvokeAsync();
+			}" />
+
+@code {
+	[Parameter]
+	public string ViewStateKey { get; set; }
+
+	private IViewStateService<TableInteractionState> ViewStateService { get; set; }
+
+	private IEnumerable<TItem> PreviousItems { get; set; } = new List<TItem>();
+
+	protected override void OnInitialized()
+	{
+		// Resolve the service with the desired key
+		ViewStateService = ServiceProvider.GetRequiredKeyedService<IViewStateService<TableInteractionState>>(ViewStateKey);
+
+		//Initialize the ViewState
+		if (ViewStateService.ViewState == null)
+			ViewStateService.UpdateViewState(new TableInteractionState());
+
+		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		// Reset the TableInteractionState if the items have changed
+		if (Enumerable.SequenceEqual(Items, PreviousItems))
+			ViewStateService.UpdateViewState(ViewStateService.ViewState with { OrderByColumn = string.Empty, IsAscending = false, CurrentPage = 1 });
+
+		PreviousItems = Items;
+		base.OnParametersSet();
+	}
+}
