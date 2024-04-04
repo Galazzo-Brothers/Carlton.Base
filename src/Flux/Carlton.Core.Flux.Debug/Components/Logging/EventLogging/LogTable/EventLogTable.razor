@@ -1,25 +1,25 @@
-﻿@using Carlton.Core.Foundation.State
+﻿@using Carlton.Core.Components.Tables
+@using Carlton.Core.Foundation.State
 @using Carlton.Core.Utilities.Extensions;
+@using Carlton.Core.Foundation.Web.ViewState
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 
 @* Component for displaying an event log table in a debug environment. *@
 <div class="log-table">
-	<Table Headings="Headings"
+	<ViewStateTable Headings="Headings"
 		   Items="LogMessages"
 		   ShowPaginationRow="true"
 		   RowsPerPageOpts="RowsPerPageOpts"
-		   TableState="EventLogTableState"
 		   ZebraStripped="true"
 		   Hoverable="true"
-		   OnPageChange="OnPageChange"
-		   OnRowsPerPageChange="OnRowsPerPageChange"
-		   OnItemsSort="OnItemsSort">
+		   OnTableInteraction="OnTableInteraction"
+		   ViewStateKey="@nameof(EventLogTable)">
 		<RowTemplate Context="item">
 			<EventLogTableRow LogEntry="item"
 							  IsSelected="item==SelectedLogMessage"
 							  OnLogMessageSelected="OnLogMessageSelected" />
 		</RowTemplate>
-	</Table>
+	</ViewStateTable>
 </div>
 
 @code {
@@ -36,34 +36,16 @@
 	public int SelectedLogMessageIndex { get; set; }
 
 	/// <summary>
-	/// Gets or sets the state of the event log table.
-	/// </summary>
-	[Parameter]
-	public required TableState EventLogTableState { get; set; }
-
-	/// <summary>
 	/// Event callback for when a log message is selected.
 	/// </summary>
 	[Parameter]
 	public EventCallback<LogMessage> OnLogMessageSelected { get; set; }
 
 	/// <summary>
-	/// Event callback for page change.
+	/// Event callback for table interaction state.
 	/// </summary>
 	[Parameter]
-	public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
-
-	/// <summary>
-	/// Event callback for rows per page change.
-	/// </summary>
-	[Parameter]
-	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
-
-	/// <summary>
-	/// Event callback for sorting items.
-	/// </summary>
-	[Parameter]
-	public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
+	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
 
 	private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
 

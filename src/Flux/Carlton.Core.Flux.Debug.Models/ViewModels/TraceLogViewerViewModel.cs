@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Foundation.State;
-namespace Carlton.Core.Flux.Debug.Models.ViewModels;
+﻿namespace Carlton.Core.Flux.Debug.Models.ViewModels;
 
 /// <summary>
 /// Represents the view model for the trace log viewer component.
@@ -23,10 +22,4 @@ public sealed record TraceLogViewerViewModel
 	/// </summary>
 	[Required]
 	public required IEnumerable<int> ExpandedRowIndexes { get; init; } = new List<int>();
-
-	/// <summary>
-	/// Gets or initializes the state of the trace log table.
-	/// </summary>
-	[Required]
-	public required TableState TraceLogTableState { get; init; } = new();
 };

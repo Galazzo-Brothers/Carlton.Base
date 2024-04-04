@@ -1,5 +1,4 @@
-﻿using Carlton.Core.Foundation.State;
-namespace Carlton.Core.Flux.Debug.Models.ViewModels;
+﻿namespace Carlton.Core.Flux.Debug.Models.ViewModels;
 
 /// <summary>
 /// Represents the view model for the event log viewer.
@@ -23,10 +22,4 @@ public sealed record EventLogViewerViewModel
 	/// </summary>
 	[Required]
 	public required EventLogViewerFilterState EventLogViewerFilterState { get; init; }
-
-	/// <summary>
-	/// Gets or initializes the state of the event log table.
-	/// </summary>
-	[Required]
-	public required TableState EventLogTableState { get; init; }
 }

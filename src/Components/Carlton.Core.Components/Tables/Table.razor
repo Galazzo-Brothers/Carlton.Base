@@ -17,7 +17,7 @@
 
 	<!--Table Body-->
 	<div class="body">
-		@foreach (var item in Items)
+		@foreach (var item in DisplayItems)
 		{
 			@RowTemplate(item)
 		}
@@ -28,7 +28,7 @@
 	{
 		<TablePaginationRow TItem="TItem"
 							RowsPerPageOpts="RowsPerPageOpts"
-							TotalItemCount="AllItems.Count()"
+							TotalItemCount="FilteredItems.Count()"
 							CurrentPage="CurrentPage"
 							SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
 							OnPageChange="HandlePageChange"
@@ -89,27 +89,19 @@
 	/// Gets or Sets a value representing the users interaction state of the table, used to rehydrate the table on initialization.
 	/// </summary>
 	[Parameter]
-	public TableInteractionState TableState { get; set; } = new TableInteractionState();
+	public TableInteractionState TableInteractionState { get; set; } = new TableInteractionState();
 
 	/// <summary>
-	/// Event callback invoked when the page changes.
+	/// Gets or Sets an Event callback invoked when the table interaction state changes.
 	/// </summary>
 	[Parameter]
-	public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
+	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
 
-	/// <summary>
-	/// Event callback invoked when the rows per page value changes.
-	/// </summary>
-	[Parameter]
-	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
+	private IList<TItem> AllItems { get; set; }
 
-	/// <summary>
-	/// Event callback invoked when the items are sorted.
-	/// </summary>
-	[Parameter]
-	public EventCallback<ItemsSortEventArgs> OnItemsSort { get; set; }
+	private IList<TItem> FilteredItems { get; set; } 
 
-	private IList<TItem> AllItems { get; set; } 
+	private IList<TItem> DisplayItems { get; set; }
 
 	private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
 
@@ -124,11 +116,10 @@
 	protected override void OnInitialized()
 	{
 		//Rehydrate the table from the user's saved interaction state
-		CurrentPage = TableState.CurrentPage;
-		SelectedRowsPerPageIndex = TableState.SelectedRowsPerPageIndex;
-		OrderColumn = TableState.OrderByColumn;
-		IsAscending = TableState.IsAscending;
-
+		CurrentPage = TableInteractionState.CurrentPage;
+		SelectedRowsPerPageIndex = TableInteractionState.SelectedRowsPerPageIndex;
+		OrderColumn = TableInteractionState.OrderByColumn;
+		IsAscending = TableInteractionState.IsAscending;
 		base.OnInitialized();
 	}
 
@@ -138,7 +129,7 @@
 		if (AllItems != null && !Enumerable.SequenceEqual(Items, AllItems))
 			CurrentPage = 1;
 
-		AllItems = Items.ToList();
+		AllItems = FilteredItems = DisplayItems = Items.ToList();
 		UpdateOrdering();
 		UpdatePagination();
 		base.OnParametersSet();
@@ -150,7 +141,7 @@
 			return;
 
 		var orderString = $"{OrderColumn}{(IsAscending ? string.Empty : " desc")}";
-		Items = AllItems.AsQueryable().OrderBy(orderString).ToList();
+		FilteredItems = FilteredItems.AsQueryable().OrderBy(orderString).ToList();
 	}
 
 	private void UpdatePagination()
@@ -158,7 +149,7 @@
 		if (!ShowPaginationRow)
 			return;
 
-		Items = Items.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
+		DisplayItems = FilteredItems.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
 						.Take(SelectedRowPerPageValue)
 						.ToList();
 	}
@@ -175,7 +166,8 @@
 		OrderColumn = args.SortColumn;
 		IsAscending = args.SortAscending;
 		UpdateOrdering();
-		OnItemsSort.InvokeAsync(args);
+		var newState = TableInteractionState with { CurrentPage = 1, OrderByColumn = args.SortColumn, IsAscending = args.SortAscending };
+		OnTableInteraction.InvokeAsync(newState);
 	}
 
 	private void HandlePageChange(PageChangeEventArgs args)
@@ -184,9 +176,9 @@
 			return;
 
 		CurrentPage = args.CurrentPage;
-		UpdateOrdering();
 		UpdatePagination();
-		OnPageChange.InvokeAsync(args);
+		var newState = TableInteractionState with { CurrentPage = args.CurrentPage };
+		OnTableInteraction.InvokeAsync(newState);
 	}
 
 	private void HandleRowsPerPageChange(RowsPerPageChangeEventArgs args)
@@ -196,7 +188,10 @@
 
 		CurrentPage = 1; //reset to first page
 		SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
-		OnRowsPerPageChange.InvokeAsync(args);
+		UpdateOrdering();
+		UpdatePagination();
+		var newState = TableInteractionState with { CurrentPage = 1, SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex };
+		OnTableInteraction.InvokeAsync(newState);
 	}
 
 	private string TableCssClass

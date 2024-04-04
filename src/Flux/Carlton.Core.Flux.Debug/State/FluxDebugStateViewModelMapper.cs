@@ -15,13 +15,11 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 
 	[MapProperty(nameof(FluxDebugState.LogMessages), nameof(EventLogViewerViewModel.LogMessages))]
 	[MapProperty(nameof(FluxDebugState.EventLogViewerFilterState), nameof(EventLogViewerViewModel.EventLogViewerFilterState))]
-	[MapProperty(nameof(FluxDebugState.EventLogTableState), nameof(EventLogViewerViewModel.EventLogTableState))]
 	public partial EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state);
 
 	[MapProperty(nameof(FluxDebugState.TraceLogMessageGroups), nameof(TraceLogViewerViewModel.TraceLogMessages))]
 	[MapProperty(nameof(FluxDebugState.SelectedTraceLogMessageIndex), nameof(TraceLogViewerViewModel.SelectedTraceLogMessageIndex))]
 	[MapProperty(nameof(FluxDebugState.ExpandedTraceLogMessageIndexes), nameof(TraceLogViewerViewModel.ExpandedRowIndexes))]
-	[MapProperty(nameof(FluxDebugState.TraceLogTableState), nameof(TraceLogViewerViewModel.TraceLogTableState))]
 	public partial TraceLogViewerViewModel ToTraceLogViewerViewModel(FluxDebugState state);
 
 	internal static TraceLogRequestContextDetailsViewModel ToTraceLogRequestContextDetailsViewModel(FluxDebugState state)
