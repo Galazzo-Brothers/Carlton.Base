@@ -18,28 +18,28 @@
 @layout DashboardTabbedPanelLayout
 
 @* Layout component for the Flux Debug layout. *@
-@if (LoadingComplete)
+@if (IsLoading)
 {
-    @Body
+	<Spinner />
 }
 else
 {
-    <Spinner />
+	@Body
 }
 
 <SectionContent SectionId="DashboardPanelLayout.Nav">
 	<!-- FluxDebugNavMenu component -->
-    <FluxDebugNavMenu />
+	<FluxDebugNavMenu />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.HeaderPageTitle">
 	<!-- BreadCrumbs component -->
-    <BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
+	<BreadCrumbs Title="Debug" Separator="'>'" BreadCrumbItems="new string[] {GetCurrentPage()}" />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.HeaderActionContent">
 	<!-- HeaderActions component -->
-    <PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="HeaderActionsViewModel" />
+	<PassiveFluxDebugComponent TViewModel="HeaderActionsViewModel" PassiveViewModel="HeaderActionsViewModel" />
 </SectionContent>
 
 <SectionContent SectionId="DashboardPanelLayout.Logo">
@@ -49,7 +49,7 @@ else
 
 <SectionContent SectionId="DashboardPanelLayout.Footer">
 	<!-- Footer component -->
-    <Footer />
+	<Footer />
 </SectionContent>
 
 @code {
@@ -58,39 +58,46 @@ else
 	// URL of the application's logo
 	private const string LogoUrl = "_content/Carlton.Core.Components/images/CarltonLogo.png";
 
-    private bool LoadingComplete { get; set; } = false;
+	private bool IsLoading { get; set; }
 
-    private HeaderActionsViewModel HeaderActionsViewModel { get; } 
-        = new HeaderActionsViewModel
-        { 
-            UserName = "Stephen",
-            AvatarUrl = "_content/Carlton.Core.Components/images/avatar.jpg"
-        };
+	private HeaderActionsViewModel HeaderActionsViewModel { get; }
+		= new HeaderActionsViewModel
+			{
+				UserName = "Stephen",
+				AvatarUrl = "_content/Carlton.Core.Components/images/avatar.jpg"
+			};
 
-    protected override async Task OnInitializedAsync()
-    {
-        //Load the log messages
-        var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages() };
-        await Dispatcher.Dispatch<FluxDebugState, LoadLogMessagesCommand>(this, command, CancellationToken.None);
+	protected override async Task OnInitializedAsync()
+	{
+		//Show the spinner
+		IsLoading = true;
 
-        //Allow the child components to render
-        LoadingComplete = true;
+		// //Load the log messages
+		await Task.Run(async () =>
+		{
 
-        await base.OnInitializedAsync();
-    }
+			var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages().ToList() };
+			await Dispatcher.Dispatch<FluxDebugState, LoadLogMessagesCommand>(this, command, CancellationToken.None);
+		});
 
-    private string GetCurrentPage()
-    {
-        // Get the full URI
-        string fullUri = NavigationManager.Uri;
+		//Allow the child components to render
+		IsLoading = false;
 
-        // Get the base URI of the app
-        string baseUri = NavigationManager.BaseUri;
+		await base.OnInitializedAsync();
+	}
 
-        // Extract the tail end of the route (current page) by removing the base URI
-        var currentRoute = fullUri.Substring(baseUri.Length).Split('/').Last();
+	private string GetCurrentPage()
+	{
+		// Get the full URI
+		string fullUri = NavigationManager.Uri;
 
-        //Title case the route
-        return char.ToUpper(currentRoute[0]) + currentRoute.Substring(1);
-    }
+		// Get the base URI of the app
+		string baseUri = NavigationManager.BaseUri;
+
+		// Extract the tail end of the route (current page) by removing the base URI
+		var currentRoute = fullUri.Substring(baseUri.Length).Split('/').Last();
+
+		//Title case the route
+		return char.ToUpper(currentRoute[0]) + currentRoute.Substring(1);
+	}
 }

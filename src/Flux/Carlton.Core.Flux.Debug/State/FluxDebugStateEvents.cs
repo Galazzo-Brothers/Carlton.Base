@@ -7,6 +7,5 @@ internal enum FluxDebugStateEvents
 	EventLogLevelFiltersChanged,
 	EventLogFilterTextChanged,
 	SelectedLogMessageChanged,
-	SelectedTraceLogMessageChanged,
-	TraceLogMessageExpandedChanged
+	SelectedTraceLogMessageChanged
 }

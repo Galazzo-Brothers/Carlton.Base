@@ -1,14 +1,13 @@
 using Carlton.Core.Flux.Debug.Extensions;
-using Carlton.Core.Utilities.Extensions;
 namespace Carlton.Core.Flux.Debug.State;
 
 internal sealed record FluxDebugState
 {
 	//Logs
-	public IEnumerable<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = new List<TraceLogMessageGroup>();
+	public List<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = [];
 
-	private IEnumerable<LogMessage> _logMessages = new List<LogMessage>();
-	public IEnumerable<LogMessage> LogMessages
+	private IReadOnlyList<LogMessage> _logMessages = new List<LogMessage>();
+	public IReadOnlyList<LogMessage> LogMessages
 	{
 		get => _logMessages;
 		init
@@ -19,14 +18,11 @@ internal sealed record FluxDebugState
 	}
 
 	//Selected Log Messages
-	public int SelectedLogMessageIndex { get; init; }
-	public int SelectedTraceLogMessageIndex { get; init; }
-	public LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
-	public TraceLogMessage? SelectedTraceLogMessage => TraceLogMessageGroups.GetElementAtIndex(SelectedTraceLogMessageIndex);
+	public LogMessage? SelectedLogMessage { get; init; }
+	public TraceLogMessage? SelectedTraceLogMessage { get; init; }
 
 	//Table States
 	public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();
-	public IEnumerable<int> ExpandedTraceLogMessageIndexes { get; init; } = [];
 
 	//Main Application State
 	public object State { get; private set; }

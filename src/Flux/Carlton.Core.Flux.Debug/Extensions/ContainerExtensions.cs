@@ -22,6 +22,7 @@ public static class ContainerExtensions
 	{
 		services.AddViewStateService<TableInteractionState>(nameof(EventLogTable));
 		services.AddViewStateService<TableInteractionState>(nameof(TraceLogTable));
+		services.AddViewStateService<List<TraceLogMessage>>();
 
 		var debugState = new FluxDebugState();
 
@@ -41,6 +42,7 @@ public static class ContainerExtensions
 		services.AddLogging(b =>
 		{
 			b.AddProvider(new MemoryLoggerProvider(logger));
+			b.AddFilter("Carlton.Core.Flux.Debug", LogLevel.None); // Apply the filter
 		});
 
 		services.AddSingleton<ILogger, MemoryLogger>();

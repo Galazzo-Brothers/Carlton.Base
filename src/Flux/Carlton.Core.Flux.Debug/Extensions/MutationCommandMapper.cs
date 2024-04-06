@@ -10,15 +10,11 @@ internal partial class MutationCommandMapper
 {
 	internal static partial TCommand Map<TCommand>(object args);
 
-	[MapProperty(nameof(SelectedEventLogMessageChangedArgs.SelectedLogMessageIndex), nameof(ChangeSelectedLogMessageCommand.SelectedLogMessageIndex))]
+	[MapProperty(nameof(SelectedEventLogMessageChangedArgs.SelectedLogMessage), nameof(ChangeSelectedLogMessageCommand.SelectedLogMessage))]
 	internal static partial ChangeSelectedLogMessageCommand ToCommand(SelectedEventLogMessageChangedArgs args);
 
-	[MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessageIndex), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessageIndex))]
+	[MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessage), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessage))]
 	internal static partial ChangeSelectedTraceLogMessageCommand ToCommand(SelectedTraceLogMessageChangedArgs args);
-
-	[MapProperty(nameof(TraceLogMessageExpansionChangedArgs.Index), nameof(ChangeLogMessageExpansionCommand.TraceLogMessageIndex))]
-	[MapProperty(nameof(TraceLogMessageExpansionChangedArgs.IsExpanded), nameof(ChangeLogMessageExpansionCommand.IsExpanded))]
-	internal static partial ChangeLogMessageExpansionCommand ToCommand(TraceLogMessageExpansionChangedArgs args);
 
 	[MapProperty(nameof(EventLogLevelFiltersChangedArgs.LogLevel), nameof(ChangeEventLogLevelFiltersCommand.LogLevel))]
 	[MapProperty(nameof(EventLogLevelFiltersChangedArgs.IsIncluded), nameof(ChangeEventLogLevelFiltersCommand.IsIncluded))]
