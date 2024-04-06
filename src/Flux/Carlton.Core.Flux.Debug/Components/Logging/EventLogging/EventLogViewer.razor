@@ -20,7 +20,7 @@
 
 	<!-- Event log table -->
 	<EventLogTable LogMessages="FilteredLogMessages"
-				   SelectedLogMessageIndex="FilteredSelectedLogMessageIndex"
+				   SelectedLogMessage="SelectedLogMessage"
 				   OnLogMessageSelected="HandleLogMessageSelected" />
 </div>
 
@@ -33,10 +33,10 @@
 	public List<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
 	/// <summary>
-	/// Gets or sets the index of the selected log message.
+	/// Gets or sets the selected log message.
 	/// </summary>
 	[Parameter]
-	public int SelectedLogMessageIndex { get; set; }
+	public LogMessage? SelectedLogMessage { get; set; }
 
 	/// <summary>
 	/// Gets or sets the event log viewer filter state.
@@ -62,17 +62,18 @@
 	[Parameter]
 	public EventCallback<EventLogLevelFilterTextChangedArgs> OnLogFilterTextChanged { get; set; }
 
-	// Method to filter log messages based on filter settings
-	private List<LogMessage> FilteredLogMessages
-	{
-		get => LogMessages.Where(_ => EventLogViewerFilterState.IncludedLogLevels.Contains(_.LogLevel))
-								.Where(_ => _.Message.ToLower().Contains(EventLogViewerFilterState.FilterText))
-								.OrderByDescending(_ => _.Timestamp)
-								.ToList();
-	}
+	//List of log messages based on filter settings
+	private List<LogMessage> FilteredLogMessages { get; set; } = new List<LogMessage>();
 
-	// Method to get the index of the selected log message from the filtered log messages
-	private int FilteredSelectedLogMessageIndex => FilteredLogMessages.FindIndex(log => log == LogMessages[SelectedLogMessageIndex]);
+	protected override void OnParametersSet()
+	{
+		FilteredLogMessages = LogMessages.Where(_ => EventLogViewerFilterState.IncludedLogLevels.Contains(_.LogLevel))
+											.Where(_ => _.Message.ToLower().Contains(EventLogViewerFilterState.FilterText))
+											.OrderByDescending(_ => _.Timestamp)
+											.ToList();
+
+		base.OnParametersSet();
+	}
 
 	// Method to check if a log level filter is active
 	private bool FilterIsActive(LogLevel logLevel)
@@ -92,5 +93,5 @@
 
 	// Event handler for when a log message is selected
 	private void HandleLogMessageSelected(LogMessage selectedLogMessage)
-		=> OnLogMessageSelected.InvokeAsync(new SelectedEventLogMessageChangedArgs(LogMessages.IndexOf(selectedLogMessage)));
+		=> OnLogMessageSelected.InvokeAsync(new SelectedEventLogMessageChangedArgs(selectedLogMessage));
 }

@@ -10,9 +10,7 @@
 
 @* Component for displaying a table of trace log messages. *@
 <TraceLogTable TraceLogMessageGroups="@ViewModel.TraceLogMessages.ToList()"
-               SelectedTraceLogMessageIndex="@ViewModel.SelectedTraceLogMessageIndex"
-               ExpandedRowIndexes="@ViewModel.ExpandedRowIndexes"
-               OnSelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>"
-               OnTraceLogMessageExpansionChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeLogMessageExpansionCommand>" />
+               SelectedTraceLogMessage="@ViewModel.SelectedTraceLogMessage"
+               OnSelectedTraceLogMessageChanged="this.RaiseComponentFluxEvent<TraceLogViewerViewModel, ChangeSelectedTraceLogMessageCommand>" />
 
 

@@ -88,12 +88,12 @@
 	private string ChevronCss
 	{
 		get => new CssBuilder("chevron")
-					.AddClass("mdi")
-					.AddClass("mdi-24px")
-					.AddClass("mdi-chevron-down", IsExpanded)
-					.AddClass("mdi-chevron-right", !IsExpanded)
-					.AddClass("dimmed", !HasChildren)
-					.Build();
+				.AddClass("mdi")
+				.AddClass("mdi-24px")
+				.AddClass("mdi-chevron-down", IsExpanded)
+				.AddClass("mdi-chevron-right", !IsExpanded)
+				.AddClass("dimmed", !HasChildren)
+				.Build();
 
 	}
 

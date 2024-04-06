@@ -6,10 +6,9 @@
 public sealed record EventLogViewerViewModel
 {
 	/// <summary>
-	/// Gets or initializes the index of the selected log message.
+	/// Gets or initializes the selected log message.
 	/// </summary>
-	[NonNegativeInteger]
-	public int SelectedLogMessageIndex { get; init; }
+	public LogMessage? SelectedLogMessage { get; init; }
 
 	/// <summary>
 	/// Gets or initializes the list of log messages to display.

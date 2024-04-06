@@ -6,8 +6,8 @@
 public sealed record ChangeSelectedLogMessageCommand
 {
 	/// <summary>
-	/// Gets or initializes the index of the selected log message.
+	/// Gets or initializes the selected log message.
 	/// </summary>
-	[NonNegativeInteger]
-	public required int SelectedLogMessageIndex { get; init; }
+	[Required]
+	public required LogMessage SelectedLogMessage { get; init; }
 };

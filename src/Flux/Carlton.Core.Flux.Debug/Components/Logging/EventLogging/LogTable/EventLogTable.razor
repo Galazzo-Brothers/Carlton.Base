@@ -7,13 +7,13 @@
 @* Component for displaying an event log table in a debug environment. *@
 <div class="log-table">
 	<ViewStateTable Headings="Headings"
-		   Items="LogMessages"
-		   ShowPaginationRow="true"
-		   RowsPerPageOpts="RowsPerPageOpts"
-		   ZebraStripped="true"
-		   Hoverable="true"
-		   OnTableInteraction="OnTableInteraction"
-		   ViewStateKey="@nameof(EventLogTable)">
+					Items="LogMessages"
+					ShowPaginationRow="true"
+					RowsPerPageOpts="RowsPerPageOpts"
+					ZebraStripped="true"
+					Hoverable="true"
+					OnTableInteraction="OnTableInteraction"
+					ViewStateKey="@nameof(EventLogTable)">
 		<RowTemplate Context="item">
 			<EventLogTableRow LogEntry="item"
 							  IsSelected="item==SelectedLogMessage"
@@ -30,10 +30,10 @@
 	public List<LogMessage> LogMessages { get; set; } = new();
 
 	/// <summary>
-	/// Gets or sets the index of the selected log message.
+	/// Gets or sets the selected log message.
 	/// </summary>
 	[Parameter]
-	public int SelectedLogMessageIndex { get; set; }
+	public LogMessage? SelectedLogMessage { get; set; }
 
 	/// <summary>
 	/// Event callback for when a log message is selected.
@@ -47,8 +47,6 @@
 	[Parameter]
 	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
 
-	private LogMessage? SelectedLogMessage => LogMessages.SafeGetAtIndex(SelectedLogMessageIndex);
-
 	private IEnumerable<TableHeadingItem> Headings
 	{
 		get => new List<TableHeadingItem>
@@ -61,5 +59,5 @@
 		};
 	}
 
-	private IEnumerable<int> RowsPerPageOpts = new List<int> { 5, 10, 25 };
+	private List<int> RowsPerPageOpts = new List<int> { 5, 10, 25 };
 }
