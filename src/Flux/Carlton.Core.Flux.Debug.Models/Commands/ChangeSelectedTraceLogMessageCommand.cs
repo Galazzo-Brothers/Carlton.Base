@@ -6,8 +6,8 @@
 public sealed record ChangeSelectedTraceLogMessageCommand
 {
 	/// <summary>
-	/// Gets or initializes the selected trace log message.
+	/// Gets or initializes the index of the selected trace log message.
 	/// </summary>
-	[Required]
-	public required TraceLogMessage SelectedTraceLogMessage { get; init; }
+	[NonNegativeInteger]
+	public required int SelectedTraceLogMessageIndex { get; init; }
 };

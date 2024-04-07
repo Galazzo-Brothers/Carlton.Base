@@ -8,13 +8,13 @@ public sealed record EventLogViewerViewModel
 	/// <summary>
 	/// Gets or initializes the selected log message.
 	/// </summary>
-	public LogMessage? SelectedLogMessage { get; init; }
+	public int? SelectedLogMessageIndex { get; init; }
 
 	/// <summary>
 	/// Gets or initializes the list of log messages to display.
 	/// </summary>
 	[Required]
-	public IEnumerable<LogMessage> LogMessages { get; init; } = new List<LogMessage>();
+	public IEnumerable<LogMessageDescriptor> LogMessages { get; init; } = new List<LogMessageDescriptor>();
 
 	/// <summary>
 	/// Gets or initializes the state of the event log viewer filter.
@@ -22,3 +22,4 @@ public sealed record EventLogViewerViewModel
 	[Required]
 	public required EventLogViewerFilterState EventLogViewerFilterState { get; init; }
 }
+

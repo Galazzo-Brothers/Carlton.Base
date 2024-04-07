@@ -6,6 +6,6 @@ internal sealed class SelectedTraceLogMessageMutation : IFluxStateMutation<FluxD
 
 	public FluxDebugState Mutate(FluxDebugState state, ChangeSelectedTraceLogMessageCommand command)
 	{
-		return state with { SelectedTraceLogMessage = command.SelectedTraceLogMessage };
+		return state with { SelectedTraceLogMessageIndex = command.SelectedTraceLogMessageIndex };
 	}
 }

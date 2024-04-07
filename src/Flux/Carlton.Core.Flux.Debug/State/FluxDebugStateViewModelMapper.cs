@@ -1,4 +1,7 @@
 ﻿#pragma warning disable RMG020 // Source member is not mapped to any target member
+using Carlton.Core.Flux;
+using Carlton.Core.Flux.Debug.Extensions;
+using Carlton.Core.Flux.Internals;
 using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.State;
 
@@ -13,21 +16,26 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 	[MapProperty(nameof(FluxDebugState.SelectedLogMessage), nameof(EventLogScopesViewModel.SelectedLogMessage))]
 	public partial EventLogScopesViewModel ToEventLogScopesViewModel(FluxDebugState state);
 
-	[MapProperty(nameof(FluxDebugState.SelectedLogMessage), nameof(EventLogViewerViewModel.SelectedLogMessage))]
-	[MapProperty(nameof(FluxDebugState.LogMessages), nameof(EventLogViewerViewModel.LogMessages))]
-	[MapProperty(nameof(FluxDebugState.EventLogViewerFilterState), nameof(EventLogViewerViewModel.EventLogViewerFilterState))]
-	public partial EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state);
-
 	[MapProperty(nameof(FluxDebugState.TraceLogMessageGroups), nameof(TraceLogViewerViewModel.TraceLogMessages))]
-	[MapProperty(nameof(FluxDebugState.SelectedTraceLogMessage), nameof(TraceLogViewerViewModel.SelectedTraceLogMessage))]
+	[MapProperty(nameof(FluxDebugState.SelectedTraceLogMessageIndex), nameof(TraceLogViewerViewModel.SelectedTraceLogMessageIndex))]
 	public partial TraceLogViewerViewModel ToTraceLogViewerViewModel(FluxDebugState state);
+
+	public EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state)
+	{
+		return new EventLogViewerViewModel
+		{
+			SelectedLogMessageIndex = state.SelectedLogMessageIndex,
+			LogMessages = state.LogMessages.Select(x => x.ToLogMessageDescriptor()),
+			EventLogViewerFilterState = state.EventLogViewerFilterState
+		};
+	}
 
 	internal static TraceLogRequestContextDetailsViewModel ToTraceLogRequestContextDetailsViewModel(FluxDebugState state)
 	{
 		if (state.SelectedTraceLogMessage == null)
 			return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = null };
 
-		return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = state.SelectedTraceLogMessage.RequestContext };
+		return new TraceLogRequestContextDetailsViewModel { SelectedRequestContext = state.SelectedTraceLogMessage.GetScopeValue<BaseRequestContext>("FluxRequestContext") };
 	}
 
 	public static TraceLogRequestObjectDetailsViewModel ToTraceLogRequestObjectDetailsViewModel(FluxDebugState state)
@@ -36,11 +44,12 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 
 		if (state.SelectedTraceLogMessage == null)
 			return defaultViewModel;
-		var selectedContext = state.SelectedTraceLogMessage.RequestContext;
-		return state.SelectedTraceLogMessage.FluxAction switch
+
+		var selectedContext = state.SelectedTraceLogMessage.GetScopeValue<BaseRequestContext>("FluxRequestContext");
+		return selectedContext.FluxOperationKind switch
 		{
-			FluxActions.ViewModelQuery => defaultViewModel with { SelectedRequestObject = ((dynamic)selectedContext).ResultViewModel },
-			FluxActions.MutationCommand => defaultViewModel with { SelectedRequestObject = ((dynamic)selectedContext).MutationCommand },
+			FluxOperationKind.ViewModelQuery => defaultViewModel with { SelectedRequestObject = ((dynamic)selectedContext).ResultViewModel },
+			FluxOperationKind.MutationCommand => defaultViewModel with { SelectedRequestObject = ((dynamic)selectedContext).MutationCommand },
 			_ => defaultViewModel
 		};
 	}

@@ -8,7 +8,7 @@
 
 @* Component for viewing event logs. *@
 <EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 
-                SelectedLogMessage="@ViewModel.SelectedLogMessage"
+                SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
                 EventLogViewerFilterState="@ViewModel.EventLogViewerFilterState"
                 OnLogLevelFiltersChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogLevelFiltersCommand>"
                 OnLogFilterTextChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogFilterTextCommand>"

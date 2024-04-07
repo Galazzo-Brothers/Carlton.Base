@@ -8,7 +8,7 @@ public sealed record TraceLogViewerViewModel
 	/// <summary>
 	/// Gets or initializes the selected trace log message.
 	/// </summary>
-	public required TraceLogMessage? SelectedTraceLogMessage { get; init; }
+	public required int? SelectedTraceLogMessageIndex { get; init; }
 
 	/// <summary>
 	/// Gets or initializes the trace log messages.
@@ -16,3 +16,5 @@ public sealed record TraceLogViewerViewModel
 	[Required]
 	public required IEnumerable<TraceLogMessageGroup> TraceLogMessages { get; init; } = new List<TraceLogMessageGroup>();
 };
+
+

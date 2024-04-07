@@ -20,7 +20,7 @@
 
 	<!-- Event log table -->
 	<EventLogTable LogMessages="FilteredLogMessages"
-				   SelectedLogMessage="SelectedLogMessage"
+				   SelectedLogMessageIndex="SelectedLogMessageIndex"
 				   OnLogMessageSelected="HandleLogMessageSelected" />
 </div>
 
@@ -30,13 +30,13 @@
 	/// Gets or sets the list of log messages.
 	/// </summary>
 	[Parameter]
-	public List<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
+	public List<LogMessageDescriptor> LogMessages { get; set; } = new List<LogMessageDescriptor>();
 
 	/// <summary>
 	/// Gets or sets the selected log message.
 	/// </summary>
 	[Parameter]
-	public LogMessage? SelectedLogMessage { get; set; }
+	public int? SelectedLogMessageIndex { get; set; }
 
 	/// <summary>
 	/// Gets or sets the event log viewer filter state.
@@ -63,7 +63,7 @@
 	public EventCallback<EventLogLevelFilterTextChangedArgs> OnLogFilterTextChanged { get; set; }
 
 	//List of log messages based on filter settings
-	private List<LogMessage> FilteredLogMessages { get; set; } = new List<LogMessage>();
+	private List<LogMessageDescriptor> FilteredLogMessages { get; set; } = new List<LogMessageDescriptor>();
 
 	protected override void OnParametersSet()
 	{
@@ -92,6 +92,6 @@
 		=> OnLogLevelFiltersChanged.InvokeAsync(new EventLogLevelFiltersChangedArgs(logLevel, isIncluded));
 
 	// Event handler for when a log message is selected
-	private void HandleLogMessageSelected(LogMessage selectedLogMessage)
-		=> OnLogMessageSelected.InvokeAsync(new SelectedEventLogMessageChangedArgs(selectedLogMessage));
+	private void HandleLogMessageSelected(int selectedLogMessageIndex)
+		=> OnLogMessageSelected.InvokeAsync(new SelectedEventLogMessageChangedArgs(selectedLogMessageIndex));
 }

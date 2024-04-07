@@ -8,26 +8,24 @@ public sealed record TraceLogMessageGroup
 	/// <summary>
 	/// Gets or sets the parent log message entry.
 	/// </summary>
-	public required TraceLogMessage ParentEntry { get; set; }
+	public required TraceLogMessageDescriptor ParentEntry { get; set; }
 
 	/// <summary>
 	/// Gets or sets the child log message entries.
 	/// </summary>
-	public IEnumerable<TraceLogMessage> ChildEntries { get; set; } = new List<TraceLogMessage>();
+	public IEnumerable<TraceLogMessageDescriptor> ChildEntries { get; set; } = new List<TraceLogMessageDescriptor>();
 
 	/// <summary>
 	/// Gets the flattened sequence of log message entries, including the parent entry followed by child entries.
 	/// </summary>
-	public IEnumerable<TraceLogMessage> FlattenedEntries
+	public IEnumerable<TraceLogMessageDescriptor> FlattenedEntries()
 	{
-		get
+
+		// Include the parent entry first, followed by child entries
+		yield return ParentEntry;
+		foreach (var childEntry in ChildEntries)
 		{
-			// Include the parent entry first, followed by child entries
-			yield return ParentEntry;
-			foreach (var childEntry in ChildEntries)
-			{
-				yield return childEntry;
-			}
+			yield return childEntry;
 		}
 	}
 }

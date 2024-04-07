@@ -6,6 +6,6 @@ internal sealed class SelectedLogMessageMutation : IFluxStateMutation<FluxDebugS
 
 	public FluxDebugState Mutate(FluxDebugState state, ChangeSelectedLogMessageCommand command)
 	{
-		return state with { SelectedLogMessage = command.SelectedLogMessage };
+		return state with { SelectedLogMessageIndex = command.SelectedLogMessageIndex };
 	}
 }

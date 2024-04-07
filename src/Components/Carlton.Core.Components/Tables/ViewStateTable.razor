@@ -13,6 +13,7 @@
 	   ZebraStripped="ZebraStripped"
 	   Hoverable="Hoverable"
 	   RowTemplate="RowTemplate"
+	   ItemsEqualityComparer="ItemsEqualityComparer"
 	   TableInteractionState="ViewStateService.ViewState"
 	   OnTableInteraction="args =>
 			{
@@ -43,7 +44,7 @@
 	protected override void OnParametersSet()
 	{
 		// Reset the TableInteractionState if the items have changed
-		if (Enumerable.SequenceEqual(Items, PreviousItems))
+		if (!Enumerable.SequenceEqual(Items, PreviousItems, ItemsEqualityComparer))
 			ViewStateService.UpdateViewState(ViewStateService.ViewState with { OrderByColumn = string.Empty, IsAscending = false, CurrentPage = 1 });
 
 		PreviousItems = Items;
