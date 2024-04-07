@@ -10,10 +10,10 @@ internal partial class MutationCommandMapper
 {
 	internal static partial TCommand Map<TCommand>(object args);
 
-	[MapProperty(nameof(SelectedEventLogMessageChangedArgs.SelectedLogMessage), nameof(ChangeSelectedLogMessageCommand.SelectedLogMessage))]
+	[MapProperty(nameof(SelectedEventLogMessageChangedArgs.SelectedLogMessageIndex), nameof(ChangeSelectedLogMessageCommand.SelectedLogMessageIndex))]
 	internal static partial ChangeSelectedLogMessageCommand ToCommand(SelectedEventLogMessageChangedArgs args);
 
-	[MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessage), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessage))]
+	[MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessageIndex), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessageIndex))]
 	internal static partial ChangeSelectedTraceLogMessageCommand ToCommand(SelectedTraceLogMessageChangedArgs args);
 
 	[MapProperty(nameof(EventLogLevelFiltersChangedArgs.LogLevel), nameof(ChangeEventLogLevelFiltersCommand.LogLevel))]

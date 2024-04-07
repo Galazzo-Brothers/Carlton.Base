@@ -2,7 +2,7 @@
 @namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable
 
 @* Component for displaying a row in a log table in a debug environment. *@
-<div class="@TableRowCss" @onclick="() => OnLogMessageSelected.InvokeAsync(LogEntry)">
+<div class="@TableRowCss" @onclick="() => OnLogMessageSelected.InvokeAsync(LogEntry.Id)">
     <div class="table-cell"><span class="cell-text">@LogEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
     <div class="table-cell"><span class="cell-text">@LogEntry.Message</span></div>
     <div class="table-cell"><LogLevelPill LogLevel="@LogEntry.LogLevel" /></div>
@@ -16,7 +16,7 @@
 	/// Gets or sets the log message associated with this row.
 	/// </summary>
 	[Parameter]
-    public required LogMessage LogEntry { get; set; }
+	public required LogMessageDescriptor LogEntry { get; set; }
 
 	/// <summary>
 	/// Gets or sets a value indicating whether this row is selected.
@@ -28,7 +28,7 @@
 	/// Event callback for when a log message row is selected.
 	/// </summary>
 	[Parameter]
-    public EventCallback<LogMessage> OnLogMessageSelected { get; set; }
+	public EventCallback<int> OnLogMessageSelected { get; set; }
 
     public string TableRowCss
     {

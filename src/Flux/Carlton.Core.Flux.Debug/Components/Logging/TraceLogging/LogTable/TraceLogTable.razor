@@ -3,8 +3,8 @@
 @using Carlton.Core.Flux.Debug.Extensions
 @using Carlton.Core.Foundation.State
 @using Carlton.Core.Foundation.Web.ViewState
+@using System.Collections
 @namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
-@inject IViewStateService<List<TraceLogMessage>> ViewStateService
 
 @* Represents a table displaying trace log messages. *@
 <div class="trace-log-table">
@@ -14,13 +14,13 @@
 					SortableHeadersEnabled="false"
 					RowsPerPageOpts="RowsPerPageOpts"
 					OnTableInteraction="OnTableInteraction"
+					ItemsEqualityComparer="new TraceLogMessageGroupComparer()"
 					ViewStateKey="@nameof(TraceLogTable)">
 		<RowTemplate Context="group">
-			<TraceLogTableExpandableRow TraceLogMessageGroup="group"
-										SelectedTraceLogMessage="SelectedTraceLogMessage"
-										IsExpanded="IsExpanded(group.ParentEntry)"
-										OnSelectedTraceLogMessageChanged="HandleSelectedTraceLogMessageChanged"
-										OnTraceLogMessageExpansionChanged="HandleTraceLogMessageExpansionChanged" />
+			<TraceLogTableViewStateRow TraceLogMessageGroup="group"
+									   SelectedTraceLogMessageIndex="SelectedTraceLogMessageIndex"
+									   OnSelectedTraceLogMessageChanged="OnSelectedTraceLogMessageChanged"
+									   OnTraceLogMessageExpansionChanged="OnTraceLogMessageExpansionChanged" />
 		</RowTemplate>
 	</ViewStateTable>
 </div>
@@ -37,7 +37,7 @@
 	/// Gets or sets the selected trace log message.
 	/// </summary>
 	[Parameter]
-	public TraceLogMessage? SelectedTraceLogMessage{ get; set; }
+	public int? SelectedTraceLogMessageIndex { get; set; }
 
 	/// <summary>
 	/// Event callback for when the selected trace log message changes.
@@ -57,14 +57,6 @@
 	[Parameter]
 	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
 
-	protected override void OnInitialized()
-	{
-		if(ViewStateService.ViewState == null)
-			ViewStateService.UpdateViewState(new List<TraceLogMessage>());
-		
-		base.OnInitialized();
-	}
-
 	// Represents the header items for the trace log table.
 	private IEnumerable<TableHeadingItem> Headings
 	{
@@ -78,28 +70,6 @@
 			new TableHeadingItem("Outcome", "FluxActionOutcome"),
 			new TableHeadingItem("Details"),
 		};
-	}
-
-	// Indicates whether a trace log message group is expanded.
-	private bool IsExpanded(TraceLogMessage traceLogMessage) => ViewStateService.ViewState.Contains(traceLogMessage);
-
-	// Handles the event when the selected trace log message changes.
-	private void HandleSelectedTraceLogMessageChanged(TraceLogMessage selectedTraceLogMessage)
-	{
-		var args = new SelectedTraceLogMessageChangedArgs(selectedTraceLogMessage);
-		OnSelectedTraceLogMessageChanged.InvokeAsync(args);
-	}
-
-	// Handles the event when the expansion state of a trace log message changes.
-	private void HandleTraceLogMessageExpansionChanged(TraceLogMessage traceLogMessage)
-	{
-		var isExpanded = ViewStateService.ViewState.Contains(traceLogMessage);
-		if (isExpanded)
-			ViewStateService.ViewState.Remove(traceLogMessage);
-		else
-			ViewStateService.ViewState.Add(traceLogMessage);
-		var args = new TraceLogMessageExpansionChangedArgs(traceLogMessage, isExpanded);
-		OnTraceLogMessageExpansionChanged.InvokeAsync(args);
 	}
 
 	private List<int> RowsPerPageOpts = new List<int> { 5, 10, 25 };

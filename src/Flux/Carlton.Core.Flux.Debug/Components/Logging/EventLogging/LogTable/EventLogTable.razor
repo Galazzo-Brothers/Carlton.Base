@@ -6,7 +6,7 @@
 
 @* Component for displaying an event log table in a debug environment. *@
 <div class="log-table">
-	<ViewStateTable Headings="Headings"
+	<ViewStateTable	Headings="Headings"
 					Items="LogMessages"
 					ShowPaginationRow="true"
 					RowsPerPageOpts="RowsPerPageOpts"
@@ -16,7 +16,7 @@
 					ViewStateKey="@nameof(EventLogTable)">
 		<RowTemplate Context="item">
 			<EventLogTableRow LogEntry="item"
-							  IsSelected="item==SelectedLogMessage"
+							  IsSelected="item.Id==SelectedLogMessageIndex"
 							  OnLogMessageSelected="OnLogMessageSelected" />
 		</RowTemplate>
 	</ViewStateTable>
@@ -27,19 +27,19 @@
 	/// Gets or sets the list of log messages to display.
 	/// </summary>
 	[Parameter]
-	public List<LogMessage> LogMessages { get; set; } = new();
+	public List<LogMessageDescriptor> LogMessages { get; set; } = new();
 
 	/// <summary>
 	/// Gets or sets the selected log message.
 	/// </summary>
 	[Parameter]
-	public LogMessage? SelectedLogMessage { get; set; }
+	public int? SelectedLogMessageIndex { get; set; }
 
 	/// <summary>
 	/// Event callback for when a log message is selected.
 	/// </summary>
 	[Parameter]
-	public EventCallback<LogMessage> OnLogMessageSelected { get; set; }
+	public EventCallback<int> OnLogMessageSelected { get; set; }
 
 	/// <summary>
 	/// Event callback for table interaction state.

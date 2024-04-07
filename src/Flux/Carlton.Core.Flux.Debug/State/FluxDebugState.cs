@@ -4,22 +4,15 @@ namespace Carlton.Core.Flux.Debug.State;
 internal sealed record FluxDebugState
 {
 	//Logs
-	public List<TraceLogMessageGroup> TraceLogMessageGroups { get; init; } = [];
-
-	private IReadOnlyList<LogMessage> _logMessages = new List<LogMessage>();
-	public IReadOnlyList<LogMessage> LogMessages
-	{
-		get => _logMessages;
-		init
-		{
-			_logMessages = value;
-			TraceLogMessageGroups = value.MapLogMessagesToTraceLogMessage().ToList();
-		}
-	}
+	public IReadOnlyList<FluxDebugLogMessage> LogMessages { get; init; } = new List<FluxDebugLogMessage>();
+	public IReadOnlyList<TraceLogMessageGroup> TraceLogMessageGroups => LogMessages.MapLogMessagesToTraceLogMessage().ToList();
 
 	//Selected Log Messages
-	public LogMessage? SelectedLogMessage { get; init; }
-	public TraceLogMessage? SelectedTraceLogMessage { get; init; }
+	public int? SelectedLogMessageIndex { get; init; }
+	public int? SelectedTraceLogMessageIndex { get; init; }
+
+	public FluxDebugLogMessage? SelectedLogMessage => LogMessages.ElementAtOrDefault(SelectedLogMessageIndex ?? -1);
+	public FluxDebugLogMessage? SelectedTraceLogMessage => LogMessages.ElementAtOrDefault(SelectedTraceLogMessageIndex ?? -1);
 
 	//Table States
 	public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();

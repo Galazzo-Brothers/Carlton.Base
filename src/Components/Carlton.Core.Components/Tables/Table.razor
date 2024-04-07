@@ -85,6 +85,9 @@
 	[Parameter]
 	public bool SortableHeadersEnabled { get; set; } = true;
 
+	[Parameter]
+	public IEqualityComparer<TItem> ItemsEqualityComparer { get; set; } = EqualityComparer<TItem>.Default;
+
 	/// <summary>
 	/// Gets or Sets a value representing the users interaction state of the table, used to rehydrate the table on initialization.
 	/// </summary>
@@ -126,7 +129,7 @@
 	protected override void OnParametersSet()
 	{
 		//Reset the current page if the items have changed, if not first load
-		if (AllItems != null && !Enumerable.SequenceEqual(Items, AllItems))
+		if (AllItems != null && !Enumerable.SequenceEqual(Items, AllItems, ItemsEqualityComparer))
 			CurrentPage = 1;
 
 		AllItems = FilteredItems = DisplayItems = Items.ToList();

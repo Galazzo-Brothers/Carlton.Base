@@ -3,5 +3,5 @@
 /// <summary>
 /// Represents arguments for when the selected event log message changes.
 /// </summary>
-/// <param name="SelectedLogMessage">The selected log message.</param>
-public sealed record SelectedEventLogMessageChangedArgs(LogMessage SelectedLogMessage);
+/// <param name="SelectedLogMessageIndex">The index of the selected log message.</param>
+public sealed record SelectedEventLogMessageChangedArgs(int SelectedLogMessageIndex);
