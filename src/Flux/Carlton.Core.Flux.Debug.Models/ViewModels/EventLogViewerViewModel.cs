@@ -14,7 +14,7 @@ public sealed record EventLogViewerViewModel
 	/// Gets or initializes the list of log messages to display.
 	/// </summary>
 	[Required]
-	public IEnumerable<LogMessageDescriptor> LogMessages { get; init; } = new List<LogMessageDescriptor>();
+	public IEnumerable<LogMessageSummary> LogMessages { get; init; } = new List<LogMessageSummary>();
 
 	/// <summary>
 	/// Gets or initializes the state of the event log viewer filter.

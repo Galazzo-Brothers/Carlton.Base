@@ -75,7 +75,6 @@ else
 		// //Load the log messages
 		await Task.Run(async () =>
 		{
-
 			var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages().ToList() };
 			await Dispatcher.Dispatch<FluxDebugState, LoadLogMessagesCommand>(this, command, CancellationToken.None);
 		});

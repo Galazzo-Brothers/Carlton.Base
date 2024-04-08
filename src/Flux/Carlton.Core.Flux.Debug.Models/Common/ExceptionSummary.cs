@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an entry for an exception.
 /// </summary>
-public sealed record ExceptionEntry
+public sealed record ExceptionSummary
 {
 	/// <summary>
 	/// Gets or initializes the type of the exception.

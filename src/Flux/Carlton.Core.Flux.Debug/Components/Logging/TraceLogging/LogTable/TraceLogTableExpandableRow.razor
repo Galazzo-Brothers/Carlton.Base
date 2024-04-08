@@ -94,7 +94,7 @@
 
 
 
-	private string ChildRowCss(TraceLogMessageDescriptor traceLogMessage)
+	private string ChildRowCss(TraceLogMessage traceLogMessage)
 		=> new CssBuilder("child-row")
 				.AddClass("table-row")
 				.AddClass("selected", traceLogMessage.Id == SelectedTraceLogMessageIndex)

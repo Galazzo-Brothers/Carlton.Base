@@ -1,10 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.Models.Common;
 
 /// <summary>
 /// Represents a debug log message specific to the Flux debugging system.
 /// </summary>
-public sealed record FluxDebugLogMessage : LogMessage
+public sealed record FluxDebugLogMessage
 {
 	/// <summary>
 	/// Gets the unique identifier of the log message.
@@ -12,19 +12,32 @@ public sealed record FluxDebugLogMessage : LogMessage
 	public required int Id { get; init; }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="FluxDebugLogMessage"/> class with the specified identifier and log message details.
+	/// Gets the log level of the message.
 	/// </summary>
-	/// <param name="id">The unique identifier of the log message.</param>
-	/// <param name="logMessage">The base log message to include in the debug log message.</param>
-	[SetsRequiredMembers]
-	public FluxDebugLogMessage(int id, LogMessage logMessage)
-	{
-		Id = id;
-		LogLevel = logMessage.LogLevel;
-		EventId = logMessage.EventId;
-		Message = logMessage.Message;
-		Exception = logMessage.Exception;
-		Timestamp = logMessage.Timestamp;
-		Scopes = logMessage.Scopes;
-	}
+	public required LogLevel LogLevel { get; init; }
+
+	/// <summary>
+	/// Gets the event ID associated with the message.
+	/// </summary>
+	public required EventId EventId { get; init; }
+
+	/// <summary>
+	/// Gets the textual content of the message.
+	/// </summary>
+	public required string Message { get; init; }
+
+	/// <summary>
+	/// Gets the exception associated with the message.
+	/// </summary>
+	public required ExceptionSummary? Exception { get; init; }
+
+	/// <summary>
+	/// Gets the timestamp when the message was logged.
+	/// </summary>
+	public required DateTime Timestamp { get; init; }
+
+	/// <summary>
+	/// Gets the dictionary of scopes associated with the message.
+	/// </summary>
+	public Dictionary<string, object> Scopes { get; init; } = [];
 }
