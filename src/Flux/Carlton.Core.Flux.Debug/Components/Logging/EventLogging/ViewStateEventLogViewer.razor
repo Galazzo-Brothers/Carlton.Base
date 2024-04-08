@@ -4,6 +4,7 @@
 @inherits EventLogViewer
 @inject IViewStateService<EventLogViewerFilterState> ViewStateService
 
+@*  ViewState Component that retains the EventLogViewerFilterState for the EventLogViewer. *@
 <EventLogViewer LogMessages="LogMessages"
 				SelectedLogMessageIndex="SelectedLogMessageIndex"
 				EventLogViewerFilterState="ViewStateService.ViewState"
