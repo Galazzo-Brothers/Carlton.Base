@@ -30,7 +30,7 @@
 	/// Gets or sets the list of log messages.
 	/// </summary>
 	[Parameter]
-	public List<LogMessageDescriptor> LogMessages { get; set; } = new List<LogMessageDescriptor>();
+	public List<LogMessageSummary> LogMessages { get; set; } = new List<LogMessageSummary>();
 
 	/// <summary>
 	/// Gets or sets the selected log message.
@@ -63,7 +63,7 @@
 	public EventCallback<EventLogLevelFilterTextChangedArgs> OnLogFilterTextChanged { get; set; }
 
 	//List of log messages based on filter settings
-	private List<LogMessageDescriptor> FilteredLogMessages { get; set; } = new List<LogMessageDescriptor>();
+	private List<LogMessageSummary> FilteredLogMessages { get; set; } = new List<LogMessageSummary>();
 
 	protected override void OnParametersSet()
 	{

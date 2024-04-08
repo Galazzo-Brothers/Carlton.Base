@@ -2,9 +2,9 @@
 namespace Carlton.Core.Flux.Debug.Models.Common;
 
 /// <summary>
-/// Represents a log message descriptor.
+/// Represents a log message summary.
 /// </summary>
-public sealed record LogMessageDescriptor
+public sealed record LogMessageSummary
 {
 	/// <summary>
 	/// Gets the Id of the message.
@@ -25,6 +25,11 @@ public sealed record LogMessageDescriptor
 	/// Gets the textual content of the message.
 	/// </summary>
 	public required string Message { get; init; }
+
+	/// <summary>
+	/// Gets the exception associated with the message.
+	/// </summary>
+	public required ExceptionSummary? Exception { get; init; }
 
 	/// <summary>
 	/// Gets the timestamp when the message was logged.

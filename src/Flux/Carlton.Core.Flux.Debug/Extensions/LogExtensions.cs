@@ -2,21 +2,22 @@
 
 internal static class LogExtensions
 {
-	public static LogMessageDescriptor ToLogMessageDescriptor(this FluxDebugLogMessage logMessage)
+	public static LogMessageSummary ToLogMessageSummary(this FluxDebugLogMessage logMessage)
 	{
-		return new LogMessageDescriptor
+		return new LogMessageSummary
 		{
 			Id = logMessage.Id,
 			EventId = logMessage.EventId,
 			Message = logMessage.Message,
 			LogLevel = logMessage.LogLevel,
-			Timestamp = logMessage.Timestamp
+			Timestamp = logMessage.Timestamp,
+			Exception = logMessage?.Exception
 		};
 	}
 
-	public static ExceptionEntry ToExceptionEntry(this Exception ex)
+	public static ExceptionSummary ToExceptionSummary(this Exception ex)
 	{
-		return new ExceptionEntry
+		return new ExceptionSummary
 		{
 			ExceptionType = ex.GetType().ToString(),
 			Message = ex.Message,
@@ -24,11 +25,11 @@ internal static class LogExtensions
 		};
 	}
 
-	public static TraceLogMessageDescriptor ToTraceLogMessageDescriptor(this FluxDebugLogMessage logMessage)
+	public static TraceLogMessage ToTraceLogMessage(this FluxDebugLogMessage logMessage)
 	{
 		var isQuery = logMessage.GetScopeValue<string>("FluxAction") == "ViewModelQuery";
 
-		return new TraceLogMessageDescriptor
+		return new TraceLogMessage
 		{
 			Id = logMessage.Id,
 			Timestamp = logMessage.Timestamp,
@@ -46,7 +47,7 @@ internal static class LogExtensions
 		return
 			logMessages
 					.Where(IsFluxActionPredicate)
-					.GroupBy(logs => //Group the requests by the initating requests parentId
+					.GroupBy(logs => //Group the requests by the initiating requests parentId
 					{
 						//check if request is a parent request
 						var hasParentRequestId = logs.Scopes.Any(kvp => kvp.Key == "FluxParentRequestId");
@@ -69,8 +70,8 @@ internal static class LogExtensions
 						//Create a TraceLogMessageGroup object
 						return new TraceLogMessageGroup
 						{
-							ParentEntry = parentEntry.ToTraceLogMessageDescriptor(),
-							ChildEntries = orderedChildren.Select(o => o.ToTraceLogMessageDescriptor()).ToList()
+							ParentEntry = parentEntry.ToTraceLogMessage(),
+							ChildEntries = orderedChildren.Select(o => o.ToTraceLogMessage()).ToList()
 						};
 					}).OrderByDescending(_ => _.ParentEntry.Timestamp).ToList();
 

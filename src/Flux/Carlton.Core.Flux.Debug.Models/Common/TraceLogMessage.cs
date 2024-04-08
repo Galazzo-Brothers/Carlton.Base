@@ -7,6 +7,11 @@ namespace Carlton.Core.Flux.Debug.Models.Common;
 public sealed record TraceLogMessage
 {
 	/// <summary>
+	/// Gets or initializes the ID of the log message.
+	/// </summary>
+	public required int Id { get; init; }
+
+	/// <summary>
 	/// Gets or initializes the timestamp of the log message.
 	/// </summary>
 	public required DateTime Timestamp { get; init; }
@@ -30,11 +35,4 @@ public sealed record TraceLogMessage
 	/// Gets or initializes a boolean value indicating whether the associated request succeeded.
 	/// </summary>
 	public required bool RequestSucceeded { get; init; }
-
-	/// <summary>
-	/// Gets or initializes the context of the log message.
-	/// </summary>
-	public required object RequestContext { get; init; }
 }
-
-
