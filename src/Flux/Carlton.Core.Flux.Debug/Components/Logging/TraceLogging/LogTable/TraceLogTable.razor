@@ -17,7 +17,7 @@
 					ItemsEqualityComparer="new TraceLogMessageGroupComparer()"
 					ViewStateKey="@nameof(TraceLogTable)">
 		<RowTemplate Context="group">
-			<TraceLogTableViewStateRow TraceLogMessageGroup="group"
+			<ViewStateTraceLogTableRow TraceLogMessageGroup="group"
 									   SelectedTraceLogMessageIndex="SelectedTraceLogMessageIndex"
 									   OnSelectedTraceLogMessageChanged="OnSelectedTraceLogMessageChanged"
 									   OnTraceLogMessageExpansionChanged="OnTraceLogMessageExpansionChanged" />
