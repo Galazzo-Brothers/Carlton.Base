@@ -23,7 +23,7 @@ public static class ContainerExtensions
 		services.AddViewStateService<TableInteractionState>(nameof(EventLogTable));
 		services.AddViewStateService<TableInteractionState>(nameof(TraceLogTable));
 		services.AddViewStateService<EventLogViewerFilterState>();
-		services.AddViewStateService<List<int>>();
+		services.AddViewStateService<TraceLogTableExpandedRowsState>();
 
 		var debugState = new FluxDebugState();
 
