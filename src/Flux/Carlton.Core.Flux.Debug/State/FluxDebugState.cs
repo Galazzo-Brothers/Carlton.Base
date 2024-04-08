@@ -14,9 +14,6 @@ internal sealed record FluxDebugState
 	public FluxDebugLogMessage? SelectedLogMessage => LogMessages.ElementAtOrDefault(SelectedLogMessageIndex ?? -1);
 	public FluxDebugLogMessage? SelectedTraceLogMessage => LogMessages.ElementAtOrDefault(SelectedTraceLogMessageIndex ?? -1);
 
-	//Table States
-	public EventLogViewerFilterState EventLogViewerFilterState { get; init; } = new();
-
 	//Main Application State
 	public object State { get; private set; }
 }

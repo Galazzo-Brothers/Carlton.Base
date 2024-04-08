@@ -15,11 +15,5 @@ public sealed record EventLogViewerViewModel
 	/// </summary>
 	[Required]
 	public IEnumerable<LogMessageSummary> LogMessages { get; init; } = new List<LogMessageSummary>();
-
-	/// <summary>
-	/// Gets or initializes the state of the event log viewer filter.
-	/// </summary>
-	[Required]
-	public required EventLogViewerFilterState EventLogViewerFilterState { get; init; }
 }
 

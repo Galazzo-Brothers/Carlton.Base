@@ -25,8 +25,7 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 		return new EventLogViewerViewModel
 		{
 			SelectedLogMessageIndex = state.SelectedLogMessageIndex,
-			LogMessages = state.LogMessages.Select(x => x.ToLogMessageSummary()),
-			EventLogViewerFilterState = state.EventLogViewerFilterState
+			LogMessages = state.LogMessages.Select(x => x.ToLogMessageSummary())
 		};
 	}
 

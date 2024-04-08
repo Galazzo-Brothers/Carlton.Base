@@ -42,7 +42,7 @@
 	/// Gets or sets the event log viewer filter state.
 	/// </summary>
 	[Parameter]
-	public required EventLogViewerFilterState EventLogViewerFilterState { get; set; }
+	public required EventLogViewerFilterState EventLogViewerFilterState { get; set; } = new EventLogViewerFilterState();
 
 	/// <summary>
 	/// Event callback for when a log message is selected.
@@ -51,16 +51,10 @@
 	public EventCallback<SelectedEventLogMessageChangedArgs> OnLogMessageSelected { get; set; }
 
 	/// <summary>
-	/// Event callback for changes in log level filters.
+	/// Event callback for when the log filters are changed.
 	/// </summary>
 	[Parameter]
-	public EventCallback<EventLogLevelFiltersChangedArgs> OnLogLevelFiltersChanged { get; set; }
-
-	/// <summary>
-	/// Event callback for changes in the log filter text.
-	/// </summary>
-	[Parameter]
-	public EventCallback<EventLogLevelFilterTextChangedArgs> OnLogFilterTextChanged { get; set; }
+	public EventCallback<EventLogFiltersChangedArgs> OnLogFiltersChanged { get; set; }
 
 	//List of log messages based on filter settings
 	private List<LogMessageSummary> FilteredLogMessages { get; set; } = new List<LogMessageSummary>();
@@ -85,11 +79,21 @@
 
 	// Event handler for changes in the filter text
 	private void HandleFilterTextChanges(string newFilterText)
-		=> OnLogFilterTextChanged.InvokeAsync(new EventLogLevelFilterTextChangedArgs(newFilterText));
+		=> OnLogFiltersChanged.InvokeAsync(new EventLogFiltersChangedArgs(EventLogViewerFilterState with { FilterText = newFilterText }));
 
 	// Event handler for changes in the inclusion of log level filters
 	private void HandleLogLevelIncludesChanged(LogLevel logLevel, bool isIncluded)
-		=> OnLogLevelFiltersChanged.InvokeAsync(new EventLogLevelFiltersChangedArgs(logLevel, isIncluded));
+	{
+		var includedLogLevels = new List<LogLevel>(EventLogViewerFilterState.IncludedLogLevels);
+
+		if (isIncluded)
+			includedLogLevels.Add(logLevel);
+		else
+			includedLogLevels.Remove(logLevel);
+
+		var args = new EventLogFiltersChangedArgs(EventLogViewerFilterState with { IncludedLogLevels = includedLogLevels });
+		OnLogFiltersChanged.InvokeAsync(args);
+	}
 
 	// Event handler for when a log message is selected
 	private void HandleLogMessageSelected(int selectedLogMessageIndex)

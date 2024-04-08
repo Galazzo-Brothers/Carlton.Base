@@ -4,8 +4,6 @@ internal enum FluxDebugStateEvents
 {
 	LoadLogMessages,
 	LogsCleared,
-	EventLogLevelFiltersChanged,
-	EventLogFilterTextChanged,
 	SelectedLogMessageChanged,
 	SelectedTraceLogMessageChanged
 }
