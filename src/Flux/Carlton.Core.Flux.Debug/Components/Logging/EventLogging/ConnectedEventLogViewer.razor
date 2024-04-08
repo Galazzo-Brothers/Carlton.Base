@@ -2,14 +2,9 @@
 @namespace Carlton.Core.Flux.Debug.Components
 @attribute [ObserveStateEvent("SelectedLogMessageChanged")]
 @attribute [ObserveStateEvent("LogsCleared")]
-@attribute [ObserveStateEvent("EventLogLevelFiltersChanged")]
-@attribute [ObserveStateEvent("EventLogFilterTextChanged")]
 @inherits BaseConnectedComponent<EventLogViewerViewModel>
 
 @* Component for viewing event logs. *@
-<EventLogViewer LogMessages="@ViewModel.LogMessages.ToList()" 
-                SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
-                EventLogViewerFilterState="@ViewModel.EventLogViewerFilterState"
-                OnLogLevelFiltersChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogLevelFiltersCommand>"
-                OnLogFilterTextChanged="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeEventLogFilterTextCommand>"
-                OnLogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>" />
+<ViewStateEventLogViewer LogMessages="@ViewModel.LogMessages.ToList()"
+						 SelectedLogMessageIndex="@ViewModel.SelectedLogMessageIndex"
+						 OnLogMessageSelected="this.RaiseComponentFluxEvent<EventLogViewerViewModel, ChangeSelectedLogMessageCommand>" />

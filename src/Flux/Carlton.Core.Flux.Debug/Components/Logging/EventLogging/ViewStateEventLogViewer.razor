@@ -1,0 +1,36 @@
+﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Filtering
+@using Carlton.Core.Foundation.Web.ViewState
+@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+@inherits EventLogViewer
+@inject IViewStateService<EventLogViewerFilterState> ViewStateService
+
+<EventLogViewer LogMessages="LogMessages"
+				SelectedLogMessageIndex="SelectedLogMessageIndex"
+				EventLogViewerFilterState="ViewStateService.ViewState"
+				OnLogMessageSelected="OnLogMessageSelected"
+				OnLogFiltersChanged="HandleOnLogFiltersChanged" />
+
+@code {
+	protected override void OnInitialized()
+	{
+		if (ViewStateService.ViewState == null)
+			ViewStateService.UpdateViewState(new EventLogViewerFilterState());
+
+		base.OnInitialized();
+	}
+
+	private void HandleOnLogFiltersChanged(EventLogFiltersChangedArgs args)
+	{
+		if (ViewStateService.ViewState != args.FilterState)
+		{
+			ViewStateService.UpdateViewState(new EventLogViewerFilterState
+				{
+					IncludedLogLevels = args.FilterState.IncludedLogLevels,
+					FilterText = args.FilterState.FilterText
+				});
+		}
+
+		OnLogFiltersChanged.InvokeAsync(args);
+	}
+}
+

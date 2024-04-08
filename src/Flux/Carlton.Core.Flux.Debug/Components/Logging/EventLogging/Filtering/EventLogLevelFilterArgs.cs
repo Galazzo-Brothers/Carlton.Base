@@ -14,3 +14,8 @@ public sealed record EventLogLevelFiltersChangedArgs(LogLevel LogLevel, bool IsI
 /// <param name="FilterText">The new filter text.</param>
 public sealed record EventLogLevelFilterTextChangedArgs(string FilterText);
 
+/// <summary>
+/// Represents arguments for when event log filters change.
+/// </summary>
+/// <param name="FilterText">The new filter text.</param>
+public sealed record EventLogFiltersChangedArgs(EventLogViewerFilterState FilterState);
