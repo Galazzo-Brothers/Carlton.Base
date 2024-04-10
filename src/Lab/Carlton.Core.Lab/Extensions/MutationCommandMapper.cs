@@ -1,5 +1,5 @@
-﻿using Carlton.Core.Components.DynamicComponents;
-using Carlton.Core.Components.Navigation;
+﻿using Carlton.Core.Components.Accordion.AccordionSelectGroup;
+using Carlton.Core.Components.DynamicComponents;
 using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.Extensions;
 
@@ -8,13 +8,9 @@ internal partial class MutationCommandMapper
 {
 	internal static partial TCommand Map<TCommand>(object args);
 
-	[MapProperty(nameof(GroupExpansionChangeEventArgs.GroupIndexID), nameof(SelectMenuExpandedCommand.SelectedComponentIndex))]
-	[MapProperty(nameof(GroupExpansionChangeEventArgs.IsExpanded), nameof(SelectMenuExpandedCommand.IsExpanded))]
-	internal static partial SelectMenuExpandedCommand ToCommand(GroupExpansionChangeEventArgs args);
-
-	[MapProperty(nameof(ItemSelectedEventArgs<ComponentState>.GroupIndexID), nameof(SelectMenuItemCommand.ComponentIndex))]
-	[MapProperty(nameof(ItemSelectedEventArgs<ComponentState>.ItemIndexID), nameof(SelectMenuItemCommand.ComponentStateIndex))]
-	internal static partial SelectMenuItemCommand ToCommand(ItemSelectedEventArgs<ComponentState> args);
+	[MapProperty(nameof(AccordionSelectGroupItemChangedEventArgs<ComponentState>.GroupIndexId), nameof(SelectMenuItemCommand.ComponentIndex))]
+	[MapProperty(nameof(AccordionSelectGroupItemChangedEventArgs<ComponentState>.ItemIndexId), nameof(SelectMenuItemCommand.ComponentStateIndex))]
+	internal static partial SelectMenuItemCommand ToCommand(AccordionSelectGroupItemChangedEventArgs<ComponentState> args);
 
 	[MapProperty(nameof(CapturedComponentEventArgs.EventName), nameof(RecordEventCommand.RecordedEventName))]
 	[MapProperty(nameof(CapturedComponentEventArgs.EventArgs), nameof(RecordEventCommand.EventArgs))]

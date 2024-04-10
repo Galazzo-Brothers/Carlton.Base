@@ -36,8 +36,7 @@ internal sealed class InitSelectionMutation : IFluxStateMutation<LabState, InitS
 		newComponentConfigurations[componentIndex] = new ComponentConfigurations
 		{
 			ComponentType = SelectedComponentConfigurations.ComponentType,
-			ComponentStates = SelectedComponentConfigurations.ComponentStates,
-			IsExpanded = true,
+			ComponentStates = SelectedComponentConfigurations.ComponentStates
 		};
 
 		//Collapse the first component if it is not the selected component
@@ -46,8 +45,7 @@ internal sealed class InitSelectionMutation : IFluxStateMutation<LabState, InitS
 			newComponentConfigurations[0] = new ComponentConfigurations
 			{
 				ComponentType = firstComponentConfigurations.ComponentType,
-				ComponentStates = firstComponentConfigurations.ComponentStates,
-				IsExpanded = false,
+				ComponentStates = firstComponentConfigurations.ComponentStates
 			};
 		}
 

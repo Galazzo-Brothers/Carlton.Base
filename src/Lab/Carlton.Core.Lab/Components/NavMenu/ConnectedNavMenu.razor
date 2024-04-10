@@ -1,9 +1,8 @@
-﻿@using Carlton.Core.Components.Navigation
+﻿@using Carlton.Core.Components.Accordion.AccordionSelectGroup
 @using Carlton.Core.Lab.Extensions
 @namespace Carlton.Core.Lab.Components.NavMenu
 @attribute [ObserveStateEvent("MenuItemSelected")]
 @attribute [ObserveStateEvent("ComponentStateSelected")]
-@attribute [ObserveStateEvent("MenuItemExpandedStateChanged")]
 @inherits BaseConnectedComponent<NavMenuViewModel>
 
 @*
@@ -11,35 +10,42 @@
     It observes state events and displays a menu with selectable items.
     It also provides functionality to expand/collapse menu items.
 *@
-<AccordionSelectGroup TValue="ComponentState"
-                      Groups="ComponentStateGroups"
-                      SelectedGroupIndex="ViewModel.SelectedComponentIndex"
-                      SelectedItemIndex="ViewModel.SelectedStateIndex"
-                      OnGroupExpansionChange="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuExpandedCommand>"
-                      OnItemSelected="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
+<ViewStateAccordionSelectGroup TValue="ComponentState"
+							   Groups="ComponentStateGroups"
+							   SelectedGroupIndex="ViewModel.SelectedComponentIndex"
+							   SelectedItemIndex="ViewModel.SelectedStateIndex"
+							   OnGroupExpansionChange="HandleGroupExpansionChange"
+							   OnItemSelected="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
 
 
 @code {
-    private IEnumerable<AccordionSelectGroupModel<ComponentState>> ComponentStateGroups { get; set; }
+	private IEnumerable<AccordionSelectGroupModel<ComponentState>> ComponentStateGroups { get; set; }
 
-    protected override void OnParametersSet()
-    {
-        ParseComponentStatesIntoAccordionGroups();
-        base.OnParametersSet();
-    }
+	protected override void OnInitialized()
+	{
+		ParseComponentStatesIntoAccordionGroups();
+		base.OnInitialized();
+	}
 
-    private void ParseComponentStatesIntoAccordionGroups()
-    {
-        var components = ViewModel.MenuItems;
+	private void ParseComponentStatesIntoAccordionGroups()
+	{
+		var components = ViewModel.MenuItems;
 
-        var builder = new AccordionSelectGroupModelBuilder<ComponentState>();
+		var builder = new AccordionSelectGroupModelBuilder<ComponentState>();
 
-        foreach (var component in components)
-        {
-            var dictionary = component.ComponentStates.ToDictionary(_ => _.DisplayName, _ => _);
-            builder.AddGroup(component.ComponentType.GetDisplayName(), component.IsExpanded, dictionary);
-        }
+		foreach (var (component, i) in components.WithIndex())
+		{
+			var dictionary = component.ComponentStates.ToDictionary(_ => _.DisplayName, _ => _);
+			builder.AddGroup(component.ComponentType.GetDisplayName(), i == 0 ? true : false, dictionary);
+		}
 
-        ComponentStateGroups = builder.Build();
-    }
+		ComponentStateGroups = builder.Build();
+	}
+
+	private void HandleGroupExpansionChange(AccordionSelectGroupExpansionChangeEventArgs args)
+	{
+		var newGroups = ComponentStateGroups.ToList();
+		newGroups[args.GroupIndexId] = newGroups[args.GroupIndexId] with { IsExpanded = args.IsExpanded };
+		ComponentStateGroups = newGroups;
+	}
 }

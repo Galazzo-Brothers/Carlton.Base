@@ -27,7 +27,7 @@
 
 	private IViewStateService<TableInteractionState> ViewStateService { get; set; }
 
-	private IEnumerable<TItem> PreviousItems { get; set; } = new List<TItem>();
+	private IEnumerable<TItem> PreviousItems { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -44,7 +44,7 @@
 	protected override void OnParametersSet()
 	{
 		// Reset the TableInteractionState if the items have changed
-		if (!Enumerable.SequenceEqual(Items, PreviousItems, ItemsEqualityComparer))
+		if (PreviousItems != null && !Enumerable.SequenceEqual(Items, PreviousItems, ItemsEqualityComparer))
 			ViewStateService.UpdateViewState(ViewStateService.ViewState with { OrderByColumn = string.Empty, IsAscending = false, CurrentPage = 1 });
 
 		PreviousItems = Items;

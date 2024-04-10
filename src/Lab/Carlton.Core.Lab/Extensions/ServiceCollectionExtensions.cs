@@ -3,6 +3,8 @@ using Carlton.Core.Flux.Extensions;
 using Carlton.Core.Lab.State;
 using Carlton.Core.LayoutServices.Extensions;
 using Carlton.Core.Flux.Debug.Extensions;
+using Carlton.Core.Foundation.Web.ViewState;
+using Carlton.Core.Components.Accordion.AccordionSelect;
 namespace Carlton.Core.Lab.Extensions;
 
 /// <summary>
@@ -20,6 +22,9 @@ public static class ServiceCollectionExtensions
 	public static void AddCarltonTestLab(this IServiceCollection services,
 		Action<NavMenuViewModelBuilder> navTreeAct)
 	{
+		/*ViewState Services*/
+		services.AddViewStateService(new AccordionSelectExpandedItemState());
+
 		/*Layout Services*/
 		services.AddCarltonLayout(opt =>
 		{

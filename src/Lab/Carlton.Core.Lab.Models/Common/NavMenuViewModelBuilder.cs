@@ -62,13 +62,8 @@ public sealed class NavMenuViewModelBuilder
 					  .Select(group => new ComponentConfigurations
 					  {
 						  ComponentType = group.Key,
-						  ComponentStates = group.Select(BuildComponentState),
-						  IsExpanded = IsExpanded(group.Key)
+						  ComponentStates = group.Select(BuildComponentState)
 					  });
-
-
-		bool IsExpanded(Type type)
-			=> type == _internalState[0].ComponentType;
 
 		static ComponentState BuildComponentState(NavMenuBuilderItemState state)
 		{

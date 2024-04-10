@@ -6,15 +6,13 @@ public class ComponentConfigurationsValidationTests
 	[Theory, AutoData]
 	public void ComponentConfiguration_ShouldPassValidation(
 		Type type,
-		IEnumerable<ComponentState> componentStates,
-		bool isExpanded)
+		IEnumerable<ComponentState> componentStates)
 	{
 		// Arrange
 		var sut = new ComponentConfigurations
 		{
 			ComponentType = type,
-			ComponentStates = componentStates,
-			IsExpanded = isExpanded
+			ComponentStates = componentStates
 		};
 
 		// Act
@@ -26,15 +24,13 @@ public class ComponentConfigurationsValidationTests
 
 	[Theory, AutoData]
 	public void ComponentConfiguration_NullComponentType_ShouldFailValidation(
-		IEnumerable<ComponentState> componentStates,
-		bool isExpanded)
+		IEnumerable<ComponentState> componentStates)
 	{
 		// Arrange
 		var sut = new ComponentConfigurations
 		{
 			ComponentType = null,
-			ComponentStates = componentStates,
-			IsExpanded = isExpanded
+			ComponentStates = componentStates
 		};
 
 		// Act
@@ -46,15 +42,13 @@ public class ComponentConfigurationsValidationTests
 
 	[Theory, AutoData]
 	public void ComponentConfiguration_NullComponentStates_ShouldFailValidation(
-		Type type,
-		bool isExpanded)
+		Type type)
 	{
 		// Arrange
 		var sut = new ComponentConfigurations
 		{
 			ComponentType = type,
-			ComponentStates = null,
-			IsExpanded = isExpanded
+			ComponentStates = null
 		};
 
 		// Act

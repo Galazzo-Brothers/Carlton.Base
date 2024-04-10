@@ -52,7 +52,6 @@ public class InitSelectionMutationTests
 		//Assert
 		mutatedState.SelectedComponentTypeDisplayName.ShouldBe(componentToSelect);
 		mutatedState.SelectedComponentState.DisplayName.ShouldBe(componentStateToSelect);
-		mutatedState.ComponentConfigurations.ShouldContain(item => item.IsExpanded, 1);
 	}
 
 	[Fact]
@@ -76,7 +75,6 @@ public class InitSelectionMutationTests
 		//Assert
 		mutatedState.SelectedComponentTypeDisplayName.ShouldBe(componentToSelect);
 		mutatedState.SelectedComponentState.DisplayName.ShouldBe(componentStateToSelect);
-		mutatedState.ComponentConfigurations.ShouldContain(item => item.IsExpanded);
 	}
 
 	[Fact]
@@ -100,6 +98,5 @@ public class InitSelectionMutationTests
 		//Assert
 		mutatedState.SelectedComponentTypeDisplayName.ShouldBe(componentToSelect);
 		mutatedState.SelectedComponentState.DisplayName.ShouldBe(componentStateToSelect);
-		mutatedState.ComponentConfigurations.ShouldContain(item => item.IsExpanded);
 	}
 }

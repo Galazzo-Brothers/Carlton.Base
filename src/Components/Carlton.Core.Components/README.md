@@ -15,6 +15,7 @@
 
 ## Key Features
 
+* Accordions
 * Buttons
 * Dashboard Cards
 * Checkboxes  

@@ -1,0 +1,57 @@
+﻿@using Carlton.Core.Components.Accordion.AccordionSelect
+@using Carlton.Core.Foundation.Web.ViewState
+@namespace Carlton.Core.Components.AccordionSelect
+@typeparam TValue
+@inherits AccordionSelect<TValue>
+@inject IViewStateService<AccordionSelectExpandedItemState> ViewStateService
+
+@*
+    Represents an accordion-style select component 
+	with View State support for expanded items.
+*@
+
+<AccordionSelect Title="@Title"
+				 Items="Items"
+				 SelectedIndex="SelectedIndex"
+				 IsExpanded="IsAccordionExpanded"
+				 OnItemSelected="OnItemSelected"
+				 OnItemExpansionChange="HandleItemExpansionChange" />
+
+@code {
+	/// <summary>
+	/// Gets or sets the Id of the accordion select within the larger group.
+	/// </summary>
+	[Parameter]
+	public int Id { get; set; }
+
+	private IEnumerable<AccordionSelectModel<TValue>> PreviousItems { get; set; }
+
+	private bool IsAccordionExpanded { get => ViewStateService.ViewState.ExpandedItems[Id]; }
+
+	protected override void OnInitialized()
+	{
+		ViewStateService.ViewState.ExpandedItems.TryAdd(Id, IsExpanded);
+		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		//Reset the expansion state if the items have changed
+		if (PreviousItems != null && PreviousItems != Items)
+		{
+			ViewStateService.UpdateViewState(new AccordionSelectExpandedItemState());
+			ViewStateService.ViewState.ExpandedItems.TryAdd(Id, false);
+		}
+
+		PreviousItems = Items;
+		base.OnParametersSet();
+	}
+
+	private void HandleItemExpansionChange(bool isExpanded)
+	{
+		ViewStateService.ViewState.ExpandedItems[Id] = isExpanded;
+		OnItemExpansionChange.InvokeAsync(isExpanded);
+	}
+}
+
+

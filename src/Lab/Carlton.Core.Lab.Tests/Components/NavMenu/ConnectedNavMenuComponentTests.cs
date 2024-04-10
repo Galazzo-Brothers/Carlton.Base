@@ -1,18 +1,19 @@
 ﻿using Carlton.Core.Lab.Components.NavMenu;
 using Carlton.Core.Lab.Models.Common;
-using Carlton.Core.Utilities.Extensions;
 namespace Carlton.Core.Lab.Test.Components.NavMenu;
 
 public class ConnectedNavMenuComponentTests : TestContext
 {
 	[Theory, AutoData]
-	public void ConnectedNavMenu_Markup_RendersCorrectly(NavMenuViewModel viewModel)
+	public void ConnectedNavMenu_Markup_RendersCorrectly(
+		NavMenuViewModel viewModel,
+		bool isExpanded)
 	{
 		//Arrange
 		var componentIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.Count());
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
-		var expectedMarkup = BuildExpectedGroupsMarkup(viewModel);
+		var expectedMarkup = BuildExpectedGroupsMarkup(viewModel, isExpanded);
 
 		//Act
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
@@ -90,7 +91,7 @@ public class ConnectedNavMenuComponentTests : TestContext
 		command.ComponentStateIndex.ShouldBe(stateIndex);
 	}
 
-	private static string BuildExpectedGroupsMarkup(NavMenuViewModel viewModel)
+	private static string BuildExpectedGroupsMarkup(NavMenuViewModel viewModel, bool isExpanded)
 	{
 		var selectedGroupIndex = viewModel.SelectedComponentIndex;
 		var selectedItemIndex = viewModel.SelectedStateIndex;
@@ -100,10 +101,10 @@ public class ConnectedNavMenuComponentTests : TestContext
 <div class=""accordion-select"">
     <div class=""content"">
         <div class=""accordion-header {(selectedGroupIndex == i && selectedItemIndex != -1 ? "selected" : string.Empty)}"">
-            <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-{(component.IsExpanded ? "minus" : "plus")}-box-outline""></span>
+            <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-{(isExpanded ? "minus" : "plus")}-box-outline""></span>
             <span class=""item-group-name"">{component.ComponentType.GetDisplayName()}</span>
         </div>
-        <div class=""item-container {(component.IsExpanded ? string.Empty : "collapsed")}"">
+        <div class=""item-container {(isExpanded ? string.Empty : "collapsed")}"">
             {BuildExpectedItemsMarkup(component.ComponentStates, (selectedGroupIndex == i ? selectedItemIndex : -1))}
         </div>
     </div>

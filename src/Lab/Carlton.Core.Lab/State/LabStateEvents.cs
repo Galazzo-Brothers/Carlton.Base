@@ -3,7 +3,6 @@
 internal enum LabStateEvents
 {
 	MenuItemSelected,
-	MenuItemExpandedStateChanged,
 	ParametersUpdated,
 	EventRecorded,
 	EventsCleared,
