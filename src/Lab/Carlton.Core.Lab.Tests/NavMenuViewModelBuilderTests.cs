@@ -17,8 +17,7 @@ public class NavMenuViewModelBuilderTests
 						DisplayName = "Default",
 						ComponentParameters = new object(),
 					}
-				},
-				IsExpanded = true
+				}
 			}
 		};
 		var sut = new NavMenuViewModelBuilder();
@@ -53,8 +52,7 @@ public class NavMenuViewModelBuilderTests
 						DisplayName = "Default",
 						ComponentParameters = new object(),
 					}
-				},
-				IsExpanded = true
+				}
 			}
 		};
 		var sut = new NavMenuViewModelBuilder();
@@ -90,8 +88,7 @@ public class NavMenuViewModelBuilderTests
 						DisplayName = displayName,
 						ComponentParameters = new object(),
 					}
-				},
-				IsExpanded = true
+				}
 			}
 		};
 		var sut = new NavMenuViewModelBuilder();
@@ -145,8 +142,7 @@ public class NavMenuViewModelBuilderTests
 						DisplayName = DisplayName_3,
 						ComponentParameters = Parameters_3,
 					}
-				},
-				IsExpanded = true
+				}
 			},
 			new()
 			{
@@ -169,8 +165,7 @@ public class NavMenuViewModelBuilderTests
 						ComponentParameters = Parameters_3,
 					}
 
-				},
-				IsExpanded = true
+				}
 			}
 		};
 

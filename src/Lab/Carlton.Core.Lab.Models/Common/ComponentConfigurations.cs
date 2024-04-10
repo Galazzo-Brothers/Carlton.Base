@@ -19,10 +19,5 @@ public record ComponentConfigurations
 	/// </summary>
 	[Required]
 	public required IEnumerable<ComponentState> ComponentStates { get; init; } = new List<ComponentState>();
-
-	/// <summary>
-	/// Gets or initializes a value indicating whether the component is expanded.
-	/// </summary>
-	public bool IsExpanded { get; init; }
 }
 

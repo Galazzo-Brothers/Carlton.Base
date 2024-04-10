@@ -2,19 +2,26 @@
 
 internal static class ButtonTestStates
 {
-    public static object ButtonState
-    {
-        get => new
-        {
-              Text = "Click Me" 
-        };
-    }
+	public static object ActionButtonState
+	{
+		get => new
+		{
+			Text = "Click Me!"
+		};
+	}
+	public static object LinkButtonState
+	{
+		get => new
+		{
+			Text = "Click Me!"
+		};
+	}
 
-    public static object IconButtonState
-    {
-        get => new
-        {
-            Icon = "delete" 
-        };
-    }
+	public static object IconButtonState
+	{
+		get => new
+		{
+			Icon = "delete"
+		};
+	}
 }
