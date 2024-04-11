@@ -18,12 +18,12 @@
 @if (IsLoading)
 {
 	<!-- Spinner Content -->
-    @SpinnerContent
+	@SpinnerContent
 }
 else
 {
 	<!-- Wrapped Flux Component -->
-    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+	<DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
 }
 
 @code {
@@ -49,11 +49,14 @@ else
 	public TViewModel ViewModel { get; private set; }
 
 	/// <summary>
-	/// Gets or sets a value indicating whether the component is currently loading.
+	/// Gets a value indicating whether the component is currently loading.
 	/// </summary>
 	public IEnumerable<string> ObservableStateEvents { get; private set; } = new List<string>();
 
-	protected bool IsLoading { get; set; }
+	/// <summary>
+	/// Gets a value indicating whether the component is currently loading.
+	/// </summary>
+	public bool IsLoading { get; private set; }
 
 	private string ViewModelDisplayName { get => typeof(TViewModel).GetDisplayName(); }
 
@@ -62,39 +65,39 @@ else
 		//Set IsLoading to true
 		IsLoading = true;
 
-        //Register State Changed Handler
+		//Register State Changed Handler
 		StateObserver.StateChanged += OnStateChanged;
 
-        //Get VM and initialize context for wrapped component
+		//Get VM and initialize context for wrapped component
 		using (Logger.BeginViewModelInitializationLoggingScopes())
 			ViewModel = await GetViewModel();
 
-        //Gather the StateEvents this component should be listening for
+		//Gather the StateEvents this component should be listening for
 		var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventAttribute>();
 		ObservableStateEvents = attributes.Select(_ => _.StateEvent);
 
-        //Set IsLoading to false
+		//Set IsLoading to false
 		IsLoading = false;
 
-        //Continue initialization
+		//Continue initialization
 		await base.OnInitializedAsync();
 	}
 
 	protected virtual async Task<TViewModel> GetViewModel()
 		=> await Task.Run(() => QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None));
 
-    protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
-		=> await  Task.Run(() => MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None));
+	protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
+		=> await Task.Run(() => MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None));
 
-    protected IDictionary<string, object> GetParameters()
-    {
-        var eventCallback = EventCallback.Factory.Create(this, async (command) => await OnComponentEvent(Component, (dynamic)command));
-        return new Dictionary<string, object>
-        {
-            { "ViewModel", ViewModel },
-            { "OnComponentEvent", eventCallback }
-        };
-    }
+	protected IDictionary<string, object> GetParameters()
+	{
+		var eventCallback = EventCallback.Factory.Create(this, async (command) => await OnComponentEvent(Component, (dynamic)command));
+		return new Dictionary<string, object>
+		{
+			{ "ViewModel", ViewModel },
+			{ "OnComponentEvent", eventCallback }
+		};
+	}
 
 	private async Task OnStateChanged(FluxStateChangedEventArgs args)
 	{
@@ -102,17 +105,23 @@ else
 		if (!ObservableStateEvents.Contains(args.StateEvent))
 			return;
 
+		//Set IsLoading to true
+		IsLoading = true;
+
+		StateHasChanged();
+
 		//Refresh ViewModel
 		using (Logger.BeginFluxComponentEventReceivedLoggingScopes(args.StateEvent))
 			ViewModel = await GetViewModel();
+
+		//Set IsLoading to false
+		IsLoading = false;
 
 		//StateHasChanged
 		StateHasChanged();
 	}
 
 	/// <inheritdoc/>
-    public void Dispose()
-    {
-        StateObserver.StateChanged -= OnStateChanged;
-    }
+	public void Dispose()
+		=> StateObserver.StateChanged -= OnStateChanged;
 }

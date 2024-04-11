@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Contracts;
 namespace Carlton.Core.Flux.Tests.Components.FluxWrappers;
 
 public class ConnectedWrapperComponentTests : TestContext
@@ -45,22 +44,24 @@ public class ConnectedWrapperComponentTests : TestContext
 
 		// Act
 		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+		cut.WaitForState(() => !cut.Instance.IsLoading);
 
 		// Assert
 		cut.MarkupMatches(expectedMarkup);
 	}
 
 	[Theory, AutoData]
-	public void ConnectedWrapper_InitializesCorrectly(TestViewModel vm)
+	public async Task ConnectedWrapper_InitializesCorrectly(TestViewModel vm)
 	{
 		//Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
 
 		// Act
 		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+		cut.WaitForState(() => !cut.Instance.IsLoading);
 
 		// Assert
-		_mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(1);
+		await _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(1);
 	}
 
 	[Theory, AutoData]
@@ -73,13 +74,15 @@ public class ConnectedWrapperComponentTests : TestContext
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
 		_mockCommandDispatcher.SetupCommandDispatcher(command, expectedResult);
 		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+		cut.WaitForState(() => !cut.Instance.IsLoading);
 		var wrappedComponent = cut.FindComponent<DummyConnectedComponent>();
 
 		// Act
-		await wrappedComponent.InvokeAsync(() => wrappedComponent.Instance.RaiseComponentEvent(command));
+		await cut.InvokeAsync(async () => await wrappedComponent.Instance.RaiseComponentEvent(command));
+		cut.WaitForState(() => !cut.Instance.IsLoading);
 
 		// Assert
-		_mockCommandDispatcher.VerifyCommandDispatcher(1, command);
+		await _mockCommandDispatcher.VerifyCommandDispatcher(1, command);
 	}
 
 	[Theory, AutoData]
@@ -100,66 +103,72 @@ public class ConnectedWrapperComponentTests : TestContext
 	}
 
 	[Theory, AutoData]
-	public void ConnectedWrapper_OnStateChangeTestEvent_CallsViewModelDispatcher(TestViewModel vm)
+	public async Task ConnectedWrapper_OnStateChangeTestEvent_CallsViewModelDispatcher(TestViewModel vm)
 	{
 		// Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
-		RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 		var expectedTimes = 2; //Once for the component init and once again for the state change
 
 		//Act
-		_mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
+		cut.WaitForState(() => !cut.Instance.IsLoading);
+		await cut.InvokeAsync(() => _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent")));
+		cut.WaitForState(() => !cut.Instance.IsLoading, TimeSpan.FromSeconds(2));
 
 		// Assert
-		_mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
+		await _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
 	}
 
 	[Theory, AutoData]
-	public void ConnectedWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(TestViewModel vm)
+	public async Task ConnectedWrapper_OnStateChangeNonListeningEvent_DoesNotCallViewModelDispatcher(TestViewModel vm)
 	{
 		// Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
-		RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 		var expectedTimes = 1; //One and only time for the component init
 
 		//Act
+		cut.WaitForState(() => !cut.Instance.IsLoading);
 		_mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("Some not relevant event"));
+		cut.WaitForState(() => !cut.Instance.IsLoading);
 
 		// Assert
-		_mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
+		await _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
 	}
 
 	[Theory, AutoData]
-	public void ConnectedWrapper_DisposesCorrectly(TestViewModel vm)
+	public async Task ConnectedWrapper_DisposesCorrectly(TestViewModel vm)
 	{
 		//Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
-		RenderComponent<FluxWrapper<TestState, TestViewModel>>();
+		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>();
 		var expectedTimes = 1; //One and only time for the component init, event handler removed correctly during dispose
-		DisposeComponents();
+		await cut.InvokeAsync(DisposeComponents);
 
 		//Act
-		_mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
+		await cut.InvokeAsync(() => _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent")));
 
 		// Assert
-		_mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
+		await _mockQueryDispatcher.VerifyQueryDispatcher<TestViewModel>(expectedTimes);
 	}
 
 	[Theory, AutoData]
-	public void ConnectedWrapper_LoadingContent(TestViewModel vm)
+	public async Task ConnectedWrapper_LoadingContent(TestViewModel vm)
 	{
 		//Arrange
 		_mockQueryDispatcher.SetupQueryDispatcher(vm);
 
 		var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
 		var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
-			.GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.NonPublic);
+			.GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.Public);
 
 		var cut = RenderComponent<FluxWrapper<TestState, TestViewModel>>(parameters => parameters
 			.Add(p => p.SpinnerContent, spinnerMarkup));
 
 		//Act
-		propInfo.SetValue(cut.Instance, true);
+		cut.WaitForState(() => cut.Instance.IsLoading == false);
+		await cut.InvokeAsync(() => propInfo.SetValue(cut.Instance, true));
+		cut.WaitForState(() => cut.Instance.IsLoading == true);
 		cut.Render();
 
 		//Assert
