@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
@@ -148,7 +147,8 @@ public class InteropWrapperComponentTests : TestContext
 		var expectedTimes = 2; //Once for the component init and once again for the state change
 
 		//Act
-		_mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent"));
+		cut.InvokeAsync(() => _mockObserver.StateChanged += Raise.Event<Func<FluxStateChangedEventArgs, Task>>(new FluxStateChangedEventArgs("TestEvent")));
+		cut.WaitForState(() => !cut.Instance.IsLoading, TimeSpan.FromSeconds(2));
 
 		// Assert
 		moduleInterop.VerifyInvoke(functionName, expectedTimes);
@@ -214,7 +214,7 @@ public class InteropWrapperComponentTests : TestContext
 
 		var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
 		var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
-			.GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.NonPublic);
+			.GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.Public);
 
 		var cut = RenderComponent<InteropFluxWrapper<TestState, TestViewModel>>(
 		   parameters => parameters.Add(p => p.JsModule, moduleName)

@@ -1,23 +1,24 @@
-﻿using Carlton.Core.Lab.Components.NavMenu;
+﻿using Carlton.Core.Components.Accordion.AccordionSelect;
+using Carlton.Core.Foundation.Web.ViewState;
+using Carlton.Core.Lab.Components.NavMenu;
 using Carlton.Core.Lab.Models.Common;
 namespace Carlton.Core.Lab.Test.Components.NavMenu;
 
 public class ConnectedNavMenuComponentTests : TestContext
 {
 	[Theory, AutoData]
-	public void ConnectedNavMenu_Markup_RendersCorrectly(
-		NavMenuViewModel viewModel,
-		bool isExpanded)
+	public void ConnectedNavMenu_Markup_RendersCorrectly(NavMenuViewModel viewModel)
 	{
 		//Arrange
 		var componentIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.Count());
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
-		var expectedMarkup = BuildExpectedGroupsMarkup(viewModel, isExpanded);
+		var expectedMarkup = BuildExpectedGroupsMarkup(viewModel);
+		Services.AddViewStateService(new AccordionSelectExpandedItemState());
 
 		//Act
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
-				.Add(p => p.ViewModel, viewModel));
+					.Add(p => p.ViewModel, viewModel));
 
 		//Assert
 		cut.MarkupMatches(expectedMarkup);
@@ -34,6 +35,7 @@ public class ConnectedNavMenuComponentTests : TestContext
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		var expectedItem = viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.ElementAt(stateIndex);
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
+		Services.AddViewStateService(new AccordionSelectExpandedItemState());
 
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
 				.Add(p => p.ViewModel, viewModel)
@@ -68,6 +70,7 @@ public class ConnectedNavMenuComponentTests : TestContext
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		var expectedItem = viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.ElementAt(stateIndex);
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
+		Services.AddViewStateService(new AccordionSelectExpandedItemState());
 
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
 				.Add(p => p.ViewModel, viewModel)
@@ -91,20 +94,21 @@ public class ConnectedNavMenuComponentTests : TestContext
 		command.ComponentStateIndex.ShouldBe(stateIndex);
 	}
 
-	private static string BuildExpectedGroupsMarkup(NavMenuViewModel viewModel, bool isExpanded)
+	private static string BuildExpectedGroupsMarkup(NavMenuViewModel viewModel)
 	{
 		var selectedGroupIndex = viewModel.SelectedComponentIndex;
 		var selectedItemIndex = viewModel.SelectedStateIndex;
+		static bool isExpanded(int i) => i == 0;
 
 		var groupMarkup = string.Join(Environment.NewLine, viewModel.MenuItems
 			.Select((component, i) => $@"
 <div class=""accordion-select"">
     <div class=""content"">
         <div class=""accordion-header {(selectedGroupIndex == i && selectedItemIndex != -1 ? "selected" : string.Empty)}"">
-            <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-{(isExpanded ? "minus" : "plus")}-box-outline""></span>
+            <span class=""accordion-icon-btn mdi mdi-icon mdi-24px mdi-{(isExpanded(i) ? "minus" : "plus")}-box-outline""></span>
             <span class=""item-group-name"">{component.ComponentType.GetDisplayName()}</span>
         </div>
-        <div class=""item-container {(isExpanded ? string.Empty : "collapsed")}"">
+        <div class=""item-container {(isExpanded(i) ? string.Empty : "collapsed")}"">
             {BuildExpectedItemsMarkup(component.ComponentStates, (selectedGroupIndex == i ? selectedItemIndex : -1))}
         </div>
     </div>

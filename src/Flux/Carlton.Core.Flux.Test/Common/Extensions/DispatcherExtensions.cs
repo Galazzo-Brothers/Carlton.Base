@@ -60,17 +60,17 @@ internal static class DispatcherExtensions
 		.Throws(ex);
 	}
 
-	public static void VerifyQueryDispatcher<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
+	public static async Task VerifyQueryDispatcher<TViewModel>(this IViewModelQueryDispatcher<TestState> dispatcher, int receivedNumCalls)
 	{
-		dispatcher.Received(receivedNumCalls).Dispatch(
+		await dispatcher.Received(receivedNumCalls).Dispatch(
 			Arg.Any<object>(),
 			Arg.Any<ViewModelQueryContext<TViewModel>>(),
 			Arg.Any<CancellationToken>());
 	}
 
-	public static void VerifyCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, int receivedNumCalls, TCommand command)
+	public static async Task VerifyCommandDispatcher<TCommand>(this IMutationCommandDispatcher<TestState> dispatcher, int receivedNumCalls, TCommand command)
 	{
-		dispatcher.Received(receivedNumCalls).Dispatch(
+		await dispatcher.Received(receivedNumCalls).Dispatch(
 			Arg.Any<object>(),
 			Arg.Is<MutationCommandContext<TCommand>>(_ => _.MutationCommand.Equals(command)),
 			Arg.Any<CancellationToken>());

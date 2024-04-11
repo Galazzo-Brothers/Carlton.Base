@@ -1,5 +1,4 @@
 ﻿using Carlton.Core.Flux.Components;
-using Carlton.Core.Flux.Contracts;
 using Carlton.Core.Flux.Internals.Dispatchers.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -138,7 +137,7 @@ public class PassiveWrapperComponentTests : TestContext
 		//Arrange
 		var spinnerMarkup = "<span class='spinner'>This is a spinner.</span>";
 		var propInfo = typeof(FluxWrapper<TestState, TestViewModel>)
-			.GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.NonPublic);
+			.GetProperty("IsLoading", BindingFlags.Instance | BindingFlags.Public);
 
 		var cut = RenderComponent<PassiveFluxWrapper<TestState, TestViewModel>>(
 		  parameters => parameters.Add(p => p.PassiveViewModel, vm)
