@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.LayoutServices
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Layouts", "Layouts\Carlton.Core.Layouts\Carlton.Core.Layouts.csproj", "{C5D458DA-4BBA-4F72-BC5F-6CCBABBF4381}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Components.Tests", "Components\Carlton.Core.Components.Tests\Carlton.Core.Components.Tests.csproj", "{16897B06-6C1C-4F59-9681-679FF8FD79DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{C5D458DA-4BBA-4F72-BC5F-6CCBABBF4381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5D458DA-4BBA-4F72-BC5F-6CCBABBF4381}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5D458DA-4BBA-4F72-BC5F-6CCBABBF4381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16897B06-6C1C-4F59-9681-679FF8FD79DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16897B06-6C1C-4F59-9681-679FF8FD79DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16897B06-6C1C-4F59-9681-679FF8FD79DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16897B06-6C1C-4F59-9681-679FF8FD79DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +180,7 @@ Global
 		{34FF3E18-C0BD-45F9-AAFA-358AF6708B69} = {34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}
 		{9CD9F249-8976-45FE-A0AF-CCCE6DA68FD8} = {34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}
 		{C5D458DA-4BBA-4F72-BC5F-6CCBABBF4381} = {34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}
+		{16897B06-6C1C-4F59-9681-679FF8FD79DC} = {74CF6108-5B0A-408F-B8F1-90F324CDEED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A9FADF-B8A4-4B0E-A376-E63E92054FD5}

@@ -27,7 +27,7 @@
 	@if (ShowPaginationRow)
 	{
 		<TablePaginationRow TItem="TItem"
-							RowsPerPageOpts="RowsPerPageOpts"
+							RowsPerPageOpts="RowsPerPageOptions"
 							TotalItemCount="FilteredItems.Count()"
 							CurrentPage="CurrentPage"
 							SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
@@ -77,7 +77,7 @@
 	/// Gets or sets the options for the number of rows per page.
 	/// </summary>
 	[Parameter]
-	public IReadOnlyList<int> RowsPerPageOpts { get; set; }
+	public IEnumerable<int> RowsPerPageOptions { get; set; }
 
 	/// <summary>
 	/// Gets or sets a value indicating whether sortable headers are enabled.
@@ -100,13 +100,19 @@
 	[Parameter]
 	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
 
+	/// <summary>
+	/// Gets the filtered set of table items.
+	/// </summary>
+	public IList<TItem> FilteredItems { get; private set; } 
+
+	/// <summary>
+	/// Gets the set of items to be displayed.
+	/// </summary>
+	public IList<TItem> DisplayItems { get; private set; }
+
 	private IList<TItem> AllItems { get; set; }
 
-	private IList<TItem> FilteredItems { get; set; } 
-
-	private IList<TItem> DisplayItems { get; set; }
-
-	private int SelectedRowPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
+	private int SelectedRowPerPageValue { get => RowsPerPageOptions.ElementAt(SelectedRowsPerPageIndex); }
 
 	private int CurrentPage { get; set; } = 1;
 

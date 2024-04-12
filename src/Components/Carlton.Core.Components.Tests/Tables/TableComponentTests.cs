@@ -75,7 +75,7 @@ public class TableComponentTests : TestContext
 		bool expectedIsHoverable)
 	{
 		//Arrange
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedCurrentPage,
 			SelectedRowsPerPageIndex = expectedRowsPerPageIndex
@@ -100,8 +100,8 @@ public class TableComponentTests : TestContext
 			.Add(p => p.ZebraStripped, expectedIsZebraStriped)
 			.Add(p => p.Hoverable, expectedIsHoverable)
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		//Assert
 		cut.MarkupMatches(expectedMarkup);
@@ -129,7 +129,7 @@ public class TableComponentTests : TestContext
 		var selectedRowsPerPageIndex = RandomUtilities.GetRandomIndex(expectedRowsPerPageOpts.Count());
 		var maxPages = Math.Max(1, (int)Math.Ceiling((double)expectedItems.Count() / expectedRowsPerPageOpts.ElementAt(selectedRowsPerPageIndex)));
 		var currentPage = RandomUtilities.GetRandomNonZeroIndex(maxPages);
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			OrderByColumn = expectedOrderColumn,
 			IsAscending = expectedOrderAscending,
@@ -157,8 +157,8 @@ public class TableComponentTests : TestContext
 			.Add(p => p.ZebraStripped, expectedIsZebraStriped)
 			.Add(p => p.Hoverable, expectedIsHoverable)
 			.Add(p => p.ShowPaginationRow, expectedShowPaginationRow)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPageOpts)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPageOpts)
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		//Assert
 		cut.MarkupMatches(expectedMarkup);
@@ -178,7 +178,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, expectedHeadings)
 			.Add(p => p.Items, expectedItems)
-			.Add(p => p.RowsPerPageOpts, rowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, rowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true));
 
@@ -201,7 +201,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, expectedHeadings)
 			.Add(p => p.Items, expectedItems)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, false));
 
@@ -233,7 +233,7 @@ public class TableComponentTests : TestContext
 		var items = GetItems().ToList();
 		var expectedItems = items.Skip(skip).Take(rowsPerPage);
 		var expectedCount = expectedItems.Count();
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedCurrentPage,
 			SelectedRowsPerPageIndex = expectedRowsPerPageIndex
@@ -243,10 +243,10 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var tableRows = cut.FindAll(".table-row");
 		var actualItemCount = tableRows.Count - 2; //Exclude the header row and pagination row
@@ -276,7 +276,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, expectedHeadings)
 			.Add(p => p.Items, expectedItems)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(expectedRowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, false));
 
@@ -319,7 +319,7 @@ public class TableComponentTests : TestContext
 		var items = GetItems().ToList();
 		var expectedItems = items.Skip(skip).Take(rowsPerPage);
 		var expectedContent = expectedItems.Select(_ => string.Format(expectedRowTemplate, _.ID, _.DisplayName, _.CreatedDate.ToString("d", CultureInfo.InvariantCulture)));
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedPage,
 			SelectedRowsPerPageIndex = expectedRowsPerPageIndex
@@ -329,10 +329,10 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(expectedRowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var rowElements = cut.FindAll(".table-row");
 		var itemRowElements = rowElements.Skip(1).Take(rowElements.Count - 2); //Throw away header and pagination row
@@ -358,7 +358,7 @@ public class TableComponentTests : TestContext
 			.Add(p => p.Headings, expectedHeadings)
 			.Add(p => p.Items, expectedItems)
 			.Add(p => p.ZebraStripped, expectedZebraStriped)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(expectedRowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
 
@@ -387,7 +387,7 @@ public class TableComponentTests : TestContext
 			.Add(p => p.Items, expectedItems)
 			.Add(p => p.ZebraStripped, expectedZebraStriped)
 			.Add(p => p.Hoverable, expectedHoverable)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(expectedRowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
 
@@ -411,7 +411,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, expectedHeadings)
 			.Add(p => p.Items, expectedItems)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, expectedShowPaginationRow));
 
@@ -434,7 +434,7 @@ public class TableComponentTests : TestContext
 	  string expectedLabel)
 	{
 		//Arrange
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedCurrentPage,
 			SelectedRowsPerPageIndex = expectedSelectedRowsPerPageIndex
@@ -444,10 +444,10 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var paginationLabelElement = cut.Find(".pagination-label");
 
@@ -468,7 +468,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, expectedItems)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true));
 
@@ -494,7 +494,7 @@ public class TableComponentTests : TestContext
 	   int expectedSelectedRowsPerPageIndex)
 	{
 		//Arrange
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedCurrentPage,
 			SelectedRowsPerPageIndex = expectedSelectedRowsPerPageIndex
@@ -504,10 +504,10 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var dropdownComponent = cut.FindComponent<Dropdown<int>>();
 
@@ -527,7 +527,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
 			.Add(p => p.SortableHeadersEnabled, expectedSortableHeadersEnabled));
@@ -555,7 +555,7 @@ public class TableComponentTests : TestContext
 		bool expectedOrderAscending)
 	{
 		//Arrange
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			OrderByColumn = expectedOrderColumn,
 			IsAscending = expectedOrderAscending
@@ -565,10 +565,10 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var tableHeader = cut.FindComponent<TableHeader<TableTestObject>>();
 
@@ -588,7 +588,7 @@ public class TableComponentTests : TestContext
 	   bool expectedOrderAscending)
 	{
 		//Arrange
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			OrderByColumn = expectedOrderColumn,
 			IsAscending = expectedOrderAscending
@@ -598,10 +598,10 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState));
+			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var tableHeader = cut.FindComponent<TableHeader<TableTestObject>>();
 
@@ -618,18 +618,18 @@ public class TableComponentTests : TestContext
 		//Arrange
 		var eventFired = false;
 		var actualPage = 1;
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedCurrentPage
 		};
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState)
-			.Add(p => p.OnPageChange, args =>
+			.Add(p => p.TableInteractionState, tableInteractionState)
+			.Add(p => p.OnTableInteraction, args =>
 			{
 				eventFired = true;
 				actualPage = args.CurrentPage;
@@ -652,18 +652,18 @@ public class TableComponentTests : TestContext
 	{
 		//Arrange
 		var eventFired = false;
-		var tableState = new TableInteractionState
+		var tableInteractionState = new TableInteractionState
 		{
 			CurrentPage = expectedCurrentPage
 		};
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState)
-			.Add(p => p.OnPageChange, args =>
+			.Add(p => p.TableInteractionState, tableInteractionState)
+			.Add(p => p.OnTableInteraction, args =>
 			{
 				eventFired = true;
 			}));
@@ -691,14 +691,15 @@ public class TableComponentTests : TestContext
 		{
 			SelectedRowsPerPageIndex = expectedIndexToSelect
 		};
+
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.TableState, tableState)
-			.Add(p => p.OnRowsPerPageChange, args =>
+			.Add(p => p.TableInteractionState, tableState)
+			.Add(p => p.OnTableInteraction, args =>
 			{
 				eventFired = true;
 				actualSelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
@@ -729,14 +730,14 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.OnItemsSort, args =>
+			.Add(p => p.OnTableInteraction, args =>
 			{
 				eventFired = true;
-				actualOrderColumn = args.SortColumn;
-				actualOrderAscending = args.SortAscending;
+				actualOrderColumn = args.OrderByColumn;
+				actualOrderAscending = args.IsAscending;
 			}));
 
 		var headerRowItems = cut.FindAll(".header-cell");
@@ -766,14 +767,14 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, GetItems())
-			.Add(p => p.RowsPerPageOpts, RowsPerPageOpts)
+			.Add(p => p.RowsPerPageOptions, RowsPerPageOpts)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString(CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true)
-			.Add(p => p.OnItemsSort, args =>
+			.Add(p => p.OnTableInteraction, args =>
 			{
 				eventFired = true;
-				actualOrderColumn = args.SortColumn;
-				actualOrderAscending = args.SortAscending;
+				actualOrderColumn = args.OrderByColumn;
+				actualOrderAscending = args.IsAscending;
 			}));
 
 		var headerRowItems = cut.FindAll(".header-cell");
@@ -806,7 +807,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPage)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true));
 
@@ -816,7 +817,7 @@ public class TableComponentTests : TestContext
 		headerRowItems.ElementAt(expectedColumnIndex).Click();
 
 		//Assert
-		cut.Instance.Items.ShouldBe(expectedItems);
+		cut.Instance.FilteredItems.ShouldBe(expectedItems);
 	}
 
 	[Theory(DisplayName = "Header Click Twice Test")]
@@ -833,7 +834,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, expectedRowsPerPages)
+			.Add(p => p.RowsPerPageOptions, expectedRowsPerPages)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, true));
 
@@ -847,7 +848,7 @@ public class TableComponentTests : TestContext
 		await itemToClick.ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
 		cut.WaitForElement(".arrow-descending");
 		//Assert
-		cut.Instance.Items.ShouldBe(expectedItems);
+		cut.Instance.FilteredItems.ShouldBe(expectedItems);
 	}
 
 	[Theory(DisplayName = "Header Click Once, CSS Selected Class Test")]
@@ -864,7 +865,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, rowsPerPage)
+			.Add(p => p.RowsPerPageOptions, rowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, showPaginationRow));
 
@@ -893,7 +894,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, rowsPerPage)
+			.Add(p => p.RowsPerPageOptions, rowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, showPaginationRow));
 
@@ -922,7 +923,7 @@ public class TableComponentTests : TestContext
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
 			.Add(p => p.Items, items)
-			.Add(p => p.RowsPerPageOpts, rowsPerPage)
+			.Add(p => p.RowsPerPageOptions, rowsPerPage)
 			.Add(p => p.RowTemplate, item => string.Format(RowTemplate, item.ID, item.DisplayName, item.CreatedDate.ToString("d", CultureInfo.InvariantCulture)))
 			.Add(p => p.ShowPaginationRow, showPaginationRow));
 
