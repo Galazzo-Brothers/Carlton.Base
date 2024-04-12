@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Components.Navigation;
+﻿using Carlton.Core.Components.Accordion.AccordionSelect;
+using Carlton.Core.Components.Accordion.AccordionSelectGroup;
 namespace Carlton.Core.Components.Tests.Navigation;
 
 [Trait("Component", nameof(AccordionSelectGroup<int>))]
@@ -189,7 +190,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 		var selectedGroupIndex = RandomUtilities.GetRandomIndex(expectedGroups.Count());
 		var selectedItemIndex = RandomUtilities.GetRandomIndex(expectedGroups.ElementAt(selectedGroupIndex).Items.Count());
 		var eventCalled = false;
-		ItemSelectedEventArgs<int>? evt = null;
+		AccordionSelectGroupItemChangedEventArgs<int>? evt = null;
 		var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
 			.Add(p => p.Groups, expectedGroups)
 			.Add(p => p.SelectedGroupIndex, selectedGroupIndex)
@@ -203,8 +204,8 @@ public class AccordionSelectGroupComponentTests : TestContext
 
 		//Assert
 		eventCalled.ShouldBeTrue();
-		evt?.GroupIndexID.ShouldBe(selectedGroupIndex);
-		evt?.ItemIndexID.ShouldBe(selectedItemIndex);
+		evt?.GroupIndexId.ShouldBe(selectedGroupIndex);
+		evt?.ItemIndexId.ShouldBe(selectedItemIndex);
 	}
 
 	[Fact(DisplayName = "OnGroupExpansionChanged Callback Parameter Test")]
@@ -212,7 +213,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 	{
 		//Arrange
 		var eventCalled = false;
-		GroupExpansionChangeEventArgs? evt = null;
+		AccordionSelectGroupExpansionChangeEventArgs? evt = null;
 		var expectedGroups = TestAccordionSelectGroupBuilder<int>.BuildTestSelectGroups();
 		var selectedGroupIndex = RandomUtilities.GetRandomIndex(expectedGroups.Count());
 		var selectedItemIndex = RandomUtilities.GetRandomIndex(expectedGroups.ElementAt(selectedGroupIndex).Items.Count());
@@ -231,7 +232,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 
 		//Assert
 		eventCalled.ShouldBeTrue();
-		evt?.GroupIndexID.ShouldBe(selectedGroupIndex);
+		evt?.GroupIndexId.ShouldBe(selectedGroupIndex);
 		evt?.IsExpanded.ShouldBe(!expectedGroup.IsExpanded);
 	}
 

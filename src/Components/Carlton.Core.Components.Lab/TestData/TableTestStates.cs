@@ -9,7 +9,7 @@ internal static class TableTestStates
 		public RenderFragment<TableTestObject> RowTemplate { get; init; } = TableTestStates.RowTemplate;
 		public List<TableTestObject> Items { get; init; }
 		public bool ShowPaginationRow { get; init; }
-		public List<int> RowsPerPageOpts { get; init; }
+		public List<int> RowsPerPageOptions { get; init; }
 	}
 
 	public static TableStateParameters LargeItemList
@@ -20,7 +20,7 @@ internal static class TableTestStates
 			RowTemplate = RowTemplate,
 			Items = BigList,
 			ShowPaginationRow = true,
-			RowsPerPageOpts = RowsPerPageOptions
+			RowsPerPageOptions = RowsPerPageOptions
 		};
 	}
 
@@ -32,7 +32,7 @@ internal static class TableTestStates
 			RowTemplate = RowTemplate,
 			Items = VeryBigList,
 			ShowPaginationRow = true,
-			RowsPerPageOpts = RowsPerPageOptions
+			RowsPerPageOptions = RowsPerPageOptions
 		};
 	}
 
@@ -44,7 +44,7 @@ internal static class TableTestStates
 			RowTemplate = RowTemplate,
 			Items = SmallList,
 			ShowPaginationRow = true,
-			RowsPerPageOpts = RowsPerPageOptions
+			RowsPerPageOptions = RowsPerPageOptions
 		};
 	}
 
@@ -56,7 +56,7 @@ internal static class TableTestStates
 			RowTemplate = RowTemplate,
 			Items = SmallList,
 			ShowPaginationRow = false,
-			RowsPerPageOpts = RowsPerPageOptions
+			RowsPerPageOptions = RowsPerPageOptions
 		};
 	}
 

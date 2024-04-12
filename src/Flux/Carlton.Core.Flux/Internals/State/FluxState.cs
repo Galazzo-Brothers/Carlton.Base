@@ -40,6 +40,7 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 		}
 		catch (Exception ex)
 		{
+			//TODO: Rollback
 			return MutationError(command.GetType().GetDisplayNameWithGenerics(), ex);
 		}
 	}
