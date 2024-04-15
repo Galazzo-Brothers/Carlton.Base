@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reflection;
 using Carlton.Core.Components.Dropdowns;
 using Carlton.Core.Components.Tables;
 using Carlton.Core.Foundation.State;
@@ -803,6 +804,7 @@ public class TableComponentTests : TestContext
 	   IEnumerable<int> expectedRowsPerPage)
 	{
 		//Arrange
+		var filteredItemsProp = typeof(Table<TableTestObject>).GetProperty("FilteredItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		var expectedItems = OrderCollection(items, expectedColumnIndex);
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
@@ -817,7 +819,7 @@ public class TableComponentTests : TestContext
 		headerRowItems.ElementAt(expectedColumnIndex).Click();
 
 		//Assert
-		cut.Instance.FilteredItems.ShouldBe(expectedItems);
+		filteredItemsProp.GetValue(cut).ShouldBe(expectedItems);
 	}
 
 	[Theory(DisplayName = "Header Click Twice Test")]
@@ -830,6 +832,7 @@ public class TableComponentTests : TestContext
 		IEnumerable<int> expectedRowsPerPages)
 	{
 		//Arrange
+		var filteredItemsProp = typeof(Table<TableTestObject>).GetProperty("FilteredItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		var expectedItems = OrderCollectionDesc(items, expectedColumnIndex);
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
 			.Add(p => p.Headings, Headings)
@@ -842,13 +845,12 @@ public class TableComponentTests : TestContext
 		var itemToClick = cut.FindAll(".header-cell").ElementAt(expectedColumnIndex);
 		await itemToClick.ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
 		cut.WaitForElement(".arrow-ascending");
-		//await itemToClick.ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
 		itemToClick = cut.FindAll(".header-cell").ElementAt(expectedColumnIndex);
-
 		await itemToClick.ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
 		cut.WaitForElement(".arrow-descending");
+
 		//Assert
-		cut.Instance.FilteredItems.ShouldBe(expectedItems);
+		filteredItemsProp.GetValue(cut).ShouldBe(expectedItems);
 	}
 
 	[Theory(DisplayName = "Header Click Once, CSS Selected Class Test")]

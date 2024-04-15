@@ -1,6 +1,7 @@
 ﻿using Carlton.Core.Flux.Internals.State;
 using NSubstitute.ExceptionExtensions;
 using Carlton.Core.Foundation.Tests;
+using System.Reflection;
 namespace Carlton.Core.Flux.Tests.Internals.StateTests;
 
 public class StateTests
@@ -66,5 +67,50 @@ public class StateTests
 		result.IsSuccess.ShouldBeFalse();
 		result.GetError().ShouldBeOfType<MutationError>();
 		sut.RecordedMutations.ShouldBeEmpty();
+	}
+
+	[Theory, AutoNSubstituteData]
+	internal async Task FluxState_MutateStateException_ShouldRollbackState(
+		[Frozen] IServiceProvider provider,
+		IFluxStateMutation<TestState, TestCommand> mutation,
+		FluxState<TestState> sut,
+		TestCommand command)
+	{
+		//Arrange
+		var currentStateProp = typeof(FluxState<TestState>).GetProperty("CurrentState", BindingFlags.Public | BindingFlags.Instance);
+		var rollbackStateProp = typeof(FluxState<TestState>).GetProperty("RollbackState", BindingFlags.NonPublic | BindingFlags.Instance);
+		mutation.Mutate(Arg.Any<TestState>(), Arg.Any<TestCommand>()).Throws<Exception>();
+		provider.SetupServiceProvider<IFluxStateMutation<TestState, TestCommand>>(mutation);
+		currentStateProp.SetValue(sut, null);
+
+		//Act
+		await sut.ApplyMutationCommand(command);
+
+		//Assert
+		sut.CurrentState.ShouldBe(rollbackStateProp.GetValue(sut));
+	}
+
+	[Theory, AutoNSubstituteData]
+	internal async Task FluxState_MutateStateException_ShouldRollbackStateAndDequeueMutation(
+		[Frozen] IServiceProvider provider,
+		TestMutation mutation,
+		FluxState<TestState> sut,
+		TestCommand command)
+	{
+		//Arrange
+		var currentStateProp = typeof(FluxState<TestState>).GetProperty("CurrentState", BindingFlags.Public | BindingFlags.Instance);
+		var rollbackStateProp = typeof(FluxState<TestState>).GetProperty("RollbackState", BindingFlags.NonPublic | BindingFlags.Instance);
+		provider.SetupServiceProvider<IFluxStateMutation<TestState, TestCommand>>(mutation);
+		sut.StateChanged += (args) =>
+		{
+			throw new Exception();
+		};
+
+		//Act
+		await sut.ApplyMutationCommand(command);
+
+		//Assert
+		sut.RecordedMutations.ShouldBeEmpty();
+		sut.CurrentState.ShouldBe(rollbackStateProp.GetValue(sut));
 	}
 }
