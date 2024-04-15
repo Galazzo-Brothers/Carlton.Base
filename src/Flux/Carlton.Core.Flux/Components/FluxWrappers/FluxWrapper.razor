@@ -74,7 +74,7 @@ else
 
 		//Gather the StateEvents this component should be listening for
 		var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventAttribute>();
-		ObservableStateEvents = attributes.Select(_ => _.StateEvent);
+		ObservableStateEvents = attributes.Select(x => x.StateEvent);
 
 		//Set IsLoading to false
 		IsLoading = false;

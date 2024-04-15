@@ -32,7 +32,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 		var selectedGroupIndex = RandomUtilities.GetRandomIndex(expectedGroups.Count());
 		var selectedItemIndex = RandomUtilities.GetRandomIndex(expectedGroups.ElementAt(selectedGroupIndex).Items.Count());
 		var expectedCount = expectedGroups.Count();
-		var expectedGroupNames = expectedGroups.Select(_ => _.Name);
+		var expectedGroupNames = expectedGroups.Select(x => x.Name);
 
 		//Act
 		var cut = RenderComponent<AccordionSelectGroup<int>>(parameters => parameters
@@ -41,7 +41,7 @@ public class AccordionSelectGroupComponentTests : TestContext
 			.Add(p => p.SelectedItemIndex, selectedItemIndex));
 
 		var actualCount = cut.FindAll(".accordion-select").Count;
-		var actualGroupNames = cut.FindAll(".item-group-name").Select(_ => _.TextContent);
+		var actualGroupNames = cut.FindAll(".item-group-name").Select(x => x.TextContent);
 
 		//Assert
 		actualCount.ShouldBe(expectedCount);
@@ -67,11 +67,11 @@ public class AccordionSelectGroupComponentTests : TestContext
 
 		var selectedHeader = headers.ElementAt(selectedGroupIndex);
 		headers.RemoveAt(selectedGroupIndex);
-		var unselectedHeaderClassList = headers.SelectMany(_ => _.ClassList);
+		var unselectedHeaderClassList = headers.SelectMany(x => x.ClassList);
 
 		var selectedItem = cut.Find(".item.selected");
-		var unselectedItems = allItems.Where(_ => !_.Equals(selectedItem));
-		var unselectedItemsClassList = unselectedItems.SelectMany(_ => _.ClassList);
+		var unselectedItems = allItems.Where(x => !x.Equals(selectedItem));
+		var unselectedItemsClassList = unselectedItems.SelectMany(x => x.ClassList);
 
 		//Assert
 		selectedHeader.ClassList.ShouldContain("selected");
@@ -260,8 +260,8 @@ public class AccordionSelectGroupComponentTests : TestContext
 		var unselectedHeaders = headers;
 		var selectedItem = cut.Find(".item.selected");
 		var unselectedItems = allItems.Where(_ => !_.Equals(selectedItem));
-		var unselectedHeaderClassList = unselectedHeaders.SelectMany(_ => _.ClassList);
-		var unselectedItemsClassList = unselectedItems.SelectMany(_ => _.ClassList);
+		var unselectedHeaderClassList = unselectedHeaders.SelectMany(x => x.ClassList);
+		var unselectedItemsClassList = unselectedItems.SelectMany(x => x.ClassList);
 
 		//Assert
 		selectedHeader.ClassList.ShouldContain("selected");

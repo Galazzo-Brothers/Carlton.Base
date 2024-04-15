@@ -5,113 +5,113 @@ namespace Carlton.Core.Components.Tests.Tabs;
 [Trait("Component", nameof(TextTabBar))]
 public class TextTabBarComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void DesktopTabBar_Markup_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
-        var expectedMarkup = BuildExpectedMarkup(expectedTabData, selectedTabIndex);
+	[Theory(DisplayName = "Markup Test"), AutoData]
+	public void DesktopTabBar_Markup_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+		var expectedMarkup = BuildExpectedMarkup(expectedTabData, selectedTabIndex);
 
-        //Act
-        var cut = RenderComponent<TextTabBar>(parameters =>
-            parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                      .AddTabs(expectedTabData));
+		//Act
+		var cut = RenderComponent<TextTabBar>(parameters =>
+			parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+					  .AddTabs(expectedTabData));
 
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
+		//Assert
+		cut.MarkupMatches(expectedMarkup);
+	}
 
-    [Theory(DisplayName = "Tab Count Test, Render Test"), AutoData]
-    public void DesktopTabBar_ItemsParameter_Count_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Act
-        var cut = RenderComponent<TextTabBar>(parameters => parameters.AddTabs(expectedTabData));
-        var tabElements = cut.FindAll(".tab");
-        var actualCount = tabElements.Count;
+	[Theory(DisplayName = "Tab Count Test, Render Test"), AutoData]
+	public void DesktopTabBar_ItemsParameter_Count_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Act
+		var cut = RenderComponent<TextTabBar>(parameters => parameters.AddTabs(expectedTabData));
+		var tabElements = cut.FindAll(".tab");
+		var actualCount = tabElements.Count;
 
-        //Assert
-        actualCount.ShouldBe(expectedTabData.Count);
-    }
+		//Assert
+		actualCount.ShouldBe(expectedTabData.Count);
+	}
 
-    [Theory(DisplayName = "Default Active Tab Test"), AutoData]
-    public void DesktopTabBar_DefaultActiveTab_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Act
-        var cut = RenderComponent<TextTabBar>(parameters => parameters.AddTabs(expectedTabData));
-        var defaultTab = cut.FindAll(".tab")[0]; //The first tab should be active by default
+	[Theory(DisplayName = "Default Active Tab Test"), AutoData]
+	public void DesktopTabBar_DefaultActiveTab_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Act
+		var cut = RenderComponent<TextTabBar>(parameters => parameters.AddTabs(expectedTabData));
+		var defaultTab = cut.FindAll(".tab")[0]; //The first tab should be active by default
 
-        //Assert
-        defaultTab.ClassList.ShouldContain("active");
-    }
+		//Assert
+		defaultTab.ClassList.ShouldContain("active");
+	}
 
-    [Theory(DisplayName = "Default Active Tab, CSS Active Class Test"), AutoData]
-    public void DesktopTabBar_ActiveTabClass_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var newTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+	[Theory(DisplayName = "Default Active Tab, CSS Active Class Test"), AutoData]
+	public void DesktopTabBar_ActiveTabClass_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var newTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
 
-        var cut = RenderComponent<TextTabBar>(parameters =>
-           parameters.AddTabs(expectedTabData));
+		var cut = RenderComponent<TextTabBar>(parameters =>
+		   parameters.AddTabs(expectedTabData));
 
-        var tabs = cut.FindAll(".tab", true);
-        var selectedTab = tabs.ElementAt(newTabIndex);
-        var anchor = selectedTab.Children.First();
-       
-        //Active
-        anchor.Click();
+		var tabs = cut.FindAll(".tab", true);
+		var selectedTab = tabs.ElementAt(newTabIndex);
+		var anchor = selectedTab.Children.First();
 
-        //Assert
-        selectedTab = tabs.ElementAt(newTabIndex);
-        selectedTab.ClassList.ShouldContain("active"); ;
-    }
+		//Active
+		anchor.Click();
 
-    [Theory(DisplayName = "Active Tab, Render Test"), AutoData]
-    public void DesktopTabBar_ActiveTab_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+		//Assert
+		selectedTab = tabs.ElementAt(newTabIndex);
+		selectedTab.ClassList.ShouldContain("active"); ;
+	}
 
-        //Act
-        var cut = RenderComponent<TextTabBar>(parameters =>
-            parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                      .AddTabs(expectedTabData));
+	[Theory(DisplayName = "Active Tab, Render Test"), AutoData]
+	public void DesktopTabBar_ActiveTab_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
 
-        //Assert
-        var contentElement = cut.Find(".content");
-        var expectedContent = expectedTabData.ElementAt(selectedTabIndex).ChildContent;
-        contentElement.TextContent.ShouldBe(expectedContent);
-    }
+		//Act
+		var cut = RenderComponent<TextTabBar>(parameters =>
+			parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+					  .AddTabs(expectedTabData));
 
-    [Theory(DisplayName = "ChildDisplayText Parameter"), AutoData]
-    public void DesktopTabBar_ChildDisplayTextParameter_RendersCorrectly(
-         IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+		//Assert
+		var contentElement = cut.Find(".content");
+		var expectedContent = expectedTabData.ElementAt(selectedTabIndex).ChildContent;
+		contentElement.TextContent.ShouldBe(expectedContent);
+	}
 
-        //Act
-        var cut = RenderComponent<TextTabBar>(parameters =>
-            parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                      .AddTabs(expectedTabData));
+	[Theory(DisplayName = "ChildDisplayText Parameter"), AutoData]
+	public void DesktopTabBar_ChildDisplayTextParameter_RendersCorrectly(
+		 IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
 
-        //Assert
-        var expectedTabHeaders = expectedTabData.Select(_ => _.DisplayText);
-        var tabHeaders = cut.FindAll(".tab-link").Select(_ => _.TextContent);
-        tabHeaders.ShouldBe(expectedTabHeaders);
-    }
+		//Act
+		var cut = RenderComponent<TextTabBar>(parameters =>
+			parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+					  .AddTabs(expectedTabData));
 
-    private static string BuildExpectedMarkup(IEnumerable<TabConstructionData> data, int selectedIndex)
-    {
-        var spacer = @"<span class=""horizontal-spacer"" style=""--spacer-width:100%;--spacer-height:3px;"" ></span>";
-        var content = data.ElementAt(selectedIndex).ChildContent;
+		//Assert
+		var expectedTabHeaders = expectedTabData.Select(x => x.DisplayText);
+		var tabHeaders = cut.FindAll(".tab-link").Select(x => x.TextContent);
+		tabHeaders.ShouldBe(expectedTabHeaders);
+	}
 
-        var tabs = string.Join(Environment.NewLine, data.Select((data, i) =>
-        $@"<div class=""tab {(selectedIndex == i ? "active" : string.Empty)}"">
+	private static string BuildExpectedMarkup(IEnumerable<TabConstructionData> data, int selectedIndex)
+	{
+		var spacer = @"<span class=""horizontal-spacer"" style=""--spacer-width:100%;--spacer-height:3px;"" ></span>";
+		var content = data.ElementAt(selectedIndex).ChildContent;
+
+		var tabs = string.Join(Environment.NewLine, data.Select((data, i) =>
+		$@"<div class=""tab {(selectedIndex == i ? "active" : string.Empty)}"">
              <div class=""tab-link"">
                 <div class=""text-tab"">
                     <span class=""tab-title"">{data.DisplayText}</span>
@@ -120,7 +120,7 @@ public class TextTabBarComponentTests : TestContext
              </div>
         </div>"));
 
-        var tabBar = @$"
+		var tabBar = @$"
         <div class=""text-tab-bar"">
             <div class=""tab-bar"">
                 <div class=""content expanded"">
@@ -132,6 +132,6 @@ public class TextTabBarComponentTests : TestContext
             </div>
         </div>";
 
-        return tabBar;
-    }
+		return tabBar;
+	}
 }

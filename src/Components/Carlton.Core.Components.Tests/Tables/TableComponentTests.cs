@@ -173,7 +173,7 @@ public class TableComponentTests : TestContext
 	{
 		//Arrange
 		var expectedCount = expectedHeadings.Count();
-		var expectedHeaders = expectedHeadings.Select(_ => _.DisplayName);
+		var expectedHeaders = expectedHeadings.Select(x => x.DisplayName);
 
 		//Act
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
@@ -185,7 +185,7 @@ public class TableComponentTests : TestContext
 
 		var headerRowItems = cut.FindAll(".header-cell");
 		var actualCount = headerRowItems.Count;
-		var actualHeaders = cut.FindAll(".heading-text").Select(_ => _.TextContent);
+		var actualHeaders = cut.FindAll(".heading-text").Select(x => x.TextContent);
 
 		//Assert
 		actualCount.ShouldBe(expectedCount);
@@ -210,7 +210,7 @@ public class TableComponentTests : TestContext
 		var actualItemCount = tableRows.Count - 1; //Exclude the header row
 		var expectedDisplayValues = expectedItems.Select(item => new TableTestObject(item.ID, item.DisplayName, item.CreatedDate))
 			.SelectMany(_ => new[] { _.ID.ToString(), _.DisplayName, _.CreatedDate.ToString("d", CultureInfo.InvariantCulture) });
-		var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
+		var actualDisplayValues = cut.FindAll("span.table-cell").Select(x => x.TextContent);
 
 		//Assert
 		actualItemCount.ShouldBe(expectedItems.Count());
@@ -253,7 +253,7 @@ public class TableComponentTests : TestContext
 		var actualItemCount = tableRows.Count - 2; //Exclude the header row and pagination row
 		var expectedDisplayValues = expectedItems.Select(item => new TableTestObject(item.ID, item.DisplayName, item.CreatedDate))
 			.SelectMany(_ => new[] { _.ID.ToString(), _.DisplayName, _.CreatedDate.ToString("d", CultureInfo.InvariantCulture) });
-		var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
+		var actualDisplayValues = cut.FindAll("span.table-cell").Select(x => x.TextContent);
 
 		//Assert
 		actualItemCount.ShouldBe(expectedCount);
@@ -284,7 +284,7 @@ public class TableComponentTests : TestContext
 		var rowElements = cut.FindAll(".table-row");
 		var itemRowElements = rowElements.Skip(1);
 
-		var actualContent = itemRowElements.Select(_ => _.OuterHtml);
+		var actualContent = itemRowElements.Select(x => x.OuterHtml);
 
 		//Assert
 		actualContent.ShouldBe(expectedContent);
@@ -337,7 +337,7 @@ public class TableComponentTests : TestContext
 
 		var rowElements = cut.FindAll(".table-row");
 		var itemRowElements = rowElements.Skip(1).Take(rowElements.Count - 2); //Throw away header and pagination row
-		var actualContent = itemRowElements.Select(_ => _.OuterHtml);
+		var actualContent = itemRowElements.Select(x => x.OuterHtml);
 
 		//Assert
 		actualContent.ShouldBe(expectedContent);
@@ -463,7 +463,7 @@ public class TableComponentTests : TestContext
 	{
 		//Arrange
 		var expectedCount = expectedRowsPerPageOpts.Count();
-		var expectedRowsPerPageValues = expectedRowsPerPageOpts.Select(_ => _);
+		var expectedRowsPerPageValues = expectedRowsPerPageOpts.Select(x => x);
 
 		//Act
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters

@@ -75,7 +75,7 @@ public class DropdownComponentTests : TestContext
 			.Add(p => p.IsPristineEnabled, expectedIsPristineEnabled));
 
 		var optionsElement = cut.Find(".options");
-		var optionsElementAttributes = optionsElement.Attributes.Select(_ => _.Name);
+		var optionsElementAttributes = optionsElement.Attributes.Select(x => x.Name);
 		var containsDisabledClass = optionsElementAttributes.Contains("disabled");
 
 		//Assert
@@ -122,7 +122,7 @@ public class DropdownComponentTests : TestContext
 			.Add(p => p.InitialSelectedIndex, expectedIndex));
 
 		var optionsElements = cut.FindAll(".option");
-		var actualContent = optionsElements.Select(_ => _.TextContent);
+		var actualContent = optionsElements.Select(x => x.TextContent);
 
 		//Assert
 		optionsElements.Count.ShouldBe(expectedItems.Count);

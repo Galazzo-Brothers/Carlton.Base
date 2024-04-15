@@ -162,8 +162,8 @@ public class LayoutManagerComponentTests : TestContext
 		var stubbedModal = cut.FindComponent<Stub<Modal>>();
 
 		//Assert
-		stubbedModal.Instance.Parameters.Get(_ => _.ModalType).ShouldBe(expectedModalType);
-		stubbedModal.Instance.Parameters.Get(_ => _.ModalPrompt).ShouldBe(expectedModalModel.Prompt);
-		stubbedModal.Instance.Parameters.Get(_ => _.ModalMessage).ShouldBe(expectedModalModel.Message);
+		stubbedModal.Instance.Parameters.Get(x => x.ModalType).ShouldBe(expectedModalType);
+		stubbedModal.Instance.Parameters.Get(x => x.ModalPrompt).ShouldBe(expectedModalModel.Prompt);
+		stubbedModal.Instance.Parameters.Get(x => x.ModalMessage).ShouldBe(expectedModalModel.Message);
 	}
 }

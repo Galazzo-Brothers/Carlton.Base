@@ -95,7 +95,7 @@ public class AccordionSelectComponentTests : TestContext
 	public void AccordionSelect_ItemsParameter_RendersCorrectly(
 		IDictionary<string, int> expectedItems,
 		string expectedTitle,
-		bool expectedIsExapnded)
+		bool expectedIsExpanded)
 	{
 		//Arrange
 		var items = new AccordionSelectModelBuilder<int>()
@@ -103,16 +103,16 @@ public class AccordionSelectComponentTests : TestContext
 						.Build();
 
 		var expectedCount = items.Count();
-		var expectedItemNames = items.Select(_ => _.Name);
+		var expectedItemNames = items.Select(x => x.Name);
 
 		//Act
 		var cut = RenderComponent<AccordionSelect<int>>(parameters => parameters
 				.Add(p => p.Title, expectedTitle)
-				.Add(p => p.IsExpanded, expectedIsExapnded)
+				.Add(p => p.IsExpanded, expectedIsExpanded)
 				.Add(p => p.Items, items));
 
 		var actualCount = cut.FindAll(".item").Count;
-		var actualItemNames = cut.FindAll(".item-name").Select(_ => _.TextContent);
+		var actualItemNames = cut.FindAll(".item-name").Select(x => x.TextContent);
 
 
 		//Assert
@@ -187,7 +187,7 @@ public class AccordionSelectComponentTests : TestContext
 			.Add(p => p.Items, items));
 
 		var itemElms = cut.FindAll(".accordion-header");
-		var classList = itemElms.SelectMany(_ => _.ClassList);
+		var classList = itemElms.SelectMany(x => x.ClassList);
 
 		//Assert
 		classList.ShouldNotContain("selected");
