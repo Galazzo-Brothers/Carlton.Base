@@ -3,101 +3,121 @@
 
 @* Represents a dropdown component for selecting from a list of options. *@
 <div class="dropdown">
-    <!-- Input holding dropdown selected value -->
-    <input readonly class="@DropdownInputCss" placeholder=" " value="@DropdownValue" />
+	<!-- Input holding dropdown selected value -->
+	<input readonly class="@DropdownInputCss" placeholder=" " value="@DropdownValue" />
 
-    <!-- Label for the dropdown -->
-    <div class="label">@Label</div>
+	<!-- Label for the dropdown -->
+	<div class="label">@Label</div>
 
-    <!-- Options container -->
-    @if (IsDisabled)
-    {
-        <!-- Disabled state for options when the dropdown is disabled -->
-        <div disabled class="options"></div>
-    }
-    else
-    {
-        <!-- Render options when the dropdown is not disabled -->
-        <div class="options">
-            @foreach (var (opt, i) in Options.WithIndex())
-            {
+	<!-- Options container -->
+	@if (IsDisabled)
+	{
+		<!-- Disabled state for options when the dropdown is disabled -->
+		<div disabled class="options"></div>
+	}
+	else
+	{
+		<!-- Render options when the dropdown is not disabled -->
+		<div class="options">
+			@foreach (var (opt, i) in Options.WithIndex())
+			{
 				<!-- Individual option items -->
-				var args = new ValueChangeArgs<T>
-					{
-						SelectedIndex = i,
-						SelectedKey = opt.Key,
-						SelectedValue = opt.Value
-					};
-                <div class="option" @onclick="()=>HandleValueChange(args)">@opt.Key</div>
-            }
-        </div>
-    }
+				<div class="option" @onclick="()=>HandleValueChange(i)">@opt.Key</div>
+			}
+		</div>
+	}
 </div>
 
 
 @code {
-    /// <summary>
-    /// Gets or sets a value indicating whether the dropdown is disabled.
-    /// </summary>
-    [Parameter]
-    public bool IsDisabled { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether the dropdown is disabled.
+	/// </summary>
+	[Parameter]
+	public bool IsDisabled { get; set; }
 
-    /// <summary>
-    /// Gets or sets the label displayed above the dropdown.
-    /// </summary>
-    [Parameter]
-    public string Label { get; set; }
+	/// <summary>
+	/// Gets or sets the label displayed above the dropdown.
+	/// </summary>
+	[Parameter]
+	public string Label { get; set; }
 
-    /// <summary>
-    /// Gets or sets the options available in the dropdown.
-    /// </summary>
-    [Parameter]
-    public IReadOnlyDictionary<string, T> Options { get; set; } = new Dictionary<string, T>();
+	/// <summary>
+	/// Gets or sets the options available in the dropdown.
+	/// </summary>
+	[Parameter]
+	public IReadOnlyDictionary<string, T> Options { get; set; } = new Dictionary<string, T>();
 
-    /// <summary>
-    /// Gets or sets the index of the selected option.
-    /// </summary>
-    [Parameter]
-    public int SelectedIndex { get; set; }
+	/// <summary>
+	/// Gets or sets the index of the selected option.
+	/// </summary>
+	[Parameter]
+	public int InitialSelectedIndex { get; set; }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the pristine state is enabled.
-    /// </summary>
-    [Parameter]
-    public bool IsPristineEnabled { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether the pristine state is enabled.
+	/// </summary>
+	[Parameter]
+	public bool IsPristineEnabled { get; set; }
 
-    /// <summary>
-    /// Event callback invoked when the value of the dropdown changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<ValueChangeArgs<T>> OnValueChange { get; set; }
+	/// <summary>
+	/// Event callback invoked when the value of the dropdown changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<ValueChangeArgs<T>> OnValueChange { get; set; }
 
-    private bool IsPristine { get; set; } = true;
+	public int SelectedIndex { get; private set; }
 
-    public string SelectedKey => Options.Any() ? Options.ElementAt(SelectedIndex).Key : default;
+	private bool IsPristine { get; set; } = true;
 
-    public T SelectedValue => Options.Any() ? Options.ElementAt(SelectedIndex).Value : default;
+	public string SelectedKey => Options.Any() ? Options.ElementAt(SelectedIndex).Key : default;
 
-    protected override void OnInitialized()
-    {
-        if (SelectedIndex < 0 || SelectedIndex >= Options.Count)
-            throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
+	public T SelectedValue => Options.Any() ? Options.ElementAt(SelectedIndex).Value : default;
 
-        base.OnInitialized();
-    }
+	private string DropdownValue => (IsPristineEnabled && IsPristine) ? null : SelectedKey;
 
-    protected async Task HandleValueChange(ValueChangeArgs<T> opt)
-    {
-        IsPristine = false;
-        SelectedIndex = opt.SelectedIndex;
-        await OnValueChange.InvokeAsync(opt);
-    }
+	private int PreviousIndex { get; set; }
 
-    private String DropdownInputCss =>
-        new CssBuilder("dropdown-input")
-        .AddClass("disabled", IsDisabled)
-        .Build();
+	protected override void OnInitialized()
+	{
+		if (InitialSelectedIndex < 0 || InitialSelectedIndex >= Options.Count)
+			throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
 
-    private string DropdownValue =>
-        (IsPristineEnabled && IsPristine) ? null : SelectedKey;
+		SelectedIndex = PreviousIndex = InitialSelectedIndex;
+		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		if (InitialSelectedIndex < 0 || InitialSelectedIndex >= Options.Count)
+			throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
+
+		//SelectedIndex Parameter has been modified by parent
+		if(PreviousIndex != InitialSelectedIndex)
+		{
+			SelectedIndex = InitialSelectedIndex;
+			PreviousIndex = InitialSelectedIndex;
+		}
+
+		base.OnParametersSet();
+	}
+
+	protected async Task HandleValueChange(int index)
+	{
+		IsPristine = false;
+		SelectedIndex = index;
+
+		await OnValueChange.InvokeAsync(
+			new ValueChangeArgs<T>
+				{
+					SelectedIndex = index,
+					SelectedKey = SelectedKey,
+					SelectedValue = SelectedValue
+				});
+	}
+
+	private String DropdownInputCss =>
+		new CssBuilder("dropdown-input")
+		.AddClass("disabled", IsDisabled)
+		.Build();
 }
