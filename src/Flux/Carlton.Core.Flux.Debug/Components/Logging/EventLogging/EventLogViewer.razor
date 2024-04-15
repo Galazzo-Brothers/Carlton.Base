@@ -61,10 +61,10 @@
 
 	protected override void OnParametersSet()
 	{
-		FilteredLogMessages = LogMessages.Where(_ => EventLogViewerFilterState.IncludedLogLevels.Contains(_.LogLevel))
-											.Where(_ => _.Message.ToLower().Contains(EventLogViewerFilterState.FilterText))
-											.OrderByDescending(_ => _.Timestamp)
-											.ToList();
+		FilteredLogMessages = LogMessages.Where(x => EventLogViewerFilterState.IncludedLogLevels.Contains(x.LogLevel))
+										 .Where(x => x.Message.ToLower().Contains(EventLogViewerFilterState.FilterText))
+										 .OrderByDescending(x => x.Timestamp)
+										 .ToList();
 
 		base.OnParametersSet();
 	}
@@ -75,7 +75,7 @@
 
 	// Method to get the count of log messages for a specific log level
 	private int GetCountByLevel(LogLevel logLevel)
-		=> LogMessages.Count(_ => _.LogLevel == logLevel);
+		=> LogMessages.Count(x => x.LogLevel == logLevel);
 
 	// Event handler for changes in the filter text
 	private void HandleFilterTextChanges(string newFilterText)

@@ -58,7 +58,7 @@ public sealed class NavMenuViewModelBuilder
 	/// <returns>The collection of component configurations for the navigation menu.</returns>
 	internal IEnumerable<ComponentConfigurations> Build()
 	{
-		return _internalState.GroupBy(_ => _.ComponentType)
+		return _internalState.GroupBy(x => x.ComponentType)
 					  .Select(group => new ComponentConfigurations
 					  {
 						  ComponentType = group.Key,

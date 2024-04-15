@@ -48,7 +48,7 @@
 
     protected override void OnInitialized()
     {
-        var allowableOrderingColumns = Headings.Select(_ => _.OrderingName).Append(string.Empty);
+        var allowableOrderingColumns = Headings.Select(x => x.OrderingName).Append(string.Empty);
 
         if (!allowableOrderingColumns.Contains(SelectedOrderColumn))
             throw new ArgumentException($"Attempting to order the table by a non-existent column: {SelectedOrderColumn}");

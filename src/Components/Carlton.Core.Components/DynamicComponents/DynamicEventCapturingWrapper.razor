@@ -38,7 +38,7 @@
 		//Find all EventCallbacks and EventCallbacks<T>
 		var eventCallbacks = ComponentType
 					.GetProperties()
-					.Where(_ => _.PropertyType == typeof(EventCallback) || (_.PropertyType.IsGenericType && _.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
+					.Where(x => x.PropertyType == typeof(EventCallback) || (x.PropertyType.IsGenericType && x.PropertyType.GetGenericTypeDefinition() == typeof(EventCallback<>)))
 					.ToList();
 
 		//Assign constructed lambda expression values
@@ -99,12 +99,12 @@
     {
         //Find the correct overload of EventCallbackFactory to create the correct generic EventCallback
         var method = typeof(EventCallbackFactory).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-            .Where(_ => _.Name == nameof(EventCallbackFactory.Create))
-            .Where(_ => _.ContainsGenericParameters)
-            .First(_ => _.GetParameters().Count() == 2 &&
-                        _.GetParameters()[0].ParameterType == typeof(object) &&
-                        _.GetParameters()[1].ParameterType.IsGenericType &&
-                        _.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Func<,>));
+            .Where(x => x.Name == nameof(EventCallbackFactory.Create))
+            .Where(x => x.ContainsGenericParameters)
+            .First(x => x.GetParameters().Count() == 2 &&
+                        x.GetParameters()[0].ParameterType == typeof(object) &&
+                        x.GetParameters()[1].ParameterType.IsGenericType &&
+                        x.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Func<,>));
 
         var methodInfo = method.MakeGenericMethod(genericTypeParam);
         return methodInfo;

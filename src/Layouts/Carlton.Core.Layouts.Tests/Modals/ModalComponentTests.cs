@@ -124,8 +124,8 @@ public class ModalComponentTests : TestContext
 		var stub = cut.FindComponent<Stub<ModalTemplate>>();
 
 		//Assert
-		stub.Instance.Parameters.Get(_ => _.IsVisible).ShouldBe(expectedIsVisible);
-		stub.Instance.Parameters.Get(_ => _.Prompt).ShouldBe(expectedModalPrompt);
-		stub.Instance.Parameters.Get(_ => _.Message).ShouldBe(expectedModalMessage);
+		stub.Instance.Parameters.Get(x => x.IsVisible).ShouldBe(expectedIsVisible);
+		stub.Instance.Parameters.Get(x => x.Prompt).ShouldBe(expectedModalPrompt);
+		stub.Instance.Parameters.Get(x => x.Message).ShouldBe(expectedModalMessage);
 	}
 }

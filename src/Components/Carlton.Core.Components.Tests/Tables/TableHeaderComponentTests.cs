@@ -56,7 +56,7 @@ public class TableHeaderComponentTests : TestContext
 	{
 		//Arrange
 		var expectedCount = expectedHeadingItems.Count();
-		var expectedHeadings = expectedHeadingItems.Select(_ => _.DisplayName);
+		var expectedHeadings = expectedHeadingItems.Select(x => x.DisplayName);
 
 		//Act
 		var cut = RenderComponent<TableHeader<TableTestObject>>(parameters => parameters
@@ -66,7 +66,7 @@ public class TableHeaderComponentTests : TestContext
 
 		var headerRowItems = cut.FindAll(".header-cell");
 		var actualCount = headerRowItems.Count;
-		var actualHeadings = cut.FindAll(".heading-text").Select(_ => _.TextContent);
+		var actualHeadings = cut.FindAll(".heading-text").Select(x => x.TextContent);
 
 		//Assert
 		actualCount.ShouldBe(expectedCount);

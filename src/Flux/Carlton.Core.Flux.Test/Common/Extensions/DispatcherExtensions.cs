@@ -72,7 +72,7 @@ internal static class DispatcherExtensions
 	{
 		await dispatcher.Received(receivedNumCalls).Dispatch(
 			Arg.Any<object>(),
-			Arg.Is<MutationCommandContext<TCommand>>(_ => _.MutationCommand.Equals(command)),
+			Arg.Is<MutationCommandContext<TCommand>>(x => x.MutationCommand.Equals(command)),
 			Arg.Any<CancellationToken>());
 	}
 }

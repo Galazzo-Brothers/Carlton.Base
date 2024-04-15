@@ -60,7 +60,7 @@ internal static class LogExtensions
 					.Select(group =>
 					{
 						//reverse chronological order
-						var orderedMessages = group.OrderByDescending(_ => _.Timestamp).ToList();
+						var orderedMessages = group.OrderByDescending(x => x.Timestamp).ToList();
 						var parentEntry = orderedMessages.First(); //parent entry is first
 
 						//subsequent requests are children of the parent request
@@ -73,7 +73,7 @@ internal static class LogExtensions
 							ParentEntry = parentEntry.ToTraceLogMessage(),
 							ChildEntries = orderedChildren.Select(o => o.ToTraceLogMessage()).ToList()
 						};
-					}).OrderByDescending(_ => _.ParentEntry.Timestamp).ToList();
+					}).OrderByDescending(x => x.ParentEntry.Timestamp).ToList();
 
 		static bool IsFluxActionPredicate(FluxDebugLogMessage log) => log.Scopes.Any(kvp => kvp.Key == "FluxAction");
 	}

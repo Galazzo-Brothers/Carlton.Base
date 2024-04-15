@@ -109,7 +109,7 @@ public static class ServiceCollectionExtensions
 
 	private static void RegisterFluxStateMutations<TState>(IServiceCollection services)
 	{
-		services.Scan(_ => _
+		services.Scan(scan => scan
 			.FromApplicationDependencies()
 			.AddClasses(classes => classes.AssignableTo(typeof(IFluxStateMutation<,>)))
 			.AsImplementedInterfaces()

@@ -98,7 +98,7 @@
 		if (CurrentPage > MaxPage)
 			throw new ArgumentException("Current page cannot be greater than the max page.");
 
-		RowsPerPageSelectOpts = RowsPerPageOpts.ToDictionary(_ => _.ToString(), _ => _);
+		RowsPerPageSelectOpts = RowsPerPageOpts.ToDictionary(x => x.ToString(), x => x);
 
 		base.OnParametersSet();
 	}

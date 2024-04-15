@@ -34,7 +34,7 @@ public class TableComponentTests_Stubs : TestContext
 		ComponentFactories.AddStub<TableHeader<TableTestObject>>(parameters =>
 		{
 			var headings = parameters.Get(p => p.Headings);
-			var headingsText = headings.Select(_ => _.DisplayName);
+			var headingsText = headings.Select(x => x.DisplayName);
 			return BuildExpectedHeaderMarkup(headings, true);
 		});
 
@@ -101,7 +101,7 @@ public class TableComponentTests_Stubs : TestContext
 		ComponentFactories.AddStub<TableHeader<TableTestObject>>(parameters =>
 		{
 			var headings = parameters.Get(p => p.Headings);
-			var headingsText = headings.Select(_ => _.DisplayName);
+			var headingsText = headings.Select(x => x.DisplayName);
 			return BuildExpectedHeaderMarkup(headings, true);
 		});
 
@@ -169,7 +169,7 @@ public class TableComponentTests_Stubs : TestContext
 		ComponentFactories.AddStub<TableHeader<TableTestObject>>(parameters =>
 		{
 			var headings = parameters.Get(p => p.Headings);
-			var headingsText = headings.Select(_ => _.DisplayName);
+			var headingsText = headings.Select(x => x.DisplayName);
 			return BuildExpectedHeaderMarkup(headings, expectedOrderAscending, expectedOrderColumnIndex);
 		});
 
@@ -210,12 +210,12 @@ public class TableComponentTests_Stubs : TestContext
 	{
 		//Arrange
 		var expectedCount = expectedHeadings.Count();
-		var expectedHeaders = expectedHeadings.Select(_ => _.DisplayName);
+		var expectedHeaders = expectedHeadings.Select(x => x.DisplayName);
 
 		ComponentFactories.AddStub<TableHeader<TableTestObject>>(parameters =>
 		{
 			var headings = parameters.Get(p => p.Headings);
-			var headingsText = headings.Select(_ => _.DisplayName);
+			var headingsText = headings.Select(x => x.DisplayName);
 			return BuildExpectedHeaderMarkup(headings, true);
 		});
 
@@ -235,7 +235,7 @@ public class TableComponentTests_Stubs : TestContext
 
 		var headerRowItems = cut.FindAll(".header-cell");
 		var actualCount = headerRowItems.Count;
-		var actualHeaders = cut.FindAll(".heading-text").Select(_ => _.TextContent);
+		var actualHeaders = cut.FindAll(".heading-text").Select(x => x.TextContent);
 
 		//Assert
 		actualCount.ShouldBe(expectedCount);
@@ -265,7 +265,7 @@ public class TableComponentTests_Stubs : TestContext
 		var tableRows = cut.FindAll(".table-row");
 		var actualItemCount = tableRows.Count;
 
-		var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
+		var actualDisplayValues = cut.FindAll("span.table-cell").Select(x => x.TextContent);
 
 		//Assert
 		actualItemCount.ShouldBe(expectedItemCount);
@@ -310,7 +310,7 @@ public class TableComponentTests_Stubs : TestContext
 
 		var tableRows = cut.FindAll(".table-row");
 		var actualItemCount = tableRows.Count;
-		var actualDisplayValues = cut.FindAll("span.table-cell").Select(_ => _.TextContent);
+		var actualDisplayValues = cut.FindAll("span.table-cell").Select(x => x.TextContent);
 
 		//Assert
 		actualItemCount.ShouldBe(expectedItemCount);
@@ -340,7 +340,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.ShowPaginationRow, false));
 
 		var rowElements = cut.FindAll(".table-row");
-		var actualContent = rowElements.Select(_ => _.OuterHtml);
+		var actualContent = rowElements.Select(x => x.OuterHtml);
 
 		//Assert
 		actualContent.ShouldBe(expectedContent);
@@ -396,7 +396,7 @@ public class TableComponentTests_Stubs : TestContext
 
 		var rowElements = cut.FindAll(".table-row");
 		var itemRowElements = rowElements.Take(rowElements.Count);
-		var actualContent = itemRowElements.Select(_ => _.OuterHtml);
+		var actualContent = itemRowElements.Select(x => x.OuterHtml);
 
 		//Assert
 		actualContent.ShouldBe(expectedContent);
@@ -516,7 +516,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-		var actualPage = paginationRow.Instance.Parameters.Get(_ => _.CurrentPage);
+		var actualPage = paginationRow.Instance.Parameters.Get(x => x.CurrentPage);
 
 		//Assert
 		actualPage.ShouldBe(expectedCurrentPage);
@@ -529,7 +529,6 @@ public class TableComponentTests_Stubs : TestContext
 		ComponentFactories.AddStub<TableHeader<TableTestObject>>();
 		ComponentFactories.AddStub<TablePaginationRow<TableTestObject>>();
 		var expectedCount = expectedRowsPerPageOpts.Count();
-		var expectedRowsPerPageValues = expectedRowsPerPageOpts.Select(_ => _);
 
 		//Act
 		var cut = RenderComponent<Table<TableTestObject>>(parameters => parameters
@@ -540,11 +539,11 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.ShowPaginationRow, true));
 
 		var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-		var actualRowsPerPage = paginationRow.Instance.Parameters.Get(_ => _.RowsPerPageOpts); ;
+		var actualRowsPerPage = paginationRow.Instance.Parameters.Get(x => x.RowsPerPageOpts); ;
 
 		//Assert
 		actualRowsPerPage.Count().ShouldBe(expectedCount);
-		actualRowsPerPage.ShouldBe(expectedRowsPerPageValues);
+		actualRowsPerPage.ShouldBe(expectedRowsPerPageOpts);
 	}
 
 
@@ -571,7 +570,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-		var actualSelectedIndex = paginationRow.Instance.Parameters.Get(_ => _.SelectedRowsPerPageIndex);
+		var actualSelectedIndex = paginationRow.Instance.Parameters.Get(x => x.SelectedRowsPerPageIndex);
 
 		//Assert
 		actualSelectedIndex.ShouldBe(expectedRowsPerPageIndex);
@@ -603,7 +602,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var tableHeader = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-		var actualSelectedOrderColumn = tableHeader.Instance.Parameters.Get(_ => _.SelectedOrderColumn);
+		var actualSelectedOrderColumn = tableHeader.Instance.Parameters.Get(x => x.SelectedOrderColumn);
 
 		//Assert
 		actualSelectedOrderColumn.ShouldBe(expectedOrderColumn);
@@ -633,7 +632,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.TableInteractionState, tableInteractionState));
 
 		var tableHeader = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-		var actualOrderAscending = tableHeader.Instance.Parameters.Get(_ => _.IsAscending);
+		var actualOrderAscending = tableHeader.Instance.Parameters.Get(x => x.IsAscending);
 
 		//Assert
 		actualOrderAscending.ShouldBe(expectedOrderAscending);
@@ -661,7 +660,7 @@ public class TableComponentTests_Stubs : TestContext
 			}));
 
 		var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-		var callback = paginationRow.Instance.Parameters.Get(_ => _.OnPageChange);
+		var callback = paginationRow.Instance.Parameters.Get(x => x.OnPageChange);
 
 		//Act
 		paginationRow.InvokeAsync(() => callback.InvokeAsync(new PageChangeEventArgs(expectedPage)));
@@ -693,7 +692,7 @@ public class TableComponentTests_Stubs : TestContext
 			}));
 
 		var paginationRow = cut.FindComponent<Stub<TablePaginationRow<TableTestObject>>>();
-		var callback = paginationRow.Instance.Parameters.Get(_ => _.OnRowsPerPageChange);
+		var callback = paginationRow.Instance.Parameters.Get(x => x.OnRowsPerPageChange);
 
 		//Act
 		paginationRow.InvokeAsync(() => callback.InvokeAsync(new RowsPerPageChangeEventArgs(expectedRowsPerPageIndex)));
@@ -734,7 +733,7 @@ public class TableComponentTests_Stubs : TestContext
 			}));
 
 		var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-		var callback = header.Instance.Parameters.Get(_ => _.OnItemsSort);
+		var callback = header.Instance.Parameters.Get(x => x.OnItemsSort);
 
 		//Act
 		header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
@@ -769,7 +768,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.OnTableInteraction, args => eventFired = true));
 
 		var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-		var callback = header.Instance.Parameters.Get(_ => _.OnItemsSort);
+		var callback = header.Instance.Parameters.Get(x => x.OnItemsSort);
 
 		//Act
 		header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
@@ -804,7 +803,7 @@ public class TableComponentTests_Stubs : TestContext
 			.Add(p => p.ShowPaginationRow, true));
 
 		var header = cut.FindComponent<Stub<TableHeader<TableTestObject>>>();
-		var callback = header.Instance.Parameters.Get(_ => _.OnItemsSort);
+		var callback = header.Instance.Parameters.Get(x => x.OnItemsSort);
 
 		//Act
 		header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));

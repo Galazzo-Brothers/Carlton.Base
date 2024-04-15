@@ -5,127 +5,127 @@ namespace Carlton.Core.Components.Tests.Tabs;
 [Trait("Component", nameof(MobileDrawerTabBar))]
 public class MobileTabBarComponentTests : TestContext
 {
-    [Theory(DisplayName = "Markup Test"), AutoData]
-    public void MobileTabBar_Markup_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
-        var expectedMarkup = BuildExpectedMarkup(expectedTabData, selectedTabIndex);
+	[Theory(DisplayName = "Markup Test"), AutoData]
+	public void MobileTabBar_Markup_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+		var expectedMarkup = BuildExpectedMarkup(expectedTabData, selectedTabIndex);
 
-        //Act
-        var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
-                    parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                              .AddTabs(expectedTabData));
-        //Assert
-        cut.MarkupMatches(expectedMarkup);
-    }
+		//Act
+		var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
+					parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+							  .AddTabs(expectedTabData));
+		//Assert
+		cut.MarkupMatches(expectedMarkup);
+	}
 
-    [Theory(DisplayName = "Tab Count Test"), AutoData]
-    public void MobileTabBar_ItemsParameter_Count_RendersCorrectly(
-         IList<TabConstructionData> expectedTabData)
-    {
-        //Act
-        var cut = RenderComponent<MobileDrawerTabBar>(parameter =>
-                            parameter.AddTabs(expectedTabData));
+	[Theory(DisplayName = "Tab Count Test"), AutoData]
+	public void MobileTabBar_ItemsParameter_Count_RendersCorrectly(
+		 IList<TabConstructionData> expectedTabData)
+	{
+		//Act
+		var cut = RenderComponent<MobileDrawerTabBar>(parameter =>
+							parameter.AddTabs(expectedTabData));
 
-        var tabs = cut.FindAll(".tab");
+		var tabs = cut.FindAll(".tab");
 
-        //Assert
-        var count = tabs.Count;
-        count.ShouldBe(expectedTabData.Count);
-    }
+		//Assert
+		var count = tabs.Count;
+		count.ShouldBe(expectedTabData.Count);
+	}
 
-    [Theory(DisplayName = "Default Active Tab, Render Test"), AutoData]
-    public void MobileTabBar_DefaultActiveTab_RendersCorrectly(
-         IList<TabConstructionData> expectedTabData)
-    {
-        //Act
-        var cut = RenderComponent<MobileDrawerTabBar>(parameter =>
-                            parameter.AddTabs(expectedTabData));
+	[Theory(DisplayName = "Default Active Tab, Render Test"), AutoData]
+	public void MobileTabBar_DefaultActiveTab_RendersCorrectly(
+		 IList<TabConstructionData> expectedTabData)
+	{
+		//Act
+		var cut = RenderComponent<MobileDrawerTabBar>(parameter =>
+							parameter.AddTabs(expectedTabData));
 
-        var defaultTab = cut.FindAll(".tab")[0];
+		var defaultTab = cut.FindAll(".tab")[0];
 
-        //Assert
-        defaultTab.ClassList.ShouldContain("active");
-    }
+		//Assert
+		defaultTab.ClassList.ShouldContain("active");
+	}
 
-    [Theory(DisplayName = "Default Active Tab, CSS Active Class Test"), AutoData]
-    public void MobileTabBar_ActiveTabClass_RendersCorrectly(
-         IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
-        var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
-                    parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                              .AddTabs(expectedTabData));
+	[Theory(DisplayName = "Default Active Tab, CSS Active Class Test"), AutoData]
+	public void MobileTabBar_ActiveTabClass_RendersCorrectly(
+		 IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+		var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
+					parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+							  .AddTabs(expectedTabData));
 
-        var tabs = cut.FindAll(".tab", true);
-        var selectedTab = tabs.ElementAt(selectedTabIndex);
-        var anchor = selectedTab.Children.First();
+		var tabs = cut.FindAll(".tab", true);
+		var selectedTab = tabs.ElementAt(selectedTabIndex);
+		var anchor = selectedTab.Children.First();
 
-        //Act
-        anchor.Click();
+		//Act
+		anchor.Click();
 
-        //Assert
-        var activeTab = tabs.ElementAt(selectedTabIndex);
-        activeTab.ClassList.Contains("active");
-    }
+		//Assert
+		var activeTab = tabs.ElementAt(selectedTabIndex);
+		activeTab.ClassList.Contains("active");
+	}
 
-    [Theory(DisplayName = "Selected Active Tab, CSS Active Class Test"), AutoData]
-    public void MobileTabBar_ActiveTab_RendersCorrectly(
-        IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
-        var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
-                    parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                              .AddTabs(expectedTabData));
-        var tabToClick = cut.FindAll(".tab-link").ElementAt(selectedTabIndex);
+	[Theory(DisplayName = "Selected Active Tab, CSS Active Class Test"), AutoData]
+	public void MobileTabBar_ActiveTab_RendersCorrectly(
+		IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
+		var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
+					parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+							  .AddTabs(expectedTabData));
+		var tabToClick = cut.FindAll(".tab-link").ElementAt(selectedTabIndex);
 
-        //Act
-        tabToClick.Click();
+		//Act
+		tabToClick.Click();
 
-        //Assert
-        var tabElement = cut.FindAll(".tab").ElementAt(selectedTabIndex);
-        tabElement.ClassList.ShouldContain("active");
-    }
+		//Assert
+		var tabElement = cut.FindAll(".tab").ElementAt(selectedTabIndex);
+		tabElement.ClassList.ShouldContain("active");
+	}
 
-    [Theory(DisplayName = "ChildIcon Parameter Test"), AutoData]
-    public void MobileTabBar_ChildIconParam_RendersCorrectly(
-         IList<TabConstructionData> expectedTabData)
-    {
-        //Arrange
-        var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
-        
-        //Act
-        var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
-                    parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
-                              .AddTabs(expectedTabData));
+	[Theory(DisplayName = "ChildIcon Parameter Test"), AutoData]
+	public void MobileTabBar_ChildIconParam_RendersCorrectly(
+		 IList<TabConstructionData> expectedTabData)
+	{
+		//Arrange
+		var selectedTabIndex = RandomUtilities.GetRandomIndex(expectedTabData.Count);
 
-        var iconClasses = cut.FindAll("i")
-                             .SelectMany(_ => _.ClassList)
-                             .Where(_ => _ != "mdi" && _ != "mdi-24px");
+		//Act
+		var cut = RenderComponent<MobileDrawerTabBar>(parameters =>
+					parameters.Add(p => p.ActiveTabIndex, selectedTabIndex)
+							  .AddTabs(expectedTabData));
 
-        var expectedClasses = expectedTabData.Select(_ => _.IconClass);
+		var iconClasses = cut.FindAll("i")
+							 .SelectMany(x => x.ClassList)
+							 .Where(x => x != "mdi" && x != "mdi-24px");
 
-        //Assert
-        iconClasses.ShouldBe(expectedClasses);
-    }
+		var expectedClasses = expectedTabData.Select(x => x.IconClass);
 
-    private static string BuildExpectedMarkup(IList<TabConstructionData> data, int selectedIndex)
-    {
-        var slideButton = @"<button class=""slide-button""></button>";
-        var content = data.ElementAt(selectedIndex).ChildContent;
+		//Assert
+		iconClasses.ShouldBe(expectedClasses);
+	}
 
-        var tabs = string.Join(Environment.NewLine, data.Select((tab, i) => $@"
+	private static string BuildExpectedMarkup(IList<TabConstructionData> data, int selectedIndex)
+	{
+		var slideButton = @"<button class=""slide-button""></button>";
+		var content = data.ElementAt(selectedIndex).ChildContent;
+
+		var tabs = string.Join(Environment.NewLine, data.Select((tab, i) => $@"
         <div class=""tab {(selectedIndex == i ? "active" : string.Empty)}"" >
             <div class=""tab-link"">
                 <i class=""mdi mdi-24px {tab.IconClass}""></i>
             </div>
         </div>"));
 
-        var tabBar = @$"
+		var tabBar = @$"
         <div class=""mobile-collapsible-tab-bar"">
             <div class=""tab-bar"">
                 {slideButton}
@@ -138,6 +138,6 @@ public class MobileTabBarComponentTests : TestContext
             </div>
         </div>";
 
-        return tabBar;
-    }
+		return tabBar;
+	}
 }
