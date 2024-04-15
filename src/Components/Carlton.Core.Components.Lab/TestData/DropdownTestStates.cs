@@ -14,7 +14,7 @@ internal static class DropdownTestStates
 				{ "Option 2", 2 },
 				{ "Option 3", 3 }
 			},
-			SelectedIndex = 0,
+			InitialSelectedIndex = 0,
 			IsPristineEnabled = false
 		};
 	}
@@ -31,7 +31,7 @@ internal static class DropdownTestStates
 				{ "Option 2", 2 },
 				{ "Option 3", 3 }
 			},
-			SelectedIndex = 0,
+			InitialSelectedIndex = 0,
 			IsPristineEnabled = false
 		};
 	}
@@ -48,7 +48,7 @@ internal static class DropdownTestStates
 				{ "Option 2", 2 },
 				{ "Option 3", 3 }
 			},
-			SelectedIndex = 0,
+			InitialSelectedIndex = 0,
 			IsPristineEnabled = true
 		};
 	}

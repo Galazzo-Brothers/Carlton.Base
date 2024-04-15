@@ -15,10 +15,15 @@
 *@
 
 <DynamicEventCapturingWrapper ComponentType="@ViewModel.ComponentType"
-							  ComponentParameters="@ViewModel.ComponentParameters.ConvertToDictionary()"
+							  ComponentParameters="Parameters"
 							  OnCapturedComponentEvent="this.RaiseComponentFluxEvent<ComponentViewerViewModel, RecordEventCommand>" />
 
+@code{
+	private IDictionary<string, object> Parameters { get; set; } = new Dictionary<string, object>();
 
-
-
-
+	protected override void OnInitialized()
+	{
+		Parameters = ViewModel.ComponentParameters.ToDictionary();
+		base.OnInitialized();
+	}
+}
