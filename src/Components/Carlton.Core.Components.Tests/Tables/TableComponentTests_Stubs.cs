@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Reflection;
 using Bunit.TestDoubles;
 using Carlton.Core.Components.Tables;
 using Carlton.Core.Foundation.State;
@@ -787,6 +788,7 @@ public class TableComponentTests_Stubs : TestContext
 	public void Table_ItemsOrderedCallback_OrdersItems(int expectedOrderColumnIndex, bool expectedIsAscending)
 	{
 		//Arrange
+		var filteredItemsProp = typeof(Table<TableTestObject>).GetProperty("FilteredItems", BindingFlags.NonPublic | BindingFlags.Instance);
 		var items = GetItems().ToList();
 		var expectedOrderColumn = Headings.ElementAt(expectedOrderColumnIndex).OrderingName;
 		var expectedOrderedItems = expectedIsAscending ? OrderCollection(items, expectedOrderColumnIndex)
@@ -806,9 +808,8 @@ public class TableComponentTests_Stubs : TestContext
 
 		//Act
 		header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
-		var actualItems = cut.Instance.FilteredItems;
 
 		//Assert
-		actualItems.ShouldBe(expectedOrderedItems);
+		filteredItemsProp.GetValue(cut).ShouldBe(expectedOrderedItems);
 	}
 }

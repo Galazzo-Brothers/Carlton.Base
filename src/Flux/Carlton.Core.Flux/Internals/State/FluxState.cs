@@ -7,9 +7,14 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 	public event Func<FluxStateChangedEventArgs, Task> StateChanged;
 
 	private readonly Queue<RecordedMutation<TState>> _recordedMutations = [];
+
 	public IReadOnlyCollection<RecordedMutation<TState>> RecordedMutations { get => _recordedMutations.ToList(); }
 
-	public TState CurrentState { get => _state; }
+	public TState CurrentState { get; private set; } = _state;
+
+	private TState RollbackState { get; set; } = _state;
+
+	private bool EventRecorded { get; set; } = false;
 
 	public async Task<Result<string, FluxError>> ApplyMutationCommand<TCommand>(TCommand command)
 	{
@@ -23,14 +28,23 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 				return MutationNotRegisteredError(command.GetType().GetDisplayNameWithGenerics());
 
 			//Apply Mutation
-			_state = mutation.Mutate(CurrentState, command);
+			CurrentState = mutation.Mutate(CurrentState, command);
 
 			//Record Mutation
 			_recordedMutations.Enqueue(new RecordedMutation<TState>(mutationFunc, command, mutation.StateEvent));
 
+			//Event Recorded
+			EventRecorded = true;
+
 			//Notify Listeners
 			var args = new FluxStateChangedEventArgs(mutation.StateEvent);
 			await (StateChanged?.GetInvocationList()?.RaiseAsyncDelegates(args) ?? Task.CompletedTask);
+
+			//Update the Rollback State
+			RollbackState = CurrentState;
+
+			//Reset EventRecorded
+			EventRecorded = false;
 
 			//Return StateEvent
 			return mutation.StateEvent;
@@ -40,7 +54,13 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 		}
 		catch (Exception ex)
 		{
-			//TODO: Rollback
+			//Rollback
+			CurrentState = RollbackState;
+
+			//The Event was recorded but rolled back
+			if (EventRecorded)
+				_recordedMutations.Dequeue();
+
 			return MutationError(command.GetType().GetDisplayNameWithGenerics(), ex);
 		}
 	}
