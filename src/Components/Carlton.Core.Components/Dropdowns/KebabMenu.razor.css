@@ -74,6 +74,6 @@
 
 	.option:hover {
 		color: var(--primary-text-color);
-		background-color: var(--card-hover-background-color);
+		background-color: var(--component-hover-background-color);
 		transform: var(--kebab-menu-option-hover-transform);
 	}

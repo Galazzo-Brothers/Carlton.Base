@@ -87,7 +87,7 @@
 }
 
 ::deep li:hover {
-	background: var(--card-hover-background-color);
+	background: var(--component-hover-background-color);
 	border-radius: var(--deep-li-hover-border-radius);
 }
 

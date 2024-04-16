@@ -6,7 +6,12 @@ internal sealed class ClearLogsMutation : IFluxStateMutation<FluxDebugState, Log
 
 	public FluxDebugState Mutate(FluxDebugState originalState, LogsClearedCommand command)
 	{
-		return originalState with { LogMessages = new List<FluxDebugLogMessage>() };
+		return originalState with
+		{
+			LogMessages = new List<FluxDebugLogMessage>(),
+			SelectedLogMessageIndex = null,
+			SelectedTraceLogMessageIndex = null
+		};
 	}
 }
 
