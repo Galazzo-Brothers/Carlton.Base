@@ -9,13 +9,24 @@ namespace Carlton.Core.Utilities.Logging;
 /// </summary>
 public class MemoryLogger : ILogger
 {
-	private readonly ConcurrentQueue<LogMessage> logMessages = new();
-	private readonly AsyncLocal<ConcurrentStack<LogScope>> _currentScopes = new();
+	private readonly ConcurrentQueue<LogMessage> _logMessages;
+	private readonly AsyncLocal<ConcurrentStack<LogScope>> _currentScopes;
+	private readonly string _logCategory;
+
+	internal MemoryLogger(
+		string logCategory,
+		ConcurrentQueue<LogMessage> logMessages,
+		AsyncLocal<ConcurrentStack<LogScope>> currentScopes)
+	{
+		_logCategory = logCategory;
+		_logMessages = logMessages;
+		_currentScopes = currentScopes;
+	}
 
 	/// <inheritdoc/>
 	public IDisposable BeginScope<TState>(TState state)
 	{
-		var scope = new LogScope(state, () => PopScope());
+		var scope = new LogScope(state, PopScope);
 		_currentScopes.Value ??= new();
 		_currentScopes.Value.Push(scope);
 		return scope;
@@ -45,10 +56,11 @@ public class MemoryLogger : ILogger
 			Message = formatter(state, exception),
 			Exception = exception,
 			Timestamp = DateTime.Now,
+			Category = _logCategory,
 			Scopes = GetCurrentScopes()
 		};
 
-		logMessages.Enqueue(message);
+		_logMessages.Enqueue(message);
 	}
 
 	/// <summary>
@@ -57,7 +69,7 @@ public class MemoryLogger : ILogger
 	/// <returns>An array of log messages.</returns>
 	public IEnumerable<LogMessage> GetLogMessages()
 	{
-		return logMessages;
+		return _logMessages;
 	}
 
 	/// <summary>
@@ -65,7 +77,7 @@ public class MemoryLogger : ILogger
 	/// </summary>
 	public void ClearLogMessages()
 	{
-		while (logMessages.TryDequeue(out _))
+		while (_logMessages.TryDequeue(out _))
 		{ }
 	}
 
@@ -75,8 +87,8 @@ public class MemoryLogger : ILogger
 	/// <param name="keepCount">The number of log messages to keep.</param>
 	public void ClearAllButMostRecent(int keepCount)
 	{
-		while (logMessages.Count > keepCount)
-			logMessages.TryDequeue(out _);
+		while (_logMessages.Count > keepCount)
+			_logMessages.TryDequeue(out _);
 	}
 
 	private Dictionary<string, object> GetCurrentScopes()

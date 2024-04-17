@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
+using System.Threading;
 namespace Carlton.Core.Utilities.Logging;
 
 /// <summary>
@@ -6,34 +8,18 @@ namespace Carlton.Core.Utilities.Logging;
 /// </summary>
 public class MemoryLoggerProvider : ILoggerProvider
 {
-    private readonly MemoryLogger _logger;
+	private readonly ConcurrentQueue<LogMessage> _logMessagesQueue = new();
+	private readonly AsyncLocal<ConcurrentStack<LogScope>> _currentScopes = new();
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MemoryLoggerProvider"/> class with a specified logger.
-    /// </summary>
-    /// <param name="logger">The memory logger instance.</param>
-    public MemoryLoggerProvider(MemoryLogger logger)
-    {
-        _logger = logger;
-    }
+	/// <inheritdoc/>
+	public ILogger CreateLogger(string categoryName)
+	{
+		return new MemoryLogger(categoryName ?? "Default", _logMessagesQueue, _currentScopes);
+	}
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MemoryLoggerProvider"/> class with a new <see cref="MemoryLogger"/> instance.
-    /// </summary>
-    public MemoryLoggerProvider()
-    {
-        _logger = new MemoryLogger();
-    }
-
-    /// <inheritdoc/>
-    public ILogger CreateLogger(string categoryName)
-    {
-        return _logger;
-    }
-
-    /// <inheritdoc/>
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-    }
+	/// <inheritdoc/>
+	public void Dispose()
+	{
+		GC.SuppressFinalize(this);
+	}
 }
