@@ -34,19 +34,20 @@ public static class ContainerExtensions
 			opts.AddHttpInterception = false;
 			opts.AddLocalStorage = false;
 		});
+
+
+		services.Decorate<IViewModelQueryDispatcher<FluxDebugState>, FluxDebugViewModelQueryLoggingScopesMiddleware<FluxDebugState>>();
+		services.Decorate<IMutationCommandDispatcher<FluxDebugState>, FluxDebugMutationCommandLoggingScopesMiddleware<FluxDebugState>>();
 	}
 
 	private static void RegisterLogging(IServiceCollection services)
 	{
-		var logger = new MemoryLogger();
-		services.AddSingleton(logger);
+		var provider = new MemoryLoggerProvider();
 		services.AddLogging(b =>
 		{
-			b.AddProvider(new MemoryLoggerProvider(logger));
-			b.AddFilter("Carlton.Core.Flux.Debug", LogLevel.None); // Apply the filter
+			b.AddProvider(provider);
 		});
-
-		services.AddSingleton<ILogger, MemoryLogger>();
+		services.AddSingleton(_ => (MemoryLogger)provider.CreateLogger(null));
 	}
 }
 

@@ -37,6 +37,11 @@ public sealed record FluxDebugLogMessage
 	public required DateTime Timestamp { get; init; }
 
 	/// <summary>
+	/// Gets the category of the log message.
+	/// </summary>
+	public required string Category { get; init; }
+
+	/// <summary>
 	/// Gets the dictionary of scopes associated with the message.
 	/// </summary>
 	public Dictionary<string, object> Scopes { get; init; } = [];

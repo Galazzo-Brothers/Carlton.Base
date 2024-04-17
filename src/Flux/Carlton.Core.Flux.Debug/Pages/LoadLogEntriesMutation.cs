@@ -18,6 +18,7 @@ internal sealed class LoadLogMessagesMutation : IFluxStateMutation<FluxDebugStat
 				EventId = log.EventId,
 				Exception = log.Exception?.ToExceptionSummary(),
 				Timestamp = log.Timestamp,
+				Category = log.Category,
 				Scopes = log.Scopes
 			}).ToList()
 		};
