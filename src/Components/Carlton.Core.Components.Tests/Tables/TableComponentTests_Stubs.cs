@@ -809,6 +809,6 @@ public class TableComponentTests_Stubs : TestContext
 		header.InvokeAsync(() => callback.InvokeAsync(new ItemsSortEventArgs(expectedOrderColumn, expectedIsAscending)));
 
 		//Assert
-		filteredItemsProp.GetValue(cut).ShouldBe(expectedOrderedItems);
+		filteredItemsProp.GetValue(cut.Instance).ShouldBe(expectedOrderedItems);
 	}
 }

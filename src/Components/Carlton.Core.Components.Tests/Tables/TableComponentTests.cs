@@ -819,7 +819,7 @@ public class TableComponentTests : TestContext
 		headerRowItems.ElementAt(expectedColumnIndex).Click();
 
 		//Assert
-		filteredItemsProp.GetValue(cut).ShouldBe(expectedItems);
+		filteredItemsProp.GetValue(cut.Instance).ShouldBe(expectedItems);
 	}
 
 	[Theory(DisplayName = "Header Click Twice Test")]
@@ -850,7 +850,7 @@ public class TableComponentTests : TestContext
 		cut.WaitForElement(".arrow-descending");
 
 		//Assert
-		filteredItemsProp.GetValue(cut).ShouldBe(expectedItems);
+		filteredItemsProp.GetValue(cut.Instance).ShouldBe(expectedItems);
 	}
 
 	[Theory(DisplayName = "Header Click Once, CSS Selected Class Test")]
