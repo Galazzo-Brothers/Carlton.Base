@@ -75,7 +75,8 @@ internal static class LogExtensions
 						};
 					}).OrderByDescending(x => x.ParentEntry.Timestamp).ToList();
 
-		static bool IsFluxActionPredicate(FluxDebugLogMessage log) => log.Scopes.Any(kvp => kvp.Key == "FluxAction");
+		static bool IsFluxActionPredicate(FluxDebugLogMessage log) => log.Scopes.Any(kvp => kvp.Key == "FluxAction") &&
+																	 !log.Scopes.Any(kvp => kvp.Key == "FluxDebug");
 	}
 
 	public static T GetScopeValue<T>(this FluxDebugLogMessage logMessage, string key)
@@ -83,7 +84,7 @@ internal static class LogExtensions
 		var valueExists = logMessage.Scopes.TryGetValue(key, out var value);
 
 		if (!valueExists || value == null)
-			throw new InvalidOperationException("Scope was not present on log message");
+			throw new InvalidOperationException($"Scope {key} was not present on log message");
 
 		return (T)value;
 	}
