@@ -78,7 +78,7 @@
 		font-weight: bold;
 		overflow: hidden;
 		transition: var(--dropdown-options-transition);
-		background-color: var(--card-background-color);
+		background-color: var(--component-background-color);
 		border: var(--dropdown-options-border);
 		border-radius: var(--dropdown-options-border-radius);
 	}
