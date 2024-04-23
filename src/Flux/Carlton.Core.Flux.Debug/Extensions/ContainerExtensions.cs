@@ -25,16 +25,17 @@ public static class ContainerExtensions
 		services.AddViewStateService<EventLogViewerFilterState>();
 		services.AddViewStateService<TraceLogTableExpandedRowsState>();
 
-		var debugState = new FluxDebugState();
+		services.AddSingleton(FluxTypes.Create<TState>());
+		services.AddSingleton<IFluxStateWrapper, FluxStateWrapper<TState>>();
+		services.AddSingleton<FluxDebugState>();
 
 		RegisterLogging(services);
 
-		services.AddCarltonFlux(debugState, opts =>
+		services.AddCarltonFlux<FluxDebugState>(opts =>
 		{
 			opts.AddHttpInterception = false;
 			opts.AddLocalStorage = false;
 		});
-
 
 		services.Decorate<IViewModelQueryDispatcher<FluxDebugState>, FluxDebugViewModelQueryLoggingScopesMiddleware<FluxDebugState>>();
 		services.Decorate<IMutationCommandDispatcher<FluxDebugState>, FluxDebugMutationCommandLoggingScopesMiddleware<FluxDebugState>>();

@@ -1,0 +1,48 @@
+﻿@namespace Carlton.Core.Flux.Debug.Components.StateViewer.ViewModelProjections
+@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Components.Dropdowns
+@using Carlton.Core.Utilities.Extensions
+@inject IServiceProvider ServiceProvider
+
+@* 
+    This Razor component displays a view model projection viewer. It allows users to select a view model type
+    from a dropdown list and view the projected view model in a JSON viewer console.
+*@
+<div class="view-model-projection-viewer">
+	<div class="view-model-selection">
+		<span class="view-model-label">View Model:</span>
+		<Dropdown T="Type"
+				  Options="ViewModelTypes.ToDictionary(x => x.GetDisplayName(), x => x)"
+				  OnValueChange="HandleUpdateViewModelProjection" />
+	</div>
+	<JsonViewerConsole Obj="ProjectedViewModel" IsReadOnly="true" />
+</div>
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the state object used for view model projection.
+	/// </summary>
+	[Parameter]
+	public object State { get; init; }
+
+
+	/// <summary>
+	/// Gets or sets the collection of view model types available for selection.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<Type> ViewModelTypes { get; set; }
+
+	private object ProjectedViewModel { get; set; }
+
+	private void HandleUpdateViewModelProjection(ValueChangeArgs<Type> args)
+	{
+		var mapper = ServiceProvider.GetService(typeof(IViewModelProjectionMapper<>).MakeGenericType(State.GetType()));
+		var mapperType = typeof(IViewModelProjectionMapper<>).MakeGenericType(State.GetType());
+		var method = mapperType.GetMethod("Map");
+		var genericMethod = method.MakeGenericMethod(args.SelectedValue);
+
+		ProjectedViewModel = genericMethod.Invoke(mapper, new object[] { State });
+	}
+}
+

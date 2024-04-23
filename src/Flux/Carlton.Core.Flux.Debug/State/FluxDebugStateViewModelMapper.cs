@@ -20,6 +20,13 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 	[MapProperty(nameof(FluxDebugState.SelectedTraceLogMessageIndex), nameof(TraceLogViewerViewModel.SelectedTraceLogMessageIndex))]
 	public partial TraceLogViewerViewModel ToTraceLogViewerViewModel(FluxDebugState state);
 
+	[MapProperty(nameof(FluxDebugState.State), nameof(FluxStateViewerViewModel.FluxState))]
+	public partial FluxStateViewerViewModel ToFluxStateViewerViewModel(FluxDebugState state);
+
+	[MapProperty(nameof(FluxDebugState.ViewModelTypes), nameof(ViewModelProjectionsViewerViewModel.ViewModelTypes))]
+	[MapProperty(nameof(FluxDebugState.State), nameof(ViewModelProjectionsViewerViewModel.FluxState))]
+	public partial ViewModelProjectionsViewerViewModel ToViewModelProjectionsViewerViewModel(FluxDebugState state);
+
 	public EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state)
 	{
 		return new EventLogViewerViewModel

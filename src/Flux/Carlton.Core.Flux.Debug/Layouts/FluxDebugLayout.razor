@@ -73,7 +73,7 @@ else
 		//Show the spinner
 		IsLoading = true;
 
-		// //Load the log messages
+		//Load the log messages
 		await Task.Run(async () =>
 		{
 			var command = new LoadLogMessagesCommand { LogMessages = MemoryLogger.GetLogMessages().ToList() };

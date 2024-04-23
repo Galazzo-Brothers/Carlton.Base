@@ -1,0 +1,14 @@
+﻿.view-model-projection-viewer {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.view-model-selection {
+	display: flex;
+	gap: 10px;
+}
+
+.view-model-selection {
+	color: var(--primary-text-color);
+}
