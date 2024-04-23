@@ -19,9 +19,11 @@ public static class ServiceCollectionExtensions
 	/// <param name="state">The initial state for the Flux application.</param>
 	/// <param name="options">An action to configure the Flux options.</param>
 	/// <remarks>
-	/// Use this method to register Carlton Flux services at startup, including state management and dependencies.
+	/// Use this method to register CarltonFlux framework at startup, including an initial state and options.
 	/// </remarks>
+	/// <seealso cref="FluxOptions"/>
 	public static void AddCarltonFlux<TState>(this IServiceCollection services, TState state, Action<FluxOptions>? options = null)
+		where TState : class
 	{
 		//Flux Options
 		var fluxOptions = new FluxOptions();
@@ -29,6 +31,27 @@ public static class ServiceCollectionExtensions
 
 		/*Flux State*/
 		RegisterFluxState(services, state);
+		RegisterFluxDependencies<TState>(services, fluxOptions);
+	}
+
+	/// <summary>
+	/// Adds Carlton Flux services to the specified <see cref="IServiceCollection"/>.
+	/// </summary>
+	/// <typeparam name="TState">The type of the Flux state.</typeparam>
+	/// <param name="services">The <see cref="IServiceCollection"/> to add the Flux services to.</param>
+	/// <param name="options">An action to configure Flux options.</param>
+	/// <remarks>
+	/// Use this method to register CarltonFlux framework at startup with options. The state will be pulled from the container.
+	/// </remarks>
+	/// <seealso cref="FluxOptions"/>
+	public static void AddCarltonFlux<TState>(this IServiceCollection services, Action<FluxOptions>? options = null)
+	{
+		//Flux Options
+		var fluxOptions = new FluxOptions();
+		options?.Invoke(fluxOptions);
+
+		/*Flux State*/
+		RegisterFluxState<TState>(services);
 		RegisterFluxDependencies<TState>(services, fluxOptions);
 	}
 
@@ -60,9 +83,17 @@ public static class ServiceCollectionExtensions
 	}
 
 	private static void RegisterFluxState<TState>(IServiceCollection services, TState state)
+		where TState : class
 	{
 		//Register State Wrappers
-		services.AddSingleton<IMutableFluxState<TState>>(sp => new FluxState<TState>(state, sp.GetService<IServiceProvider>()));
+		services.AddSingleton(state);
+		RegisterFluxState<TState>(services);
+	}
+
+	private static void RegisterFluxState<TState>(IServiceCollection services)
+	{
+		//Register State Wrappers
+		services.AddSingleton<IMutableFluxState<TState>>(sp => new FluxState<TState>(sp.GetService<TState>(), sp.GetService<IServiceProvider>()));
 		services.AddSingleton<IFluxState<TState>>(sp => sp.GetService<IMutableFluxState<TState>>());
 		services.AddSingleton<IFluxStateObserver<TState>>(sp => sp.GetService<IFluxState<TState>>());
 	}

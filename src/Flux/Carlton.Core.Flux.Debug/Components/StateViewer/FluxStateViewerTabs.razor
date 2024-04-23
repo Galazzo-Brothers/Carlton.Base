@@ -1,0 +1,18 @@
+﻿@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
+
+@* 
+<PageTabs>
+	<TabContent>
+		<!-- ViewModel Projections Tab -->
+		<Tab DisplayText="View Model Projections" Icon="mdi-projector">
+			<FluxDebugComponent TViewModel="ViewModelProjectionsViewerViewModel" />
+		</Tab>
+	</TabContent>
+</PageTabs>
+ *@
+
+@* ViewModel Projection Viewer SectionContent within the DashboardTabbedPanelLayout *@
+<SectionContent SectionId="DashboardTabbedPanelLayout.Tabs">
+	<FluxDebugComponent TViewModel="ViewModelProjectionsViewerViewModel" />
+</SectionContent>

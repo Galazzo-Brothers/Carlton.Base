@@ -1,0 +1,11 @@
+﻿@using Carlton.Core.Components.Consoles
+@inherits BaseConnectedComponent<FluxStateViewerViewModel>
+
+@*
+	This component displays the Flux state using a JSON viewer console.
+    The Flux state is provided by the ViewModel.FluxState property.
+*@
+<div class="flux-state-viewer">
+	<JsonViewerConsole IsReadOnly="true"
+					   Obj="ViewModel.FluxState" />
+</div>

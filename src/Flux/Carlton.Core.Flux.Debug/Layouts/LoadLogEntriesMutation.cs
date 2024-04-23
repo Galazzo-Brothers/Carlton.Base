@@ -1,5 +1,5 @@
 ﻿using Carlton.Core.Flux.Debug.Extensions;
-namespace Carlton.Core.Flux.Debug.Pages;
+namespace Carlton.Core.Flux.Debug.Layouts;
 
 internal sealed class LoadLogMessagesMutation : IFluxStateMutation<FluxDebugState, LoadLogMessagesCommand>
 {
