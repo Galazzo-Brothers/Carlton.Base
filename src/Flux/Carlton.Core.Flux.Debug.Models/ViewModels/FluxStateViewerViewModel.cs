@@ -6,8 +6,20 @@
 public sealed class FluxStateViewerViewModel
 {
 	/// <summary>
-	/// Gets or sets the Flux state object.
+	/// Gets the Flux state object.
 	/// </summary>
 	[Required]
-	public required object FluxState { get; init; }
+	public required object SelectedFluxState { get; init; }
+
+	/// <summary>
+	/// Gets the Recorded Mutations from the flux application.
+	/// </summary>
+	[Required]
+	public required IEnumerable<RecordedMutation> RecordedMutations { get; init; }
+
+	/// <summary>
+	/// Gets the selected mutation index.
+	/// </summary>
+	[Required]
+	public required int SelectedMutationIndex { get; init; }
 }

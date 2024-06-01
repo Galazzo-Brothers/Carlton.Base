@@ -5,5 +5,6 @@ internal enum FluxDebugStateEvents
 	LoadLogMessages,
 	LogsCleared,
 	SelectedLogMessageChanged,
-	SelectedTraceLogMessageChanged
+	SelectedTraceLogMessageChanged,
+	SelectedMutationCommandChanged
 }

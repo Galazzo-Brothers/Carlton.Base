@@ -1,20 +1,32 @@
 ﻿namespace Carlton.Core.Flux.Internals.State;
-internal sealed record RecordedMutation<TState>(Func<TState, object, TState> MutationFunc, object Command, string StateEvent);
 
-internal sealed class FluxState<TState>(TState _state, IServiceProvider _provider)
+internal sealed class FluxState<TState>
 	: IMutableFluxState<TState>
 {
 	public event Func<FluxStateChangedEventArgs, Task> StateChanged;
 
+	private readonly IServiceProvider _provider;
 	private readonly Queue<RecordedMutation<TState>> _recordedMutations = [];
 
-	public IReadOnlyCollection<RecordedMutation<TState>> RecordedMutations { get => _recordedMutations.ToList(); }
+	public IEnumerable<RecordedMutation<TState>> RecordedMutations { get => _recordedMutations.ToList(); }
 
-	public TState CurrentState { get; private set; } = _state;
+	public TState InitialState { get; init; }
 
-	private TState RollbackState { get; set; } = _state;
+	public TState CurrentState { get; private set; }
+
+	private TState RollbackState { get; set; }
 
 	private bool EventRecorded { get; set; } = false;
+
+	private int MutationIndex { get; set; } = 0;
+
+	public FluxState(TState state, IServiceProvider provider)
+	{
+		InitialState = CurrentState = RollbackState = state;
+		_provider = provider;
+		_recordedMutations.Enqueue(new RecordedMutation<TState>(MutationIndex, DateTime.Now, "Initial State", null, (state, cmd) => state));
+		MutationIndex++;
+	}
 
 	public async Task<Result<string, FluxError>> ApplyMutationCommand<TCommand>(TCommand command)
 	{
@@ -31,7 +43,8 @@ internal sealed class FluxState<TState>(TState _state, IServiceProvider _provide
 			CurrentState = mutation.Mutate(CurrentState, command);
 
 			//Record Mutation
-			_recordedMutations.Enqueue(new RecordedMutation<TState>(mutationFunc, command, mutation.StateEvent));
+			_recordedMutations.Enqueue(new RecordedMutation<TState>(MutationIndex, DateTime.Now, mutation.StateEvent, command, mutationFunc));
+			MutationIndex++;
 
 			//Event Recorded
 			EventRecorded = true;

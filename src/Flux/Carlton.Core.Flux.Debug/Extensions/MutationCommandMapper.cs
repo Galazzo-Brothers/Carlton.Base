@@ -1,7 +1,7 @@
 ﻿using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
+using Carlton.Core.Flux.Debug.Components.StateViewer;
 using Riok.Mapperly.Abstractions;
-
 namespace Carlton.Core.Flux.Debug.Extensions;
 
 [Mapper]
@@ -14,6 +14,9 @@ internal partial class MutationCommandMapper
 
 	[MapProperty(nameof(SelectedTraceLogMessageChangedArgs.SelectedTraceLogMessageIndex), nameof(ChangeSelectedTraceLogMessageCommand.SelectedTraceLogMessageIndex))]
 	internal static partial ChangeSelectedTraceLogMessageCommand ToCommand(SelectedTraceLogMessageChangedArgs args);
+
+	[MapProperty(nameof(SelectedMutationCommandChangedArgs.SelectedMutationCommandIndex), nameof(ChangeSelectedCommandMutationCommand.SelectedMutationCommandIndex))]
+	internal static partial ChangeSelectedCommandMutationCommand ToCommand(SelectedMutationCommandChangedArgs args);
 }
 
 

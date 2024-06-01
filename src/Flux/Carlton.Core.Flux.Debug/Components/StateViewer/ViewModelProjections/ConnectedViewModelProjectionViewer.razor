@@ -2,6 +2,7 @@
 @using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging;
 @using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.ContextDetails
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer.ViewModelProjections
+@attribute [ObserveStateEvent("SelectedMutationCommandChanged")]
 @inherits BaseConnectedComponent<ViewModelProjectionsViewerViewModel>
 
 @* This Razor component displays ViewModel projections based on the provided ViewModel types and FluxState. *@

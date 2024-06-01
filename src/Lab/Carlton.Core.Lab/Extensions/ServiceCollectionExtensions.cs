@@ -45,7 +45,7 @@ public static class ServiceCollectionExtensions
 		});
 
 		/*Flux Debug Registrations*/
-		services.AddCarltonFluxDebug(state);
+		services.AddCarltonFluxDebug<LabState>();
 	}
 }
 

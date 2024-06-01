@@ -1,0 +1,24 @@
+﻿/* Styles for the flux state viewer container */
+.flux-state-viewer {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	height: 100%;
+}
+
+/* Styles for the selected mutation label */
+.selected-mutation-label {
+	color: var(--primary-text-color);
+	font-weight: 600;
+}
+
+/* Styles for elements inside the component's shadow DOM */
+::deep .table-container {
+	width: 100%;
+	margin-right: 0px;
+}
+
+/* Styles for selected table rows inside the component's shadow DOM */
+::deep .table-row.selected {
+	background-color: var(--table-row-selected-background-color);
+}

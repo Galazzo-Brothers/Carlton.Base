@@ -20,12 +20,17 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 	[MapProperty(nameof(FluxDebugState.SelectedTraceLogMessageIndex), nameof(TraceLogViewerViewModel.SelectedTraceLogMessageIndex))]
 	public partial TraceLogViewerViewModel ToTraceLogViewerViewModel(FluxDebugState state);
 
-	[MapProperty(nameof(FluxDebugState.State), nameof(FluxStateViewerViewModel.FluxState))]
+	[MapProperty(nameof(FluxDebugState.SelectedState), nameof(FluxStateViewerViewModel.SelectedFluxState))]
+	[MapProperty(nameof(FluxDebugState.RecordedMutations), nameof(FluxStateViewerViewModel.RecordedMutations))]
+	[MapProperty(nameof(FluxDebugState.SelectedMutationIndex), nameof(FluxStateViewerViewModel.SelectedMutationIndex))]
 	public partial FluxStateViewerViewModel ToFluxStateViewerViewModel(FluxDebugState state);
 
 	[MapProperty(nameof(FluxDebugState.ViewModelTypes), nameof(ViewModelProjectionsViewerViewModel.ViewModelTypes))]
-	[MapProperty(nameof(FluxDebugState.State), nameof(ViewModelProjectionsViewerViewModel.FluxState))]
+	[MapProperty(nameof(FluxDebugState.SelectedState), nameof(ViewModelProjectionsViewerViewModel.FluxState))]
 	public partial ViewModelProjectionsViewerViewModel ToViewModelProjectionsViewerViewModel(FluxDebugState state);
+
+	[MapProperty(nameof(FluxDebugState.SelectedCommandMutation), nameof(MutationCommandViewerViewModel.SelectedMutationCommand))]
+	public partial MutationCommandViewerViewModel ToMutationCommandViewerViewModel(FluxDebugState state);
 
 	public EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state)
 	{

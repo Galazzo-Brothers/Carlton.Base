@@ -1,0 +1,12 @@
+﻿/* Styles for the mutation command viewer container */
+.mutation-command-viewer{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+/* Styles for the mutation command label */
+.mutation-command-label{
+	font-weight: 500;
+	color: var(--primary-text-color);
+}
