@@ -35,7 +35,7 @@
 	}
 
 	/* Remove Borders for Non-Header and Non-Pagination Rows */
-	.table-container.zebra ::deep.table-row:not(.header, .pagination) {
+	.table-container.zebra ::deep.table-row:not(.header-row, .pagination-row) {
 		border-bottom: none;
 		border-top: none;
 	}

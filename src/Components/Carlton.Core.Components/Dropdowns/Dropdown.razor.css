@@ -36,6 +36,7 @@
 	.dropdown input {
 		color: var(--primary-text-color);
 		width: 100%;
+		font-size: 12pt;
 		border: none;
 		background: none;
 		text-align: center;
