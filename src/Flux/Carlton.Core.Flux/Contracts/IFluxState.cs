@@ -1,4 +1,6 @@
-﻿namespace Carlton.Core.Flux.Contracts;
+﻿using Carlton.Core.Flux.Internals.State;
+
+namespace Carlton.Core.Flux.Contracts;
 
 /// <summary>
 /// Represents the event arguments for a state change event in a Flux architecture.
@@ -28,6 +30,16 @@ public interface IFluxState<TState> : IFluxStateObserver<TState>
 	/// Gets the current state of the Flux.
 	/// </summary>
 	public TState CurrentState { get; }
+
+	/// <summary>
+	/// Gets the initial state of the Flux.
+	/// </summary>
+	internal TState InitialState { get; }
+
+	/// <summary>
+	/// Gets the recorded mutations of the Flux state.
+	/// </summary>
+	internal IEnumerable<RecordedMutation<TState>> RecordedMutations { get; }
 }
 
 

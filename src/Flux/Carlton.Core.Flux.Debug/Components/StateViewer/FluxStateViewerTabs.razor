@@ -1,18 +1,17 @@
 ﻿@using Carlton.Core.Components.Tabs
 @using Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
 
-@* 
+@* Component representing the tabs for the Flux state viewer *@
 <PageTabs>
 	<TabContent>
 		<!-- ViewModel Projections Tab -->
 		<Tab DisplayText="View Model Projections" Icon="mdi-projector">
 			<FluxDebugComponent TViewModel="ViewModelProjectionsViewerViewModel" />
 		</Tab>
+		<!--Mutation Command Viewer Tab-->
+		<Tab DisplayText="Mutation Command Viewer" Icon="mdi-projector">
+			<FluxDebugComponent TViewModel="MutationCommandViewerViewModel" />
+		</Tab>
 	</TabContent>
 </PageTabs>
- *@
 
-@* ViewModel Projection Viewer SectionContent within the DashboardTabbedPanelLayout *@
-<SectionContent SectionId="DashboardTabbedPanelLayout.Tabs">
-	<FluxDebugComponent TViewModel="ViewModelProjectionsViewerViewModel" />
-</SectionContent>

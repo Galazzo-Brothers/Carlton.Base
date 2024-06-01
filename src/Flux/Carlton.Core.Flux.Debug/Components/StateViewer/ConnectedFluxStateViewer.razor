@@ -1,11 +1,13 @@
-﻿@using Carlton.Core.Components.Consoles
+﻿@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Components.Toggles
+@using Carlton.Core.Foundation.State
+@namespace Carlton.Core.Flux.Debug.Components.StateViewer
+@attribute [ObserveStateEvent("SelectedMutationCommandChanged")]
 @inherits BaseConnectedComponent<FluxStateViewerViewModel>
 
-@*
-	This component displays the Flux state using a JSON viewer console.
-    The Flux state is provided by the ViewModel.FluxState property.
-*@
-<div class="flux-state-viewer">
-	<JsonViewerConsole IsReadOnly="true"
-					   Obj="ViewModel.FluxState" />
-</div>
+@* Connected Component for displaying and inspecting application FluxState. *@
+<FluxStateViewer SelectedFluxState="ViewModel.SelectedFluxState"
+				 RecordedMutations="ViewModel.RecordedMutations"
+				 SelectedMutationIndex="ViewModel.SelectedMutationIndex"
+				 OnRecordedMutationSelected="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, ChangeSelectedCommandMutationCommand>" />

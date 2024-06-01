@@ -1,0 +1,55 @@
+﻿@namespace Carlton.Core.Flux.Debug.Components.StateViewer
+@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Components.Toggles
+
+@*
+	This component displays the Flux state using a JSON viewer console.
+    The Flux state is provided by the ViewModel.FluxState property.
+*@
+<div class="flux-state-viewer">
+	<span class="selected-mutation-label">Selected State: @SelectedRowLabel</span>
+	<ToggleSelect TValue="int" FirstOption="FirstKvp" SecondOption="SecondKvp" OnOptionChange="() => StateView=!StateView" />
+	@if (StateView)
+	{
+		<FluxStateViewerTable RecordedMutations="RecordedMutations"
+							  SelectedMutationIndex="SelectedMutationIndex"
+							  OnRecordedMutationSelected="OnRecordedMutationSelected" />
+	}
+	else
+	{
+		<JsonViewerConsole IsReadOnly="true" Obj="SelectedFluxState" />
+	}
+</div>
+
+@code {
+	private static KeyValuePair<string, int> FirstKvp = new KeyValuePair<string, int>("JSON State", 1);
+	private static KeyValuePair<string, int> SecondKvp = new KeyValuePair<string, int>("Audit Table", 2);
+
+	/// <summary>
+	/// Gets or sets the recorded mutations.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<RecordedMutation> RecordedMutations { get; set; }
+
+	/// <summary>
+	/// Gets or sets the index of the selected mutation.
+	/// </summary>
+	[Parameter]
+	public int SelectedMutationIndex { get; set; }
+
+	/// <summary>
+	/// Gets or sets the selected Flux state.
+	/// </summary>
+	[Parameter]
+	public object SelectedFluxState { get; set; }
+
+	/// <summary>
+	/// Event callback invoked when a recorded mutation is selected.
+	/// </summary>
+	[Parameter]
+	public EventCallback<SelectedMutationCommandChangedArgs> OnRecordedMutationSelected { get; set; }
+
+	private bool StateView { get; set; }
+	private string SelectedRowLabel => SelectedMutationIndex == 1 ? "Initial State" : $"Mutation {SelectedMutationIndex + 1}";
+}

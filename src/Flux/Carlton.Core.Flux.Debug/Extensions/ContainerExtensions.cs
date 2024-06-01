@@ -18,7 +18,7 @@ public static class ContainerExtensions
 	/// <typeparam name="TState">The type of the state used by Carlton Flux.</typeparam>
 	/// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
 	/// <param name="state">The initial state for Carlton Flux.</param>
-	public static void AddCarltonFluxDebug<TState>(this IServiceCollection services, TState state)
+	public static void AddCarltonFluxDebug<TState>(this IServiceCollection services)
 	{
 		services.AddViewStateService<TableInteractionState>(nameof(EventLogTable));
 		services.AddViewStateService<TableInteractionState>(nameof(TraceLogTable));
