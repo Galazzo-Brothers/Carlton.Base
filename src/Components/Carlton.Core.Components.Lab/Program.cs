@@ -9,6 +9,7 @@ using Carlton.Core.Components.Pills;
 using Carlton.Core.Components.Spinners;
 using Carlton.Core.Components.Tables;
 using Carlton.Core.Components.Toasts;
+using Carlton.Core.Components.Toggles;
 using Carlton.Core.Lab.Extensions;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Components.Lab;
@@ -47,6 +48,7 @@ public static class Program
 			.AddComponentState<ActionButton>("Default", ButtonTestStates.ActionButtonState)
 			.AddComponentState<IconButton>("Default", ButtonTestStates.IconButtonState)
 			.AddComponentState<LinkButton>("Default", ButtonTestStates.LinkButtonState)
+			.AddComponentState<ToggleSelect<int>>("Default", ToggleTestStates.DefaultState)
 			.AddComponentState<ProfileAvatarDropdown>(ProfileAvatarTestStates.DefaultState)
 			.AddComponentState<BreadCrumbs>("Carrot MultiCrumb", BreadCrumbsTestStates.CarrotMultiCrumb)
 			.AddComponentState<BreadCrumbs>("Carrot SingleCrumb", BreadCrumbsTestStates.CarrotSingleCrumb)
