@@ -1,0 +1,66 @@
+﻿@using System.Text.Json.Serialization
+@typeparam TValue
+
+@* Represents a toggle select component for switching between two states. *@
+<div class="toggle-select">
+	<!-- First Option -->
+	<input type="radio" class="left @InputCheckedValue(ToggleSelectOption.FirstOption)" id="option1" value="@FirstOption.Value" @onclick="() => HandleOptionChange(ToggleSelectOption.FirstOption)">
+	<label for="option1" class="selector-option" role="button">
+		@FirstOption.Key
+	</label>
+	<!-- Second Option -->
+	<input type="radio" name="selector" class="right @InputCheckedValue(ToggleSelectOption.SecondOption)" id="option2" value="@FirstOption.Value" @onclick="() => HandleOptionChange(ToggleSelectOption.SecondOption)">
+	<label for="option2" class="selector-option" role="button">
+		@SecondOption.Key
+	</label>
+	<!-- Selection Button -->
+	<div class="button"></div>
+</div>
+
+@code {
+	/// <summary>
+	/// Gets or sets the first option of the toggle select.
+	/// </summary>
+	[Parameter]
+	public KeyValuePair<string, TValue> FirstOption { get; set; }
+
+	/// <summary>
+	/// Gets or sets the second option of the toggle select.
+	/// </summary>
+	[Parameter]
+	public KeyValuePair<string, TValue> SecondOption { get; set; }
+
+	/// <summary>
+	/// Gets or sets the currently selected option of the toggle select.
+	/// Default value is <see cref="ToggleSelectOption.FirstOption"/>.
+	/// </summary>
+	[Parameter]
+	public ToggleSelectOption SelectedOption { get; set; } = ToggleSelectOption.FirstOption;
+
+	/// <summary>
+	/// Event callback that is invoked when the selected option changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<int> OnOptionChange { get; set; }
+
+	/// <summary>
+	/// Enumeration representing the options of the toggle select.
+	/// </summary>
+	[JsonConverter(typeof(JsonStringEnumConverter))]
+	public enum ToggleSelectOption
+	{
+		FirstOption = 1,
+		SecondOption = 2
+	}
+
+	private void HandleOptionChange(ToggleSelectOption selectedOption)
+	{
+		SelectedOption = selectedOption;
+		OnOptionChange.InvokeAsync((int)selectedOption);
+	}
+
+	private string InputCheckedValue(ToggleSelectOption toggleSelectOption) =>
+		new CssBuilder("radio-input")
+		.AddClass("checked", SelectedOption == toggleSelectOption)
+		.Build();
+}
