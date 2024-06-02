@@ -6,7 +6,6 @@
 
 @*  Component for displaying event log viewer with filters and table. *@
 <div class="log-viewer">
-
 	<!-- Log Filters -->
 	<div class="log-filters">
 		<EventLogLevelFilter LogLevel="LogLevel.Trace" LogLevelIncluded="FilterIsActive(LogLevel.Trace)" Count="GetCountByLevel(LogLevel.Trace)" OnIncludeLogLevelChange="(isIncluded) => HandleLogLevelIncludesChanged(LogLevel.Trace, isIncluded)" />

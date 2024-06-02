@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
+﻿using Carlton.Core.Components.Toggles;
+using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
 using Carlton.Core.Flux.Extensions;
 using Carlton.Core.Foundation.State;
@@ -39,6 +40,7 @@ public static class ContainerExtensions
 
 		services.Decorate<IViewModelQueryDispatcher<FluxDebugState>, FluxDebugViewModelQueryLoggingScopesMiddleware<FluxDebugState>>();
 		services.Decorate<IMutationCommandDispatcher<FluxDebugState>, FluxDebugMutationCommandLoggingScopesMiddleware<FluxDebugState>>();
+		services.AddSingleton<IViewStateService<ToggleSelectOption>, ViewStateService<ToggleSelectOption>>();
 	}
 
 	private static void RegisterLogging(IServiceCollection services)
