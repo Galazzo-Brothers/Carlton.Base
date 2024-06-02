@@ -31,8 +31,8 @@ public class StateTests
 		//Assert
 		sut.CurrentState.ShouldBe(expectedState);
 		sut.RecordedMutations.ShouldNotBeEmpty();
-		sut.RecordedMutations.First().Command.ShouldBe(command);
-		sut.RecordedMutations.First().StateEvent.ShouldBe(mutation.StateEvent);
+		sut.RecordedMutations.Last().Command.ShouldBe(command);
+		sut.RecordedMutations.Last().StateEvent.ShouldBe(mutation.StateEvent);
 		eventRaised.ShouldBeTrue();
 		actualStateEventRaised.ShouldBe(mutation.StateEvent);
 	}
@@ -48,7 +48,7 @@ public class StateTests
 		//Assert
 		result.IsSuccess.ShouldBeFalse();
 		result.GetError().ShouldBeOfType<MutationNotRegisteredError>();
-		sut.RecordedMutations.ShouldBeEmpty();
+		sut.RecordedMutations.Count().ShouldBe(1);
 	}
 
 	[Theory, AutoNSubstituteData]
@@ -66,7 +66,7 @@ public class StateTests
 		//Assert
 		result.IsSuccess.ShouldBeFalse();
 		result.GetError().ShouldBeOfType<MutationError>();
-		sut.RecordedMutations.ShouldBeEmpty();
+		sut.RecordedMutations.Count().ShouldBe(1);
 	}
 
 	[Theory, AutoNSubstituteData]
@@ -100,6 +100,7 @@ public class StateTests
 		//Arrange
 		var currentStateProp = typeof(FluxState<TestState>).GetProperty("CurrentState", BindingFlags.Public | BindingFlags.Instance);
 		var rollbackStateProp = typeof(FluxState<TestState>).GetProperty("RollbackState", BindingFlags.NonPublic | BindingFlags.Instance);
+		var expectedCount = sut.RecordedMutations.Count();
 		provider.SetupServiceProvider<IFluxStateMutation<TestState, TestCommand>>(mutation);
 		sut.StateChanged += (args) =>
 		{
@@ -110,7 +111,7 @@ public class StateTests
 		await sut.ApplyMutationCommand(command);
 
 		//Assert
-		sut.RecordedMutations.ShouldBeEmpty();
+		sut.RecordedMutations.Count().ShouldBe(expectedCount);
 		sut.CurrentState.ShouldBe(rollbackStateProp.GetValue(sut));
 	}
 }
