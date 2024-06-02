@@ -42,22 +42,15 @@
 	/// Event callback that is invoked when the selected option changes.
 	/// </summary>
 	[Parameter]
-	public EventCallback<int> OnOptionChange { get; set; }
-
-	/// <summary>
-	/// Enumeration representing the options of the toggle select.
-	/// </summary>
-	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public enum ToggleSelectOption
-	{
-		FirstOption = 1,
-		SecondOption = 2
-	}
+	public EventCallback<ToggleSelectOption> OnOptionChange { get; set; }
 
 	private void HandleOptionChange(ToggleSelectOption selectedOption)
 	{
+		if (SelectedOption == selectedOption)
+			return;
+
 		SelectedOption = selectedOption;
-		OnOptionChange.InvokeAsync((int)selectedOption);
+		OnOptionChange.InvokeAsync(selectedOption);
 	}
 
 	private string InputCheckedValue(ToggleSelectOption toggleSelectOption) =>
