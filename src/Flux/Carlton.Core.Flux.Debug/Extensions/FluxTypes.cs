@@ -10,7 +10,7 @@ internal class FluxTypes
 
 	private FluxTypes() { }
 
-	public static FluxTypes Create<TState>()
+	public static FluxTypes Create<TState>(IEnumerable<Type> ignoreTypes = null)
 	{
 		var vmTypes = new List<Type>();
 		var commandTypes = new List<Type>();
@@ -25,7 +25,8 @@ internal class FluxTypes
 				var genericType = type.BaseType?.GetGenericArguments().FirstOrDefault();
 				if (genericType != null)
 				{
-					vmTypes.Add(genericType);
+					if (ignoreTypes == null || !ignoreTypes.Contains(genericType))
+						vmTypes.Add(genericType);
 				}
 			}
 
