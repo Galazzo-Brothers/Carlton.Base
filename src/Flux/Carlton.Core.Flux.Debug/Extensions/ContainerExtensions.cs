@@ -19,14 +19,14 @@ public static class ContainerExtensions
 	/// <typeparam name="TState">The type of the state used by Carlton Flux.</typeparam>
 	/// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
 	/// <param name="state">The initial state for Carlton Flux.</param>
-	public static void AddCarltonFluxDebug<TState>(this IServiceCollection services)
+	public static void AddCarltonFluxDebug<TState>(this IServiceCollection services, params Type[] ignoreTypes)
 	{
 		services.AddViewStateService<TableInteractionState>(nameof(EventLogTable));
 		services.AddViewStateService<TableInteractionState>(nameof(TraceLogTable));
 		services.AddViewStateService<EventLogViewerFilterState>();
 		services.AddViewStateService<TraceLogTableExpandedRowsState>();
 
-		services.AddSingleton(FluxTypes.Create<TState>());
+		services.AddSingleton(FluxTypes.Create<TState>(ignoreTypes));
 		services.AddSingleton<IFluxStateWrapper, FluxStateWrapper<TState>>();
 		services.AddSingleton<FluxDebugState>();
 
@@ -41,6 +41,7 @@ public static class ContainerExtensions
 		services.Decorate<IViewModelQueryDispatcher<FluxDebugState>, FluxDebugViewModelQueryLoggingScopesMiddleware<FluxDebugState>>();
 		services.Decorate<IMutationCommandDispatcher<FluxDebugState>, FluxDebugMutationCommandLoggingScopesMiddleware<FluxDebugState>>();
 		services.AddSingleton<IViewStateService<ToggleSelectOption>, ViewStateService<ToggleSelectOption>>();
+		services.AddSingleton<IViewStateService<int>, ViewStateService<int>>();
 	}
 
 	private static void RegisterLogging(IServiceCollection services)

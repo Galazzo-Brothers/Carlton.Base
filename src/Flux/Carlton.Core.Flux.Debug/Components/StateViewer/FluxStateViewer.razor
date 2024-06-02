@@ -3,7 +3,7 @@
 @using Carlton.Core.Components.Toggles
 @using Carlton.Core.Foundation.Web.ViewState
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer
-@inject IViewStateService<ToggleSelectOption> ViewStateService
+
 
 @*
 	This component displays the Flux state using a JSON viewer console.
@@ -14,8 +14,8 @@
 	<ToggleSelect TValue="int"
 				  FirstOption="FirstKvp"
 				  SecondOption="SecondKvp"
-				  SelectedOption="ViewStateService.ViewState"
-				  OnOptionChange="OnToggleChange" />
+				  SelectedOption="SelectedToggleOption"
+				  OnOptionChange="HandleToggleChange" />
 
 	@if (SelectedToggleOption == ToggleSelectOption.FirstOption)
 	{
@@ -53,30 +53,32 @@
 	public object SelectedFluxState { get; set; }
 
 	/// <summary>
+	/// Gets or sets the selected toggle option.
+	/// </summary>
+	[Parameter]
+	public ToggleSelectOption SelectedToggleOption { get; set; } = ToggleSelectOption.FirstOption;
+
+	/// <summary>
 	/// Event callback invoked when a recorded mutation is selected.
 	/// </summary>
 	[Parameter]
 	public EventCallback<SelectedMutationCommandChangedArgs> OnRecordedMutationSelected { get; set; }
 
-	private ToggleSelectOption SelectedToggleOption { get; set; } = ToggleSelectOption.FirstOption;
+	/// <summary>
+	/// Event callback invoked when the view toggle is changed.
+	/// </summary>
+	[Parameter]
+	public EventCallback<ToggleSelectOption> OnToggleSelectChange { get; set; }
+
 	private string SelectedRowLabel => SelectedMutationIndex == 1 ? "Initial State" : $"Mutation {SelectedMutationIndex + 1}";
 
-	protected override void OnInitialized()
-	{
-		if (ViewStateService.ViewState == 0)
-			ViewStateService.UpdateViewState(ToggleSelectOption.FirstOption);
-
-		SelectedToggleOption = ViewStateService.ViewState;
-		base.OnInitialized();
-	}
-
-	private void OnToggleChange()
+	private void HandleToggleChange(ToggleSelectOption toggleSelectOption)
 	{
 		if (SelectedToggleOption == ToggleSelectOption.FirstOption)
 			SelectedToggleOption = ToggleSelectOption.SecondOption;
 		else
 			SelectedToggleOption = ToggleSelectOption.FirstOption;
 
-		ViewStateService.UpdateViewState(SelectedToggleOption);
+		OnToggleSelectChange.InvokeAsync(toggleSelectOption);
 	}
 }

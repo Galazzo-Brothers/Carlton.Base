@@ -7,7 +7,7 @@
 @inherits BaseConnectedComponent<FluxStateViewerViewModel>
 
 @* Connected Component for displaying and inspecting application FluxState. *@
-<FluxStateViewer SelectedFluxState="ViewModel.SelectedFluxState"
-				 RecordedMutations="ViewModel.RecordedMutations"
-				 SelectedMutationIndex="ViewModel.SelectedMutationIndex"
-				 OnRecordedMutationSelected="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, ChangeSelectedCommandMutationCommand>" />
+<ViewStateFluxStateViewer SelectedFluxState="ViewModel.SelectedFluxState"
+						  RecordedMutations="ViewModel.RecordedMutations"
+						  SelectedMutationIndex="ViewModel.SelectedMutationIndex"
+						  OnRecordedMutationSelected="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, ChangeSelectedCommandMutationCommand>" />

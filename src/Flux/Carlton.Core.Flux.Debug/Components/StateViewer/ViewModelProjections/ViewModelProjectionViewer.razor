@@ -1,10 +1,11 @@
-﻿@namespace Carlton.Core.Flux.Debug.Components.StateViewer.ViewModelProjections
-@using Carlton.Core.Components.Consoles
+﻿@using Carlton.Core.Components.Consoles
 @using Carlton.Core.Components.Dropdowns
+@using Carlton.Core.Foundation.Web.ViewState
 @using Carlton.Core.Utilities.Extensions
+@namespace Carlton.Core.Flux.Debug.Components.StateViewer.ViewModelProjections
 @inject IServiceProvider ServiceProvider
 
-@* 
+@*
     This Razor component displays a view model projection viewer. It allows users to select a view model type
     from a dropdown list and view the projected view model in a JSON viewer console.
 *@
@@ -13,6 +14,7 @@
 		<span class="view-model-label">View Model:</span>
 		<Dropdown T="Type"
 				  Options="ViewModelTypes.ToDictionary(x => x.GetDisplayName(), x => x)"
+				  InitialSelectedIndex="SelectedIndex"
 				  OnValueChange="HandleUpdateViewModelProjection" />
 	</div>
 	<JsonViewerConsole Obj="ProjectedViewModel" IsReadOnly="true" />
@@ -26,21 +28,45 @@
 	[Parameter]
 	public object State { get; init; }
 
-
 	/// <summary>
 	/// Gets or sets the collection of view model types available for selection.
 	/// </summary>
 	[Parameter]
 	public IEnumerable<Type> ViewModelTypes { get; set; }
 
+	/// <summary>
+	/// Gets or sets the selected index of the current view model.
+	/// </summary>
+	[Parameter]
+	public int SelectedIndex { get; set; }
+
+	/// <summary>
+	/// Gets or sets the event callback for view model change. 
+	/// </summary>
+	[Parameter]
+	public EventCallback<int> OnViewModelChange { get; set; }
+
 	private object ProjectedViewModel { get; set; }
 
+	protected override void OnParametersSet()
+	{
+		if (SelectedIndex != -1 && SelectedIndex != 0)
+			GenerateProjection(ViewModelTypes.ElementAt(SelectedIndex));
+		base.OnParametersSet();
+	}
+
 	private void HandleUpdateViewModelProjection(ValueChangeArgs<Type> args)
+	{
+		GenerateProjection(args.SelectedValue);
+		OnViewModelChange.InvokeAsync(args.SelectedIndex);
+	}
+
+	private void GenerateProjection(Type selectedViewModelType)
 	{
 		var mapper = ServiceProvider.GetService(typeof(IViewModelProjectionMapper<>).MakeGenericType(State.GetType()));
 		var mapperType = typeof(IViewModelProjectionMapper<>).MakeGenericType(State.GetType());
 		var method = mapperType.GetMethod("Map");
-		var genericMethod = method.MakeGenericMethod(args.SelectedValue);
+		var genericMethod = method.MakeGenericMethod(selectedViewModelType);
 
 		ProjectedViewModel = genericMethod.Invoke(mapper, new object[] { State });
 	}
