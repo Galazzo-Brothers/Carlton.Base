@@ -10,7 +10,7 @@
 		@FirstOption.Key
 	</label>
 	<!-- Second Option -->
-	<input type="radio" name="selector" class="right @InputCheckedValue(ToggleSelectOption.SecondOption)" id="option2" value="@FirstOption.Value" @onclick="() => HandleOptionChange(ToggleSelectOption.SecondOption)">
+	<input type="radio" name="selector" class="right @InputCheckedValue(ToggleSelectOption.SecondOption)" id="option2" value="@SecondOption.Value" @onclick="() => HandleOptionChange(ToggleSelectOption.SecondOption)">
 	<label for="option2" class="selector-option" role="button">
 		@SecondOption.Key
 	</label>
