@@ -5,13 +5,15 @@ namespace Carlton.Core.Components.Tests.Dropdowns;
 public class DropdownComponentTests : TestContext
 {
 	[Theory(DisplayName = "Markup Test")]
-	[InlineAutoData(true)]
-	[InlineAutoData(false)]
+	[InlineAutoData(true, true)]
+	[InlineAutoData(true, false)]
+	[InlineAutoData(false, true)]
+	[InlineAutoData(false, false)]
 	public void Dropdown_Markup_RendersCorrectly(
 		bool expectedIsDisabled,
+		bool expectedIsPristineEnabled,
 		IReadOnlyDictionary<string, int> expectedItems,
-		string expectedLabelText,
-		bool expectedIsPristineEnabled)
+		string expectedLabelText)
 	{
 		//Arrange
 		var expectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
@@ -177,6 +179,31 @@ public class DropdownComponentTests : TestContext
 		valueDisplay.ShouldBe(selectedKey);
 	}
 
+	[Theory(DisplayName = "IsPristineEnabled Parameter Test")]
+	[InlineAutoData(true)]
+	[InlineAutoData(false)]
+	public void Dropdown_IsPristineEnabledParameter_RendersCorrectly(
+		bool expectedIsPristineEnabled,
+		IReadOnlyDictionary<string, int> expectedItems,
+		string expectedLabelText)
+	{
+		//Arrange
+		var expectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
+
+		//Act
+		var cut = RenderComponent<Dropdown<int>>(parameters => parameters
+			  .Add(p => p.Options, expectedItems)
+			  .Add(p => p.Label, expectedLabelText)
+			  .Add(p => p.IsDisabled, false)
+			  .Add(p => p.IsPristineEnabled, expectedIsPristineEnabled));
+
+		var value = cut.Find("input").GetAttribute("value");
+		var expectedValue = expectedIsPristineEnabled ? null : expectedItems.First().Key.ToString();
+
+		//Assert
+		value.ShouldBe(expectedValue);
+	}
+
 	[Theory(DisplayName = "ValueChangedCallback Parameter Test"), AutoData]
 	public void Dropdown_ValueChangedCallbackParameter_FiresCallback(
 		IReadOnlyDictionary<string, int> expectedItems,
@@ -227,9 +254,35 @@ public class DropdownComponentTests : TestContext
 			  .Add(p => p.IsPristineEnabled, expectedIsPristineEnabled));
 
 		//Assert
-		Should.Throw<ArgumentException>(act, "SelctedIndex must be greater than 0 and less than the options count");
+		Should.Throw<ArgumentException>(act, "SelectedIndex must be greater than 0 and less than the options count");
 	}
 
+	[Theory(DisplayName = "Select Option Test"), AutoData]
+	public void Dropdown_SelectOption_ReturnsCorrectValues(
+		IReadOnlyDictionary<string, int> expectedItems,
+		string expectedLabelText,
+		bool expectedIsPristineEnabled)
+	{
+		//Arrange
+		var expectedIndex = RandomUtilities.GetRandomIndex(expectedItems.Count);
+		var cut = RenderComponent<Dropdown<int>>(parameters => parameters
+			  .Add(p => p.Options, expectedItems)
+			  .Add(p => p.Label, expectedLabelText)
+			  .Add(p => p.IsDisabled, false)
+			  .Add(p => p.IsPristineEnabled, expectedIsPristineEnabled));
+
+		var optionToClick = cut.FindAll(".option").ElementAt(expectedIndex);
+		var expectedKey = expectedItems.ElementAt(expectedIndex).Key;
+		var expectedValue = expectedItems.ElementAt(expectedIndex).Value;
+
+		//Act
+		optionToClick.Click();
+
+		//Assert
+		cut.Instance.SelectedIndex.ShouldBe(expectedIndex);
+		cut.Instance.SelectedKey.ShouldBe(expectedKey);
+		cut.Instance.SelectedValue.ShouldBe(expectedValue);
+	}
 
 	private static string BuildExpectedMarkup(string labelText, string selectedItem, bool isDisabled, bool isPristineEnabled, IReadOnlyDictionary<string, int> options)
 	{
@@ -239,7 +292,7 @@ public class DropdownComponentTests : TestContext
 
 		return
 		@$"
-        <div class=""dropdown""><input readonly class=""dropdown-input {(isDisabled ? "disabled" : string.Empty)}"" placeholder="" "" value=""{(isPristineEnabled ? null : selectedItem)}"" />
+        <div class=""dropdown""><input readonly class=""dropdown-input {(isDisabled ? "disabled" : string.Empty)}"" placeholder="" "" {(!isPristineEnabled ? $"value={selectedItem}" : string.Empty)} />
             <div class=""label"">{labelText}</div>
             <div {(isDisabled ? "disabled = \"\"" : string.Empty)} class=""options"">
                 {optionsMarkup}
