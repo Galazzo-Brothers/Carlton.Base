@@ -4,11 +4,11 @@
 @using Carlton.Core.Foundation.Web.ViewState
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer
 
-
 @*
 	This component displays the Flux state using a JSON viewer console.
-    The Flux state is provided by the ViewModel.FluxState property.
+	The Flux state is provided by the ViewModel.FluxState property.
 *@
+
 <div class="flux-state-viewer">
 	<span class="selected-mutation-label">Selected State: @SelectedRowLabel</span>
 	<ToggleSelect TValue="int"
