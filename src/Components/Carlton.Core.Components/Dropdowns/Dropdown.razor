@@ -81,7 +81,7 @@
 	protected override void OnInitialized()
 	{
 		if (InitialSelectedIndex < 0 || InitialSelectedIndex >= Options.Count)
-			throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
+			throw new ArgumentException("SelectedIndex must be greater than 0 and less than the options count");
 
 		SelectedIndex = PreviousIndex = InitialSelectedIndex;
 		base.OnInitialized();
@@ -90,7 +90,7 @@
 	protected override void OnParametersSet()
 	{
 		if (InitialSelectedIndex < 0 || InitialSelectedIndex >= Options.Count)
-			throw new ArgumentException("SelctedIndex must be greater than 0 and less than the options count");
+			throw new ArgumentException("SelectedIndex must be greater than 0 and less than the options count");
 
 		//SelectedIndex Parameter has been modified by parent
 		if(PreviousIndex != InitialSelectedIndex)
