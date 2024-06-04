@@ -17,3 +17,6 @@
 	color: var(--primary-text-color);
 }
 
+::deep .dropdown {
+	min-width: 250px;
+}

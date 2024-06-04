@@ -7,7 +7,8 @@
 	   Items="RecordedMutations"
 	   ZebraStripped="true"
 	   SortableHeadersEnabled="false"
-	   ShowPaginationRow="false">
+	   ShowPaginationRow="true"
+	   RowsPerPageOptions="RowsPerPageOpts">
 	<RowTemplate Context="item">
 		<div class="@(TableRowCss(item.MutationIndex))">
 			<div class="table-cell selected"><span class="cell-text">@item.MutationIndex</span></div>
@@ -46,6 +47,8 @@
 		new TableHeadingItem("Remote Server Called"),
 		new TableHeadingItem("Select Mutation")
 	};
+
+	private IEnumerable<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
 
 	private string TableRowCss(int index) =>
 		new CssBuilder("table-row")
