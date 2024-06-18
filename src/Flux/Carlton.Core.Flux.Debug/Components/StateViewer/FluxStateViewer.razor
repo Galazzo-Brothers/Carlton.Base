@@ -1,22 +1,41 @@
 ﻿@using Carlton.Core.Components.Buttons
 @using Carlton.Core.Components.Consoles
+@using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Toasts
 @using Carlton.Core.Components.Toggles
 @using Carlton.Core.Foundation.Web.ViewState
+@using Carlton.Core.LayoutServices.Modals
+@using Carlton.Core.LayoutServices.Toasts
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer
+@inject NavigationManager NavigationManager
+@inject IModalState ModalState
+@inject IToastState ToastState
 
 @*
 	This component displays the Flux state using a JSON viewer console.
 	The Flux state is provided by the ViewModel.FluxState property.
 *@
-
 <div class="flux-state-viewer">
+	<!-- Current Mutation Label -->
 	<span class="selected-mutation-label">Selected State: @SelectedRowLabel</span>
-	<ToggleSelect TValue="int"
-				  FirstOption="FirstKvp"
-				  SecondOption="SecondKvp"
-				  SelectedOption="SelectedToggleOption"
-				  OnOptionChange="HandleToggleChange" />
 
+	<!-- Flux State Actions -->
+	<div class="flux-state-actions">
+		<ToggleSelect TValue="int"
+					  FirstOption="FirstKvp"
+					  SecondOption="SecondKvp"
+					  SelectedOption="SelectedToggleOption"
+					  OnOptionChange="HandleToggleChange" />
+
+		<div class="flux-state-action-btns">
+			<IconButton Icon="plus" />
+			<IconButton Icon="upload" />
+			<IconButton Icon="download" OnClick="DownloadFile" />
+			<IconButton Icon="delete" IsDisabled="SelectedMutationIndex != RecordedMutations.ToList().Count() - 1" OnClick="RaisePopMutationConfirmationModal" />
+		</div>
+	</div>
+
+	<!-- Flux State View -->
 	@if (SelectedToggleOption == ToggleSelectOption.FirstOption)
 	{
 		<JsonViewerConsole IsReadOnly="true" Obj="SelectedFluxState" />
@@ -70,6 +89,12 @@
 	[Parameter]
 	public EventCallback<ToggleSelectOption> OnToggleSelectChange { get; set; }
 
+	/// <summary>
+	/// Event callback invoked when a mutation is popped and reverted.
+	/// </summary>
+	[Parameter]
+	public EventCallback OnPopMutation { get; set; }
+
 	private string SelectedRowLabel => SelectedMutationIndex == 1 ? "Initial State" : $"Mutation {SelectedMutationIndex + 1}";
 
 	private void HandleToggleChange(ToggleSelectOption toggleSelectOption)
@@ -80,5 +105,38 @@
 			SelectedToggleOption = ToggleSelectOption.FirstOption;
 
 		OnToggleSelectChange.InvokeAsync(toggleSelectOption);
+	}
+
+	private void RaisePopMutationConfirmationModal()
+	{
+		ModalState.RaiseModal(ModalTypes.ConfirmationModal.ToString(),
+			new ModalViewModel
+				{
+					Prompt = "Are you sure",
+					Message = "Are you sure you want to revert this mutation?",
+					CloseModal = CloseModal,
+					DismissModal = null
+				});
+	}
+
+	private async Task CloseModal(ModalCloseEventArgs args)
+	{
+		if (!args.UserConfirmed)
+			return;
+
+		await OnPopMutation.InvokeAsync();
+		ToastState.RaiseToast("Success", "The mutation has been reverted", ToastTypes.Success.ToString());
+	}
+
+	private async Task DownloadFile()
+	{
+		// // Generate the file content
+		// string fileContent = "File Content";
+
+		// // Create a data URI representing the file content
+		// string dataUri = $"data:text/plain;charset=utf-8,{Uri.EscapeDataString(fileContent)}";
+
+		// // Navigate to the data URI to trigger the download
+		// NavigationManager.NavigateTo(dataUri, forceLoad: true);
 	}
 }

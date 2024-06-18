@@ -1,20 +1,39 @@
 ﻿@namespace Carlton.Core.Components.Buttons
 
 @* Represents an icon button that triggers an action when clicked. *@
-<div class="icon-btn" @onclick="OnClick">
+<div class="@IconBtnCss" @onclick="BtnClick">
     <span class="mdi mdi-24px mdi-@(Icon)"></span>
 </div>
 
 @code {
-    /// <summary>
-    /// Gets or sets the icon displayed on the button.
-    /// </summary>
-    [Parameter]
-    public string Icon { get; set; }
-  
-    /// <summary>
-    /// Event callback invoked when the button is clicked.
-    /// </summary>
-    [Parameter]
-    public EventCallback OnClick { get; set; }
+	/// <summary>
+	/// Gets or sets the icon displayed on the button.
+	/// </summary>
+	[Parameter]
+	public string Icon { get; set; }
+
+	/// <summary>
+	///  Gets or sets the disabled state of the button.
+	/// </summary>
+	[Parameter]
+	public bool IsDisabled { get; set; }
+
+	/// <summary>
+	/// Event callback invoked when the button is clicked.
+	/// </summary>
+	[Parameter]
+	public EventCallback OnClick { get; set; }
+
+	private async Task BtnClick()
+	{
+		if (IsDisabled)
+			return;
+
+		await OnClick.InvokeAsync(new object());
+	}
+
+	private string IconBtnCss => 
+		new CssBuilder("icon-btn")
+			.AddClass("disabled", IsDisabled)
+			.Build();
 }

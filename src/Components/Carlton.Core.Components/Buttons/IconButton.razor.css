@@ -9,6 +9,7 @@
 	--btn-transition-duration: 0.1s; /* Duration of transition effects */
 	--btn-hover-box-shadow: 0 0.375rem 0.875rem 0 #667; /* Box shadow on hover */
 	--btn-hover-transform: scale(1.05); /* Transform scale on hover */
+	--btn-disabled-opacity: .5 /* Disabled button opacity */
 }
 
 /* Style for icon button */
@@ -26,8 +27,13 @@
 	cursor: pointer;
 }
 
+	.icon-btn.disabled {
+		opacity: var(--btn-disabled-opacity);
+		cursor: default;
+	}
+
 	/* Hover effect for icon button */
-	.icon-btn:hover {
+	.icon-btn:not(.disabled):hover {
 		box-shadow: var(--btn-hover-box-shadow);
 		transform: var(--btn-hover-transform);
 	}

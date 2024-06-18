@@ -41,7 +41,7 @@
 	public int SelectedIndex { get; set; }
 
 	/// <summary>
-	/// Gets or sets the event callback for view model change. 
+	/// Gets or sets the event callback for view model change.
 	/// </summary>
 	[Parameter]
 	public EventCallback<int> OnViewModelChange { get; set; }
@@ -50,8 +50,7 @@
 
 	protected override void OnParametersSet()
 	{
-		if (SelectedIndex != -1 && SelectedIndex != 0)
-			GenerateProjection(ViewModelTypes.ElementAt(SelectedIndex));
+		GenerateProjection(ViewModelTypes.ElementAt(SelectedIndex));
 		base.OnParametersSet();
 	}
 

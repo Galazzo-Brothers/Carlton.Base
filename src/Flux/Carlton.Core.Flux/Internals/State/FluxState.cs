@@ -6,9 +6,9 @@ internal sealed class FluxState<TState>
 	public event Func<FluxStateChangedEventArgs, Task> StateChanged;
 
 	private readonly IServiceProvider _provider;
-	private readonly Queue<RecordedMutation<TState>> _recordedMutations = [];
+	private readonly Stack<RecordedMutation<TState>> _recordedMutations = [];
 
-	public IEnumerable<RecordedMutation<TState>> RecordedMutations { get => _recordedMutations.ToList(); }
+	public IEnumerable<RecordedMutation<TState>> RecordedMutations { get => _recordedMutations.Reverse().ToList(); }
 
 	public TState InitialState { get; init; }
 
@@ -24,7 +24,7 @@ internal sealed class FluxState<TState>
 	{
 		InitialState = CurrentState = RollbackState = state;
 		_provider = provider;
-		_recordedMutations.Enqueue(new RecordedMutation<TState>(MutationIndex, DateTime.Now, "Initial State", null, (state, cmd) => state));
+		_recordedMutations.Push(new RecordedMutation<TState>(MutationIndex, DateTime.Now, "Initial State", null, (state, cmd) => state));
 		MutationIndex++;
 	}
 
@@ -43,7 +43,7 @@ internal sealed class FluxState<TState>
 			CurrentState = mutation.Mutate(CurrentState, command);
 
 			//Record Mutation
-			_recordedMutations.Enqueue(new RecordedMutation<TState>(MutationIndex, DateTime.Now, mutation.StateEvent, command, mutationFunc));
+			_recordedMutations.Push(new RecordedMutation<TState>(MutationIndex, DateTime.Now, mutation.StateEvent, command, mutationFunc));
 			MutationIndex++;
 
 			//Event Recorded
@@ -72,7 +72,7 @@ internal sealed class FluxState<TState>
 
 			//The Event was recorded but rolled back
 			if (EventRecorded)
-				_recordedMutations.Dequeue();
+				_recordedMutations.Pop();
 
 			return MutationError(command.GetType().GetDisplayNameWithGenerics(), ex);
 		}
