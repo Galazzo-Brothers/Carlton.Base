@@ -1,6 +1,7 @@
 ﻿@using Carlton.Core.Components.Consoles
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer.MutationCommandViewer
 @attribute [ObserveStateEvent("SelectedMutationCommandChanged")]
+@attribute [ObserveStateEvent("MutationPopped")]
 @inherits BaseConnectedComponent<MutationCommandViewerViewModel>
 
 @* This Razor component displays serialized mutation command that resulted in the selected FluxState. *@

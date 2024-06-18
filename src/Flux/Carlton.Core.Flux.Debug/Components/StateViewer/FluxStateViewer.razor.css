@@ -6,6 +6,19 @@
 	height: 100%;
 }
 
+/* Styles for the flux state actions */
+.flux-state-actions {
+	display: flex;
+}
+
+	/* Styles for the flux state action buttons */
+	.flux-state-actions .flux-state-action-btns {
+		display: flex;
+		gap: 10px;
+		margin-left: auto;
+		margin-right: 10px
+	}
+
 /* Styles for the selected mutation label */
 .selected-mutation-label {
 	color: var(--primary-text-color);
