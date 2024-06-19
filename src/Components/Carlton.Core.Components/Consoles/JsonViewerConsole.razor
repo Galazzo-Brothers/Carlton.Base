@@ -2,57 +2,57 @@
 
 @* Represents a JSON viewer console component for displaying and interacting with JSON data. *@
 <div class="json-viewer-console">
-    <Console Text="@JsonObj"
-             IsReadOnly="@IsReadOnly"
-             IsValid="@IsValid"
-             OnValueChange="HandleValueChange" />
+	<Console Text="@JsonObj"
+			 IsReadOnly="@IsReadOnly"
+			 IsValid="@IsValid"
+			 OnValueChange="HandleValueChange" />
 </div>
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the object to be displayed as JSON in the console.
-    /// </summary>
-    [Parameter]
-    public object Obj { get; set; } = new object();
-    
-    /// <summary>
-    /// Gets or sets a value indicating whether the console is read-only.
-    /// </summary>
-    [Parameter]
-    public bool IsReadOnly { get; set; }
-    
-    /// <summary>
-    /// Event callback invoked when the value of the console changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<object> OnValueChange{ get; set; }
+	/// <summary>
+	/// Gets or sets the object to be displayed as JSON in the console.
+	/// </summary>
+	[Parameter]
+	public object Obj { get; set; } = new object();
 
-    private bool IsValid { get; set; } = true;
-    private string JsonObj { get; set; } = string.Empty;
+	/// <summary>
+	/// Gets or sets a value indicating whether the console is read-only.
+	/// </summary>
+	[Parameter]
+	public bool IsReadOnly { get; set; }
 
-    protected override void OnParametersSet()
-    {
-        IsValid = true;
-        JsonObj = Obj == null ? string.Empty : JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
-        base.OnParametersSet();
-    }
+	/// <summary>
+	/// Event callback invoked when the value of the console changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<JsonViewerConsoleValue> OnValueChange { get; set; }
 
-    private async Task HandleValueChange(string vmStr)
-    {
-        try
-        {
-            //Parse New ViewModel String
-            var type = Obj.GetType();
-            var deserializedObj = JsonSerializer.Deserialize(vmStr, type);
-            IsValid = true;
+	private bool IsValid { get; set; } = true;
+	private string JsonObj { get; set; } = string.Empty;
 
-            //If Parse succeeds Send ComponentEvent    
-            await OnValueChange.InvokeAsync(deserializedObj);
-        }
-        catch(Exception)
-        {
-            IsValid = false;
-        }
-    }
+	protected override void OnParametersSet()
+	{
+		JsonObj = Obj == null ? string.Empty : JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
+		base.OnParametersSet();
+	}
+
+	private async Task HandleValueChange(string vmStr)
+	{
+		try
+		{
+			//Parse New ViewModel String
+			var type = Obj.GetType();
+			var deserializedObj = JsonSerializer.Deserialize(vmStr, type);
+			IsValid = true;
+
+			//If Parse succeeds Send ComponentEvent
+			await OnValueChange.InvokeAsync(new JsonViewerConsoleValue(IsValid, deserializedObj));
+		}
+		catch (Exception)
+		{
+			IsValid = false;
+			await OnValueChange.InvokeAsync(new JsonViewerConsoleValue(IsValid, null));
+		}
+	}
 }

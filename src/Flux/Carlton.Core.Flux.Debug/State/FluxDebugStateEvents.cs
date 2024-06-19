@@ -7,5 +7,6 @@ internal enum FluxDebugStateEvents
 	SelectedLogMessageChanged,
 	SelectedTraceLogMessageChanged,
 	SelectedMutationCommandChanged,
-	MutationPopped
+	MutationPopped,
+	NewMutationSubmitted
 }

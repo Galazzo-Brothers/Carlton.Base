@@ -5,6 +5,7 @@ using Carlton.Core.LayoutServices.Extensions;
 using Carlton.Core.Flux.Debug.Extensions;
 using Carlton.Core.Foundation.Web.ViewState;
 using Carlton.Core.Components.Accordion.AccordionSelect;
+using Carlton.Core.Lab.Components.ComponentViewer;
 namespace Carlton.Core.Lab.Extensions;
 
 /// <summary>
@@ -45,7 +46,7 @@ public static class ServiceCollectionExtensions
 		});
 
 		/*Flux Debug Registrations*/
-		services.AddCarltonFluxDebug<LabState>(typeof(SourceViewerViewModel));
+		services.AddCarltonFluxDebug<LabState>(typeof(SourceViewerViewModel), typeof(InitSelectionCommand));
 	}
 }
 
