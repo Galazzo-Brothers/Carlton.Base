@@ -1,0 +1,33 @@
+﻿@using Carlton.Core.Flux.Debug.Components.StateViewer.MutationCommandViewer
+@using Carlton.Core.Foundation.Web.ViewState
+@namespace Carlton.Core.Flux.Debug.Components.StateViewer.SubmitMutationConsole
+@inherits SubmitMutationConsole
+
+
+@*
+    This Razor component is a view state wrapper for the SubmitMutation component.
+	It facilitates the retention of state of the component across re-renders
+*@
+<SubmitMutationConsole SelectedIndex="ViewStateService.ViewState"
+					   MutationTypes="MutationTypes"
+					   OnMutationSelectionChange="HandleSelectedMutationChange"
+					   OnMutationSubmit="OnMutationSubmit" />
+
+@code {
+	[Inject(Key = "MutationIndex")]
+	private IViewStateService<int> ViewStateService { get; set; }
+
+	protected override void OnInitialized()
+	{
+		if (ViewStateService.ViewState == null)
+			ViewStateService.UpdateViewState(0);
+
+		base.OnInitialized();
+	}
+
+	private async Task HandleSelectedMutationChange(int selectedIndex)
+	{
+		ViewStateService.UpdateViewState(selectedIndex);
+		await OnMutationSelectionChange.InvokeAsync(selectedIndex);
+	}
+}

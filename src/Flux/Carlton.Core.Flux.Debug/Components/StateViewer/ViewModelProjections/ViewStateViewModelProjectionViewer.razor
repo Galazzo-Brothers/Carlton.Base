@@ -1,20 +1,21 @@
 ﻿@using Carlton.Core.Foundation.Web.ViewState
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer.ViewModelProjections
 @inherits ViewModelProjectionViewer
-@inject IViewStateService<int> ViewStateService
 
 @*
-    This Razor component is a view state wrapper for the view model projection viewer. 
+    This Razor component is a view state wrapper for the view model projection viewer.
 	It facilitates the retention of state of the component across re-renders
 *@
-<ViewModelProjectionViewer
-	SelectedIndex="ViewStateService.ViewState"
-	State="State"
-	ViewModelTypes="ViewModelTypes"
-	OnViewModelChange="HandleViewModelChange"/>
+<ViewModelProjectionViewer SelectedIndex="ViewStateService.ViewState"
+						   State="State"
+						   ViewModelTypes="ViewModelTypes"
+						   OnViewModelChange="HandleViewModelChange" />
 
 
-@code{
+@code {
+	[Inject(Key = "ViewModelIndex")]
+	private IViewStateService<int> ViewStateService { get; set; }
+
 	protected override void OnInitialized()
 	{
 		if (ViewStateService.ViewState == null)

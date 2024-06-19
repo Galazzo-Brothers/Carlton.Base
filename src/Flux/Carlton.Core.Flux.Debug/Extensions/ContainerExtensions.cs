@@ -5,6 +5,7 @@ using Carlton.Core.Flux.Extensions;
 using Carlton.Core.Foundation.State;
 using Carlton.Core.Foundation.Web.ViewState;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
@@ -41,7 +42,8 @@ public static class ContainerExtensions
 		services.Decorate<IViewModelQueryDispatcher<FluxDebugState>, FluxDebugViewModelQueryLoggingScopesMiddleware<FluxDebugState>>();
 		services.Decorate<IMutationCommandDispatcher<FluxDebugState>, FluxDebugMutationCommandLoggingScopesMiddleware<FluxDebugState>>();
 		services.AddSingleton<IViewStateService<ToggleSelectOption>, ViewStateService<ToggleSelectOption>>();
-		services.AddSingleton<IViewStateService<int>, ViewStateService<int>>();
+		services.TryAddKeyedSingleton<IViewStateService<int>, ViewStateService<int>>("ViewModelIndex");
+		services.TryAddKeyedSingleton<IViewStateService<int>, ViewStateService<int>>("MutationIndex");
 	}
 
 	private static void RegisterLogging(IServiceCollection services)

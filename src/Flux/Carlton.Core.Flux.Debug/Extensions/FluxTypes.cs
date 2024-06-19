@@ -35,14 +35,16 @@ internal class FluxTypes
 				var genericType = type.GetInterfaces().First(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IFluxStateMutation<,>)).GetGenericArguments()[1];
 				if (genericType != null)
 				{
-					commandTypes.Add(genericType);
+					if (ignoreTypes == null || !ignoreTypes.Contains(genericType))
+						commandTypes.Add(genericType);
 				}
 			}
 		}
 
 		return new FluxTypes
 		{
-			ViewModelTypes = vmTypes.ToArray()
+			ViewModelTypes = vmTypes.ToArray(),
+			CommandTypes = commandTypes.ToArray()
 		};
 	}
 }

@@ -32,6 +32,9 @@ internal sealed partial class FluxDebugStateViewModelMapper : IViewModelProjecti
 	[MapProperty(nameof(FluxDebugState.SelectedCommandMutation), nameof(MutationCommandViewerViewModel.SelectedMutationCommand))]
 	public partial MutationCommandViewerViewModel ToMutationCommandViewerViewModel(FluxDebugState state);
 
+	[MapProperty(nameof(FluxDebugState.MutationCommandTypes), nameof(SubmitMutationConsoleViewModel.MutationCommandTypes))]
+	public partial SubmitMutationConsoleViewModel ToNewCommandConsoleViewModel(FluxDebugState state);
+
 	public EventLogViewerViewModel ToEventLogViewerViewModelViewModel(FluxDebugState state)
 	{
 		return new EventLogViewerViewModel

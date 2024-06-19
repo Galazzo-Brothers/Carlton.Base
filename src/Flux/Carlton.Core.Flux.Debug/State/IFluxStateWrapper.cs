@@ -6,4 +6,5 @@ internal interface IFluxStateWrapper
 	public IEnumerable<RecordedMutation> RecordedMutations { get; }
 	public object Replay(int count);
 	public void PopMutation();
+	public void ApplyMutation<TCommand>(TCommand command);
 }

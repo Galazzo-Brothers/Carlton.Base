@@ -93,7 +93,7 @@
 	/// Event callback invoked when a mutation is popped and reverted.
 	/// </summary>
 	[Parameter]
-	public EventCallback OnPopMutation { get; set; }
+	public EventCallback<PopMutationEventArgs> OnPopMutation { get; set; }
 
 	private string SelectedRowLabel => SelectedMutationIndex == 1 ? "Initial State" : $"Mutation {SelectedMutationIndex + 1}";
 
@@ -124,7 +124,7 @@
 		if (!args.UserConfirmed)
 			return;
 
-		await OnPopMutation.InvokeAsync();
+		await OnPopMutation.InvokeAsync(new PopMutationEventArgs());
 		ToastState.RaiseToast("Success", "The mutation has been reverted", ToastTypes.Success.ToString());
 	}
 

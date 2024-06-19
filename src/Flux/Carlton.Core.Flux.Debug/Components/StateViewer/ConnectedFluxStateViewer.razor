@@ -5,6 +5,7 @@
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer
 @attribute [ObserveStateEvent("SelectedMutationCommandChanged")]
 @attribute [ObserveStateEvent("MutationPopped")]
+@attribute [ObserveStateEvent("NewMutationSubmitted")]
 @inherits BaseConnectedComponent<FluxStateViewerViewModel>
 
 @* Connected Component for displaying and inspecting application FluxState. *@
@@ -12,4 +13,4 @@
 						  RecordedMutations="ViewModel.RecordedMutations"
 						  SelectedMutationIndex="ViewModel.SelectedMutationIndex"
 						  OnRecordedMutationSelected="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, ChangeSelectedCommandMutationCommand>"
-						  OnPopMutation="() => base.OnComponentEvent.InvokeAsync(new PopMutationCommand())"/>
+						  OnPopMutation="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, PopMutationCommand>"/>

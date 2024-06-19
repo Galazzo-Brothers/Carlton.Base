@@ -1,4 +1,5 @@
 ﻿using Carlton.Core.Components.Accordion.AccordionSelectGroup;
+using Carlton.Core.Components.Consoles;
 using Carlton.Core.Components.DynamicComponents;
 using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Lab.Extensions;
@@ -17,7 +18,7 @@ internal partial class MutationCommandMapper
 	internal static partial RecordEventCommand ToCommand(CapturedComponentEventArgs args);
 
 	internal static ClearEventsCommand ToClearEventsCommand(object args) => new();
-	internal static UpdateParametersCommand ToUpdateParametersCommand(object args) => new() { Parameters = args };
+	internal static UpdateParametersCommand ToUpdateParametersCommand(JsonViewerConsoleValue args) => new() { Parameters = args.Value };
 }
 
 
