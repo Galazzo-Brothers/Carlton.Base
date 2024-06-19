@@ -20,7 +20,7 @@
 	<div class="action-btn">
 		<IconButton Icon="content-save"
 					IsDisabled="!CanSubmit"
-					OnClick="HandleClick"/>
+					OnClick="HandleClick" />
 	</div>
 </div>
 
@@ -69,11 +69,13 @@
 	private void HandleConsoleValueChange(JsonViewerConsoleValue value)
 	{
 		CanSubmit = value.IsValid;
-		NewMutationCommand = value.Value;
+
+		if (value.IsValid)
+			NewMutationCommand = value.Value;
 	}
 
 	private async Task HandleClick()
 	{
-		OnMutationSubmit.InvokeAsync(new SubmitMutationArgs(NewMutationCommand));
+		await OnMutationSubmit.InvokeAsync(new SubmitMutationArgs(NewMutationCommand));
 	}
 }

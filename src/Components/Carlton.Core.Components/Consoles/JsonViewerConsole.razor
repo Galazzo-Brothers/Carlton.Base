@@ -31,8 +31,15 @@
 	private bool IsValid { get; set; } = true;
 	private string JsonObj { get; set; } = string.Empty;
 
+	private object CurrentObject { get; set; }
+
 	protected override void OnParametersSet()
 	{
+		if (Obj == CurrentObject)
+			return;
+
+		IsValid = true;
+		CurrentObject = Obj;
 		JsonObj = Obj == null ? string.Empty : JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
 		base.OnParametersSet();
 	}
