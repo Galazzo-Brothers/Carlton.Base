@@ -13,8 +13,16 @@
 <div class="parameters-viewer">
     <JsonViewerConsole Obj="ViewModel.ComponentParameters"
                        IsReadOnly="false"
-                       OnValueChange="this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>" />
+					   OnValueChange="HandleValueChange" />
 </div>
 
+
+@code{
+	private async Task HandleValueChange(JsonViewerConsoleValue args)
+	{
+		if (args.IsValid)
+			await this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>(args);
+	}
+}
 
 
