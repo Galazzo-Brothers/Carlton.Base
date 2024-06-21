@@ -28,7 +28,6 @@
 					  OnOptionChange="HandleToggleChange" />
 
 		<div class="flux-state-action-btns">
-			<IconButton Icon="plus" />
 			<IconButton Icon="upload" />
 			<IconButton Icon="download" OnClick="DownloadFile" />
 			<IconButton Icon="delete" IsDisabled="SelectedMutationIndex != RecordedMutations.ToList().Count() - 1" OnClick="RaisePopMutationConfirmationModal" />
@@ -113,7 +112,7 @@
 			new ModalViewModel
 				{
 					Prompt = "Are you sure",
-					Message = "Are you sure you want to revert this mutation?",
+					Message = "Are you sure you want to revert this mutation?",				
 					CloseModal = CloseModal,
 					DismissModal = null
 				});

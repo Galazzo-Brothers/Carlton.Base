@@ -3,7 +3,7 @@
 @namespace Carlton.Core.Components.AccordionSelect
 @typeparam TValue
 @inherits AccordionSelect<TValue>
-@inject IViewStateService<AccordionSelectExpandedItemState> ViewStateService
+@inject IViewStateService ViewStateService
 
 @*
     Represents an accordion-style select component 
@@ -26,11 +26,14 @@
 
 	private IEnumerable<AccordionSelectModel<TValue>> PreviousItems { get; set; }
 
-	private bool IsAccordionExpanded { get => ViewStateService.ViewState.ExpandedItems[Id]; }
+	private AccordionSelectExpandedItemState AccordionSelectExpandedItemState => ViewStateService.Get<AccordionSelectExpandedItemState>(nameof(AccordionSelect<TValue>));
+
+	private bool IsAccordionExpanded { get => AccordionSelectExpandedItemState.ExpandedItems[Id]; }
 
 	protected override void OnInitialized()
 	{
-		ViewStateService.ViewState.ExpandedItems.TryAdd(Id, IsExpanded);
+		ViewStateService.InitializeKey(nameof(AccordionSelect<TValue>), new AccordionSelectExpandedItemState());
+		AccordionSelectExpandedItemState.ExpandedItems.TryAdd(Id, IsExpanded);
 		base.OnInitialized();
 	}
 
@@ -39,8 +42,8 @@
 		//Reset the expansion state if the items have changed
 		if (PreviousItems != null && PreviousItems != Items)
 		{
-			ViewStateService.UpdateViewState(new AccordionSelectExpandedItemState());
-			ViewStateService.ViewState.ExpandedItems.TryAdd(Id, false);
+			ViewStateService.Set(nameof(AccordionSelect<TValue>), new AccordionSelectExpandedItemState());
+			AccordionSelectExpandedItemState.ExpandedItems.TryAdd(Id, false);
 		}
 
 		PreviousItems = Items;
@@ -49,7 +52,7 @@
 
 	private void HandleItemExpansionChange(bool isExpanded)
 	{
-		ViewStateService.ViewState.ExpandedItems[Id] = isExpanded;
+		AccordionSelectExpandedItemState.ExpandedItems[Id] = isExpanded;
 		OnItemExpansionChange.InvokeAsync(isExpanded);
 	}
 }

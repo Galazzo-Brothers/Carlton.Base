@@ -1,0 +1,21 @@
+﻿@using Carlton.Core.Foundation.Web.ViewState
+@inject IViewStateService ViewState
+
+@* Base class for components that use view state to manage the current tab index. *@
+
+@code {
+	protected virtual string ViewStateKey { get; }
+
+	protected int CurrentIndex => ViewState.Get<int>(ViewStateKey);
+
+	protected override void OnInitialized()
+	{
+		ViewState.InitializeKey<int>(ViewStateKey);
+		base.OnInitialized();
+	}
+
+	protected void HandleTabChange(int tabIndex)
+	{
+		ViewState.Set<int>(ViewStateKey, tabIndex);
+	}
+}

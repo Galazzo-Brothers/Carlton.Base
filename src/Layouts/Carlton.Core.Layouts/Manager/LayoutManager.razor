@@ -23,7 +23,6 @@
 
 	<!--Layout Toaster-->
 	<LayoutToaster @ref="LayoutToaster"
-				   FadeOutEnabled="true"
 				   Top="50"
 				   Right="10">
 		<ToastContent Context="toast">
@@ -31,7 +30,7 @@
 				   Title="@toast.Title"
 				   Message="@toast.Message"
 				   ToastType="@CurrentToastType(toast.ToastType)"
-				   FadeOutEnabled="!toast.FadeOutEnabled"
+				   FadeOutEnabled="toast.FadeOutEnabled"
 				   IsDismissed="toast.IsDismissed"
 				   OnDismissed="() => toast.MarkAsDismissed()" />
 		</ToastContent>

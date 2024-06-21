@@ -1,0 +1,10 @@
+﻿@using Carlton.Core.Components.Tabs
+@inherits ViewStateTabs
+
+@* Component for viewing flux state viewer tabs with persistent state using view state. *@
+<FluxStateViewerTabs TabIndex="CurrentIndex"
+					 OnTabChange="HandleTabChange" />
+
+@code {
+	protected override string ViewStateKey { get; } = nameof(FluxStateViewerTabs);
+}

@@ -1,7 +1,7 @@
-﻿using Carlton.Core.Components.Accordion.AccordionSelect;
-using Carlton.Core.Foundation.Web.ViewState;
+﻿using Carlton.Core.Foundation.Web.ViewState;
 using Carlton.Core.Lab.Components.NavMenu;
 using Carlton.Core.Lab.Models.Common;
+using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.Lab.Test.Components.NavMenu;
 
 public class ConnectedNavMenuComponentTests : TestContext
@@ -14,7 +14,7 @@ public class ConnectedNavMenuComponentTests : TestContext
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
 		var expectedMarkup = BuildExpectedGroupsMarkup(viewModel);
-		Services.AddViewStateService(new AccordionSelectExpandedItemState());
+		Services.AddSingleton<IViewStateService>(new ViewStateService());
 
 		//Act
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
@@ -35,7 +35,7 @@ public class ConnectedNavMenuComponentTests : TestContext
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		var expectedItem = viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.ElementAt(stateIndex);
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
-		Services.AddViewStateService(new AccordionSelectExpandedItemState());
+		Services.AddSingleton<IViewStateService>(new ViewStateService());
 
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
 				.Add(p => p.ViewModel, viewModel)
@@ -70,7 +70,7 @@ public class ConnectedNavMenuComponentTests : TestContext
 		var stateIndex = RandomUtilities.GetRandomIndex(viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.Count());
 		var expectedItem = viewModel.MenuItems.ElementAt(componentIndex).ComponentStates.ElementAt(stateIndex);
 		viewModel = viewModel with { SelectedComponentIndex = componentIndex, SelectedStateIndex = stateIndex };
-		Services.AddViewStateService(new AccordionSelectExpandedItemState());
+		Services.AddSingleton<IViewStateService>(new ViewStateService());
 
 		var cut = RenderComponent<ConnectedNavMenu>(parameters => parameters
 				.Add(p => p.ViewModel, viewModel)

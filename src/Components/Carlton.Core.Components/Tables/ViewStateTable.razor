@@ -4,8 +4,12 @@
 @namespace Carlton.Core.Components.Tables
 @typeparam TItem
 @inherits Table<TItem>
-@inject IServiceProvider ServiceProvider
+@inject IViewStateService ViewStateService
 
+@*
+	A table that is wired up through the ViewState service to retain
+	the table interaction state.
+*@
 <Table Headings="Headings"
 	   Items="Items"
 	   ShowPaginationRow="ShowPaginationRow"
@@ -14,30 +18,29 @@
 	   Hoverable="Hoverable"
 	   RowTemplate="RowTemplate"
 	   ItemsEqualityComparer="ItemsEqualityComparer"
-	   TableInteractionState="ViewStateService.ViewState"
+	   TableInteractionState="TableInteractionState"
 	   OnTableInteraction="args =>
 			{
-				ViewStateService.UpdateViewState(args);
+				ViewStateService.Set<TableInteractionState>(FullViewStateKey, args);
 				OnTableInteraction.InvokeAsync();
 			}" />
 
 @code {
+	/// <summary>
+	/// Gets or sets the view state key.
+	/// </summary>
 	[Parameter]
 	public string ViewStateKey { get; set; }
 
-	private IViewStateService<TableInteractionState> ViewStateService { get; set; }
+	private string FullViewStateKey => $"{nameof(Table<TItem>)}_{ViewStateKey}";
 
 	private IEnumerable<TItem> PreviousItems { get; set; }
 
+	private TableInteractionState TableInteractionState => ViewStateService.Get<TableInteractionState>(FullViewStateKey);
+
 	protected override void OnInitialized()
 	{
-		// Resolve the service with the desired key
-		ViewStateService = ServiceProvider.GetRequiredKeyedService<IViewStateService<TableInteractionState>>(ViewStateKey);
-
-		//Initialize the ViewState
-		if (ViewStateService.ViewState == null)
-			ViewStateService.UpdateViewState(new TableInteractionState());
-
+		ViewStateService.InitializeKey<TableInteractionState>(FullViewStateKey, new TableInteractionState());
 		base.OnInitialized();
 	}
 
@@ -45,7 +48,10 @@
 	{
 		// Reset the TableInteractionState if the items have changed
 		if (PreviousItems != null && !Enumerable.SequenceEqual(Items, PreviousItems, ItemsEqualityComparer))
-			ViewStateService.UpdateViewState(ViewStateService.ViewState with { OrderByColumn = string.Empty, IsAscending = false, CurrentPage = 1 });
+		{
+			var newState = TableInteractionState with { OrderByColumn = string.Empty, IsAscending = false, CurrentPage = 1 };
+			ViewStateService.Set<TableInteractionState>(FullViewStateKey, newState);
+		}
 
 		PreviousItems = Items;
 		base.OnParametersSet();

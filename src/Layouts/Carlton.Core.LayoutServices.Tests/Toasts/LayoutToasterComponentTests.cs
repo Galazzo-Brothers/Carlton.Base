@@ -50,23 +50,19 @@ public class LayoutToasterComponentTests : TestContext
 	public void LayoutToaster_GenerateToast_RendersCorrectly(
 	   int expectedTop,
 	   int expectedRight,
-	   bool expectedFadeOutEnabled,
 	   ToastViewModel expectedToastViewModel)
 	{
 		//Arrange
 		var cut = RenderComponent<LayoutToaster>(parameters =>
 			parameters.Add(p => p.Top, expectedTop)
 					  .Add(p => p.Right, expectedRight)
-					  .Add(p => p.FadeOutEnabled, expectedFadeOutEnabled));
+					  .Add(p => p.ToastContent, builder => "<div class='toast'></div>"));
 
 		//Act
 		cut.InvokeAsync(() => cut.Instance.GenerateToast(expectedToastViewModel));
+		var toast = cut.Find(".toast");
 
 		//Assert
-		//var toast = cut.FindComponent<Toast>();
-		//toast.Instance.Id.ShouldBe(expectedToastViewModel.Id);
-		//toast.Instance.FadeOutEnabled.ShouldBe(expectedFadeOutEnabled);
-		//toast.Instance.Title.ShouldBe(expectedToastViewModel.Title);
-		//toast.Instance.Message.ShouldBe(expectedToastViewModel.Message);
+		toast.ShouldNotBeNull();
 	}
 }

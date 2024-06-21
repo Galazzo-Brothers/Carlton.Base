@@ -1,7 +1,9 @@
 ﻿@using Carlton.Core.Components.Buttons
 @using Carlton.Core.Components.Consoles
+@using Carlton.Core.Components.Toasts
 @using Carlton.Core.Components.Toggles
 @using Carlton.Core.Foundation.State
+@using Carlton.Core.LayoutServices.Toasts
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer
 @attribute [ObserveStateEvent("SelectedMutationCommandChanged")]
 @attribute [ObserveStateEvent("MutationPopped")]
@@ -13,4 +15,5 @@
 						  RecordedMutations="ViewModel.RecordedMutations"
 						  SelectedMutationIndex="ViewModel.SelectedMutationIndex"
 						  OnRecordedMutationSelected="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, ChangeSelectedCommandMutationCommand>"
-						  OnPopMutation="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, PopMutationCommand>"/>
+						  OnPopMutation="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, PopMutationCommand>" />
+

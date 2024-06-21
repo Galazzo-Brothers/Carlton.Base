@@ -1,0 +1,10 @@
+﻿@using Carlton.Core.Components.Tabs
+@inherits ViewStateTabs
+
+@* Component for viewing trace log tabs with persistent state using view state. *@
+<TraceLogViewerTabs TabIndex="CurrentIndex"
+					OnTabChange="HandleTabChange" />
+
+@code {
+	protected override string ViewStateKey { get; } = nameof(TraceLogViewerTabs);
+}

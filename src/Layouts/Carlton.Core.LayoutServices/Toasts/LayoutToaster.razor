@@ -5,14 +5,14 @@
 <!-- Represents a component responsible for managing and displaying toast notifications. -->
 <div class="layout-toaster">
     <div class="content" style="@ContentStyle">
-        @foreach(var toast in ToastsCircularStack)
-        {
+         @foreach(var toast in ToastsCircularStack)
+        { 
             <!-- Display non-dismissed toasts -->
-            @if(!toast.IsDismissed)
-            {
+             @if(!toast.IsDismissed) 
+             { 
                 <!-- Render individual toast components -->
 				@ToastContent(toast)
-            }
+             } 
         }
     </div>
 </div>
@@ -21,12 +21,6 @@
 
 	[Parameter]
 	public RenderFragment<ToastViewModel> ToastContent { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether fade-out effect is enabled for toasts.
-    /// </summary>
-    [Parameter]
-    public bool FadeOutEnabled { get; set; }
 
     /// <summary>
     /// Gets or sets the top position of the toaster.
