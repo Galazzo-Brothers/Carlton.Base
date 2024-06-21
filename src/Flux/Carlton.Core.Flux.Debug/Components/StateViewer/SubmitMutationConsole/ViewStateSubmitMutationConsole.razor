@@ -1,33 +1,47 @@
-﻿@using Carlton.Core.Flux.Debug.Components.StateViewer.MutationCommandViewer
+﻿@using Carlton.Core.Components.Toasts
+@using Carlton.Core.Flux.Debug.Components.StateViewer.MutationCommandViewer
 @using Carlton.Core.Foundation.Web.ViewState
+@using Carlton.Core.LayoutServices.Toasts
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer.SubmitMutationConsole
 @inherits SubmitMutationConsole
-
+@inject IToastState ToastState
+@inject IViewStateService ViewStateService
 
 @*
     This Razor component is a view state wrapper for the SubmitMutation component.
 	It facilitates the retention of state of the component across re-renders
 *@
-<SubmitMutationConsole SelectedIndex="ViewStateService.ViewState"
+<SubmitMutationConsole SelectedIndex="SelectedIndex"
 					   MutationTypes="MutationTypes"
 					   OnMutationSelectionChange="HandleSelectedMutationChange"
-					   OnMutationSubmit="OnMutationSubmit" />
+					   OnMutationSubmit="HandleMutationSubmit" />
 
 @code {
-	[Inject(Key = "MutationIndex")]
-	private IViewStateService<int> ViewStateService { get; set; }
+
+	private int SelectedIndex => ViewStateService.Get<int>(nameof(SubmitMutationConsole));
 
 	protected override void OnInitialized()
 	{
-		if (ViewStateService.ViewState == null)
-			ViewStateService.UpdateViewState(0);
-
+		ViewStateService.InitializeKey<int>(nameof(SubmitMutationConsole));
 		base.OnInitialized();
+	}
+
+	private async Task HandleMutationSubmit(SubmitMutationArgs args)
+	{
+		try
+		{
+			await OnMutationSubmit.InvokeAsync(args);
+			ToastState.RaiseToast("Success", "Successfully added new mutation.", ToastTypes.Success.ToString());
+		}
+		catch (Exception ex)
+		{
+			ToastState.RaiseToast("Error", "An error occurred while performing this operation.", ToastTypes.Error.ToString());
+		}
 	}
 
 	private async Task HandleSelectedMutationChange(int selectedIndex)
 	{
-		ViewStateService.UpdateViewState(selectedIndex);
+		ViewStateService.Set<int>(nameof(SubmitMutationConsole), selectedIndex);
 		await OnMutationSelectionChange.InvokeAsync(selectedIndex);
 	}
 }

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a recorded mutation with its details.
 /// </summary>
-public class RecordedMutation
+public record RecordedMutation
 {
 	/// <summary>
 	/// Gets the index of the mutation.

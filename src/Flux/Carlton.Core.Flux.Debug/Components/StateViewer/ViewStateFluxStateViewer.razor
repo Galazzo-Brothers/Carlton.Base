@@ -2,7 +2,7 @@
 @using Carlton.Core.Foundation.Web.ViewState
 @namespace Carlton.Core.Flux.Debug.Components.StateViewer
 @inherits FluxStateViewer
-@inject IViewStateService<ToggleSelectOption> ViewStateService
+@inject IViewStateService ViewStateService
 
 
 @*
@@ -12,22 +12,23 @@
 <FluxStateViewer RecordedMutations="RecordedMutations"
 				 SelectedFluxState="SelectedFluxState"
 				 SelectedMutationIndex="SelectedMutationIndex"
-				 SelectedToggleOption="ViewStateService.ViewState"
+				 SelectedToggleOption="CurrentToggleSelectOption"
 				 OnRecordedMutationSelected="OnRecordedMutationSelected"
 				 OnToggleSelectChange="HandleToggleChange"
-				 OnPopMutation="OnPopMutation"/>
+				 OnPopMutation="OnPopMutation" />
 
 @code {
+
+	private ToggleSelectOption CurrentToggleSelectOption => ViewStateService.Get<ToggleSelectOption>(nameof(FluxStateViewer));
+
 	protected override void OnInitialized()
 	{
-		if (ViewStateService.ViewState == 0)
-			ViewStateService.UpdateViewState(ToggleSelectOption.FirstOption);
-
+		ViewStateService.InitializeKey<ToggleSelectOption>(nameof(FluxStateViewer), ToggleSelectOption.FirstOption);
 		base.OnInitialized();
 	}
 
 	private void HandleToggleChange(ToggleSelectOption toggleSelectOption)
 	{
-		ViewStateService.UpdateViewState(toggleSelectOption);
+		ViewStateService.Set<ToggleSelectOption>(nameof(FluxStateViewer), toggleSelectOption);
 	}
 }

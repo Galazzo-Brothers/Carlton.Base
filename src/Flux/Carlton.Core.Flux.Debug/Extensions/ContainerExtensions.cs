@@ -1,11 +1,5 @@
-﻿using Carlton.Core.Components.Toggles;
-using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
-using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
-using Carlton.Core.Flux.Extensions;
-using Carlton.Core.Foundation.State;
-using Carlton.Core.Foundation.Web.ViewState;
+﻿using Carlton.Core.Flux.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
@@ -22,11 +16,6 @@ public static class ContainerExtensions
 	/// <param name="state">The initial state for Carlton Flux.</param>
 	public static void AddCarltonFluxDebug<TState>(this IServiceCollection services, params Type[] ignoreTypes)
 	{
-		services.AddViewStateService<TableInteractionState>(nameof(EventLogTable));
-		services.AddViewStateService<TableInteractionState>(nameof(TraceLogTable));
-		services.AddViewStateService<EventLogViewerFilterState>();
-		services.AddViewStateService<TraceLogTableExpandedRowsState>();
-
 		services.AddSingleton(FluxTypes.Create<TState>(ignoreTypes));
 		services.AddSingleton<IFluxStateWrapper, FluxStateWrapper<TState>>();
 		services.AddSingleton<FluxDebugState>();
@@ -41,9 +30,6 @@ public static class ContainerExtensions
 
 		services.Decorate<IViewModelQueryDispatcher<FluxDebugState>, FluxDebugViewModelQueryLoggingScopesMiddleware<FluxDebugState>>();
 		services.Decorate<IMutationCommandDispatcher<FluxDebugState>, FluxDebugMutationCommandLoggingScopesMiddleware<FluxDebugState>>();
-		services.AddSingleton<IViewStateService<ToggleSelectOption>, ViewStateService<ToggleSelectOption>>();
-		services.TryAddKeyedSingleton<IViewStateService<int>, ViewStateService<int>>("ViewModelIndex");
-		services.TryAddKeyedSingleton<IViewStateService<int>, ViewStateService<int>>("MutationIndex");
 	}
 
 	private static void RegisterLogging(IServiceCollection services)

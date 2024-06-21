@@ -1,4 +1,5 @@
-﻿using Carlton.Core.LayoutServices.FullScreen;
+﻿using Carlton.Core.Foundation.Web.ViewState;
+using Carlton.Core.LayoutServices.FullScreen;
 using Carlton.Core.LayoutServices.Modals;
 using Carlton.Core.LayoutServices.Panel;
 using Carlton.Core.LayoutServices.Theme;
@@ -25,6 +26,7 @@ public static class LayoutExtensions
 		options?.Invoke(layoutOptions);
 
 		// Register layout state services
+		services.AddSingleton<IViewStateService, ViewStateService>();
 		services.AddSingleton<IModalState, ModalState>();
 		services.AddSingleton<IToastState, ToastState>();
 		services.AddSingleton<IViewportState, ViewportState>();
