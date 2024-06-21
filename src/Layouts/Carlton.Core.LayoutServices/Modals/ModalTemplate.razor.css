@@ -1,7 +1,7 @@
 ﻿/* Modal Variables */
 .modal {
 	--modal-background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	--modal-z-index: 1;
+	--modal-z-index: 5;
 }
 
 /* Modal Base Styles */
