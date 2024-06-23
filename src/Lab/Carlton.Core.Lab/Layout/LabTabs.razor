@@ -8,32 +8,39 @@
 	Represents a layout for displaying multiple pages using tabs.
 *@
 
-<PageTabs>
-    <TabContent>
-		 <!-- Displays a tab for viewing component events. -->
-        <Tab DisplayText="Component Events" Icon="mdi-flash">
-            <LabComponent TViewModel="EventConsoleViewModel" />
-        </Tab>
-		 <!-- Displays a tab for viewing component parameters. -->
-        <Tab DisplayText="Component Parameters" Icon="mdi-code-braces">
-            <LabComponent TViewModel="ParametersViewerViewModel" />
-        </Tab>
-		 <!--Displays a tab for viewing component source code. -->
-        <Tab DisplayText="Component Source" Icon="mdi-source-branch">
-            <LabJsComponent TViewModel="SourceViewerViewModel"
-                            JsModule="@ModulePath"
-                            JsFunction="getSourceViewerViewModel"
-                            JsParameters="@(new object[] {".dynamic-event-capturing-wrapper"})">
-            </LabJsComponent>
-        </Tab>
-    </TabContent>
+<PageTabs ActiveTabIndex="ActiveTabIndex"
+		  OnTabChange="OnTabChange">
+	<TabContent>
+		<!-- Displays a tab for viewing component events. -->
+		<Tab DisplayText="Component Events" Icon="mdi-flash">
+			<LabComponent TViewModel="EventConsoleViewModel" />
+		</Tab>
+		<!-- Displays a tab for viewing component parameters. -->
+		<Tab DisplayText="Component Parameters" Icon="mdi-code-braces">
+			<LabComponent TViewModel="ParametersViewerViewModel" />
+		</Tab>
+		<!--Displays a tab for viewing component source code. -->
+		<Tab DisplayText="Component Source" Icon="mdi-source-branch">
+			<LabJsComponent TViewModel="SourceViewerViewModel"
+							JsModule="@ModulePath"
+							JsFunction="getSourceViewerViewModel"
+							JsParameters="@(new object[] {".dynamic-event-capturing-wrapper"})">
+			</LabJsComponent>
+		</Tab>
+	</TabContent>
 </PageTabs>
 
 
 
 
 @code {
+	[Parameter]
+	public int ActiveTabIndex { get; set; }
+
+	[Parameter]
+	public EventCallback<int> OnTabChange { get; set; }
+
 	// Path to the JavaScript module for the source code viewer component
-    private const string ModulePath = "./_content/Carlton.Core.Components/JavaScriptComponents/JavaScriptMarkupViewer.razor.js";
+	private const string ModulePath = "./_content/Carlton.Core.Components/JavaScriptComponents/JavaScriptMarkupViewer.razor.js";
 }
 
