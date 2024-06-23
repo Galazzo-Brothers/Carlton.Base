@@ -1,0 +1,25 @@
+﻿/* Component Variables */
+.parameters-viewer {
+	--cancel-btn-background-color: var(--accent-color-3);
+}
+
+/* Parameters Viewer */
+.parameters-viewer {
+    position: relative;
+    text-align: center;
+}
+
+/* Parameters Action Buttons */
+.parameters-viewer-actions{
+	display: flex;
+	gap: 10px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 5px;
+}
+
+/* Style Overrides */
+::deep .icon-btn:nth-of-type(2) {
+	background-color: var(--cancel-btn-background-color);
+}

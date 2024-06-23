@@ -1,0 +1,65 @@
+﻿@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Components.Consoles
+@namespace Carlton.Core.Lab.Components.ParametersViewer
+
+@*
+    Represents a parameter viewer component.
+    It observes state events and displays the parameters of a component in a JSON viewer console.
+    It allows editing of the parameters and raises an event when the parameters are updated.
+*@
+<div class="parameters-viewer">
+	<JsonViewerConsole Object="Object"
+					   IsReadOnly="false"
+					   OnValueChange="HandleValueChange"
+					   @ref="Console" />
+	<div class="parameters-viewer-actions">
+		<IconButton Icon="check" IsDisabled="IsSubmitDisabled" OnClick="HandleSubmitClick" />
+		<IconButton Icon="undo" IsDisabled="IsUndoDisabled" OnClick="HandleUndoClick" />
+	</div>
+</div>
+
+@code {
+	/// <summary>
+	/// Gets or sets the object parameter.
+	/// </summary>
+	[Parameter]
+	public object Object { get; set; }
+
+	/// <summary>
+	/// Gets or sets the callback that is invoked when parameters are submitted.
+	/// </summary>
+	[Parameter]
+	public EventCallback<OnParametersChangedArgs> OnSubmit { get; set; }
+
+	private bool IsSubmitDisabled => !IsDirty || !IsValid;
+
+	private bool IsUndoDisabled => !IsDirty || IsValid;
+
+	private bool IsDirty { get; set; } = false;
+
+	private bool IsValid { get; set; } = true;
+
+	private JsonViewerConsoleValue CurrentParameters { get; set; }
+
+	private JsonViewerConsole Console;
+
+	private void HandleValueChange(JsonViewerConsoleValue args)
+	{
+		IsDirty = true;
+		IsValid = args.IsValid;
+		if (args.IsValid)
+			CurrentParameters = args;
+	}
+
+	private async Task HandleSubmitClick()
+	{
+		await OnSubmit.InvokeAsync(new OnParametersChangedArgs(CurrentParameters.Value));
+		IsDirty = false;
+	}
+
+	private void HandleUndoClick()
+	{
+		Console.Reset();
+		IsDirty = false;
+	}
+}
