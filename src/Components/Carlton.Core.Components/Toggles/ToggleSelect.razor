@@ -38,23 +38,40 @@
 	[Parameter]
 	public ToggleSelectOption SelectedOption { get; set; } = ToggleSelectOption.FirstOption;
 
+	private ToggleSelectOption InitSelectedOption { get; set; }
+
+	private ToggleSelectOption CurrentSelectedOption { get; set; }
+
 	/// <summary>
 	/// Event callback that is invoked when the selected option changes.
 	/// </summary>
 	[Parameter]
 	public EventCallback<ToggleSelectOption> OnOptionChange { get; set; }
 
+	protected override void OnInitialized()
+	{
+		InitSelectedOption = CurrentSelectedOption = SelectedOption;
+		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		if (InitSelectedOption != SelectedOption)
+			CurrentSelectedOption = SelectedOption;
+		base.OnParametersSet();
+	}
+
 	private void HandleOptionChange(ToggleSelectOption selectedOption)
 	{
-		if (SelectedOption == selectedOption)
+		if (CurrentSelectedOption == selectedOption)
 			return;
 
-		SelectedOption = selectedOption;
+		CurrentSelectedOption = selectedOption;
 		OnOptionChange.InvokeAsync(selectedOption);
 	}
 
 	private string InputCheckedValue(ToggleSelectOption toggleSelectOption) =>
 		new CssBuilder("radio-input")
-		.AddClass("checked", SelectedOption == toggleSelectOption)
+		.AddClass("checked", CurrentSelectedOption == toggleSelectOption)
 		.Build();
 }
