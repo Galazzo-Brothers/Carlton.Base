@@ -77,8 +77,8 @@ public class ConsoleComponentTests : TestContext
 		errorClassExists.ShouldNotBe(expectedIsValid);
 	}
 
-	[Theory(DisplayName = "OnChangeCallback Parameter Test"), AutoData]
-	public void Console_OnChangeCallbackParameter_FiresCallback(string expectedText)
+	[Theory(DisplayName = "OnInputCallback Parameter Test"), AutoData]
+	public void Console_OnInputCallbackParameter_FiresCallback(string expectedText)
 	{
 		//Arrange
 		var eventCalled = false;
@@ -92,7 +92,7 @@ public class ConsoleComponentTests : TestContext
 		var consoleElement = cut.Find("textarea");
 
 		//Act
-		consoleElement.Change(new ChangeEventArgs { Value = expectedText });
+		consoleElement.Input(new ChangeEventArgs { Value = expectedText });
 
 		//Assert
 		eventCalled.ShouldBeTrue();
