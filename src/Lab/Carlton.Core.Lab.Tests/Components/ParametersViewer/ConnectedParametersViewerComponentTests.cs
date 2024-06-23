@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Web;
-using Carlton.Core.Lab.Components.ParameterViewer;
+using Carlton.Core.Lab.Components.ParametersViewer;
 namespace Carlton.Core.Lab.Test.Components.ParametersViewer;
 
 public class ConnectedParametersViewerComponentTests : TestContext
@@ -42,9 +42,11 @@ public class ConnectedParametersViewerComponentTests : TestContext
 
 		var newJson = JsonSerializer.Serialize(expectedParameters, new JsonSerializerOptions { WriteIndented = true });
 		var txt = cut.Find("textarea");
+		var submitBtn = cut.FindAll(".icon-btn")[0];
 
 		//Act
-		txt.Change(newJson);
+		txt.Input(newJson);
+		submitBtn.Click();
 
 		//Assert
 		eventFired.ShouldBeTrue();
@@ -63,6 +65,14 @@ public class ConnectedParametersViewerComponentTests : TestContext
             <textarea rows = ""15"" class="""" value=""{parameterString}""></textarea>
         </div>
     </div>
+	<div class=""parameters-viewer-actions"">
+		<div class=""icon-btn disabled""  >
+			<span class=""mdi mdi-24px mdi-check"" ></span>
+		</div>
+		<div class=""icon-btn disabled""  >
+			<span class=""mdi mdi-24px mdi-undo"" ></span>
+		</div>
+	</div>
 </div>";
 	}
 }

@@ -2,7 +2,7 @@
 
 @* Represents a JSON viewer console component for displaying and interacting with JSON data. *@
 <div class="json-viewer-console">
-	<Console Text="@JsonObj"
+	<Console Text="@CurrentText"
 			 IsReadOnly="@IsReadOnly"
 			 IsValid="@IsValid"
 			 OnValueChange="HandleValueChange" />
@@ -14,7 +14,7 @@
 	/// Gets or sets the object to be displayed as JSON in the console.
 	/// </summary>
 	[Parameter]
-	public object Obj { get; set; } = new object();
+	public object Object { get; set; } = new object();
 
 	/// <summary>
 	/// Gets or sets a value indicating whether the console is read-only.
@@ -29,19 +29,25 @@
 	public EventCallback<JsonViewerConsoleValue> OnValueChange { get; set; }
 
 	private bool IsValid { get; set; } = true;
-	private string JsonObj { get; set; } = string.Empty;
 
 	private object CurrentObject { get; set; }
+	private string CurrentText { get; set; }
 
 	protected override void OnParametersSet()
 	{
-		if (Obj == CurrentObject)
+		if (Object == CurrentObject)
 			return;
 
 		IsValid = true;
-		CurrentObject = Obj;
-		JsonObj = Obj == null ? string.Empty : JsonSerializer.Serialize(Obj, new JsonSerializerOptions { WriteIndented = true });
+		CurrentObject = Object;
+		CurrentText = Object == null ? string.Empty : JsonSerializer.Serialize(Object, new JsonSerializerOptions { WriteIndented = true });
 		base.OnParametersSet();
+	}
+
+	public void Reset()
+	{
+		CurrentText = JsonSerializer.Serialize(Object, new JsonSerializerOptions { WriteIndented = true });
+		IsValid = true;
 	}
 
 	private async Task HandleValueChange(string vmStr)
@@ -49,7 +55,7 @@
 		try
 		{
 			//Parse New ViewModel String
-			var type = Obj.GetType();
+			var type = Object.GetType();
 			var deserializedObj = JsonSerializer.Deserialize(vmStr, type);
 			IsValid = true;
 
