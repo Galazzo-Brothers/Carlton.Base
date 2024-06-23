@@ -5,8 +5,8 @@
     <textarea rows="15"
               disabled="@IsReadOnly"
               class="@ConsoleCss"
-              value="@Text"
-              @onchange="(args) => OnValueChange.InvokeAsync(args.Value.ToString())">  
+              @bind="@Text"
+              @oninput="(args) => OnValueChange.InvokeAsync(args.Value.ToString())">  
     </textarea>
 </div>
 
