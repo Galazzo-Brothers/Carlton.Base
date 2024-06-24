@@ -1,5 +1,5 @@
 using Carlton.Core.Components.Accordion.AccordionSelect;
-namespace Carlton.Core.Components.Tests.Navigation;
+namespace Carlton.Core.Components.Tests.Accordion;
 
 [Trait("Component", nameof(AccordionSelect<int>))]
 public class AccordionSelectComponentTests : TestContext
