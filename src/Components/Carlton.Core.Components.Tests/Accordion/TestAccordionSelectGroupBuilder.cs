@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 using Carlton.Core.Components.Accordion.AccordionSelectGroup;
-namespace Carlton.Core.Components.Tests.Navigation;
+namespace Carlton.Core.Components.Tests.Accordion;
 
 internal static class TestAccordionSelectGroupBuilder<TValue>
 {
