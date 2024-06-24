@@ -59,21 +59,19 @@ public class ConnectedParametersViewerComponentTests : TestContext
 		var parameterString = HttpUtility.HtmlEncode(JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true }));
 
 		return @$"
-<div class=""parameters-viewer"">
     <div class=""json-viewer-console"">
         <div class=""console"">
             <textarea rows = ""15"" class="""" value=""{parameterString}""></textarea>
         </div>
-    </div>
-	<div class=""parameters-viewer-actions"">
-		<div class=""icon-btn disabled""  >
-			<span class=""mdi mdi-24px mdi-check"" ></span>
+		<div class=""json-viewer-actions"">
+			<div class=""icon-btn disabled""  >
+				<span class=""mdi mdi-24px mdi-check"" ></span>
+			</div>
+			<div class=""icon-btn disabled""  >
+				<span class=""mdi mdi-24px mdi-undo"" ></span>
+			</div>
 		</div>
-		<div class=""icon-btn disabled""  >
-			<span class=""mdi mdi-24px mdi-undo"" ></span>
-		</div>
-	</div>
-</div>";
+	</div>";
 	}
 }
 

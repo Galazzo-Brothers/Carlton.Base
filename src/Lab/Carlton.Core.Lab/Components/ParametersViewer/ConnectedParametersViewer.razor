@@ -7,8 +7,9 @@
 @inherits BaseConnectedComponent<ParametersViewerViewModel>
 
 @* Represents connected component wiring up of ParametersViewer component *@
-<ParametersViewer Object="ViewModel.ComponentParameters" 
-				  OnSubmit="this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>" />
+<JsonViewerConsole Object="ViewModel.ComponentParameters"
+				   IsReadOnly="false"
+				   OnSubmit="this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>" />
 
 
 
