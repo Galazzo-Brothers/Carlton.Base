@@ -20,6 +20,8 @@
 
 				<ItemGroup>
 								<InternalsVisibleTo Include="Carlton.Core.Flux" />
+								<InternalsVisibleTo Include="Carlton.Core.Flux.Debug.Tests" />
+								<InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
 				</ItemGroup>
 
 </Project>

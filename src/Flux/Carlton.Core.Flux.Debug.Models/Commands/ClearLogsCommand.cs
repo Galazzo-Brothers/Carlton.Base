@@ -3,4 +3,4 @@
 /// <summary>
 /// Represents a command to clear logs.
 /// </summary>
-public sealed record LogsClearedCommand();
+public sealed record ClearLogsCommand();
