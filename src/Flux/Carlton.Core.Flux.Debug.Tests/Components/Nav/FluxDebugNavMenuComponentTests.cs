@@ -6,7 +6,7 @@ namespace Carlton.Core.Flux.Debug.Tests.Components.Nav;
 public class FluxDebugNavMenuComponentTests : TestContext
 {
 	[Fact]
-	public void FluxDebugNavMenu_RendersCorrectly()
+	public void FluxDebugNavMenu_Markup_RendersCorrectly()
 	{
 		//Arrange
 		var expectedMarkup =

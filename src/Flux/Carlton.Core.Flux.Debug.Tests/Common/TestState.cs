@@ -3,3 +3,9 @@
 internal class TestState
 {
 }
+
+internal record TestCommand1();
+
+internal record TestCommand2();
+
+internal record TestCommand3();

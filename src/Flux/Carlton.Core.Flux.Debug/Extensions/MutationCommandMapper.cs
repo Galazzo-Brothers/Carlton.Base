@@ -1,7 +1,7 @@
 ﻿using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 using Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable;
-using Carlton.Core.Flux.Debug.Components.StateViewer;
 using Carlton.Core.Flux.Debug.Components.StateViewer.SubmitMutationConsole;
+using Carlton.Core.Flux.Debug.Components.StateViewer.Viewer;
 using Riok.Mapperly.Abstractions;
 namespace Carlton.Core.Flux.Debug.Extensions;
 
