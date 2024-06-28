@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Debug.Components.StateViewer.MutationCommandViewer;
+﻿namespace Carlton.Core.Flux.Debug.Components.StateViewer.Viewer;
 
 internal sealed class ChangeSelectedMutationCommandMutation : IFluxStateMutation<FluxDebugState, ChangeSelectedCommandMutationCommand>
 {

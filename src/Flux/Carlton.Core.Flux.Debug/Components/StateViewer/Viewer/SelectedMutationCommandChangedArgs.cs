@@ -1,4 +1,4 @@
-﻿namespace Carlton.Core.Flux.Debug.Components.StateViewer;
+﻿namespace Carlton.Core.Flux.Debug.Components.StateViewer.Viewer;
 
 /// <summary>
 /// Represents arguments for the event when the selected mutation command changes.
