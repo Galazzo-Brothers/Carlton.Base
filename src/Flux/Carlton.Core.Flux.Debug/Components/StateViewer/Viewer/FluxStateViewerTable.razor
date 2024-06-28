@@ -11,13 +11,9 @@
 				RowsPerPageOptions="RowsPerPageOpts"
 				ViewStateKey="@nameof(FluxStateViewerTable)">
 	<RowTemplate Context="item">
-		<div class="@(TableRowCss(item.MutationIndex))">
-			<div class="table-cell selected"><span class="cell-text">@item.MutationIndex</span></div>
-			<div class="table-cell"><span class="cell-text">@item.MutationDate.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
-			<div class="table-cell"><span class="cell-text">@item.MutationName</span></div>
-			<div class="table-cell"><span class="cell-text">false</span></div>
-			<div class="table-cell"><span class="cell-text"><LinkButton Text="Select" OnClick="async () => await OnRecordedMutationSelected.InvokeAsync(new SelectedMutationCommandChangedArgs(item.MutationIndex))" /></span></div>
-		</div>
+		<FluxStateViewerTableRow Mutation="item"
+								 IsSelected="item.MutationIndex == SelectedMutationIndex"
+								 OnRecordedMutationSelected="OnRecordedMutationSelected" />
 	</RowTemplate>
 </ViewStateTable>
 
@@ -50,9 +46,4 @@
 	};
 
 	private IEnumerable<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
-
-	private string TableRowCss(int index) =>
-		new CssBuilder("table-row")
-		.AddClass("selected", SelectedMutationIndex == index)
-		.Build();
 }
