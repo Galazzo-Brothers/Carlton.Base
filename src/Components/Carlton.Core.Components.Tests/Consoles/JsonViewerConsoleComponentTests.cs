@@ -144,7 +144,7 @@ public class JsonViewerConsoleComponentTests : TestContext
 		consoleElement = cut.Find("textarea");
 
 		//Assert
-		consoleElement.GetAttribute("value").Replace("\n", "\r\n").ShouldBe(JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true }));
+		consoleElement.GetAttribute("value").Normalize().ShouldBe(JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true }));
 	}
 
 	[Fact(DisplayName = "Dirty Disabled Submit Test")]
