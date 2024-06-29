@@ -5,7 +5,7 @@
 
 # Carlton.Core.Layouts
 
-Welcome to the Carlton.Core.Layouts repository! This repository contains the main project and test project for the Carlton Core Layouts library, designed to streamline the development of rich and interactive user interfaces in Blazor applications.
+Welcome to the `Carlton.Core.Layouts` repository! This repository contains the main project and test project for the Carlton Core Layouts library, designed to streamline the development of rich and interactive user interfaces in Blazor applications.
 
 - **Carlton.Core.LayoutServices:** Contains the core services for managing layout state and interactions.
 
