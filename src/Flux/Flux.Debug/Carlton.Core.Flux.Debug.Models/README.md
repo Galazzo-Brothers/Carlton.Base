@@ -1,15 +1,15 @@
 <div align="center">
-    <img src="../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </div>
 </br>
 
-# Carlton.Core.Lab.Models
+# Carlton.Core.Flux.Debug.Models
 
-Welcome to the Carlton.Core.Lab.Models project! This project contains the models for the ViewModels and Commands used in the Carlton.Core.Lab framework.
+Welcome to the `Carlton.Core.Flux.Debug.Models` project! This project contains the models for the ViewModels and Commands used in the `Carlton.Core.Flux.Debug` framework.
 
 ## Overview
 
-The Carlton.Core.Lab.Models project serves as a central repository for defining the data models used across the Carlton.Core.Lab framework. These models include ViewModels representing the state and behavior of components in the user interface, as well as Commands used to trigger actions and mutations within the framework.
+The `Carlton.Core.Flux.Debug.Models` project serves as a central repository for defining the data models used across the `Carlton.Core.Flux.Debug` framework. These models include ViewModels representing the state and behavior of components in the user interface, as well as Commands used to trigger actions and mutations within the framework.
 
 ## Purpose
 
@@ -31,7 +31,7 @@ To use the models defined in the Carlton.Core.Lab.Models project, simply referen
 
 ## Dependencies
 
-The Carlton.Core.Lab.Models project does not have any external dependencies and consists solely of C# poco objects, making it easy to integrate into your application.
+The `Carlton.Core.Flux.Debug.Models1 project does not have any external dependencies and consists solely of C# poco objects, making it easy to integrate into your application.
 
 ## Authors
 
