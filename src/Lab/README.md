@@ -16,9 +16,9 @@ Welcome to the `Carlton.Core.Lab` repository! This repository contains the core 
 
 ## Contents
 
-- [Carlton.Core.Lab](./Carlton.Core.Lab/README.md): Detailed information and usage instructions for the Carlton.Core.Lab application.
-- [Carlton.Core.Lab.Models](./Carlton.Core.Lab.Models/README.md):  Detailed information and usage instructions for the Carlton.Core.Models library.
-- [Carlton.Core.Lab.Tests](./Carlton.Core.Lab.Tests/README.md): Instructions for running unit tests and validating Carlton.Core.Lab application.
+- [Carlton.Core.Lab](./Carlton.Core.Lab/README.md): Detailed information and usage instructions for the `Carlton.Core.Lab` application.
+- [Carlton.Core.Lab.Models](./Carlton.Core.Lab.Models/README.md):  Detailed information and usage instructions for the `Carlton.Core.Lab.Models` library.
+- [Carlton.Core.Lab.Tests](./Carlton.Core.Lab.Tests/README.md): Instructions for running unit tests and validating `Carlton.Core.Lab` application.
 
 ## Getting Started
 
@@ -26,4 +26,4 @@ For detailed usage instructions and documentation for each package, please refer
 
 ## Feedback and Contributions
 
-We welcome feedback, suggestions, and contributions from the community to improve the Carlton.Core.Layouts library. If you encounter any issues, have ideas for enhancemet
+We welcome feedback, suggestions, and contributions from the community to improve the `Carlton.Core.Lab` library. If you encounter any issues, have ideas for enhancemet
