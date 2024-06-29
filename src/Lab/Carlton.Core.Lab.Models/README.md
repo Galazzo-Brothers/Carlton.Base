@@ -5,11 +5,11 @@
 
 # Carlton.Core.Lab.Models
 
-Welcome to the Carlton.Core.Lab.Models project! This project contains the models for the ViewModels and Commands used in the Carlton.Core.Lab framework.
+Welcome to the `Carlton.Core.Lab.Models` project! This project contains the models for the ViewModels and Commands used in the `Carlton.Core.Lab` framework.
 
 ## Overview
 
-The Carlton.Core.Lab.Models project serves as a central repository for defining the data models used across the Carlton.Core.Lab framework. These models include ViewModels representing the state and behavior of components in the user interface, as well as Commands used to trigger actions and mutations within the framework.
+The `Carlton.Core.Lab.Models` project serves as a central repository for defining the data models used across the `Carlton.Core.Lab` framework. These models include ViewModels representing the state and behavior of components in the user interface, as well as Commands used to trigger actions and mutations within the framework.
 
 ## Purpose
 
@@ -27,11 +27,11 @@ The purpose of separating models into a dedicated project is to promote code reu
 
 ## Usage
 
-To use the models defined in the Carlton.Core.Lab.Models project, simply reference the project in your solution and import the necessary namespaces into your code files. You can then instantiate and manipulate the models as needed within your application.
+To use the models defined in the `Carlton.Core.Lab.Models` project, simply reference the project in your solution and import the necessary namespaces into your code files. You can then instantiate and manipulate the models as needed within your application.
 
 ## Dependencies
 
-The Carlton.Core.Lab.Models project does not have any external dependencies and consists solely of C# poco objects, making it easy to integrate into your application.
+The `Carlton.Core.Lab.Models` project does not have any external dependencies and consists solely of C# poco objects, making it easy to integrate into your application.
 
 ## Authors
 
