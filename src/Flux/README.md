@@ -18,9 +18,9 @@ Whether you're building a simple prototype or a complex enterprise application, 
 
 ## Contents
 
-- [Carlton.Core.Flux](./Carlton.Core.Flux/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Flux.Tests](./Carlton.Core.Flux.Tests/README.md): Detailed information and usage instructions for the main layout library.
-- [Flux.Debug](./Flux.Debug/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Flux](./Carlton.Core.Flux/README.md): Detailed information and usage instructions for the `Carlton.Core.Flux` library.
+- [Carlton.Core.Flux.Tests](./Carlton.Core.Flux.Tests/README.md): Instructions for running unit tests and validating `Carlton.Core.Flux` functionality.
+- [Flux.Debug](./Flux.Debug/README.md): Detailed information and usage instructions for the `Carlton.Core.Flux.Debug` application.
   
 ## Getting Started
 
@@ -28,4 +28,4 @@ For detailed usage instructions and documentation for each package, please refer
 
 ## Feedback and Contributions
 
-We welcome feedback, suggestions, and contributions from the community to improve the `Carlton.Core.Layouts library`. If you encounter any issues, have ideas for enhancemet
+We welcome feedback, suggestions, and contributions from the community to improve the `Carlton.Core.Flux` library. If you encounter any issues, have ideas for enhancemet
