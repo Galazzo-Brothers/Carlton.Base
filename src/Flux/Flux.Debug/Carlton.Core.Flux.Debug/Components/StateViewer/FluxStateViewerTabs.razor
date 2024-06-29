@@ -1,0 +1,35 @@
+﻿@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
+
+@* Component representing the tabs for the Flux state viewer *@
+<PageTabs ActiveTabIndex="TabIndex"
+		  OnTabChange="OnTabChange">
+	<TabContent>
+		<!-- ViewModel Projections Tab -->
+		<Tab DisplayText="View Model Projections" Icon="mdi-projector">
+			<FluxDebugComponent TViewModel="ViewModelProjectionsViewerViewModel" />
+		</Tab>
+		<!--Mutation Command Viewer Tab-->
+		<Tab DisplayText="Mutation Command Viewer" Icon="mdi-projector">
+			<FluxDebugComponent TViewModel="MutationCommandViewerViewModel" />
+		</Tab>
+		<!--New Mutation Console Tab-->
+		<Tab DisplayText="Submit Mutation" Icon="mdi-projector">
+			<FluxDebugComponent TViewModel="SubmitMutationConsoleViewModel" />
+		</Tab>
+	</TabContent>
+</PageTabs>
+
+@code {
+	/// <summary>
+	/// Gets or sets the tab index.
+	/// </summary>
+	[Parameter]
+	public int TabIndex { get; set; }
+
+	/// <summary>
+	/// EventCallback for the selected tab change.
+	/// </summary>
+	[Parameter]
+	public EventCallback<int> OnTabChange { get; set; }
+}

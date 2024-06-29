@@ -1,0 +1,29 @@
+﻿/* Style for the trace log table */
+.trace-log-table {
+	margin: 20px;
+}
+
+/* Style for the header inside the trace log table */
+::deep .header {
+	padding-left: 25px;
+}
+
+/* Style for the header cell inside the trace log table */
+::deep .header-cell {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+	/* Style for the first header cell inside the trace log table */
+	::deep .header-cell:first-of-type {
+		visibility: hidden;
+		max-width: 25px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	/* Style for the heading text inside the header cell */
+	::deep .header-cell .heading-text {
+		margin-left: auto;
+		margin-right: auto;
+	}

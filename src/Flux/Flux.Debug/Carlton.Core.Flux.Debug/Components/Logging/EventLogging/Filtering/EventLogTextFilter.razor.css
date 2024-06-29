@@ -1,0 +1,18 @@
+﻿/* Log Text Vilter Variables */
+.log-text-filter{
+	--log-text-filter-height: 25px;
+}
+
+/* Styles for the text filter container */
+.log-text-filter {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+	/* Styles for the search input */
+	.log-text-filter .search-text {
+		height: var(--log-text-filter-height);
+		width: 100%;
+		border-radius: 5px;
+		border-color: rgba(0, 0, 0, 0.3);
+	}

@@ -1,0 +1,100 @@
+﻿@using BlazorComponentUtilities
+@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Flux.Debug.Components.Logging
+@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
+
+@* Represents a row in the trace log table *@
+<div class="@TableRowCss">
+	<div class="table-cell chevron-cell"><span class="@ChevronCss" @onclick="ChevronClick"></span></div>
+	<div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
+	<div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.FluxAction</span></div>
+	<div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.TypeDisplayName</span></div>
+	<div class="table-cell"><span class="cell-text">@TraceLogMessageGroup.ParentEntry.EventId.Id</span></div>
+	<div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@TraceLogMessageGroup.ParentEntry.RequestSucceeded" /></span></div>
+	<div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClick="() => RowClick(TraceLogMessageGroup.ParentEntry.Id)" /></span></div>
+</div>
+
+<!-- Loop through child entries -->
+@foreach (var child in TraceLogMessageGroup.ChildEntries)
+{
+	<!-- Represents a row for a child entry in the trace log table -->
+	<div class="@ChildRowCss(child)">
+		<div class="table-cell"></div>
+		<div class="table-cell"><span class="cell-text">@child.Timestamp.ToString("MM/dd/yyyy HH:mm:ss.fffffff")</span></div>
+		<div class="table-cell"><span class="cell-text">@child.FluxAction</span></div>
+		<div class="table-cell"><span class="cell-text">@child.TypeDisplayName</span></div>
+		<div class="table-cell"><span class="cell-text">@child.EventId.Id</span></div>
+		<div class="table-cell"><span class="cell-text"><TraceLoggingOutcomePill RequestSucceeded="@child.RequestSucceeded" /></span></div>
+		<div class="table-cell"><span class="cell-text"><LinkButton Text="View Details" OnClick="() => RowClick(child.Id)" /></span></div>
+	</div>
+}
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the trace log message group for this row.
+	/// </summary>
+	[Parameter]
+	public required TraceLogMessageGroup TraceLogMessageGroup { get; set; }
+
+	/// <summary>
+	/// Gets or sets the selected trace log message.
+	/// </summary>
+	[Parameter]
+	public int? SelectedTraceLogMessageIndex { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the row is expanded.
+	/// </summary>
+	[Parameter]
+	public bool IsExpanded { get; set; }
+
+	/// <summary>
+	/// Event callback for when the selected trace log message changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<SelectedTraceLogMessageChangedArgs> OnSelectedTraceLogMessageChanged { get; set; }
+
+	/// <summary>
+	/// Event callback for when the trace log message expansion changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<TraceLogMessageExpansionChangedArgs> OnTraceLogMessageExpansionChanged { get; set; }
+
+	private bool HasChildren => TraceLogMessageGroup.ChildEntries.Any();
+
+	private void RowClick(int selectedTraceLogMessageIndex)
+		=> OnSelectedTraceLogMessageChanged.InvokeAsync(new SelectedTraceLogMessageChangedArgs(selectedTraceLogMessageIndex));
+	
+	private void ChevronClick()
+	{
+		if (!HasChildren)
+			return;
+
+		var changedTraceLogMessage = TraceLogMessageGroup.ParentEntry;
+		var args = new TraceLogMessageExpansionChangedArgs(changedTraceLogMessage, !IsExpanded);
+		OnTraceLogMessageExpansionChanged.InvokeAsync(args);
+	}
+
+	private string TableRowCss
+		=> new CssBuilder("starting-row")
+				.AddClass("table-row")
+				.AddClass("selected", TraceLogMessageGroup.ParentEntry.Id == SelectedTraceLogMessageIndex)
+				.Build();
+
+	private string ChevronCss
+		=> new CssBuilder("chevron")
+				.AddClass("mdi")
+				.AddClass("mdi-24px")
+				.AddClass("mdi-chevron-down", IsExpanded)
+				.AddClass("mdi-chevron-right", !IsExpanded)
+				.AddClass("dimmed", !HasChildren)
+				.Build();
+
+	private string ChildRowCss(TraceLogMessage traceLogMessage)
+		=> new CssBuilder("child-row")
+				.AddClass("table-row")
+				.AddClass("selected", traceLogMessage.Id == SelectedTraceLogMessageIndex)
+				.AddClass("collapsed", !IsExpanded)
+				.Build();
+}

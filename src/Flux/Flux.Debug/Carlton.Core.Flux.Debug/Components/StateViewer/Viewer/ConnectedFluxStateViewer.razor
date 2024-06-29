@@ -1,0 +1,19 @@
+﻿@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Components.Toasts
+@using Carlton.Core.Components.Toggles
+@using Carlton.Core.Foundation.State
+@using Carlton.Core.LayoutServices.Toasts
+@namespace Carlton.Core.Flux.Debug.Components.StateViewer.Viewer
+@attribute [ObserveStateEvent("SelectedMutationCommandChanged")]
+@attribute [ObserveStateEvent("MutationPopped")]
+@attribute [ObserveStateEvent("NewMutationSubmitted")]
+@inherits BaseConnectedComponent<FluxStateViewerViewModel>
+
+@* Connected Component for displaying and inspecting application FluxState. *@
+<ViewStateFluxStateViewer SelectedFluxState="ViewModel.SelectedFluxState"
+						  RecordedMutations="ViewModel.RecordedMutations"
+						  SelectedMutationIndex="ViewModel.SelectedMutationIndex"
+						  OnRecordedMutationSelected="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, ChangeSelectedCommandMutationCommand>"
+						  OnPopMutation="this.RaiseComponentFluxEvent<FluxStateViewerViewModel, PopMutationCommand>" />
+

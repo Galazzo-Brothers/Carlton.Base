@@ -1,0 +1,25 @@
+﻿@using Carlton.Core.Components.Pills
+@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
+
+@* Represents a pill component indicating the outcome of a logging operation. *@
+<div class="@LoggingOutcomePillCss">
+      <Pill Text="@OutcomeText" />
+</div>
+
+@code {
+	/// <summary>
+	/// Gets or sets a value indicating whether the request succeeded.
+	/// </summary>
+	[Parameter]
+    public bool RequestSucceeded { get; set; }
+
+    private string OutcomeText { get => RequestSucceeded ? "Success" : "Error"; }
+
+    private string LoggingOutcomePillCss
+    {
+        get => new CssBuilder("log-outcome-pill")
+                .AddClass("succeeded", RequestSucceeded)
+                .AddClass("failed", !RequestSucceeded)
+                .Build();
+    }
+}

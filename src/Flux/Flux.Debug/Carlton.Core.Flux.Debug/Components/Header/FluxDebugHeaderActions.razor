@@ -1,0 +1,38 @@
+﻿@using Carlton.Core.Components
+@using Carlton.Core.Components.Dropdowns
+@using Carlton.Core.Components.Modals
+@using Carlton.Core.Flux.Debug.Layouts;
+@using Carlton.Core.LayoutServices.Modals
+@using Carlton.Core.LayoutServices.Theme
+@using Carlton.Core.LayoutServices.Toasts
+@namespace Carlton.Core.Flux.Debug.Components.Header
+
+@* Represents the header actions component for the debug layout. *@
+<div class="flux-debug-header-actions">
+	<ThemeMenu />
+	<NotificationMenu />
+	<FluxDebugReturnMenu />
+	<ProfileAvatarDropdown Username="@UserName"
+						   AvatarImgUrl="@AvatarUrl"
+						   DropdownMenuItems="DropdownMenuItems" />
+</div>
+
+@code {
+	/// <summary>
+	/// The username to display in the profile avatar dropdown.
+	/// </summary>
+	[Parameter]
+	public required string UserName { get; set; }
+
+	/// <summary>
+	/// The URL of the avatar image to display in the profile avatar dropdown.
+	/// </summary>
+	[Parameter]
+	public required string AvatarUrl { get; set; }
+
+	/// <summary>
+	/// The collection of dropdown menu items for the profile avatar dropdown.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<DropdownMenuItem<int>> DropdownMenuItems { get; set; } = new List<DropdownMenuItem<int>>();
+}

@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Components.Routing;
+@namespace Carlton.Core.Flux.Debug.Components.Nav
+
+@* Navigation menu component for flux debugging environment. *@
+<nav class="nav-menu">
+	<!-- Logs link -->
+	<div class="nav-item">
+		<NavLink href="/debug/logs" Match="NavLinkMatch.All">
+			<div class="nav-link-content">
+				<span class="nav-item-icon mdi mdi-18px mdi-file-search"></span>
+				<span class="nav-item-text">Logs</span>
+			</div>
+		</NavLink>
+	</div>
+	<!-- Event Tracing link -->
+	<div class="nav-item">
+		<NavLink href="/debug/trace" Match="NavLinkMatch.All">
+			<div class="nav-link-content">
+				<span class="nav-item-icon mdi mdi-18px mdi-weather-lightning"></span>
+				<span class="nav-item-text">Event Tracing</span>
+			</div>
+		</NavLink>
+	</div>
+	<!-- Flux State -->
+	<div class="nav-item">
+		<NavLink href="/debug/flux-state" Match="NavLinkMatch.All">
+			<div class="nav-link-content">
+				<span class="nav-item-icon mdi mdi-18px mdi-database"></span>
+				<span class="nav-item-text">Flux State</span>
+			</div>
+		</NavLink>
+	</div>
+</nav>
+
+
+@code {
+	// Flag to control whether the navigation menu is collapsed or expanded
+	private bool collapseNavMenu = true;
+
+	// Toggles the navigation menu between collapsed and expanded states
+	private void ToggleNavMenu()
+	{
+		collapseNavMenu = !collapseNavMenu;
+	}
+}
