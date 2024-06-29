@@ -1,29 +1,23 @@
 <div align="center">
-    <img src="../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../../Components/Carlton.Core.Components/wwwroot/images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </div>
 </br>
 
 
-# Carlton.Core.Flux
+# Carlton.Core.Flux.Debug
 
-Welcome to `Carlton.Core.Flux`, powerful tool for managing state in your .NET applications, built on the principles of the Flux architecture. This repository houses the following sections:
+Welcome to `Carlton.Core.Flux`, A powerful suite of development features for working with the logs and internal state of a Carlton Flux application. This repository houses the following applications:
 
-- **Carlton.Core.Flux:** This project contains the core components and contracts for working with the Carlton Flux framework.
+- **Carlton.Core.Flux.Debug:** This project contains the core components and contracts for working with the Carlton Flux framework.
 
-- **Carlton.Core.Flux.Models:** This project contains the core components and contracts for working with the Carlton Flux framework.
-
-- **Carlton.Core.Flux.Test:** This project contains unit tests for the components in Carlton.Core.Flux, ensuring reliability and maintaining quality standards throughout the development process.
-
-- **Flux.Debug:** A powerful suite of development features for working with the logs and internal state of a Carlton Flux application. 
+- **Carlton.Core.Flux.Debug.Tests:** This project contains unit tests for the components in Carlton.Core.Flux, ensuring reliability and maintaining quality standards throughout the development process.
 
 Whether you're building a simple prototype or a complex enterprise application, Carlton.Core.Components offers a robust foundation for your Blazor projects. Dive in, explore the components, and accelerate your development workflow with Carlton.Core.Components.
 
 ## Contents
 
-- [Carlton.Core.Flux](./Carlton.Core.Flux/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Flux.Models](./Carlton.Core.Flux.Models/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Flux.Tests](./Carlton.Core.Flux.Tests/README.md): Detailed information and usage instructions for the main layout library.
-- [Flux.Debug](./Carlton.Core.Flux.Debug/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Flux.Debug](./Carlton.Core.Flux/Flux.Debug/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Flux.Debug.Tests](./Carlton.Core.Flux.Tests/Flux.Debug/README.md): Detailed information and usage instructions for the main layout library.
   
 ## Getting Started
 
