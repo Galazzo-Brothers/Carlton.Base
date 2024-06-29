@@ -1,10 +1,10 @@
-﻿using Carlton.Core.Foundation.Web.ViewState;
-using Carlton.Core.LayoutServices.FullScreen;
+﻿using Carlton.Core.LayoutServices.FullScreen;
 using Carlton.Core.LayoutServices.Modals;
 using Carlton.Core.LayoutServices.Panel;
 using Carlton.Core.LayoutServices.Theme;
 using Carlton.Core.LayoutServices.Toasts;
 using Carlton.Core.LayoutServices.Viewport;
+using Carlton.Core.LayoutServices.ViewState;
 using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.LayoutServices.Extensions;
 

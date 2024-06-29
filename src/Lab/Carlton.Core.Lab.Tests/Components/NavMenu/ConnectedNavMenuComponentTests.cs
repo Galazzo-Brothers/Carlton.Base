@@ -1,6 +1,6 @@
-﻿using Carlton.Core.Foundation.Web.ViewState;
-using Carlton.Core.Lab.Components.NavMenu;
+﻿using Carlton.Core.Lab.Components.NavMenu;
 using Carlton.Core.Lab.Models.Common;
+using Carlton.Core.LayoutServices.ViewState;
 using Microsoft.Extensions.DependencyInjection;
 namespace Carlton.Core.Lab.Test.Components.NavMenu;
 

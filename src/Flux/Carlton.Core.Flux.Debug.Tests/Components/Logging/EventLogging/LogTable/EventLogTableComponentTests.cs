@@ -1,10 +1,10 @@
 ﻿using AutoFixture.Xunit2;
 using Bunit;
 using Bunit.TestDoubles;
-using Carlton.Core.Components.Tables;
 using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 using Carlton.Core.Flux.Debug.Models.Common;
-using Carlton.Core.Foundation.Web.ViewState;
+using Carlton.Core.Layouts.Components;
+using Carlton.Core.LayoutServices.ViewState;
 using Carlton.Core.Utilities.Random;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;

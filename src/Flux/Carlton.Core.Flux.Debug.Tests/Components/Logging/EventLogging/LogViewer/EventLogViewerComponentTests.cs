@@ -5,7 +5,7 @@ using Carlton.Core.Flux.Debug.Components.Logging.EventLogging;
 using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogTable;
 using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.LogViewer;
 using Carlton.Core.Flux.Debug.Models.Common;
-using Carlton.Core.Foundation.Web.ViewState;
+using Carlton.Core.LayoutServices.ViewState;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
