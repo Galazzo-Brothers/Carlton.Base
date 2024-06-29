@@ -1,11 +1,11 @@
 ﻿<div align="center">
-    <img src="../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
+    <img src="../../../../images/CarltonLogo.png" alt="Carlton Logo" width="200" />
 </div>
 </br>
 
 # Carlton.Core.Flux.Test 
 
-The `Carlton.Core.Flux` library provides a powerful solution for managing state in .NET applications, following the principles of the Flux architecture. This test suite covers various aspects of the library, including state management, component interactions, command execution, server communication interception, and more.
+The `Carlton.Core.Flux.Debug` library provides a powerful tool set for develping, managing and monitoring state in Carlton Flux applications. This test suite covers various aspects of the library, including state management, component interactions, command execution, server communication interception, and more.
 
 ![C#](https://img.shields.io/badge/language-C%23-blue)
 ![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
