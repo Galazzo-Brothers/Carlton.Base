@@ -18,9 +18,9 @@ Whether you're building a simple prototype or a complex enterprise application, 
 
 ## Contents
 
-- [Carlton.Core.Components](./Carlton.Core.Components/README.md): Detailed information and usage instructions for the component library.
-- [Carlton.Core.Components.Tests](./Carlton.Core.Components.Tests/README.md): Detailed information and usage instructions for the component library unit tests.
-- [Carlton.Core.Components.Lab](./Carlton.Core.Components.Lab/README.md): Instructions for running component library test lab application.
+- [Carlton.Core.Components](./Carlton.Core.Components/README.md): Detailed information and usage instructions for the `Carlton.Core.Components` library.
+- [Carlton.Core.Components.Tests](./Carlton.Core.Components.Tests/README.md): Detailed information and usage instructions for the `Carlton.Core.Components` library unit tests.
+- [Carlton.Core.Components.Lab](./Carlton.Core.Components.Lab/README.md): Instructions for running the test lab application for `Carlton.Core.Components`.
   
 ## Getting Started
 
