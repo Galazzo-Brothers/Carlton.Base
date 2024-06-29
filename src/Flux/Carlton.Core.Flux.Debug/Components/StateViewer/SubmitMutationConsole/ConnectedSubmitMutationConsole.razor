@@ -1,8 +1,0 @@
-﻿@using Carlton.Core.Flux.Debug.Components.StateViewer.MutationCommandViewer
-@namespace Carlton.Core.Flux.Debug.Components.StateViewer.SubmitMutationConsole
-@inherits BaseConnectedComponent<SubmitMutationConsoleViewModel>
-
-@* This Razor component is the connected component for the SubmitMutationConsole component. *@
-<ViewStateSubmitMutationConsole MutationTypes="ViewModel.MutationCommandTypes"
-								OnMutationSubmit="this.RaiseComponentFluxEvent<SubmitMutationConsoleViewModel, SubmitMutationCommand>" />
-
