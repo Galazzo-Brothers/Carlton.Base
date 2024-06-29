@@ -10,6 +10,8 @@ Welcome to `Carlton.Core.Flux`, powerful tool for managing state in your .NET ap
 
 - **Carlton.Core.Flux:** This project contains the core components and contracts for working with the Carlton Flux framework.
 
+- **Carlton.Core.Flux.Models:** This project contains the core components and contracts for working with the Carlton Flux framework.
+
 - **Carlton.Core.Flux.Test:** This project contains unit tests for the components in Carlton.Core.Flux, ensuring reliability and maintaining quality standards throughout the development process.
 
 - **Flux.Debug:** A powerful suite of development features for working with the logs and internal state of a Carlton Flux application. 
@@ -19,6 +21,7 @@ Whether you're building a simple prototype or a complex enterprise application, 
 ## Contents
 
 - [Carlton.Core.Flux](./Carlton.Core.Flux/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Flux.Models](./Carlton.Core.Flux.Models/README.md): Detailed information and usage instructions for the main layout library.
 - [Carlton.Core.Flux.Tests](./Carlton.Core.Flux.Tests/README.md): Detailed information and usage instructions for the main layout library.
 - [Flux.Debug](./Carlton.Core.Flux.Debug/README.md): Instructions for running unit tests and validating layout functionality.
   
