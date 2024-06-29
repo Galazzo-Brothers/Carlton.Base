@@ -1,0 +1,13 @@
+﻿/* Return Menu Styles */
+.return-menu {
+	margin-top: auto;
+	margin-bottom: auto;
+	color: var(--layout-header-icon-color);
+}
+
+/*Media Queries*/
+@media (max-width: 768px) {
+	.return-menu {
+		color: var(--layout-mobile-header-icon-color);
+	}
+}

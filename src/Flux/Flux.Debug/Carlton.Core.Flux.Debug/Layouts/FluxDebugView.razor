@@ -1,0 +1,30 @@
+﻿@namespace Carlton.Core.Flux.Debug.Layouts
+@inject NavigationManager Navigation
+
+@* Represents a layout component that conditionally renders debug or application content. *@
+@if(IsDebug)
+{
+    @DebugContent
+}
+else
+{
+    @ApplicationContent
+}
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the debug content to be rendered.
+	/// </summary>
+	[Parameter]
+    public required RenderFragment DebugContent { get; set; }
+
+	/// <summary>
+	/// Gets or sets the application content to be rendered.
+	/// </summary>
+	[Parameter]
+    public required RenderFragment ApplicationContent { get; set; }
+
+	// Determines whether the current page is under debug mode.
+    private bool IsDebug { get => Navigation.Uri.Contains("/debug"); }
+}

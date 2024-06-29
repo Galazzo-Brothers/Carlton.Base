@@ -1,0 +1,65 @@
+﻿@using Carlton.Core.Components
+@using Carlton.Core.Components.Dropdowns
+@using Carlton.Core.Components.Modals
+@using Carlton.Core.Components.Toasts
+@using Carlton.Core.Flux.Debug.Components.Header
+@using Carlton.Core.Flux.Debug.Layouts
+@using Carlton.Core.LayoutServices.Modals
+@using Carlton.Core.LayoutServices.Theme
+@using Carlton.Core.LayoutServices.Toasts
+@namespace Carlton.Core.Flux.Debug.Components
+@inherits BaseConnectedComponent<HeaderActionsViewModel>
+@inject IThemeState ThemeState
+@inject IModalState ModalState
+@inject NavigationManager NavigationManager
+@inject IToastState ToastState
+@inject MemoryLogger MemoryLogger
+
+@* Component for rendering header actions in a debug environment. *@
+<FluxDebugHeaderActions UserName="@ViewModel.UserName"
+						AvatarUrl="@ViewModel.AvatarUrl"
+						DropdownMenuItems="DropdownMenuItems" />
+
+
+@code {
+	private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
+	{
+		get =>
+			new List<DropdownMenuItem<int>>
+			{
+				new DropdownMenuItem<int>{ MenuItemName = "Profile", Value = 1, MenuIcon = "account", AccentColorIndex = 1, MenuItemSelected = () => { } },
+				new DropdownMenuItem<int>{ MenuItemName = "Theme", Value = 2, MenuIcon = "theme-light-dark", AccentColorIndex = 2, MenuItemSelected = () => ThemeState.ToggleTheme() },
+				new DropdownMenuItem<int>{ MenuItemName = "Clear Local Storage", Value = 3, MenuIcon = "delete", AccentColorIndex   = 3, MenuItemSelected = RaiseClearLocalStorageConfirmationModal},
+				new DropdownMenuItem<int>{ MenuItemName = "Open in App", Value = 4, MenuIcon = "open-in-app", AccentColorIndex = 4, MenuItemSelected = () => NavigationManager.NavigateTo($"/")},
+				new DropdownMenuItem<int>{ MenuItemName = "Logout", Value = 5, MenuIcon = "logout", AccentColorIndex    = 5, MenuItemSelected = () => {}}
+			};
+
+	}
+
+	private void RaiseClearLocalStorageConfirmationModal()
+		=> ModalState.RaiseModal(ModalTypes.ConfirmationModal.ToString(),
+			new ModalViewModel
+				{
+					Prompt = "Are you sure",
+					Message = "Are you sure you want to clear the local storage logs?",
+					CloseModal = ClearLocalStorageConfirmed,
+					DismissModal = null
+				});
+
+
+	private async Task ClearLocalStorageConfirmed(ModalCloseEventArgs args)
+	{
+		//Check if user confirmed the action
+		if (!args.UserConfirmed)
+			return;
+
+		//Notify the user via a toast
+		ToastState.RaiseToast("Success", "Local Storage has been cleared.", ToastTypes.Success.ToString());
+
+		//Update the in memory state store to reflect the action
+		await base.OnComponentEvent.InvokeAsync(new ClearLogsCommand());
+
+		//Clear the memory logger
+		MemoryLogger.ClearLogMessages();
+	}
+}

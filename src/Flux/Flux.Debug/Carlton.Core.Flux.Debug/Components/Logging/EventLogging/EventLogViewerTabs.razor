@@ -1,0 +1,35 @@
+﻿@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Flux.Components
+@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Scopes
+@using Carlton.Core.Flux.Debug.State
+@using Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
+@namespace Carlton.Core.Flux.Debug.Components.Logging.EventLogging
+
+@* Represents a layout component with tabs for displaying log details and log scopes. *@
+<PageTabs ActiveTabIndex="TabIndex"
+		  OnTabChange="OnTabChange">
+	<TabContent>
+		<!-- Log Details Tab -->
+		<Tab DisplayText="Log Details" Icon="mdi-information">
+			<FluxDebugComponent TViewModel="EventLogDetailsViewModel" />
+		</Tab>
+		<!-- Log Scopes Tab -->
+		<Tab DisplayText="Log Scopes" Icon="mdi-file-tree">
+			<FluxDebugComponent TViewModel="EventLogScopesViewModel" />
+		</Tab>
+	</TabContent>
+</PageTabs>
+
+@code {
+	/// <summary>
+	/// Gets or sets the tab index.
+	/// </summary>
+	[Parameter]
+	public int TabIndex { get; set; }
+
+	/// <summary>
+	/// EventCallback for the selected tab change.
+	/// </summary>
+	[Parameter]
+	public EventCallback<int> OnTabChange { get; set; }
+}

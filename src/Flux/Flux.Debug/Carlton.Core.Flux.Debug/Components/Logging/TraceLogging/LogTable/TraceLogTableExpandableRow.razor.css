@@ -1,0 +1,72 @@
+﻿/* Removes background on hover for table rows */
+.table-row:hover {
+	background: initial;
+}
+
+/* Styles for the starting row of the table */
+.table-row.starting-row {
+	background-color: var(--card-background-color);
+	border-bottom: transparent;
+}
+
+	/* Styles for the selected starting row */
+	.table-row.starting-row.selected {
+		background-color: var(--table-row-selected-background-color);
+	}
+
+/* Limits the maximum width of the first cell in a table row */
+.table-row .table-cell:first-of-type {
+	max-width: 25px;
+}
+
+/* Styles for child rows of the table */
+.table-row.child-row {
+	background-color: var(--component-secondary-background-color);
+	border-bottom: transparent;
+}
+
+/* Base styles for table cells */
+.table-cell {
+}
+
+	/* Styles for text within table cells */
+	.table-cell .cell-text {
+		max-width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+		overflow-wrap: anywhere;
+	}
+
+/* Styles for the chevron cell, used for expand/collapse icons */
+.chevron-cell {
+	margin-top: auto;
+	margin-bottom: auto;
+	color: var(--primary-text-color);
+}
+
+	/* Styles for the chevron icon within the chevron cell */
+	.chevron-cell .chevron {
+		cursor: pointer;
+	}
+
+		/* Styles for a dimmed chevron icon */
+		.chevron-cell .chevron.dimmed {
+			opacity: .5;
+			cursor: default;
+			cursor: initial;
+		}
+
+/* Base styles for child rows */
+.child-row {
+}
+
+	/* Styles for selected child rows */
+	.child-row.selected {
+		background-color: var(--table-row-selected-background-color);
+	}
+
+	/* Styles for collapsed child rows, making them hidden */
+	.child-row.collapsed {
+		display: none;
+	}

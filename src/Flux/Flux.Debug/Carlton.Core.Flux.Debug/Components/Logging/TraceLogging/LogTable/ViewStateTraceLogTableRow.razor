@@ -1,0 +1,34 @@
+﻿@using Carlton.Core.LayoutServices.ViewState
+@namespace Carlton.Core.Flux.Debug.Components.Logging.TraceLogging.LogTable
+@inherits TraceLogTableExpandableRow
+@inject IViewStateService ViewStateService
+
+@* Represents a ViewState row in the trace log table that retains the expanded state. *@
+<TraceLogTableExpandableRow TraceLogMessageGroup="TraceLogMessageGroup"
+							SelectedTraceLogMessageIndex="SelectedTraceLogMessageIndex"
+							IsExpanded="IsRowExpanded"
+							OnSelectedTraceLogMessageChanged="OnSelectedTraceLogMessageChanged"
+							OnTraceLogMessageExpansionChanged="HandleTraceLogMessageExpansionChanged" />
+
+@code {
+
+	private List<int> ExpandedRows => ViewStateService.Get<TraceLogTableExpandedRowsState>(nameof(TraceLogTableExpandableRow)).ExpandedRows;
+	private bool IsRowExpanded => ExpandedRows.Contains(TraceLogMessageGroup.ParentEntry.Id);
+
+	protected override void OnInitialized()
+	{
+		ViewStateService.InitializeKey<TraceLogTableExpandedRowsState>(nameof(TraceLogTableExpandableRow), new TraceLogTableExpandedRowsState());
+		base.OnInitialized();
+	}
+
+	// Handles the event when the expansion state of a trace log message changes.
+	private void HandleTraceLogMessageExpansionChanged(TraceLogMessageExpansionChangedArgs args)
+	{
+		if (args.IsExpanded)
+			ExpandedRows.Add(args.TraceLogMessage.Id);
+		else
+			ExpandedRows.Remove(args.TraceLogMessage.Id);
+;
+		OnTraceLogMessageExpansionChanged.InvokeAsync(args);
+	}
+}
