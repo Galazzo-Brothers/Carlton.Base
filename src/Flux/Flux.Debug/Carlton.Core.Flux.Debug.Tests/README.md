@@ -3,7 +3,7 @@
 </div>
 </br>
 
-# Carlton.Core.Flux.Test 
+# Carlton.Core.Flux.Debug.Tests
 
 The `Carlton.Core.Flux.Debug` library provides a powerful tool set for develping, managing and monitoring state in Carlton Flux applications. This test suite covers various aspects of the library, including state management, component interactions, command execution, server communication interception, and more.
 
@@ -20,7 +20,6 @@ Comprehensive unit tests for: each blazor component, handler and middlware class
 * Handlers
 * Middlware
   
-
 ## Dependencies
 
 * Carlton.Core.Foundation.Tests
