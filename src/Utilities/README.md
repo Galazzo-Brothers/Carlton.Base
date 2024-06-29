@@ -14,8 +14,8 @@ Welcome to the Carlton.Core.Utilities repository! This repository contains stati
 
 ## Contents
 
-- [Carlton.Core.Utilities](./Carlton.Core.Utilities/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Utilities.Test](./Carlton.Core.Utilities.Tests/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Utilities](./Carlton.Core.Utilities/README.md): Detailed information and usage instructions for the `Carlton.Core.Utilities` library.
+- [Carlton.Core.Utilities.Test](./Carlton.Core.Utilities.Tests/README.md): Instructions for running unit tests and validating `Carlton.Core.Utilities` functionality.
 
 ## Getting Started
 
