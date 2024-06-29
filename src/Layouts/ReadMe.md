@@ -13,14 +13,14 @@ Welcome to the Carlton.Core.Layouts repository! This repository contains the mai
 
  - **Carlton.Core.Layouts:** Provides a collection of pre-designed layouts for building robust Blazor applications within the Carlton Organization ecosystem. These layouts offer various features and components to enhance user experience and maintain consistency across projects.
 
-- **Carlton.Core.Layouts.Test:** Contains unit tests for validating the functionality and behavior of the layouts provided by the `Carlton.Core.Layouts` library.
+- **Carlton.Core.Layouts.Tests:** Contains unit tests for validating the functionality and behavior of the layouts provided by the `Carlton.Core.Layouts` library.
 
 ## Contents
 
-- [Carlton.Core.LayoutServices](./Carlton.Core.LayoutServices/README.md):  Detailed information and usage instructions for the base layout services library.
-- [Carlton.Core.LayoutServices.Tests](./Carlton.Core.LayoutServices.Tests/README.md): Instructions for running unit tests and validating layout services functionality
-- [Carlton.Core.Layouts](./Carlton.Core.Layouts/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Layouts.Tests](./Carlton.Core.Layouts.Tests/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.LayoutServices](./Carlton.Core.LayoutServices/README.md):  Detailed information and usage instructions for the base `Carlton.Core.LayoutServices` library.
+- [Carlton.Core.LayoutServices.Tests](./Carlton.Core.LayoutServices.Tests/README.md): Instructions for running unit tests and validating layout `Carlton.Core.LayoutServices` functionality
+- [Carlton.Core.Layouts](./Carlton.Core.Layouts/README.md): Detailed information and usage instructions for the `Carlton.Core.Layouts` library.
+- [Carlton.Core.Layouts.Tests](./Carlton.Core.Layouts.Tests/README.md): Instructions for running unit tests and validating `Carlton.Core.Layouts.Tests` functionality.
 
 ## Getting Started
 
@@ -28,4 +28,4 @@ For detailed usage instructions and documentation for each package, please refer
 
 ## Feedback and Contributions
 
-We welcome feedback, suggestions, and contributions from the community to improve the Carlton.Core.Layouts library. If you encounter any issues, have ideas for enhancemet
+We welcome feedback, suggestions, and contributions from the community to improve the `Carlton.Core.Layouts` library. If you encounter any issues, have ideas for enhancemet
