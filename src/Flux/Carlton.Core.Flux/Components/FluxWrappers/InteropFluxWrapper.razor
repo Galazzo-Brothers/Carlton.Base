@@ -1,0 +1,72 @@
+﻿@using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@namespace Carlton.Core.Flux.Components
+@typeparam TState
+@typeparam TViewModel
+@inherits FluxWrapper<TState, TViewModel>
+@inject IJSRuntime JsRuntime;
+@inject ILogger<InteropFluxWrapper<TViewModel, TState>> Logger;
+
+@*
+	An interop component for integrating with JavaScript functions and modules in Flux components.
+	<typeparam name="TState">The type of Flux state.</typeparam>
+	<typeparam name="TViewModel">The type of view model.</typeparam>
+*@
+
+
+@if (IsLoading)
+{
+	<!-- Spinner Content -->
+    @SpinnerContent
+}
+else
+{
+	<!-- Wrapped Flux Component-->
+    <DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+}
+
+
+@code {
+    private const string Import = "import";
+
+	/// <summary>
+	/// Gets or sets the JavaScript module to import.
+	/// </summary>
+	[Parameter]
+    public string JsModule { get; set; }
+
+	/// <summary>
+	/// Gets or sets the JavaScript function to invoke.
+	/// </summary>
+	[Parameter]
+    public string JsFunction { get; set; }
+
+	/// <summary>
+	/// Gets or sets the parameters to pass to the JavaScript function.
+	/// </summary>
+	[Parameter]
+    public object[] JsParameters { get; set; }
+
+    protected override async Task<TViewModel> GetViewModel()
+    {
+        var vmType = typeof(TViewModel).GetDisplayName();
+        using (Logger.BeginScope(FluxLogs.BeginJsInteropLoggingScopes(Logger, JsModule, JsFunction, JsParameters)))
+        {
+            try
+            {
+                await using var module = await JsRuntime.InvokeAsync<IJSObjectReference>(Import, JsModule);
+                var result = await module.InvokeAsync<TViewModel>(JsFunction, CancellationToken.None, JsParameters);
+                Logger.ViewModelJsInteropQueryCompleted(vmType);
+                return result;
+            }
+            catch (JSException ex)
+            {
+                Logger.ViewModelJsInteropQueryErrored(ex, vmType);
+                throw;
+            }
+        }
+    }
+}
+
+
+

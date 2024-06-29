@@ -1,0 +1,136 @@
+﻿@namespace Carlton.Core.Components.Accordion.AccordionSelect
+@typeparam TValue
+
+@*
+    Represents an accordion-style select component used for navigation or selecting items.
+    This component allows expanding and collapsing items, selecting an item, and handling item expansion changes.
+*@
+
+<div class="accordion-select">
+    <div class="content">
+        <!-- Header section of the accordion containing the title and toggle icon. -->
+        <div class="@AccordionHeaderCssClass" @onclick="() => HandleItemExpansionChange()">
+            <span class="@AccordionIconBtnCssClass"></span>
+            <span class="item-group-name">
+                @Title
+            </span>
+        </div>
+        <!-- Container for the selectable items. -->
+        <div class="@ItemContainerCssClass">
+            @foreach (var item in Items)
+            {
+                <!-- Individual selectable item within the container. -->
+                <div class="@ItemCss(item.Index)" @onclick="() => HandleItemSelected(item)">
+                    <span class="@ItemIconCss"></span>
+                    <span class="item-name">
+                        @item.Name
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the title of the accordion.
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the collection of selectable items.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<AccordionSelectModel<TValue>> Items { get; set; } = new List<AccordionSelectModel<TValue>>();
+
+    /// <summary>
+    /// Gets or sets the index of the currently selected item.
+    /// </summary>
+    [Parameter]
+    public int SelectedIndex { get; set; } = -1;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the accordion is expanded.
+    /// </summary>
+    [Parameter]
+    public bool IsExpanded { get; set; }
+
+    /// <summary>
+    /// Event callback invoked when an item is selected.
+    /// </summary>
+    [Parameter]
+    public EventCallback<AccordionSelectModel<TValue>> OnItemSelected { get; set; }
+
+    /// <summary>
+    /// Event callback invoked when the accordion expansion state changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OnItemExpansionChange { get; set; }
+
+    /// <summary>
+    /// Gets the value of the currently selected item.
+    /// </summary>
+    public TValue SelectedValue { get => SelectedIndex == -1 ? default(TValue) : Items.ElementAt(SelectedIndex).Value; }
+
+    protected override void OnInitialized()
+    {
+        var indicesAreInvalid = SelectedIndex < -1 || //Index less than -1 not allowed
+                                 (!Items.Any() && SelectedIndex != -1) || //Empty items must have index -1
+                                 (Items.Any() && SelectedIndex > Items.Count() - 1); //Non-Empty items must have index within group count
+
+        if (indicesAreInvalid)
+            throw new ArgumentException("The SelectedIndex parameter value is invalid.");
+
+        base.OnInitialized();
+    }
+
+    private async Task HandleItemExpansionChange()
+    {
+        IsExpanded = !IsExpanded;
+        await OnItemExpansionChange.InvokeAsync(IsExpanded);
+    }
+
+    private async Task HandleItemSelected(AccordionSelectModel<TValue> item)
+    {
+        SelectedIndex = item.Index;
+        await OnItemSelected.InvokeAsync(item);
+    }
+
+    private string AccordionHeaderCssClass
+    {
+        get => new CssBuilder("accordion-header")
+                .AddClass("selected", SelectedIndex != -1)
+                .Build();
+    }
+
+    private string AccordionIconBtnCssClass
+    {
+        get => new CssBuilder("accordion-icon-btn")
+                 .AddClass("mdi mdi-icon mdi-24px")
+                 .AddClass("mdi-minus-box-outline", IsExpanded)
+                 .AddClass("mdi-plus-box-outline", !IsExpanded)
+                 .Build();
+    }
+
+    private string ItemContainerCssClass
+    {
+        get => new CssBuilder("item-container")
+                 .AddClass("collapsed", !IsExpanded)
+                 .Build();
+    }
+
+    private Func<int, string> ItemCss
+    {
+        get => (index) => new CssBuilder("item")
+            .AddClass("selected", SelectedIndex == index)
+            .Build();
+    }
+
+    private string ItemIconCss
+    {
+        get => new CssBuilder("icon")
+               .AddClass("mdi mdi-icon mdi-12px mdi-bookmark")
+               .Build();
+    }
+}

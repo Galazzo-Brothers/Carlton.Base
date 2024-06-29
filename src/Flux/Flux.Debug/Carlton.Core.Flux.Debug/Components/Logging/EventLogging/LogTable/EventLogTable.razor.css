@@ -1,0 +1,5 @@
+﻿/*Log Table Heading Style Overrides*/
+::deep .header-cell .heading-text {
+	margin-left: auto;
+	margin-right: auto;
+}

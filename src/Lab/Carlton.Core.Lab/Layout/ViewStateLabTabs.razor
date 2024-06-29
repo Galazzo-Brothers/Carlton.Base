@@ -1,0 +1,15 @@
+﻿@using Carlton.Core.LayoutServices.ViewState
+@namespace Carlton.Core.Lab.Layouts
+@inherits LabTabs
+@inject IViewStateService ViewStateService
+
+<LabTabs ActiveTabIndex="ViewStateService.Get<int>(nameof(LabTabs))" OnTabChange="args => ViewStateService.Set<int>(nameof(LabTabs), args)" />
+
+
+@code {
+	protected override void OnInitialized()
+	{
+		ViewStateService.InitializeKey<int>(nameof(LabTabs));
+		base.OnInitialized();
+	}
+}

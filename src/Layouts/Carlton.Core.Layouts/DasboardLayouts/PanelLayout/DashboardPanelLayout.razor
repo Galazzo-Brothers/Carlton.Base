@@ -1,0 +1,39 @@
+﻿@using Carlton.Core.LayoutServices.FullScreen
+@using Carlton.Core.LayoutServices.Panel
+@using Carlton.Core.LayoutServices.Viewport
+@using Carlton.Core.Layouts.Manager
+@namespace Carlton.Core.Layouts.DashboardLayouts.PanelLayout
+@inherits LayoutComponentBase
+@layout LayoutManager
+@inject IFullScreenState FullScreenState
+@inject IPanelState PanelState
+
+@* Represents the panel layout for the dashboard. *@
+<MediaQueryWrapper>
+    <!-- Desktop Content -->
+    <DesktopContent>
+        <DashboardPanelDesktopLayout BodyContent="@Body"
+                                     IsFullScreen="FullScreenState.IsFullScreen"
+                                     ShowPanel="PanelState.IsPanelVisible" />
+    </DesktopContent>
+
+    <!-- Mobile Content -->
+    <MobileContent>
+        <DashboardPanelMobileLayout BodyContent="@Body"
+                                    IsFullScreen="FullScreenState.IsFullScreen"
+                                    ShowPanel="PanelState.IsPanelVisible" />
+    </MobileContent>
+</MediaQueryWrapper>
+
+@code {
+	// Static objects for various content sections
+	public static object Nav = new();
+	public static object Logo = new();
+	public static object HeaderPageTitle = new();
+	public static object HeaderActionContent = new();
+	public static object Panel = new();
+	public static object Footer = new();
+}
+
+
+

@@ -1,0 +1,52 @@
+﻿@using Carlton.Core.Components.Accordion.AccordionSelectGroup
+@using Carlton.Core.Lab.Extensions
+@using Carlton.Core.Layouts.Components
+@namespace Carlton.Core.Lab.Components.NavMenu
+@attribute [ObserveStateEvent("MenuItemSelected")]
+@attribute [ObserveStateEvent("ComponentStateSelected")]
+@inherits BaseConnectedComponent<NavMenuViewModel>
+
+@*
+    Represents a navigation menu component.
+    It observes state events and displays a menu with selectable items.
+    It also provides functionality to expand/collapse menu items.
+*@
+<ViewStateAccordionSelectGroup TValue="ComponentState"
+							   Groups="ComponentStateGroups"
+							   SelectedGroupIndex="ViewModel.SelectedComponentIndex"
+							   SelectedItemIndex="ViewModel.SelectedStateIndex"
+							   OnGroupExpansionChange="HandleGroupExpansionChange"
+							   OnItemSelected="this.RaiseComponentFluxEvent<NavMenuViewModel, SelectMenuItemCommand>" />
+
+
+@code {
+	private IEnumerable<AccordionSelectGroupModel<ComponentState>> ComponentStateGroups { get; set; }
+
+	protected override void OnInitialized()
+	{
+		ParseComponentStatesIntoAccordionGroups();
+		base.OnInitialized();
+	}
+
+	private void ParseComponentStatesIntoAccordionGroups()
+	{
+		var components = ViewModel.MenuItems;
+
+		var builder = new AccordionSelectGroupModelBuilder<ComponentState>();
+
+		foreach (var (component, i) in components.WithIndex())
+		{
+			var dictionary = component.ComponentStates.ToDictionary(x => x.DisplayName, x => x);
+			builder.AddGroup(component.ComponentType.GetDisplayName(), i == 0 ? true : false, dictionary);
+		}
+
+		ComponentStateGroups = builder.Build();
+	}
+
+	private void HandleGroupExpansionChange(AccordionSelectGroupExpansionChangeEventArgs args)
+	{
+		var newGroups = ComponentStateGroups.ToList();
+		newGroups[args.GroupIndexId] = newGroups[args.GroupIndexId] with { IsExpanded = args.IsExpanded };
+		ComponentStateGroups = newGroups;
+	}
+}

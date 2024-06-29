@@ -1,0 +1,37 @@
+﻿@using Carlton.Core.Components.Dropdowns
+@using Carlton.Core.LayoutServices.Theme
+@using Carlton.Core.LayoutServices.Toasts
+@namespace Carlton.Core.Lab.Layouts
+@inject IThemeState ThemeState
+@inject NavigationManager NavigationManager
+
+@*
+    Represents header actions for the component lab layout.
+*@
+<div class="component-lab-header-actions">
+    <ThemeMenu />
+    <NotificationMenu />
+    <DebugMenu />
+    <ProfileAvatarDropdown
+        Username="Stephen"
+        AvatarImgUrl="_content/Carlton.Core.Components/images/avatar.jpg"
+        DropdownMenuItems="DropdownMenuItems" />
+</div>
+
+
+@code {
+	// Generates the dropdown menu items
+	private IEnumerable<DropdownMenuItem<int>> DropdownMenuItems
+	{
+		get
+		{
+			return new List<DropdownMenuItem<int>>
+            {
+                new DropdownMenuItem<int>{ MenuItemName = "Profile", Value = 1, MenuIcon = "account", AccentColorIndex = 1, MenuItemSelected = () => {} },
+                new DropdownMenuItem<int>{ MenuItemName = "Theme", Value = 2, MenuIcon = "theme-light-dark", AccentColorIndex = 2, MenuItemSelected = () => ThemeState.ToggleTheme() },
+                new DropdownMenuItem<int>{ MenuItemName = "Debug", Value = 3, MenuIcon = "bug-outline", AccentColorIndex = 3, MenuItemSelected = () => NavigationManager.NavigateTo($"/debug/logs") },
+                new DropdownMenuItem<int>{ MenuItemName = "Logout", Value = 4, MenuIcon = "logout", AccentColorIndex = 4, MenuItemSelected = () => {} }
+            };
+        }
+    }
+}

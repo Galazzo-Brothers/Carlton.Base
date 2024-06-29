@@ -1,0 +1,86 @@
+﻿@using Carlton.Core.Flux.Components.ErrorComponents
+@namespace Carlton.Core.Flux.Components
+@inherits ErrorBoundary
+@inject ILogger<FluxErrorBoundary> Logger
+
+
+@*
+	Represents a component that handles errors and displays an error prompt.
+	Specifically designed to catch FluxExceptions during Flux operations.
+    <typeparam name="TViewModel">The type of view model used by the component.</typeparam>
+*@
+
+@if (ShowErrorContent)
+{
+	<!--Error Content-->
+	@ErrorPrompt(ErrorPromptModel)
+}
+else
+{
+	<!--Primary Content -->
+	@ChildContent
+}
+
+@code {
+	/// <summary>
+	/// Gets or sets the render fragment for displaying the error prompt.
+	/// </summary>
+	[Parameter]
+	public RenderFragment<ErrorPromptModel> ErrorPrompt { get; set; }
+
+	// Hide the ErrorContent in favor of the new ErrorPrompt
+	private new RenderFragment<Exception> ErrorContent { get; set; }
+
+	private bool ShowErrorContent { get => base.CurrentException != null; }
+
+	private ErrorPromptModel ErrorPromptModel { get; set; }
+
+	protected override Task OnErrorAsync(Exception exception)
+	{
+		if (exception is FluxException cmdEx)
+		{
+			ErrorPromptModel = GetErrorPromptModel(cmdEx.Message, cmdEx.EventId);
+		}
+		else
+		{
+			//This is not a flux related error.
+			//It is an error that has occurred during rendering
+			Logger.LogError(exception, "An exception has occurred while rendering a flux component");
+			ErrorPromptModel = GetErrorPromptModel(FluxLogs.FriendlyErrorMsg, FluxLogs.Flux_ComponentRendering_Error);
+		}
+
+		return base.OnErrorAsync(exception);
+	}
+
+	private ErrorPromptModel GetErrorPromptModel(string message, int eventId)
+	{
+		var friendlyMessage = string.Empty;
+		if (eventId == FluxLogs.Flux_Validation_Error)
+			friendlyMessage = message;
+		else
+			friendlyMessage = GetConditionalErrorMessage(message);
+
+
+		return new ErrorPromptModel
+			{
+				Header = "Error",
+				Message = friendlyMessage,
+				IconClass = "mdi-alert-circle-outline",
+				Recover = base.Recover
+			};
+	}
+
+	private static string GetConditionalErrorMessage(string errMsg)
+	{
+#if DEBUG
+	return errMsg;
+#else
+		return FluxLogs.FriendlyErrorMsg;
+#endif
+	}
+}
+
+
+
+
+

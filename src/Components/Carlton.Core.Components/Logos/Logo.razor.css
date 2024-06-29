@@ -1,0 +1,70 @@
+﻿/* Logo Variables */
+.logo {
+	--logo-height: 75px;
+	--logo-max-width: 250px;
+	--logo-img-height: 50px;
+	--logo-img-width: 50px;
+	--logo-background-color: #212120;
+	--logo-color: #fff;
+	--logo-font-size: 12pt;
+}
+
+/* Logo Base Styles */
+.logo {
+	display: flex;
+	background-color: var(--logo-background-color);
+	width: 100%;
+	max-width: var(--logo-max-width);
+	height: var(--logo-height);
+	line-height: var(--logo-height);
+	margin-bottom: 0px;
+	justify-content: center;
+}
+
+	/* Logo Content Styles */
+	.logo .content {
+		display: flex;
+		flex-basis: 85%;
+		white-space: nowrap;
+		overflow:hidden;
+	}
+
+		.logo .content .title {
+			vertical-align: middle;
+			font-size: var(--logo-font-size);
+			color: var(--logo-color);
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.logo .content img {
+			height: var(--logo-img-height);
+			width: var(--logo-img-width);
+			margin-top: auto;
+			margin-bottom: auto;
+			vertical-align: middle;
+		}
+
+	/* Logo Content Styles */
+	.logo.collapsed .content {
+		display: flex;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.logo.collapsed .content img {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.logo.collapsed .title {
+		display: none;
+	}
+
+/* Responsive Styles */
+@media (max-width: 767.98px) {
+	.logo .title {
+		display: none;
+	}
+}
+

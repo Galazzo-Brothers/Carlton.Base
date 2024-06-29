@@ -1,0 +1,10 @@
+﻿@namespace Carlton.Core.LayoutServices.FullScreen
+@inject IFullScreenState FullScreenState
+
+@* The FullScreen component allows toggling between full-screen and normal screen modes. *@
+<div class="collapser" @onclick:preventDefault @onclick="FullScreenState.ToggleFullScreen">
+	<a href="#">
+		<span class="mdi mdi-24px mdi-menu" />
+	</a>
+</div>
+

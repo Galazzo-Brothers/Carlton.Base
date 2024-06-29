@@ -1,0 +1,14 @@
+﻿.component-lab-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+    .component-lab-header-actions .icon {
+        margin-top: auto;
+        margin-block: auto;
+        color: var(--layout-header-icon-color);
+    }
+
+    .component-lab-header-actions ::deep .vertical-spacer {
+        border-left-color: var(--layout-header-icon-color);
+    }

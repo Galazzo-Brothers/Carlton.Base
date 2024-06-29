@@ -1,0 +1,15 @@
+﻿@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Components.Consoles
+@using Carlton.Core.Lab.Extensions
+@namespace Carlton.Core.Lab.Components.ParametersViewer
+@attribute [ObserveStateEvent("MenuItemSelected")]
+@attribute [ObserveStateEvent("ParametersUpdated")]
+@inherits BaseConnectedComponent<ParametersViewerViewModel>
+
+@* Represents connected component wiring up of ParametersViewer component *@
+<JsonViewerConsole Object="ViewModel.ComponentParameters"
+				   IsReadOnly="false"
+				   OnSubmit="this.RaiseComponentFluxEvent<ParametersViewerViewModel, UpdateParametersCommand>" />
+
+
+

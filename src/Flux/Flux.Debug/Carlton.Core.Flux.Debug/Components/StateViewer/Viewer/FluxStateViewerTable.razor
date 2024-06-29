@@ -1,0 +1,49 @@
+﻿@using Carlton.Core.Components.Buttons
+@using Carlton.Core.Layouts.Components
+@namespace Carlton.Core.Flux.Debug.Components.StateViewer.Viewer
+
+@* Component for displaying a table of recorded mutations with options to select mutations and playback the FluxState. *@
+<ViewStateTable TItem="RecordedMutation"
+				Headings="@Headings"
+				Items="RecordedMutations"
+				ZebraStripped="true"
+				SortableHeadersEnabled="false"
+				ShowPaginationRow="true"
+				RowsPerPageOptions="RowsPerPageOpts"
+				ViewStateKey="@nameof(FluxStateViewerTable)">
+	<RowTemplate Context="item">
+		<FluxStateViewerTableRow Mutation="item"
+								 IsSelected="item.MutationIndex == SelectedMutationIndex"
+								 OnRecordedMutationSelected="OnRecordedMutationSelected" />
+	</RowTemplate>
+</ViewStateTable>
+
+@code {
+	/// <summary>
+	/// Gets or sets the collection of recorded mutations.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<RecordedMutation> RecordedMutations { get; set; }
+
+	/// <summary>
+	/// Gets or sets the index of the selected mutation.
+	/// </summary>
+	[Parameter]
+	public int SelectedMutationIndex { get; set; }
+
+	/// <summary>
+	/// Event callback invoked when a recorded mutation is selected.
+	/// </summary>
+	[Parameter]
+	public EventCallback<SelectedMutationCommandChangedArgs> OnRecordedMutationSelected { get; set; }
+
+	private IEnumerable<TableHeadingItem> Headings = new List<TableHeadingItem>
+	{
+		new TableHeadingItem("Id"),
+		new TableHeadingItem("Timestamp"),
+		new TableHeadingItem("Mutation"),
+		new TableHeadingItem("Select Mutation")
+	};
+
+	private IEnumerable<int> RowsPerPageOpts = new List<int> { 5, 10, 15 };
+}

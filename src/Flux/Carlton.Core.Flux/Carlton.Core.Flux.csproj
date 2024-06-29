@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+				<PropertyGroup>
+								<TargetFramework>net8.0</TargetFramework>
+								<Authors>Nicholas Galazzo</Authors>
+								<Product>Project Carlton</Product>
+								<Company>Project Carlton</Company>
+								<Description>Contains the carlton state management framework for web aseembly front ends.</Description>
+								<RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.git</RepositoryUrl>
+								<PackageVersion>1.0.1</PackageVersion>
+				</PropertyGroup>
+
+				<PropertyGroup>
+								<ImplicitUsings>enable</ImplicitUsings>
+				</PropertyGroup>
+
+				<ItemGroup>
+								<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+								<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+				</ItemGroup>
+
+
+				<ItemGroup>
+								<ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj" />
+				</ItemGroup>
+
+				<ItemGroup>
+								<InternalsVisibleTo Include="Carlton.Core.Flux.Debug" />
+								<InternalsVisibleTo Include="Carlton.Core.Flux.Tests" />
+								<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+				</ItemGroup>
+</Project>

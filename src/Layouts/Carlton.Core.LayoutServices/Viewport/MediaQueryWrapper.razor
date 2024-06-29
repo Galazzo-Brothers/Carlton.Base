@@ -1,0 +1,60 @@
+﻿@using System.Threading
+@using Microsoft.JSInterop
+@namespace Carlton.Core.LayoutServices.Viewport
+@implements IDisposable
+@inject IViewportState ViewPortState
+
+@* Represents a Blazor component that dynamically renders content based on the current viewport. *@
+<div class="media-query-wrapper">
+    @if (CurrentViewport == null)
+    {
+        //do nothing on prerender
+    }
+    //Mobile
+    else if (CurrentViewport.IsMobile)
+    {
+        <div class="mobile">
+            @MobileContent
+        </div>
+    }
+    //Desktop
+    else
+    {
+        <div class="desktop">
+            @DesktopContent
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content to be displayed for mobile viewport.
+    /// </summary>
+    [Parameter]
+    public RenderFragment MobileContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content to be displayed for desktop viewport.
+    /// </summary>
+    [Parameter]
+    public RenderFragment DesktopContent { get; set; }
+
+    private ViewportModel CurrentViewport { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        CurrentViewport = await ViewPortState.GetCurrentViewport();
+        ViewPortState.ViewportChanged += OnViewportChanged;
+        await base.OnInitializedAsync();
+    }
+
+    private void OnViewportChanged(object? sender, ViewportChangedEventArgs args)
+    {
+        CurrentViewport = args.Viewport;
+        StateHasChanged();
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+        => ViewPortState.ViewportChanged -= OnViewportChanged;
+}

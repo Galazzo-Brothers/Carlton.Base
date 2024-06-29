@@ -1,0 +1,127 @@
+﻿@namespace Carlton.Core.Flux.Components
+@typeparam TState
+@typeparam TViewModel
+@implements IDisposable
+@inject IConnectedComponent<TViewModel> Component
+@inject IViewModelQueryDispatcher<TState> QueryDispatcher
+@inject IMutationCommandDispatcher<TState> MutationDispatcher
+@inject IFluxStateObserver<TState> StateObserver
+@inject ILogger<FluxWrapper<TState, TViewModel>> Logger
+
+@*
+	A component wrapper for Flux components, responsible for handling state management,
+	loading states, and error handling.
+	<typeparam name="TState">The type of Flux state.</typeparam>
+	<typeparam name="TViewModel">The type of view model.</typeparam>
+*@
+
+@if (IsLoading)
+{
+	<!-- Spinner Content -->
+	@SpinnerContent
+}
+else
+{
+	<!-- Wrapped Flux Component -->
+	<DynamicComponent Type="WrappedComponentType" Parameters="GetParameters()" />
+}
+
+@code {
+	/// <summary>
+	/// Gets the display name of the wrapped component.
+	/// </summary>
+	[Parameter]
+	public RenderFragment SpinnerContent { get; set; }
+
+	/// <summary>
+	/// Gets the display name of the wrapped component.
+	/// </summary>
+	public Type WrappedComponentType { get => Component.GetType(); }
+
+	/// <summary>
+	/// Gets the view model associated with the component.
+	/// </summary>
+	public string WrappedComponentDisplayName { get => WrappedComponentType.GetDisplayName(); }
+
+	/// <summary>
+	/// Gets the state events observed by the component.
+	/// </summary>
+	public TViewModel ViewModel { get; private set; }
+
+	/// <summary>
+	/// Gets a value indicating whether the component is currently loading.
+	/// </summary>
+	public IEnumerable<string> ObservableStateEvents { get; private set; } = new List<string>();
+
+	/// <summary>
+	/// Gets a value indicating whether the component is currently loading.
+	/// </summary>
+	public bool IsLoading { get; private set; }
+
+	private string ViewModelDisplayName { get => typeof(TViewModel).GetDisplayName(); }
+
+	protected async override Task OnInitializedAsync()
+	{
+		//Set IsLoading to true
+		IsLoading = true;
+
+		//Register State Changed Handler
+		StateObserver.StateChanged += OnStateChanged;
+
+		//Get VM and initialize context for wrapped component
+		using (Logger.BeginViewModelInitializationLoggingScopes())
+			ViewModel = await GetViewModel();
+
+		//Gather the StateEvents this component should be listening for
+		var attributes = WrappedComponentType.GetCustomAttributes<ObserveStateEventAttribute>();
+		ObservableStateEvents = attributes.Select(x => x.StateEvent);
+
+		//Set IsLoading to false
+		IsLoading = false;
+
+		//Continue initialization
+		await base.OnInitializedAsync();
+	}
+
+	protected virtual async Task<TViewModel> GetViewModel()
+		=> await Task.Run(() => QueryDispatcher.Dispatch<TState, TViewModel>(Component, CancellationToken.None));
+
+	protected async Task<MutationCommandResult> OnComponentEvent<TCommand>(object sender, TCommand command)
+		=> await Task.Run(() => MutationDispatcher.Dispatch<TState, TCommand>(Component, command, CancellationToken.None));
+
+	protected IDictionary<string, object> GetParameters()
+	{
+		var eventCallback = EventCallback.Factory.Create(this, async (command) => await OnComponentEvent(Component, (dynamic)command));
+		return new Dictionary<string, object>
+		{
+			{ "ViewModel", ViewModel },
+			{ "OnComponentEvent", eventCallback }
+		};
+	}
+
+	private async Task OnStateChanged(FluxStateChangedEventArgs args)
+	{
+		//State does not require refresh
+		if (!ObservableStateEvents.Contains(args.StateEvent))
+			return;
+
+		//Set IsLoading to true
+		IsLoading = true;
+
+		StateHasChanged();
+
+		//Refresh ViewModel
+		using (Logger.BeginFluxComponentEventReceivedLoggingScopes(args.StateEvent))
+			ViewModel = await GetViewModel();
+
+		//Set IsLoading to false
+		IsLoading = false;
+
+		//StateHasChanged
+		StateHasChanged();
+	}
+
+	/// <inheritdoc/>
+	public void Dispose()
+		=> StateObserver.StateChanged -= OnStateChanged;
+}

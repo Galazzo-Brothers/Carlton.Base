@@ -1,0 +1,22 @@
+﻿@using Carlton.Core.Components.PseudoElementComponents
+@namespace Carlton.Core.Components.Tabs
+
+@*Tab Content for displaying tabs as text link buttons*@
+<div class="text-tab">
+    <span class="tab-title">@Tab.DisplayText</span>
+    @if (Tab.IsActive)
+    {
+        <HorizontalAccentDivider 
+            WidthPercentage="100"
+            HeightPixels="3" />
+    }
+</div>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the tab object representing the configuration and state of the tab.
+    /// </summary>
+    [Parameter]
+    public Tab Tab { get; set; }
+}

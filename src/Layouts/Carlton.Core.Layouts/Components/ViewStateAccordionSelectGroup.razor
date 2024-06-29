@@ -1,0 +1,24 @@
+﻿@using Carlton.Core.Components.Accordion.AccordionSelectGroup
+@using Carlton.Core.Components.Accordion.AccordionSelect
+@namespace Carlton.Core.Layouts.Components
+@typeparam TValue
+@inherits AccordionSelectGroupBase<TValue>
+
+@*
+    Represents a group of accordion select components with view state fore retaining the expanded state.
+    TValue: The type of value associated with each item in the select groups.
+*@
+
+<div class="accordion-select-group">
+	@foreach (var (group, index) in Groups.WithIndex())
+	{
+		<ViewStateAccordionSelect TValue="TValue"
+								  Id="index"
+								  Title="@group.Name"
+								  Items="group.Items"
+								  IsExpanded="@group.IsExpanded"
+								  SelectedIndex="GetSelectedItemIndex(index)"
+								  OnItemExpansionChange="(isExpanded) => HandleGroupExpansionChange(index, isExpanded)"
+								  OnItemSelected="(item) => HandleItemSelected(index, item.Index, item.Value)" />
+	}
+</div>

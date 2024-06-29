@@ -1,7 +1,0 @@
-﻿@namespace Carlton.Core.Components.Lab
-@attribute [ViewModelEndpointRefreshPolicy(DataEndpointRefreshPolicy.Never)]
-@attribute [ObserveStateEvents<TestBedStateEvents>(TestBedStateEvents.MenuItemSelected)]
-@inherits ConnectedComponentBase<BreadCrumbsViewModel>
-
-<BreadCrumbs Title="@ViewModel.SelectedComponentState.Type.GetDisplayName()" BreadCrumbItems="@(new string[] {ViewModel.SelectedComponentState.DisplayName})" Separator=">" />
-

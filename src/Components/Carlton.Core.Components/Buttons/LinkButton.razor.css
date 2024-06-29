@@ -1,0 +1,29 @@
+﻿/* Define CSS variables for link button styling */
+.link-btn {
+	--btn-height: 35px; /* Height of the button */
+	--btn-color: var(--selected-color); /* Text color */
+	--btn-background-color-hover: rgba(33, 193, 214, 0.25); /* Background color on hover */
+	--btn-padding-left-hover: 10px; /* Left padding on hover */
+	--btn-padding-right-hover: 10px; /* Right padding on hover */
+	--btn-border-radius-hover: 5px; /* Border radius on hover */
+}
+
+/* Style for link button */
+.link-btn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	height: var(--btn-height);
+	width: auto;
+	color: var(--btn-color);
+	cursor: pointer;
+}
+
+	/* Hover effect for link button */
+	.link-btn:hover {
+		padding-left: var(--btn-padding-left-hover);
+		padding-right: var(--btn-padding-right-hover);
+		border-radius: var(--btn-border-radius-hover);
+		background-color: var(--btn-background-color-hover);
+	}

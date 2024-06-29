@@ -1,0 +1,10 @@
+﻿.event-console {
+    position: relative;
+    text-align: center;
+}
+
+    ::deep .icon-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+    }

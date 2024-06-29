@@ -1,0 +1,96 @@
+﻿/* Count Card Styles */
+.count-card {
+    --count-card-width: 250px;
+    --count-card-content-padding: 1.25rem;
+    --count-card-icon-dimension: 50px;
+    --count-card-icon-padding: 8px;
+    --count-card-message-font-size: 15pt;
+}
+
+.content {
+    /*Properties*/
+    display: flex;
+    width: var(--count-card-width);
+    padding: var(--count-card-content-padding);
+    background-color: var(--count-card-background-color);
+    word-wrap: break-word;
+    background-clip: border-box;
+    border-radius: var(--card-border-radius);
+}
+
+    .content .count-icon {
+        border-radius: var(--count-card-icon-dimension);
+        height: var(--count-card-icon-dimension);
+        width: var(--count-card-icon-dimension);
+        padding-left: var(--count-card-icon-padding);
+        padding-right: var(--count-card-icon-padding);
+        padding-top: var(--count-card-icon-padding);
+        padding-bottom: var(--count-card-icon-padding);
+        background-color: var(--count-card-icon-background-color);
+    }
+
+        .content .count-icon::before {
+            line-height: initial;
+            color: var(--count-card-icon-color);
+        }
+
+    .content .count-message {
+        padding: 0px;
+        text-align: left;
+        font-size: var(--count-card-message-font-size);
+        margin-top: auto;
+        margin-bottom: auto;
+        flex-basis: 65%;
+        text-align: center;
+        color: var(--primary-text-color);
+    }
+
+/* Light Theme */
+[data-theme="light"] .count-card.accent1 {
+    --count-card-background-color: #fff;
+    --count-card-icon-background-color: var(--accent-color-1);
+    --count-card-icon-color: #fff;
+}
+
+[data-theme="light"] .count-card.accent2 {
+    --count-card-background-color: #fff;
+    --count-card-icon-background-color: var(--accent-color-2);
+    --count-card-icon-color: #fff;
+}
+
+[data-theme="light"] .count-card.accent3 {
+    --count-card-background-color: #fff;
+    --count-card-icon-background-color: var(--accent-color-3);
+    --count-card-icon-color: #fff;
+}
+
+[data-theme="light"] .count-card.accent4 {
+    --count-card-background-color: #fff;
+    --count-card-icon-background-color: var(--accent-color-4);
+    --count-card-icon-color: #fff;
+}
+
+/* Dark Theme */
+[data-theme="dark"] .count-card.accent1 {
+    --count-card-background-color: var(--accent-color-1);
+    --count-card-icon-background-color: #fff;
+    --count-card-icon-color: var(--accent-color-1);
+}
+
+[data-theme="dark"] .count-card.accent2 {
+    --count-card-background-color: var(--accent-color-2);
+    --count-card-icon-background-color: #fff;
+    --count-card-icon-color: var(--accent-color-2);
+}
+
+[data-theme="dark"] .count-card.accent3 {
+    --count-card-background-color: var(--accent-color-3);
+    --count-card-icon-background-color: #fff;
+    --count-card-icon-color: var(--accent-color-3);
+}
+
+[data-theme="dark"] .count-card.accent4 {
+    --count-card-background-color: var(--accent-color-4);
+    --count-card-icon-background-color: #fff;
+    --count-card-icon-color: var(--accent-color-4);
+}

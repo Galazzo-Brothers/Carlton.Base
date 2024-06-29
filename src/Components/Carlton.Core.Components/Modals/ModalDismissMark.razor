@@ -1,0 +1,12 @@
+﻿@namespace Carlton.Core.Components.Modals
+
+@* Represents a dismiss button for a modal component. *@
+<span class="dismiss" @onclick="@OnDismiss">&times;</span>
+
+@code {
+    /// <summary>
+    /// Event callback invoked when the dismiss button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnDismiss { get; set; }
+}

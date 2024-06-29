@@ -1,0 +1,10 @@
+global using Xunit;
+global using AutoFixture.Xunit2;
+global using Bunit;
+global using Shouldly;
+global using Carlton.Core.Lab.Models.Commands;
+global using Carlton.Core.Lab.Models.ViewModels;
+global using Carlton.Core.Lab.State;
+global using Carlton.Core.Lab.Test.Common;
+global using Carlton.Core.Utilities.Extensions;
+global using Carlton.Core.Utilities.Random;

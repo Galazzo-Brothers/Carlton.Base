@@ -1,0 +1,41 @@
+﻿
+/* Spinner Variables */
+.spinner {
+    --spinner-dimensions: 75px; /* Dimensions of the spinner */
+    --spinner-color: #21c1d6; /* Color of the spinner */
+    --spinner-border: 2px solid transparent; /* Border of the spinner */
+}
+
+/* Spinner Container Styles */
+.spinner-container{
+    height: 100%;
+    display: flex;
+}
+
+/* Spinner Base Styles */
+.spinner {
+    position: relative;
+    width: var(--spinner-dimensions);
+    height: var(--spinner-dimensions);
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    animation: spinner infinite .75s linear;
+    border: var(--spinner-border);
+    border-top-color: var(--spinner-color);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 100%;
+}
+
+/* Spinner Animation */
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

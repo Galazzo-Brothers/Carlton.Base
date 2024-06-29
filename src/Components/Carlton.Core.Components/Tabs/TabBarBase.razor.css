@@ -1,0 +1,71 @@
+﻿/* Define CSS variables for tab bar styling */
+.tab-bar {
+	--tab-bar-slide-btn-width: 100px;
+	--tab-bar-content-min-height: 50px;
+	--tab-bar-tab-height: 50px;
+	--tab-bar-slide-button-padding: 15px 0;
+	--tab-bar-slide-button-border-top-corders-radius: 10px;
+	--tab-bar-content-color: #fff;
+	--tab-bar-tab-font-size: 0.8rem;
+}
+
+/* Style the tab bar container */
+.tab-bar {
+	display: flex;
+	flex-direction: column;
+}
+
+	/* Style the slide button for tab navigation */
+	.tab-bar .slide-button {
+		cursor: pointer;
+		display: block;
+		width: var(--tab-bar-slide-btn-width);
+		margin: 0 auto;
+		padding: var(--tab-bar-slide-button-padding);
+		border: 0;
+		text-align: center;
+		border-top-left-radius: var(--tab-bar-slide-button-border-top-corders-radius);
+		border-top-right-radius: var(--tab-bar-slide-button-border-top-corders-radius);
+	}
+
+	/* Style the content area for tab content */
+	.tab-bar .content {
+		display: none;
+		color: var(--tab-bar-content-color);
+		min-height: var(--tab-bar-content-min-height);
+		text-align: left;
+	}
+
+		/* Show expanded content */
+		.tab-bar .content.expanded {
+			display: block;
+			height: var(--slide-tab-height);
+		}
+
+	/* Style the tabs container */
+	.tab-bar .tabs {
+		display: flex;
+		height: var(--tab-bar-tab-height);
+	}
+
+		/* Style individual tabs */
+		.tab-bar .tabs .tab {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			justify-content: center;
+			text-align: center;
+			font-size: var(--tab-bar-tab-font-size);
+			cursor: pointer;
+		}
+
+			/* Style active tab */
+			.tab-bar .tabs .tab.active {
+				color: var(--selected-color);
+			}
+
+			/* Style tab links */
+			.tab-bar .tabs .tab .tab-link {
+				display: flex;
+				flex-direction: column;
+			}

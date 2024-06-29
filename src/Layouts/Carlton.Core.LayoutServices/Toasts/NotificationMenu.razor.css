@@ -1,0 +1,51 @@
+﻿/* NotificationsMenu Variables */
+.notifications-menu {
+	--notification-menu-count-content-top: -15px;
+	--notification-menu-count-content-right: -8px;
+	--notification-menu-notification-count-right: 6px;
+	--notification-menu-notification-count-top: -14px;
+	--notification-menu-notification-count-padding: 7px 5px;
+	--notification-menu-notification-count-line-height: 1px;
+	--notification-menu-notification-count-border-radius: 30px;
+	--notification-menu-notification-count-background-color: #fc4b6c;
+	--notification-menu-notification-count-color: #fff;
+	--notification-menu-notification-count-font-size: 10px;
+}
+
+/* NotificationsMenu Base Styles */
+.notifications-menu {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+/* Icon Styles */
+.icon {
+	color: var(--layout-header-icon-color);
+}
+
+/* Notification Count Content Styles */
+.notification-count-content {
+	position: relative;
+	top: var(--notification-menu-count-content-top);
+	right: var(--notification-menu-count-content-right);
+}
+
+	.notification-count-content .notification-count {
+		position: absolute;
+		right: var(--notification-menu-notification-count-right);
+		top: var(--notification-menu-notification-count-top);
+		padding: var(--notification-menu-notification-count-padding);
+		line-height: var(--notification-menu-notification-count-line-height);
+		border-radius: var(--notification-menu-notification-count-border-radius);
+		background-color: var(--notification-menu-notification-count-background-color);
+		color: var(--notification-menu-notification-count-color);
+		font-size: var(--notification-menu-notification-count-font-size);
+	}
+
+
+/*Media Queries*/
+@media (max-width: 768px) {
+	.icon {
+		color: var(--layout-mobile-header-icon-color);
+	}
+}

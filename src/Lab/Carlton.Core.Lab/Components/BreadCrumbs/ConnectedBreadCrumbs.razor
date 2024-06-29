@@ -1,0 +1,23 @@
+﻿@using Carlton.Core.Components.Navigation
+@using Carlton.Core.Lab.Components.ComponentViewer
+@namespace Carlton.Core.Lab.Components.BreadCrumbs
+@attribute [ObserveStateEvent("MenuItemSelected")]
+@attribute [ObserveStateEvent("ComponentStateSelected")]
+@inherits BaseConnectedComponent<BreadCrumbsViewModel>
+@inject NavigationManager NavigationManager
+
+@*
+    Represents a breadcrumbs component.
+    It observes the "MenuItemSelected" state event and displays breadcrumbs based on the provided ViewModel.
+*@
+
+<BreadCrumbs Title="@ViewModel.SelectedComponent" BreadCrumbItems="@(new string[] {ViewModel.SelectedComponentState})" Separator="'>'" />
+
+@code{
+	protected override void OnAfterRender(bool firstRender)
+	{
+		//Update the URL with the selected component and state.
+		NavigationManager.NavigateTo($"/lab/{ViewModel.SelectedComponent}/{ViewModel.SelectedComponentState.Replace(" ", "-")}", false);
+		base.OnAfterRender(firstRender);
+	}
+}

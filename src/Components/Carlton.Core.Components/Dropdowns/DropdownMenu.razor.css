@@ -1,0 +1,94 @@
+﻿/* Dropdown Menu Variables */
+.dropdown-menu {
+	--dropdown-items-width: 250px; /* Width of the dropdown menu */
+	--dropdown-items-max-height: 350px; /* Maximum height of the dropdown menu */
+	--dropdown-items-top: 45px; /* Top position of the dropdown menu */
+	--dropdown-items-left: -115px; /* Left position of the dropdown menu */
+	--dropdown-items-mobile-top: 75px; /* Top position of the dropdown menu on mobile */
+	--dropdown-items-mobile-left: 0px; /* Left position of the dropdown menu on mobile */
+	--dropdown-items-border: 0.5px solid #c9c9c9; /* Border of the dropdown menu */
+	--dropdown-items-border-radius: 5px; /* Border radius of the dropdown menu */
+	--dropdown-items-z-index: 3; /* Z-index of the dropdown menu */
+	--dropdown-items-transition: 0.5s max-height ease-in-out; /* Transition duration for dropdown menu animations */
+	--dropdown-items-a-padding: 1em 18px; /* Padding for anchor tags within dropdown menu */
+}
+
+/* Dropdown Menu Base Styles */
+.dropdown-menu {
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+/* Dropdown Items Styles */
+.dropdown-items {
+	max-height: 0px;
+	overflow: hidden;
+	position: absolute;
+	width: var(--dropdown-items-width);
+	top: var(--dropdown-items-top);
+	left: var(--dropdown-items-left);
+	border-radius: var(--dropdown-items-border-radius);
+	opacity: 0;
+	z-index: var(--dropdown-items-z-index);
+	transition: var(--dropdown-items-transition);
+}
+
+	/* Remove default margin for UL */
+	.dropdown-items ul {
+		margin: 0;
+	}
+
+	/* Dropdown Items Active Styles */
+	.dropdown-items.active {
+		max-height: var(--dropdown-items-max-height);
+		background-color: var(--component-background-color);
+		border: var(--dropdown-items-border);
+		opacity: 1;
+		display: inherit;
+	}
+
+	.dropdown-items li {
+		display: flex;
+		width: 100%;
+	}
+
+		.dropdown-items li a {
+			width: 100%;
+			padding: var(--dropdown-items-a-padding);
+			display: inline-block;
+			white-space: pre;
+			box-sizing: border-box;
+			text-align: left;
+			color: var(--primary-text-color);
+		}
+
+/* Accent Colors */
+.accent-color-1 {
+	color: var(--accent-color-1);
+}
+
+.accent-color-2 {
+	color: var(--accent-color-2);
+}
+
+.accent-color-3 {
+	color: var(--accent-color-3);
+}
+
+.accent-color-4 {
+	color: var(--accent-color-4);
+}
+
+
+
+/*Media Queries*/
+@media (max-width: 768px) {
+	.dropdown-items {
+		position: fixed;
+		width: 100%;
+		top: var(--dropdown-items-mobile-top);
+		left: var(--dropdown-items-mobile-left);
+	}
+}

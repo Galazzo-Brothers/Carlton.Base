@@ -1,0 +1,109 @@
+﻿/* Define CSS variables for dropdown styling */
+.dropdown {
+	--dropdown-max-width: 12rem;
+	--dropdown-border-bottom: 2px solid #999;
+	--dropdown-items-width: 250px;
+	--dropdown-transition: 0.25s border-color ease-in-out;
+	--dropdown-options-top: 20px;
+	--dropdown-options-left: 0px;
+	--dropdown-options-max-height: 8rem;
+	--dropdown-options-padding: 0.5rem;
+	--dropdown-options-font-size: 10pt;
+	--dropdown-options-transition: 0.5s opacity ease-in-out, 0.5s max-height ease-in-out;
+	--dropdown-options-border: 0.5px solid #c9c9c9;
+	--dropdown-options-border-radius: 5px;
+	--dropdown-label-top: 20px;
+	--dropdown-label-left: 0px;
+	--dropdown-label-transform: translateY(-1.8rem);
+	--dropdown-label-out-transform: translate(-0.8rem, -2.5rem) scale(0.6);
+	--dropdown-label-transition: 0.25s transform ease-in-out, 0.25s color ease-in-out;
+	--dropdown-label-font-size: 10pt;
+	--dropdown-items-max-height: 350px;
+	--dropdown-items-top: 45px;
+	--dropdown-items-left: -115px;
+	--dropdown-items-mobile-top: 75px;
+	--dropdown-items-mobile-left: 0px;
+}
+
+/* Dropdown container styles */
+.dropdown {
+	position: relative;
+	background: none;
+	max-width: var(--dropdown-max-width);
+}
+
+	/* Input Styles */
+	.dropdown input {
+		color: var(--primary-text-color);
+		width: 100%;
+		font-size: 12pt;
+		border: none;
+		background: none;
+		text-align: center;
+		cursor: pointer;
+		border-bottom: var(--dropdown-border-bottom);
+		transition: var(--dropdown-transition);
+	}
+
+		/* Input Focus Styles */
+		.dropdown input:not(.disabled):focus {
+			border-color: var(--selected-color);
+		}
+
+	/* Label Styles */
+	.dropdown .label {
+		position: absolute;
+		top: var(--dropdown-label-top);
+		left: var(--dropdown-label-left);
+		font-size: var(--dropdown-label-font-size);
+		color: var(--primary-text-color);
+		transform: var(--dropdown-label-transform);
+		transition: var(--dropdown-label-transition);
+	}
+
+	/* Label Transformation on Focus */
+	.dropdown input:not(.disabled):focus ~ .label,
+	.dropdown input:not(:placeholder-shown) ~ .label {
+		transform: var(--dropdown-label-out-transform);
+	}
+
+	/* Dropdown Options Styles */
+	.dropdown .options {
+		width: 100%;
+		position: absolute;
+		top: var(--dropdown-options-top);
+		left: var(--dropdown-options-left);
+		opacity: 0;
+		max-height: 0;
+		font-size: var(--dropdown-options-font-size);
+		font-weight: bold;
+		overflow: hidden;
+		transition: var(--dropdown-options-transition);
+		background-color: var(--component-background-color);
+		border: var(--dropdown-options-border);
+		border-radius: var(--dropdown-options-border-radius);
+	}
+
+	/* Options Display on Focus */
+	.dropdown input:not(.disabled):focus ~ .options {
+		opacity: 1;
+		max-height: var(--dropdown-options-max-height);
+	}
+
+	/* Options Display on Focus */
+	.dropdown .options .option {
+		color: var(--primary-text-color);
+		cursor: pointer;
+		padding: var(--dropdown-options-padding);
+	}
+
+		/* Option Hover Styles */
+		.dropdown .options .option:hover {
+			color: var(--primary-text-color);
+			background-color: var(--component-hover-background-color);
+		}
+
+	/* Remove Default Focus Outline */
+	.dropdown *:focus {
+		outline: none;
+	}

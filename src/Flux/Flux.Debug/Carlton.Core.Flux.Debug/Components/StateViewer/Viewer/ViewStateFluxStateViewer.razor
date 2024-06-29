@@ -1,0 +1,34 @@
+﻿@using Carlton.Core.Components.Toggles
+@using Carlton.Core.LayoutServices.ViewState
+@namespace Carlton.Core.Flux.Debug.Components.StateViewer.Viewer
+@inherits FluxStateViewer
+@inject IViewStateService ViewStateService
+
+
+@*
+    This Razor component is a view state wrapper for the FluxStateViewer component.
+	It facilitates the retention of state of the component across re-renders
+*@
+<FluxStateViewer RecordedMutations="RecordedMutations"
+				 SelectedFluxState="SelectedFluxState"
+				 SelectedMutationIndex="SelectedMutationIndex"
+				 SelectedToggleOption="CurrentToggleSelectOption"
+				 OnRecordedMutationSelected="OnRecordedMutationSelected"
+				 OnToggleSelectChange="HandleToggleChange"
+				 OnPopMutation="OnPopMutation" />
+
+@code {
+
+	private ToggleSelectOption CurrentToggleSelectOption => ViewStateService.Get<ToggleSelectOption>(nameof(FluxStateViewer));
+
+	protected override void OnInitialized()
+	{
+		ViewStateService.InitializeKey<ToggleSelectOption>(nameof(FluxStateViewer), ToggleSelectOption.FirstOption);
+		base.OnInitialized();
+	}
+
+	private void HandleToggleChange(ToggleSelectOption toggleSelectOption)
+	{
+		ViewStateService.Set<ToggleSelectOption>(nameof(FluxStateViewer), toggleSelectOption);
+	}
+}

@@ -1,0 +1,22 @@
+﻿@namespace Carlton.Core.Flux.Components
+@typeparam TViewModel
+@implements IConnectedComponent<TViewModel>
+
+@*
+	Represents a connected component that provides access to a view model and an event callback.
+	<typeparam name="TViewModel">The type of the view model.</typeparam>
+*@
+
+ @code {
+	/// <summary>
+	/// Gets or sets the view model associated with this component.
+	/// </summary>
+	[Parameter]
+    public TViewModel ViewModel { get; set; }
+
+	/// <summary>
+	/// Gets or sets the event callback to be invoked by the component.
+	/// </summary>
+	[Parameter]
+    public EventCallback OnComponentEvent { get; init; }
+}

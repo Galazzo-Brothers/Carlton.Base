@@ -1,0 +1,32 @@
+﻿@namespace Carlton.Core.Components.Navigation
+
+@* Represents a breadcrumb navigation component for displaying hierarchical navigation paths. *@
+<div class="bread-crumbs">
+    <span class="page-title">@Title</span>
+    <span class="page-bread-crumbs">@BreadCrumbsDisplay</span>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the title of the current page.
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the collection of breadcrumb items representing the hierarchical navigation path.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<string> BreadCrumbItems { get; set; } = new List<string>();
+
+    /// <summary>
+    /// Gets or sets the character used to separate breadcrumb items in the display.
+    /// </summary>
+    [Parameter]
+    public char Separator { get; set; }
+
+    private string BreadCrumbsDisplay
+    {
+        get => string.Join($" {Separator} ", BreadCrumbItems);
+    }
+}

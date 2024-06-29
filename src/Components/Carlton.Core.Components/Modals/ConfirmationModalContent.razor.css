@@ -1,0 +1,80 @@
+﻿/* Confirmation Modal Content Variables */
+.confirmation-modal-content {
+	--confirmation-modal-content-gap: 20px;
+	--confirmation-modal-padding: 20px;
+	--confirmation-modal-border-radius: 5px;
+	--confirmation-modal-header-color: #e46a76;
+	--confirmation-modal-confirm-btn-color: #e46a76;
+	--confirmation-modal-cancel-btn-color: gray;
+	--confirmation-modal-prompt-message-font-size: 20pt;
+	--confirmation-modal-message-font-size: 10pt;
+	--confirmation-modal-actions-gap: 10px;
+	--confirmation-modal-actions-button-height: 30px;
+	--confirmation-modal-actions-button-width: 75px;
+	--confirmation-modal-actions-border-radius: 5px;
+}
+
+/* Confirmation Modal Content Base Styles */
+.confirmation-modal-content {
+	display: flex;
+	flex-direction: column;
+	gap: var(--confirmation-modal-content-gap);
+	background-color: var(--component-background-color);
+	padding: var(--confirmation-modal-padding);
+	border-radius: var(--confirmation-modal-border-radius);
+}
+
+/* Modal Header Styles */
+.modal-header {
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--confirmation-modal-header-color);
+}
+
+/* Modal Prompt Message Styles */
+.modal-prompt-message {
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--primary-text-color);
+	font-size: var(--confirmation-modal-prompt-message-font-size);
+}
+
+/* Modal Message Styles */
+.modal-message {
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+	.modal-message .message-text {
+		color: var(--secondary-text-color);
+		font-size: var( --confirmation-modal-message-font-size);
+	}
+
+/* Modal Actions Styles */
+.modal-actions {
+	display: flex;
+	gap: var(--confirmation-modal-actions-gap);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+	.modal-actions button {
+		height: var(--confirmation-modal-actions-button-height);
+		width: var(--confirmation-modal-actions-button-width);
+		margin-left: auto;
+		margin-right: auto;
+		color: white;
+		border-radius: var(--confirmation-modal-actions-border-radius);
+		border-color: transparent;
+		cursor: pointer;
+	}
+
+	.modal-actions .btn-cancel {
+		background-color: var(--confirmation-modal-cancel-btn-color);
+	}
+
+	.modal-actions .btn-confirm {
+		background-color: var(--confirmation-modal-confirm-btn-color);
+	}

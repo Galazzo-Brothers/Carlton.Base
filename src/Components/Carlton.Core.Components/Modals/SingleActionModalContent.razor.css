@@ -1,0 +1,61 @@
+﻿/* Single Action Modal Content Variables */
+.single-action-modal-content {
+	--modal-padding: 20px;
+	--modal-border-radius: 5px;
+	--modal-prompt-message-font-size: 20pt;
+	--modal-message-font-size: 10pt;
+	--modal-actions-gap: 10px;
+	--modal-actions-button-background-color: gray;
+	--modal-actions-button-height: 30px;
+	--modal-actions-button-width: 75px;
+	--modal-actions-border-radius: 5px;
+}
+
+.single-action-modal-content {
+	padding: var(--modal-padding);
+	border-radius: var(--modal-border-radius);
+}
+
+
+/* Modal Prompt Message Styles */
+.modal-prompt-message {
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--primary-text-color);
+	font-size: var(--modal-prompt-message-font-size);
+}
+
+/* Modal Message Styles */
+.modal-message {
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+	/* Message Text Styles */
+	.modal-message .message-text {
+		color: var(--secondary-text-color);
+		font-size: var(--modal-message-font-size);
+	}
+
+/* Modal Actions Styles */
+.modal-actions {
+	display: flex;
+	gap: var(--modal-actions-gap);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+	/* Button Styles */
+	.modal-actions button {
+		height: var(--modal-actions-button-height);
+		width: var(--modal-actions-button-width);
+		margin-left: auto;
+		margin-right: auto;
+		background-color: var(--modal-actions-button-background-color);
+		color: white;
+		border-radius: var(--modal-actions-border-radius);
+		border-color: transparent;
+		cursor: pointer;
+	}

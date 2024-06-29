@@ -1,0 +1,12 @@
+﻿@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Layouts.Components
+@inherits ViewStateTabs
+
+@* Component for viewing event log tabs with persistent state using view state. *@
+<EventLogViewerTabs TabIndex="CurrentIndex"
+					OnTabChange="HandleTabChange" />
+
+
+@code{
+	protected override string ViewStateKey { get; } = nameof(EventLogViewerTabs);
+}

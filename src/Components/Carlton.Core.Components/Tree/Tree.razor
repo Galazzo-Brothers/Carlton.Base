@@ -1,0 +1,86 @@
+﻿@namespace Carlton.Core.Components.Tree
+@typeparam TNode
+
+<div class="tree @(Visible ? "" : "collapsed")">
+    @foreach(var node in Nodes ?? Enumerable.Empty<TreeItem<TNode>>())
+    {
+        var nodeExpanded = ExpandedNodes.Contains(node);
+        var nodeSelected = node.Equals(SelectedNode);
+        var hasChildren = node.Children.Any();
+
+        <div>
+            <span  @onclick="@(e => OnToggleNode(node, !nodeExpanded))">
+                <i class="icon @(hasChildren ? "": "invisible") @(nodeExpanded ? Style.CollapseNodeIconClass : Style.ExpandNodeIconClass)"></i>
+            </span>
+            <span class="title @Style.NodeTitleClass @(nodeSelected ? Style.NodeTitleSelectedClass : "") align-middle" @onclick="@(e => OnSelectNode(node))">
+                @TitleTemplate(node)
+            </span>
+        </div>
+        @if(hasChildren)
+        {
+            <Tree TNode="TNode"
+                  Nodes="node.Children"
+                  TitleTemplate="TitleTemplate"
+                  ExpandedNodes="ExpandedNodes"
+                  ExpandedNodesChanged="ExpandedNodesChanged"
+                  SelectedNode="SelectedNode"
+                  SelectedNodeChanged="SelectedNodeChanged"
+                  Visible="nodeExpanded" />
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<TreeItem<TNode>> Nodes { get; set; } = Enumerable.Empty<TreeItem<TNode>>();
+
+    [Parameter]
+    public RenderFragment<TreeItem<TNode>> TitleTemplate { get; set; }
+
+    [Parameter]
+    public TreeItem<TNode> SelectedNode { get; set; }
+
+    [Parameter]
+    public EventCallback<TreeItem<TNode>> SelectedNodeChanged { get; set; }
+
+    [Parameter]
+    public IList<TreeItem<TNode>> ExpandedNodes { get; set; } = new List<TreeItem<TNode>>();
+
+    [Parameter]
+    public EventCallback<IList<TreeItem<TNode>>> ExpandedNodesChanged { get; set; }
+
+    [Parameter]
+    public TreeStyle Style { get; set; } = TreeStyle.DefaultTreeStyle;
+
+    [Parameter]
+    public bool Visible { get; set; } = true;
+
+    private void OnToggleNode(TreeItem<TNode> node, bool expand)
+    {
+        var expanded = ExpandedNodes.Contains(node);
+
+        if(expanded && !expand)
+        {
+            ExpandedNodes.Remove(node);
+            ExpandedNodesChanged.InvokeAsync(ExpandedNodes);
+        }
+        else if(!expanded && expand)
+        {
+            ExpandedNodes.Add(node);
+            ExpandedNodesChanged.InvokeAsync(ExpandedNodes);
+        }
+    }
+
+    private void OnSelectNode(TreeItem<TNode> node)
+    {
+        if(node.Children.Any())
+        {
+            OnToggleNode(node, !ExpandedNodes.Contains(node));
+        }
+        else
+        {
+            SelectedNode = node;
+            SelectedNodeChanged.InvokeAsync(node);
+        }
+    }
+}
