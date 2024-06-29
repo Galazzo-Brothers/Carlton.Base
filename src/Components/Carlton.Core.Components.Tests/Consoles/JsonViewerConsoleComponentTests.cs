@@ -1,4 +1,5 @@
-﻿using Carlton.Core.Components.Consoles;
+﻿using AngleSharp.Text;
+using Carlton.Core.Components.Consoles;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using System.Text.Json;
 using Console = Carlton.Core.Components.Consoles.Console;
@@ -130,7 +131,7 @@ public class JsonViewerConsoleComponentTests : TestContext
 	{
 		//Arrange
 		var obj = new { Value = "Some Initial Text" };
-
+		var expectedText = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true }).NormalizeLineEndings();
 		var cut = RenderComponent<JsonViewerConsole>(parameters => parameters
 			.Add(p => p.IsReadOnly, false)
 			.Add(p => p.Object, obj));
@@ -144,7 +145,7 @@ public class JsonViewerConsoleComponentTests : TestContext
 		consoleElement = cut.Find("textarea");
 
 		//Assert
-		consoleElement.GetAttribute("value").Normalize().ShouldBe(JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true }));
+		consoleElement.GetAttribute("value").NormalizeLineEndings().ShouldBe(expectedText);
 	}
 
 	[Fact(DisplayName = "Dirty Disabled Submit Test")]
