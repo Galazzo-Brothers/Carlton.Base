@@ -5,8 +5,8 @@
 
 # Carlton.Core.Lab.Test 
 
-Welcome to the unit test project for the Carlton.Core.Lab framework!
-The Carlton.Core.Lab unit test project is an essential component of the framework's development lifecycle. It contains a comprehensive suite of unit tests designed to ensure the reliability, functionality, and performance of the framework's core features.
+Welcome to the unit test project for the `Carlton.Core.Lab` framework!
+The `Carlton.Core.Lab.Tests` unit test project is an essential component of the framework's development lifecycle. It contains a comprehensive suite of unit tests designed to ensure the reliability, functionality, and performance of the framework's core features.
 
 ![C#](https://img.shields.io/badge/language-C%23-blue)
 ![ASP.NET](https://img.shields.io/badge/ASP.NET-blue)
