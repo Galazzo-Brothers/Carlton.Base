@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.Web
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layouts", "Layouts", "{34E1A613-A3B0-4B9A-AC87-5D74E1BA3F99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Flux.Tests", "Flux\Carlton.Core.Flux.Test\Carlton.Core.Flux.Tests.csproj", "{AAA5E9EC-CD25-4B64-AA00-4071B92D296B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Flux.Tests", "Flux\Carlton.Core.Flux.Tests\Carlton.Core.Flux.Tests.csproj", "{AAA5E9EC-CD25-4B64-AA00-4071B92D296B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carlton.Core.Foundation.API", "Foundation\Carlton.Core.Foundation.API\Carlton.Core.Foundation.API.csproj", "{60B77801-794A-49DC-B735-5329125BD90A}"
 EndProject
