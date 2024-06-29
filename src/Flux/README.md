@@ -20,7 +20,7 @@ Whether you're building a simple prototype or a complex enterprise application, 
 
 - [Carlton.Core.Flux](./Carlton.Core.Flux/README.md): Detailed information and usage instructions for the main layout library.
 - [Carlton.Core.Flux.Tests](./Carlton.Core.Flux.Tests/README.md): Detailed information and usage instructions for the main layout library.
-- [Flux.Debug](./Carlton.Core.Flux.Debug/README.md): Instructions for running unit tests and validating layout functionality.
+- [Flux.Debug](./Flux.Debug/README.md): Instructions for running unit tests and validating layout functionality.
   
 ## Getting Started
 
