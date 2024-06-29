@@ -18,7 +18,7 @@ Whether you're building a simple prototype or a complex enterprise application, 
 
 - [Carlton.Core.Flux.Debug](./Carlton.Core.Flux/Flux.Debug/README.md): Detailed information and usage instructions for the main layout library.
 - [Carlton.Core.Flux.Debug.Models](./Carlton.Core.Flux/Flux.Debug.Models/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Flux.Debug.Tests](./Carlton.Core.Flux.Debug.Tests/Flux.Debug/README.md): Detailed information and usage instructions for the main layout library.
+- [Carlton.Core.Flux.Debug.Tests](./Carlton.Core.Flux.Debug.Tests/README.md): Detailed information and usage instructions for the main layout library.
   
 ## Getting Started
 
