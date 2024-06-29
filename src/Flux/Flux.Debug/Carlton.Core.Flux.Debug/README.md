@@ -24,7 +24,7 @@ The `Carlton.Core.Flux.Debug` repository houses a powerful framework designed to
 
 - **State Viewer**: View the existing centralized flux state of the application as both a json console and table of event sourced mutations. Project the current state into all available application viewmodels.
 
-- **Modify State**: Add additional state mutations to the existing state to modify the current application in real time.
+- **State Modification**: Add additional state mutations to the existing state to modify the current application in real time.
 
 ## Dependencies
 
@@ -37,46 +37,18 @@ The `Carlton.Core.Flux.Debug` repository houses a powerful framework designed to
 ### Installing
 
 ```bash
-dotnet add package Carlton.Core.Lab
+dotnet add package Carlton.Core.Flux.Debug
 ```
 ## Usage
 
 ### Register Lab Service
 
 ```cs
- 	builder.Services.AddCarltonTestLab(builder =>
-	{
-		builder.AddComponent<Spinner>()
-		       .AddComponentState<Checkbox>("Checked", CheckboxTestStates.CheckedState)
-                       .AddComponentState<Checkbox>("Unchecked", CheckboxTestStates.UncheckedState)
-		       .AddComponentState<Dropdown<int>>("Default", DropdownTestStates.Default)
-                       .AddComponentState<Dropdown<int>>("Disabled", DropdownTestStates.Disabled)
-                       .AddComponentState<Dropdown<int>>("Pristine", DropdownTestStates.Pristine)
-                       .Build();
-	});
-
+services.AddCarltonFluxDebug<LabState>();
 ```
 
 ```cs
-internal static class CheckboxTestStates
-{
-    public static object CheckedState
-    {
-        get => new
-        {
-            IsChecked = true
-        };
-    }
-
-    public static object UncheckedState
-    {
-        get => new
-        {
-            IsChecked = false
-        };
-    }
-}
-
+NavigationManager.NavigateTo($"/debug/logs")
 ```
 ## Authors
 
