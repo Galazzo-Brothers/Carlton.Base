@@ -148,6 +148,34 @@ dotnet add package Carlton.Core.LayoutServices
 }
 ```
 
+### ViewState Components
+
+```cshtml
+@using Carlton.Core.Foundation.Web.ViewState
+@inherits {Component}
+@inject IViewStateService ViewState
+
+<MyComponent
+    State="ViewState.Get<MyComponentState>(ViewStateKey)"
+    OnValueChange="HandleValueChange"/>
+
+@code {
+    private string ViewStateKey => nameof(MyComponent);
+
+	protected override void OnInitialized()
+	{
+        ViewState.InitializeKey<MyComponentState>(ViewStateKey);
+		base.OnInitialized();
+	}
+
+	protected void HandleValueChange(ValueChangedArgs args)
+	{
+		ViewState.Set<int>(MyComponentState, args.NewState);
+	}
+}
+
+```
+
 ## Authors
 
 Contributors names and contact info
