@@ -28,7 +28,7 @@ Whether you're building a simple prototype or a complex enterprise application, 
 - [Carlton.Core.Flux](./src/Flux/README.md): Detailed information and usage instructions for the `Carlton.Core.Flux` library.
 - [Carlton.Core.Foundation](./src/Foundation/README.md): Detailed information and usage instructions for the `Carlton.Core.Foundation` library.
 - [Carlton.Core.Lab](./src/Lab/README.md): Detailed information and usage instructions for the `Carlton.Core.Lab` library.
-- [Carlton.Core.Lab](./src/Layouts/README.md): Detailed information and usage instructions for the `Carlton.Core.Layouts` library.
+- [Carlton.Core.Layouts](./src/Layouts/README.md): Detailed information and usage instructions for the `Carlton.Core.Layouts` library.
 - [Carlton.Core.Utilities](./src/Utilities/README.md): Detailed information and usage instructions for the `Carlton.Core.Utilities` library.
   
 ## Getting Started
