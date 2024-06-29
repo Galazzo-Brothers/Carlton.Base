@@ -6,11 +6,11 @@
 
 # Carlton.Core.Flux.Debug
 
-Welcome to `Carlton.Core.Flux`, A powerful suite of development features for working with the logs and internal state of a Carlton Flux application. This repository houses the following applications:
+Welcome to `Carlton.Core.Flux.Debug`, A powerful suite of development features for working with the logs and internal state of a Carlton Flux application. This repository houses the following applications:
 
-- **Carlton.Core.Flux.Debug:** This project contains the core components and contracts for working with the Carlton Flux framework.
+- **Carlton.Core.Flux.Debug:** This project contains the core of the Carlton FLux Debug application.
 
-- **Carlton.Core.Flux.Debug.Tests:** This project contains unit tests for the components in Carlton.Core.Flux, ensuring reliability and maintaining quality standards throughout the development process.
+- **Carlton.Core.Flux.Debug.Tests:** This project contains unit tests for the components in Carlton.Core.Flux.Debug, ensuring reliability and maintaining quality standards throughout the development process.
 
 Whether you're building a simple prototype or a complex enterprise application, Carlton.Core.Components offers a robust foundation for your Blazor projects. Dive in, explore the components, and accelerate your development workflow with Carlton.Core.Components.
 
