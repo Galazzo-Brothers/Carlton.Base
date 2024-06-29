@@ -10,9 +10,9 @@ The `Carlton.Core.Foundation` packages serve as the foundational backbone for pr
 
 ## Contents
 
-- [Carlton.Core.Foundation](./Carlton.Core.Foundation/README.md): Detailed information and usage instructions for the Foundation library.
-- [Carlton.Core.Foundation.Web](./Carlton.Core.Foundation.Web/README.md): Detailed information and usage instructions for the Foundation.Web library.
-- [Carlton.Core.Foundation.Tests](./Carlton.Core.Foundation.Tests/README.md): Detailed information and usage instructions for the Foundation.Tests library.
+- [Carlton.Core.Foundation](./Carlton.Core.Foundation/README.md): Detailed information and usage instructions for the `Carlton.Core.Foundation` library.
+- [Carlton.Core.Foundation.Web](./Carlton.Core.Foundation.Web/README.md): Detailed information and usage instructions for the `Carlton.Core.Foundation.Web` library.
+- [Carlton.Core.Foundation.Tests](./Carlton.Core.Foundation.Tests/README.md): Detailed information and usage instructions for the `Carlton.Core.Foundation.Tests` library.
 
 ## Getting Started
 
@@ -20,4 +20,4 @@ For detailed usage instructions and documentation for each package, please refer
 
 ## Feedback and Contributions
 
-We welcome feedback, suggestions, and contributions from the community to improve the Carlton.Core.Layouts library. If you encounter any issues, have ideas for enhancemet
+We welcome feedback, suggestions, and contributions from the community to improve the `Carlton.Core.Foundation` library. If you encounter any issues, have ideas for enhancemet
