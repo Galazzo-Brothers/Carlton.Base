@@ -68,7 +68,6 @@ public static class Program
 			.AddComponentState<Pill>(PillTestStates.Default)
 			.AddComponentState<Table<TableTestStates.TableTestObject>>("Small Item List", TableTestStates.SmallItemList)
 			.AddComponentState<Table<TableTestStates.TableTestObject>>("Large Item List", TableTestStates.LargeItemList)
-			.AddComponentState<Table<TableTestStates.TableTestObject>>("Very Large Item List", TableTestStates.VeryLargeItemList)
 			.AddComponentState<Table<TableTestStates.TableTestObject>>("Without Pagination Row", TableTestStates.WithOutPaginationRow)
 			.AddComponentState<Toast>("Success", ToastTestStates.Success)
 			.AddComponentState<Toast>("Info", ToastTestStates.Info)
