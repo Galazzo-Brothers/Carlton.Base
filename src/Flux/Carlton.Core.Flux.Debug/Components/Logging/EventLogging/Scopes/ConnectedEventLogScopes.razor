@@ -1,9 +1,0 @@
-﻿@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging
-@using Carlton.Core.Flux.Debug.Components.Logging.EventLogging.Scopes
-@namespace Carlton.Core.Flux.Debug.Components
-@attribute [ObserveStateEvent("SelectedLogMessageChanged")]
-@attribute [ObserveStateEvent("LogsCleared")]
-@inherits BaseConnectedComponent<EventLogScopesViewModel>
-
-@* Component for displaying event log scopes. *@
-<EventLogScopes LogMessage="@ViewModel.SelectedLogMessage" />
