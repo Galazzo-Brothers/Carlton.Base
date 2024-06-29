@@ -10,9 +10,9 @@ The `Carlton.Core.Foundation` packages serve as the foundational backbone for pr
 
 ## Contents
 
-- [Carlton.Core.Foundation](./Carlton.Core.Foundation/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Foundation.Web](./Carlton.Core.Foundation.Web/README.md): Detailed information and usage instructions for the main layout library.
-- [Carlton.Core.Foundation.Tests](./Carlton.Core.Foundation.Tests/README.md): Instructions for running unit tests and validating layout functionality.
+- [Carlton.Core.Foundation](./Carlton.Core.Foundation/README.md): Detailed information and usage instructions for the Foundation library.
+- [Carlton.Core.Foundation.Web](./Carlton.Core.Foundation.Web/README.md): Detailed information and usage instructions for the Foundation.Web library.
+- [Carlton.Core.Foundation.Tests](./Carlton.Core.Foundation.Tests/README.md): Detailed information and usage instructions for the Foundation.Tests library.
 
 ## Getting Started
 
