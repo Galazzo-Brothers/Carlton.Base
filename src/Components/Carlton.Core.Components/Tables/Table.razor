@@ -1,0 +1,207 @@
+﻿@using Carlton.Core.Foundation.State
+@namespace Carlton.Core.Components.Tables
+@typeparam TItem
+
+@*
+    Represents a reusable table component for displaying tabular data with sortable headers and pagination.
+    TItem: The type of items in the table.
+*@
+<div class="@TableCssClass">
+	<!--Table Header-->
+	<TableHeader TItem="TItem"
+				 Headings="Headings"
+				 SelectedOrderColumn="@OrderColumn"
+				 IsAscending="IsAscending"
+				 OnItemsSort="HandleItemsSort" />
+
+
+	<!--Table Body-->
+	<div class="table-body">
+		@foreach (var item in DisplayItems)
+		{
+			@RowTemplate(item)
+		}
+	</div>
+
+	<!--Table Pagination Row-->
+	@if (ShowPaginationRow)
+	{
+		<TablePaginationRow TItem="TItem"
+							RowsPerPageOpts="RowsPerPageOptions"
+							TotalItemCount="FilteredItems.Count()"
+							CurrentPage="CurrentPage"
+							SelectedRowsPerPageIndex="SelectedRowsPerPageIndex"
+							OnPageChange="HandlePageChange"
+							OnRowsPerPageChange="HandleRowsPerPageChange" />
+	}
+</div>
+
+@code {
+	/// <summary>
+	/// Gets or sets the headings for the table columns.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<TableHeadingItem> Headings { get; set; }
+
+	/// <summary>
+	/// Gets or sets the items to be displayed in the table.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<TItem> Items { get; set; } = new List<TItem>();
+
+	/// <summary>
+	/// Gets or sets the template for rendering each row in the table.
+	/// </summary>
+	[Parameter]
+	public RenderFragment<TItem> RowTemplate { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether zebra-striped styling should be applied to the table rows.
+	/// </summary>
+	[Parameter]
+	public bool ZebraStripped { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether hoverable styling should be applied to the table rows.
+	/// </summary>
+	[Parameter]
+	public bool Hoverable { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the pagination row should be displayed.
+	/// </summary>
+	[Parameter]
+	public bool ShowPaginationRow { get; set; }
+
+	/// <summary>
+	/// Gets or sets the options for the number of rows per page.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<int> RowsPerPageOptions { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether sortable headers are enabled.
+	/// </summary>
+	[Parameter]
+	public bool SortableHeadersEnabled { get; set; } = true;
+
+	[Parameter]
+	public IEqualityComparer<TItem> ItemsEqualityComparer { get; set; } = EqualityComparer<TItem>.Default;
+
+	/// <summary>
+	/// Gets or Sets a value representing the users interaction state of the table, used to rehydrate the table on initialization.
+	/// </summary>
+	[Parameter]
+	public TableInteractionState TableInteractionState { get; set; } = new TableInteractionState();
+
+	/// <summary>
+	/// Gets or Sets an Event callback invoked when the table interaction state changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<TableInteractionState> OnTableInteraction { get; set; }
+
+	private IList<TItem> AllItems { get; set; }
+
+	private IList<TItem> FilteredItems { get; set; } 
+
+	private IList<TItem> DisplayItems { get; set; }
+
+	private int SelectedRowPerPageValue { get => RowsPerPageOptions.ElementAt(SelectedRowsPerPageIndex); }
+
+	private int CurrentPage { get; set; } = 1;
+
+	private int SelectedRowsPerPageIndex { get; set; } = 0;
+
+	private string OrderColumn { get; set; } = string.Empty;
+
+	private bool IsAscending { get; set; } = true;
+
+	protected override void OnInitialized()
+	{
+		//Rehydrate the table from the user's saved interaction state
+		CurrentPage = TableInteractionState.CurrentPage;
+		SelectedRowsPerPageIndex = TableInteractionState.SelectedRowsPerPageIndex;
+		OrderColumn = TableInteractionState.OrderByColumn;
+		IsAscending = TableInteractionState.IsAscending;
+		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		//Reset the current page if the items have changed, if not first load
+		if (AllItems != null && !Enumerable.SequenceEqual(Items, AllItems, ItemsEqualityComparer))
+			CurrentPage = 1;
+
+		AllItems = FilteredItems = DisplayItems = Items.ToList();
+		UpdateOrdering();
+		UpdatePagination();
+		base.OnParametersSet();
+	}
+
+	private void UpdateOrdering()
+	{
+		if (string.IsNullOrEmpty(OrderColumn))
+			return;
+
+		var orderString = $"{OrderColumn}{(IsAscending ? string.Empty : " desc")}";
+		FilteredItems = FilteredItems.AsQueryable().OrderBy(orderString).ToList();
+	}
+
+	private void UpdatePagination()
+	{
+		if (!ShowPaginationRow)
+			return;
+
+		DisplayItems = FilteredItems.Skip((CurrentPage - 1) * SelectedRowPerPageValue)
+						.Take(SelectedRowPerPageValue)
+						.ToList();
+	}
+
+	private void HandleItemsSort(ItemsSortEventArgs args)
+	{
+		if (!SortableHeadersEnabled)
+			return;
+
+		if (OrderColumn == args.SortColumn && IsAscending == args.SortAscending)
+			return;
+
+		CurrentPage = 1; //reset to first page
+		OrderColumn = args.SortColumn;
+		IsAscending = args.SortAscending;
+		UpdateOrdering();
+		var newState = TableInteractionState with { CurrentPage = 1, OrderByColumn = args.SortColumn, IsAscending = args.SortAscending };
+		OnTableInteraction.InvokeAsync(newState);
+	}
+
+	private void HandlePageChange(PageChangeEventArgs args)
+	{
+		if (!ShowPaginationRow)
+			return;
+
+		CurrentPage = args.CurrentPage;
+		UpdatePagination();
+		var newState = TableInteractionState with { CurrentPage = args.CurrentPage };
+		OnTableInteraction.InvokeAsync(newState);
+	}
+
+	private void HandleRowsPerPageChange(RowsPerPageChangeEventArgs args)
+	{
+		if (!ShowPaginationRow)
+			return;
+
+		CurrentPage = 1; //reset to first page
+		SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex;
+		UpdateOrdering();
+		UpdatePagination();
+		var newState = TableInteractionState with { CurrentPage = 1, SelectedRowsPerPageIndex = args.SelectedRowsPerPageIndex };
+		OnTableInteraction.InvokeAsync(newState);
+	}
+
+	private string TableCssClass
+	{
+		get => new CssBuilder("table-container")
+				.AddClass("zebra", ZebraStripped)
+				.AddClass("hoverable", Hoverable)
+				.Build();
+	}
+}

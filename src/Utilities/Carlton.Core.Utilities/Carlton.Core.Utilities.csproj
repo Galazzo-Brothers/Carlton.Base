@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+   <Authors>Nicholas Galazzo</Authors>
+    <Product>Project Carlton</Product>
+    <Company>Project Carlton</Company>
+    <Description>Contains the base classes and utilities used across the carlton suite.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Infrastructure.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CQRS\**" />
+    <EmbeddedResource Remove="CQRS\**" />
+    <None Remove="CQRS\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="7.0.0" />
+    <PackageReference Include="Polly" Version="7.2.4" />
+    <PackageReference Include="Sentry" Version="3.35.0" />
+  </ItemGroup>
+
+</Project>

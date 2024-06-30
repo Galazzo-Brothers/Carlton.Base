@@ -1,0 +1,50 @@
+﻿@using Carlton.Core.Components.Footers
+@using Carlton.Core.Components.Logos
+@using Carlton.Core.LayoutServices.FullScreen
+@using Carlton.Core.Layouts.DashboardLayouts.PanelLayout
+@using Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
+@namespace Carlton.Core.Lab.Layouts
+@inherits LayoutComponentBase
+@layout DashboardTabbedPanelLayout
+@inject IFullScreenState FullScreenState
+
+@*
+	Represents a dashboard layout for the test lab.
+*@
+
+
+@Body
+
+<SectionContent SectionId="DashboardPanelLayout.Nav">
+	 <!-- Displays navigation menu. -->
+	<LabComponent TViewModel="NavMenuViewModel" />
+</SectionContent>
+
+<SectionContent SectionId="DashboardPanelLayout.HeaderPageTitle">
+	 <!-- Displays breadcrumbs for the current page. -->
+	<LabComponent TViewModel="BreadCrumbsViewModel" />
+</SectionContent>
+
+<SectionContent SectionId="DashboardPanelLayout.HeaderActionContent">
+	<!-- Displays header actions. -->
+	<LabHeaderActions />
+</SectionContent>
+
+<SectionContent SectionId="DashboardPanelLayout.Logo">
+	<!-- Displays the logo. -->
+	<Logo Title="@AppName" LogoUrl="@LogoUrl" IsCollapsed="FullScreenState.IsFullScreen" />
+</SectionContent>
+
+<SectionContent SectionId="DashboardPanelLayout.Footer">
+	<!-- Displays the footer. -->
+	<Footer />
+</SectionContent>
+
+
+@code {
+	// Application name
+	private const string AppName = "Carlton Test Lab";
+	// URL of the application's logo
+	private const string LogoUrl = "_content/Carlton.Core.Components/images/CarltonLogo.png";
+}
+

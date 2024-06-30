@@ -1,0 +1,29 @@
+﻿@using Carlton.Core.Components.Error
+@using Carlton.Core.Components.Spinners
+@using Carlton.Core.Flux.Components
+@namespace Carlton.Core.Flux.Debug
+@typeparam TViewModel
+
+@*
+	A Blazor component for integrating Flux framework with error handling and spinner,
+	wired into the Debug state store.
+	<typeparam name="TViewModel">The type of the view model.</typeparam>
+*@
+
+<FluxErrorBoundary>
+	<ChildContent>
+		<FluxWrapper TState="FluxDebugState"
+					 TViewModel="TViewModel">
+			<SpinnerContent>
+				<Spinner />
+			</SpinnerContent>
+		</FluxWrapper>
+	</ChildContent>
+	<ErrorPrompt Context="error">
+		<ErrorPrompt ErrorHeader="@error.Header"
+					 ErrorIconClass="@error.IconClass"
+					 ErrorMessage="@error.Message"
+					 OnRetry="@error.Recover" />
+	</ErrorPrompt>
+</FluxErrorBoundary>
+

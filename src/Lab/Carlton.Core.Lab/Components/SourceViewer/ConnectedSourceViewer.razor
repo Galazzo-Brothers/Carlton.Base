@@ -1,0 +1,13 @@
+﻿@using Carlton.Core.Components.JavaScriptComponents
+@namespace Carlton.Core.Components.Lab.Components.SourceViewer
+@attribute [ObserveStateEvent("MenuItemSelected")]
+@inherits BaseConnectedComponent<SourceViewerViewModel>
+
+@* 
+    Represents a source code viewer component.
+    It observes state events and displays the source code of a component.
+    It supports highlighting the source code based on the specified language.
+*@
+
+<JavaScriptMarkupViewer Language="html" Source="@ViewModel.ComponentSource" />
+

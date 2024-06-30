@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+	<PropertyGroup>
+		<NoWarn>8618;</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Carlton.Core.Components.Layouts.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Components\Carlton.Core.Components\Carlton.Core.Components.csproj" />
+	  <ProjectReference Include="..\Carlton.Core.LayoutServices\Carlton.Core.LayoutServices.csproj" />
+	</ItemGroup>
+
+</Project>

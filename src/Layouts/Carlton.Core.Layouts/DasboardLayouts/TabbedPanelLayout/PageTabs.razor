@@ -1,0 +1,50 @@
+﻿@using Carlton.Core.Components.Tabs
+@using Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
+@using Carlton.Core.LayoutServices.Viewport
+@namespace Carlton.Core.Layouts.DashboardLayouts.TabbedPanelLayout
+
+@* Represents the tabbed panel layout for the dashboard. *@
+<SectionContent SectionId="DashboardTabbedPanelLayout.Tabs">
+	<MediaQueryWrapper>
+		<!-- Desktop Content -->
+		<DesktopContent>
+			<TextTabBar ContentLocation="ContentLocations.Below"
+						ActiveTabIndex="ActiveTabIndex"
+						OnTabChange="OnTabChange">
+				<ChildContent>
+					@TabContent
+				</ChildContent>
+			</TextTabBar>
+		</DesktopContent>
+
+		<!-- Mobile Content -->
+		<MobileContent>
+			<MobileDrawerTabBar ActiveTabIndex="ActiveTabIndex"
+								OnTabChange="OnTabChange">
+				<ChildContent>
+					@TabContent
+				</ChildContent>
+			</MobileDrawerTabBar>
+		</MobileContent>
+	</MediaQueryWrapper>
+</SectionContent>
+
+@code {
+	/// <summary>
+	/// Gets or sets the content to be rendered within the tabs.
+	/// </summary>
+	[Parameter]
+	public RenderFragment TabContent { get; set; }
+
+	/// <summary>
+	/// Gets or sets the index of the active tab.
+	/// </summary>
+	[Parameter]
+	public int ActiveTabIndex { get; set; }
+
+	/// <summary>
+	/// Gets or sets the callback that is invoked when the active tab changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<int> OnTabChange { get; set; }
+}

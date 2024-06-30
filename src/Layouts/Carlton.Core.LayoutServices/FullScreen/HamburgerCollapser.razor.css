@@ -1,0 +1,15 @@
+﻿/* Collapser Variables */
+.collapser {
+    --collapser-font-size: 16pt;
+}
+
+/* Collapser Base Styles */
+.collapser{
+    text-align: center;
+}
+
+    .collapser span {
+        color: var(--layout-header-icon-color);
+        font-size: var(--collapser-font-size);
+        vertical-align: middle;
+    }

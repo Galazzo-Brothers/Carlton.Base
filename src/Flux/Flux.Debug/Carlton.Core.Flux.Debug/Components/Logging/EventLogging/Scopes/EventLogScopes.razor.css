@@ -1,0 +1,11 @@
+﻿/* Styles for the log details container */
+.log-details{
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--primary-text-color);
+}
+
+
+
+

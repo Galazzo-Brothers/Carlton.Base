@@ -1,0 +1,54 @@
+﻿@namespace Carlton.Core.Components.Error
+
+@* Represents a component for displaying an error prompt with customizable content. *@
+<div class="error-prompt">
+    <!--Error Header-->
+    <div class="error-header">
+        <div class="content">
+            <div class="@IconCss"></div>
+            <span class="error-header-message">@ErrorHeader</span>
+        </div>
+    </div>
+
+    <!-- Error Body-->
+    <div class="error-body">
+        <div class="content">
+            <span class="error-message">@ErrorMessage</span>
+            <button class="retry-btn" @onclick="OnRetry">Retry</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the header message of the error prompt.
+    /// </summary>
+    [Parameter]
+    public string ErrorHeader { get; set; }
+
+    /// <summary>
+    /// Gets or sets the body message of the error prompt.
+    /// </summary>
+    [Parameter]
+    public string ErrorMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the CSS class for the error icon.
+    /// </summary>
+    [Parameter]
+    public string ErrorIconClass { get; set; }
+
+    /// <summary>
+    /// Event callback invoked when the user clicks the retry button.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnRetry { get; set; }
+
+    private string IconCss
+    {
+        get => new CssBuilder("icon")
+                .AddClass("mdi mdi-48px")
+                .AddClass($"{ErrorIconClass}")
+                .Build();
+    }
+}

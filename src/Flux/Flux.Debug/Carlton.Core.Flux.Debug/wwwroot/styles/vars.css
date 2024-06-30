@@ -1,0 +1,12 @@
+﻿:root {
+	--log-level-trace-color: #ab8ce4;
+	--log-level-debug-color: #1e88e5;
+	--log-level-information-color: #808080;
+	--log-level-warning-color: #c78c04;
+	--log-level-error-color: #e46a76;
+	--log-level-critical-color: #B22222;
+	--event-log-success-color: #00897b;
+	--event-log-failure-color: #B22222;
+}
+
+

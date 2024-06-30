@@ -1,0 +1,20 @@
+﻿/* Define CSS variable for list card padding */
+.list-card {
+	--list-card-ul-padding: 5px;
+}
+
+/* Remove default list styles */
+ul {
+	list-style: none;
+}
+
+	/* Style for list items */
+	ul li {
+		padding: var(--list-card-ul-padding);
+		color: var(--primary-text-color);
+	}
+
+/* Style for sub-title within cards */
+.sub-title {
+	color: var(--secondary-text-color);
+}

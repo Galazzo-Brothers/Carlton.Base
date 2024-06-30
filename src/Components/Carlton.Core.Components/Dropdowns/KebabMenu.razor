@@ -1,0 +1,51 @@
+﻿@namespace Carlton.Core.Components.Dropdowns
+@typeparam T
+@inherits DropdownMenu<T>
+
+
+@* Represents a kebab menu dropdown component for displaying options in a vertical list. *@
+<div class="kebab-dropdown">
+    <!--Kebab Icon-->
+    <i class="@IconCss" @onclick="IconClick"></i>
+
+    <!--Menu Options-->
+    <div class="@OptionsCss">
+        @foreach (var (item, i) in MenuItems.WithIndex())
+        {
+            <div class="option" @onclick="item.MenuItemSelected">
+                @item.MenuItemName
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets a value indicating whether the kebab dropdown is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
+
+    private void IconClick()
+    {
+        if (IsDisabled || !MenuItems.Any())
+            return;
+
+        IsActive = !IsActive;
+    }
+
+    private string IconCss
+        => new CssBuilder("kebab-icon")
+            .AddClass("disabled", IsDisabled || !MenuItems.Any())
+            .AddClass("mdi mdi-24px")
+            .AddClass("mdi-dots-vertical", !IsActive)
+            .AddClass("mdi-close-circle", IsActive)
+            .Build();
+
+
+    private string OptionsCss
+        => new CssBuilder("options")
+            .AddClass("active", IsActive)
+            .Build();
+}

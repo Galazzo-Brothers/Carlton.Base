@@ -1,0 +1,17 @@
+﻿@namespace Carlton.Core.Components.Tabs
+@inherits TabBarBase
+
+@*An implementation of TabBarBase where the child tabs are optimized for mobile and displayed as icon buttons*@
+<div class="mobile-collapsible-tab-bar">
+	<TabBarBase HideCollapser="false"
+				HideTabs="false"
+				ContentLocation="ContentLocation"
+				ChildContent="ChildContent"
+				ActiveTabIndex="ActiveTabIndex"
+				OnTabChange="OnTabChange">
+		<TabContent Context="tab">
+			<IconTabContent Tab="tab" />
+		</TabContent>
+	</TabBarBase>
+</div>
+

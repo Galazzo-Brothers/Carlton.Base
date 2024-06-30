@@ -1,0 +1,19 @@
+﻿@using System.Text.Json
+@using Carlton.Core.Components.Consoles
+
+@* Component for displaying details of a trace log message's request context in JSON format. *@
+<div class="trace-log-request-context-details">
+    <JsonViewerConsole Object="@RequestToSerialize" IsReadOnly="true" />
+</div>
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the selected request context to be displayed.
+	/// </summary>
+	[Parameter]
+    public object? SelectedRequestContext { get; set; }
+
+	// Gets the object to be serialized for display.
+    private object? RequestToSerialize => SelectedRequestContext ?? null;
+}

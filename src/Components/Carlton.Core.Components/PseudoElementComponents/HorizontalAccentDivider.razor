@@ -1,0 +1,26 @@
+﻿@namespace Carlton.Core.Components.PseudoElementComponents
+
+@* Represents a component used to create a horizontal spacer using pseudo-elements. *@
+ <span class="horizontal-spacer" style="@SpacerStyle"></span>
+
+@code {
+    /// <summary>
+    /// Gets or sets the width percentage of the horizontal spacer.
+    /// </summary>
+    [Parameter]
+    public int WidthPercentage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the height in pixels of the horizontal spacer.
+    /// </summary>
+    [Parameter]
+    public int HeightPixels { get; set; } = 1;
+
+    private string SpacerStyle
+    {
+        get => new StyleBuilder()
+                    .AddStyle("--spacer-width", $"{WidthPercentage}%")
+                    .AddStyle("--spacer-height", $"{HeightPixels}px")
+                    .Build();
+    }
+}

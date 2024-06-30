@@ -1,0 +1,101 @@
+﻿@using Carlton.Core.Components.Logos
+@using Carlton.Core.Components.Panels
+@using Carlton.Core.Components.PseudoElementComponents
+@using Carlton.Core.LayoutServices.FullScreen
+@namespace Carlton.Core.Layouts.DashboardLayouts.PanelLayout
+
+@* Represents a layout component for rendering a dashboard panel layout. *@
+<div class="@DashboardPanelLayoutCss">
+    <!-- Header Section -->
+    <header>
+        <div>
+            <div class="header-bar">
+                <!-- Hamburger Menu -->
+                <div class="menu">
+                    <HamburgerCollapser />
+                </div>
+
+                <!-- Title Content Section -->
+                <div class="title">
+                    <SectionOutlet SectionId="DashboardPanelLayout.HeaderPageTitle" />
+                </div>
+
+                <!-- Action Content Section -->
+                <div class="action">
+                    <SectionOutlet SectionId="DashboardPanelLayout.HeaderActionContent" />
+                </div>
+            </div>
+            <HorizontalAccentDivider WidthPercentage="100" />
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <!-- Logo Content Section -->
+        <SectionOutlet SectionId="DashboardPanelLayout.Logo" />
+
+        <!-- Nav Content Section -->
+        @if (!IsFullScreen)
+        {
+            <SectionOutlet SectionId="DashboardPanelLayout.Nav" />
+        }
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        @if (ShowPanel)
+        {
+            <ResizablePanel>
+                <!-- Top Content -->
+                <TopContent>
+                    @BodyContent
+                </TopContent>
+
+                <!--Bottom Content -->
+                <BottomContent>
+                    <SectionOutlet SectionId="DashboardPanelLayout.Panel" />
+                </BottomContent>
+            </ResizablePanel>
+        }
+        else
+        {
+            @BodyContent
+        }
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <SectionOutlet SectionId="DashboardPanelLayout.Footer" />
+    </footer>
+</div>
+
+@code {
+	/// <summary>
+	/// Gets or sets the body content to be displayed.
+	/// </summary>
+	[Parameter]
+	public RenderFragment BodyContent { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the layout is in full-screen mode.
+	/// </summary>
+	[Parameter]
+	public bool IsFullScreen { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the layout panel is displayed.
+	/// </summary>
+	[Parameter]
+	public bool ShowPanel { get; set; }
+
+    // CSS class for the layout container
+    private string DashboardPanelLayoutCss
+    {
+        get => new CssBuilder("dashboard-panel-layout")
+                .AddClass("collapsed", IsFullScreen)
+                .Build();
+    }
+}
+
+
+

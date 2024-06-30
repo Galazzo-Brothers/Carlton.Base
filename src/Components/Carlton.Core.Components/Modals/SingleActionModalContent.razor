@@ -1,0 +1,53 @@
+﻿@namespace Carlton.Core.Components.Modals
+
+@*
+   Represents a modal dialog box for displaying prompts and messages,
+   along with handling user actions like dismissal and confirmation.
+*@
+
+<div class="single-action-modal-content">
+    <!-- Modal DismissMark-->
+    <ModalDismissMark OnDismiss="OnDismiss" />
+
+    <!-- Modal Prompt Message -->
+    <div class="modal-prompt-message">
+        <span class="message-text">@Prompt</span>
+    </div>
+
+    <!-- Modal Message -->
+    <div class="modal-message">
+        <span class="message-text">@Message</span>
+    </div>
+
+    <!-- Modal Actions -->
+    <div class="modal-actions">
+		<button class="btn-ok" @onclick="() => OnClose.InvokeAsync(true)">Ok</button>
+    </div>
+</div>
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the prompt message displayed by the modal.
+	/// </summary>
+	[Parameter]
+	public string Prompt { get; set; }
+
+	/// <summary>
+	/// Gets or sets the main message displayed by the modal.
+	/// </summary>
+	[Parameter]
+	public string Message { get; set; }
+
+	/// <summary>
+	/// Gets or sets the callback method invoked when the modal is dismissed.
+	/// </summary>
+	[Parameter]
+	public EventCallback OnDismiss { get; set; }
+
+	/// <summary>
+	/// Gets or sets the callback method invoked when the modal is closed.
+	/// </summary>
+	[Parameter]
+	public EventCallback<bool> OnClose { get; set; }
+}

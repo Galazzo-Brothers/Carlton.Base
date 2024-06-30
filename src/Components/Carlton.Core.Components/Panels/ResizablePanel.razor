@@ -1,0 +1,63 @@
+﻿@using Microsoft.JSInterop
+@namespace Carlton.Core.Components.Panels
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+
+@* Represents a resizable panel component with a split layout. *@
+<div class="resizable-panel">
+    <!--Main Content-->
+    <div class="panel-top">
+        @TopContent
+    </div>
+    
+    <!--Divider-->
+    <div class="splitter-horizontal"></div>
+    
+    <!--Resizable Content-->
+    <div class="panel-bottom">
+        @BottomContent
+    </div>
+</div>
+
+
+@code {
+    /// <summary>
+    /// Represents the path to the ResizablePanel JavaScript module.
+    /// </summary>
+    public const string ImportPath = $"./_content/{Constants.ProjectName}/Panels/ResizablePanel.razor.js";
+
+    /// <summary>
+    /// Represents the JavaScript function name for initializing the resizable panel.
+    /// </summary>
+    public const string InitResizablePanel = "initResizablePanel";
+
+    /// <summary>
+    /// Gets or sets the render fragment for the content of the top panel.
+    /// </summary>
+    [Parameter]
+    public RenderFragment TopContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the render fragment for the content of the bottom panel.
+    /// </summary>
+    [Parameter]
+    public RenderFragment BottomContent { get; set; }
+
+    private IJSObjectReference Module { get; set; }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Module = await JSRuntime.InvokeAsync<IJSObjectReference>(Constants.Import, ImportPath);
+            await Module.InvokeVoidAsync(InitResizablePanel);
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync()
+    {
+        await Module.DisposeAsync();
+    }
+}

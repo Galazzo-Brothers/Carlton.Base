@@ -1,0 +1,49 @@
+﻿/* Header Cell Variables */
+.header-row {
+	--header-cell-filter-arrows-gap: 5px;
+}
+
+/* Base Styles for Header Cell */
+.header-cell {
+	color: var(--primary-text-color);
+	font-weight: bold;
+}
+
+	/* Heading Container Styles */
+	.header-cell .heading-container {
+		display: flex;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	/* Filter Arrows Styles */
+	.header-cell .filter-arrows {
+		display: none;
+		gap: var(--header-cell-filter-arrows-gap);
+	}
+
+	/* Display Filter Arrows for Selected Header Cell */
+	.header-cell.selected .filter-arrows {
+		display: flex;
+		gap: 0;
+	}
+
+	/* Ascending Arrow Styles */
+	.header-cell .arrow-ascending {
+		display: none;
+	}
+
+	/* Descending Arrow Styles */
+	.header-cell .arrow-descending {
+		display: none;
+	}
+
+	/* Display Ascending Arrow for Selected Header Cell */
+	.header-cell.selected.ascending .arrow-ascending {
+		display: inherit;
+	}
+
+	/* Display Descending Arrow for Selected Header Cell */
+	.header-cell.selected.descending .arrow-descending {
+		display: inherit;
+	}

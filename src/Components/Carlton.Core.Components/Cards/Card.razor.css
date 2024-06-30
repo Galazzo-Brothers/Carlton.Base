@@ -1,0 +1,43 @@
+﻿/* Define CSS variables for card styling */
+.card {
+	--card-width: 325px;
+	--card-height: 100px;
+	--card-background-color: var(--component-background-color);
+	--card-border-radius: 0.25rem;
+}
+
+/* Style for the card */
+.card {
+	display: flex;
+	flex-direction: column;
+	width: var(--card-width);
+	min-height: var(--card-height);
+	background-color: var(--card-background-color);
+	padding-left: 15px;
+	word-wrap: break-word;
+	background-clip: border-box;
+	border-radius: var(--card-border-radius);
+}
+
+/* Style for the title content area within the card */
+.title-content {
+	display: flex;
+	margin-top: 5px;
+}
+
+	/* Style for the title element within the title content area */
+	.title-content .card-title {
+		flex-basis: 75%;
+		margin-top: auto;
+		margin-bottom: auto;
+		text-align: left;
+		font-weight: bold;
+		color: var(--primary-text-color);
+	}
+
+/* Style for the action content area within the card */
+.action-content {
+	display: flex;
+	width: 100%;
+	justify-content: right;
+}

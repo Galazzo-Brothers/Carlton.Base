@@ -1,0 +1,162 @@
+﻿@using Carlton.Core.Components.Dropdowns
+@namespace Carlton.Core.Components.Tables
+@typeparam TItem
+
+@* Represents a pagination component for navigating through items. *@
+<div class="pagination-row table-row">
+	<!--Rows Per Page Dropdown-->
+	<div class="rows-per-page">
+		<span class="rows-per-page-label">Rows Per Page</span>
+		<Dropdown T="int"
+				  Options="RowsPerPageSelectOpts"
+				  InitialSelectedIndex="SelectedRowsPerPageIndex"
+				  IsPristineEnabled="false"
+				  OnValueChange="(args) => HandleRowsPerPageChange(args.SelectedIndex)" />
+	</div>
+
+	<!-- Pagination Label -->
+	<div class="page-number">
+		<span class="pagination-label">@PaginationLabel</span>
+	</div>
+
+	<!-- Pagination Chevrons -->
+	<div class="page-chevrons">
+		<span class="@PageFirstChevronCss" @onclick="() => HandlePageChange(1)"></span>
+		<span class="@PageLeftChevronCss" @onclick="() => HandlePageChange(CurrentPage-1)"></span>
+		<span class="@PageRightChevronCss" @onclick="() => HandlePageChange(CurrentPage+1)"></span>
+		<span class="@PageLastChevronCss" @onclick="() => HandlePageChange(MaxPage)"></span>
+	</div>
+</div>
+
+@code {
+	/// <summary>
+	/// Gets or sets the total count of items.
+	/// </summary>
+	[Parameter]
+	public int TotalItemCount { get; set; }
+
+	/// <summary>
+	/// Gets or sets the current page number.
+	/// </summary>
+	[Parameter]
+	public int CurrentPage { get; set; } = 1;
+
+	/// <summary>
+	/// Gets or sets the options for rows per page.
+	/// </summary>
+	[Parameter]
+	public IEnumerable<int> RowsPerPageOpts { get; set; } = new List<int>();
+
+	/// <summary>
+	/// Gets or sets the index of the selected rows per page.
+	/// </summary>
+	[Parameter]
+	public int SelectedRowsPerPageIndex { get; set; }
+
+	/// <summary>
+	/// Gets or sets the event callback for page change.
+	/// </summary>
+	[Parameter]
+	public EventCallback<PageChangeEventArgs> OnPageChange { get; set; }
+
+	/// <summary>
+	/// Gets or sets the event callback for rows per page change.
+	/// </summary>
+	[Parameter]
+	public EventCallback<RowsPerPageChangeEventArgs> OnRowsPerPageChange { get; set; }
+
+	/// <summary>
+	/// Gets the selected rows per page value.
+	/// </summary>
+	public int SelectedRowsPerPageValue { get => RowsPerPageOpts.ElementAt(SelectedRowsPerPageIndex); }
+
+	private IReadOnlyDictionary<string, int> RowsPerPageSelectOpts { get; set; } //Used for Dropdown parameters
+
+	private int MaxPage { get => Math.Max(1, (int)Math.Ceiling((decimal)TotalItemCount / SelectedRowsPerPageValue)); }
+
+	private string PaginationLabel
+	{
+		get
+		{
+			var paginationCurrentRangeStart = TotalItemCount == 0 ? 0 : 1 + ((CurrentPage - 1) * SelectedRowsPerPageValue);
+			var paginationCurrentRangeEnd = Math.Min(CurrentPage * SelectedRowsPerPageValue, TotalItemCount);
+			return $"{paginationCurrentRangeStart}-{paginationCurrentRangeEnd} of {TotalItemCount}";
+		}
+	}
+
+	protected override void OnParametersSet()
+	{
+		if (TotalItemCount < 0)
+			throw new ArgumentException("TotalItemCount must be a non-negative value.");
+
+		if (SelectedRowsPerPageIndex < 0)
+			throw new ArgumentException("Selected index cannot be less than 0.");
+
+		if (SelectedRowsPerPageIndex > RowsPerPageOpts.Count())
+			throw new ArgumentException("Selected index cannot be greater than RowsPerPageOpts count.");
+
+		if (CurrentPage > MaxPage)
+			throw new ArgumentException("Current page cannot be greater than the max page.");
+
+		RowsPerPageSelectOpts = RowsPerPageOpts.ToDictionary(x => x.ToString(), x => x);
+
+		base.OnParametersSet();
+	}
+
+	private async Task HandlePageChange(int newPageNumber)
+	{
+		//Disable left chevrons on first page
+		if (CurrentPage == 1 && newPageNumber <= 1)
+			return;
+
+		//Disable right chevrons on last page
+		if(CurrentPage == MaxPage && newPageNumber >= MaxPage)
+			return;
+
+		CurrentPage = newPageNumber;
+		await OnPageChange.InvokeAsync(new PageChangeEventArgs(newPageNumber));
+	}
+
+	private async Task HandleRowsPerPageChange(int rowsPerPageIndex)
+		=> await OnRowsPerPageChange.InvokeAsync(new RowsPerPageChangeEventArgs(rowsPerPageIndex));
+	
+	private string PageFirstChevronCss
+	{
+		get => new CssBuilder()
+				.AddClass("mdi")
+				.AddClass("mdi-18px")
+				.AddClass("mdi-page-first")
+				.AddClass("disabled", CurrentPage == 1)
+				.Build();
+	}
+
+	private string PageLeftChevronCss
+	{
+		get => new CssBuilder()
+			.AddClass("mdi")
+			.AddClass("mdi-18px")
+			.AddClass("mdi-chevron-left")
+			.AddClass("disabled", CurrentPage == 1)
+			.Build();
+	}
+
+	private string PageRightChevronCss
+	{
+		get => new CssBuilder()
+			.AddClass("mdi")
+			.AddClass("mdi-18px")
+			.AddClass("mdi-chevron-right")
+			.AddClass("disabled", CurrentPage == MaxPage)
+			.Build();
+	}
+
+	private string PageLastChevronCss
+	{
+		get => new CssBuilder()
+			.AddClass("mdi")
+			.AddClass("mdi-18px")
+			.AddClass("mdi-page-last")
+			.AddClass("disabled", CurrentPage == MaxPage)
+			.Build();
+	}
+}

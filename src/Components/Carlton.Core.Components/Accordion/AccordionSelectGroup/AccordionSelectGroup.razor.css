@@ -1,0 +1,10 @@
+﻿/* Accordion Select Group Variables */
+.accordion-select-group{
+    --accordion-select-group-padding-left-right: 15px;
+}
+
+/* Accordion Select Group Styles */
+.accordion-select-group {
+    padding-left: var(--accordion-select-group-padding-left-right);
+    padding-right: var(--accordion-select-group-padding-left-right);
+}

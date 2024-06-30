@@ -1,0 +1,183 @@
+﻿@namespace Carlton.Core.Components.Tabs
+
+@*
+    Represents a base component for managing tabs.
+    Note: should not be used directly
+*@
+<div class="tab-bar">
+	<!--Content Collapser-->
+	@if (!HideCollapser)
+	{
+		<button class="slide-button" @onclick="() => IsExpanded = !IsExpanded">@Title</button>
+	}
+
+	<!--Above Content-->
+	@if (ContentLocation == ContentLocations.Above)
+	{
+		<!--Active Content-->
+		<div class="@ContentCss">
+			<CascadingValue Value="this">
+				@ChildContent
+			</CascadingValue>
+		</div>
+	}
+
+	@if (!HideTabs)
+	{
+		<!--Tabs-->
+		<div class="tabs">
+			@foreach (Tab tab in Tabs)
+			{
+				<!--Individual Tab-->
+				<div class="@TabCss(tab)">
+					<div class="tab-link" @onclick="(args) => ActivateTab(tab.TabIndex)">
+						@TabContent(tab)
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+	<!--Below Content-->
+	@if (ContentLocation == ContentLocations.Below)
+	{
+		<!--Active Content-->
+		<div class="@ContentCss">
+			<CascadingValue Value="this">
+				@ChildContent
+			</CascadingValue>
+		</div>
+	}
+</div>
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the content to be displayed within the tabs.
+	/// </summary>
+	[Parameter]
+	public RenderFragment ChildContent { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the collapser button should be hidden.
+	/// </summary>
+	[Parameter]
+	public bool HideCollapser { get; set; } = false;
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the tabs should be hidden.
+	/// </summary>
+	[Parameter]
+	public bool HideTabs { get; set; } = false;
+
+	/// <summary>
+	/// Gets or sets the location of the tab content.
+	/// </summary>
+	[Parameter]
+	public ContentLocations ContentLocation { get; set; }
+
+	/// <summary>
+	/// Gets or sets the title of the tab bar.
+	/// </summary>
+	[Parameter]
+	public string Title { get; set; }
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the tab content is expanded.
+	/// </summary>
+	[Parameter]
+	public bool IsExpanded { get; set; }
+
+	/// <summary>
+	/// Gets or sets the render fragment for each tab.
+	/// </summary>
+	[Parameter]
+	public RenderFragment<Tab> TabContent { get; set; } = DefaultTabRenderFragment;
+
+	/// <summary>
+	/// Gets or sets the index of the active tab.
+	/// </summary>
+	[Parameter]
+	public int ActiveTabIndex { get; set; }
+
+	/// <summary>
+	/// Event callback invoked when the selected tab changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<int> OnTabChange { get; set; }
+
+	/// <summary>
+	/// Gets the currently active tab.
+	/// </summary>
+	public Tab ActiveTab => Tabs.ElementAt(ActiveTabIndex);
+
+	private List<Tab> Tabs { get; } = new List<Tab>();
+
+	private int TabCount => Tabs.Count();
+
+	protected override void OnInitialized()
+	{
+		if (HideCollapser)
+			IsExpanded = true;
+
+		base.OnInitialized();
+	}
+
+	/// <summary>
+	/// Adds a tab to the tab bar.
+	/// </summary>
+	/// <param name="tab">The tab to add.</param>
+	public void AddTab(Tab tab)
+	{
+		tab.TabIndex = TabCount;
+		Tabs.Add(tab);
+		StateHasChanged();
+	}
+
+	/// <summary>
+	/// Activates the tab at the specified index.
+	/// </summary>
+	/// <param name="tabIndex">The index of the tab to activate.</param>
+	public void ActivateTab(int tabIndex)
+	{
+		ActiveTabIndex = tabIndex;
+		OnTabChange.InvokeAsync(tabIndex);
+	}
+
+	private bool GetActiveState()
+	{
+		if (HideCollapser)
+			//Collapser is hidden and component is being used as icon tabs
+			return true;
+		else
+			//Collapser is visible and so content is conditionally shown based on state
+			return IsExpanded;
+	}
+
+	private string ContentCss
+			=> new CssBuilder("content")
+				.AddClass("expanded", GetActiveState())
+				.Build();
+
+
+	private string TabCss(Tab tab)
+		=> new CssBuilder("tab")
+				.AddClass("active", tab.TabIndex == ActiveTabIndex)
+				.Build();
+
+	private static readonly RenderFragment<Tab> DefaultTabRenderFragment = (tab) => (builder) => { };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

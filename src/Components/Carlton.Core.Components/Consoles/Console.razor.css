@@ -1,0 +1,29 @@
+﻿/* Console Variables */
+.console {
+	--console-background-color: #282c34;
+	--console-color: #7FFF00;
+	--console-error-color: #ff0000;
+	--text-area-border-radius: 5px;
+}
+
+/* Console Base Styles */
+.console {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+/* Textarea Styles */
+textarea {
+	width: 100%;
+	background-color: var(--console-background-color);
+	color: var(--console-color);
+	resize: none;
+	border: none;
+	border-radius: var(--text-area-border-radius);
+}
+
+	/* Error Textarea Styles */
+	textarea.error {
+		color: var(--console-error-color);
+	}

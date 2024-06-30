@@ -1,0 +1,32 @@
+﻿.resizable-panel {
+    --resizable-panel-splitter-height: 20px;
+    --resizable-panel-background-color: #535353;
+    --resizable-panel-z-index: 2;
+    --resizable-panel-bottom-padding: 10px;
+}
+
+.panel-top {
+    /* only manually resize */
+    padding: 10px;
+    height: 450px;
+    width: 100%;
+    overflow-y: scroll;
+    max-height: calc(100vh - 140px);
+    box-sizing: border-box;
+}
+
+    .panel-top::-webkit-scrollbar {
+        display: none;
+    }
+
+.splitter-horizontal {
+    height: var(--resizable-panel-splitter-height);
+    background: var(--resizable-panel-background-color);
+    cursor: row-resize;
+    z-index: var(--resizable-panel-z-index);
+    -webkit-user-select: none;
+}
+
+.panel-bottom {
+    padding: var(--resizable-panel-bottom-padding);
+}

@@ -1,0 +1,105 @@
+﻿/* Profile Avatar Dropdown Variables */
+.profile-avatar-dropdown {
+	--avatar-img-height: 40px; /* Height of the avatar image */
+	--avatar-img-width: 40px; /* Width of the avatar image */
+	--avatar-header-gap: 5px; /* Gap between elements in the avatar header */
+	--avatar-header-padding: 10px; /* Padding of the avatar header */
+	--avatar-header-user-margin-left: 10px; /* Left margin of the username in the avatar header */
+	--avatar-header-user-font-size: 15pt; /* Font size of the username in the avatar header */
+	--avatar-header-email-margin-left: 10px; /* Left margin of the email in the avatar header */
+	--profile-avatar-gap: 5px; /* Gap between elements in the profile avatar */
+	--profile-avatar-img-border-radius: 20px; /* Border radius of the avatar image */
+	--profile-avatar-user-name-font-size: 12pt; /* Font size of the username in the profile avatar */
+	--deep-li-span-margin-left: 10px; /* Left margin of span elements within list items */
+	--deep-li-a-padding-right: 20px; /* Right padding of anchor elements within list items */
+	--deep-li-a-padding-bottom: 1em; /* Bottom padding of anchor elements within list items */
+	--deep-li-a-padding-left: 10px; /* Left padding of anchor elements within list items */
+	--deep-li-hover-border-radius: 5px; /* Border radius of list items on hover */
+}
+
+/* Profile Avatar Base Styles */
+.profile-avatar {
+	display: flex;
+	gap: var(--profile-avatar-gap);
+	cursor: pointer;
+}
+
+	.profile-avatar .avatar-img {
+		height: var(--avatar-img-height);
+		width: var(--avatar-img-width);
+		border-radius: var(--profile-avatar-img-border-radius);
+	}
+
+	.profile-avatar .username {
+		font-size: var(--profile-avatar-user-name-font-size);
+		margin-top: auto;
+		margin-bottom: auto;
+		color: var(--primary-text-color);
+	}
+
+	.profile-avatar .icon {
+		margin-top: auto;
+		margin-bottom: auto;
+		color: var(--primary-text-color);
+	}
+
+/* Header Styles */
+.header {
+	display: flex;
+	flex-direction: column;
+	gap: var(--avatar-header-gap);
+	padding: var(--avatar-header-padding);
+	color: var(--primary-text-color);
+}
+
+	.header ::deep .horizontal-spacer::after {
+		width: 100%;
+	}
+
+	.header .user {
+		margin-left: var(--avatar-header-user-margin-left);
+		font-size: var(--avatar-header-user-font-size);
+	}
+
+	.header .email {
+		margin-left: var(--avatar-header-email-margin-left);
+		color: var(--primary-text-color);
+	}
+
+
+/*Deep Style Overrides*/
+::deep li span {
+	margin-left: var(--deep-li-span-margin-left);
+	margin-top: auto;
+	margin-bottom: auto;
+	text-align: right;
+}
+
+::deep li a {
+	width: 100%;
+	padding-right: var(--deep-li-a-padding-right);
+	padding-bottom: var(--deep-li-a-padding-bottom);
+	padding-left: var( --deep-li-a-padding-left);
+	display: inline-block;
+	white-space: pre;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+
+::deep li:hover {
+	background: var(--component-hover-background-color);
+	border-radius: var(--deep-li-hover-border-radius);
+}
+
+/*Media Queries*/
+@media (max-width: 768px) {
+	.profile-avatar .mobile-hide {
+		display: none;
+	}
+
+	::deep .dropdown.active {
+		position: fixed;
+		left: 0;
+		width: 100vh;
+	}
+}

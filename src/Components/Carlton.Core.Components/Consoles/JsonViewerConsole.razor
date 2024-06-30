@@ -1,0 +1,103 @@
+﻿@using Carlton.Core.Components.Buttons
+@namespace Carlton.Core.Components.Consoles
+
+
+@* Represents a JSON viewer console component for displaying and interacting with JSON data. *@
+<div class="json-viewer-console">
+	<Console Text="@CurrentText"
+			 IsReadOnly="@IsReadOnly"
+			 IsValid="@IsValid"
+			 OnValueChange="HandleValueChange" />
+	@if (!IsReadOnly)
+	{
+		<div class="json-viewer-actions">
+			<IconButton Icon="check" IsDisabled="IsSubmitDisabled" OnClick="HandleSubmitClick" />
+			<IconButton Icon="undo" IsDisabled="IsUndoDisabled" OnClick="HandleUndoClick" />
+		</div>
+	}
+</div>
+
+
+@code {
+	/// <summary>
+	/// Gets or sets the object to be displayed as JSON in the console.
+	/// </summary>
+	[Parameter]
+	public object Object { get; set; } = new object();
+
+	/// <summary>
+	/// Gets or sets a value indicating whether the console is read-only.
+	/// </summary>
+	[Parameter]
+	public bool IsReadOnly { get; set; }
+
+	/// <summary>
+	/// Event callback invoked when the value of the console changes.
+	/// </summary>
+	[Parameter]
+	public EventCallback<JsonViewerConsoleValue> OnValueChange { get; set; }
+
+	/// <summary>
+	/// Event callback invoked when on submit is clicked.
+	/// </summary>
+	[Parameter]
+	public EventCallback<OnJsonConsoleTextChangedArgs> OnSubmit { get; set; }
+
+	private object CurrentObject { get; set; }
+
+	private string CurrentText { get; set; }
+
+	private bool IsSubmitDisabled => !IsDirty || !IsValid;
+
+	private bool IsUndoDisabled => !IsDirty || IsValid;
+
+	private bool IsDirty { get; set; } = false;
+
+	private bool IsValid { get; set; } = true;
+
+	protected override void OnParametersSet()
+	{
+		if (Object == CurrentObject)
+			return;
+
+		IsValid = true;
+		CurrentObject = Object;
+		CurrentText = Object == null ? string.Empty : JsonSerializer.Serialize(Object, new JsonSerializerOptions { WriteIndented = true });
+		base.OnParametersSet();
+	}
+
+	private async Task HandleSubmitClick()
+	{
+		await OnSubmit.InvokeAsync(new OnJsonConsoleTextChangedArgs(CurrentObject));
+		IsDirty = false;
+	}
+
+	private void HandleUndoClick()
+	{
+		CurrentText = JsonSerializer.Serialize(Object, new JsonSerializerOptions { WriteIndented = true });
+		IsValid = true;
+	}
+
+	private async Task HandleValueChange(string vmStr)
+	{
+		try
+		{
+			//Mark as dirty
+			IsDirty = true;
+
+			//Parse New ViewModel String
+			var type = Object.GetType();
+			var deserializedObj = JsonSerializer.Deserialize(vmStr, type);
+			IsValid = true;
+			CurrentObject = deserializedObj;
+
+			//If Parse succeeds Send ComponentEvent
+			await OnValueChange.InvokeAsync(new JsonViewerConsoleValue(IsValid, deserializedObj));
+		}
+		catch (Exception)
+		{
+			IsValid = false;
+			await OnValueChange.InvokeAsync(new JsonViewerConsoleValue(IsValid, null));
+		}
+	}
+}

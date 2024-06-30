@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Authors>Nicholas Galazzo</Authors>
+    <Product>Base Components Carlton</Product>
+    <Company>Project Carlton</Company>
+    <Description>Contains blazor front end components used throughout the project.</Description>
+    <RepositoryUrl>git@github.com:NickGalazzo/Carlton.Base.Client.Components.git</RepositoryUrl>
+    <nullable>disable</nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Notifications\**" />
+    <Compile Remove="Styles\**" />
+    <Content Remove="Notifications\**" />
+    <Content Remove="Styles\**" />
+    <EmbeddedResource Remove="Notifications\**" />
+    <EmbeddedResource Remove="Styles\**" />
+    <None Remove="Notifications\**" />
+    <None Remove="Styles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Foundation\Carlton.Core.Foundation.Web\Carlton.Core.Foundation.Web.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Carlton.Core.Components.Tests" />
+	</ItemGroup>
+
+</Project>

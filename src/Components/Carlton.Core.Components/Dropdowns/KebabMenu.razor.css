@@ -1,0 +1,79 @@
+﻿/* Kebab Dropdown Variables */
+.kebab-dropdown {
+	--kebab-menu-max-width: 250px;
+	--kebab-menu-max-height: 250px;
+	--kebab-menu-options-top: 30px;
+	--kebab-menu-options-right: 0px;
+	--kebab-menu-transition: all 0.25s cubic-bezier(0.72, 1.2, 0.71, 0.72);
+	--kebab-menu-transform: scale(1);
+	--kebab-menu-i-disabled-opacity: .5;
+	--kebab-menu-options-gap: 10px;
+	--kebab-menu-options-border: 0.5px solid #c9c9c9;
+	--kebab-menu-options-border-radius: 5px;
+	--kebab-menu-options-transition: 0.5s opacity ease-in-out, 0.5s max-height ease-in-out;
+	--kebab-menu-option-font-size: 10pt;
+	--kebab-menu-option-font-weight: bold;
+	--kebab-menu-option-padding: 10px;
+	--kebab-menu-option-hover-transform: scale(1.05);
+}
+
+/* Kebab Dropdown Base Styles */
+.kebab-dropdown {
+	position: relative;
+}
+
+/* Kebab Dropdown Icon Styles */
+.kebab-icon {
+	color: var(--primary-text-color);
+	cursor: pointer;
+	transition: var(--kebab-menu-transition);
+	transform: var(--kebab-menu-transform);
+}
+
+	.kebab-icon.disabled {
+		opacity: var(--kebab-menu-i-disabled-opacity);
+		cursor: default;
+	}
+
+/* Kebab Dropdown Options Styles */
+.options {
+	visibility: hidden;
+	max-height: 0;
+	max-width: var(--kebab-menu-max-width);
+	overflow: hidden;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	gap: var(--kebab-menu-options-gap);
+	position: absolute;
+	top: var(--kebab-menu-options-top);
+	right: var(--kebab-menu-options-right);
+	margin-left: auto;
+	margin-right: auto;
+	color: var(--primary-text-color);
+	background-color: var(--card-background-color);
+	border: var(--kebab-menu-options-border);
+	border-radius: var(--kebab-menu-options-border-radius);
+	transition: var(--kebab-menu-options-transition);
+}
+
+	.options.active {
+		visibility: inherit;
+		max-height: var(--kebab-menu-max-height);
+	}
+
+/* Kebab Dropdown Option Styles */
+.option {
+	text-align: left;
+	font-size: var(--kebab-menu-option-font-size);
+	font-weight: var(--kebab-menu-option-font-weight);
+	cursor: pointer;
+	text-wrap: nowrap;
+	padding: var(--kebab-menu-option-padding);
+}
+
+	.option:hover {
+		color: var(--primary-text-color);
+		background-color: var(--component-hover-background-color);
+		transform: var(--kebab-menu-option-hover-transform);
+	}

@@ -1,0 +1,24 @@
+﻿/* JavaScript Markup Viewer Variables */
+.javascript-markup-viewer {
+	--javascript-markup-viewer-height: 230px;
+	--javascript-markup-viewer-border-radius: 5px;
+}
+
+/* JavaScript Markup Viewer Base Styles */
+.javascript-markup-viewer {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Pre Styles */
+pre{
+	margin: 0;
+}
+
+/* Code Styles */
+code {
+	height: var(--javascript-markup-viewer-height);
+	border-radius: var(--javascript-markup-viewer-border-radius);
+	overflow-y: scroll;
+}

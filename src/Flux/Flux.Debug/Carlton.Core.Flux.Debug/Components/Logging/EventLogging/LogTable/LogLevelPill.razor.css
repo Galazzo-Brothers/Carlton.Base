@@ -1,0 +1,36 @@
+﻿/* Pill Variables */
+.log-level-pill{
+
+}
+
+/* Styles for the log level pill container */
+.log-level-pill{
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Styles for the pill component based on log level */
+.trace ::deep.pill {
+	background-color: var(--log-level-trace-color);
+}
+
+l.debug ::deep.pill {
+	background-color: var(--log-level-debug-color);
+}
+
+.information ::deep.pill {
+	background-color: var(--log-level-information-color);
+}
+
+.warning ::deep.pill {
+	background-color: var(--log-level-warning-color);
+}
+
+.error ::deep.pill {
+	background-color: var(--log-level-error-color);
+}
+
+.critical ::deep.pill {
+	background-color: var(--log-level-critical-color);
+}

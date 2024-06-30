@@ -1,0 +1,11 @@
+﻿@import "atom-one-dark.css";
+
+html, body, app {
+    overflow: hidden;
+}
+
+.accordion-select-group{
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+

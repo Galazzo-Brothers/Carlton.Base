@@ -1,0 +1,31 @@
+﻿/* Styles for the container of the new mutation console */
+.new-mutation-console {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+/* Styles for the label of the mutation type */
+.mutation-type-label {
+	font-weight: 500;
+}
+
+/* Styles for the mutation type selection section */
+.mutation-type-selection {
+	display: flex;
+	gap: 10px;
+	color: var(--primary-text-color);
+}
+
+/* Styles for the action button, positioned absolutely at the bottom right */
+.action-btn {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+}
+
+/* Ensures the dropdown within the component has a minimum width */
+::deep .dropdown {
+	min-width: 250px;
+}
